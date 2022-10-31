@@ -1,0 +1,2 @@
+# emudeck-we
+Windows Edition
