@@ -70,7 +70,7 @@ function waitForWinRar(){
 function download($url, $output) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$wc = New-Object net.webclient
-	$wc.Downloadfile($url, -join('C:\Emulation\',$output))
+	$wc.Downloadfile($url, -join($winPath,'Emulation\',$output))
    
 	foreach ($line in $output) {
 		$extn = [IO.Path]::GetExtension($line)
@@ -94,7 +94,7 @@ function download($url, $output) {
 function downloadCore($url, $output) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$file=-join('Emulation\',$output,'.zip')
-	$zipFile=-join('C:\',$file)
+	$zipFile=-join($winPath,$file)
 	$destination = -join($winPath,'Emulation\tools\EmulationStation-DE\Emulators\RetroArch\cores\')
 	$wc = New-Object net.webclient
 	$wc.Downloadfile($url, $file)
@@ -158,8 +158,6 @@ function sedFile($file, $old, $new){
 }
 
 
-
-$installationPath = "C:\Emulation\"
 $url_ra = "https://buildbot.libretro.com/stable/1.10.3/windows/x86_64/RetroArch.7z"
 $url_dolphin = "https://dl.dolphin-emu.org/builds/c0/39/dolphin-master-5.0-16101-x64.7z"
 $url_pcsx2 = "https://github.com/PCSX2/pcsx2/releases/download/v1.6.0/pcsx2-v1.6.0-windows-32bit-portable.7z"
@@ -197,10 +195,10 @@ waitForUser
 
 Clear-Host
 
+$EmulationPath=-join($winPath,'Emulation/')
 
-
-mkdir C:\Emulation -ErrorAction SilentlyContinue
-Set-Location C:\Emulation
+mkdir $EmulationPath -ErrorAction SilentlyContinue
+Set-Location $EmulationPath
 mkdir bios -ErrorAction SilentlyContinue
 mkdir tools -ErrorAction SilentlyContinue
 mkdir saves -ErrorAction SilentlyContinue
