@@ -1,6 +1,63 @@
+#Selecting the Hard Disk Drive
+
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+$form = New-Object System.Windows.Forms.Form
+$form.Text = 'Select HardDrive'
+$form.Size = New-Object System.Drawing.Size(300,200)
+$form.StartPosition = 'CenterScreen'
+
+$okButton = New-Object System.Windows.Forms.Button
+$okButton.Location = New-Object System.Drawing.Point(75,120)
+$okButton.Size = New-Object System.Drawing.Size(75,23)
+$okButton.Text = 'OK'
+$okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
+$form.AcceptButton = $okButton
+$form.Controls.Add($okButton)
+
+$cancelButton = New-Object System.Windows.Forms.Button
+$cancelButton.Location = New-Object System.Drawing.Point(150,120)
+$cancelButton.Size = New-Object System.Drawing.Size(75,23)
+$cancelButton.Text = 'Cancel'
+$cancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
+$form.CancelButton = $cancelButton
+$form.Controls.Add($cancelButton)
+
+$label = New-Object System.Windows.Forms.Label
+$label.Location = New-Object System.Drawing.Point(10,20)
+$label.Size = New-Object System.Drawing.Size(280,20)
+$label.Text = 'Please select where do you want to install EmuDeck:'
+$form.Controls.Add($label)
+
+$listBox = New-Object System.Windows.Forms.ListBox
+$listBox.Location = New-Object System.Drawing.Point(10,40)
+$listBox.Size = New-Object System.Drawing.Size(260,20)
+$listBox.Height = 80
+
+$drives = (Get-PSDrive -PSProvider FileSystem).Root
+
+ForEach ($drive in $drives) { [void] $listBox.Items.Add($drive) }
+
+$form.Controls.Add($listBox)
+
+$form.Topmost = $true
+
+$result = $form.ShowDialog()
+
+if ($result -eq [System.Windows.Forms.DialogResult]::OK)
+{
+	$winPath = $listBox.SelectedItem
+}
+
+#We add Winrar folders to the Path
 $env:path = $env:path + ";C:\Program Files\WinRaR"
-#$winPath=-join((Get-Item .\EmuDeck.bat).PSDrive.Name,':')
-$winPath = Get-Location
+$env:path = $env:path + ";C:\Program Files (x86)\WinRaR"
+
+#
+#Functions
+#
+
 function waitForWinRar(){
 	While(1){
 		$winrar = [bool](Get-Process Winrar -EA SilentlyContinue)
@@ -13,7 +70,7 @@ function waitForWinRar(){
 function download($url, $output) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$wc = New-Object net.webclient
-	$wc.Downloadfile($url, -join('Emulation/',$output))
+	$wc.Downloadfile($url, -join('C:\Emulation\',$output))
    
 	foreach ($line in $output) {
 		$extn = [IO.Path]::GetExtension($line)
@@ -37,7 +94,7 @@ function download($url, $output) {
 function downloadCore($url, $output) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$file=-join('Emulation\',$output,'.zip')
-	$zipFile=-join('E:\',$file)
+	$zipFile=-join('C:\',$file)
 	$destination = -join($winPath,'Emulation\tools\EmulationStation-DE\Emulators\RetroArch\cores\')
 	$wc = New-Object net.webclient
 	$wc.Downloadfile($url, $file)
@@ -126,11 +183,13 @@ $deckPath="/run/media/mmcblk0p1/"
 $raConfigDir=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\')
 $raExe=-join($winPath,'\Emulation\\tools\\EmulationStation-DE\\Emulators\\RetroArch\\','retroarch.exe')
 
+Clear-Host
+
 Write-Host "Hi! Welcome to EmuDeck Windows Edition." -ForegroundColor blue -BackgroundColor black
 Write-Output ""
-Write-Output "This script will create an Emulation folder in the same folder as this file"
-Write-Output "and in there it will download all the needed Emulators, EmulationStation and Steam Rom Manager."
-Write-Host "If you want to install EmuDeck on another drive, just move Emudeck.bat there now and open it again." -ForegroundColor red -BackgroundColor black
+Write-Output "This script will create an Emulation folder in $winPath\Emulation"
+Write-Output "and in there we will download all the Emulators, EmulationStation, Steam Rom Manager and Rom Folder Structure."
+Write-Output ""
 Write-Output "Before you continue make sure you have WinRar installed"
 Write-Output "You can download Winrar from https://www.win-rar.com/download.html"
 Write-Output ""
@@ -140,8 +199,8 @@ Clear-Host
 
 
 
-mkdir Emulation -ErrorAction SilentlyContinue
-Set-Location Emulation
+mkdir C:\Emulation -ErrorAction SilentlyContinue
+Set-Location C:\Emulation
 mkdir bios -ErrorAction SilentlyContinue
 mkdir tools -ErrorAction SilentlyContinue
 mkdir saves -ErrorAction SilentlyContinue
@@ -263,7 +322,7 @@ sedFile $duckIni $deckPath $winPath
 sedFile $duckIni 'Emulation/bios/' 'Emulation\bios\'
 
 #SRM
-sedFile 'tools\userData\userConfigurations.json' 'E:/' $winPath
+sedFile 'tools\userData\userConfigurations.json' 'C:\' $winPath
 
 
 #ESDE
