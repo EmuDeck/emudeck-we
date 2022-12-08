@@ -48,6 +48,8 @@ $result = $form.ShowDialog()
 if ($result -eq [System.Windows.Forms.DialogResult]::OK)
 {
 	$winPath = $listBox.SelectedItem
+}else{
+	exit
 }
 
 #We add Winrar folders to the Path
