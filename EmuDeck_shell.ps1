@@ -322,7 +322,7 @@ sedFile $duckIni $deckPath $winPath
 sedFile $duckIni 'Emulation/bios/' 'Emulation\bios\'
 
 #SRM
-sedFile 'tools\userData\userConfigurations.json' 'C:\' $winPath
+sedFile 'tools\userData\userConfigurations.json' 'E:\' $winPath
 
 
 #ESDE
