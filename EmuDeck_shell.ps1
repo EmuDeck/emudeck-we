@@ -65,9 +65,9 @@ Write-Output ""
 #EmuDeck Download
 showNotification -ToastTitle "Downloading EmuDeck files"
 download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
-moveFromTo "temp\EmuDeck-dev" "EmuDeck"
-moveFromTo "EmuDeck\roms" "roms"
-moveFromTo "EmuDeck\tools\launchers" "tools\launchers"
+moveFromTo "temp\EmuDeck-we-main" "EmuDeck"
+copyFromTo "EmuDeck\roms" "roms"
+copyFromTo "EmuDeck\tools\launchers" "tools\launchers"
 
 #Dowloading..ESDE
 showNotification -ToastTitle 'Downloading EmulationStation DE'
@@ -142,7 +142,7 @@ foreach ( $core in $RAcores )
 {
 	$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')
 	$dest= -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
-	showNotification -ToastTitle "Downloading $url"	
+	echo "Downloading $url"	
 	downloadCore $url $dest
 }
 
@@ -251,6 +251,7 @@ $line='video_fullscreen = "true"'
 $line | Add-Content $raConfigfile
 
 
+
 #Duckstation
 
 
@@ -298,12 +299,14 @@ createLink $SourceFilePath $ShortcutPath
 
 
 
+#ESDE
+showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
+mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
+Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
+sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
 
-
-
-
-
-
+download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
+moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
 
 
 
