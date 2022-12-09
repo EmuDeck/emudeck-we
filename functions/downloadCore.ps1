@@ -1,8 +1,8 @@
 function downloadCore($url, $output) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
-	$file=-join('Emulation\',$output,'.zip')
-	$zipFile=-join($winPath,$file)
-	$destination = -join($winPath,'Emulation\tools\EmulationStation-DE\Emulators\RetroArch\cores\')
+	$file=-join($output,'.zip')
+	$zipFile=-join($file)
+	$destination = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\cores\')
 	$wc = New-Object net.webclient
 	$wc.Downloadfile($url, $file)
 	
