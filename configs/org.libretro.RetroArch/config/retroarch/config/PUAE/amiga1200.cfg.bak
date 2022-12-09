@@ -1,3 +1,2 @@
-video_shader_enable = "false"
-video_smooth = "true"
-video_filter = "/app/lib/retroarch/filters/video/Normal4x.filt"
+video_shader_enable = "true"
+video_smooth = "false"

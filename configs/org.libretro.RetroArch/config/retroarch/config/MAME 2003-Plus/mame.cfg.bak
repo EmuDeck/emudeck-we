@@ -1,5 +1,4 @@
 input_player1_analog_dpad_mode = "1"
 input_overlay_enable = "false"
-video_shader_enable = false
-video_smooth = "true"
-video_filter = "/app/lib/retroarch/filters/video/Normal4x.filt"
+video_shader_enable = true
+video_smooth = "false"

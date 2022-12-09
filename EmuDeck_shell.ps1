@@ -231,22 +231,25 @@ $line="system_directory = `"$biosPath`""
 $line | Add-Content $raConfigfile
 
 #Hotkeys
-$line="input_enable_hotkey_btn = `"109`""
+$line='input_enable_hotkey_btn = "109"'
 $line | Add-Content $raConfigfile
-$line="input_hold_fast_forward_btn = `"105`""
+$line='input_hold_fast_forward_btn = "105"'
 $line | Add-Content $raConfigfile
-$line="input_load_state_btn = `"102`""
+$line='input_load_state_btn = "102"'
 $line | Add-Content $raConfigfile
-$line="input_menu_toggle_gamepad_combo = `"2`""
+$line='input_menu_toggle_gamepad_combo = "2"'
 $line | Add-Content $raConfigfile
-$line="input_quit_gamepad_combo = `"4`""
+$line='input_quit_gamepad_combo = "4"'
 $line | Add-Content $raConfigfile
-$line="input_save_state_btn = `"103`""
+$line='input_save_state_btn = "103"'
 $line | Add-Content $raConfigfile
-$line="menu_driver = `"ozone`""
+$line='menu_driver = "ozone"'
 $line | Add-Content $raConfigfile
-$line="input_exit_emulator_btn = `"108`""
+$line='input_exit_emulator_btn = "108"'
 $line | Add-Content $raConfigfile
+$line='video_fullscreen = "true"'
+$line | Add-Content $raConfigfile
+
 
 #Duckstation
 

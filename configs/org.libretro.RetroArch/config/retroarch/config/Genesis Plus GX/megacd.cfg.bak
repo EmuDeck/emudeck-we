@@ -5,4 +5,4 @@ input_overlay_enable = "true"
 input_overlay_hide_in_menu = "false"
 input_overlay_scale_landscape = "1.170000
 aspect_ratio_index = "0"
-video_shader_enable = "false"
+video_shader_enable = "true"
