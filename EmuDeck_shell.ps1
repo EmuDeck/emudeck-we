@@ -64,7 +64,7 @@ Write-Output ""
 
 #EmuDeck Download
 showNotification -ToastTitle "Downloading EmuDeck files"
-download "https://github.com/dragoonDorise/EmuDeck/archive/refs/heads/dev.zip" "temp.zip"
+download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
 moveFromTo "temp\EmuDeck-dev" "EmuDeck"
 moveFromTo "EmuDeck\roms" "roms"
 moveFromTo "EmuDeck\tools\launchers" "tools\launchers"
