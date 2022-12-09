@@ -13,14 +13,19 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\download.ps1
 . .\functions\downloadCore.ps1
 . .\functions\showNotification.ps1
-. .\functions\moveFromTemp.ps1
+. .\functions\moveFromTo.ps1
+. .\functions\copyFromTo.ps1
 . .\functions\waitForUser.ps1
 . .\functions\sedFile.ps1
+. .\functions\createLink.ps1
 
 #
 # Variables
 #
-
+Clear-Host
+#We need to pick the HD first thing so we can set the rest of the path variables
+$drives = (Get-PSDrive -PSProvider FileSystem).Root
+$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 . .\vars.ps1
 
 # Draw welcome screen
@@ -30,19 +35,6 @@ Write-Host  -ForegroundColor blue -BackgroundColor black "| |__ _ __ __   _   _|
 Write-Host  -ForegroundColor blue -BackgroundColor black "|  __| '_ ` _ \ | | | | | | / _ \/ __| |/ / | |/\| |  __| "
 Write-Host  -ForegroundColor blue -BackgroundColor black "| |__| | | | | | |_| | |/ /  __/ (__|   <  \  /\  / |___ "
 Write-Host  -ForegroundColor blue -BackgroundColor black "\____/_| |_| |_|\__,_|___/ \___|\___|_|\_\  \/  \/\____/ "
-														 
-														 
-																 
-				
-#Clear-Host
-
-
-#Selecting the Hard Disk Drive
-$drives = (Get-PSDrive -PSProvider FileSystem).Root
-$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
-
-$EmulationPath=-join($winPath,'Emulation\')
-
 
 Write-Output ""
 Write-Host "================ Welcome to EmuDeck Windows Edition ================" -ForegroundColor blue -BackgroundColor black
@@ -62,9 +54,9 @@ Clear-Host
 
 mkdir $EmulationPath -ErrorAction SilentlyContinue
 Set-Location $EmulationPath
-mkdir bios -ErrorAction SilentlyContinue
-mkdir tools -ErrorAction SilentlyContinue
-mkdir saves -ErrorAction SilentlyContinue
+mkdir $biosPath -ErrorAction SilentlyContinue
+mkdir $toolsPath -ErrorAction SilentlyContinue
+mkdir $savesPath -ErrorAction SilentlyContinue
 Clear-Host
 
 Write-Output "Installing, please stand by..."
@@ -73,124 +65,73 @@ Write-Output ""
 #EmuDeck Download
 showNotification -ToastTitle "Downloading EmuDeck files"
 download "https://github.com/dragoonDorise/EmuDeck/archive/refs/heads/dev.zip" "temp.zip"
-moveFromTemp "temp\EmuDeck-dev" "EmuDeck"
-moveFromTemp "EmuDeck\roms" "roms"
-moveFromTemp "EmuDeck\tools\launchers" "tools\launchers"
+moveFromTo "temp\EmuDeck-dev" "EmuDeck"
+moveFromTo "EmuDeck\roms" "roms"
+moveFromTo "EmuDeck\tools\launchers" "tools\launchers"
 
 #Dowloading..ESDE
 showNotification -ToastTitle 'Downloading EmulationStation DE'
 download $url_esde "esde.zip"
-moveFromTemp "esde\EmulationStation-DE" "tools/EmulationStation-DE"
+moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
 
-#
-#We download all the Emulators
-#
-
-
-#RetroArch
-showNotification -ToastTitle 'Downloading RetroArch'
-download $url_ra "ra.7z"
-#Dolphin
-showNotification -ToastTitle 'Downloading Dolphin'
-download $url_dolphin "dolphin.7z"
-#PCSX2 
-showNotification -ToastTitle 'Downloading PCSX2'
-download $url_pcsx2 "pcsx2.7z"
-#RPCS3
-showNotification -ToastTitle 'Downloading RPCS3'
-download $url_rpcs3 "rpcs3.7z"
-#Xemu
-showNotification -ToastTitle 'Downloading Xemu'
-download $url_xemu "xemu-win-release.zip"
-moveFromTemp "xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
-#Yuzu
-showNotification -ToastTitle 'Downloading Yuzu'
-download $url_yuzu "yuzu.zip"
-moveFromTemp "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
-#Citra
-showNotification -ToastTitle 'Downloading Citra'
-download $url_citra "citra.zip"
-moveFromTemp "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
-#Duckstation
-showNotification -ToastTitle 'Downloading DuckStation'
-download $url_duck "duckstation.zip"
-moveFromTemp "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
-#Cemu
-showNotification -ToastTitle 'Downloading Cemu'
-download $url_cemu "cemu.zip"
-moveFromTemp "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
-#Xenia
-showNotification -ToastTitle 'Downloading Xenia'
-download $url_xenia "xenia.zip"
-moveFromTemp "xenia" "tools\EmulationStation-DE\Emulators\xenia"
 #SRM
 showNotification -ToastTitle 'Downloading Steam Rom Manager'
 download $url_srm "tools/srm.exe"
 
-# Deleting temp folders
-showNotification -ToastTitle 'Cleaning up...'
-moveFromTemp "ra\RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"
-moveFromTemp "pcsx2\PCSX2 1.6.0" "tools\EmulationStation-DE\Emulators\PCSX2"
-moveFromTemp "rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
-moveFromTemp "dolphin\Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
-Remove-Item cemu
-Remove-Item ra
-Remove-Item dolphin
-Remove-Item esde
-Remove-Item pcsx2
-Remove-Item yuzu
-Remove-Item temp
-Remove-Item citra
-Write-Host "Done!" -ForegroundColor green -BackgroundColor black
+#
+# Emulators Download
+#
 
+#RetroArch
+showNotification -ToastTitle 'Downloading RetroArch'
+download $url_ra "ra.7z"
+moveFromTo "ra\RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"
 
-#Emulators config
-showNotification -ToastTitle 'Configuring Emulators'
+#Dolphin
+showNotification -ToastTitle 'Downloading Dolphin'
+download $url_dolphin "dolphin.7z"
+moveFromTo "dolphin\Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
 
+#PCSX2 
+showNotification -ToastTitle 'Downloading PCSX2'
+download $url_pcsx2 "pcsx2.7z"
+moveFromTo "pcsx2\PCSX2 1.6.0" "tools\EmulationStation-DE\Emulators\PCSX2"
 
-#moveFromTemp "EmuDeck\configs\org.citra_emu.citra" "XXXX"
-#moveFromTemp "EmuDeck\configs\org.ryujinx.Ryujinx" "XXXX"
+#RPCS3
+showNotification -ToastTitle 'Downloading RPCS3'
+download $url_rpcs3 "rpcs3.7z"
+moveFromTo "rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
 
-moveFromTemp "EmuDeck\configs\org.DolphinEmu.dolphin-emu\config\dolphin-emu" $dolphinDir
-moveFromTemp "EmuDeck\configs\info.cemu.Cemu\data\cemu" "tools\EmulationStation-DE\Emulators\cemu"
-moveFromTemp "EmuDeck\configs\org.citra_emu.citra\config\citra-emu" "tools\EmulationStation-DE\Emulators\citra"
-moveFromTemp "EmuDeck\configs\org.libretro.RetroArch\config\retroarch" "tools\EmulationStation-DE\Emulators\RetroArch"
-moveFromTemp "EmuDeck\configs\net.pcsx2.PCSX2\config\PCSX2" "tools\EmulationStation-DE\Emulators\PCSX2"
-moveFromTemp "EmuDeck\configs\net.rpcs3.RPCS3\config\rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
-moveFromTemp "EmuDeck\configs\org.duckstation.DuckStation\data\duckstation" $duckDir
-mkdir "tools\userData\" -ErrorAction SilentlyContinue
-Copy-Item  "EmuDeck\configs\steam-rom-manager\userData\userConfigurationsWE.json" "tools\userData\userConfigurations.json"
-rename tools/userData/userConfigurationsWE.json tools/userData/userConfigurations.json
-moveFromTemp "EmuDeck\configs\org.yuzu_emu.yuzu" $yuzuDir
-#moveFromTemp "EmuDeck\configs\emulationstation" "tools\EmulationStation-DE\.emulationstation"
-moveFromTemp "EmuDeck\configs\app.xemu.xemu\data\xemu\xemu" "tools\EmulationStation-DE\Emulators\xemu"
-moveFromTemp "EmuDeck\configs\xenia" "tools\EmulationStation-DE\Emulators\xenia"
-mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
-Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
-Write-Host "Done!" -ForegroundColor green -BackgroundColor black
+#Xemu
+showNotification -ToastTitle 'Downloading Xemu'
+download $url_xemu "xemu-win-release.zip"
+moveFromTo "xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
 
-showNotification -ToastTitle 'Applying Windows Especial configurations'
-sedFile 'tools\EmulationStation-DE\Emulators\xemu\xemu.ini' $deckPath $winPath
-sedFile 'tools\EmulationStation-DE\Emulators\xemu\xemu.toml' $deckPath $winPath
-sedFile 'tools\EmulationStation-DE\Emulators\cemu\settings.xml' 'Z:/run/media/mmcblk0p1/' $winPath
-sedFile 'tools\EmulationStation-DE\Emulators\cemu\settings.xml' 'roms/wiiu/roms' 'roms\wiiu\'
-sedFile $dolphinIni $deckPath $winPath
-sedFile $dolphinIni 'Emulation/bios/' 'Emulation\bios\'
-sedFile $dolphinIni '/roms/gamecube' '\roms\gamecube'
-sedFile $dolphinIni '/roms/wii' '\roms\wii'
-sedFile 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2_ui.ini' $deckPath $winPath
-sedFile 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2_ui.ini' 'Emulation/bios/' 'Emulation\bios\'
-sedFile $YuzuIni $deckPath $winPath
-sedFile $YuzuIni 'Emulation/roms/switch' 'Emulation\roms\switch'
-sedFile $duckIni $deckPath $winPath
-sedFile $duckIni 'Emulation/bios/' 'Emulation\bios\'
+#Yuzu
+showNotification -ToastTitle 'Downloading Yuzu'
+download $url_yuzu "yuzu.zip"
+moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 
-#SRM
-sedFile 'tools\userData\userConfigurations.json' 'E:\' $winPath
+#Citra
+showNotification -ToastTitle 'Downloading Citra'
+download $url_citra "citra.zip"
+moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
 
-#ESDE
-sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' $deckPath $winPath
-sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/Emulation/roms/' 'Emulation\roms\'
+#Duckstation
+showNotification -ToastTitle 'Downloading DuckStation'
+download $url_duck "duckstation.zip"
+moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
+
+#Cemu
+showNotification -ToastTitle 'Downloading Cemu'
+download $url_cemu "cemu.zip"
+moveFromTo "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+
+#Xenia
+showNotification -ToastTitle 'Downloading Xenia'
+download $url_xenia "xenia.zip"
+moveFromTo "xenia" "tools\EmulationStation-DE\Emulators\xenia"
+
 
 showNotification -ToastTitle 'Downloading RetroArch Cores'
 mkdir $EmulationPath"tools\EmulationStation-DE\Emulators\RetroArch\cores" -ErrorAction SilentlyContinue
@@ -205,90 +146,305 @@ foreach ( $core in $RAcores )
 	downloadCore $url $dest
 }
 
+
+# Deleting temp folders
+showNotification -ToastTitle 'Cleaning up...'
+Remove-Item cemu
+Remove-Item ra
+Remove-Item dolphin
+Remove-Item esde
+Remove-Item pcsx2
+Remove-Item yuzu
+Remove-Item temp
+Remove-Item citra
+Write-Host "Done!" -ForegroundColor green -BackgroundColor black
+
+
+#
+# Emus Configuration
+# 
+
+showNotification -ToastTitle 'Configuring Emulators'
+
+
+#RetroArch
+
+Remove-Item $raConfigfile
+
+showNotification -ToastTitle 'RetroArch - Bezels & Filters'
+copyFromTo "EmuDeck\configs\org.libretro.RetroArch\config\retroarch" "tools\EmulationStation-DE\Emulators\RetroArch"
+$path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+Get-ChildItem $path -Recurse -Filter *.cfg | 
+Foreach-Object {
+	$originFile = $_.FullName
+
+	$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
+	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')
+	
+	sedFile $originFile $origin $target
+	
+	#Video Filters path
+	$origin="/app/lib/retroarch/filters/video"
+	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\filters\video')
+	
+	sedFile $originFile $origin $target
+}
+
+showNotification -ToastTitle 'RetroArch - Shaders'
+$path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+Get-ChildItem $path -Recurse -Filter *.glslp | 
+Foreach-Object {
+	$originFile = $_.FullName
+
+	$origin="/app/share/libretro/shaders/"
+	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
+	sedFile $originFile $origin $target
+}
+$path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+Get-ChildItem $path -Recurse -Filter *.slangp | 
+Foreach-Object {
+	$originFile = $_.FullName
+
+	$origin="/app/share/libretro/shaders/"
+	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
+	sedFile $originFile $origin $target
+}
+
+
+showNotification -ToastTitle 'RetroArch - Bios & Saves'
+
+#Saves
+mkdir saves/retroarch -ErrorAction SilentlyContinue
+$SourceFilePath = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\saves\')
+mkdir $SourceFilePath -ErrorAction SilentlyContinue
+$ShortcutPath = -join($EmulationPath,'saves\retroarch\saves.lnk')
+createLink $SourceFilePath $ShortcutPath
+
+#States
+$SourceFilePath = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\states\')
+mkdir $SourceFilePath -ErrorAction SilentlyContinue
+$ShortcutPath = -join($EmulationPath,'saves\retroarch\states.lnk')
+createLink $SourceFilePath $ShortcutPath
+
+#Bios
+$line="system_directory = `"$biosPath`""
+$line | Add-Content $raConfigfile
+
+#Hotkeys
+$line="input_enable_hotkey_btn = `"109`""
+$line | Add-Content $raConfigfile
+$line="input_hold_fast_forward_btn = `"105`""
+$line | Add-Content $raConfigfile
+$line="input_load_state_btn = `"102`""
+$line | Add-Content $raConfigfile
+$line="input_menu_toggle_gamepad_combo = `"2`""
+$line | Add-Content $raConfigfile
+$line="input_quit_gamepad_combo = `"4`""
+$line | Add-Content $raConfigfile
+$line="input_save_state_btn = `"103`""
+$line | Add-Content $raConfigfile
+$line="menu_driver = `"ozone`""
+$line | Add-Content $raConfigfile
+$line="input_exit_emulator_btn = `"108`""
+$line | Add-Content $raConfigfile
+
+#Duckstation
+
+
+#Dolphin
+
+
+#Yuzu
+showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
+download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"
+.\tools/vc_redist.x64.exe
+
+showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
+#Firmware
+$SourceFilePath = -join($userFolder, '\AppData\Roaming\yuzu\nand\system\Contents\registered')
+$ShortcutPath = -join($EmulationPath,'bios\yuzu\keys.lnk')
+mkdir 'bios\yuzu' -ErrorAction SilentlyContinue
+mkdir $SourceFilePath -ErrorAction SilentlyContinue
+createLink $SourceFilePath $ShortcutPath
+
+#Keys
+$SourceFilePath = -join($userFolder, '\AppData\Roaming\yuzu\keys')
+$ShortcutPath = -join($EmulationPath,'bios\yuzu\firmware.lnk')
+mkdir $SourceFilePath -ErrorAction SilentlyContinue
+createLink $SourceFilePath $ShortcutPath
+
+#Ryu
+
+
+#Citra
+
+
+#Cemu
+
+
+#PCSX2
+
+
+#RPCS3
+
+
+#Xemu
+
+
+#Xenia
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#moveFromTo "EmuDeck\configs\org.citra_emu.citra" "XXXX"
+#moveFromTo "EmuDeck\configs\org.ryujinx.Ryujinx" "XXXX"
+
+#moveFromTo "EmuDeck\configs\org.DolphinEmu.dolphin-emu\config\dolphin-emu" $dolphinDir
+#moveFromTo "EmuDeck\configs\info.cemu.Cemu\data\cemu" "tools\EmulationStation-DE\Emulators\cemu"
+#moveFromTo "EmuDeck\configs\org.citra_emu.citra\config\citra-emu" "tools\EmulationStation-DE\Emulators\citra"
+#moveFromTo "EmuDeck\configs\org.libretro.RetroArch\config\retroarch" "tools\EmulationStation-DE\Emulators\RetroArch"
+#moveFromTo "EmuDeck\configs\net.pcsx2.PCSX2\config\PCSX2" "tools\EmulationStation-DE\Emulators\PCSX2"
+#moveFromTo "EmuDeck\configs\net.rpcs3.RPCS3\config\rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
+#moveFromTo "EmuDeck\configs\org.duckstation.DuckStation\data\duckstation" $duckDir
+#mkdir "tools\userData\" -ErrorAction SilentlyContinue
+#Copy-Item  "EmuDeck\configs\steam-rom-manager\userData\userConfigurationsWE.json" "tools\userData\userConfigurations.json"
+#rename tools/userData/userConfigurationsWE.json tools/userData/userConfigurations.json
+#moveFromTo "EmuDeck\configs\org.yuzu_emu.yuzu" $yuzuDir
+#moveFromTo "EmuDeck\configs\emulationstation" "tools\EmulationStation-DE\.emulationstation"
+#moveFromTo "EmuDeck\configs\app.xemu.xemu\data\xemu\xemu" "tools\EmulationStation-DE\Emulators\xemu"
+#moveFromTo "EmuDeck\configs\xenia" "tools\EmulationStation-DE\Emulators\xenia"
+#mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
+#Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
+#Write-Host "Done!" -ForegroundColor green -BackgroundColor black
+#
+#showNotification -ToastTitle 'Applying Windows Especial configurations'
+#sedFile 'tools\EmulationStation-DE\Emulators\xemu\xemu.ini' $deckPath $winPath
+#sedFile 'tools\EmulationStation-DE\Emulators\xemu\xemu.toml' $deckPath $winPath
+#sedFile 'tools\EmulationStation-DE\Emulators\cemu\settings.xml' 'Z:/run/media/mmcblk0p1/' $winPath
+#sedFile 'tools\EmulationStation-DE\Emulators\cemu\settings.xml' 'roms/wiiu/roms' 'roms\wiiu\'
+#sedFile $dolphinIni $deckPath $winPath
+#sedFile $dolphinIni 'Emulation/bios/' 'Emulation\bios\'
+#sedFile $dolphinIni '/roms/gamecube' '\roms\gamecube'
+#sedFile $dolphinIni '/roms/wii' '\roms\wii'
+#sedFile 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2_ui.ini' $deckPath $winPath
+#sedFile 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2_ui.ini' 'Emulation/bios/' 'Emulation\bios\'
+#sedFile $YuzuIni $deckPath $winPath
+#sedFile $YuzuIni 'Emulation/roms/switch' 'Emulation\roms\switch'
+#sedFile $duckIni $deckPath $winPath
+#sedFile $duckIni 'Emulation/bios/' 'Emulation\bios\'
+#
+#SRM
+#sedFile 'tools\userData\userConfigurations.json' 'E:\' $winPath
+#
+#ESDE
+#sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' $deckPath $winPath
+#sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/Emulation/roms/' 'Emulation\roms\'
+#
+#
 #RetroArch especial fixes
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' $deckPath $winPath
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '~/.var/app/org.libretro.RetroArch/config/retroarch/' $raConfigDir
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/app/share/libretro/' ':\'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/"' '\"'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'http://localhost:4404\' 'http://localhost:4404/'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/app/lib/retroarch/filters/' '\app\lib\retroarch\filters\'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'database/' 'database\'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'http://buildbot.libretro.com/nightly/linux/x86_64/latest\' 'http://buildbot.libretro.com/nightly/windows/x86_64/latest/'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'config/remaps' 'config\remaps'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/Emulation/bios' '\Emulation\bios'
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'video4linux2' ''
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' $deckPath $winPath
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '~/.var/app/org.libretro.RetroArch/config/retroarch/' $raConfigDir
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/app/share/libretro/' ':\'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/"' '\"'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'http://localhost:4404\' 'http://localhost:4404/'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/app/lib/retroarch/filters/' '\app\lib\retroarch\filters\'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'database/' 'database\'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'http://buildbot.libretro.com/nightly/linux/x86_64/latest\' 'http://buildbot.libretro.com/nightly/windows/x86_64/latest/'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'config/remaps' 'config\remaps'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/Emulation/bios' '\Emulation\bios'
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'video4linux2' ''
 #sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\citra\qt-config.ini' $deckPath $winPath
-
+#
 #Path fixes other emus
-
-sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/Emulation/bios' '\Emulation\bios'
-
-sedFile 'tools/launchers/cemu.bat' 'XX' $winPath
-sedFile 'tools/launchers/dolphin-emu.bat'  'XX' $winPath
-sedFile 'tools/launchers/duckstation.bat'  'XX' $winPath
-sedFile 'tools/launchers/PCSX2.bat'  'XX' $winPath
-sedFile 'tools/launchers/retroarch.bat'  'XX' $winPath
-sedFile 'tools/launchers/RPCS3.bat'  'XX' $winPath
-sedFile 'tools/launchers/xemu-emu.bat'  'XX' $winPath
-sedFile 'tools/launchers/xenia.bat'  'XX' $winPath
-sedFile 'tools/launchers/yuzu.bat'  'XX' $winPath
-
-
+#
+#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/Emulation/bios' '\Emulation\bios'
+#
+#sedFile 'tools/launchers/cemu.bat' 'XX' $winPath
+#sedFile 'tools/launchers/dolphin-emu.bat'  'XX' $winPath
+#sedFile 'tools/launchers/duckstation.bat'  'XX' $winPath
+#sedFile 'tools/launchers/PCSX2.bat'  'XX' $winPath
+#sedFile 'tools/launchers/retroarch.bat'  'XX' $winPath
+#sedFile 'tools/launchers/RPCS3.bat'  'XX' $winPath
+#sedFile 'tools/launchers/xemu-emu.bat'  'XX' $winPath
+#sedFile 'tools/launchers/xenia.bat'  'XX' $winPath
+#sedFile 'tools/launchers/yuzu.bat'  'XX' $winPath
+#
+#
 #Controller configs
 #Dolphin
-$controllerDolphinIni=-join($dolphinDir,'\GCPadNew.ini')
-$controllerDolphinWiiIni=-join($dolphinDir,'\WiimoteNew.ini')
-
+#$controllerDolphinIni=-join($dolphinDir,'\GCPadNew.ini')
+#$controllerDolphinWiiIni=-join($dolphinDir,'\WiimoteNew.ini')
+#
 #Dolphin GC
-sedFile $controllerDolphinIni 'evdev/0/Microsoft X-Box 360 pad 0' 'XInput/0/Gamepad'
-sedFile $controllerDolphinIni 'Buttons/A = SOUTH' 'Buttons/A = Button B'
-sedFile $controllerDolphinIni 'Buttons/B = EAST' 'Buttons/B = Button A'
-sedFile $controllerDolphinIni 'Buttons/X = NORTH' 'Buttons/X = Button Y'
-sedFile $controllerDolphinIni 'Buttons/Y = WEST' 'Buttons/Y = Button X'
-sedFile $controllerDolphinIni 'Buttons/Z = TR' 'Buttons/Z = Trigger L'
-sedFile $controllerDolphinIni 'Buttons/Start = START' 'Buttons/Start = Start'
-sedFile $controllerDolphinIni 'Main Stick/Up = `Axis 1-`' 'Main Stick/Up = `Left Y+`'
-sedFile $controllerDolphinIni 'Main Stick/Down = `Axis 1+`' 'Main Stick/Down = `Left Y-`'
-sedFile $controllerDolphinIni 'Main Stick/Left = `Axis 0-`' 'Main Stick/Left = `Left X-`'
-sedFile $controllerDolphinIni 'Main Stick/Right = `Axis 0+`' 'Main Stick/Right = `Left X+`'
-sedFile $controllerDolphinIni 'C-Stick/Up = `Axis 4-`' 'C-Stick/Up = `Right Y+`'
-sedFile $controllerDolphinIni 'C-Stick/Down = `Axis 4+`' 'C-Stick/Down = `Right Y-`'
-sedFile $controllerDolphinIni 'C-Stick/Left = `Axis 3-`' 'C-Stick/Left = `Right X-`'
-sedFile $controllerDolphinIni 'C-Stick/Right = `Axis 3+`' 'C-Stick/Right = `Right X+`'
-sedFile $controllerDolphinIni 'Triggers/L = `Full Axis 2+`' 'Triggers/L = `Shoulder L`'
-sedFile $controllerDolphinIni 'Triggers/R = `Full Axis 5+`' 'Triggers/R = `Shoulder R`'
-sedFile $controllerDolphinIni 'Triggers/L-Analog = `Full Axis 2+`' 'Triggers/L-Analog = `Trigger L`'
-sedFile $controllerDolphinIni 'Triggers/R-Analog = `Full Axis 5+`' 'Triggers/R-Analog = `Trigger R`'
-sedFile $controllerDolphinIni 'D-Pad/Up = `Axis 7-`' 'D-Pad/Up = `Pad N`'
-sedFile $controllerDolphinIni 'D-Pad/Down = `Axis 7+`' 'D-Pad/Down = `Pad S`'
-sedFile $controllerDolphinIni 'D-Pad/Left = `Axis 6-`' 'D-Pad/Left = `Pad W`'
-sedFile $controllerDolphinIni 'D-Pad/Right = `Axis 6+`' 'D-Pad/Right = `Pad E`'
-
+#sedFile $controllerDolphinIni 'evdev/0/Microsoft X-Box 360 pad 0' 'XInput/0/Gamepad'
+#sedFile $controllerDolphinIni 'Buttons/A = SOUTH' 'Buttons/A = Button B'
+#sedFile $controllerDolphinIni 'Buttons/B = EAST' 'Buttons/B = Button A'
+#sedFile $controllerDolphinIni 'Buttons/X = NORTH' 'Buttons/X = Button Y'
+#sedFile $controllerDolphinIni 'Buttons/Y = WEST' 'Buttons/Y = Button X'
+#sedFile $controllerDolphinIni 'Buttons/Z = TR' 'Buttons/Z = Trigger L'
+#sedFile $controllerDolphinIni 'Buttons/Start = START' 'Buttons/Start = Start'
+#sedFile $controllerDolphinIni 'Main Stick/Up = `Axis 1-`' 'Main Stick/Up = `Left Y+`'
+#sedFile $controllerDolphinIni 'Main Stick/Down = `Axis 1+`' 'Main Stick/Down = `Left Y-`'
+#sedFile $controllerDolphinIni 'Main Stick/Left = `Axis 0-`' 'Main Stick/Left = `Left X-`'
+#sedFile $controllerDolphinIni 'Main Stick/Right = `Axis 0+`' 'Main Stick/Right = `Left X+`'
+#sedFile $controllerDolphinIni 'C-Stick/Up = `Axis 4-`' 'C-Stick/Up = `Right Y+`'
+#sedFile $controllerDolphinIni 'C-Stick/Down = `Axis 4+`' 'C-Stick/Down = `Right Y-`'
+#sedFile $controllerDolphinIni 'C-Stick/Left = `Axis 3-`' 'C-Stick/Left = `Right X-`'
+#sedFile $controllerDolphinIni 'C-Stick/Right = `Axis 3+`' 'C-Stick/Right = `Right X+`'
+#sedFile $controllerDolphinIni 'Triggers/L = `Full Axis 2+`' 'Triggers/L = `Shoulder L`'
+#sedFile $controllerDolphinIni 'Triggers/R = `Full Axis 5+`' 'Triggers/R = `Shoulder R`'
+#sedFile $controllerDolphinIni 'Triggers/L-Analog = `Full Axis 2+`' 'Triggers/L-Analog = `Trigger L`'
+#sedFile $controllerDolphinIni 'Triggers/R-Analog = `Full Axis 5+`' 'Triggers/R-Analog = `Trigger R`'
+#sedFile $controllerDolphinIni 'D-Pad/Up = `Axis 7-`' 'D-Pad/Up = `Pad N`'
+#sedFile $controllerDolphinIni 'D-Pad/Down = `Axis 7+`' 'D-Pad/Down = `Pad S`'
+#sedFile $controllerDolphinIni 'D-Pad/Left = `Axis 6-`' 'D-Pad/Left = `Pad W`'
+#sedFile $controllerDolphinIni 'D-Pad/Right = `Axis 6+`' 'D-Pad/Right = `Pad E`'
+#
 #Dolphin Wii
-sedFile $controllerDolphinWiiIni 'evdev/0/Microsoft X-Box 360 pad 0' 'XInput/0/Gamepad'
-sedFile $controllerDolphinWiiIni 'Buttons/A = SOUTH' 'Buttons/A = Button B'
-sedFile $controllerDolphinWiiIni 'Buttons/B = EAST' 'Buttons/B = Button A'
-sedFile $controllerDolphinWiiIni 'Buttons/1 = NORTH' 'Buttons/X = Button Y'
-sedFile $controllerDolphinWiiIni 'Buttons/2 = WEST' 'Buttons/Y = Button X'
-sedFile $controllerDolphinWiiIni 'Buttons/- = SELECT' 'Buttons/- = Select'
-sedFile $controllerDolphinWiiIni 'Buttons/+ = START' 'Buttons/+ = Start'
-sedFile $controllerDolphinWiiIni 'D-Pad/Up = `Axis 7-`' 'D-Pad/Up = `Pad N`'
-sedFile $controllerDolphinWiiIni 'D-Pad/Down = `Axis 7+`' 'D-Pad/Down = `Pad S`'
-sedFile $controllerDolphinWiiIni 'D-Pad/Left = `Axis 6-`' 'D-Pad/Left = `Pad W`'
-sedFile $controllerDolphinWiiIni 'D-Pad/Right = `Axis 6+`' 'D-Pad/Right = `Pad E`'
-sedFile $controllerDolphinWiiIni 'Shake/Z = TL' 'Shake/Z = Shoulder L'
-sedFile $controllerDolphinWiiIni 'IR/Up = `Axis 4-`' 'IR/Up = `Right Y+`'
-sedFile $controllerDolphinWiiIni 'IR/Down = `Axis 4+`' 'IR/Down = `Right Y-`'
-sedFile $controllerDolphinWiiIni 'IR/Left = `Axis 3-`' 'IR/Left = `Right X-`'
-sedFile $controllerDolphinWiiIni 'IR/Right = `Axis 3+`' 'IR/Right = `Right X+`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Buttons/C = `Full Axis 5+`' 'Nunchuk/Buttons/C = `Trigger L`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Buttons/Z = `Full Axis 2+`' 'Nunchuk/Buttons/Z = `Trigger R`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Up = `Axis 1-`' 'Nunchuk/Stick/Up = `Left Y+`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Down = `Axis 1+`' 'Nunchuk/Stick/Down = `Left Y-`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Left = `Axis 0-`' 'Nunchuk/Stick/Left = `Left X-`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Right = `Axis 0+`' 'Nunchuk/Stick/Right = `Left X+`'
-sedFile $controllerDolphinWiiIni 'Nunchuk/Shake/Z = TR' 'Nunchuk/Shake/Z = TR'
+#sedFile $controllerDolphinWiiIni 'evdev/0/Microsoft X-Box 360 pad 0' 'XInput/0/Gamepad'
+#sedFile $controllerDolphinWiiIni 'Buttons/A = SOUTH' 'Buttons/A = Button B'
+#sedFile $controllerDolphinWiiIni 'Buttons/B = EAST' 'Buttons/B = Button A'
+#sedFile $controllerDolphinWiiIni 'Buttons/1 = NORTH' 'Buttons/X = Button Y'
+#sedFile $controllerDolphinWiiIni 'Buttons/2 = WEST' 'Buttons/Y = Button X'
+#sedFile $controllerDolphinWiiIni 'Buttons/- = SELECT' 'Buttons/- = Select'
+#sedFile $controllerDolphinWiiIni 'Buttons/+ = START' 'Buttons/+ = Start'
+#sedFile $controllerDolphinWiiIni 'D-Pad/Up = `Axis 7-`' 'D-Pad/Up = `Pad N`'
+#sedFile $controllerDolphinWiiIni 'D-Pad/Down = `Axis 7+`' 'D-Pad/Down = `Pad S`'
+#sedFile $controllerDolphinWiiIni 'D-Pad/Left = `Axis 6-`' 'D-Pad/Left = `Pad W`'
+#sedFile $controllerDolphinWiiIni 'D-Pad/Right = `Axis 6+`' 'D-Pad/Right = `Pad E`'
+#sedFile $controllerDolphinWiiIni 'Shake/Z = TL' 'Shake/Z = Shoulder L'
+#sedFile $controllerDolphinWiiIni 'IR/Up = `Axis 4-`' 'IR/Up = `Right Y+`'
+#sedFile $controllerDolphinWiiIni 'IR/Down = `Axis 4+`' 'IR/Down = `Right Y-`'
+#sedFile $controllerDolphinWiiIni 'IR/Left = `Axis 3-`' 'IR/Left = `Right X-`'
+#sedFile $controllerDolphinWiiIni 'IR/Right = `Axis 3+`' 'IR/Right = `Right X+`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Buttons/C = `Full Axis 5+`' 'Nunchuk/Buttons/C = `Trigger L`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Buttons/Z = `Full Axis 2+`' 'Nunchuk/Buttons/Z = `Trigger R`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Up = `Axis 1-`' 'Nunchuk/Stick/Up = `Left Y+`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Down = `Axis 1+`' 'Nunchuk/Stick/Down = `Left Y-`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Left = `Axis 0-`' 'Nunchuk/Stick/Left = `Left X-`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Stick/Right = `Axis 0+`' 'Nunchuk/Stick/Right = `Left X+`'
+#sedFile $controllerDolphinWiiIni 'Nunchuk/Shake/Z = TR' 'Nunchuk/Shake/Z = TR'
 
 
 
 Write-Host "All done!" -ForegroundColor green -BackgroundColor black
+
+
+waitForUser

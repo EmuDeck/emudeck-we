@@ -19,4 +19,10 @@ $YuzuIni=-join($yuzuDir,'\config\qt-config.ini')
 $duckIni=-join($duckDir,'\settings.ini')
 $deckPath="/run/media/mmcblk0p1/"
 $raConfigDir=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\')
+$raConfigfile=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg')
 $raExe=-join($winPath,'\Emulation\tools\\EmulationStation-DE\\Emulators\\RetroArch\\','retroarch.exe')
+
+$EmulationPath=-join($winPath,'Emulation\')
+$biosPath=-join($winPath,'Emulation\bios\')
+$toolsPath=-join($winPath,'Emulation\bios\')
+$savesPath=-join($winPath,'Emulation\bios\')
