@@ -49,6 +49,16 @@ waitForUser
 
 Clear-Host
 
+#Customization
+#$RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
+#$arSega=showTwoButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
+#$arSnes=showTwoButtonQuestionImg "ar43snes.png" 'Configure Aspect Ratio  Super NES' 'Choose your aspect ratio for Super Nintendo games' '43' '87'
+#$arClassic3D=showTwoButtonQuestionImg "ar433d.png" 'Configure Aspect Ratio for Classic 3D Games' 'Choose your aspect ratio for Dreamcast and Nintendo 64' '43' '169'
+#$arDolphin=showTwoButtonQuestionImg "ar43gc.png" 'Configure Aspect Ratio for GameCube' 'Choose your aspect ratio for GameCube games. You can change this
+#  setting in game anytime with a hotkey.' '43' '169'
+#$RAHandHeldShader=showTwoButtonQuestionImg "lcdon.png" 'Configure LCD Shader Handhelds' 'The LCD Shader simulates the old LCD Matrix screens of handheld systems' 'ON' 'OFF'
+#$RAHandClassic2D=showTwoButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
+#$RAHandClassic3D=showTwoButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
 
 # Creating folders
 
@@ -67,7 +77,7 @@ showNotification -ToastTitle "Downloading EmuDeck files"
 download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
 moveFromTo "temp\EmuDeck-we-main" "EmuDeck"
 copyFromTo "EmuDeck\roms" "roms"
-copyFromTo "EmuDeck\tools\launchers" "tools\launchers"
+#copyFromTo "EmuDeck\tools\launchers" "tools\launchers"
 
 #Dowloading..ESDE
 showNotification -ToastTitle 'Downloading EmulationStation DE'
@@ -75,88 +85,121 @@ download $url_esde "esde.zip"
 moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
 
 #SRM
-showNotification -ToastTitle 'Downloading Steam Rom Manager'
-download $url_srm "tools/srm.exe"
+$test=Test-Path -Path "$EmulationPath\tools\srm.exe"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Steam Rom Manager'
+	download $url_srm "tools/srm.exe"
+}
 
 #
 # Emulators Download
 #
 
 #RetroArch
-showNotification -ToastTitle 'Downloading RetroArch'
-download $url_ra "ra.7z"
-moveFromTo "ra\RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"
+
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RetroArch"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading RetroArch'
+	download $url_ra "ra.7z"
+	moveFromTo "ra\RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"	
+	showNotification -ToastTitle 'Downloading RetroArch Cores'
+	mkdir $EmulationPath"tools\EmulationStation-DE\Emulators\RetroArch\cores" -ErrorAction SilentlyContinue
+	$RAcores = @('a5200_libretro.dll','81_libretro.dll','atari800_libretro.dll','bluemsx_libretro.dll','chailove_libretro.dll','fbneo_libretro.dll','freechaf_libretro.dll','freeintv_libretro.dll','fuse_libretro.dll','gearsystem_libretro.dll','gw_libretro.dll','hatari_libretro.dll','lutro_libretro.dll','mednafen_pcfx_libretro.dll','mednafen_vb_libretro.dll','mednafen_wswan_libretro.dll','mu_libretro.dll','neocd_libretro.dll','nestopia_libretro.dll','nxengine_libretro.dll','o2em_libretro.dll','picodrive_libretro.dll','pokemini_libretro.dll','prboom_libretro.dll','prosystem_libretro.dll','px68k_libretro.dll','quasi88_libretro.dll','scummvm_libretro.dll','squirreljme_libretro.dll','theodore_libretro.dll','uzem_libretro.dll','vecx_libretro.dll','vice_xvic_libretro.dll','virtualjaguar_libretro.dll','x1_libretro.dll','mednafen_lynx_libretro.dll','mednafen_ngp_libretro.dll','mednafen_pce_libretro.dll','mednafen_pce_fast_libretro.dll','mednafen_psx_libretro.dll','mednafen_psx_hw_libretro.dll','mednafen_saturn_libretro.dll','mednafen_supafaust_libretro.dll','mednafen_supergrafx_libretro.dll','blastem_libretro.dll','bluemsx_libretro.dll','bsnes_libretro.dll','bsnes_mercury_accuracy_libretro.dll','cap32_libretro.dll','citra2018_libretro.dll','citra_libretro.dll','crocods_libretro.dll','desmume2015_libretro.dll','desmume_libretro.dll','dolphin_libretro.dll','dosbox_core_libretro.dll','dosbox_pure_libretro.dll','dosbox_svn_libretro.dll','fbalpha2012_cps1_libretro.dll','fbalpha2012_cps2_libretro.dll','fbalpha2012_cps3_libretro.dll','fbalpha2012_libretro.dll','fbalpha2012_neogeo_libretro.dll','fceumm_libretro.dll','fbneo_libretro.dll','flycast_libretro.dll','fmsx_libretro.dll','frodo_libretro.dll','gambatte_libretro.dll','gearboy_libretro.dll','gearsystem_libretro.dll','genesis_plus_gx_libretro.dll','genesis_plus_gx_wide_libretro.dll','gpsp_libretro.dll','handy_libretro.dll','kronos_libretro.dll','mame2000_libretro.dll','mame2003_plus_libretro.dll','mame2010_libretro.dll','mame_libretro.dll','melonds_libretro.dll','mesen_libretro.dll','mesen-s_libretro.dll','mgba_libretro.dll','mupen64plus_next_libretro.dll','nekop2_libretro.dll','np2kai_libretro.dll','nestopia_libretro.dll','parallel_n64_libretro.dll','pcsx2_libretro.dll','pcsx_rearmed_libretro.dll','picodrive_libretro.dll','ppsspp_libretro.dll','puae_libretro.dll','quicknes_libretro.dll','race_libretro.dll','sameboy_libretro.dll','smsplus_libretro.dll','snes9x2010_libretro.dll','snes9x_libretro.dll','stella2014_libretro.dll','stella_libretro.dll','tgbdual_libretro.dll','vbam_libretro.dll','vba_next_libretro.dll','vice_x128_libretro.dll','vice_x64_libretro.dll','vice_x64sc_libretro.dll','vice_xscpu64_libretro.dll','yabasanshiro_libretro.dll','yabause_libretro.dll','bsnes_hd_beta_libretro.dll','swanstation_libretro.dll')
+	$RAcores.count
+	
+	foreach ( $core in $RAcores )
+	{
+		$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')
+		$dest= -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
+		echo "Downloading $url"	
+		downloadCore $url $dest
+	}
+}
 
 #Dolphin
-showNotification -ToastTitle 'Downloading Dolphin'
-download $url_dolphin "dolphin.7z"
-moveFromTo "dolphin\Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Dolphin'
+	download $url_dolphin "dolphin.7z"
+	moveFromTo "dolphin\Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
+}
 
 #PCSX2 
-showNotification -ToastTitle 'Downloading PCSX2'
-download $url_pcsx2 "pcsx2.7z"
-moveFromTo "pcsx2\PCSX2 1.6.0" "tools\EmulationStation-DE\Emulators\PCSX2"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading PCSX2'
+	download $url_pcsx2 "pcsx2.7z"
+	moveFromTo "pcsx2\PCSX2 1.6.0" "tools\EmulationStation-DE\Emulators\PCSX2"
+}
 
 #RPCS3
-showNotification -ToastTitle 'Downloading RPCS3'
-download $url_rpcs3 "rpcs3.7z"
-moveFromTo "rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading RPCS3'
+	download $url_rpcs3 "rpcs3.7z"
+	moveFromTo "rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
+}
 
 #Xemu
-showNotification -ToastTitle 'Downloading Xemu'
-download $url_xemu "xemu-win-release.zip"
-moveFromTo "xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xemu"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Xemu'
+	download $url_xemu "xemu-win-release.zip"
+	moveFromTo "xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
+}
 
 #Yuzu
-showNotification -ToastTitle 'Downloading Yuzu'
-download $url_yuzu "yuzu.zip"
-moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\yuzu"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Yuzu'
+	download $url_yuzu "yuzu.zip"
+	moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
+}
 
 #Citra
-showNotification -ToastTitle 'Downloading Citra'
-download $url_citra "citra.zip"
-moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\citra"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Citra'
+	download $url_citra "citra.zip"
+	moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
+}
 
 #Duckstation
-showNotification -ToastTitle 'Downloading DuckStation'
-download $url_duck "duckstation.zip"
-moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\duckstation"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading DuckStation'
+	download $url_duck "duckstation.zip"
+	moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
+}
 
 #Cemu
-showNotification -ToastTitle 'Downloading Cemu'
-download $url_cemu "cemu.zip"
-moveFromTo "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\cemu"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Cemu'
+	download $url_cemu "cemu.zip"
+	moveFromTo "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+}
 
 #Xenia
-showNotification -ToastTitle 'Downloading Xenia'
-download $url_xenia "xenia.zip"
-moveFromTo "xenia" "tools\EmulationStation-DE\Emulators\xenia"
-
-
-showNotification -ToastTitle 'Downloading RetroArch Cores'
-mkdir $EmulationPath"tools\EmulationStation-DE\Emulators\RetroArch\cores" -ErrorAction SilentlyContinue
-$RAcores = @('a5200_libretro.dll','81_libretro.dll','atari800_libretro.dll','bluemsx_libretro.dll','chailove_libretro.dll','fbneo_libretro.dll','freechaf_libretro.dll','freeintv_libretro.dll','fuse_libretro.dll','gearsystem_libretro.dll','gw_libretro.dll','hatari_libretro.dll','lutro_libretro.dll','mednafen_pcfx_libretro.dll','mednafen_vb_libretro.dll','mednafen_wswan_libretro.dll','mu_libretro.dll','neocd_libretro.dll','nestopia_libretro.dll','nxengine_libretro.dll','o2em_libretro.dll','picodrive_libretro.dll','pokemini_libretro.dll','prboom_libretro.dll','prosystem_libretro.dll','px68k_libretro.dll','quasi88_libretro.dll','scummvm_libretro.dll','squirreljme_libretro.dll','theodore_libretro.dll','uzem_libretro.dll','vecx_libretro.dll','vice_xvic_libretro.dll','virtualjaguar_libretro.dll','x1_libretro.dll','mednafen_lynx_libretro.dll','mednafen_ngp_libretro.dll','mednafen_pce_libretro.dll','mednafen_pce_fast_libretro.dll','mednafen_psx_libretro.dll','mednafen_psx_hw_libretro.dll','mednafen_saturn_libretro.dll','mednafen_supafaust_libretro.dll','mednafen_supergrafx_libretro.dll','blastem_libretro.dll','bluemsx_libretro.dll','bsnes_libretro.dll','bsnes_mercury_accuracy_libretro.dll','cap32_libretro.dll','citra2018_libretro.dll','citra_libretro.dll','crocods_libretro.dll','desmume2015_libretro.dll','desmume_libretro.dll','dolphin_libretro.dll','dosbox_core_libretro.dll','dosbox_pure_libretro.dll','dosbox_svn_libretro.dll','fbalpha2012_cps1_libretro.dll','fbalpha2012_cps2_libretro.dll','fbalpha2012_cps3_libretro.dll','fbalpha2012_libretro.dll','fbalpha2012_neogeo_libretro.dll','fceumm_libretro.dll','fbneo_libretro.dll','flycast_libretro.dll','fmsx_libretro.dll','frodo_libretro.dll','gambatte_libretro.dll','gearboy_libretro.dll','gearsystem_libretro.dll','genesis_plus_gx_libretro.dll','genesis_plus_gx_wide_libretro.dll','gpsp_libretro.dll','handy_libretro.dll','kronos_libretro.dll','mame2000_libretro.dll','mame2003_plus_libretro.dll','mame2010_libretro.dll','mame_libretro.dll','melonds_libretro.dll','mesen_libretro.dll','mesen-s_libretro.dll','mgba_libretro.dll','mupen64plus_next_libretro.dll','nekop2_libretro.dll','np2kai_libretro.dll','nestopia_libretro.dll','parallel_n64_libretro.dll','pcsx2_libretro.dll','pcsx_rearmed_libretro.dll','picodrive_libretro.dll','ppsspp_libretro.dll','puae_libretro.dll','quicknes_libretro.dll','race_libretro.dll','sameboy_libretro.dll','smsplus_libretro.dll','snes9x2010_libretro.dll','snes9x_libretro.dll','stella2014_libretro.dll','stella_libretro.dll','tgbdual_libretro.dll','vbam_libretro.dll','vba_next_libretro.dll','vice_x128_libretro.dll','vice_x64_libretro.dll','vice_x64sc_libretro.dll','vice_xscpu64_libretro.dll','yabasanshiro_libretro.dll','yabause_libretro.dll','bsnes_hd_beta_libretro.dll','swanstation_libretro.dll')
-$RAcores.count
-
-foreach ( $core in $RAcores )
-{
-	$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')
-	$dest= -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
-	echo "Downloading $url"	
-	downloadCore $url $dest
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xenia"
+if(-not($test)){
+	showNotification -ToastTitle 'Downloading Xenia'
+	download $url_xenia "xenia.zip"
+	moveFromTo "xenia" "tools\EmulationStation-DE\Emulators\xenia"
 }
+
 
 
 # Deleting temp folders
 showNotification -ToastTitle 'Cleaning up...'
-Remove-Item cemu
-Remove-Item ra
-Remove-Item dolphin
-Remove-Item esde
-Remove-Item pcsx2
-Remove-Item yuzu
-Remove-Item temp
-Remove-Item citra
+Remove-Item cemu -ErrorAction SilentlyContinue
+Remove-Item ra -ErrorAction SilentlyContinue
+Remove-Item dolphin -ErrorAction SilentlyContinue
+Remove-Item esde -ErrorAction SilentlyContinue
+Remove-Item pcsx2 -ErrorAction SilentlyContinue
+Remove-Item yuzu -ErrorAction SilentlyContinue
+Remove-Item temp -ErrorAction SilentlyContinue
+Remove-Item citra -ErrorAction SilentlyContinue
 Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 
 
@@ -250,10 +293,53 @@ $line | Add-Content $raConfigfile
 $line='video_fullscreen = "true"'
 $line | Add-Content $raConfigfile
 
+#Customization
 
-
-#Duckstation
-
+#if($RABezels = 'ON'){
+#	
+#}else{
+#	
+#}
+#if($arSega = '43'){
+#	
+#}else{
+#	
+#}
+#if($arSnes = '43'){
+#	
+#}else{
+#	
+#}
+#if($arClassic3D = '43'){
+#	
+#}else{
+#	
+#}
+#if($arDolphin = '43'){
+#	
+#}else{
+#	
+#}
+#if($arClassic3D = '43'){
+#	
+#}else{
+#	
+#}
+#if($RAHandHeldShader = 'ON'){
+#	
+#}else{
+#	
+#}
+#if($RAHandClassic2D = 'ON'){
+#	
+#}else{
+#	
+#}
+#if($RAHandClassic3D = 'ON'){
+#	
+#}else{
+#	
+#}
 
 #Dolphin
 

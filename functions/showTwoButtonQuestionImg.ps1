@@ -18,7 +18,7 @@ function showTwoButtonQuestionImg($img, $titleText, $subtitleText, $button1Text,
 	
 	Invoke-WebRequest -URI $URL -OutFile $Path
 	Add-Type -AssemblyName 'System.Windows.Forms'
-	$file = (get-item "$userFolder/bezels.jpg")
+	$file = (get-item $Path)
 	$img = [System.Drawing.Image]::Fromfile((get-item $file))
 	[System.Windows.Forms.Application]::EnableVisualStyles();
 	$form = new-object Windows.Forms.Form
