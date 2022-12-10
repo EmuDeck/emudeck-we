@@ -1,31 +1,29 @@
 {
-	"fuzzyMatcher": {
-		"timestamps": {
-			"check": 1659355215955,
-			"download": 1659355215955
-		},
-		"verbose": false,
-		"filterProviders": true
-	},
-	"environmentVariables": {
-		"steamDirectory": "",
-		"romsDirectory": "",
-		"retroarchPath": "",
-		"raCoresDirectory": "",
-		"localImagesDirectory": ""
-	},
-	"previewSettings": {
-		"retrieveCurrentSteamImages": true,
-		"deleteDisabledShortcuts": false,
-		"imageZoomPercentage": 40,
-		"preload": false
-	},
-	"enabledProviders": [
-		"SteamGridDB"
-	],
-	"language": "English",
-	"offlineMode": false,
-	"navigationWidth": 765,
-	"clearLogOnTest": false,
-	"version": 3
+  "fuzzyMatcher": {
+    "timestamps": {
+      "check": 1670669774072,
+      "download": 1670669774072
+    },
+    "verbose": false,
+    "filterProviders": true
+  },
+  "environmentVariables": {
+    "steamDirectory": "C:\\Program Files (x86)\\Steam",
+    "romsDirectory": "C:\\Emulation\\roms",
+    "retroarchPath": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RetroArch\\retroarch.exe",
+    "raCoresDirectory": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RetroArch\\cores",
+    "localImagesDirectory": ""
+  },
+  "previewSettings": {
+    "retrieveCurrentSteamImages": true,
+    "deleteDisabledShortcuts": false,
+    "imageZoomPercentage": 40,
+    "preload": false
+  },
+  "enabledProviders": ["SteamGridDB"],
+  "language": "English",
+  "offlineMode": false,
+  "navigationWidth": 394,
+  "clearLogOnTest": false,
+  "version": 3
 }
