@@ -1,53 +1,53 @@
-ESDE_install(){
+function ESDE_install(){
 	showNotification -ToastTitle 'Downloading EmulationStation DE'
 	download $url_esde "esde.zip"
 	moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
 }
-ESDE_init(){
+function ESDE_init(){
 	echo "NYI"
 }
-ESDE_update(){
+function ESDE_update(){
 	echo "NYI"
 }
-ESDE_setEmulationFolder(){
+function ESDE_setEmulationFolder(){
 	echo "NYI"
 }
-ESDE_setupSaves(){
+function ESDE_setupSaves(){
 	echo "NYI"
 }
-ESDE_setupStorage(){
+function ESDE_setupStorage(){
 	echo "NYI"
 }
-ESDE_wipe(){
+function ESDE_wipe(){
 	echo "NYI"
 }
-ESDE_uninstall(){
+function ESDE_uninstall(){
 	echo "NYI"
 }
-ESDE_migrate(){
+function ESDE_migrate(){
 	echo "NYI"
 }
-ESDE_setABXYstyle(){
+function ESDE_setABXYstyle(){
 	echo "NYI"
 }
-ESDE_wideScreenOn(){
+function ESDE_wideScreenOn(){
 	echo "NYI"
 }
-ESDE_wideScreenOff(){
+function ESDE_wideScreenOff(){
 	echo "NYI"
 }
-ESDE_bezelOn(){
+function ESDE_bezelOn(){
 	echo "NYI"
 }
-ESDE_bezelOff(){
+function ESDE_bezelOff(){
 	echo "NYI"
 }
-ESDE_finalize(){
+function ESDE_finalize(){
 	echo "NYI"
 }
-ESDE_IsInstalled(){
+function ESDE_IsInstalled(){
 	echo "NYI"
 }
-ESDE_resetConfig(){
+function ESDE_resetConfig(){
 	echo "NYI"
 }

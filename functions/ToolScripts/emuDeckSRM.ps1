@@ -1,52 +1,52 @@
-SRM_install(){
+function SRM_install(){
 	showNotification -ToastTitle 'Downloading Steam Rom Manager'
 	download $url_srm "tools/srm.exe"
 }
-SRM_init(){
+function SRM_init(){
 	echo "NYI"
 }
-SRM_update(){
+function SRM_update(){
 	echo "NYI"
 }
-SRM_setEmulationFolder(){
+function SRM_setEmulationFolder(){
 	echo "NYI"
 }
-SRM_setupSaves(){
+function SRM_setupSaves(){
 	echo "NYI"
 }
-SRM_setupStorage(){
+function SRM_setupStorage(){
 	echo "NYI"
 }
-SRM_wipe(){
+function SRM_wipe(){
 	echo "NYI"
 }
-SRM_uninstall(){
+function SRM_uninstall(){
 	echo "NYI"
 }
-SRM_migrate(){
+function SRM_migrate(){
 	echo "NYI"
 }
-SRM_setABXYstyle(){
+function SRM_setABXYstyle(){
 	echo "NYI"
 }
-SRM_wideScreenOn(){
+function SRM_wideScreenOn(){
 	echo "NYI"
 }
-SRM_wideScreenOff(){
+function SRM_wideScreenOff(){
 	echo "NYI"
 }
-SRM_bezelOn(){
+function SRM_bezelOn(){
 	echo "NYI"
 }
-SRM_bezelOff(){
+function SRM_bezelOff(){
 	echo "NYI"
 }
-SRM_finalize(){
+function SRM_finalize(){
 	echo "NYI"
 }
-SRM_IsInstalled(){
+function SRM_IsInstalled(){
 	echo "NYI"
 }
-SRM_resetConfig(){
+function SRM_resetConfig(){
 	echo "NYI"
 }

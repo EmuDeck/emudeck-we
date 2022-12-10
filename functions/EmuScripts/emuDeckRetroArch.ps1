@@ -61,7 +61,8 @@ function RetroArch_init(){
 	
 	
 	showNotification -ToastTitle 'RetroArch - Bios & Saves'
-function 	RetroArch_setupSaves
+	
+	RetroArch_setupSaves
 	
 	#Bios
 	$line="system_directory = `"$biosPath`""
