@@ -3,7 +3,9 @@ function SRM_install(){
 	download $url_srm "tools/srm.exe"
 }
 function SRM_init(){
-	echo "NYI"
+	showNotification -ToastTitle 'Steam Rom Manager - Configuration'
+	$destination=-join($userFolder, '\Documents\DuckStation\')
+	copyFromTo "EmuDeck\configs\steam-rom-manager" tools\
 }
 function SRM_update(){
 	echo "NYI"
