@@ -215,7 +215,7 @@ showNotification -ToastTitle 'Configuring Emulators'
 Remove-Item $raConfigfile
 
 showNotification -ToastTitle 'RetroArch - Bezels & Filters'
-copyFromTo "EmuDeck\configs\org.libretro.RetroArch\config\retroarch" "tools\EmulationStation-DE\Emulators\RetroArch"
+copyFromTo "EmuDeck\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
 $path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
 Get-ChildItem $path -Recurse -Filter *.cfg | 
 Foreach-Object {
