@@ -19,6 +19,21 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\sedFile.ps1
 . .\functions\createLink.ps1
 
+
+. .\functions\EmuScripts\emuDeckCemu.ps1
+. .\functions\EmuScripts\emuDeckCitra.ps1
+. .\functions\EmuScripts\emuDeckDolphin.ps1
+. .\functions\EmuScripts\emuDeckDuckStation.ps1
+. .\functions\EmuScripts\emuDeckPCSX2.ps1
+. .\functions\EmuScripts\emuDeckRetroArch.ps1
+. .\functions\EmuScripts\emuDeckRPCS3.ps1
+. .\functions\EmuScripts\emuDeckTemplate.ps1
+. .\functions\EmuScripts\emuDeckXemu.ps1
+. .\functions\EmuScripts\emuDeckXenia.ps1
+. .\functions\EmuScripts\emuDeckYuzu.ps1
+. .\functions\ToolScripts\emuDeckESDE.ps1
+. .\functions\ToolScripts\emuDeckSRM.ps1
+
 #
 # Variables
 #
@@ -49,7 +64,7 @@ waitForUser
 
 Clear-Host
 
-#Customization
+#Customization Dialogs
 #$RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
 #$arSega=showTwoButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
 #$arSnes=showTwoButtonQuestionImg "ar43snes.png" 'Configure Aspect Ratio  Super NES' 'Choose your aspect ratio for Super Nintendo games' '43' '87'
@@ -80,15 +95,12 @@ copyFromTo "EmuDeck\roms" "roms"
 #copyFromTo "EmuDeck\tools\launchers" "tools\launchers"
 
 #Dowloading..ESDE
-showNotification -ToastTitle 'Downloading EmulationStation DE'
-download $url_esde "esde.zip"
-moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
+ESDE_install
 
 #SRM
 $test=Test-Path -Path "$EmulationPath\tools\srm.exe"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Steam Rom Manager'
-	download $url_srm "tools/srm.exe"
+	SRM_install
 }
 
 #
@@ -99,93 +111,61 @@ if(-not($test)){
 
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RetroArch"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading RetroArch'
-	download $url_ra "ra.7z"
-	moveFromTo "ra\RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"	
-	showNotification -ToastTitle 'Downloading RetroArch Cores'
-	mkdir $EmulationPath"tools\EmulationStation-DE\Emulators\RetroArch\cores" -ErrorAction SilentlyContinue
-	$RAcores = @('a5200_libretro.dll','81_libretro.dll','atari800_libretro.dll','bluemsx_libretro.dll','chailove_libretro.dll','fbneo_libretro.dll','freechaf_libretro.dll','freeintv_libretro.dll','fuse_libretro.dll','gearsystem_libretro.dll','gw_libretro.dll','hatari_libretro.dll','lutro_libretro.dll','mednafen_pcfx_libretro.dll','mednafen_vb_libretro.dll','mednafen_wswan_libretro.dll','mu_libretro.dll','neocd_libretro.dll','nestopia_libretro.dll','nxengine_libretro.dll','o2em_libretro.dll','picodrive_libretro.dll','pokemini_libretro.dll','prboom_libretro.dll','prosystem_libretro.dll','px68k_libretro.dll','quasi88_libretro.dll','scummvm_libretro.dll','squirreljme_libretro.dll','theodore_libretro.dll','uzem_libretro.dll','vecx_libretro.dll','vice_xvic_libretro.dll','virtualjaguar_libretro.dll','x1_libretro.dll','mednafen_lynx_libretro.dll','mednafen_ngp_libretro.dll','mednafen_pce_libretro.dll','mednafen_pce_fast_libretro.dll','mednafen_psx_libretro.dll','mednafen_psx_hw_libretro.dll','mednafen_saturn_libretro.dll','mednafen_supafaust_libretro.dll','mednafen_supergrafx_libretro.dll','blastem_libretro.dll','bluemsx_libretro.dll','bsnes_libretro.dll','bsnes_mercury_accuracy_libretro.dll','cap32_libretro.dll','citra2018_libretro.dll','citra_libretro.dll','crocods_libretro.dll','desmume2015_libretro.dll','desmume_libretro.dll','dolphin_libretro.dll','dosbox_core_libretro.dll','dosbox_pure_libretro.dll','dosbox_svn_libretro.dll','fbalpha2012_cps1_libretro.dll','fbalpha2012_cps2_libretro.dll','fbalpha2012_cps3_libretro.dll','fbalpha2012_libretro.dll','fbalpha2012_neogeo_libretro.dll','fceumm_libretro.dll','fbneo_libretro.dll','flycast_libretro.dll','fmsx_libretro.dll','frodo_libretro.dll','gambatte_libretro.dll','gearboy_libretro.dll','gearsystem_libretro.dll','genesis_plus_gx_libretro.dll','genesis_plus_gx_wide_libretro.dll','gpsp_libretro.dll','handy_libretro.dll','kronos_libretro.dll','mame2000_libretro.dll','mame2003_plus_libretro.dll','mame2010_libretro.dll','mame_libretro.dll','melonds_libretro.dll','mesen_libretro.dll','mesen-s_libretro.dll','mgba_libretro.dll','mupen64plus_next_libretro.dll','nekop2_libretro.dll','np2kai_libretro.dll','nestopia_libretro.dll','parallel_n64_libretro.dll','pcsx2_libretro.dll','pcsx_rearmed_libretro.dll','picodrive_libretro.dll','ppsspp_libretro.dll','puae_libretro.dll','quicknes_libretro.dll','race_libretro.dll','sameboy_libretro.dll','smsplus_libretro.dll','snes9x2010_libretro.dll','snes9x_libretro.dll','stella2014_libretro.dll','stella_libretro.dll','tgbdual_libretro.dll','vbam_libretro.dll','vba_next_libretro.dll','vice_x128_libretro.dll','vice_x64_libretro.dll','vice_x64sc_libretro.dll','vice_xscpu64_libretro.dll','yabasanshiro_libretro.dll','yabause_libretro.dll','bsnes_hd_beta_libretro.dll','swanstation_libretro.dll')
-	$RAcores.count
-	
-	foreach ( $core in $RAcores )
-	{
-		$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')
-		$dest= -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
-		echo "Downloading $url"	
-		downloadCore $url $dest
-	}
+	RetroArch_install
 }
 
 #Dolphin
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Dolphin'
-	download $url_dolphin "dolphin.7z"
-	moveFromTo "dolphin\Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
+	Dolphin_install
 }
 
 #PCSX2 
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading PCSX2'
-	download $url_pcsx2 "pcsx2.7z"
-	moveFromTo "pcsx2\PCSX2 1.6.0" "tools\EmulationStation-DE\Emulators\PCSX2"
+	PCSX2_install
 }
 
 #RPCS3
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading RPCS3'
-	download $url_rpcs3 "rpcs3.7z"
-	moveFromTo "rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
+	RPCS3_install
 }
 
 #Xemu
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xemu"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Xemu'
-	download $url_xemu "xemu-win-release.zip"
-	moveFromTo "xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
+	Xemu_install
 }
 
 #Yuzu
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\yuzu"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Yuzu'
-	download $url_yuzu "yuzu.zip"
-	moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
+	Yuzu_install
 }
 
 #Citra
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\citra"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Citra'
-	download $url_citra "citra.zip"
-	moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
+	Citra_install
 }
 
-#Duckstation
+#DuckStation
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\duckstation"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading DuckStation'
-	download $url_duck "duckstation.zip"
-	moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
+	DuckStation_install
 }
 
 #Cemu
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\cemu"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Cemu'
-	download $url_cemu "cemu.zip"
-	moveFromTo "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+	Cemu_install
 }
 
 #Xenia
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xenia"
 if(-not($test)){
-	showNotification -ToastTitle 'Downloading Xenia'
-	download $url_xenia "xenia.zip"
-	moveFromTo "xenia" "tools\EmulationStation-DE\Emulators\xenia"
+	Xenia_install
 }
 
 
@@ -210,88 +190,63 @@ Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 showNotification -ToastTitle 'Configuring Emulators'
 
 
-#RetroArch
+#RetroArch Config
+RetroArch_init
 
-Remove-Item $raConfigfile
-
-showNotification -ToastTitle 'RetroArch - Bezels & Filters'
-copyFromTo "EmuDeck\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
-$path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
-Get-ChildItem $path -Recurse -Filter *.cfg | 
-Foreach-Object {
-	$originFile = $_.FullName
-
-	$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
-	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')
-	
-	sedFile $originFile $origin $target
-	
-	#Video Filters path
-	$origin="/app/lib/retroarch/filters/video"
-	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\filters\video')
-	
-	sedFile $originFile $origin $target
-}
-
-showNotification -ToastTitle 'RetroArch - Shaders'
-$path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
-Get-ChildItem $path -Recurse -Filter *.glslp | 
-Foreach-Object {
-	$originFile = $_.FullName
-
-	$origin="/app/share/libretro/shaders/"
-	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
-	sedFile $originFile $origin $target
-}
-$path=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
-Get-ChildItem $path -Recurse -Filter *.slangp | 
-Foreach-Object {
-	$originFile = $_.FullName
-
-	$origin="/app/share/libretro/shaders/"
-	$target=-join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
-	sedFile $originFile $origin $target
-}
+#DuckStation Config
 
 
-showNotification -ToastTitle 'RetroArch - Bios & Saves'
 
-#Saves
-mkdir saves/retroarch -ErrorAction SilentlyContinue
-$SourceFilePath = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\saves\')
-mkdir $SourceFilePath -ErrorAction SilentlyContinue
-$ShortcutPath = -join($EmulationPath,'saves\retroarch\saves.lnk')
-createLink $SourceFilePath $ShortcutPath
 
-#States
-$SourceFilePath = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\states\')
-mkdir $SourceFilePath -ErrorAction SilentlyContinue
-$ShortcutPath = -join($EmulationPath,'saves\retroarch\states.lnk')
-createLink $SourceFilePath $ShortcutPath
 
-#Bios
-$line="system_directory = `"$biosPath`""
-$line | Add-Content $raConfigfile
 
-#Hotkeys
-$line='input_enable_hotkey_btn = "109"'
-$line | Add-Content $raConfigfile
-$line='input_hold_fast_forward_btn = "105"'
-$line | Add-Content $raConfigfile
-$line='input_load_state_btn = "102"'
-$line | Add-Content $raConfigfile
-$line='input_menu_toggle_gamepad_combo = "2"'
-$line | Add-Content $raConfigfile
-$line='input_quit_gamepad_combo = "4"'
-$line | Add-Content $raConfigfile
-$line='input_save_state_btn = "103"'
-$line | Add-Content $raConfigfile
-$line='menu_driver = "ozone"'
-$line | Add-Content $raConfigfile
-$line='input_exit_emulator_btn = "108"'
-$line | Add-Content $raConfigfile
-$line='video_fullscreen = "true"'
-$line | Add-Content $raConfigfile
+#Dolphin
+
+
+#Yuzu
+
+Yuzu_init
+
+
+
+#Ryu
+
+
+#Citra
+
+
+#Cemu
+
+
+#PCSX2
+
+
+#RPCS3
+
+
+#Xemu
+
+
+#Xenia
+
+
+
+#ESDE
+showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
+mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
+Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
+sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
+
+download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
+moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
+
+#SRM
+#sedFile 'tools\userData\userConfigurations.json' 'E:\' $winPath
+
+
+
+
+
 
 #Customization
 
@@ -341,143 +296,9 @@ $line | Add-Content $raConfigfile
 #	
 #}
 
-#Dolphin
-
-
-#Yuzu
-showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
-download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"
-.\tools/vc_redist.x64.exe
-
-showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
-#Firmware
-$SourceFilePath = -join($userFolder, '\AppData\Roaming\yuzu\nand\system\Contents\registered')
-$ShortcutPath = -join($EmulationPath,'bios\yuzu\keys.lnk')
-mkdir 'bios\yuzu' -ErrorAction SilentlyContinue
-mkdir $SourceFilePath -ErrorAction SilentlyContinue
-createLink $SourceFilePath $ShortcutPath
-
-#Keys
-$SourceFilePath = -join($userFolder, '\AppData\Roaming\yuzu\keys')
-$ShortcutPath = -join($EmulationPath,'bios\yuzu\firmware.lnk')
-mkdir $SourceFilePath -ErrorAction SilentlyContinue
-createLink $SourceFilePath $ShortcutPath
-
-#Ryu
-
-
-#Citra
-
-
-#Cemu
-
-
-#PCSX2
-
-
-#RPCS3
-
-
-#Xemu
-
-
-#Xenia
 
 
 
-#ESDE
-showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
-mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
-Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
-sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
-
-download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
-moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
-
-
-
-
-
-
-
-
-
-
-
-
-#moveFromTo "EmuDeck\configs\org.citra_emu.citra" "XXXX"
-#moveFromTo "EmuDeck\configs\org.ryujinx.Ryujinx" "XXXX"
-
-#moveFromTo "EmuDeck\configs\org.DolphinEmu.dolphin-emu\config\dolphin-emu" $dolphinDir
-#moveFromTo "EmuDeck\configs\info.cemu.Cemu\data\cemu" "tools\EmulationStation-DE\Emulators\cemu"
-#moveFromTo "EmuDeck\configs\org.citra_emu.citra\config\citra-emu" "tools\EmulationStation-DE\Emulators\citra"
-#moveFromTo "EmuDeck\configs\org.libretro.RetroArch\config\retroarch" "tools\EmulationStation-DE\Emulators\RetroArch"
-#moveFromTo "EmuDeck\configs\net.pcsx2.PCSX2\config\PCSX2" "tools\EmulationStation-DE\Emulators\PCSX2"
-#moveFromTo "EmuDeck\configs\net.rpcs3.RPCS3\config\rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
-#moveFromTo "EmuDeck\configs\org.duckstation.DuckStation\data\duckstation" $duckDir
-#mkdir "tools\userData\" -ErrorAction SilentlyContinue
-#Copy-Item  "EmuDeck\configs\steam-rom-manager\userData\userConfigurationsWE.json" "tools\userData\userConfigurations.json"
-#rename tools/userData/userConfigurationsWE.json tools/userData/userConfigurations.json
-#moveFromTo "EmuDeck\configs\org.yuzu_emu.yuzu" $yuzuDir
-#moveFromTo "EmuDeck\configs\emulationstation" "tools\EmulationStation-DE\.emulationstation"
-#moveFromTo "EmuDeck\configs\app.xemu.xemu\data\xemu\xemu" "tools\EmulationStation-DE\Emulators\xemu"
-#moveFromTo "EmuDeck\configs\xenia" "tools\EmulationStation-DE\Emulators\xenia"
-#mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
-#Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
-#Write-Host "Done!" -ForegroundColor green -BackgroundColor black
-#
-#showNotification -ToastTitle 'Applying Windows Especial configurations'
-#sedFile 'tools\EmulationStation-DE\Emulators\xemu\xemu.ini' $deckPath $winPath
-#sedFile 'tools\EmulationStation-DE\Emulators\xemu\xemu.toml' $deckPath $winPath
-#sedFile 'tools\EmulationStation-DE\Emulators\cemu\settings.xml' 'Z:/run/media/mmcblk0p1/' $winPath
-#sedFile 'tools\EmulationStation-DE\Emulators\cemu\settings.xml' 'roms/wiiu/roms' 'roms\wiiu\'
-#sedFile $dolphinIni $deckPath $winPath
-#sedFile $dolphinIni 'Emulation/bios/' 'Emulation\bios\'
-#sedFile $dolphinIni '/roms/gamecube' '\roms\gamecube'
-#sedFile $dolphinIni '/roms/wii' '\roms\wii'
-#sedFile 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2_ui.ini' $deckPath $winPath
-#sedFile 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2_ui.ini' 'Emulation/bios/' 'Emulation\bios\'
-#sedFile $YuzuIni $deckPath $winPath
-#sedFile $YuzuIni 'Emulation/roms/switch' 'Emulation\roms\switch'
-#sedFile $duckIni $deckPath $winPath
-#sedFile $duckIni 'Emulation/bios/' 'Emulation\bios\'
-#
-#SRM
-#sedFile 'tools\userData\userConfigurations.json' 'E:\' $winPath
-#
-#ESDE
-#sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' $deckPath $winPath
-#sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/Emulation/roms/' 'Emulation\roms\'
-#
-#
-#RetroArch especial fixes
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' $deckPath $winPath
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '~/.var/app/org.libretro.RetroArch/config/retroarch/' $raConfigDir
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/app/share/libretro/' ':\'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/"' '\"'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'http://localhost:4404\' 'http://localhost:4404/'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/app/lib/retroarch/filters/' '\app\lib\retroarch\filters\'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'database/' 'database\'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'http://buildbot.libretro.com/nightly/linux/x86_64/latest\' 'http://buildbot.libretro.com/nightly/windows/x86_64/latest/'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'config/remaps' 'config\remaps'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/Emulation/bios' '\Emulation\bios'
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' 'video4linux2' ''
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\citra\qt-config.ini' $deckPath $winPath
-#
-#Path fixes other emus
-#
-#sedFile $EmulationPath'tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg' '/Emulation/bios' '\Emulation\bios'
-#
-#sedFile 'tools/launchers/cemu.bat' 'XX' $winPath
-#sedFile 'tools/launchers/dolphin-emu.bat'  'XX' $winPath
-#sedFile 'tools/launchers/duckstation.bat'  'XX' $winPath
-#sedFile 'tools/launchers/PCSX2.bat'  'XX' $winPath
-#sedFile 'tools/launchers/retroarch.bat'  'XX' $winPath
-#sedFile 'tools/launchers/RPCS3.bat'  'XX' $winPath
-#sedFile 'tools/launchers/xemu-emu.bat'  'XX' $winPath
-#sedFile 'tools/launchers/xenia.bat'  'XX' $winPath
-#sedFile 'tools/launchers/yuzu.bat'  'XX' $winPath
-#
 #
 #Controller configs
 #Dolphin
