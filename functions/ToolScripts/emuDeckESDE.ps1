@@ -3,8 +3,14 @@ function ESDE_install(){
 	download $url_esde "esde.zip"
 	moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
 }
-function ESDE_init(){
-	echo "NYI"
+function ESDE_init(){	
+	showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
+	mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
+	Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
+	sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
+	
+	download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
+	moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
 }
 function ESDE_update(){
 	echo "NYI"

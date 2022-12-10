@@ -18,7 +18,7 @@ function RetroArch_install(){
 function RetroArch_init(){
 
 	#We just convert the SteamOS settings with our windows paths
-	Remove-Item $raConfigfile
+	Remove-Item $raConfigfile  -ErrorAction SilentlyContinue
 	
 	showNotification -ToastTitle 'RetroArch - Bezels & Filters'
 	copyFromTo "EmuDeck\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
@@ -65,7 +65,7 @@ function RetroArch_init(){
 	RetroArch_setupSaves
 	
 	#Bios
-	$line="system_directory = `"$biosPath`""
+	$line="`rsystem_directory = `"$biosPath`""
 	$line | Add-Content $raConfigfile
 }
 function RetroArch_update(){

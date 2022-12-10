@@ -5,8 +5,8 @@ function Yuzu_install(){
 }
 function Yuzu_init(){
 	showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
-	download "https://aka.ms/vs/17/release/vc_function redist.x64.exe" "tools/vc_redist.x64.exe"
-	.\tools/vc_redist.x64.exe
+	download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
+	.\tools\vc_redist.x64.exe
 	
 	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
