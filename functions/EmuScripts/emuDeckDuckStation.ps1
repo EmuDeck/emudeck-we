@@ -3,8 +3,15 @@ function DuckStation_install(){
 	download $url_duck "duckstation.zip"
 	moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
 }
-function DuckStation_init(){
-	echo "NYI"
+function DuckStation_init(){	
+	showNotification -ToastTitle 'DuckStation - Configuration'
+	$destination=-join($userFolder, '\Documents\DuckStation\')
+	copyFromTo "EmuDeck\configs\DuckStation" $destination
+	
+	#Bios Path
+	sedFile $destination\settings.ini "SearchDirectory = C:\Emulation\bios\" "SearchDirectory = $biosPath"
+	
+	DuckStation_setupSaves
 }
 function DuckStation_update(){
 	echo "NYI"
@@ -13,7 +20,19 @@ function DuckStation_setEmulationFolder(){
 	echo "NYI"
 }
 function DuckStation_setupSaves(){
-	echo "NYI"
+	showNotification -ToastTitle 'DuckStation - Creating Saves Links'
+	#Saves
+	$SourceFilePath = -join($userFolder, '\Documents\DuckStation\memcards')
+	$ShortcutPath = -join($EmulationPath,'saves\duckstation\saves.lnk')
+	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
+	
+	#States
+	$SourceFilePath = -join($userFolder, '\Documents\DuckStation\savestates')
+	$ShortcutPath = -join($EmulationPath,'saves\duckstation\states.lnk')
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
 }
 function DuckStation_setupStorage(){
 	echo "NYI"
