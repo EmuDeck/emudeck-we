@@ -4,9 +4,26 @@ function Yuzu_install(){
 	moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 }
 function Yuzu_init(){
-	showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
-	download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
-	.\tools\vc_redist.x64.exe
+
+	showNotification -ToastTitle 'Yuzu - Configuration'
+	$destination=-join($userFolder, "\AppData\Roaming\yuzu")
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "EmuDeck\configs\yuzu" "$destination"
+	
+	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $EmulationPath
+	sedFile $destination\config\qt-config.ini "/" "\"
+	
+	mkdir $EmulationPath\storage\yuzu\screenshots -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\dump -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\load -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\nand -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\sdmc -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\tas -ErrorAction SilentlyContinue
+
+
+	#showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
+	#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
+	#.\tools\vc_redist.x64.exe
 	
 	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
@@ -21,6 +38,8 @@ function Yuzu_init(){
 	$ShortcutPath = -join($EmulationPath,'bios\yuzu\firmware.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
+	
+	Yuzu_setupSaves
 }
 function Yuzu_update(){
 	echo "NYI"
@@ -29,7 +48,12 @@ function Yuzu_setEmulationFolder(){
 	echo "NYI"
 }
 function Yuzu_setupSaves(){
-	echo "NYI"
+	showNotification -ToastTitle 'Yuzu - Saves Links'
+	$SourceFilePath = -join($userFolder, '\AppData\Roaming\yuzu\nand\user\save')
+	$ShortcutPath = -join($EmulationPath,'saves\yuzu\saves.lnk')
+	mkdir 'saves\yuzu' -ErrorAction SilentlyContinue
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
 }
 function Yuzu_setupStorage(){
 	echo "NYI"
