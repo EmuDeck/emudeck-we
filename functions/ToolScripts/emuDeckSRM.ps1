@@ -3,9 +3,12 @@ function SRM_install(){
 	download $url_srm "tools/srm.exe"
 }
 function SRM_init(){
-	showNotification -ToastTitle 'Steam Rom Manager - Configuration'
-	$destination=-join($userFolder, '\Documents\DuckStation\')
+	showNotification -ToastTitle 'Steam Rom Manager - Configuration'	
 	copyFromTo "EmuDeck\configs\steam-rom-manager" tools\
+	
+	#Paths	
+	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $EmulationPath
+	sedFile tools\UserData\userSettings.json "C:\\Emulation" $EmulationPath
 }
 function SRM_update(){
 	echo "NYI"

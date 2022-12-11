@@ -18,6 +18,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\waitForUser.ps1
 . .\functions\sedFile.ps1
 . .\functions\createLink.ps1
+. .\functions\createLauncher.ps1
 
 
 . .\functions\EmuScripts\emuDeckCemu.ps1
@@ -33,6 +34,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\EmuScripts\emuDeckYuzu.ps1
 . .\functions\ToolScripts\emuDeckESDE.ps1
 . .\functions\ToolScripts\emuDeckSRM.ps1
+
 
 #
 # Variables
@@ -194,56 +196,57 @@ showNotification -ToastTitle 'Configuring Emulators'
 RetroArch_init
 
 #DuckStation Config
-
-
-
-
-
+DuckStation_init
 
 #Dolphin
-
+Dolphin_init
 
 #Yuzu
-
 Yuzu_init
 
-
-
-#Ryu
-
+#Ryujinx
+Ryujinx_init
 
 #Citra
-
+Citra_init
 
 #Cemu
-
+Cemu_init
 
 #PCSX2
-
+PCSX2_init
 
 #RPCS3
-
+RPCS3_init
 
 #Xemu
-
+Xemu_init
 
 #Xenia
-
-
+Xenia_init
 
 #ESDE
-showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
-mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
-Copy-Item EmuDeck\configs\emulationstation\es_settings.xml tools\EmulationStation-DE\.emulationstation\es_settings.xml
-sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
-
-download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
-moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
+ESDE_init
 
 #SRM
-#sedFile 'tools\userData\userConfigurations.json' 'E:\' $winPath
+SRM_init
 
 
+#Launchers links
+
+
+
+mkdir 'tools\launchers' -ErrorAction SilentlyContinue
+createLauncher "cemu" "Cemu"
+createLauncher "citra" "citra"
+createLauncher "Dolphin-x64" "Dolphin"
+createLauncher "duckstation" "duckstation-qt-x64-ReleaseLTCG"
+createLauncher "PCSX2" "pcsx2"
+createLauncher "RetroArch" "retroarch"
+createLauncher "RPCS3" "rpcs3"
+createLauncher "xemu" "xemu"
+createLauncher "xenia" "xenia"
+createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
 
 
 
