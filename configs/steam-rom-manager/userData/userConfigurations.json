@@ -5,7 +5,7 @@
     "steamCategory": "${Emulation}",
     "executableArgs": "",
     "executableModifier": "\"${exePath}\"",
-    "romDirectory": "/run/media/mmcblk0p1/Emulation/tools/",
+    "romDirectory": "C:\\Emulation\\tools\\EmulationStation-DE",
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "imageProviders": ["SteamGridDB"],
@@ -24,7 +24,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "/run/media/mmcblk0p1/Emulation/tools/EmulationStation-DE-x64_SteamDeck.AppImage",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\EmulationStation.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -34,7 +34,7 @@
       "useCredentials": true
     },
     "parserInputs": {
-      "glob": "${title}@(.AppImage)"
+      "glob": "${title}@(.exe)"
     },
     "titleFromVariable": {
       "limitToGroups": "",
@@ -65,7 +65,7 @@
     "parserType": "Glob",
     "configTitle": "Emulators",
     "steamCategory": "${Emulation}",
-    "executableArgs": "\"${filePath}\"",
+    "executableArgs": "",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "C:\\Emulation\\tools\\launchers",
     "steamDirectory": "${steamdirglobal}",
@@ -85,7 +85,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "/usr/bin/bash",
+      "path": "",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
