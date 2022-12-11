@@ -13,17 +13,9 @@ function Yuzu_init(){
 	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $EmulationPath
 	sedFile $destination\config\qt-config.ini "/" "\"
 	
-	mkdir $EmulationPath\storage\yuzu\screenshots -ErrorAction SilentlyContinue
-	mkdir $EmulationPath\storage\yuzu\dump -ErrorAction SilentlyContinue
-	mkdir $EmulationPath\storage\yuzu\load -ErrorAction SilentlyContinue
-	mkdir $EmulationPath\storage\yuzu\nand -ErrorAction SilentlyContinue
-	mkdir $EmulationPath\storage\yuzu\sdmc -ErrorAction SilentlyContinue
-	mkdir $EmulationPath\storage\yuzu\tas -ErrorAction SilentlyContinue
-
-
-	#showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
-	#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
-	#.\tools\vc_redist.x64.exe
+	showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
+	download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
+	.\tools\vc_redist.x64.exe
 	
 	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
@@ -39,6 +31,7 @@ function Yuzu_init(){
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
+	Yuzu_setupStorage
 	Yuzu_setupSaves
 }
 function Yuzu_update(){
@@ -56,7 +49,12 @@ function Yuzu_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath
 }
 function Yuzu_setupStorage(){
-	echo "NYI"
+	mkdir $EmulationPath\storage\yuzu\screenshots -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\dump -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\load -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\nand -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\sdmc -ErrorAction SilentlyContinue
+	mkdir $EmulationPath\storage\yuzu\tas -ErrorAction SilentlyContinue
 }
 function Yuzu_wipe(){
 	echo "NYI"
