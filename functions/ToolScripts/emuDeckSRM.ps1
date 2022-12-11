@@ -8,7 +8,11 @@ function SRM_init(){
 	
 	#Paths	
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $EmulationPath
+	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
+	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
 	sedFile tools\UserData\userSettings.json "C:\\Emulation" $EmulationPath
+	sedFile tools\UserData\userSettings.json ":\" ":\\"
+	sedFile tools\UserData\userSettings.json "\\\" "\\"
 }
 function SRM_update(){
 	echo "NYI"
