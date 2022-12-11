@@ -6,6 +6,7 @@ function Dolphin_install(){
 function Dolphin_init(){
 	showNotification -ToastTitle 'Dolphin - Configuration'
 	$destination=-join($userFolder, "\Documents\Dolphin` Emulator")
+	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "EmuDeck\configs\Dolphin` Emulator" "$destination"
 	
 	#Replace buttons names from SteamOS	

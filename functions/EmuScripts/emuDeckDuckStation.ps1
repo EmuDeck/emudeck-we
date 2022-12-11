@@ -6,6 +6,7 @@ function DuckStation_install(){
 function DuckStation_init(){	
 	showNotification -ToastTitle 'DuckStation - Configuration'
 	$destination=-join($userFolder, '\Documents\DuckStation\')
+	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "EmuDeck\configs\DuckStation" $destination
 	
 	#Bios Path
