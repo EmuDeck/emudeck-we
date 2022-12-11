@@ -5,9 +5,9 @@ function Dolphin_install(){
 }
 function Dolphin_init(){
 	showNotification -ToastTitle 'Dolphin - Configuration'
-	$destination=-join($userFolder, "\Documents\Dolphin` Emulator")
+	$destination=-join($userFolder, "\Documents\Dolphin Emulator")
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "EmuDeck\configs\Dolphin` Emulator" "$destination"
+	copyFromTo "EmuDeck\configs\Dolphin Emulator" "$destination"
 	
 	#Replace buttons names from SteamOS	
 	$path=$destination
@@ -68,22 +68,22 @@ function Dolphin_setEmulationFolder(){
 function Dolphin_setupSaves(){
 	showNotification -ToastTitle 'Dolphin - Creating Saves Links'
 	#Saves GC
-	$SourceFilePath = -join($userFolder, '\Documents\Dolphin` Emulator\GC')
-	$ShortcutPath = -join($EmulationPath,'saves\duckstation\GC.lnk')
+	$SourceFilePath = -join($userFolder, '\Documents\Dolphin Emulator\GC')
+	$ShortcutPath = -join($EmulationPath,'saves\dolphin\GC.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Saves Wii
-	$SourceFilePath = -join($userFolder, '\Documents\Dolphin` Emulator\Wii')
-	$ShortcutPath = -join($EmulationPath,'saves\duckstation\Wii.lnk')
+	$SourceFilePath = -join($userFolder, '\Documents\Dolphin Emulator\Wii')
+	$ShortcutPath = -join($EmulationPath,'saves\dolphin\Wii.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($userFolder, '\Documents\Dolphin` Emulator\StateSaves')
-	$ShortcutPath = -join($EmulationPath,'saves\duckstation\states.lnk')
+	$SourceFilePath = -join($userFolder, '\Documents\Dolphin Emulator\StateSaves')
+	$ShortcutPath = -join($EmulationPath,'saves\dolphin\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }
