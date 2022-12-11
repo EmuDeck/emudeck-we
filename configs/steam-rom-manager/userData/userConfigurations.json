@@ -432,67 +432,7 @@
       }
     }
   },
-  {
-    "parserType": "Glob",
-    "configTitle": "Arcade - MAME (standalone)",
-    "steamCategory": "${Arcade}",
-    "steamDirectory": "${steamdirglobal}",
-    "romDirectory": "${romsdirglobal}/arcade",
-    "executableArgs": "run org.mamedev.MAME \"${fileName}\"",
-    "executableModifier": "\"${exePath}\"",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "imageProviders": ["SteamGridDB"],
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "defaultImage": "",
-    "defaultTallImage": "",
-    "defaultHeroImage": "",
-    "defaultLogoImage": "",
-    "defaultIcon": "",
-    "localImages": "",
-    "localTallImages": "",
-    "localHeroImages": "",
-    "localLogoImages": "",
-    "localIcons": "",
-    "userAccounts": {
-      "specifiedAccounts": "",
-      "skipWithMissingDataDir": true,
-      "useCredentials": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "parserInputs": {
-      "glob": "${title}@(.zip|.ZIP)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "${MAME}",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false,
-      "tryToMatchTitle": true
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "imageProviderAPIs": {
-      "SteamGridDB": {
-        "nsfw": false,
-        "humor": false,
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": [],
-        "imageMotionTypes": ["static"]
-      }
-    },
-    "parserId": "165964954316677671",
-    "version": 10
-  },
+
   {
     "parserType": "Glob",
     "configTitle": "Arcade - RetroArch MAME 2003 Plus",
@@ -1116,7 +1056,7 @@
     "parserType": "Glob",
     "configTitle": "Microsoft XBox - Xemu",
     "steamCategory": "${XBox}",
-    "executableArgs": "run app.xemu.xemu -full-screen -dvd_path \"${filePath}\"",
+    "executableArgs": "-full-screen -dvd_path \"${filePath}\"",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "${romsdirglobal}/xbox",
     "steamDirectory": "${steamdirglobal}",
@@ -1137,7 +1077,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "/usr/bin/flatpak",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\xemu\\xemu.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1280,7 +1220,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "/usr/bin/flatpak",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\citra\\citra-qt.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -2980,7 +2920,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run net.rpcs3.RPCS3 --no-gui \"${filePath}\"",
+    "executableArgs": "--no-gui \"${filePath}\"",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
@@ -3015,7 +2955,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "/usr/bin/flatpak",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RPCS3\\rpcs3.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3062,7 +3002,7 @@
       "useCredentials": true
     },
     "executable": {
-      "path": "/usr/bin/flatpak",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RPCS3\\rpcs3.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3165,7 +3105,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "run org.ppsspp.PPSSPP -f -g \"${filePath}\"",
+    "executableArgs": "-f -g \"${filePath}\"",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
@@ -3200,7 +3140,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "/usr/bin/flatpak",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\PPSSPP\\ppsspp.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3460,129 +3400,6 @@
       }
     },
     "parserId": "164785583010740300",
-    "version": 10,
-    "disabled": false
-  },
-  {
-    "parserType": "Glob",
-    "configTitle": "ScummVM Flatpak",
-    "steamCategory": "${ScummVM}",
-    "steamDirectory": "${steamdirglobal}",
-    "romDirectory": "${romsdirglobal}/scummvm",
-    "executableArgs": "run org.scummvm.ScummVM --path=\"${filePath}\" --auto-detect",
-    "executableModifier": "\"${exePath}\"",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "imageProviders": ["SteamGridDB"],
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "defaultImage": "",
-    "defaultTallImage": "",
-    "defaultHeroImage": "",
-    "defaultLogoImage": "",
-    "defaultIcon": "",
-    "localImages": "",
-    "localTallImages": "",
-    "localHeroImages": "",
-    "localLogoImages": "",
-    "localIcons": "",
-    "userAccounts": {
-      "specifiedAccounts": "",
-      "skipWithMissingDataDir": true,
-      "useCredentials": true
-    },
-    "executable": {
-      "path": "/usr/bin/flatpak",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "parserInputs": {
-      "glob": "${title}.scummvm"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "",
-      "caseInsensitiveVariables": false,
-      "skipFileIfVariableWasNotFound": false,
-      "tryToMatchTitle": false
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "imageProviderAPIs": {
-      "SteamGridDB": {
-        "nsfw": false,
-        "humor": false,
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": [],
-        "imageMotionTypes": ["static"]
-      }
-    },
-    "parserId": "166399570436769358",
-    "version": 10
-  },
-  {
-    "parserType": "Glob",
-    "configTitle": "Sony PlayStation Vita Installed PKG",
-    "steamCategory": "${PlayStation Vita}",
-    "steamDirectory": "${steamdirglobal}",
-    "romDirectory": "${romsdirglobal}/psvita",
-    "executableArgs": "-Fr \"${/.*\\/([^\\/]+)\\//|${filePath}}\"",
-    "executableModifier": "\"${exePath}\"",
-    "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
-    "imageProviders": ["SteamGridDB"],
-    "onlineImageQueries": "${${fuzzyTitle}}",
-    "imagePool": "${fuzzyTitle}",
-    "defaultImage": "",
-    "defaultTallImage": "",
-    "defaultHeroImage": "",
-    "defaultLogoImage": "",
-    "defaultIcon": "",
-    "localImages": "",
-    "localTallImages": "",
-    "localHeroImages": "",
-    "localLogoImages": "",
-    "localIcons": "",
-    "userAccounts": {
-      "specifiedAccounts": "",
-      "skipWithMissingDataDir": true,
-      "useCredentials": true
-    },
-    "executable": {
-      "path": "/home/deck/Applications/Vita3K/Vita3K",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
-    "parserInputs": {
-      "glob": "**/${title}/@(eboot.bin|EBOOT.BIN)"
-    },
-    "titleFromVariable": {
-      "limitToGroups": "${PSV}",
-      "caseInsensitiveVariables": true,
-      "skipFileIfVariableWasNotFound": false,
-      "tryToMatchTitle": true
-    },
-    "fuzzyMatch": {
-      "replaceDiacritics": true,
-      "removeCharacters": true,
-      "removeBrackets": true
-    },
-    "imageProviderAPIs": {
-      "SteamGridDB": {
-        "nsfw": false,
-        "humor": false,
-        "styles": [],
-        "stylesHero": [],
-        "stylesLogo": [],
-        "stylesIcon": [],
-        "imageMotionTypes": ["static"]
-      }
-    },
-    "parserId": "166409089761171238",
     "version": 10,
     "disabled": false
   },
