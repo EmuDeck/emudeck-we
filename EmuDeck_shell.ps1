@@ -301,9 +301,15 @@ createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
 
 
 
-
-
-Write-Host "All done!" -ForegroundColor green -BackgroundColor black
-
-
+Write-Output ""
+Write-Host "================ Installation Complete! ================" -ForegroundColor green -BackgroundColor black
+Write-Output ""
+Write-Output "Copy your roms to $EmulationPath\roms"
+Write-Output "Copy all your bios inside $EmulationPath\bios"
+Write-Output "Copy your Yuzu Firmware inside $EmulationPath\bios\yuzu\firmware"
+Write-Output "Copy your Yuzu Keys inside $EmulationPath\bios\yuzu\keys"
+Write-Output ""
+Write-Output ""
+Write-Output "When you are done, press ENTER to open Steam Rom Manager to add your roms, emulators and EmulationStation to Steam"
+Write-Output ""
 waitForUser
