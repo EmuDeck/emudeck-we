@@ -5,7 +5,8 @@ function DuckStation_install(){
 }
 function DuckStation_init(){	
 	showNotification -ToastTitle 'DuckStation - Configuration'
-	$destination=-join($userFolder, '\Documents\DuckStation\')
+	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt"
+	$destination=-join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\')
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "EmuDeck\configs\DuckStation" $destination
 	
@@ -23,14 +24,14 @@ function DuckStation_setEmulationFolder(){
 function DuckStation_setupSaves(){
 	showNotification -ToastTitle 'DuckStation - Creating Saves Links'
 	#Saves
-	$SourceFilePath = -join($userFolder, '\Documents\DuckStation\memcards')
+	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\memcards')
 	$ShortcutPath = -join($EmulationPath,'saves\duckstation\saves.lnk')
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($userFolder, '\Documents\DuckStation\savestates')
+	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
 	$ShortcutPath = -join($EmulationPath,'saves\duckstation\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
