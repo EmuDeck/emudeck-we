@@ -6,6 +6,7 @@ $url_yuzu = "https://github.com/yuzu-emu/yuzu-mainline/releases/download/mainlin
 $url_duck = "https://github.com/stenzek/duckstation/releases/download/latest/duckstation-windows-x64-release.zip"
 $url_cemu = "https://cemu.info/releases/cemu_1.26.2.zip"
 $url_xenia = "https://github.com/xenia-project/release-builds-windows/releases/latest/download/xenia_master.zip"
+$url_ppsspp = "https://ppsspp.org/files/1_13_2/ppsspp_win.zip"
 $url_xemu = "https://github.com/mborgerson/xemu/releases/latest/download/xemu-win-release.zip"
 $url_srm = "https://github.com/SteamGridDB/steam-rom-manager/releases/download/v2.3.36/Steam-ROM-Manager-portable-2.3.36.exe"
 $url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/36880305/download"

@@ -32,7 +32,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\EmuScripts\emuDeckXemu.ps1
 . .\functions\EmuScripts\emuDeckXenia.ps1
 . .\functions\EmuScripts\emuDeckYuzu.ps1
-. .\functions\ToolScripts\emuDeckRyujinx.ps1
+. .\functions\EmuScripts\emuDeckRyujinx.ps1
 . .\functions\ToolScripts\emuDeckESDE.ps1
 . .\functions\ToolScripts\emuDeckSRM.ps1
 

@@ -32,7 +32,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\EmuScripts\emuDeckXemu.ps1
 . .\functions\EmuScripts\emuDeckXenia.ps1
 . .\functions\EmuScripts\emuDeckYuzu.ps1
-. .\functions\ToolScripts\emuDeckRyujinx.ps1
+. .\functions\EmuScripts\emuDeckRyujinx.ps1
 . .\functions\ToolScripts\emuDeckESDE.ps1
 . .\functions\ToolScripts\emuDeckSRM.ps1
 
@@ -52,8 +52,7 @@ Set-Location $EmulationPath
 
 ### TEST CODE START
 
-wmic PATH Win32_VideoController GET CurrentVerticalResolution
-wmic PATH Win32_VideoController GET CurrentHorizontalResolution
+
 
 ### TEST CODE FINNISH
 
