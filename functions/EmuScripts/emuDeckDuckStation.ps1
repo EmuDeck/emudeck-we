@@ -6,9 +6,9 @@ function DuckStation_install(){
 function DuckStation_init(){	
 	showNotification -ToastTitle 'DuckStation - Configuration'
 	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt"
-	$destination=-join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\')
+	$destination=-join($userFolder, '\tools\EmulationStation-DE\Emulators\duckstation\')
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "EmuDeck\configs\DuckStation" $destination
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\DuckStation" $destination
 	
 	#Bios Path
 	sedFile $destination\settings.ini "SearchDirectory = C:\Emulation\bios\" "SearchDirectory = $biosPath"
@@ -24,7 +24,7 @@ function DuckStation_setEmulationFolder(){
 function DuckStation_setupSaves(){
 	showNotification -ToastTitle 'DuckStation - Creating Saves Links'
 	#Saves
-	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\memcards')
+	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
 	$ShortcutPath = -join($EmulationPath,'saves\duckstation\saves.lnk')
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue

@@ -6,7 +6,7 @@ function PCSX2_install(){
 function PCSX2_init(){	
 	showNotification -ToastTitle 'PCSX2 - Configuration'
 	$destination="tools\EmulationStation-DE\Emulators\PCSX2"
-	copyFromTo "EmuDeck\configs\PCSX2" $destination
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\PCSX2" $destination
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$EmulationPath"
 	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2
@@ -16,9 +16,9 @@ function PCSX2_init(){
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
 	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
 	
-	#showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
-	#download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
-	#.\tools\vc_redist.x86.exe
+	showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
+	download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
+	.\tools\vc_redist.x86.exe
 	
 	PCSX2_setupSaves
 	

@@ -8,7 +8,7 @@ function Yuzu_init(){
 	showNotification -ToastTitle 'Yuzu - Configuration'
 	$destination=-join($userFolder, "\AppData\Roaming\yuzu")
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "EmuDeck\configs\yuzu" "$destination"
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\yuzu" "$destination"
 	
 	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $EmulationPath
 	sedFile $destination\config\qt-config.ini "/" "\"

@@ -32,8 +32,10 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\EmuScripts\emuDeckXemu.ps1
 . .\functions\EmuScripts\emuDeckXenia.ps1
 . .\functions\EmuScripts\emuDeckYuzu.ps1
+. .\functions\ToolScripts\emuDeckRyujinx.ps1
 . .\functions\ToolScripts\emuDeckESDE.ps1
 . .\functions\ToolScripts\emuDeckSRM.ps1
+
 
 
 #
@@ -89,12 +91,11 @@ Clear-Host
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
-#EmuDeck Download
+#EmuDeck Download - Moved to the .bat file
 showNotification -ToastTitle "Downloading EmuDeck files"
 download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
-moveFromTo "temp\EmuDeck-we-main" "EmuDeck"
-copyFromTo "EmuDeck\roms" "roms"
-#copyFromTo "EmuDeck\tools\launchers" "tools\launchers"
+moveFromTo "temp\EmuDeck-we-main" "$env:USERPROFILE\EmuDeck\backend\"
+#copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
 
 #Dowloading..ESDE
 ESDE_install
