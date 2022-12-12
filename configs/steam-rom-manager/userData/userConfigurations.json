@@ -3140,7 +3140,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\PPSSPP\\ppsspp.exe",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\ppsspp_win\\PPSSPPWindows.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
