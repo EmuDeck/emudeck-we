@@ -1,6 +1,20 @@
-#We add Winrar folders to the Path
+#We add WinRar folders to the Path
 $env:path = $env:path + ";C:\Program Files\WinRaR"
 $env:path = $env:path + ";C:\Program Files (x86)\WinRaR"
+
+#We check for WinRar
+$test=Test-Path -Path "C:\Program Files\WinRaR"
+if(-not($test)){
+	$test=Test-Path -Path "C:\Program Files (x86)\WinRaR"
+	if(-not($test)){
+		Write-Host "================ WinRar not detected ================" -ForegroundColor red -BackgroundColor black
+		Write-Host "WinRar is a free program needed to install Emudeck." -ForegroundColor red -BackgroundColor black
+		Write-Host "You can download it for free from winrar.com" -ForegroundColor red -BackgroundColor black
+		Write-Host "Try to install EmuDeck again after installing it" -ForegroundColor red -BackgroundColor black
+		waitForUser		
+		exit
+	}
+}
 
 $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 
