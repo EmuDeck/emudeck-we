@@ -6,7 +6,9 @@ function Yuzu_install(){
 function Yuzu_init(){
 
 	showNotification -ToastTitle 'Yuzu - Configuration'
-	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user' -ErrorAction SilentlyContinue
+	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered' -ErrorAction SilentlyContinue
+	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys' -ErrorAction SilentlyContinue
+	
 	$destination=tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\yuzu" "$destination"
@@ -20,15 +22,15 @@ function Yuzu_init(){
 	
 	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
-	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered')
-	$ShortcutPath = -join($EmulationPath,'bios\yuzu\keys.lnk')
+	$SourceFilePath = -join($EmulationPath, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered')
+	$ShortcutPath = -join($EmulationPath,'bios\yuzu\firmware.lnk')
 	mkdir 'bios\yuzu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Keys
-	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys')
-	$ShortcutPath = -join($EmulationPath,'bios\yuzu\firmware.lnk')
+	$SourceFilePath = -join($EmulationPath, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys')
+	$ShortcutPath = -join($EmulationPath,'bios\yuzu\keys.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
