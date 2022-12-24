@@ -8,6 +8,8 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 # Functions
 #
 
+Set-Location $env:USERPROFILE\EmuDeck\backend\
+
 . .\functions\showListDialog.ps1
 . .\functions\waitForWinRar.ps1
 . .\functions\download.ps1
