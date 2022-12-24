@@ -95,10 +95,10 @@ Write-Output "Installing, please stand by..."
 Write-Output ""
 
 #EmuDeck Download - Moved to the .bat file
-showNotification -ToastTitle "Downloading EmuDeck files"
-download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
-moveFromTo "temp\EmuDeck-we-main" "$env:USERPROFILE\EmuDeck\backend\"
-#copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
+#showNotification -ToastTitle "Downloading EmuDeck files"
+#download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
+#moveFromTo "temp\EmuDeck-we-main" "$env:USERPROFILE\EmuDeck\backend\"
+copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
 
 #Dowloading..ESDE
 ESDE_install
