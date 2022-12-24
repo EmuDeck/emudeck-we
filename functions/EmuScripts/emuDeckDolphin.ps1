@@ -56,7 +56,9 @@ function Dolphin_init(){
 	#}	
 	
 	#Bios Path	
-	sedFile $destination\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$EmulationPath"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$EmulationPath"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$EmulationPath\roms\gamecube"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/wii" "$EmulationPath\roms\wii"
 
 	Dolphin_setupSaves
 }
