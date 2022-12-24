@@ -1,3 +1,5 @@
+#TODO: Dynamic urls https://stackoverflow.com/questions/33520699/iterating-through-a-json-file-powershell
+
 $url_ra = "https://buildbot.libretro.com/stable/1.10.3/windows/x86_64/RetroArch.7z"
 $url_dolphin = "https://dl.dolphin-emu.org/builds/c0/39/dolphin-master-5.0-16101-x64.7z"
 $url_pcsx2 = "https://github.com/PCSX2/pcsx2/releases/download/v1.6.0/pcsx2-v1.6.0-windows-32bit-portable.7z"
@@ -14,9 +16,7 @@ $url_citra ="https://github.com/citra-emu/citra-nightly/releases/download/nightl
 $userFolder = $env:USERPROFILE
 $dolphinDir = -join($userFolder,'\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config')
 $duckDir = -join($userFolder,'\Documents\DuckStation')
-$yuzuDir = -join($userFolder,'\AppData\Roaming\yuzu')
 $dolphinIni=-join($dolphinDir,'\Dolphin.ini')
-$YuzuIni=-join($yuzuDir,'\config\qt-config.ini')
 $duckIni=-join($duckDir,'\settings.ini')
 $deckPath="/run/media/mmcblk0p1/"
 $raConfigDir=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\')
