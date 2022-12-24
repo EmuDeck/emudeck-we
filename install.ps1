@@ -178,14 +178,14 @@ if(-not($test)){
 
 # Deleting temp folders
 showNotification -ToastTitle 'Cleaning up...'
-Remove-Item cemu -ErrorAction SilentlyContinue
-Remove-Item ra -ErrorAction SilentlyContinue
-Remove-Item dolphin -ErrorAction SilentlyContinue
-Remove-Item esde -ErrorAction SilentlyContinue
-Remove-Item pcsx2 -ErrorAction SilentlyContinue
-Remove-Item yuzu -ErrorAction SilentlyContinue
-Remove-Item temp -ErrorAction SilentlyContinue
-Remove-Item citra -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force ra -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force dolphin -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force esde -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force pcsx2 -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force temp -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue
 Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 
 
