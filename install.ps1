@@ -48,7 +48,7 @@ Clear-Host
 #We need to pick the HD first thing so we can set the rest of the path variables
 $drives = (Get-PSDrive -PSProvider FileSystem).Root
 $winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
-. .\vars.ps1
+. $env:USERPROFILE\EmuDeck\backend\vars.ps1
 
 # Draw welcome screen
 Write-Host  -ForegroundColor blue -BackgroundColor black " _____               ______          _      _    _ _____ "
