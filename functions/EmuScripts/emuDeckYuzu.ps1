@@ -9,7 +9,7 @@ function Yuzu_init(){
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered' -ErrorAction SilentlyContinue
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys' -ErrorAction SilentlyContinue
 	
-	$destination=tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user'
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\yuzu" "$destination"
 	
