@@ -188,6 +188,11 @@ if(-not($test)){
 	Xenia_install
 }
 
+#PPSSPP
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
+if(-not($test)){
+	PPSSPP_install
+}
 
 
 # Deleting temp folders
@@ -242,6 +247,9 @@ Xemu_init
 
 #Xenia
 Xenia_init
+
+#RPCS3
+PPSSPP_init
 
 #ESDE
 ESDE_init
