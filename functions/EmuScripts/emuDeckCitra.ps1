@@ -6,7 +6,7 @@ function Citra_install(){
 function Citra_init(){
 
 	showNotification -ToastTitle 'Citra - Configuration'
-	$destination=-join($userFolder, "\AppData\Roaming\Citra")
+	$destination=-join($EmulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\citra" "$destination"
 	
@@ -23,13 +23,13 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	showNotification -ToastTitle 'Citra - Saves Links'
-	$SourceFilePath = -join($userFolder, '\AppData\Roaming\Citra\sdmc\')
+	$SourceFilePath = -join($EmulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\sdmc\')
 	$ShortcutPath = -join($EmulationPath,'saves\citra\saves.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = -join($userFolder, '\AppData\Roaming\Citra\states\')
+	$SourceFilePath = -join($EmulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\states\')
 	$ShortcutPath = -join($EmulationPath,'saves\citra\states.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
