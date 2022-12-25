@@ -129,7 +129,7 @@ if(-not($test)){
 
 #RetroArch
 
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RetroArch"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
 if(-not($test)){
 	RetroArch_install
 }
