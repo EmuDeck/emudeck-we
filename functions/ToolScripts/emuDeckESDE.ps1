@@ -6,7 +6,11 @@ function ESDE_install(){
 function ESDE_init(){	
 	showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
 	mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
-	Copy-Item "$env:USERPROFILE\EmuDeck\backend\configs\emulationstation\es_settings.xml" tools\EmulationStation-DE\.emulationstation\es_settings.xml
+	
+	$destination='tools\EmulationStation-DE\.emulationstation'
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\emulationstation" "$destination"
+	
 	sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
 	
 	download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
