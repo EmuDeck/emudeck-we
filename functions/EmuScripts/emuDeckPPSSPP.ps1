@@ -1,7 +1,7 @@
 function PPSSPP_install(){
 	showNotification -ToastTitle 'Downloading PPSSPP'
 	download $url_PPSSPP "PPSSPP.zip"
-	moveFromTo "ppsspp_win" "tools\EmulationStation-DE\Emulators\ppsspp_win"
+	moveFromTo "PPSSPP" "tools\EmulationStation-DE\Emulators\ppsspp_win"
 }
 function PPSSPP_init(){
 	echo "NYI"
