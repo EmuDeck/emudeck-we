@@ -115,7 +115,11 @@ Write-Output ""
 copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
 
 #Dowloading..ESDE
-ESDE_install
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+if(-not($test)){
+	ESDE_install
+}
+
 
 #SRM
 $test=Test-Path -Path "$EmulationPath\tools\srm.exe"
@@ -135,13 +139,13 @@ if(-not($test)){
 }
 
 #Dolphin
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe"
 if(-not($test)){
 	Dolphin_install
 }
 
 #PCSX2 
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2\pcsx2-qtx64-avx2.exe"
 if(-not($test)){
 	PCSX2_install
 }
@@ -159,7 +163,7 @@ if(-not($test)){
 #}
 
 #Yuzu
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\yuzu"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe"
 if(-not($test)){
 	Yuzu_install
 }
@@ -171,13 +175,13 @@ if(-not($test)){
 #}
 
 #DuckStation
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\duckstation"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
 if(-not($test)){
 	DuckStation_install
 }
 
 #Cemu
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\cemu"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\cemu\Cemu.exe"
 if(-not($test)){
 	Cemu_install
 }
@@ -189,7 +193,7 @@ if(-not($test)){
 #}
 
 #PPSSPP
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
+$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win\PPSSPPWindows64.exe"
 if(-not($test)){
 	PPSSPP_install
 }

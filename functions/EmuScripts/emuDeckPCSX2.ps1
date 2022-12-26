@@ -16,9 +16,15 @@ function PCSX2_init(){
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
 	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
 	
-	showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
-	download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
-	.\tools\vc_redist.x86.exe
+	
+	$test=Test-Path -Path "$EmulationPath\tools\vc_redist.x86.exe"
+	if(-not($test)){
+		showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
+		download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
+		.\tools\vc_redist.x86.exe
+	}
+	
+
 	
 	PCSX2_setupSaves
 	
