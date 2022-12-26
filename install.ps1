@@ -35,6 +35,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . $env:USERPROFILE\EmuDeck\backend\functions\sedFile.ps1
 . $env:USERPROFILE\EmuDeck\backend\functions\createLink.ps1
 . $env:USERPROFILE\EmuDeck\backend\functions\createLauncher.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctios.ps1
 
 
 . $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1
@@ -59,11 +60,9 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 # Variables
 #
 Clear-Host
-#We need to pick the HD first thing so we can set the rest of the path variables
-$drives = (Get-PSDrive -PSProvider FileSystem).Root
-$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 . $env:USERPROFILE\EmuDeck\backend\vars.ps1
 
+copyFromTo "$env:USERPROFILE\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
 
 #
 # UI & Settings creation
@@ -73,6 +72,8 @@ $winPath = showListDialog 'Select Destination' 'Please select where do you want 
 #
 # Installation
 #
+
+. $env:USERPROFILE\EmuDeck\settings.ps1
 
 mkdir $emulationPath -ErrorAction SilentlyContinue
 Set-Location $emulationPath
@@ -105,7 +106,6 @@ if(-not($test)){
 #
 
 #RetroArch
-
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
 if(-not($test)){
 	RetroArch_install

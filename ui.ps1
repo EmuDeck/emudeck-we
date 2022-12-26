@@ -1,3 +1,17 @@
+#We need to pick the HD first thing so we can set the rest of the path variables
+$drives = (Get-PSDrive -PSProvider FileSystem).Root
+$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
+
+#Set initial Settings
+setSetting 'emulationPath' "join($winPath,'Emulation\')"
+setSetting 'romsPath' "join($winPath,'Emulation\roms')"
+setSetting 'biosPath' "join($winPath,'Emulation\bios\')"
+setSetting 'toolsPath' "join($winPath,'Emulation\bios\')"
+setSetting 'savesPath' "join($winPath,'Emulation\bios\')"
+
+#Load Settings
+. $env:USERPROFILE\EmuDeck\settings.ps1
+
 # Draw welcome screen
 Write-Host  -ForegroundColor blue -BackgroundColor black " _____               ______          _      _    _ _____ "
 Write-Host  -ForegroundColor blue -BackgroundColor black "|  ___|              |  _  \        | |    | |  | |  ___|"
@@ -37,3 +51,70 @@ Clear-Host
 #$RAHandHeldShader=showTwoButtonQuestionImg "lcdon.png" 'Configure LCD Shader Handhelds' 'The LCD Shader simulates the old LCD Matrix screens of handheld systems' 'ON' 'OFF'
 #$RAHandClassic2D=showTwoButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
 #$RAHandClassic3D=showTwoButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
+
+
+#RetroArch
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
+if(-not($test)){
+	RetroArch_install
+}
+
+#Dolphin
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe"
+if(-not($test)){
+	Dolphin_install
+}
+
+#PCSX2 
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2\pcsx2-qtx64-avx2.exe"
+if(-not($test)){
+	PCSX2_install
+}
+
+#RPCS3
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
+#if(-not($test)){
+#	RPCS3_install
+#}
+
+#Xemu
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xemu"
+#if(-not($test)){
+#	Xemu_install
+#}
+
+#Yuzu
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe"
+if(-not($test)){
+	Yuzu_install
+}
+
+#Citra
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+#if(-not($test)){
+#	Citra_install
+#}
+
+#DuckStation
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
+if(-not($test)){
+	DuckStation_install
+}
+
+#Cemu
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu\Cemu.exe"
+if(-not($test)){
+	Cemu_install
+}
+
+#Xenia
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xenia"
+#if(-not($test)){
+#	Xenia_install
+#}
+
+#PPSSPP
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win\PPSSPPWindows64.exe"
+if(-not($test)){
+	PPSSPP_install
+}
