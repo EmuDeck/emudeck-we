@@ -1,9 +1,9 @@
 function downloadEmuDeck() {
 	$url= 'https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip'
-	$output=-join($USERHOME,'\emudeck')
+	$output=-join($env:USERPROFILE,'\emudeck')
 	$file=-join($output,'.zip')
 	$zipFile=-join($file)
-	$destination = $USERHOME
+	$destination = $env:USERPROFILE
 	$wc = New-Object net.webclient
 	$wc.Downloadfile($url, $file)
 	

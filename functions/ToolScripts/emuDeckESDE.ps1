@@ -9,7 +9,7 @@ function ESDE_init(){
 	
 	$destination='tools\EmulationStation-DE\.emulationstation'
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$USERHOME\EmuDeck\backend\configs\emulationstation" "$destination"
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\emulationstation" "$destination"
 	
 	sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
 	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\themes\es-epicnoir"

@@ -24,34 +24,34 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 
 
 
-. $USERHOME\EmuDeck\backend\functions\showListDialog.ps1
-. $USERHOME\EmuDeck\backend\functions\waitForWinRar.ps1
-. $USERHOME\EmuDeck\backend\functions\download.ps1
-. $USERHOME\EmuDeck\backend\functions\downloadCore.ps1
-. $USERHOME\EmuDeck\backend\functions\showNotification.ps1
-. $USERHOME\EmuDeck\backend\functions\moveFromTo.ps1
-. $USERHOME\EmuDeck\backend\functions\copyFromTo.ps1
-. $USERHOME\EmuDeck\backend\functions\waitForUser.ps1
-. $USERHOME\EmuDeck\backend\functions\sedFile.ps1
-. $USERHOME\EmuDeck\backend\functions\createLink.ps1
-. $USERHOME\EmuDeck\backend\functions\createLauncher.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\showListDialog.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\waitForWinRar.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\download.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\downloadCore.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\showNotification.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\moveFromTo.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\copyFromTo.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\waitForUser.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\sedFile.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\createLink.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\createLauncher.ps1
 
 
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckDolphin.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckDuckStation.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckPCSX2.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckRetroArch.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckRPCS3.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckTemplate.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckXemu.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckXenia.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckYuzu.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckRyujinx.ps1
-. $USERHOME\EmuDeck\backend\functions\EmuScripts\emuDeckPPSSPP.ps1
-. $USERHOME\EmuDeck\backend\functions\ToolScripts\emuDeckESDE.ps1
-. $USERHOME\EmuDeck\backend\functions\ToolScripts\emuDeckSRM.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckDolphin.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckDuckStation.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckPCSX2.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckRetroArch.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckRPCS3.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckTemplate.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckXemu.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckXenia.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckYuzu.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckRyujinx.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckPPSSPP.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\ToolScripts\emuDeckESDE.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\ToolScripts\emuDeckSRM.ps1
 
 
 
@@ -62,7 +62,7 @@ Clear-Host
 #We need to pick the HD first thing so we can set the rest of the path variables
 $drives = (Get-PSDrive -PSProvider FileSystem).Root
 $winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
-. $USERHOME\EmuDeck\backend\vars.ps1
+. $env:USERPROFILE\EmuDeck\backend\vars.ps1
 
 # Draw welcome screen
 Write-Host  -ForegroundColor blue -BackgroundColor black " _____               ______          _      _    _ _____ "
@@ -111,13 +111,16 @@ Set-Location $emulationPath
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
-copyFromTo "$USERHOME\EmuDeck\backend\roms" "roms"
-
 Clear-Host
 
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
+#EmuDeck Download - Moved to the .bat file
+#showNotification -ToastTitle "Downloading EmuDeck files"
+#download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
+#moveFromTo "temp\EmuDeck-we-main" "$env:USERPROFILE\EmuDeck\backend\"
+copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
 
 #Dowloading..ESDE
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
@@ -284,7 +287,7 @@ createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
 #createLauncher "xemu" "xemu"
 #createLauncher "xenia" "xenia"
 
-createLink "$USERHOME\EmuDeck\backend\update.bat" "$USERHOME\Desktop\EmuDeck - Update Beta.lnk"
+createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$env:USERPROFILE\Desktop\EmuDeck - Update Beta.lnk"
 
 
 #Customization

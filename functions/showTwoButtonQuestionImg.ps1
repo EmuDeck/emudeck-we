@@ -12,7 +12,7 @@ function showTwoButtonQuestionImg($img, $titleText, $subtitleText, $button1Text,
 
 		
 	$URL = -join("https://raw.githubusercontent.com/EmuDeck/emudeck-electron/main/src/assets/",$img)
-	$Path= -join($USERHOME,'/',$img)
+	$Path= -join($userFolder,'/',$img)
 
 	
 	

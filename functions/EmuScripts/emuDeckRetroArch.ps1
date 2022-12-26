@@ -21,7 +21,7 @@ function RetroArch_init(){
 	Remove-Item $raConfigfile  -ErrorAction SilentlyContinue
 	
 	showNotification -ToastTitle 'RetroArch - Bezels & Filters'
-	copyFromTo "$USERHOME\EmuDeck\backend\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
 	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
 	Get-ChildItem $path -Recurse -Filter *.cfg | 
 	Foreach-Object {

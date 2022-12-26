@@ -8,7 +8,7 @@ function DuckStation_init(){
 	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt" -ErrorAction SilentlyContinue
 	$destination="tools\EmulationStation-DE\Emulators\duckstation\"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$USERHOME\EmuDeck\backend\configs\DuckStation" $destination
+	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\DuckStation" $destination
 	
 	#Bios Path
 	sedFile $destination\settings.ini "SearchDirectory = C:\Emulation\bios\" "SearchDirectory = $biosPath"
@@ -24,14 +24,14 @@ function DuckStation_setEmulationFolder(){
 function DuckStation_setupSaves(){
 	showNotification -ToastTitle 'DuckStation - Creating Saves Links'
 	#Saves
-	$SourceFilePath = -join($USERHOME, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
+	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
 	$ShortcutPath = -join($emulationPath,'saves\duckstation\saves.lnk')
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($USERHOME, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
+	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
 	$ShortcutPath = -join($emulationPath,'saves\duckstation\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
