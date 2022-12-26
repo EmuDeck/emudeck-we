@@ -274,7 +274,7 @@ createLauncher "xemu" "xemu"
 createLauncher "xenia" "xenia"
 createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
 
-
+createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$env:USERPROFILE\Desktop\Update EmuDeck Beta.lnk"
 
 
 #Customization

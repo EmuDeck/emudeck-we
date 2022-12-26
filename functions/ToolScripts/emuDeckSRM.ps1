@@ -13,6 +13,8 @@ function SRM_init(){
 	sedFile tools\UserData\userSettings.json "C:\\Emulation" $EmulationPath
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
+
+	createLink "$EmulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\Steam Rom Manager.lnk"		
 }
 function SRM_update(){
 	echo "NYI"
