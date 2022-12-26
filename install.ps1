@@ -264,10 +264,10 @@ SRM_init
 
 mkdir 'tools\launchers' -ErrorAction SilentlyContinue
 createLauncher "cemu" "Cemu"
-createLauncher "citra" "citra-qt"
+createLauncher "citra" "citra-emulator"
 createLauncher "Dolphin-x64" "Dolphin"
 createLauncher "duckstation" "duckstation-qt-x64-ReleaseLTCG"
-createLauncher "PCSX2" "pcsx2"
+createLauncher "PCSX2" "pcsx2-qtx64-avx2"
 createLauncher "RetroArch" "retroarch"
 createLauncher "RPCS3" "rpcs3"
 createLauncher "xemu" "xemu"
