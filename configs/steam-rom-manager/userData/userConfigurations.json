@@ -2879,7 +2879,7 @@
       "useCredentials": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\PCSX2\\pcsx2.exe",
+      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\PCSX2\\pcsx2-qtx64-avx2.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
