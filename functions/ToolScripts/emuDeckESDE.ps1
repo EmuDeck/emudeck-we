@@ -12,7 +12,7 @@ function ESDE_init(){
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\emulationstation" "$destination"
 	
 	sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
-	$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\themes\es-epicnoir"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\themes\es-epicnoir"
 	if(-not($test)){
 		download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
 		moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"

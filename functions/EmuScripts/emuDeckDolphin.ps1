@@ -6,7 +6,7 @@ function Dolphin_install(){
 function Dolphin_init(){
 	showNotification -ToastTitle 'Dolphin - Configuration'
 	New-Item -Path "tools\EmulationStation-DE\Emulators\Dolphin-x64\portable.txt" -ErrorAction SilentlyContinue
-	$destination=-join($EmulationPath, "\tools\EmulationStation-DE\Emulators\Dolphin-x64\")
+	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\Dolphin-x64\")
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\Dolphin" "$destination"
 	
@@ -56,9 +56,9 @@ function Dolphin_init(){
 	#}	
 	
 	#Bios Path	
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$EmulationPath"
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$EmulationPath\roms\gamecube"
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/wii" "$EmulationPath\roms\wii"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$emulationPath\roms\gamecube"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/wii" "$emulationPath\roms\wii"
 
 	Dolphin_setupSaves
 }
@@ -71,22 +71,22 @@ function Dolphin_setEmulationFolder(){
 function Dolphin_setupSaves(){
 	showNotification -ToastTitle 'Dolphin - Creating Saves Links'
 	#Saves GC
-	$SourceFilePath = -join($EmulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\GC')
-	$ShortcutPath = -join($EmulationPath,'saves\dolphin\GC.lnk')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\GC')
+	$ShortcutPath = -join($emulationPath,'saves\dolphin\GC.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Saves Wii
-	$SourceFilePath = -join($EmulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Wii')
-	$ShortcutPath = -join($EmulationPath,'saves\dolphin\Wii.lnk')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Wii')
+	$ShortcutPath = -join($emulationPath,'saves\dolphin\Wii.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($EmulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\StateSaves')
-	$ShortcutPath = -join($EmulationPath,'saves\dolphin\states.lnk')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\StateSaves')
+	$ShortcutPath = -join($emulationPath,'saves\dolphin\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }

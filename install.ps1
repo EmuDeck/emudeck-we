@@ -75,7 +75,7 @@ Write-Host  -ForegroundColor blue -BackgroundColor black "\____/_| |_| |_|\__,_|
 Write-Output ""
 Write-Host "================ Welcome to EmuDeck Windows Edition ================" -ForegroundColor blue -BackgroundColor black
 Write-Output ""
-Write-Output "This script will create an Emulation folder in $EmulationPath"
+Write-Output "This script will create an Emulation folder in $emulationPath"
 Write-Output "and in there we will download all the Emulators, EmulationStation, Steam Rom Manager and Rom Folder Structure."
 Write-Output ""
 Write-Output "Before you continue make sure you have WinRar installed"
@@ -106,8 +106,8 @@ Clear-Host
 
 # Creating folders
 
-mkdir $EmulationPath -ErrorAction SilentlyContinue
-Set-Location $EmulationPath
+mkdir $emulationPath -ErrorAction SilentlyContinue
+Set-Location $emulationPath
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
@@ -123,14 +123,14 @@ Write-Output ""
 copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
 
 #Dowloading..ESDE
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
 if(-not($test)){
 	ESDE_install
 }
 
 
 #SRM
-$test=Test-Path -Path "$EmulationPath\tools\srm.exe"
+$test=Test-Path -Path "$emulationPath\tools\srm.exe"
 if(-not($test)){
 	SRM_install
 }
@@ -141,67 +141,67 @@ if(-not($test)){
 
 #RetroArch
 
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
 if(-not($test)){
 	RetroArch_install
 }
 
 #Dolphin
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe"
 if(-not($test)){
 	Dolphin_install
 }
 
 #PCSX2 
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2\pcsx2-qtx64-avx2.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2\pcsx2-qtx64-avx2.exe"
 if(-not($test)){
 	PCSX2_install
 }
 
 #RPCS3
-#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
 #if(-not($test)){
 #	RPCS3_install
 #}
 
 #Xemu
-#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xemu"
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xemu"
 #if(-not($test)){
 #	Xemu_install
 #}
 
 #Yuzu
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe"
 if(-not($test)){
 	Yuzu_install
 }
 
 #Citra
-#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\citra"
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
 #if(-not($test)){
 #	Citra_install
 #}
 
 #DuckStation
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
 if(-not($test)){
 	DuckStation_install
 }
 
 #Cemu
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\cemu\Cemu.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu\Cemu.exe"
 if(-not($test)){
 	Cemu_install
 }
 
 #Xenia
-#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xenia"
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xenia"
 #if(-not($test)){
 #	Xenia_install
 #}
 
 #PPSSPP
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win\PPSSPPWindows64.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win\PPSSPPWindows64.exe"
 if(-not($test)){
 	PPSSPP_install
 }
@@ -343,10 +343,10 @@ createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$env:USERPROFILE\Deskt
 Write-Output ""
 Write-Host "================ Installation Complete! ================" -ForegroundColor green -BackgroundColor black
 Write-Output ""
-Write-Output "Copy your roms to $EmulationPath\roms"
-Write-Output "Copy all your bios inside $EmulationPath\bios"
-Write-Output "Copy your Yuzu Firmware inside $EmulationPath\bios\yuzu\firmware"
-Write-Output "Copy your Yuzu Keys inside $EmulationPath\bios\yuzu\keys"
+Write-Output "Copy your roms to $emulationPath\roms"
+Write-Output "Copy all your bios inside $emulationPath\bios"
+Write-Output "Copy your Yuzu Firmware inside $emulationPath\bios\yuzu\firmware"
+Write-Output "Copy your Yuzu Keys inside $emulationPath\bios\yuzu\keys"
 Write-Output ""
 Write-Output ""
 Write-Output "When you are done, press ENTER to open Steam Rom Manager to add your roms, emulators and EmulationStation to Steam"

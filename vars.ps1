@@ -23,7 +23,7 @@ $raConfigDir=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\Retr
 $raConfigfile=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg')
 $raExe=-join($winPath,'\Emulation\tools\\EmulationStation-DE\\Emulators\\RetroArch\\','retroarch.exe')
 
-$EmulationPath=-join($winPath,'Emulation\')
+$emulationPath=-join($winPath,'Emulation\')
 $romsPath=-join($winPath,'Emulation\roms')
 $biosPath=-join($winPath,'Emulation\bios\')
 $toolsPath=-join($winPath,'Emulation\bios\')

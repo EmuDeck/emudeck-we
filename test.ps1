@@ -47,7 +47,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 $winPath = "C:\"
 . .\vars.ps1
 
-Set-Location $EmulationPath
+Set-Location $emulationPath
 
 
 

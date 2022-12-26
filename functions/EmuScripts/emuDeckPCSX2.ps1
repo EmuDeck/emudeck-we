@@ -8,16 +8,16 @@ function PCSX2_init(){
 	$destination="tools\EmulationStation-DE\Emulators\PCSX2"
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\PCSX2" $destination
 	
-	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$EmulationPath"
-	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2
-	sedFile $destination\inis\PCSX2-reg.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $EmulationPath\tools\EmulationStation-DE\Emulators\PCSX2
+	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2
+	sedFile $destination\inis\PCSX2-reg.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/" "\"
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
 	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
 	
 	
-	$test=Test-Path -Path "$EmulationPath\tools\vc_redist.x86.exe"
+	$test=Test-Path -Path "$emulationPath\tools\vc_redist.x86.exe"
 	if(-not($test)){
 		showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
 		download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
@@ -39,15 +39,15 @@ function PCSX2_setupSaves(){
 	#Saves
 	showNotification -ToastTitle 'PCSX2 - Saves Links'
 	mkdir saves/PCSX2 -ErrorAction SilentlyContinue
-	$SourceFilePath = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\PCSX2\memcards\')
+	$SourceFilePath = -join($emulationPath,'tools\EmulationStation-DE\Emulators\PCSX2\memcards\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($EmulationPath,'saves\PCSX2\saves.lnk')
+	$ShortcutPath = -join($emulationPath,'saves\PCSX2\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($EmulationPath,'tools\EmulationStation-DE\Emulators\PCSX2\sstates\')
+	$SourceFilePath = -join($emulationPath,'tools\EmulationStation-DE\Emulators\PCSX2\sstates\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($EmulationPath,'saves\PCSX2\states.lnk')
+	$ShortcutPath = -join($emulationPath,'saves\PCSX2\states.lnk')
 	createLink $SourceFilePath $ShortcutPath
 }
 function PCSX2_setupStorage(){

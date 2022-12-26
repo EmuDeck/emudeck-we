@@ -6,11 +6,11 @@ function Citra_install(){
 function Citra_init(){
 
 	showNotification -ToastTitle 'Citra - Configuration'
-	$destination=-join($EmulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
+	$destination=-join($emulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\citra" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $EmulationPath
+	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
 	sedFile $destination\config\qt-config.ini "/" "\"
 	
 	Citra_setupSaves
@@ -23,14 +23,14 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	showNotification -ToastTitle 'Citra - Saves Links'
-	$SourceFilePath = -join($EmulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\sdmc\')
-	$ShortcutPath = -join($EmulationPath,'saves\citra\saves.lnk')
+	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\sdmc\')
+	$ShortcutPath = -join($emulationPath,'saves\citra\saves.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = -join($EmulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\states\')
-	$ShortcutPath = -join($EmulationPath,'saves\citra\states.lnk')
+	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\states\')
+	$ShortcutPath = -join($emulationPath,'saves\citra\states.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath

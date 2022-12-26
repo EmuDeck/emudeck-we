@@ -7,14 +7,14 @@ function SRM_init(){
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\steam-rom-manager" tools\
 	
 	#Paths	
-	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $EmulationPath
+	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
 	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
-	sedFile tools\UserData\userSettings.json "C:\\Emulation" $EmulationPath
+	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
-	createLink "$EmulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+	createLink "$emulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
 }
 function SRM_update(){
 	echo "NYI"

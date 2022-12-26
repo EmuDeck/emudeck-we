@@ -22,7 +22,7 @@ function Cemu_setEmulationFolder(){
 function Cemu_setupSaves(){
 	showNotification -ToastTitle 'Cemu - Saves Links'
 	$SourceFilePath = "tools\EmulationStation-DE\Emulators\cemu\mlc01\usr\save"
-	$ShortcutPath = -join($EmulationPath,'saves\cemu\saves.lnk')
+	$ShortcutPath = -join($emulationPath,'saves\cemu\saves.lnk')
 	mkdir 'saves\cemu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
