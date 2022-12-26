@@ -85,11 +85,11 @@ Write-Output ""
 Write-Output "Changelog"
 Write-Output "Added Emulators: RetroArch, Duckstation, RPCS2, Yuzu, Cemu, Dolphin"
 Write-Output ""
-Write-Host "================ Missing on this release ================" -ForegroundColor blue 
+Write-Host "================ Missing on this release ================" -ForegroundColor blue -BackgroundColor black
 Write-Output "RPCS3, Xenia, Vita3K, Citra, Ryujinx"
 Write-Output "Hotkeys for: Duckstation, Yuzu, Cemu, PPSSPP, PCSX2"
 Write-Output "Better support for 16:9 Screens"
--BackgroundColor black
+
 waitForUser
 
 Clear-Host
