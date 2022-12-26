@@ -147,16 +147,16 @@ if(-not($test)){
 }
 
 #RPCS3
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
-if(-not($test)){
-	RPCS3_install
-}
+#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
+#if(-not($test)){
+#	RPCS3_install
+#}
 
 #Xemu
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xemu"
-if(-not($test)){
-	Xemu_install
-}
+#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xemu"
+#if(-not($test)){
+#	Xemu_install
+#}
 
 #Yuzu
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\yuzu"
@@ -165,10 +165,10 @@ if(-not($test)){
 }
 
 #Citra
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\citra"
-if(-not($test)){
-	Citra_install
-}
+#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\citra"
+#if(-not($test)){
+#	Citra_install
+#}
 
 #DuckStation
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\duckstation"
@@ -183,10 +183,10 @@ if(-not($test)){
 }
 
 #Xenia
-$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xenia"
-if(-not($test)){
-	Xenia_install
-}
+#$test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\xenia"
+#if(-not($test)){
+#	Xenia_install
+#}
 
 #PPSSPP
 $test=Test-Path -Path "$EmulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
@@ -231,7 +231,7 @@ Yuzu_init
 Ryujinx_init
 
 #Citra
-Citra_init
+#Citra_init
 
 #Cemu
 Cemu_init
@@ -240,15 +240,15 @@ Cemu_init
 PCSX2_init
 
 #RPCS3
-RPCS3_init
+#RPCS3_init
 
 #Xemu
-Xemu_init
+#Xemu_init
 
 #Xenia
-Xenia_init
+#Xenia_init
 
-#RPCS3
+#PPSSPP
 PPSSPP_init
 
 #ESDE
