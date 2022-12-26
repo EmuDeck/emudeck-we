@@ -2,6 +2,8 @@ function Yuzu_install(){
 	showNotification -ToastTitle 'Downloading Yuzu'
 	download $url_yuzu "yuzu.zip"
 	moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
+	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
+	createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
 }
 function Yuzu_init(){
 

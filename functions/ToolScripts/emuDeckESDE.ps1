@@ -2,6 +2,8 @@ function ESDE_install(){
 	showNotification -ToastTitle 'Downloading EmulationStation DE'
 	download $url_esde "esde.zip"
 	moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
+	Remove-Item -Recurse -Force esde -ErrorAction SilentlyContinue
+	
 }
 function ESDE_init(){	
 	showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
@@ -16,6 +18,7 @@ function ESDE_init(){
 	if(-not($test)){
 		download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
 		moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
+		Remove-Item -Recurse -Force temp -ErrorAction SilentlyContinue
 	}
 	
 }

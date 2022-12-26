@@ -2,6 +2,7 @@ function Xenia_install(){
 	showNotification -ToastTitle 'Downloading Xenia'
 	download $url_xenia "xenia.zip"
 	moveFromTo "xenia" "tools\EmulationStation-DE\Emulators\xenia"
+	createLauncher "xenia" "xenia"
 }
 function Xenia_init(){
 	echo "NYI"
