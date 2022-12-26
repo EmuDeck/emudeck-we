@@ -2856,7 +2856,7 @@
     "steamCategory": "${Playstation 2}",
     "steamDirectory": "${steamdirglobal}",
     "romDirectory": "${romsdirglobal}/ps2",
-    "executableArgs": "\"'${filePath}'\"",
+    "executableArgs": "\"${filePath}\"",
     "executableModifier": "\"${exePath}\"",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",

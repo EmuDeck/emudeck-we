@@ -88,7 +88,7 @@ Write-Host "================ Missing on this release ================" -Foregrou
 Write-Output "RPCS3, Xenia, Vita3K, Citra, Ryujinx"
 Write-Output "Hotkeys for: Duckstation, Yuzu, Cemu, PPSSPP, PCSX2"
 Write-Output "Better support for 16:9 Screens"
-
+Write-Output ""
 waitForUser
 
 Clear-Host
