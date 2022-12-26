@@ -81,6 +81,15 @@ Write-Output ""
 Write-Output "Before you continue make sure you have WinRar installed"
 Write-Output "You can download Winrar from https://www.win-rar.com/download.html"
 Write-Output ""
+Write-Output ""
+Write-Output "Changelog"
+Write-Output "Added Emulators: RetroArch, Duckstation, RPCS2, Yuzu, Cemu, Dolphin"
+Write-Output ""
+Write-Host "================ Missing on this release ================" -ForegroundColor blue 
+Write-Output "RPCS3, Xenia, Vita3K, Citra, Ryujinx"
+Write-Output "Hotkeys for: Duckstation, Yuzu, Cemu, PPSSPP, PCSX2"
+Write-Output "Better support for 16:9 Screens"
+-BackgroundColor black
 waitForUser
 
 Clear-Host
