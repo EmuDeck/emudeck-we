@@ -13,15 +13,9 @@ $url_xemu = "https://github.com/mborgerson/xemu/releases/latest/download/xemu-wi
 $url_srm = "https://github.com/SteamGridDB/steam-rom-manager/releases/download/v2.3.36/Steam-ROM-Manager-portable-2.3.36.exe"
 $url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/36880305/download"
 $url_citra ="https://github.com/citra-emu/citra-nightly/releases/download/nightly-1766/citra-windows-mingw-20220520-a6e7a81.7z"
-$userFolder = $env:USERPROFILE
-$dolphinDir = -join($userFolder,'\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config')
-$duckDir = -join($userFolder,'\Documents\DuckStation')
-$dolphinIni=-join($dolphinDir,'\Dolphin.ini')
-$duckIni=-join($duckDir,'\settings.ini')
-$deckPath="/run/media/mmcblk0p1/"
+$HOME = $env:USERPROFILE
 $raConfigDir=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\')
 $raConfigfile=-join($winPath,'\Emulation\tools\EmulationStation-DE\Emulators\RetroArch\retroarch.cfg')
-$raExe=-join($winPath,'\Emulation\tools\\EmulationStation-DE\\Emulators\\RetroArch\\','retroarch.exe')
 
 $emulationPath=-join($winPath,'Emulation\')
 $romsPath=-join($winPath,'Emulation\roms')

@@ -5,7 +5,7 @@ function Cemu_install(){
 }
 function Cemu_init(){
 	showNotification -ToastTitle 'Cemu - Configuration'
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\cemu" "tools\EmulationStation-DE\Emulators\cemu"
+	copyFromTo "$HOME\EmuDeck\backend\configs\cemu" "tools\EmulationStation-DE\Emulators\cemu"
 	
 	sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
 	#sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"

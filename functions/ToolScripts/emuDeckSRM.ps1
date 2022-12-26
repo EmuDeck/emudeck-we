@@ -4,7 +4,7 @@ function SRM_install(){
 }
 function SRM_init(){
 	showNotification -ToastTitle 'Steam Rom Manager - Configuration'	
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\steam-rom-manager" tools\
+	copyFromTo "$HOME\EmuDeck\backend\configs\steam-rom-manager" tools\
 	
 	#Paths	
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
@@ -14,7 +14,7 @@ function SRM_init(){
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
-	createLink "$emulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+	createLink "$emulationPath\tools\srm.exe" "$HOME\Desktop\EmuDeck - Steam Rom Manager.lnk"		
 }
 function SRM_update(){
 	echo "NYI"
