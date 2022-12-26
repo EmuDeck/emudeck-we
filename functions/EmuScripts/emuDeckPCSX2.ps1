@@ -1,7 +1,7 @@
 function PCSX2_install(){
 	showNotification -ToastTitle 'Downloading PCSX2'
 	download $url_pcsx2 "pcsx2.7z"
-	moveFromTo "pcsx2\PCSX2 1.6.0" "tools\EmulationStation-DE\Emulators\PCSX2"
+	moveFromTo "pcsx2-v1.7.3795-windows-64bit-AVX2-Qt" "tools\EmulationStation-DE\Emulators\PCSX2"
 }
 function PCSX2_init(){	
 	showNotification -ToastTitle 'PCSX2 - Configuration'
