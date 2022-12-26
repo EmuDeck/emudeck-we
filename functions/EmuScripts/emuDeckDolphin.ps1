@@ -5,7 +5,7 @@ function Dolphin_install(){
 }
 function Dolphin_init(){
 	showNotification -ToastTitle 'Dolphin - Configuration'
-	New-Item -Path "tools\EmulationStation-DE\Emulators\Dolphin-x64\portable.txt"
+	New-Item -Path "tools\EmulationStation-DE\Emulators\Dolphin-x64\portable.txt" -ErrorAction SilentlyContinue
 	$destination=-join($EmulationPath, "\tools\EmulationStation-DE\Emulators\Dolphin-x64\")
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\Dolphin" "$destination"

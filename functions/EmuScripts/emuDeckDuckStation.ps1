@@ -5,7 +5,7 @@ function DuckStation_install(){
 }
 function DuckStation_init(){	
 	showNotification -ToastTitle 'DuckStation - Configuration'
-	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt"
+	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt" -ErrorAction SilentlyContinue
 	$destination="tools\EmulationStation-DE\Emulators\duckstation\"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\DuckStation" $destination
