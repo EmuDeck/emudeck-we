@@ -2,6 +2,9 @@ function Cemu_install(){
 	showNotification -ToastTitle 'Downloading Cemu'
 	download $url_cemu "cemu.zip"
 	moveFromTo "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
+	createLauncher "cemu" "Cemu"
+
 }
 function Cemu_init(){
 	showNotification -ToastTitle 'Cemu - Configuration'

@@ -35,6 +35,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . $env:USERPROFILE\EmuDeck\backend\functions\sedFile.ps1
 . $env:USERPROFILE\EmuDeck\backend\functions\createLink.ps1
 . $env:USERPROFILE\EmuDeck\backend\functions\createLauncher.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctions.ps1
 
 
 . $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1
@@ -59,67 +60,32 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 # Variables
 #
 Clear-Host
-#We need to pick the HD first thing so we can set the rest of the path variables
-$drives = (Get-PSDrive -PSProvider FileSystem).Root
-$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 . $env:USERPROFILE\EmuDeck\backend\vars.ps1
 
-# Draw welcome screen
-Write-Host  -ForegroundColor blue -BackgroundColor black " _____               ______          _      _    _ _____ "
-Write-Host  -ForegroundColor blue -BackgroundColor black "|  ___|              |  _  \        | |    | |  | |  ___|"
-Write-Host  -ForegroundColor blue -BackgroundColor black "| |__ _ __ __   _   _| | | |___  ___| | __ | |  | | |__  "
-Write-Host  -ForegroundColor blue -BackgroundColor black "|  __| '_ ` _ \ | | | | | | / _ \/ __| |/ / | |/\| |  __| "
-Write-Host  -ForegroundColor blue -BackgroundColor black "| |__| | | | | | |_| | |/ /  __/ (__|   <  \  /\  / |___ "
-Write-Host  -ForegroundColor blue -BackgroundColor black "\____/_| |_| |_|\__,_|___/ \___|\___|_|\_\  \/  \/\____/ "
+cp "$env:USERPROFILE\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
 
-Write-Output ""
-Write-Host "================ Welcome to EmuDeck Windows Edition ================" -ForegroundColor blue -BackgroundColor black
-Write-Output ""
-Write-Output "This script will create an Emulation folder in $emulationPath"
-Write-Output "and in there we will download all the Emulators, EmulationStation, Steam Rom Manager and Rom Folder Structure."
-Write-Output ""
-Write-Output "Before you continue make sure you have WinRar installed"
-Write-Output "You can download Winrar from https://www.win-rar.com/download.html"
-Write-Output ""
-Write-Host "================ Changelog ================" -ForegroundColor green -BackgroundColor black
-Write-Output "Added Emulators: RetroArch, Duckstation, RPCS2, Yuzu, Cemu, Dolphin"
-Write-Output ""
-Write-Host "================ Missing on this release ================" -ForegroundColor red -BackgroundColor black
-Write-Output "RPCS3, Xenia, Vita3K, Citra, Ryujinx"
-Write-Output "Hotkeys for: Duckstation, Yuzu, Cemu, PPSSPP, PCSX2"
-Write-Output "Better support for 16:9 Screens"
-Write-Output ""
-waitForUser
+#
+# UI & Settings creation
+#
+. $env:USERPROFILE\EmuDeck\backend\ui.ps1
 
-Clear-Host
+#
+# Installation
+#
 
-#Customization Dialogs
-#$RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
-#$arSega=showTwoButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
-#$arSnes=showTwoButtonQuestionImg "ar43snes.png" 'Configure Aspect Ratio  Super NES' 'Choose your aspect ratio for Super Nintendo games' '43' '87'
-#$arClassic3D=showTwoButtonQuestionImg "ar433d.png" 'Configure Aspect Ratio for Classic 3D Games' 'Choose your aspect ratio for Dreamcast and Nintendo 64' '43' '169'
-#$arDolphin=showTwoButtonQuestionImg "ar43gc.png" 'Configure Aspect Ratio for GameCube' 'Choose your aspect ratio for GameCube games. You can change this
-#  setting in game anytime with a hotkey.' '43' '169'
-#$RAHandHeldShader=showTwoButtonQuestionImg "lcdon.png" 'Configure LCD Shader Handhelds' 'The LCD Shader simulates the old LCD Matrix screens of handheld systems' 'ON' 'OFF'
-#$RAHandClassic2D=showTwoButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
-#$RAHandClassic3D=showTwoButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
-
-# Creating folders
+. $env:USERPROFILE\EmuDeck\settings.ps1
 
 mkdir $emulationPath -ErrorAction SilentlyContinue
 Set-Location $emulationPath
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
+mkdir "$toolsPath\launchers" -ErrorAction SilentlyContinue
 Clear-Host
 
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
-#EmuDeck Download - Moved to the .bat file
-#showNotification -ToastTitle "Downloading EmuDeck files"
-#download "https://github.com/EmuDeck/emudeck-we/archive/refs/heads/main.zip" "temp.zip"
-#moveFromTo "temp\EmuDeck-we-main" "$env:USERPROFILE\EmuDeck\backend\"
 copyFromTo "$env:USERPROFILE\EmuDeck\backend\roms" "roms"
 
 #Dowloading..ESDE
@@ -140,7 +106,6 @@ if(-not($test)){
 #
 
 #RetroArch
-
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
 if(-not($test)){
 	RetroArch_install
@@ -207,19 +172,6 @@ if(-not($test)){
 }
 
 
-# Deleting temp folders
-showNotification -ToastTitle 'Cleaning up...'
-Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force ra -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force dolphin -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force esde -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force pcsx2 -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force temp -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue
-Write-Host "Done!" -ForegroundColor green -BackgroundColor black
-
-
 #
 # Emus Configuration
 # 
@@ -273,19 +225,6 @@ SRM_init
 #Launchers links
 
 
-
-mkdir 'tools\launchers' -ErrorAction SilentlyContinue
-createLauncher "cemu" "Cemu"
-createLauncher "Dolphin-x64" "Dolphin-emu"
-createLauncher "duckstation" "duckstation-qt-x64-ReleaseLTCG"
-createLauncher "PCSX2" "pcsx2-qtx64-avx2"
-createLauncher "RetroArch" "retroarch"
-createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
-
-#createLauncher "citra" "citra-emulator"
-#createLauncher "RPCS3" "rpcs3"
-#createLauncher "xemu" "xemu"
-#createLauncher "xenia" "xenia"
 
 createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$env:USERPROFILE\Desktop\EmuDeck - Update Beta.lnk"
 

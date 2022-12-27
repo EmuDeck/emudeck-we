@@ -2,6 +2,9 @@ function Citra_install(){
 	showNotification -ToastTitle 'Downloading Citra'
 	download $url_citra "citra.zip"
 	moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
+	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
+	createLauncher "citra" "citra-emulator"
+	
 }
 function Citra_init(){
 
