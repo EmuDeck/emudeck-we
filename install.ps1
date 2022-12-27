@@ -35,7 +35,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . $env:USERPROFILE\EmuDeck\backend\functions\sedFile.ps1
 . $env:USERPROFILE\EmuDeck\backend\functions\createLink.ps1
 . $env:USERPROFILE\EmuDeck\backend\functions\createLauncher.ps1
-. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctios.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctions.ps1
 
 
 . $env:USERPROFILE\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1

@@ -19,6 +19,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\sedFile.ps1
 . .\functions\createLink.ps1
 . .\functions\createLauncher.ps1
+. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctions.ps1
 
 
 . .\functions\EmuScripts\emuDeckCemu.ps1
@@ -42,18 +43,28 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 #
 # Variables
 #
-#Clear-Host
-#We need to pick the HD first thing so we can set the rest of the path variables
-$winPath = "C:\"
-. .\vars.ps1
+Clear-Host
+. $env:USERPROFILE\EmuDeck\backend\vars.ps1
+
+cp "$env:USERPROFILE\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
+
+#
+# UI & Settings creation
+#
+. $env:USERPROFILE\EmuDeck\backend\ui.ps1
+
+#
+# Installation
+#
+
+. $env:USERPROFILE\EmuDeck\settings.ps1
 
 Set-Location $emulationPath
 
 
-
 ### TEST CODE START
 
-
+dir
 
 ### TEST CODE FINNISH
 
