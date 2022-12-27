@@ -142,10 +142,10 @@ if(-not($test)){
 }
 
 #Citra
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
-#if(-not($test)){
-#	Citra_install
-#}
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+if(-not($test)){
+	Citra_install
+}
 
 #DuckStation
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
@@ -195,7 +195,7 @@ Yuzu_init
 Ryujinx_init
 
 #Citra
-#Citra_init
+Citra_init
 
 #Cemu
 Cemu_init
