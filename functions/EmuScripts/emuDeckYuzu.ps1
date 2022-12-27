@@ -17,6 +17,8 @@ function Yuzu_init(){
 	
 	sedFile $destination\config\qt-config.ini "C:\Emulation\" $emulationPath	
 	
+	sedFile $destination\config\qt-config.ini ":\Emulation\roms\" ':/Emulation/roms/'	
+	
 	$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	if(-not($test)){
 		showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
