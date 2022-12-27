@@ -8,6 +8,8 @@ setSetting 'romsPath' "$winPath\Emulation\roms"
 setSetting 'biosPath' "$winPath\Emulation\bios"
 setSetting 'toolsPath' "$winPath\Emulation\tools"
 setSetting 'savesPath' "$winPath\Emulation\saves"
+setSetting 'storagePath' "$winPath\Emulation\storagePath"
+setSetting 'ESDEscrapData' "$winPath\Emulation\tools/downloaded_media"
 
 #Load Settings
 . $env:USERPROFILE\EmuDeck\settings.ps1
