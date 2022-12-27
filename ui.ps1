@@ -3,11 +3,11 @@ $drives = (Get-PSDrive -PSProvider FileSystem).Root
 $winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 
 #Set initial Settings
-setSetting 'emulationPath' "'$winPath\Emulation'"
-setSetting 'romsPath' "'$winPath\Emulation\roms'"
-setSetting 'biosPath' "'$winPath\Emulation\bios'"
-setSetting 'toolsPath' "'$winPath\Emulation\tools'"
-setSetting 'savesPath' "'$winPath\Emulation\saves'"
+setSetting 'emulationPath' "$winPath\Emulation"
+setSetting 'romsPath' "$winPath\Emulation\roms"
+setSetting 'biosPath' "$winPath\Emulation\bios"
+setSetting 'toolsPath' "$winPath\Emulation\tools"
+setSetting 'savesPath' "$winPath\Emulation\saves"
 
 #Load Settings
 . $env:USERPROFILE\EmuDeck\settings.ps1
