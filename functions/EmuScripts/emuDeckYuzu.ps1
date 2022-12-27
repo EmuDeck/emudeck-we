@@ -15,8 +15,7 @@ function Yuzu_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\yuzu" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
-	sedFile $destination\config\qt-config.ini "/" "\"
+	sedFile $destination\config\qt-config.ini "C:\Emulation\" $emulationPath	
 	
 	$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	if(-not($test)){
@@ -24,8 +23,6 @@ function Yuzu_init(){
 		download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
 		.\tools\vc_redist.x64.exe
 	}
-	
-
 	
 	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
