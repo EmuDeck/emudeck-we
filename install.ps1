@@ -62,7 +62,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 Clear-Host
 . $env:USERPROFILE\EmuDeck\backend\vars.ps1
 
-copyFromTo "$env:USERPROFILE\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
+cp "$env:USERPROFILE\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
 
 #
 # UI & Settings creation
