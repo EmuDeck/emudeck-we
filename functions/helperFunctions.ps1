@@ -16,7 +16,7 @@
  function setConfig($old, $new, $fileToCheck){	
 
 	$fileContents = Get-Content $fileToCheck
-	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
+	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
 	$newLine=-join($old,'=','"',$new,'"')
 	$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)}
 

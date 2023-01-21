@@ -232,7 +232,7 @@ createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$desktop_path\EmuDeck 
 #Customization
 
 #Resolution
-
+echo "Setting Resolution Screen"
 Dolphin_setResolution $dolphinResolution
 DuckStation_setResolution $duckstationResolution
 PCSX2_setResolution $pcsx2Resolution
