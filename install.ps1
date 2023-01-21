@@ -250,7 +250,7 @@ if ( "$doSetupRA" -eq "true" ){
 	RetroArch_setBezels #needs to change
 	
 	#RA AutoSave	
-	if ( "$RAautoSave" -eq true ){
+	if ( "$RAautoSave" -eq "true" ){
 		RetroArch_autoSaveOn
 	}else{
 		RetroArch_autoSaveOff
@@ -289,7 +289,7 @@ if ( "$doSetupRA" -eq "true" ){
 			RetroArch_genesis_ar43
 			  RetroArch_segacd_ar43
 			  RetroArch_sega32x_ar43
-			  if ( "$RABezels" -eq true ) && ( "$doSetupRA" -eq "true" ){
+			  if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
 				  RetroArch_mastersystem_bezelOn
 				  RetroArch_genesis_bezelOn
 				  RetroArch_segacd_bezelOn
@@ -311,7 +311,7 @@ if ( "$doSetupRA" -eq "true" ){
 		  *)
 			RetroArch_snes_ar43
 			RetroArch_nes_ar43
-			if ( "$RABezels" -eq true ) && ( "$doSetupRA" -eq "true" ){	
+			if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){	
 				RetroArch_snes_bezelOn
 			}
 		  ;;
@@ -354,7 +354,7 @@ if ( "$doSetupRA" -eq "true" ){
 			Xemu_wideScreenOff
 		}
 		#"Bezels on"
-		if ( "$RABezels" -eq true ) && ( "$doSetupRA" -eq "true" ){
+		if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
 			RetroArch_dreamcast_bezelOn			
 			RetroArch_n64_bezelOn
 			RetroArch_psx_bezelOn
