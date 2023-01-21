@@ -22,8 +22,8 @@ function ESDE_init(){
 	}
 	
 	#PS2 Fixes	
-	sedFile 'pcsx2.exe' 'pcsx2-qtx64-avx2.exe' "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml"	
-	sedFile '%EMULATOR_PCSX2% --nogui' '-nogui -fastboot -fullscreen' "tools\EmulationStation-DE\resources\systems\windows\es_systems.xml"
+	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml" 'pcsx2.exe' 'pcsx2-qtx64-avx2.exe' 
+	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_systems.xml" '%EMULATOR_PCSX2% --nogui' '-nogui -fastboot -fullscreen' 
 	
 }
 function ESDE_update(){
