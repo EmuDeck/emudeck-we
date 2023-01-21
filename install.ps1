@@ -226,7 +226,7 @@ SRM_init
 
 
 
-createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$env:USERPROFILE\Desktop\EmuDeck - Update Beta.lnk"
+createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$desktop_path\EmuDeck - Update Beta.lnk"
 
 
 #Customization
