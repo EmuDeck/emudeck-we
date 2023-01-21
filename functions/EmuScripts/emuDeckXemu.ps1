@@ -55,3 +55,9 @@ function Xemu_IsInstalled(){
 function Xemu_resetConfig(){
 	echo "NYI"
 }
+function Xemu_wideScreenOff(){
+	echo "NYI"
+}
+function Xemu_wideScreenOn(){
+	echo "NYI"
+}

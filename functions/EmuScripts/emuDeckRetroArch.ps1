@@ -105,13 +105,13 @@ function RetroArch_bezelOnAll(){
 
 function RetroArch_bezelOffAll(){
 	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
-Get-ChildItem $path -Recurse -Filter *.cfg | 
-Foreach-Object {
-	$originFile = $_.FullName		 
-	$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
-	$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')		
-	setConfig 'input_overlay_enable' "false" $originFile		
-}	
+	Get-ChildItem $path -Recurse -Filter *.cfg | 
+	Foreach-Object {
+		$originFile = $_.FullName		 
+		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
+		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')		
+		setConfig 'input_overlay_enable' "false" $originFile			
+	}
 }
 
 function RetroArch_setupStorage(){
@@ -154,3 +154,138 @@ function RetroArch_IsInstalled(){
 function RetroArch_resetConfig(){
 	echo "NYI"
 }
+
+function RetroArch_CRTshaderOnAll(){
+	echo "NYI"
+}
+
+function RetroArch_CRTshaderOfAll(){
+	echo "NYI"
+}
+
+function RetroArch_snes_ar87(){
+	echo "NYI"
+}
+
+function RetroArch_nes_ar87(){
+	echo "NYI"
+}
+
+function RetroArch_snes_ar43(){
+	echo "NYI"
+}
+
+function RetroArch_nes_ar43(){
+	echo "NYI"
+}
+
+function RetroArch_mastersystem_ar43(){
+	echo "NYI"
+}
+function RetroArch_genesis_ar43(){
+	echo "NYI"
+}
+function RetroArch_segacd_ar43(){
+	echo "NYI"
+}
+function RetroArch_sega32x_ar43(){
+	echo "NYI"
+}
+
+function RetroArch_mastersystem_bezelOn(){
+	echo "NYI"
+}
+function RetroArch_genesis_bezelOn(){
+	echo "NYI"
+}
+function RetroArch_segacd_bezelOn(){
+	echo "NYI"
+}
+function RetroArch_sega32x_bezelOn(){
+	echo "NYI"
+}
+function RetroArch_mastersystem_ar32(){
+	echo "NYI"
+}
+function RetroArch_genesis_ar32(){
+	echo "NYI"
+}
+function RetroArch_segacd_ar32(){
+	echo "NYI"
+}
+function RetroArch_sega32x_ar32	(){
+	echo "NYI"
+}
+function RetroArch_mastersystem_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_genesis_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_segacd_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_sega32x_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_snes_bezelOn(){
+	echo "NYI"
+}
+function RetroArch_nes_bezelOn(){
+	echo "NYI"
+}
+function RetroArch_snes_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_nes_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_Flycast_wideScreenOff(){
+	echo "NYI"
+}
+function RetroArch_n64_wideScreenOff(){
+	echo "NYI"
+}
+function RetroArch_Beetle_PSX_HW_wideScreenOff(){
+	echo "NYI"
+}
+function RetroArch_SwanStation_wideScreenOff(){
+	echo "NYI"
+}
+function RetroArch_Beetle_PSX_HW_wideScreenOn(){
+	echo "NYI"
+}
+function RetroArch_Flycast_wideScreenOn			(){
+	echo "NYI"
+}
+function RetroArch_dreamcast_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_psx_bezelOff(){
+	echo "NYI"
+}
+function RetroArch_n64_wideScreenOn(){
+	echo "NYI"
+}
+function RetroArch_SwanStation_wideScreenOn(){
+	echo "NYI"
+}
+function RetroArch_MATshadersOnAll(){
+	echo "NYI"
+}
+function RetroArch_MATshadersOfAll(){
+	echo "NYI"
+}
+function RetroArch_CRTshaderOnAll(){
+	echo "NYI"
+}
+function RetroArch_CRTshaderOfAll(){
+	echo "NYI"
+}
+function RetroArch_3DCRTshaderOnAll(){
+	echo "NYI"
+}
+function RetroArch_3DCRTshaderOffAll(){
+	echo "NYI"
+}
+

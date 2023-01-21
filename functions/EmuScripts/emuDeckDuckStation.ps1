@@ -86,3 +86,10 @@ function DuckStation_IsInstalled(){
 function DuckStation_resetConfig(){
 	echo "NYI"
 }
+
+function DuckStation_wideScreenOff(){
+	echo "NYI"
+}
+function DuckStation_wideScreenOn(){
+	echo "NYI"
+}
