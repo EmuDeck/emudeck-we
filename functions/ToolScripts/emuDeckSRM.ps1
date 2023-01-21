@@ -14,7 +14,12 @@ function SRM_init(){
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
+	#Desktop Icon
 	createLink "$emulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+	#Start Menu
+	#mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
+	#createLink "$emulationPath\tools\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
+		
 }
 function SRM_update(){
 	echo "NYI"
