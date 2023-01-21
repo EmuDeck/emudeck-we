@@ -19,7 +19,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\sedFile.ps1
 . .\functions\createLink.ps1
 . .\functions\createLauncher.ps1
-. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctions.ps1
+. .\functions\helperFunctions.ps1
 . .\functions\showButtonQuestionImg.ps1
 
 . .\functions\EmuScripts\emuDeckCemu.ps1
@@ -67,8 +67,8 @@ Set-Location $emulationPath
 
 ### TEST CODE START
 
-$RABezels=showButtonQuestionImg "bezels.png" 'Configure Resolution' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' '720P' '1080P' '1440P' '4K' '720P' '1080P' '1440P' '4K'
-echo $RABezels
+echo "testing"
+
 ### TEST CODE FINNISH
 
 waitForUser
