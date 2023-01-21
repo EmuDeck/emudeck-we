@@ -106,7 +106,7 @@ if($customization -eq 'CUSTOM'){
 	}
 	
 	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
-	if ($RABezels == 'ON'){
+	if ($RAautoSave == 'ON'){
 		setSetting 'RAautoSave' "true"
 	}else{
 		setSetting 'RAautoSave' "false"
