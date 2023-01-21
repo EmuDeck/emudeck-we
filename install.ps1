@@ -231,6 +231,20 @@ createLink "$env:USERPROFILE\EmuDeck\backend\update.bat" "$desktop_path\EmuDeck 
 
 #Customization
 
+#Resolution
+
+Dolphin_setResolution $dolphinResolution
+DuckStation_setResolution $duckstationResolution
+PCSX2_setResolution $pcsx2Resolution
+Yuzu_setResolution $yuzuResolution
+
+
+#PPSSPP_setResolution $ppssppResolution
+#RPCS3_setResolution $screenResolution
+#Ryujinx_setResolution $screenResolution
+#Xemu_setResolution $screenResolution
+#Xenia_setResolution $screenResolution
+
 #if($RABezels = 'ON'){
 #	
 #}else{

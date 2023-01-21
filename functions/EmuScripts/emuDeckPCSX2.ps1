@@ -52,6 +52,17 @@ function PCSX2_setupSaves(){
 	$ShortcutPath = -join($emulationPath,'saves\PCSX2\states.lnk')
 	createLink $SourceFilePath $ShortcutPath
 }
+function PCSX2_setResolution($resolution){
+	switch ( $screenResolution )
+	{
+		'720P' { $multiplier = 2 }
+		'1080P' { $multiplier = 3    }
+		'1440P' { $multiplier = 4   }
+		'4K' { $multiplier = 6 }
+	}	
+	
+	setConfig 'upscale_multiplier' $multiplier 'tools\EmulationStation-DE\Emulators\PCSX2\inis\GS.ini'
+}
 function PCSX2_setupStorage(){
 	echo "NYI"
 }

@@ -15,6 +15,9 @@ function PPSSPP_setEmulationFolder(){
 function PPSSPP_setupSaves(){
 	echo "NYI"
 }
+function PPSSPP_setResolution($resolution){
+	echo $resolution
+}
 function PPSSPP_setupStorage(){
 	echo "NYI"
 }

@@ -30,6 +30,11 @@ function Cemu_setupSaves(){
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }
+
+function Cemu_setResolution($resolution){
+	echo $resolution
+}
+
 function Cemu_setupStorage(){
 	echo "NYI"
 }

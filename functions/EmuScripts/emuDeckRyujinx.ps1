@@ -13,6 +13,9 @@ function Ryujinx_setEmulationFolder(){
 function Ryujinx_setupSaves(){
 	echo "NYI"
 }
+function Ryujinx_setResolution($resolution){
+	echo $resolution
+}
 function Ryujinx_setupStorage(){
 	echo "NYI"
 }

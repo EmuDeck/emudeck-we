@@ -16,6 +16,9 @@ function Xenia_setEmulationFolder(){
 function Xenia_setupSaves(){
 	echo "NYI"
 }
+function Xenia_setResolution($resolution){
+	echo $resolution
+}
 function Xenia_setupStorage(){
 	echo "NYI"
 }

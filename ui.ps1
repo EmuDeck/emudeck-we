@@ -43,8 +43,16 @@ waitForUser
 
 Clear-Host
 
-$RABezels=showButtonQuestionImg "bezels.png" 'Configure Resolution' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' '720P' '1080P' '1440P' '4K' '720P' '1080P' '1440P' '4K'
-echo $RABezels
+$SRDolphin=showButtonQuestionImg "bezels.png" 'Configure GameCube & Wii Resolution' 'This will configure the resolution for the Dolphin Emulator' '720P' '1080P' '1440P' '4K'
+$SRDuckStation=showButtonQuestionImg "bezels.png" 'Configure PS1 Resolution' 'This will configure the resolution for the DuckStation Emulator' '720P' '1080P' '1440P' '4K'
+$SRPCSX2=showButtonQuestionImg "bezels.png" 'Configure PS2 Resolution' 'This will configure the resolution for the RPCSX2 Emulator' '720P' '1080P' '1440P' '4K'
+$SRYuzu=showButtonQuestionImg "bezels.png" 'Configure Switch Resolution' 'This will configure the resolution for the Yuzu Emulator' '720P' '1080P' '1440P' '4K'
+
+setSetting 'dolphinResolution' "$SRDolphin"
+setSetting 'duckstationResolution' "$SRDuckStation"
+setSetting 'pcsx2Resolution' "$SRPCSX2"
+setSetting 'yuzuResolution' "$SRYuzu"
+
 
 #Customization Dialogs
 #$RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
@@ -57,4 +65,5 @@ echo $RABezels
 #$RAHandClassic2D=showTwoButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
 #$RAHandClassic3D=showTwoButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
 
-
+#ReLoad Settings after customization
+. $env:USERPROFILE\EmuDeck\settings.ps1

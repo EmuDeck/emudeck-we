@@ -37,6 +37,19 @@ function DuckStation_setupSaves(){
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }
+
+function DuckStation_setResolution($resolution){
+	switch ( $screenResolution )
+	{
+		'720P' { $multiplier = 3 }
+		'1080P' { $multiplier = 5 }
+		'1440P' { $multiplier = 6 }
+		'4K' { $multiplier = 9 }
+	}	
+	
+	setConfig 'ResolutionScale' $multiplier 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'
+}
+
 function DuckStation_setupStorage(){
 	echo "NYI"
 }

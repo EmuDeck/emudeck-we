@@ -16,6 +16,9 @@ function Xemu_setEmulationFolder(){
 function Xemu_setupSaves(){
 	echo "NYI"
 }
+function Xemu_setResolution($resolution){
+	echo $resolution
+}
 function Xemu_setupStorage(){
 	echo "NYI"
 }

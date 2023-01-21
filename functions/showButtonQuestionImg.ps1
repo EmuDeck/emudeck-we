@@ -1,4 +1,4 @@
-function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $button2Text, $button3Text, $button4Text, $button1Code, $button2Code, $button3Code, $button4Code){
+function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $button2Text, $button3Text, $button4Text){
 	
 	$paddingLeft= 32	
 	$paddingTop= 50
@@ -8,6 +8,7 @@ function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $b
 	$buttonBorder="85, 187, 255"
 	$buttonBG="white"
 	$buttonColor="69,70,67"
+	$buttonSeparation=90
 			
 	$URL = -join("https://raw.githubusercontent.com/EmuDeck/emudeck-electron/main/src/assets/",$img)
 	$Path= -join($userFolder,'/',$img)
@@ -66,7 +67,7 @@ function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $b
 	$form.Controls.Add($button1)
 	
 	$button2 = New-Object System.Windows.Forms.Button
-	$button2.Location = New-Object System.Drawing.Point(682,280)
+	$button2.Location = New-Object System.Drawing.Point(682,(180 + $buttonSeparation))
 	$button2.Size = New-Object System.Drawing.Size(120,75)
 	$button2.Text = $button2Text
 	$button2.ForeColor = $buttonColor
@@ -78,7 +79,7 @@ function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $b
 	
 	if($button3Text){
 		$button3 = New-Object System.Windows.Forms.Button
-		$button3.Location = New-Object System.Drawing.Point(682,380)
+		$button3.Location = New-Object System.Drawing.Point(682,(180 + $buttonSeparation * 2 ))
 		$button3.Size = New-Object System.Drawing.Size(120,75)
 		$button3.Text = $button3Text
 		$button3.ForeColor = $buttonColor
@@ -90,7 +91,7 @@ function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $b
 	}
 	if($button4Text){
 		$button4 = New-Object System.Windows.Forms.Button
-		$button4.Location = New-Object System.Drawing.Point(682,480)
+		$button4.Location = New-Object System.Drawing.Point(682,(180 + $buttonSeparation * 3 ))
 		$button4.Size = New-Object System.Drawing.Size(120,75)
 		$button4.Text = $button4Text
 		$button4.ForeColor = $buttonColor
@@ -109,10 +110,10 @@ function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $b
 	
 	switch ( $result )
 	{
-		'Yes' { $result = $button1Code }
-		'No' { $result = $button2Code    }
-		'Cancel' { $result = $button3Code   }
-		'Abort' { $result = $button4Code }
+		'Yes' { $result = $button1Text }
+		'No' { $result = $button2Text    }
+		'Cancel' { $result = $button3Text   }
+		'Abort' { $result = $button4Text }
 	}
 	
 	return $result
