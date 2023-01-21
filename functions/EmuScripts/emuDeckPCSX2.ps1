@@ -61,7 +61,7 @@ function PCSX2_setResolution($resolution){
 		'4K' { $multiplier = 6 }
 	}	
 	
-	setConfig 'upscale_multiplier' $multiplier 'tools\EmulationStation-DE\Emulators\PCSX2\inis\GS.ini'
+	setConfig 'upscale_multiplier' $multiplier 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2.ini'
 }
 function PCSX2_setupStorage(){
 	echo "NYI"
