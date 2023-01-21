@@ -58,7 +58,7 @@ function Yuzu_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath
 }
 function Yuzu_setResolution($resolution){
-	switch ( $screenResolution )
+	switch ( $resolution )
 {
 	'720P' { $multiplier = 2;  $docked='false'}
 	'1080P' { $multiplier = 2; $docked='true'   }

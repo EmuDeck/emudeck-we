@@ -39,7 +39,7 @@ function DuckStation_setupSaves(){
 }
 
 function DuckStation_setResolution($resolution){
-	switch ( $screenResolution )
+	switch ( $resolution )
 	{
 		'720P' { $multiplier = 3 }
 		'1080P' { $multiplier = 5 }

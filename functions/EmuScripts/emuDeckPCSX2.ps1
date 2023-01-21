@@ -53,7 +53,7 @@ function PCSX2_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath
 }
 function PCSX2_setResolution($resolution){
-	switch ( $screenResolution )
+	switch ( $resolution )
 	{
 		'720P' { $multiplier = 2 }
 		'1080P' { $multiplier = 3    }

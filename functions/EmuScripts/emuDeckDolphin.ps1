@@ -96,13 +96,15 @@ function Dolphin_setupSaves(){
 
 function Dolphin_setResolution($resolution){
 	
-	switch ( $screenResolution )
+	switch ( $resolution )
 	{
 		'720P' { $multiplier = 2 }
 		'1080P' { $multiplier = 3    }
 		'1440P' { $multiplier = 4   }
 		'4K' { $multiplier = 6 }
 	}	
+	
+	echo $multiplier;
 	
 	setConfig 'InternalResolution' $multiplier 'tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
 	
