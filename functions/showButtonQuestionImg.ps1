@@ -11,7 +11,8 @@ function showButtonQuestionImg($img, $titleText, $subtitleText, $button1Text, $b
 	$buttonSeparation=90
 			
 	$URL = -join("https://raw.githubusercontent.com/EmuDeck/emudeck-electron/main/src/assets/",$img)
-	$Path= -join($userFolder,'/',$img)
+	$localImg = $img.replace('emulators/','')
+	$Path= -join($userFolder,'/EmuDeck/',$localImg)
 	
 	Invoke-WebRequest -URI $URL -OutFile $Path
 	Add-Type -AssemblyName 'System.Windows.Forms'
