@@ -246,130 +246,130 @@ Yuzu_setResolution $yuzuResolution
 
 #AR, Bezels and Shaders
 #RA Bezels	
-if ( "$doSetupRA" -eq "true" ){
-	RetroArch_setBezels #needs to change
-	
-	#RA AutoSave	
-	if ( "$RAautoSave" -eq "true" ){
-		RetroArch_autoSaveOn
-	}else{
-		RetroArch_autoSaveOff
-	}	
-}
-
-#
-#New Shaders
-#Moved before widescreen, so widescreen disabled if needed.
+#if ( "$doSetupRA" -eq "true" ){
+#	RetroArch_setBezels #needs to change
 #	
-if ( "$doSetupRA" -eq "true" ){
-	RetroArch_setShadersCRT
-	RetroArch_setShaders3DCRT
-	RetroArch_setShadersMAT
-}
-
-	#
-	#New Aspect Ratios
-	#
-	
-	#Sega Games
-		#Master System
-		#Genesis
-		#Sega CD
-		#Sega 32X
-	if ( "$doSetupRA" -eq "true" ){
-		case $arSega in
-		  "32")	 
-			RetroArch_mastersystem_ar32
-			RetroArch_genesis_ar32
-			RetroArch_segacd_ar32
-			  RetroArch_sega32x_ar32	
-			;;  
-		  *)
-			RetroArch_mastersystem_ar43
-			RetroArch_genesis_ar43
-			  RetroArch_segacd_ar43
-			  RetroArch_sega32x_ar43
-			  if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
-				  RetroArch_mastersystem_bezelOn
-				  RetroArch_genesis_bezelOn
-				  RetroArch_segacd_bezelOn
-				  RetroArch_sega32x_bezelOn
-			}
-		  ;;
-		esac	
-		
-		#Snes and NES
-		case $arSnes in
-		  "87")
-			RetroArch_snes_ar87
-			RetroArch_nes_ar87
-		  ;;
-		  "32")
-			RetroArch_snes_ar32
-			  RetroArch_nes_ar32
-			;;  
-		  *)
-			RetroArch_snes_ar43
-			RetroArch_nes_ar43
-			if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){	
-				RetroArch_snes_bezelOn
-			}
-		  ;;
-		esac
-	}
-	# Classic 3D Games
-		#Dreamcast
-		#PSX
-		#Nintendo 64
-		#Saturn
-		#Xbox
-	if ( "$arClassic3D" -eq 169 ){		
-		if ( "$doSetupRA" -eq "true" ){	
-			RetroArch_Beetle_PSX_HW_wideScreenOn
-			RetroArch_Flycast_wideScreenOn			
-			RetroArch_dreamcast_bezelOff
-			RetroArch_psx_bezelOff
-			RetroArch_n64_wideScreenOn
-			RetroArch_SwanStation_wideScreenOn
-		}
-		if ( "$doSetupDuck" -eq "true" ){
-			DuckStation_wideScreenOn
-		}
-		if ( "$doSetupXemu" -eq "true" ){
-			Xemu_wideScreenOn
-		}
-
-	}else{
-		if ( "$doSetupRA" -eq "true" ){
-			#"SET 4:3"
-			RetroArch_Flycast_wideScreenOff
-			RetroArch_n64_wideScreenOff
-			RetroArch_Beetle_PSX_HW_wideScreenOff
-			RetroArch_SwanStation_wideScreenOff
-		}
-		if ( "$doSetupDuck" -eq "true" ){
-			DuckStation_wideScreenOff
-		}
-		if ( "$doSetupXemu" -eq "true" ){
-			Xemu_wideScreenOff
-		}
-		#"Bezels on"
-		if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
-			RetroArch_dreamcast_bezelOn			
-			RetroArch_n64_bezelOn
-			RetroArch_psx_bezelOn
-		}			
-	}
-	
-	# GameCube
-	if ( "$doSetupDolphin" -eq "true" ){
-		if ( "$arDolphin" -eq 169 ){	
-			Dolphin_wideScreenOn
-		}else{
-			Dolphin_wideScreenOff
-		}
-	}
-
+#	#RA AutoSave	
+#	if ( "$RAautoSave" -eq "true" ){
+#		RetroArch_autoSaveOn
+#	}else{
+#		RetroArch_autoSaveOff
+#	}	
+#}
+#
+##
+##New Shaders
+##Moved before widescreen, so widescreen disabled if needed.
+##	
+#if ( "$doSetupRA" -eq "true" ){
+#	RetroArch_setShadersCRT
+#	RetroArch_setShaders3DCRT
+#	RetroArch_setShadersMAT
+#}
+#
+#	#
+#	#New Aspect Ratios
+#	#
+#	
+#	#Sega Games
+#		#Master System
+#		#Genesis
+#		#Sega CD
+#		#Sega 32X
+#	if ( "$doSetupRA" -eq "true" ){
+#		case $arSega in
+#		  "32")	 
+#			RetroArch_mastersystem_ar32
+#			RetroArch_genesis_ar32
+#			RetroArch_segacd_ar32
+#			  RetroArch_sega32x_ar32	
+#			;;  
+#		  *)
+#			RetroArch_mastersystem_ar43
+#			RetroArch_genesis_ar43
+#			  RetroArch_segacd_ar43
+#			  RetroArch_sega32x_ar43
+#			  if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
+#				  RetroArch_mastersystem_bezelOn
+#				  RetroArch_genesis_bezelOn
+#				  RetroArch_segacd_bezelOn
+#				  RetroArch_sega32x_bezelOn
+#			}
+#		  ;;
+#		esac	
+#		
+#		#Snes and NES
+#		case $arSnes in
+#		  "87")
+#			RetroArch_snes_ar87
+#			RetroArch_nes_ar87
+#		  ;;
+#		  "32")
+#			RetroArch_snes_ar32
+#			  RetroArch_nes_ar32
+#			;;  
+#		  *)
+#			RetroArch_snes_ar43
+#			RetroArch_nes_ar43
+#			if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){	
+#				RetroArch_snes_bezelOn
+#			}
+#		  ;;
+#		esac
+#	}
+#	# Classic 3D Games
+#		#Dreamcast
+#		#PSX
+#		#Nintendo 64
+#		#Saturn
+#		#Xbox
+#	if ( "$arClassic3D" -eq 169 ){		
+#		if ( "$doSetupRA" -eq "true" ){	
+#			RetroArch_Beetle_PSX_HW_wideScreenOn
+#			RetroArch_Flycast_wideScreenOn			
+#			RetroArch_dreamcast_bezelOff
+#			RetroArch_psx_bezelOff
+#			RetroArch_n64_wideScreenOn
+#			RetroArch_SwanStation_wideScreenOn
+#		}
+#		if ( "$doSetupDuck" -eq "true" ){
+#			DuckStation_wideScreenOn
+#		}
+#		if ( "$doSetupXemu" -eq "true" ){
+#			Xemu_wideScreenOn
+#		}
+#
+#	}else{
+#		if ( "$doSetupRA" -eq "true" ){
+#			#"SET 4:3"
+#			RetroArch_Flycast_wideScreenOff
+#			RetroArch_n64_wideScreenOff
+#			RetroArch_Beetle_PSX_HW_wideScreenOff
+#			RetroArch_SwanStation_wideScreenOff
+#		}
+#		if ( "$doSetupDuck" -eq "true" ){
+#			DuckStation_wideScreenOff
+#		}
+#		if ( "$doSetupXemu" -eq "true" ){
+#			Xemu_wideScreenOff
+#		}
+#		#"Bezels on"
+#		if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
+#			RetroArch_dreamcast_bezelOn			
+#			RetroArch_n64_bezelOn
+#			RetroArch_psx_bezelOn
+#		}			
+#	}
+#	
+#	# GameCube
+#	if ( "$doSetupDolphin" -eq "true" ){
+#		if ( "$arDolphin" -eq 169 ){	
+#			Dolphin_wideScreenOn
+#		}else{
+#			Dolphin_wideScreenOff
+#		}
+#	}
+#
 
 Write-Output ""
 Write-Host "================ Installation Complete! ================" -ForegroundColor green -BackgroundColor black
