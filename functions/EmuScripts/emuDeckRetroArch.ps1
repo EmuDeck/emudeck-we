@@ -1736,6 +1736,41 @@ function RetroArch_autoSaveOff(){
 	changeLine 'savestate_auto_save = ' 'savestate_auto_save = "false"' "$RetroArch_configFile"
 }
 
+function RetroArch_setSNESAR(){
+	if ( "$SNESAR" -eq 87 ){	
+		RetroArch_snes_ar87
+	}else{
+		RetroArch_snes_ar43
+	}
+}
+function RetroArch_setBezels(){
+	if ( "$RABezels" -eq true ){	
+		RetroArch_bezelOnAll
+	}else{
+		RetroArch_bezelOffAll
+	}	
+}
+function RetroArch_setShadersCRT(){
+	if ( "$RAHandClassic2D" -eq true ){	
+		RetroArch_CRTshaderOnAll
+	}else{
+		RetroArch_CRTshaderOffAll
+	}	
+}
+function RetroArch_setShaders3DCRT(){
+	if ( "$RAHandClassic3D" -eq true ){	
+		RetroArch_3DCRTshaderOnAll
+	}else{
+		RetroArch_3DCRTshaderOffAll
+	}	
+}
+function RetroArch_setShadersMAT(){
+	if ( "$RAHandHeldShader" -eq true ){	
+		RetroArch_MATshadersOnAll
+	}else{
+		RetroArch_MATshadersOffAll
+	}	
+}
 
 function RetroArch_MATshadersOnAll(){
 	RetroArch_wswanc_MATshaderOn

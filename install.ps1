@@ -368,7 +368,7 @@ if ( "$doSetupRA" -eq "true" ){
 		}else{
 			Dolphin_wideScreenOff
 		}
-
+	}
 
 
 Write-Output ""
