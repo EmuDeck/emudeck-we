@@ -43,10 +43,10 @@ waitForUser
 
 Clear-Host
 
-$SRDolphin=showButtonQuestionImg "bezels.png" 'Configure GameCube & Wii Resolution' 'This will configure the resolution for the Dolphin Emulator' '720P' '1080P' '1440P' '4K'
-$SRDuckStation=showButtonQuestionImg "bezels.png" 'Configure PS1 Resolution' 'This will configure the resolution for the DuckStation Emulator' '720P' '1080P' '1440P' '4K'
-$SRPCSX2=showButtonQuestionImg "bezels.png" 'Configure PS2 Resolution' 'This will configure the resolution for the RPCSX2 Emulator' '720P' '1080P' '1440P' '4K'
-$SRYuzu=showButtonQuestionImg "bezels.png" 'Configure Switch Resolution' 'This will configure the resolution for the Yuzu Emulator' '720P' '1080P' '1440P' '4K'
+$SRDolphin=showButtonQuestionImg "emulators/dolphin.png" 'Configure GameCube and Wii Resolution' 'This will configure the resolution for the Dolphin Emulator' '720P' '1080P' '1440P' '4K'
+$SRDuckStation=showButtonQuestionImg "emulators/duckstation.png" 'Configure PS1 Resolution' 'This will configure the resolution for the DuckStation Emulator' '720P' '1080P' '1440P' '4K'
+$SRPCSX2=showButtonQuestionImg "emulators/pcsx2.png" 'Configure PS2 Resolution' 'This will configure the resolution for the RPCSX2 Emulator' '720P' '1080P' '1440P' '4K'
+$SRYuzu=showButtonQuestionImg "emulators/yuzu.png" 'Configure Switch Resolution' 'This will configure the resolution for the Yuzu Emulator' '720P' '1080P' '1440P' '4K'
 
 setSetting 'dolphinResolution' "$SRDolphin"
 setSetting 'duckstationResolution' "$SRDuckStation"
