@@ -21,6 +21,10 @@ function ESDE_init(){
 		Remove-Item -Recurse -Force temp -ErrorAction SilentlyContinue
 	}
 	
+	#PS2 Fixes	
+	sedFile 'pcsx2.exe' 'pcsx2-qtx64-avx2.exe' "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml"	
+	sedFile '%EMULATOR_PCSX2% --nogui' '-nogui -fastboot -fullscreen' "tools\EmulationStation-DE\resources\systems\windows\es_systems.xml"
+	
 }
 function ESDE_update(){
 	echo "NYI"
