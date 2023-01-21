@@ -1744,28 +1744,28 @@ function RetroArch_setSNESAR(){
 	}
 }
 function RetroArch_setBezels(){
-	if ( "$RABezels" -eq true ){	
+	if ( "$RABezels" -eq "true" ){	
 		RetroArch_bezelOnAll
 	}else{
 		RetroArch_bezelOffAll
 	}	
 }
 function RetroArch_setShadersCRT(){
-	if ( "$RAHandClassic2D" -eq true ){	
+	if ( "$RAHandClassic2D" -eq "true" ){	
 		RetroArch_CRTshaderOnAll
 	}else{
 		RetroArch_CRTshaderOffAll
 	}	
 }
 function RetroArch_setShaders3DCRT(){
-	if ( "$RAHandClassic3D" -eq true ){	
+	if ( "$RAHandClassic3D" -eq "true" ){	
 		RetroArch_3DCRTshaderOnAll
 	}else{
 		RetroArch_3DCRTshaderOffAll
 	}	
 }
 function RetroArch_setShadersMAT(){
-	if ( "$RAHandHeldShader" -eq true ){	
+	if ( "$RAHandHeldShader" -eq "true" ){	
 		RetroArch_MATshadersOnAll
 	}else{
 		RetroArch_MATshadersOffAll
