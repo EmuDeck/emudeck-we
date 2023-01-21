@@ -66,7 +66,11 @@ if($customization -eq 'CUSTOM'){
 	
 	#Customization Dialogs
 	$RABezels=showButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
-	setSetting 'RABezels' "$RABezels"
+	if ($RABezels == 'ON'){
+		setSetting 'RABezels' "true"
+	}else{
+		setSetting 'RABezels' "false"
+	}
 	
 	$arSega=showButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
 	setSetting 'arSega' "$arSega"
@@ -80,14 +84,34 @@ if($customization -eq 'CUSTOM'){
 	$arDolphin=showButtonQuestionImg "ar43gc.png" 'Configure Aspect Ratio for GameCube' 'Choose your aspect ratio for GameCube games.' '43' '169'
 	setSetting 'arDolphin' "$arDolphin"
 	
-	$RAHandHeldShader=showButtonQuestionImg "lcdon.png" 'Configure LCD Shader Handhelds' 'The LCD Shader simulates the old LCD Matrix screens of handheld systems' 'ON' 'OFF'
-	setSetting 'RAHandHeldShader' "$RAHandHeldShader"
+	$RAHandHeldShader=showButtonQuestionImg "lcdon.png" 'Configure LCD Shader Handhelds' 'The LCD Shader simulates the old LCD Matrix screens of handheld systems' 'ON' 'OFF'		
+	if ($RABezels == 'ON'){
+		setSetting 'RAHandHeldShader' "true"
+	}else{
+		setSetting 'RAHandHeldShader' "false"
+	}
 	
 	$RAHandClassic2D=showButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
-	setSetting 'RAHandClassic2D' "$RAHandClassic2D"
+	if ($RABezels == 'ON'){
+		setSetting 'RAHandClassic2D' "true"
+	}else{
+		setSetting 'RAHandClassic2D' "false"
+	}
 	
 	$RAHandClassic3D=showButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
-	setSetting 'RAHandClassic3D' "$RAHandClassic3D"
+	if ($RABezels == 'ON'){
+		setSetting 'RAHandClassic3D' "true"
+	}else{
+		setSetting 'RAHandClassic3D' "false"
+	}
+	
+	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
+	if ($RABezels == 'ON'){
+		setSetting 'RAautoSave' "true"
+	}else{
+		setSetting 'RAautoSave' "false"
+	}
+	
 }
 
 #ReLoad Settings after customization
