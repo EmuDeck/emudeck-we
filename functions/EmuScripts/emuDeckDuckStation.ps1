@@ -87,9 +87,11 @@ function DuckStation_resetConfig(){
 	echo "NYI"
 }
 
-function DuckStation_wideScreenOff(){
-	echo "NYI"
-}
 function DuckStation_wideScreenOn(){
-	echo "NYI"
+	setConfig 'WidescreenHack' 'true' 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'
+	setConfig 'AspectRatio' '16:9' 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'	
+}
+function DuckStation_wideScreenOff(){
+	setConfig 'WidescreenHack' 'false' 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'
+	setConfig 'AspectRatio' '4:3' 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'	
 }
