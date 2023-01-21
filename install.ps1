@@ -245,99 +245,129 @@ Yuzu_setResolution $yuzuResolution
 
 
 #AR, Bezels and Shaders
-if($RABezels = 'ON'){
-	RetroArch_bezelOnAll
-}else{
-	RetroArch_bezelOffAll
+#RA Bezels	
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_setBezels #needs to change
+	
+	#RA AutoSave	
+	if ( "$RAautoSave" -eq true ){
+		RetroArch_autoSaveOn
+	}else{
+		RetroArch_autoSaveOff
+	}	
 }
 
-if($arSega = '43'){
-	RetroArch_mastersystem_ar43
-	RetroArch_genesis_ar43
-	RetroArch_segacd_ar43
-	RetroArch_sega32x_ar43
-	if($RABezels = 'ON'){
-	  RetroArch_mastersystem_bezelOn
-	  RetroArch_genesis_bezelOn
-	  RetroArch_segacd_bezelOn
-	  RetroArch_sega32x_bezelOn
-	}
-	
-}else{
-	RetroArch_mastersystem_ar32
-	RetroArch_genesis_ar32
-	RetroArch_segacd_ar32
-	RetroArch_sega32x_ar32	
-	
-	RetroArch_mastersystem_bezelOff
-	RetroArch_genesis_bezelOff
-	RetroArch_segacd_bezelOff
-	RetroArch_sega32x_bezelOff
+#
+#New Shaders
+#Moved before widescreen, so widescreen disabled if needed.
+#	
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_setShadersCRT
+	RetroArch_setShaders3DCRT
+	RetroArch_setShadersMAT
 }
-if($arSnes = '43'){
-	RetroArch_snes_ar43
-	RetroArch_nes_ar43
-	if($RABezels = 'ON'){
-		RetroArch_snes_bezelOn
-		RetroArch_nes_bezelOn
+
+	#
+	#New Aspect Ratios
+	#
+	
+	#Sega Games
+		#Master System
+		#Genesis
+		#Sega CD
+		#Sega 32X
+	if ( "$doSetupRA" -eq "true" ){
+		case $arSega in
+		  "32")	 
+			RetroArch_mastersystem_ar32
+			RetroArch_genesis_ar32
+			RetroArch_segacd_ar32
+			  RetroArch_sega32x_ar32	
+			;;  
+		  *)
+			RetroArch_mastersystem_ar43
+			RetroArch_genesis_ar43
+			  RetroArch_segacd_ar43
+			  RetroArch_sega32x_ar43
+			  if ( "$RABezels" -eq true ) && ( "$doSetupRA" -eq "true" ){
+				  RetroArch_mastersystem_bezelOn
+				  RetroArch_genesis_bezelOn
+				  RetroArch_segacd_bezelOn
+				  RetroArch_sega32x_bezelOn
+			}
+		  ;;
+		esac	
+		
+		#Snes and NES
+		case $arSnes in
+		  "87")
+			RetroArch_snes_ar87
+			RetroArch_nes_ar87
+		  ;;
+		  "32")
+			RetroArch_snes_ar32
+			  RetroArch_nes_ar32
+			;;  
+		  *)
+			RetroArch_snes_ar43
+			RetroArch_nes_ar43
+			if ( "$RABezels" -eq true ) && ( "$doSetupRA" -eq "true" ){	
+				RetroArch_snes_bezelOn
+			}
+		  ;;
+		esac
+	}
+	# Classic 3D Games
+		#Dreamcast
+		#PSX
+		#Nintendo 64
+		#Saturn
+		#Xbox
+	if ( "$arClassic3D" -eq 169 ){		
+		if ( "$doSetupRA" -eq "true" ){	
+			RetroArch_Beetle_PSX_HW_wideScreenOn
+			RetroArch_Flycast_wideScreenOn			
+			RetroArch_dreamcast_bezelOff
+			RetroArch_psx_bezelOff
+			RetroArch_n64_wideScreenOn
+			RetroArch_SwanStation_wideScreenOn
+		}
+		if ( "$doSetupDuck" -eq "true" ){
+			DuckStation_wideScreenOn
+		}
+		if ( "$doSetupXemu" -eq "true" ){
+			Xemu_wideScreenOn
+		}
+
 	}else{
-		RetroArch_snes_bezelOff
-		RetroArch_nes_bezelOff
-	}
-}else{
-	RetroArch_snes_ar87
-	RetroArch_nes_ar87
-	if($RABezels = 'ON'){
-		RetroArch_snes_bezelOn
-		RetroArch_nes_bezelOn
-	}else{
-		RetroArch_snes_bezelOff
-		RetroArch_nes_bezelOff
-	}
-}
-if($arClassic3D = '43'){
-	RetroArch_Flycast_wideScreenOff
-	RetroArch_n64_wideScreenOff
-	RetroArch_Beetle_PSX_HW_wideScreenOff
-	RetroArch_SwanStation_wideScreenOff
-	DuckStation_wideScreenOff
-	Xemu_wideScreenOff
-	if($RABezels = 'ON'){
-		RetroArch_dreamcast_bezelOn			
-		RetroArch_n64_bezelOn
-		RetroArch_psx_bezelOn
+		if ( "$doSetupRA" -eq "true" ){
+			#"SET 4:3"
+			RetroArch_Flycast_wideScreenOff
+			RetroArch_n64_wideScreenOff
+			RetroArch_Beetle_PSX_HW_wideScreenOff
+			RetroArch_SwanStation_wideScreenOff
+		}
+		if ( "$doSetupDuck" -eq "true" ){
+			DuckStation_wideScreenOff
+		}
+		if ( "$doSetupXemu" -eq "true" ){
+			Xemu_wideScreenOff
+		}
+		#"Bezels on"
+		if ( "$RABezels" -eq true ) && ( "$doSetupRA" -eq "true" ){
+			RetroArch_dreamcast_bezelOn			
+			RetroArch_n64_bezelOn
+			RetroArch_psx_bezelOn
+		}			
 	}
 	
-}else{
-	RetroArch_Beetle_PSX_HW_wideScreenOn
-	RetroArch_Flycast_wideScreenOn			
-	RetroArch_dreamcast_bezelOff
-	RetroArch_psx_bezelOff
-	RetroArch_n64_wideScreenOn
-	RetroArch_SwanStation_wideScreenOn
-	DuckStation_wideScreenOn
-	Xemu_wideScreenOn
-}
-if($arDolphin = '43'){
-	Dolphin_wideScreenOff
-}else{
-	Dolphin_wideScreenOn
-}
-if($RAHandHeldShader = 'ON'){
-	RetroArch_MATshadersOnAll
-}else{
-	RetroArch_MATshadersOfAll
-}
-if($RAHandClassic2D = 'ON'){
-	RetroArch_CRTshaderOnAll
-}else{
-	RetroArch_CRTshaderOfAll
-}
-if($RAHandClassic3D = 'ON'){
-	RetroArch_3DCRTshaderOnAll
-}else{
-	RetroArch_3DCRTshaderOffAll
-}
+	# GameCube
+	if ( "$doSetupDolphin" -eq "true" ){
+		if ( "$arDolphin" -eq 169 ){	
+			Dolphin_wideScreenOn
+		}else{
+			Dolphin_wideScreenOff
+		}
 
 
 
