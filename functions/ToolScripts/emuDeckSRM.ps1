@@ -14,7 +14,9 @@ function SRM_init(){
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
-	createLink "$emulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+	
+	
+	createLink "$emulationPath\tools\srm.exe" "$desktop_path\EmuDeck - Steam Rom Manager.lnk"		
 }
 function SRM_update(){
 	echo "NYI"

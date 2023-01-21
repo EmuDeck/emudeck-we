@@ -1,5 +1,5 @@
 #TODO: Dynamic urls https://stackoverflow.com/questions/33520699/iterating-through-a-json-file-powershell
-
+$desktop_path = [Environment]::GetFolderPath("Desktop")
 $url_ra = "https://buildbot.libretro.com/stable/1.10.3/windows/x86_64/RetroArch.7z"
 $url_dolphin = "https://dl.dolphin-emu.org/builds/c0/39/dolphin-master-5.0-16101-x64.7z"
 $url_pcsx2 = "https://github.com/dragoonDorise/rpcsx2win/releases/download/1.0/pcsx2.7z"
