@@ -44,18 +44,23 @@ waitForUser
 Clear-Host
 
 $SRDolphin=showButtonQuestionImg "emulators/dolphin.png" 'Configure GameCube and Wii Resolution' 'This will configure the resolution for the Dolphin Emulator' '720P' '1080P' '1440P' '4K'
-$SRDuckStation=showButtonQuestionImg "emulators/duckstation.png" 'Configure PlayStation Resolution' 'This will configure the resolution for the DuckStation Emulator' '720P' '1080P' '1440P' '4K'
-$SRPCSX2=showButtonQuestionImg "emulators/pcsx2.png" 'Configure PlayStation 2 Resolution' 'This will configure the resolution for the RPCSX2 Emulator' '720P' '1080P' '1440P' '4K'
-$SRYuzu=showButtonQuestionImg "emulators/yuzu.png" 'Configure Switch Resolution' 'This will configure the resolution for the Yuzu Emulator' '720P' '1080P' '1440P' '4K'
-
 setSetting 'dolphinResolution' "$SRDolphin"
+
+$SRDuckStation=showButtonQuestionImg "emulators/duckstation.png" 'Configure PlayStation Resolution' 'This will configure the resolution for the DuckStation Emulator' '720P' '1080P' '1440P' '4K'
 setSetting 'duckstationResolution' "$SRDuckStation"
+
+$SRPCSX2=showButtonQuestionImg "emulators/pcsx2.png" 'Configure PlayStation 2 Resolution' 'This will configure the resolution for the RPCSX2 Emulator' '720P' '1080P' '1440P' '4K'
 setSetting 'pcsx2Resolution' "$SRPCSX2"
+
+$SRYuzu=showButtonQuestionImg "emulators/yuzu.png" 'Configure Switch Resolution' 'This will configure the resolution for the Yuzu Emulator' '720P' '1080P' '1440P' '4K'
 setSetting 'yuzuResolution' "$SRYuzu"
 
 
+
 #Customization Dialogs
-#$RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
+RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
+setSetting 'RABezels' "$RABezels"
+
 #$arSega=showTwoButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
 #$arSnes=showTwoButtonQuestionImg "ar43snes.png" 'Configure Aspect Ratio  Super NES' 'Choose your aspect ratio for Super Nintendo games' '43' '87'
 #$arClassic3D=showTwoButtonQuestionImg "ar433d.png" 'Configure Aspect Ratio for Classic 3D Games' 'Choose your aspect ratio for Dreamcast and Nintendo 64' '43' '169'

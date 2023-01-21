@@ -245,11 +245,11 @@ Yuzu_setResolution $yuzuResolution
 #Xemu_setResolution $screenResolution
 #Xenia_setResolution $screenResolution
 
-#if($RABezels = 'ON'){
-#	
-#}else{
-#	
-#}
+if($RABezels = 'ON'){
+	RetroArch_bezelOnAll
+}else{
+	RetroArch_bezelOffAll
+}
 #if($arSega = '43'){
 #	
 #}else{

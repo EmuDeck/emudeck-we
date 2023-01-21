@@ -91,6 +91,33 @@ function RetroArch_setupSaves(){
 	$ShortcutPath = -join($emulationPath,'saves\retroarch\states.lnk')
 	createLink $SourceFilePath $ShortcutPath
 }
+
+function RetroArch_bezelOnAll(){
+	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+	Get-ChildItem $path -Recurse -Filter *.cfg | 
+	Foreach-Object {
+		$originFile = $_.FullName		 
+		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
+		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')		
+		setConfig 'input_overlay_enable' "true" $originFile		
+	}	
+}
+
+function RetroArch_bezelOffAll(){
+	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+Get-ChildItem $path -Recurse -Filter *.cfg | 
+Foreach-Object {
+	$originFile = $_.FullName		 
+	$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
+	$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')		
+	setConfig 'input_overlay_enable' "false" $originFile		
+}	
+}
+
+function RetroArch_setupStorage(){
+	echo "NYI"
+}
+
 function RetroArch_setupStorage(){
 	echo "NYI"
 }
