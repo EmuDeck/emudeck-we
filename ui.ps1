@@ -43,6 +43,9 @@ waitForUser
 
 Clear-Host
 
+$RABezels=showButtonQuestionImg "bezels.png" 'Configure Resolution' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' '720P' '1080P' '1440P' '4K' '720P' '1080P' '1440P' '4K'
+echo $RABezels
+
 #Customization Dialogs
 #$RABezels=showTwoButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
 #$arSega=showTwoButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
