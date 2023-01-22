@@ -45,13 +45,13 @@ $RABezels="true"
 $RAautoSave="false"
 
 #Default installation folders
-$emulationPath=~/Emulation
-$romsPath=~/Emulation/roms
-$toolsPath=~/Emulation/tools
-$biosPath=~/Emulation/bios
-$savesPath=~/Emulation/saves
-$storagePath=~/Emulation/storage
-$ESDEscrapData=~/Emulation/tools/downloaded_media
+$emulationPath=C:/Emulation
+$romsPath=C:/Emulation/roms
+$toolsPath=C:/Emulation/tools
+$biosPath=C:/Emulation/bios
+$savesPath=C:/Emulation/saves
+$storagePath=C:/Emulation/storage
+$ESDEscrapData=C:/Emulation/tools/downloaded_media
 
 #Default ESDE Theme
 $esdeTheme="EPICNOIR"
