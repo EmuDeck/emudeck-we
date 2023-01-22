@@ -21,6 +21,7 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\createLauncher.ps1
 . .\functions\helperFunctions.ps1
 . .\functions\showButtonQuestionImg.ps1
+. .\functions\showButtonQuestion.ps1
 
 . .\functions\EmuScripts\emuDeckCemu.ps1
 . .\functions\EmuScripts\emuDeckCitra.ps1
