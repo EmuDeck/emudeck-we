@@ -10,7 +10,7 @@ setSetting 'toolsPath' "$winPath\Emulation\tools\"
 setSetting 'savesPath' "$winPath\Emulation\saves\"
 setSetting 'storagePath' "$winPath\Emulation\storagePath\"
 setSetting 'ESDEscrapData' "$winPath\Emulation\tools\downloaded_media\"
-Clear-Host
+#Clear-Host
 #Load Settings
 . $env:USERPROFILE\EmuDeck\settings.ps1
 
@@ -42,7 +42,7 @@ Write-Output "RPCS3, Xenia, Vita3K, Citra, Ryujinx"
 Write-Output "Hotkeys for: Duckstation, Yuzu, Cemu, PPSSPP, PCSX2"
 Write-Output "Better support for 16:9 Screens"
 Write-Output ""
-#waitForUser
+waitForUser
 
 Clear-Host
 
