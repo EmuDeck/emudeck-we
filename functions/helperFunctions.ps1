@@ -25,3 +25,16 @@
 	echo "Line $line changed to $newLine"
 
 }
+
+ function setConfigRA($old, $new, $fileToCheck){	
+
+	$fileContents = Get-Content $fileToCheck
+	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
+	$newLine=-join($old,' = ',$new)
+	$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
+
+	Set-Content -Path $fileToCheck -Value $modifiedContents
+
+	echo "Line $line changed to $newLine"
+
+}
