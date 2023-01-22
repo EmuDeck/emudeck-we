@@ -48,7 +48,7 @@ Clear-Host
 
 
 
-$customization=showButtonQuestionImg "1x1.png" 'Install mode' 'Select Easy for a quick unattended install, or Custom for a more customizable installation.' 'EASY' 'CUSTOM'
+$customization=showButtonQuestion 'Easy or Custom Mode' 'Select Easy for a Quick install, or Custom for a more customizable installation.' 'EASY' 'CUSTOM'
 
 if($customization -eq 'CUSTOM'){
 
