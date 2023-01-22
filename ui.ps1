@@ -10,7 +10,7 @@ setSetting 'toolsPath' "$winPath\Emulation\tools\"
 setSetting 'savesPath' "$winPath\Emulation\saves\"
 setSetting 'storagePath' "$winPath\Emulation\storagePath\"
 setSetting 'ESDEscrapData' "$winPath\Emulation\tools\downloaded_media\"
-#Clear-Host
+Clear-Host
 #Load Settings
 . $env:USERPROFILE\EmuDeck\settings.ps1
 
@@ -66,7 +66,7 @@ if($customization -eq 'CUSTOM'){
 	
 	#Customization Dialogs
 	
-	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' 'Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
+	$RAautoSave=showButtonQuestion 'Configure AutoSave and Autoload' 'Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
 	if ($RAautoSave -eq 'ON'){
 		setSetting 'RAautoSave' "true"
 	}else{
