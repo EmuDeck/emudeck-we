@@ -12,7 +12,7 @@
 	
 		echo "Line $line changed to $newLine"
 	}else{
-		Write-Host "Line not found on $fileToCheck" -ForegroundColor orange -BackgroundColor black
+		echo "Line not found on $fileToCheck"
 	}
 
 }
@@ -28,7 +28,7 @@
 		Set-Content -Path $fileToCheck -Value $modifiedContents
 		echo "Line $line changed to $newLine"
 	}else{
-		Write-Host "Line not found on $fileToCheck" -ForegroundColor orange -BackgroundColor black		
+		echo "Line not found on $fileToCheck"
 	}
 
 }
@@ -45,7 +45,7 @@
 		
 		echo "Line $line changed to $newLine"
 	}else{
-		Write-Host "Line not found on $fileToCheck" -ForegroundColor orange -BackgroundColor black"
+		echo "Line not found on $fileToCheck"
 	}
 
 
