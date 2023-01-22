@@ -30,14 +30,14 @@ function RetroArch_init(){
 	Foreach-Object {
 		$originFile = $_.FullName
 	
-		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus"
-		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus')
+		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/"
+		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\')
 		
 		sedFile $originFile $origin $target
 		
 		#Video Filters path
-		$origin="/app/lib/retroarch/filters/video"
-		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\filters\video')
+		$origin="/app/lib/retroarch/filters/video/"
+		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\filters\video\')
 		
 		sedFile $originFile $origin $target
 	}
