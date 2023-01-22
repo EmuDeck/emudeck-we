@@ -66,7 +66,7 @@ if($customization -eq 'CUSTOM'){
 	
 	#Customization Dialogs
 	
-	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
+	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' 'Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
 	if ($RAautoSave -eq 'ON'){
 		setSetting 'RAautoSave' "true"
 	}else{
