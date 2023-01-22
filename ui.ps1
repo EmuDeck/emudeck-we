@@ -66,7 +66,7 @@ if($customization -eq 'CUSTOM'){
 	
 	#Customization Dialogs
 	$RABezels=showButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
-	if ($RABezels == 'ON'){
+	if ($RABezels -eq 'ON'){
 		setSetting 'RABezels' "true"
 	}else{
 		setSetting 'RABezels' "false"
@@ -85,32 +85,32 @@ if($customization -eq 'CUSTOM'){
 	setSetting 'arDolphin' "$arDolphin"
 	
 	$RAHandHeldShader=showButtonQuestionImg "lcdon.png" 'Configure LCD Shader Handhelds' 'The LCD Shader simulates the old LCD Matrix screens of handheld systems' 'ON' 'OFF'		
-	if ($RABezels == 'ON'){
+	if ($RABezels -eq 'ON'){
 		setSetting 'RAHandHeldShader' "true"
 	}else{
 		setSetting 'RAHandHeldShader' "false"
 	}
 	
 	$RAHandClassic2D=showButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
-	if ($RABezels == 'ON'){
+	if ($RABezels -eq 'ON'){
 		setSetting 'RAHandClassic2D' "true"
 	}else{
 		setSetting 'RAHandClassic2D' "false"
 	}
 	
 	$RAHandClassic3D=showButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
-	if ($RABezels == 'ON'){
+	if ($RABezels -eq 'ON'){
 		setSetting 'RAHandClassic3D' "true"
 	}else{
 		setSetting 'RAHandClassic3D' "false"
 	}
 	
-	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
-	if ($RAautoSave == 'ON'){
-		setSetting 'RAautoSave' "true"
-	}else{
-		setSetting 'RAautoSave' "false"
-	}
+	#$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch #systems' 'ON' 'OFF'
+	#if ($RAautoSave -eq 'ON'){
+	#	setSetting 'RAautoSave' "true"
+	#}else{
+	#	setSetting 'RAautoSave' "false"
+	#}
 	
 }
 
