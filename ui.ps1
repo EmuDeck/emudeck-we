@@ -42,13 +42,13 @@ Write-Output "RPCS3, Xenia, Vita3K, Citra, Ryujinx"
 Write-Output "Hotkeys for: Duckstation, Yuzu, Cemu, PPSSPP, PCSX2"
 Write-Output "Better support for 16:9 Screens"
 Write-Output ""
-waitForUser
+#waitForUser
 
 Clear-Host
 
 
 
-$customization=showButtonQuestionImg "1x1.png" 'Easy or Custom Mode' 'Select Easy for a Quick install, or Custom for a more customizable installation.' 'EASY' 'CUSTOM'
+$customization=showButtonQuestionImg "1x1.png" 'Install mode' 'Select Easy for a quick unattended install, or Custom for a more customizable installation.' 'EASY' 'CUSTOM'
 
 if($customization -eq 'CUSTOM'){
 
