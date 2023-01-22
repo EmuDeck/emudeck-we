@@ -1728,12 +1728,12 @@ function RetroArch_psx_setConfig(){
 
 
 function RetroArch_autoSaveOn(){
-	changeLine 'savestate_auto_load = ' 'savestate_auto_load = "true"' "$RetroArch_configFile"
-	changeLine 'savestate_auto_save = ' 'savestate_auto_save = "true"' "$RetroArch_configFile"
+	setConfig "savestate_auto_load" "true" $raConfigfile
+	setConfig "savestate_auto_save" "true" $raConfigfile	
 }
 function RetroArch_autoSaveOff(){
-	changeLine 'savestate_auto_load = ' 'savestate_auto_load = "false"' "$RetroArch_configFile"
-	changeLine 'savestate_auto_save = ' 'savestate_auto_save = "false"' "$RetroArch_configFile"
+	setConfig "savestate_auto_load" "false" $raConfigfile
+	setConfig "savestate_auto_save" "false" $raConfigfile	
 }
 
 function RetroArch_setSNESAR(){

@@ -278,45 +278,45 @@ if ( "$doSetupRA" -eq "true" ){
 		#Sega CD
 		#Sega 32X
 	if ( "$doSetupRA" -eq "true" ){
-		case $arSega in
-		  "32")	 
-			RetroArch_mastersystem_ar32
-			RetroArch_genesis_ar32
+		switch ($arSega){
+		  32 {	 
+			RetroArch_mastersystem_ar32;
+			RetroArch_genesis_ar32;
 			RetroArch_segacd_ar32
-			  RetroArch_sega32x_ar32	
-			;;  
-		  *)
+			RetroArch_sega32x_ar32	
+		  }			
+		  43 {
 			RetroArch_mastersystem_ar43
 			RetroArch_genesis_ar43
-			  RetroArch_segacd_ar43
-			  RetroArch_sega32x_ar43
-			  if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
+			RetroArch_segacd_ar43
+			RetroArch_sega32x_ar43
+			if ( "$RABezels" -eq "true"){
+				if ("$doSetupRA" -eq "true" ){
 				  RetroArch_mastersystem_bezelOn
 				  RetroArch_genesis_bezelOn
 				  RetroArch_segacd_bezelOn
 				  RetroArch_sega32x_bezelOn
+				}
 			}
-		  ;;
-		esac	
+		  }
+		}
 		
 		#Snes and NES
-		case $arSnes in
-		  "87")
+		switch ($arSnes){
+		  87{
 			RetroArch_snes_ar87
 			RetroArch_nes_ar87
-		  ;;
-		  "32")
-			RetroArch_snes_ar32
-			  RetroArch_nes_ar32
-			;;  
-		  *)
+		  }
+		  43{
 			RetroArch_snes_ar43
 			RetroArch_nes_ar43
-			if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){	
-				RetroArch_snes_bezelOn
+			if ( "$RABezels" -eq "true" ){
+				if( "$doSetupRA" -eq "true" ){
+					RetroArch_snes_bezelOn
+				}	
 			}
-		  ;;
-		esac
+		  }		  
+		}
 	}
 	# Classic 3D Games
 		#Dreamcast
@@ -355,10 +355,12 @@ if ( "$doSetupRA" -eq "true" ){
 			Xemu_wideScreenOff
 		}
 		#"Bezels on"
-		if ( "$RABezels" -eq "true" ) && ( "$doSetupRA" -eq "true" ){
+		if ( "$RABezels" -eq "true" ){
+			if( "$doSetupRA" -eq "true" ){
 			RetroArch_dreamcast_bezelOn			
 			RetroArch_n64_bezelOn
 			RetroArch_psx_bezelOn
+			}
 		}			
 	}
 	
@@ -370,7 +372,6 @@ if ( "$doSetupRA" -eq "true" ){
 			Dolphin_wideScreenOff
 		}
 	}
-
 
 Write-Output ""
 Write-Host "================ Installation Complete! ================" -ForegroundColor green -BackgroundColor black
