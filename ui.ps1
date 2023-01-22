@@ -65,6 +65,15 @@ if($customization -eq 'CUSTOM'){
 	setSetting 'yuzuResolution' "$SRYuzu"
 	
 	#Customization Dialogs
+	
+	$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch systems' 'ON' 'OFF'
+	if ($RAautoSave -eq 'ON'){
+		setSetting 'RAautoSave' "true"
+	}else{
+		setSetting 'RAautoSave' "false"
+	}
+	
+	
 	$RABezels=showButtonQuestionImg "bezels.png" 'Configure game bezels' 'You can use our preconfigured bezels to hide the vertical black vars on Retro Games' 'ON' 'OFF'
 	if ($RABezels -eq 'ON'){
 		setSetting 'RABezels' "true"
@@ -75,7 +84,7 @@ if($customization -eq 'CUSTOM'){
 	$arSega=showButtonQuestionImg "ar43.png" 'Configure Aspect Ratio for Classic Sega Games' 'Choose your aspect ratio for your Classic Sega Games' '43' '32'
 	setSetting 'arSega' "$arSega"
 	
-	$arSnes=showButtonQuestionImg "ar43snes.png" 'Configure Aspect Ratio  Super NES' 'Choose your aspect ratio for Super Nintendo games' '43' '87'
+	$arSnes=showButtonQuestionImg "ar43snes.png" 'Configure Aspect Ratio  Nintendo' 'Choose your aspect ratio for Classic Nintendo games' '43' '87'
 	setSetting 'arSnes' "$arSnes"
 	
 	$arClassic3D=showButtonQuestionImg "ar433d.png" 'Configure Aspect Ratio for Classic 3D Games' 'Choose your aspect ratio for Dreamcast and Nintendo 64' '43' '169'
@@ -91,27 +100,21 @@ if($customization -eq 'CUSTOM'){
 		setSetting 'RAHandHeldShader' "false"
 	}
 	
-	$RAHandClassic2D=showButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
+	$RAHandClassic2D=showButtonQuestionImg "classic-shader-on.png" 'Configure CRT Shader Classic 2D Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
 	if ($RABezels -eq 'ON'){
 		setSetting 'RAHandClassic2D' "true"
 	}else{
 		setSetting 'RAHandClassic2D' "false"
 	}
 	
-	$RAHandClassic3D=showButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3d Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
+	$RAHandClassic3D=showButtonQuestionImg "classic-3d-shader-on.png" 'Configure CRT Shader Classic 3D Games' 'The CRT Shader gives your classic systems a faux retro CRT vibe' 'ON' 'OFF'
 	if ($RABezels -eq 'ON'){
 		setSetting 'RAHandClassic3D' "true"
 	}else{
 		setSetting 'RAHandClassic3D' "false"
 	}
 	
-	#$RAautoSave=showButtonQuestionImg "1x1.png" 'Configure AutoSave and Autoload' Do you want to automatically save and load your latest state on RetroArch #systems' 'ON' 'OFF'
-	#if ($RAautoSave -eq 'ON'){
-	#	setSetting 'RAautoSave' "true"
-	#}else{
-	#	setSetting 'RAautoSave' "false"
-	#}
-	
+
 }
 
 #ReLoad Settings after customization
