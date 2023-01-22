@@ -19,8 +19,9 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 . .\functions\sedFile.ps1
 . .\functions\createLink.ps1
 . .\functions\createLauncher.ps1
-. $env:USERPROFILE\EmuDeck\backend\functions\helperFunctions.ps1
-
+. .\functions\helperFunctions.ps1
+. .\functions\showButtonQuestionImg.ps1
+. .\functions\showButtonQuestion.ps1
 
 . .\functions\EmuScripts\emuDeckCemu.ps1
 . .\functions\EmuScripts\emuDeckCitra.ps1
@@ -67,7 +68,7 @@ Set-Location $emulationPath
 
 ### TEST CODE START
 
-dir
+echo "testing"
 
 ### TEST CODE FINNISH
 

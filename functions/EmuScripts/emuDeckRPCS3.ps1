@@ -14,6 +14,9 @@ function RPCS3_update(){
 function RPCS3_setEmulationFolder(){
 	echo "NYI"
 }
+function RPCS3_setResolution($resolution){
+	echo $resolution
+}
 function RPCS3_setupSaves(){
 	echo "NYI"
 }

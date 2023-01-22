@@ -16,6 +16,9 @@ function Xemu_setEmulationFolder(){
 function Xemu_setupSaves(){
 	echo "NYI"
 }
+function Xemu_setResolution($resolution){
+	echo $resolution
+}
 function Xemu_setupStorage(){
 	echo "NYI"
 }
@@ -50,5 +53,11 @@ function Xemu_IsInstalled(){
 	echo "NYI"
 }
 function Xemu_resetConfig(){
+	echo "NYI"
+}
+function Xemu_wideScreenOff(){
+	echo "NYI"
+}
+function Xemu_wideScreenOn(){
 	echo "NYI"
 }
