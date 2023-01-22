@@ -185,11 +185,11 @@ function RetroArch_wswanc_MATshaderOn(){
 
 function RetroArch_wswanc_MATshaderOff(){
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_smooth' '"true"'
 }
 
@@ -219,11 +219,11 @@ function RetroArch_wswan_MATshaderOn(){
 
 function RetroArch_wswan_MATshaderOff(){
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_smooth' '"true"'
 }
 
@@ -307,17 +307,17 @@ function RetroArch_pcengine_CRTshaderOn(){
 
 function RetroArch_pcengine_CRTshaderOff(){
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_smooth' '"true"'
 	
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_smooth' '"true"'
 }
 
 function RetroArch_amiga1200_CRTshaderOff(){
 	RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_smooth' '"true"'
 }
 
@@ -372,11 +372,11 @@ function RetroArch_nes_CRTshaderOn(){
 
 function RetroArch_nes_CRTshaderOff(){
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_smooth' '"true"'
 	
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_smooth' '"true"'
 }
 
@@ -465,11 +465,11 @@ function RetroArch_lynx_MATshaderOn(){
 
 function RetroArch_lynx_MATshaderOff(){
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_smooth' '"true"'
 }
 
@@ -532,7 +532,7 @@ function RetroArch_ngp_MATshaderOn(){
 
 function RetroArch_ngp_MATshaderOff(){
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
@@ -563,7 +563,7 @@ function RetroArch_ngpc_MATshaderOn(){
 
 function RetroArch_ngpc_MATshaderOff(){
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
@@ -591,7 +591,7 @@ function RetroArch_atari2600_CRTshaderOn(){
 
 function RetroArch_atari2600_CRTshaderOff(){
 	RetroArch_setOverride 'atari2600.cfg' 'Stella' 'video_shader_enable' '"false"'
-	RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_smooth' '"true"'
 }
 
@@ -622,11 +622,11 @@ function RetroArch_mame_CRTshaderOn(){
 
 function RetroArch_mame_CRTshaderOff(){
 	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'mame.cfg' 'MAME'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'mame.cfg' 'MAME'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'mame.cfg' 'MAME'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'mame.cfg' 'MAME'	'video_smooth' '"true"'
 }
 
@@ -650,7 +650,7 @@ function RetroArch_neogeo_CRTshaderOn(){
 
 function RetroArch_neogeo_CRTshaderOff(){
 	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo' 'video_shader_enable' '"false"'
-	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_smooth' '"true"'
 }
 
@@ -674,7 +674,7 @@ function RetroArch_fbneo_CRTshaderOn(){
 
 function RetroArch_fbneo_CRTshaderOff(){
 	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo' 'video_shader_enable' '"false"'
-	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_smooth' '"true"'
 }
 
@@ -774,11 +774,11 @@ function RetroArch_genesis_CRTshaderOn(){
 
 function RetroArch_genesis_CRTshaderOff(){
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 }
 
@@ -821,11 +821,11 @@ function RetroArch_gamegear_MATshaderOn(){
 
 function RetroArch_gamegear_MATshaderOff(){
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_smooth' '"true"'
 }
 
@@ -858,7 +858,7 @@ function RetroArch_mastersystem_CRTshaderOn(){
 
 function RetroArch_mastersystem_CRTshaderOff(){
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 }
 
@@ -890,7 +890,7 @@ function RetroArch_sega32x_CRTshaderOn(){
 
 function RetroArch_sega32x_CRTshaderOff(){
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_smooth' '"true"'
 }
 
@@ -919,7 +919,7 @@ function RetroArch_gba_MATshaderOn(){
 
 function RetroArch_gba_MATshaderOff(){
 	RetroArch_setOverride 'gba.cfg' 'mGBA'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_smooth' '"true"'	
 }
 
@@ -962,11 +962,11 @@ function RetroArch_gb_MATshaderOn(){
 
 function RetroArch_gb_MATshaderOff(){
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_smooth' '"true"'
 
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_smooth' '"true"'
 }
 
@@ -1017,11 +1017,11 @@ function RetroArch_gbc_MATshaderOn(){
 
 function RetroArch_gbc_MATshaderOff(){
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_smooth' '"true"'	
 	
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_smooth' '"true"'	
 }
 
@@ -1232,7 +1232,7 @@ function RetroArch_snes_CRTshaderOn(){
 
 function RetroArch_snes_CRTshaderOff(){
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'video_shader_enable' '"false"'
-	RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_filter' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"'
+	RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_filter' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_smooth' '"true"'
 }
 
