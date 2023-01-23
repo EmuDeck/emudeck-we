@@ -11,8 +11,8 @@ function DuckStation_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\DuckStation" $destination
 	
-	#Bios Path
-	sedFile $destination\settings.ini "SearchDirectory = C:\Emulation\bios\" "SearchDirectory = $biosPath"
+	#Paths
+	sedFile $destination\settings.ini "C:\Emulation\" "$emulationPath"
 	
 	DuckStation_setupSaves
 }
@@ -29,7 +29,7 @@ function DuckStation_setupSaves(){
 	$ShortcutPath = -join($emulationPath,'saves\duckstation\saves.lnk')
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	createLink $SourceFilePath $ShortcutPath	
 	
 	#States
 	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
