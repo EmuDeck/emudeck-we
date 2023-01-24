@@ -57,3 +57,7 @@ function customLocation(){
 	$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 	echo $winPath;
 }
+
+function testLocationValid(){
+	echo "Valid"
+}
