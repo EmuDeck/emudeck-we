@@ -50,3 +50,8 @@
 
 
 }
+
+
+function customLocation(){
+	echo "testing"
+}
