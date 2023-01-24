@@ -13,7 +13,7 @@ function Yuzu_init(){
 	
 	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user'
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\yuzu" "$destination"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu" "$destination"
 	
 	sedFile $destination\config\qt-config.ini "C:\Emulation\" $emulationPath	
 	

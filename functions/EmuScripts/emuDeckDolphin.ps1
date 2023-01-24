@@ -11,7 +11,7 @@ function Dolphin_init(){
 	New-Item -Path "tools\EmulationStation-DE\Emulators\Dolphin-x64\portable.txt" -ErrorAction SilentlyContinue
 	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\Dolphin-x64\")
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\Dolphin" "$destination"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Dolphin" "$destination"
 	
 	#Replace buttons names from SteamOS	
 	#$path=$destination

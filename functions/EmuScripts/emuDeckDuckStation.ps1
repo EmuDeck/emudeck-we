@@ -9,7 +9,7 @@ function DuckStation_init(){
 	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt" -ErrorAction SilentlyContinue
 	$destination="tools\EmulationStation-DE\Emulators\duckstation\"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\DuckStation" $destination
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\DuckStation" $destination
 	
 	#Paths
 	sedFile $destination\settings.ini "C:\Emulation\" "$emulationPath"

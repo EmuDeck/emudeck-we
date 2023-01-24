@@ -11,7 +11,7 @@ function Citra_init(){
 	showNotification -ToastTitle 'Citra - Configuration'
 	$destination=-join($emulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\citra" "$destination"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra" "$destination"
 	
 	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
 	sedFile $destination\config\qt-config.ini "/" "\"

@@ -8,7 +8,7 @@ function PCSX2_install(){
 function PCSX2_init(){	
 	showNotification -ToastTitle 'PCSX2 - Configuration'
 	$destination="tools\EmulationStation-DE\Emulators\PCSX2"
-	copyFromTo "$env:USERPROFILE\EmuDeck\backend\configs\PCSX2" $destination
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2

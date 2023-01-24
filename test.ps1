@@ -8,15 +8,15 @@ $Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 # Functions
 #
 
-. $env:USERPROFILE\EmuDeck\backend\functions\all.ps1
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 
 #
 # Variables
 #
 Clear-Host
-. $env:USERPROFILE\EmuDeck\backend\vars.ps1
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 
-cp "$env:USERPROFILE\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
+cp "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\EmuDeck\settings.ps1"
 
 
 $winPath='E:'
