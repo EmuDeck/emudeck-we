@@ -221,7 +221,7 @@ if ( "$doSetupRA" -eq "true" ){
 		RetroArch_retroAchievementsOn
 	}
 	
-	if ( "$doRAEnable" -eq "true" ); then
+	if ( "$doRAEnable" -eq "true" ){
 		RetroArch_retroAchievementsOn
 	}
 	
