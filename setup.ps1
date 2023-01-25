@@ -27,10 +27,10 @@ if(-not($test)){
 #
 # Variables
 #
-Clear-Host
+##Clear-Host
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 
-cp "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\emudeck\settings.ps1"
+#cp "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\emudeck\settings.ps1"
 
 #
 # UI & Settings creation
@@ -49,7 +49,7 @@ mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
 mkdir "$toolsPath\launchers" -ErrorAction SilentlyContinue
-Clear-Host
+#Clear-Host
 
 Write-Output "Installing, please stand by..."
 Write-Output ""
