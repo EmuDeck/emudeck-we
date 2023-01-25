@@ -27,13 +27,13 @@ function Citra_setEmulationFolder(){
 function Citra_setupSaves(){
 	setMSG 'Citra - Saves Links'
 	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\sdmc\')
-	$ShortcutPath = -join($emulationPath,'saves\citra\saves.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\citra\saves.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\states\')
-	$ShortcutPath = -join($emulationPath,'saves\citra\states.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\citra\states.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath

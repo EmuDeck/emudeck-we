@@ -26,14 +26,14 @@ function DuckStation_setupSaves(){
 	setMSG 'DuckStation - Creating Saves Links'
 	#Saves
 	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
-	$ShortcutPath = -join($emulationPath,'saves\duckstation\saves.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\duckstation\saves.lnk')
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath	
 	
 	#States
 	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
-	$ShortcutPath = -join($emulationPath,'saves\duckstation\states.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\duckstation\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }

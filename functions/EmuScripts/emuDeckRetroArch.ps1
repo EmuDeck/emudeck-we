@@ -13,7 +13,7 @@ function RetroArch_install(){
 	foreach ( $core in $RAcores )
 	{
 		$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')
-		$dest= -join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
+		$dest= -join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
 		echo "Downloading $url"	
 		downloadCore $url $dest
 	}
@@ -25,40 +25,40 @@ function RetroArch_init(){
 	
 	setMSG 'RetroArch - Bezels & Filters'
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
-	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+	$path=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\config')
 	Get-ChildItem $path -Recurse -Filter *.cfg | 
 	Foreach-Object {
 		$originFile = $_.FullName
 	
 		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/"
-		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\')
+		$target=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\')
 		
 		sedFile $originFile $origin $target
 		
 		#Video Filters path
 		$origin="/app/lib/retroarch/filters/video/"
-		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\filters\video\')
+		$target=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\filters\video\')
 		
 		sedFile $originFile $origin $target
 	}
 	
 	setMSG 'RetroArch - Shaders'
-	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+	$path=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\config')
 	Get-ChildItem $path -Recurse -Filter *.glslp | 
 	Foreach-Object {
 		$originFile = $_.FullName
 	
 		$origin="/app/share/libretro/shaders/"
-		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
+		$target=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
 		sedFile $originFile $origin $target
 	}
-	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+	$path=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\config')
 	Get-ChildItem $path -Recurse -Filter *.slangp | 
 	Foreach-Object {
 		$originFile = $_.FullName
 	
 		$origin="/app/share/libretro/shaders/"
-		$target=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
+		$target=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
 		sedFile $originFile $origin $target
 	}
 	
@@ -80,15 +80,15 @@ function RetroArch_setEmulationFolder(){
 function RetroArch_setupSaves(){
 	#Saves
 	mkdir saves/retroarch -ErrorAction SilentlyContinue
-	$SourceFilePath = -join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\saves\')
+	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\saves\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,'saves\retroarch\saves.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\retroarch\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\states\')
+	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\states\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,'saves\retroarch\states.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\retroarch\states.lnk')
 	createLink $SourceFilePath $ShortcutPath
 }
 
@@ -102,7 +102,7 @@ function RetroArch_setOverride($fileToCheck, $name, $key, $value){
 }
 
 function RetroArch_bezelOnAll(){
-	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+	$path=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\config')
 	Get-ChildItem $path -Recurse -Filter *.cfg | 
 	Foreach-Object {
 		$originFile = $_.FullName		 
@@ -111,7 +111,7 @@ function RetroArch_bezelOnAll(){
 }
 
 function RetroArch_bezelOffAll(){
-	$path=-join($emulationPath,'tools\EmulationStation-DE\Emulators\RetroArch\config')
+	$path=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\config')
 	Get-ChildItem $path -Recurse -Filter *.cfg | 
 	Foreach-Object {
 		$originFile = $_.FullName		 

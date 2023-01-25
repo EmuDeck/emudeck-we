@@ -55,7 +55,7 @@ function Yuzu_setEmulationFolder(){
 function Yuzu_setupSaves(){
 	setMSG 'Yuzu - Saves Links'
 	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\user\save')
-	$ShortcutPath = -join($emulationPath,'saves\yuzu\saves.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\yuzu\saves.lnk')
 	mkdir 'saves\yuzu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath

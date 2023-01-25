@@ -75,21 +75,21 @@ function Dolphin_setupSaves(){
 	setMSG 'Dolphin - Creating Saves Links'
 	#Saves GC
 	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\GC')
-	$ShortcutPath = -join($emulationPath,'saves\dolphin\GC.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\dolphin\GC.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Saves Wii
 	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Wii')
-	$ShortcutPath = -join($emulationPath,'saves\dolphin\Wii.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\dolphin\Wii.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
 	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\StateSaves')
-	$ShortcutPath = -join($emulationPath,'saves\dolphin\states.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\dolphin\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }
