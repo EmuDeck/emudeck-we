@@ -73,14 +73,13 @@ function escapeSedValue($input){
 function changeLine($keyword, $replace, $file) {
 	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
 }
-
+$progressBar=0;
 function setMSG($message){		
-	#progressBar=$((progressBar + 5))
-	#We prevent the zenity to close if we have too much MSG, the classic eternal 99%
-	#if [ $progressBar == 95 ]; then
-	#	progressBar=90
-	#fi	
-	$progressBar=90
+	$progressBar=$progressBar + 5
+	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
+	if ( $progressBar -eq 95 ){
+		$progressBar=90
+	}
 	echo "$progressBar" > $userFolder\AppData\Roaming\EmuDeck/msg.log	
 	echo "# $message" >> $userFolder\AppData\Roaming\EmuDeck\msg.log
 	echo "$message"	
