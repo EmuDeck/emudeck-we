@@ -32,14 +32,14 @@ function Yuzu_init(){
 	setMSG 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
 	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered')
-	$ShortcutPath = -join($emulationPath,'bios\yuzu\firmware.lnk')
+	$ShortcutPath = -join($emulationPath,'\bios\yuzu\firmware.lnk')
 	mkdir 'bios\yuzu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Keys
 	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys')
-	$ShortcutPath = -join($emulationPath,'bios\yuzu\keys.lnk')
+	$ShortcutPath = -join($emulationPath,'\bios\yuzu\keys.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
