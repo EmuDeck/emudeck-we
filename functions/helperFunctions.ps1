@@ -61,3 +61,15 @@ function customLocation(){
 function testLocationValid(){
 	echo "Valid"
 }
+
+function escapeSedKeyword($input){
+	echo $input
+}
+
+function escapeSedValue($input){
+	echo $input
+}
+
+function changeLine($keyword, $replace, $file) {
+	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
+}

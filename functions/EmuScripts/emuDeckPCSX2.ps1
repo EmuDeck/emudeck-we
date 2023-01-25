@@ -101,3 +101,11 @@ function PCSX2_IsInstalled(){
 function PCSX2_resetConfig(){
 	echo "NYI"
 }
+
+
+function PCSX2_retroAchievementsSetLogin(){
+	function DuckStation_retroAchievementsSetLogin(){
+		$rat=Get-Content %userprofile%/AppData/Roaming/EmuDeck/.rat -Raw
+		setConfig 'Token' $rat 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2.ini'		
+	}
+}

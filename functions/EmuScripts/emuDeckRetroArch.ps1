@@ -21,7 +21,7 @@ function RetroArch_install(){
 function RetroArch_init(){
 
 	#We just convert the SteamOS settings with our windows paths
-	Remove-Item $raConfigfile  -ErrorAction SilentlyContinue
+	Remove-Item $RetroArch_configFile  -ErrorAction SilentlyContinue
 	
 	showNotification -ToastTitle 'RetroArch - Bezels & Filters'
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RetroArch" "tools\EmulationStation-DE\Emulators\RetroArch"
@@ -69,7 +69,7 @@ function RetroArch_init(){
 	
 	#Bios
 	$line="`rsystem_directory = `"$biosPath`""
-	$line | Add-Content $raConfigfile
+	$line | Add-Content $RetroArch_configFile
 }
 function RetroArch_update(){
 	echo "NYI"
@@ -1728,12 +1728,38 @@ function RetroArch_psx_setConfigRA(){
 
 
 function RetroArch_autoSaveOn(){
-	setConfigRA "savestate_auto_load" "true" $raConfigfile
-	setConfigRA "savestate_auto_save" "true" $raConfigfile	
+	setConfigRA "savestate_auto_load" "true" $RetroArch_configFile
+	setConfigRA "savestate_auto_save" "true" $RetroArch_configFile	
 }
 function RetroArch_autoSaveOff(){
-	setConfigRA "savestate_auto_load" "false" $raConfigfile
-	setConfigRA "savestate_auto_save" "false" $raConfigfile	
+	setConfigRA "savestate_auto_load" "false" $RetroArch_configFile
+	setConfigRA "savestate_auto_save" "false" $RetroArch_configFile	
+}
+
+RetroArch_retroAchievementsOn(){
+	setConfigRA 'cheevos_enable' 'true' "$RetroArch_configFile"
+	#Mame fix
+	#RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'cheevos_enable' '"false"'
+	#RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
+}
+RetroArch_retroAchievementsOff(){
+	setConfigRA 'cheevos_enable' 'false' "$RetroArch_configFile"
+	#Mame fix
+	#RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'cheevos_enable' '"false"'
+	#RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
+}
+
+RetroArch_retroAchievementsHardCoreOn(){
+	setConfigRA 'cheevos_hardcore_mode_enable' 'true' $RetroArch_configFile
+}
+RetroArch_retroAchievementsHardCoreOff(){
+	setConfigRA 'cheevos_hardcore_mode_enable' 'false' $RetroArch_configFile
+}
+
+RetroArch_retroAchievementsSetLogin(){
+	$rat=Get-Content %userprofile%/AppData/Roaming/EmuDeck/.rat -Raw
+	setConfigRA 'cheevos_token' $rat "$RetroArch_configFile"
+	RetroArch_retroAchievementsOn
 }
 
 function RetroArch_setSNESAR(){
@@ -1842,3 +1868,5 @@ function RetroArch_CRTshaderOffAll(){
 	RetroArch_snes_CRTshaderOff
 
 }
+
+

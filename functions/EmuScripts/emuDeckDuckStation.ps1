@@ -95,3 +95,7 @@ function DuckStation_wideScreenOff(){
 	setConfig 'WidescreenHack' 'false' 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'
 	setConfig 'AspectRatio' '4:3' 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'	
 }
+function DuckStation_retroAchievementsSetLogin(){
+	$rat=Get-Content %userprofile%/AppData/Roaming/EmuDeck/.rat -Raw
+	setConfig 'Token' $rat 'tools\EmulationStation-DE\Emulators\duckstation\settings.ini'
+}
