@@ -25,7 +25,7 @@ function PCSX2_init(){
 		##Win7
 		##download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
 		##.\tools\vc_redist.x86.exe
-		winget install -e --id Microsoft.VCRedist.2015+.x86
+		winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
 	#}
 	
 

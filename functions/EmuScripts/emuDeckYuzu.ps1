@@ -26,7 +26,7 @@ function Yuzu_init(){
 		#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
 		#.\tools\vc_redist.x64.exe
 		
-		winget install -e --id Microsoft.VCRedist.2015+.x64
+		winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
 	#}
 	
 	setMSG 'Yuzu - Creating Keys & Firmware Links'
