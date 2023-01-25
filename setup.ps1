@@ -135,54 +135,69 @@ if(-not($test)){
 setMSG 'Configuring Emulators'
 
 
-#RetroArch Config
-RetroArch_init
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_init
+}
 
-#DuckStation Config
-DuckStation_init
+if ( "$doSetupDuck" -eq "true" ){
+	DuckStation_init
+}
 
-#Dolphin
-Dolphin_init
+if ( "$doSetupDolphin" -eq "true" ){
+	Dolphin_init
+}
 
-#Yuzu
-Yuzu_init
+if ( "$doSetupYuzu" -eq "true" ){
+	Yuzu_init
+}
 
-#Ryujinx
-Ryujinx_init
+if ( "$doSetupRyujinx" -eq "true" ){
+	Ryujinx_init
+}
 
-#Citra
-#Citra_init
+#if ( "$doSetupCitra" -eq "true" ){
+#	Citra_init
+#}
 
-#Cemu
-Cemu_init
+if ( "$doSetupCemu" -eq "true" ){
+	Cemu_init
+}
 
-#PCSX2
-PCSX2_init
+if ( "$doSetupPCSX2QT" -eq "true" ){
+	PCSX2_init
+}
 
-#RPCS3
-#RPCS3_init
+#if ( "$doSetupRPCS3" -eq "true" ){
+	#RPCS3_init
+#}
 
-#Xemu
-#Xemu_init
+#if ( "$doSetupXemu" -eq "true" ){
+	#Xemu_init
+#}
 
-#Xenia
-#Xenia_init
+#if ( "$doSetupXenia" -eq "true" ){
+	#Xenia_init
+#}
 
-#PPSSPP
-PPSSPP_init
+#if ( "$doSetupPPSSPP" -eq "true" ){
+	#PPSSPP_init
+#}
 
-#ESDE
-ESDE_init
+#if ( "$doSetupVita3K" -eq "true" ){
+	#Vita3K_init
+#}
 
-#SRM
-SRM_init
+#if ( "$doSetupScummVM" -eq "true" ){
+	#ScummVM_init
+#}
 
+if ( "$doSetupESDE" -eq "true" ){
+	ESDE_init
+}
 
-#Launchers links
-
-
-
-createLink "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\update.bat" "$desktop_path\EmuDeck - Update Beta.lnk"
+if ( "$doSetupSRM" -eq "true" ){
+	SRM_init
+}
 
 
 #Customization
@@ -194,7 +209,7 @@ DuckStation_setResolution $duckstationResolution
 PCSX2_setResolution $pcsx2Resolution
 Yuzu_setResolution $yuzuResolution
 #PPSSPP_setResolution $ppssppResolution
-#RPCS3_setResolution $screenResolution
+#RPCS3_setResolution $rpcs3Resolution
 #Ryujinx_setResolution $screenResolution
 #Xemu_setResolution $screenResolution
 #Xenia_setResolution $screenResolution
