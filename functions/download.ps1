@@ -1,7 +1,8 @@
 function download($url, $output) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$wc = New-Object net.webclient
-	$wc.Downloadfile($url, $emulationPath\$output)
+	$destination=-join($emulationPath,'\',$output)
+	$wc.Downloadfile($url, $destination)
    
 	foreach ($line in $output) {
 		$extn = [IO.Path]::GetExtension($line)
