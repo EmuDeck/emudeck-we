@@ -18,26 +18,12 @@ if(-not($test)){
 
 #$Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 
-. $env:USERPROFILE\emudeck\settings.ps1
-
 #
-# Functions
+# Functions, settings and vars
 #
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 
-#
-# Variables
-#
-##Clear-Host
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
-
-#cp "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\settings.ps1" "$env:USERPROFILE\emudeck\settings.ps1"
-
-#
-# UI & Settings creation
-#
-#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\ui.ps1
 
 #
 # Installation
