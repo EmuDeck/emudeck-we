@@ -74,7 +74,7 @@ function changeLine($keyword, $replace, $file) {
 	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
 }
 
-setMSG($message){		
+function setMSG($message){		
 	#progressBar=$((progressBar + 5))
 	#We prevent the zenity to close if we have too much MSG, the classic eternal 99%
 	#if [ $progressBar == 95 ]; then
