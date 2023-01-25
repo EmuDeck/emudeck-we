@@ -87,7 +87,7 @@ function setMSG($message){
 }
 
 
-function checkForFile($fileName $delete){
+function checkForFile($fileName, $delete){
 	# Walk up the directory hierarchy until the first file whose name
 	# matches $fileName is found, and return that file's path.
 	# If no such file is found, $file is (effectively) $null.
