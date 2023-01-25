@@ -1,5 +1,5 @@
 function RPCS3_install(){
-	showNotification -ToastTitle 'Downloading RPCS3'
+	setMSG 'Downloading RPCS3'
 	download $url_rpcs3 "rpcs3.7z"
 	moveFromTo "rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
 	createLauncher "RPCS3" "rpcs3"

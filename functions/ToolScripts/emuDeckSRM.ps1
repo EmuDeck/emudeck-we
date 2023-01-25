@@ -1,9 +1,9 @@
 function SRM_install(){
-	showNotification -ToastTitle 'Downloading Steam Rom Manager'
+	setMSG 'Downloading Steam Rom Manager'
 	download $url_srm "tools/srm.exe"
 }
 function SRM_init(){
-	showNotification -ToastTitle 'Steam Rom Manager - Configuration'	
+	setMSG 'Steam Rom Manager - Configuration'	
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager" tools\
 	
 	#Paths	

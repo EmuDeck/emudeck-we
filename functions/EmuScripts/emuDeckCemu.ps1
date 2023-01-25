@@ -1,5 +1,5 @@
 function Cemu_install(){
-	showNotification -ToastTitle 'Downloading Cemu'
+	setMSG 'Downloading Cemu'
 	download $url_cemu "cemu.zip"
 	moveFromTo "cemu\cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
 	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
@@ -7,7 +7,7 @@ function Cemu_install(){
 
 }
 function Cemu_init(){
-	showNotification -ToastTitle 'Cemu - Configuration'
+	setMSG 'Cemu - Configuration'
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "tools\EmulationStation-DE\Emulators\cemu"
 	
 	sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
@@ -23,7 +23,7 @@ function Cemu_setEmulationFolder(){
 	echo "NYI"
 }
 function Cemu_setupSaves(){
-	showNotification -ToastTitle 'Cemu - Saves Links'
+	setMSG 'Cemu - Saves Links'
 	$SourceFilePath = "tools\EmulationStation-DE\Emulators\cemu\mlc01\usr\save"
 	$ShortcutPath = -join($emulationPath,'saves\cemu\saves.lnk')
 	mkdir 'saves\cemu' -ErrorAction SilentlyContinue

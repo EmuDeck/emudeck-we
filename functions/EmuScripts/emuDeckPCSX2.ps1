@@ -1,12 +1,12 @@
 function PCSX2_install(){
-	showNotification -ToastTitle 'Downloading PCSX2'
+	setMSG 'Downloading PCSX2'
 	download $url_pcsx2 "pcsx2.7z"
 	moveFromTo "pcsx2" "tools\EmulationStation-DE\Emulators\PCSX2"
 	Remove-Item -Recurse -Force pcsx2 -ErrorAction SilentlyContinue
 	createLauncher "PCSX2" "pcsx2-qtx64-avx2"
 }
 function PCSX2_init(){	
-	showNotification -ToastTitle 'PCSX2 - Configuration'
+	setMSG 'PCSX2 - Configuration'
 	$destination="tools\EmulationStation-DE\Emulators\PCSX2"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
@@ -21,7 +21,7 @@ function PCSX2_init(){
 	
 	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x86.exe"
 	#if(-not($test)){
-		#showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
+		#setMSG 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
 		##Win7
 		##download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
 		##.\tools\vc_redist.x86.exe
@@ -41,7 +41,7 @@ function PCSX2_setEmulationFolder(){
 }
 function PCSX2_setupSaves(){
 	#Saves
-	showNotification -ToastTitle 'PCSX2 - Saves Links'
+	setMSG 'PCSX2 - Saves Links'
 	mkdir saves/PCSX2 -ErrorAction SilentlyContinue
 	$SourceFilePath = -join($emulationPath,'tools\EmulationStation-DE\Emulators\PCSX2\memcards\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue

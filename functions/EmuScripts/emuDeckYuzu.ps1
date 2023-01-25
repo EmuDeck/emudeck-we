@@ -1,5 +1,5 @@
 function Yuzu_install(){
-	showNotification -ToastTitle 'Downloading Yuzu'
+	setMSG 'Downloading Yuzu'
 	download $url_yuzu "yuzu.zip"
 	moveFromTo "yuzu\yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
@@ -7,7 +7,7 @@ function Yuzu_install(){
 }
 function Yuzu_init(){
 
-	showNotification -ToastTitle 'Yuzu - Configuration'
+	setMSG 'Yuzu - Configuration'
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered' -ErrorAction SilentlyContinue
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys' -ErrorAction SilentlyContinue
 	
@@ -21,7 +21,7 @@ function Yuzu_init(){
 	
 	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	#if(-not($test)){
-		#showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
+		#setMSG 'Yuzu - Downloading Microsoft Visual C++ 2022'
 		#Win7
 		#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
 		#.\tools\vc_redist.x64.exe
@@ -29,7 +29,7 @@ function Yuzu_init(){
 		winget install -e --id Microsoft.VCRedist.2015+.x64
 	#}
 	
-	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'
+	setMSG 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
 	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered')
 	$ShortcutPath = -join($emulationPath,'bios\yuzu\firmware.lnk')
@@ -53,7 +53,7 @@ function Yuzu_setEmulationFolder(){
 	echo "NYI"
 }
 function Yuzu_setupSaves(){
-	showNotification -ToastTitle 'Yuzu - Saves Links'
+	setMSG 'Yuzu - Saves Links'
 	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\user\save')
 	$ShortcutPath = -join($emulationPath,'saves\yuzu\saves.lnk')
 	mkdir 'saves\yuzu' -ErrorAction SilentlyContinue

@@ -1,5 +1,5 @@
 function Citra_install(){
-	showNotification -ToastTitle 'Downloading Citra'
+	setMSG 'Downloading Citra'
 	download $url_citra "citra.zip"
 	moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
@@ -8,7 +8,7 @@ function Citra_install(){
 }
 function Citra_init(){
 
-	showNotification -ToastTitle 'Citra - Configuration'
+	setMSG 'Citra - Configuration'
 	$destination=-join($emulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra" "$destination"
@@ -25,7 +25,7 @@ function Citra_setEmulationFolder(){
 	echo "NYI"
 }
 function Citra_setupSaves(){
-	showNotification -ToastTitle 'Citra - Saves Links'
+	setMSG 'Citra - Saves Links'
 	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\sdmc\')
 	$ShortcutPath = -join($emulationPath,'saves\citra\saves.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue

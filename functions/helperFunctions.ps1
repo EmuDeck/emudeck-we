@@ -1,6 +1,6 @@
  function setSetting($old, $new){
 
-	$fileToCheck = "$userFolder\EmuDeck\settings.ps1"
+	$fileToCheck = "$userFolder\emudeck\settings.ps1"
 
 	$fileContents = Get-Content $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
@@ -72,4 +72,17 @@ function escapeSedValue($input){
 
 function changeLine($keyword, $replace, $file) {
 	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
+}
+
+setMSG($message){		
+	#progressBar=$((progressBar + 5))
+	#We prevent the zenity to close if we have too much MSG, the classic eternal 99%
+	#if [ $progressBar == 95 ]; then
+	#	progressBar=90
+	#fi	
+	$progressBar=90
+	echo "$progressBar" > $userFolder\AppData\Roaming\EmuDeck/msg.log	
+	echo "# $message" >> $userFolder\AppData\Roaming\EmuDeck\msg.log
+	echo "$message"	
+	Start-Sleep -Seconds 0.5
 }

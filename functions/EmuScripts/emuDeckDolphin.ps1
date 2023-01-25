@@ -1,5 +1,5 @@
 function Dolphin_install(){
-	showNotification -ToastTitle 'Downloading Dolphin'
+	setMSG 'Downloading Dolphin'
 	download $url_dolphin "dolphin.7z"
 	moveFromTo "dolphin\Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
 	Remove-Item -Recurse -Force dolphin -ErrorAction SilentlyContinue
@@ -7,7 +7,7 @@ function Dolphin_install(){
 	
 }
 function Dolphin_init(){
-	showNotification -ToastTitle 'Dolphin - Configuration'
+	setMSG 'Dolphin - Configuration'
 	New-Item -Path "tools\EmulationStation-DE\Emulators\Dolphin-x64\portable.txt" -ErrorAction SilentlyContinue
 	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\Dolphin-x64\")
 	mkdir $destination -ErrorAction SilentlyContinue
@@ -72,7 +72,7 @@ function Dolphin_setEmulationFolder(){
 	echo "NYI"
 }
 function Dolphin_setupSaves(){
-	showNotification -ToastTitle 'Dolphin - Creating Saves Links'
+	setMSG 'Dolphin - Creating Saves Links'
 	#Saves GC
 	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\GC')
 	$ShortcutPath = -join($emulationPath,'saves\dolphin\GC.lnk')

@@ -1,12 +1,12 @@
 function ESDE_install(){
-	showNotification -ToastTitle 'Downloading EmulationStation DE'
+	setMSG 'Downloading EmulationStation DE'
 	download $url_esde "esde.zip"
 	moveFromTo "esde\EmulationStation-DE" "tools/EmulationStation-DE"
 	Remove-Item -Recurse -Force esde -ErrorAction SilentlyContinue
 	
 }
 function ESDE_init(){	
-	showNotification -ToastTitle 'EmulationStation DE - Paths and Themes'
+	setMSG 'EmulationStation DE - Paths and Themes'
 	mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
 	
 	$destination='tools\EmulationStation-DE\.emulationstation'

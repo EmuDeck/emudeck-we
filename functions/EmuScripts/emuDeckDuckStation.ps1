@@ -1,11 +1,11 @@
 function DuckStation_install(){
-	showNotification -ToastTitle 'Downloading DuckStation'
+	setMSG 'Downloading DuckStation'
 	download $url_duck "duckstation.zip"
 	moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
 	createLauncher "duckstation" "duckstation-qt-x64-ReleaseLTCG"
 }
 function DuckStation_init(){	
-	showNotification -ToastTitle 'DuckStation - Configuration'
+	setMSG 'DuckStation - Configuration'
 	New-Item -Path "tools\EmulationStation-DE\Emulators\duckstation\portable.txt" -ErrorAction SilentlyContinue
 	$destination="tools\EmulationStation-DE\Emulators\duckstation\"
 	mkdir $destination -ErrorAction SilentlyContinue
@@ -23,7 +23,7 @@ function DuckStation_setEmulationFolder(){
 	echo "NYI"
 }
 function DuckStation_setupSaves(){
-	showNotification -ToastTitle 'DuckStation - Creating Saves Links'
+	setMSG 'DuckStation - Creating Saves Links'
 	#Saves
 	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
 	$ShortcutPath = -join($emulationPath,'saves\duckstation\saves.lnk')
