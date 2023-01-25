@@ -367,6 +367,9 @@ if ( "$doSetupRA" -eq "true" ){
 		}
 	}
 
+#We mark the installation as complete	
+New-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\.ui-finished"	
+
 #Write-Output ""
 #Write-Host "================ Installation Complete! ================" -ForegroundColor green -BackgroundColor black
 #Write-Output ""
