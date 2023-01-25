@@ -18,6 +18,8 @@ if(-not($test)){
 
 #$Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 
+. $env:USERPROFILE\emudeck\settings.ps1
+
 #
 # Functions
 #
@@ -41,7 +43,7 @@ if(-not($test)){
 # Installation
 #
 
-. $env:USERPROFILE\emudeck\settings.ps1
+
 
 mkdir $emulationPath -ErrorAction SilentlyContinue
 Set-Location $emulationPath
