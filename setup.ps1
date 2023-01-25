@@ -32,7 +32,6 @@ if(-not($test)){
 
 
 mkdir $emulationPath -ErrorAction SilentlyContinue
-Set-Location $emulationPath
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
@@ -210,9 +209,9 @@ PCSX2_setResolution $pcsx2Resolution
 Yuzu_setResolution $yuzuResolution
 #PPSSPP_setResolution $ppssppResolution
 #RPCS3_setResolution $rpcs3Resolution
-#Ryujinx_setResolution $screenResolution
-#Xemu_setResolution $screenResolution
-#Xenia_setResolution $screenResolution
+#Ryujinx_setResolution $ryujinxResolution
+#Xemu_setResolution $xemuResolution
+#Xenia_setResolution $xeniaResolution
 
 
 #RetroAchievments
