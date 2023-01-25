@@ -22,8 +22,11 @@ function Yuzu_init(){
 	$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	if(-not($test)){
 		showNotification -ToastTitle 'Yuzu - Downloading Microsoft Visual C++ 2022'
-		download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
-		.\tools\vc_redist.x64.exe
+		#Win7
+		#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
+		#.\tools\vc_redist.x64.exe
+		
+		winget install -e --id Microsoft.VCRedist.2015+.x64
 	}
 	
 	showNotification -ToastTitle 'Yuzu - Creating Keys & Firmware Links'

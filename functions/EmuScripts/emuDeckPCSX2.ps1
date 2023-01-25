@@ -22,8 +22,10 @@ function PCSX2_init(){
 	$test=Test-Path -Path "$emulationPath\tools\vc_redist.x86.exe"
 	if(-not($test)){
 		showNotification -ToastTitle 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
-		download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
-		.\tools\vc_redist.x86.exe
+		##Win7
+		##download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
+		##.\tools\vc_redist.x86.exe
+		winget install -e --id Microsoft.VCRedist.2015+.x86
 	}
 	
 
