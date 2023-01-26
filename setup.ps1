@@ -1,22 +1,12 @@
 Start-Transcript $env:USERPROFILE\emudeck\emudeck.log
 
-#We add WinRar folders to the Path
-$env:path = $env:path + ";C:\Program Files\WinRaR"
-$env:path = $env:path + ";C:\Program Files (x86)\WinRaR"
+#We install 7zip
+winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
-#We check for WinRar
-$test=Test-Path -Path "C:\Program Files\WinRaR"
-if(-not($test)){
-	$test=Test-Path -Path "C:\Program Files (x86)\WinRaR"
-	if(-not($test)){
-		Write-Host "================ WinRar not detected ================" -ForegroundColor red -BackgroundColor black
-		Write-Host "WinRar is a free program needed to install Emudeck." -ForegroundColor red -BackgroundColor black
-		Write-Host "You can download it for free from winrar.com" -ForegroundColor red -BackgroundColor black
-		Write-Host "Try to install EmuDeck again after installing it" -ForegroundColor red -BackgroundColor black
-		waitForUser		
-		exit
-	}
-}
+#We add 7z folders to the Path
+$env:path = $env:path + ";C:\Program Files\7-zip"
+$env:path = $env:path + ";C:\Program Files (x86)\7-zip"
+
 
 
 #

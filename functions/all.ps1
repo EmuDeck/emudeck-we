@@ -2,7 +2,6 @@
 . $env:USERPROFILE\emudeck\settings.ps1
 Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showListDialog.ps1
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\waitForWinRar.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showNotification.ps1

@@ -12,12 +12,6 @@ function downloadCore($url, $output) {
 			Expand-Archive -Path $zipFile -DestinationPath $destination -Force
 			Remove-Item $zipFile
 		}
-		#if ($extn -eq ".7z" ){
-		#	$dir = -join($output.replace('.7z',''), "\");
-		#	WinRAR x -y $output $dir
-		#	waitForWinRar
-		#	del $output
-		#}
 	}
 	Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 }

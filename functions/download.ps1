@@ -9,14 +9,12 @@ function download($url, $output) {
 		if ($extn -eq ".zip" ){
 			   #Expand-Archive  $output $output.replace('.zip','') -ErrorAction SilentlyContinue
 			$dir = -join($output.replace('.zip',''), "\");
-			WinRAR x -y $output $dir
-			waitForWinRar
+			7z x $output		
 			Remove-Item $output
 		}
 		if ($extn -eq ".7z" ){
 			$dir = -join($output.replace('.7z',''), "\");
-			WinRAR x -y $output $dir
-			waitForWinRar
+			7z x $output		
 			Remove-Item $output
 		}
 	}
