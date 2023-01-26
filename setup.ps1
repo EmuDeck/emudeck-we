@@ -3,11 +3,6 @@ Start-Transcript $env:USERPROFILE\emudeck\emudeck.log
 #We install 7zip
 winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
-#We add 7z folders to the Path
-$env:path = $env:path + ";C:\Program Files\7-zip"
-$env:path = $env:path + ";C:\Program Files (x86)\7-zip"
-
-
 
 #
 # Functions, settings and vars

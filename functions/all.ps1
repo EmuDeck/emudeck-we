@@ -1,3 +1,7 @@
+#We add 7z folders to the Path
+$env:path = $env:path + ";C:\Program Files\7-zip"
+$env:path = $env:path + ";C:\Program Files (x86)\7-zip"
+
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 . $env:USERPROFILE\emudeck\settings.ps1
 Set-Location $emulationPath
