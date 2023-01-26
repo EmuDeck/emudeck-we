@@ -1,5 +1,5 @@
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\settings.ps1
+. $env:USERPROFILE\emudeck\settings.ps1
 Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showListDialog.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\waitForWinRar.ps1
