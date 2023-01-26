@@ -87,19 +87,6 @@ function setMSG($message){
 }
 
 
-function checkForFile($fileName, $delete){
-	# Walk up the directory hierarchy until the first file whose name
-	# matches $fileName is found, and return that file's path.
-	# If no such file is found, $file is (effectively) $null.
-	$dir="$env:USERPROFILE\AppData\Roaming\EmuDeck"
-	$file = do { 
-	   if (Test-Path -Type Leaf -LiteralPath ($file = "$dir/$fileName")) { 
-	   
-	   	 #We delete the file so is regenerated next time
-	   	 rm -fo $dir/$fileName
-		 echo "true"
-		 
-		 break # exit the loop
-	   }
-	 } while ($dir = Split-Path -LiteralPath $dir)
+function checkForFile($fileName){
+	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (echo "true") ; rm -fo $dir/$fileName
 }
