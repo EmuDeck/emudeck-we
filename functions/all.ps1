@@ -1,5 +1,3 @@
-Start-Transcript $env:USERPROFILE\emudeck\emudeck-quicksettings.log
-
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 . $env:USERPROFILE\emudeck\settings.ps1
 Set-Location $emulationPath
@@ -33,5 +31,3 @@ Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckPPSSPP.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckESDE.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSRM.ps1
-
-Stop-Transcript
