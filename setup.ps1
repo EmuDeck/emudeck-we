@@ -1,3 +1,5 @@
+Start-Transcript $env:USERPROFILE\emudeck\emudeck.log
+
 #We add WinRar folders to the Path
 $env:path = $env:path + ";C:\Program Files\WinRaR"
 $env:path = $env:path + ";C:\Program Files (x86)\WinRaR"
@@ -16,7 +18,6 @@ if(-not($test)){
 	}
 }
 
-#$Host.UI.RawUI.WindowTitle = "EmuDeck Windows Edition Alpha Installer";
 
 #
 # Functions, settings and vars
@@ -370,15 +371,4 @@ if ( "$doSetupRA" -eq "true" ){
 #We mark the installation as complete	
 New-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\.ui-finished"	
 
-#Write-Output ""
-#Write-Host "================ Installation Complete! ================" -ForegroundColor green -BackgroundColor black
-#Write-Output ""
-#Write-Output "Copy your roms to $emulationPath\roms"
-#Write-Output "Copy all your bios inside $emulationPath\bios"
-#Write-Output "Copy your Yuzu Firmware inside $emulationPath\bios\yuzu\firmware"
-#Write-Output "Copy your Yuzu Keys inside $emulationPath\bios\yuzu\keys"
-#Write-Output ""
-#Write-Output ""
-#Write-Output "When you are done, press ENTER to open Steam Rom Manager to add your roms, emulators and EmulationStation to Steam"
-#Write-Output ""
-#waitForUser
+Stop-Transcript
