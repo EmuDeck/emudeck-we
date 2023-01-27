@@ -1,5 +1,8 @@
 Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 
+#Deleting previously finished file
+rm -fo $env:USERPROFILE\AppData\Roaming\EmuDeck\.ui-finished
+
 #We install 7zip
 winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 

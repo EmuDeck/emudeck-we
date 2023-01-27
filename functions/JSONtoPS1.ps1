@@ -65,7 +65,7 @@ function JSONtoPS1(){
 	$InstallESDE= $myJson.installEmus.esde.status
 	$InstallSRM= $myJson.installEmus.srm.status
 	
-	setSettinginFile("`doInstallRA=`"$InstallRA`"")
+	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
 	setSettinginFile("`$doInstallPCSX2=`"$InstallPCSX2`"")
 	setSettinginFile("`$doInstallRPCS3=`"$InstallRPCS3`"")
