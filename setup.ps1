@@ -20,14 +20,6 @@ JSONtoPS1
 #
 
 
-
-mkdir $emulationPath -ErrorAction SilentlyContinue
-mkdir $biosPath -ErrorAction SilentlyContinue
-mkdir $toolsPath -ErrorAction SilentlyContinue
-mkdir $savesPath -ErrorAction SilentlyContinue
-mkdir "$toolsPath\launchers" -ErrorAction SilentlyContinue
-#Clear-Host
-
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
@@ -192,7 +184,7 @@ if ( "$doSetupSRM" -eq "true" ){
 #Customization
 
 #Resolution
-echo "Setting Resolution Screen"
+setMSG "Setting Resolution Screen"
 Dolphin_setResolution $dolphinResolution
 DuckStation_setResolution $duckstationResolution
 PCSX2_setResolution $pcsx2Resolution
