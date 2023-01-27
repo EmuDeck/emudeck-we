@@ -349,7 +349,4 @@ if ( "$doSetupRA" -eq "true" ){
 		}
 	}
 
-#We mark the installation as complete	
-New-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\.ui-finished"	
-
 Stop-Transcript
