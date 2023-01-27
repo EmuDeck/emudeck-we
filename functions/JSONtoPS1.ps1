@@ -8,8 +8,8 @@ function setSettinginFile($keySetting){
 
 function JSONtoPS1(){
 	
-	'' | Out-File -FilePath $env:USERPROFILE/emudeck/settings.ps1
-	$myJson = Get-Content $env:USERPROFILE/emudeck/settings.json -Raw | ConvertFrom-Json 
+	'' | Out-File -FilePath $env:USERPROFILE/AppData/Roaming/EmuDeck/settings.ps1
+	$myJson = Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json -Raw | ConvertFrom-Json 
 	
 	#Default settings for all systems
 	$SetupRA = $myJson.overwriteConfigEmus.ra.status
