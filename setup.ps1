@@ -3,6 +3,10 @@ Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 #We install 7zip
 winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
+# JSON Parsing to ps1 file
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1
+JSONtoPS1
+
 
 #
 # Functions, settings and vars
