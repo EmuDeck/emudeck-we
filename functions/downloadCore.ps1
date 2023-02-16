@@ -8,6 +8,7 @@ function downloadCore($url, $core) {
 		$extn = [IO.Path]::GetExtension($line)
 		if ($extn -eq ".zip" ){						
 			7z x -o"tools\EmulationStation-DE\Emulators\RetroArch\cores\" $destination		
+			Start-Sleep -Seconds 0.5
 			Remove-Item $destination
 		}
 	}
