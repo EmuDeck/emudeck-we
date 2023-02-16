@@ -18,8 +18,9 @@ JSONtoPS1
 #
 # Installation
 #
-
-
+#
+#Clear old installation msg log
+Clear-Content $userFolder\AppData\Roaming\EmuDeck\msg.log
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
