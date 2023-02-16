@@ -8,6 +8,7 @@ Set-Location $emulationPath
 mkdir $emulationPath -ErrorAction SilentlyContinue
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
+mkdir $toolsPath\launchers -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showListDialog.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1
