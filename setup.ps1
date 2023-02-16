@@ -20,7 +20,7 @@ JSONtoPS1
 #
 #
 #Clear old installation msg log
-rm -fo $userFolder\AppData\Roaming\EmuDeck\msg.log -ErrorAction SilentlyContinue
+Remove-Item $userFolder\AppData\Roaming\EmuDeck\msg.log -ErrorAction SilentlyContinue
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
