@@ -73,7 +73,7 @@ function escapeSedValue($input){
 function changeLine($keyword, $replace, $file) {
 	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
 }
-$progressBar = 0
+$progressBar = Get-Content $userFolder\AppData\Roaming\EmuDeck\msg.log -First 1
 function setMSG($message){
 	$global:progressBar=$progressBar+5
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
