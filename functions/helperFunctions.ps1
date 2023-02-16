@@ -80,9 +80,8 @@ function setMSG($message){
 	if ( $progressBar -eq 95 ){
 		$progressBar=90
 	}
-	echo "$progressBar" > $userFolder\AppData\Roaming\EmuDeck\msg.log	
-	echo "# $message" >> $userFolder\AppData\Roaming\EmuDeck\msg.log
-	echo "$message"	
+	"$progressBar" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
+	Add-Content $userFolder\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
 
