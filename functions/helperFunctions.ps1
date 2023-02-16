@@ -73,17 +73,21 @@ function escapeSedValue($input){
 function changeLine($keyword, $replace, $file) {
 	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
 }
-$progressBar = Get-Content $userFolder\AppData\Roaming\EmuDeck\msg.log -First 1
+
 function setMSG($message){
-	$global:progressBar=$progressBar+5
+	$progressBarValue = Get-Content -Path $userFolder\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
+echo $progressBarValue
+	$progressBarUpdate=[int]$progressBarValue+5
+
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBar -eq 95 ){
-		$progressBar=90
+	if ( $progressBarUpdate -eq 95 ){
+		$progressBarUpdate=90
 	}
-	"$progressBar" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
+	"$progressBarUpdate" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
 	Add-Content $userFolder\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
+
 
 
 function checkForFile($fileName){
