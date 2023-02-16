@@ -1,7 +1,7 @@
 function Xenia_install(){
 	setMSG 'Downloading Xenia'
 	download $url_xenia "xenia.zip"
-	moveFromTo "xenia" "tools\EmulationStation-DE\Emulators\xenia"
+	moveFromTo "temp/xenia" "tools\EmulationStation-DE\Emulators\xenia"
 	createLauncher "xenia" "xenia"
 }
 function Xenia_init(){

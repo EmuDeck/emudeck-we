@@ -6,15 +6,14 @@ function download($url, $output) {
    
 	foreach ($line in $output) {
 		$extn = [IO.Path]::GetExtension($line)
-		if ($extn -eq ".zip" ){
-			   #Expand-Archive  $output $output.replace('.zip','') -ErrorAction SilentlyContinue
-			$dir = -join($output.replace('.zip',''), "\");
-			7z x $output		
+		if ($extn -eq ".zip" ){			
+			$dir = $output.replace('.zip','')
+			7z x -o"temp/$dir" $output		
 			Remove-Item $output
 		}
 		if ($extn -eq ".7z" ){
-			$dir = -join($output.replace('.7z',''), "\");
-			7z x $output		
+			$dir = $output.replace('.7z','')
+			7z x -o"temp/$dir" $output		
 			Remove-Item $output
 		}
 	}

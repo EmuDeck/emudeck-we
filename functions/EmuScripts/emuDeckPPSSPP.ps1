@@ -1,7 +1,7 @@
 function PPSSPP_install(){
 	setMSG 'Downloading PPSSPP'
 	download $url_PPSSPP "PPSSPP.zip"
-	moveFromTo "PPSSPP" "tools\EmulationStation-DE\Emulators\ppsspp_win"
+	moveFromTo "temp/PPSSPP" "tools\EmulationStation-DE\Emulators\ppsspp_win"
 }
 function PPSSPP_init(){
 	echo "NYI"
