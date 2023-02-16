@@ -1,9 +1,6 @@
 function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
-	download $url_esde "esde.zip"
-	moveFromTo "EmulationStation-DE" "tools/EmulationStation-DE"
-	Remove-Item -Recurse -Force esde -ErrorAction SilentlyContinue
-	
+	download $url_esde "esde.zip" "tools/EmulationStation-DE"
 }
 function ESDE_init(){	
 	setMSG 'EmulationStation DE - Paths and Themes'

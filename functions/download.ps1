@@ -1,22 +1,11 @@
-function download($url, $output) {
+function download($url, $output, $dir) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$wc = New-Object net.webclient
-	$destination=-join($emulationPath,'\',$output)
-	$wc.Downloadfile($url, $destination)
-   
-	foreach ($line in $output) {
-		$extn = [IO.Path]::GetExtension($line)
-		if ($extn -eq ".zip" ){
-			   #Expand-Archive  $output $output.replace('.zip','') -ErrorAction SilentlyContinue
-			$dir = -join($output.replace('.zip',''), "\");
-			7z x $output		
-			Remove-Item $output
-		}
-		if ($extn -eq ".7z" ){
-			$dir = -join($output.replace('.7z',''), "\");
-			7z x $output		
-			Remove-Item $output
-		}
+	$7zFile=-join($emulationPath,'\',$output)
+	$wc.Downloadfile($url, $7zFile)
+	if($dir){
+		7z x -y -o"$dir" $output
+		Remove-Item $output
 	}
 	Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 }
