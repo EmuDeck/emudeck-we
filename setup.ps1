@@ -146,7 +146,7 @@ if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
 }
 
-if ( "$doSetupPCSX2QT" -eq "true" ){
+if ( "$doSetupPCSX2" -eq "true" ){
 	PCSX2_init
 }
 
