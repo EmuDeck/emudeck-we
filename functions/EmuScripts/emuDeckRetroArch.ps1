@@ -12,10 +12,9 @@ function RetroArch_install(){
 	
 	foreach ( $core in $RAcores )
 	{
-		$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')
-		$dest= -join('tools\EmulationStation-DE\Emulators\RetroArch\cores\',$core)
+		$url= -join('https://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')	
 		echo "Downloading $url"	
-		downloadCore $url $dest
+		downloadCore $url $core
 	}
 }
 function RetroArch_init(){
