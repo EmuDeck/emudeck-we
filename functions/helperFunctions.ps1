@@ -83,6 +83,7 @@ function setMSG($message){
 		$progressBarUpdate=90
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
+	echo $message
 	Add-Content $userFolder\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
