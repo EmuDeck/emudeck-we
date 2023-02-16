@@ -12,7 +12,7 @@ function RetroArch_install(){
 	
 	foreach ( $core in $RAcores )
 	{
-		$url= -join('https://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')	
+		$url= -join('http://buildbot.libretro.com/nightly/windows/x86_64/latest/',$core,'.zip')	
 		echo "Downloading $url"	
 		downloadCore $url $core
 	}
