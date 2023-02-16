@@ -1,3 +1,9 @@
+$Dolphin_emuName="Dolphin"
+$Dolphin_emuType="FlatPak"
+$Dolphin_emuPath="org.DolphinEmu.dolphin-emu"
+$Dolphin_releaseURL=""
+
+
 function Dolphin_install(){
 	setMSG 'Downloading Dolphin'
 	download $url_dolphin "dolphin.7z"
@@ -124,10 +130,27 @@ function Dolphin_setABXYstyle(){
 	echo "NYI"
 }
 function Dolphin_wideScreenOn(){
-	echo "NYI"
+	setMSG "$Dolphin_emuName: Widescreen On"
+	echo ""
+	$configFile='tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
+	$wideScreenHack='wideScreenHack = '
+	$wideScreenHackSetting='wideScreenHack = True'
+	$aspectRatio='AspectRatio = '
+	$aspectRatioSetting='AspectRatio = 1'
+	sedFile $configFile $wideScreenHack $wideScreenHackSetting
+	sedFile $configFile $aspectRatio $aspectRatioSetting
+
 }
 function Dolphin_wideScreenOff(){
-	echo "NYI"
+	setMSG "$Dolphin_emuName: Widescreen Of"
+	echo ""
+	$configFile='tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
+	$wideScreenHack='wideScreenHack = '
+	$wideScreenHackSetting='wideScreenHack = False'
+	$aspectRatio='AspectRatio = '
+	$aspectRatioSetting='AspectRatio = 0'
+	sedFile $configFile $wideScreenHack $wideScreenHackSetting
+	sedFile $configFile $aspectRatio $aspectRatioSetting
 }
 function Dolphin_bezelOn(){
 	echo "NYI"
