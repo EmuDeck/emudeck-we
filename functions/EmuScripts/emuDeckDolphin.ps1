@@ -130,7 +130,7 @@ function Dolphin_setABXYstyle(){
 	echo "NYI"
 }
 function Dolphin_wideScreenOn(){
-	setMSG "$Dolphin_emuName: Widescreen On"
+	setMSG "Dolphin Widescreen On"
 	echo ""
 	$configFile='tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
 	$wideScreenHack='wideScreenHack = '
@@ -142,7 +142,7 @@ function Dolphin_wideScreenOn(){
 
 }
 function Dolphin_wideScreenOff(){
-	setMSG "$Dolphin_emuName: Widescreen Of"
+	setMSG "Dolphin Widescreen Of"
 	echo ""
 	$configFile='tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
 	$wideScreenHack='wideScreenHack = '
