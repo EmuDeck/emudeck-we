@@ -1,3 +1,4 @@
+echo "" > $env:USERPROFILE/emudeck/emudeck.log
 Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 
 #We install 7zip
