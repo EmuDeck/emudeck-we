@@ -111,13 +111,8 @@ function JSONtoPS1(){
 	
 	
 	#Advanced settings
-	setSettinginFile("`$doRASignIn=`"false`"")
-	setSettinginFile("`$doRAEnable=`"false`"")
-	
-	#New UI settings
-	setSettinginFile("`$achievementsPass=`"false`"")
-	setSettinginFile("`$achievementsUser=`"false`"")
-	
+	setSettinginFile("`$doRASignIn=`"true`"")
+	setSettinginFile("`$doRAEnable=`"true`"")
 	
 	$arClassic3D = $myJson.ar.classic3d
 	$arDolphin = $myJson.ar.dolphin
