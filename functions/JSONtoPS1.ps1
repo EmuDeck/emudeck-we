@@ -2,7 +2,10 @@
 
 function setSettinginFile($keySetting){		
 	#$setting=-join('a',"$keySetting")
-	Add-Content -Path "$env:USERPROFILE/emudeck/settings.ps1" -value $keySetting
+	#Add-Content -Path "$env:USERPROFILE/emudeck/settings.ps1" -value $keySetting
+	$keySetting | Out-File -FilePath "$env:USERPROFILE/emudeck/settings.ps1" -Append
+	echo "Added $keySetting to settings.ps1"
+	#Start-Sleep -Seconds 0.5
 }
 
 
@@ -147,9 +150,10 @@ function JSONtoPS1(){
 	setSettinginFile("`$pcsx2Resolution=`"$pcsx2Resolution`"")
 	setSettinginFile("`$yuzuResolution=`"$yuzuResolution`"")
 	
+	Start-Sleep -Seconds 0.5
 	((Get-Content -path $env:USERPROFILE/emudeck/settings.ps1 -Raw) -replace 'False','false') | Set-Content -Path $env:USERPROFILE/emudeck/settings.ps1
 	
+	Start-Sleep -Seconds 0.5
 	((Get-Content -path $env:USERPROFILE/emudeck/settings.ps1 -Raw) -replace 'True','true') | Set-Content -Path $env:USERPROFILE/emudeck/settings.ps1
-	
 
 }
