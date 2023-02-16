@@ -1757,7 +1757,9 @@ function RetroArch_retroAchievementsHardCoreOff(){
 
 function RetroArch_retroAchievementsSetLogin(){
 	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
+	$rau=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rau -Raw
 	setConfigRA 'cheevos_token' $rat "$RetroArch_configFile"
+	setConfigRA 'cheevos_username' $rau "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 
