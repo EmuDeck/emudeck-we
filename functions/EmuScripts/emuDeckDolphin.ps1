@@ -7,7 +7,7 @@ $Dolphin_releaseURL=""
 function Dolphin_install(){
 	setMSG 'Downloading Dolphin'
 	download $url_dolphin "dolphin.7z"
-	moveFromTo "Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
+	moveFromTo "temp/Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
 	Remove-Item -Recurse -Force dolphin -ErrorAction SilentlyContinue
 	createLauncher "Dolphin-x64" "Dolphin"
 	
