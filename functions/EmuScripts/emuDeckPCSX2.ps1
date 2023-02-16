@@ -1,6 +1,8 @@
 function PCSX2_install(){
 	setMSG 'Downloading PCSX2'
-	download $url_pcsx2 "pcsx2.7z" "tools\EmulationStation-DE\Emulators\PCSX2"	
+	download $url_pcsx2 "pcsx2.7z"
+	moveFromTo "pcsx2" "tools\EmulationStation-DE\Emulators\PCSX2"
+	Remove-Item -Recurse -Force pcsx2 -ErrorAction SilentlyContinue
 	createLauncher "PCSX2" "pcsx2-qtx64-avx2"
 }
 function PCSX2_init(){	

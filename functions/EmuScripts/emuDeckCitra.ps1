@@ -1,6 +1,8 @@
 function Citra_install(){
 	setMSG 'Downloading Citra'
-	download $url_citra "citra.zip" "tools\EmulationStation-DE\Emulators\citra"
+	download $url_citra "citra.zip"
+	moveFromTo "citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
+	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
 	createLauncher "citra" "citra-emulator"
 	
 }

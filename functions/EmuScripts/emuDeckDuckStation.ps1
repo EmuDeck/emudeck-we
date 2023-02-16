@@ -1,6 +1,7 @@
 function DuckStation_install(){
 	setMSG 'Downloading DuckStation'
-	download $url_duck "duckstation.zip" "tools\EmulationStation-DE\Emulators\duckstation\"
+	download $url_duck "duckstation.zip"
+	moveFromTo "duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
 	createLauncher "duckstation" "duckstation-qt-x64-ReleaseLTCG"
 }
 function DuckStation_init(){	

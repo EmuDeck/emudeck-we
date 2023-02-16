@@ -1,6 +1,8 @@
 function Cemu_install(){
 	setMSG 'Downloading Cemu'
-	download $url_cemu "cemu.zip" "cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+	download $url_cemu "cemu.zip"
+	moveFromTo "cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
 	createLauncher "cemu" "Cemu"
 
 }
