@@ -8,12 +8,12 @@ function download($url, $output) {
 		$extn = [IO.Path]::GetExtension($line)
 		if ($extn -eq ".zip" ){			
 			$dir = $output.replace('.zip','')
-			7z x -o"temp/$dir" $output		
+			7z x -o"temp/$dir" -aoa $output		
 			Remove-Item $output
 		}
 		if ($extn -eq ".7z" ){
 			$dir = $output.replace('.7z','')
-			7z x -o"temp/$dir" $output		
+			7z x -o"temp/$dir" -aoa $output		
 			Remove-Item $output
 		}
 	}
