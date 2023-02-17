@@ -48,7 +48,7 @@ function RetroArch_init(){
 		$originFile = $_.FullName
 	
 		$origin="/app/share/libretro/shaders/"
-		$target=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
+		$target=":shaders/"
 		sedFile $originFile $origin $target
 	}
 	$path=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\config')
@@ -57,7 +57,7 @@ function RetroArch_init(){
 		$originFile = $_.FullName
 	
 		$origin="/app/share/libretro/shaders/"
-		$target=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RetroArch\shaders\')
+		$target=":shaders/"
 		sedFile $originFile $origin $target
 	}
 	
