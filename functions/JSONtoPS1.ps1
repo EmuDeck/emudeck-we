@@ -86,10 +86,12 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallSRM=`"$InstallSRM`"")
 	
 	
+	$RABezels=$myJson.bezels
+	$RAautoSave=$myJson.autosave
 	
 	#Default RetroArch configuration 
-	#setSettinginFile("`$RABezels=`"$myJson.bezels`"")
-	#setSettinginFile("`$RAautoSave=`"$myJson.autosave`"")
+	setSettinginFile("`$RABezels=`"$RABezels`"")
+	setSettinginFile("`$RAautoSave=`"$RAautoSave`"")
 	
 	#Default installation folders
 	

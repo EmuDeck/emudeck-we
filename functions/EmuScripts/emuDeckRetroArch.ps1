@@ -273,7 +273,7 @@ function RetroArch_pcengine_bezelOn(){
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'aspect_ratio_index' '"21"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'custom_viewport_height' '"1200"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'custom_viewport_x' '"0"'
-	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\pcengine.cfg"'
+	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\pcengine.cfg"
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_aspect_adjust_landscape' '"-0.150000"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_scale_landscape' '"1.075000"'
@@ -281,7 +281,7 @@ function RetroArch_pcengine_bezelOn(){
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'aspect_ratio_index' '"21"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'custom_viewport_height' '"1200"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'custom_viewport_x' '"0"'
-	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\pcengine.cfg"'
+	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\pcengine.cfg"
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_aspect_adjust_landscape' '"-0.150000"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_scale_landscape' '"1.075000"'
@@ -336,7 +336,7 @@ function RetroArch_nes_setConfigRA(){
 }
 
 function RetroArch_nes_bezelOn(){
-	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\nes.cfg"'
+	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\nes.cfg"
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_opacity' '"0.700000"'
@@ -344,7 +344,7 @@ function RetroArch_nes_bezelOn(){
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_scale_integer' '"false"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"0"'	
-	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\nes.cfg"'
+	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\nes.cfg"
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_opacity' '"0.700000"'
@@ -431,7 +431,7 @@ function RetroArch_lynx_setConfigRA(){
 
 function RetroArch_lynx_bezelOn(){
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\lynx.cfg"'
+	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\lynx.cfg"
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_opacity' '"0.700000"'
@@ -439,7 +439,7 @@ function RetroArch_lynx_bezelOn(){
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_scale_integer' '"false"'
 	
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\lynx.cfg"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\lynx.cfg"
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_opacity' '"0.700000"'
@@ -509,7 +509,7 @@ function RetroArch_ngp_setConfigRA(){
 
 function RetroArch_ngp_bezelOn(){
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\ngpc.cfg"'
+	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\ngpc.cfg"
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_aspect_adjust_landscape' '"-0.310000"'
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_enable' '"true"'
@@ -541,7 +541,7 @@ function RetroArch_ngpc_setConfigRA(){
 
 function RetroArch_ngpc_bezelOn(){
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\ngpc.cfg"'
+	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\ngpc.cfg"
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_enable' '"true"'
@@ -571,7 +571,7 @@ function RetroArch_atari2600_setConfigRA(){
 }
 
 function RetroArch_atari2600_bezelOn(){
-	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\atari2600.cfg"'
+	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\atari2600.cfg"
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay_scale_landscape' '"1.070000"'
@@ -684,14 +684,14 @@ function RetroArch_segacd_setConfigRA(){
 }
 
 function RetroArch_segacd_bezelOn(){
-	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\segacd.cfg"'
+	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\segacd.cfg"
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_hide_in_menu' '"false"'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
-	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\segacd.cfg"'
+	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\segacd.cfg"
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_hide_in_menu' '"false"'
@@ -730,13 +730,13 @@ function RetroArch_genesis_setConfigRA(){
 }
 
 function RetroArch_genesis_bezelOn(){
-	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\genesis.cfg"'
+	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\genesis.cfg"
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'	
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
-	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\genesis.cfg"'
+	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\genesis.cfg"
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
@@ -788,14 +788,14 @@ function RetroArch_gamegear_setConfigRA(){
 
 function RetroArch_gamegear_bezelOn(){
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gg.cfg"'
+	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gg.cfg"
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_aspect_adjust_landscape' '"-0.115000"'
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.545000"'
 
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gg.cfg"'
+	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gg.cfg"
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_aspect_adjust_landscape' '"-0.115000"'
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_enable' '"true"'
@@ -834,7 +834,7 @@ function RetroArch_mastersystem_setConfigRA(){
 
 function RetroArch_mastersystem_bezelOn(){
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\mastersystem.cfg"'
+	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\mastersystem.cfg"
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
@@ -868,7 +868,7 @@ function RetroArch_sega32x_setConfigRA(){
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_player1_analog_dpad_mode' '"1"'
 }
 function RetroArch_sega32x_bezelOn(){
-	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\sega32x.cfg"'
+	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\sega32x.cfg"
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_hide_in_menu' '"false"'
@@ -924,14 +924,14 @@ function RetroArch_gba_MATshaderOff(){
 
 function RetroArch_gb_bezelOn(){
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gb.cfg"'
+	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gb.cfg"
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_scale_landscape' '"1.860000"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_y_offset_landscape' '"-0.150000"'
 
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gb.cfg"'
+	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gb.cfg"
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_scale_landscape' '"1.860000"'
@@ -983,14 +983,14 @@ function RetroArch_gbc_setConfigRA(){
 
 function RetroArch_gbc_bezelOn(){
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gbc.cfg"'
+	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gbc.cfg"
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_scale_landscape' '"1.870000"'
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_y_offset_landscape' '"-0.220000"'
 
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gbc.cfg"'
+	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\gbc.cfg"
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_scale_landscape' '"1.870000"'
@@ -1039,7 +1039,7 @@ function RetroArch_n64_wideScreenOff(){
 
 function RetroArch_n64_bezelOn(){
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\N64.cfg"'
+	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\N64.cfg"
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_aspect_adjust_landscape' '"0.085000"'
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_scale_landscape' '"1.065000"'
@@ -1055,7 +1055,7 @@ function RetroArch_atari800_setConfigRA(){
 
 function RetroArch_atari800_bezelOn(){
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\atari800.cfg"'
+	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\atari800.cfg"
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_hide_in_menu' '"true"'
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_scale_landscape' '"1.175000"'
@@ -1072,7 +1072,7 @@ function RetroArch_atari5200_setConfigRA(){
 
 function RetroArch_atari5200_bezelOn(){
 	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\atari5200.cfg"'
+	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\atari5200.cfg"
 	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_hide_in_menu' '"true"'
 	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_scale_landscape' '"1.175000"'
@@ -1085,7 +1085,7 @@ function RetroArch_atari5200_bezelOff(){
 
 function RetroArch_dreamcast_bezelOn(){
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\Dreamcast.cfg"'
+	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\Dreamcast.cfg"
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_aspect_adjust_landscape' '"0.110000"'
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_scale_landscape' '"1.054998"'
@@ -1138,26 +1138,26 @@ function RetroArch_saturn_setConfigRA(){
 
 function RetroArch_saturn_bezelOn(){
 	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"'
+	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"
 	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_scale_landscape' '"1.070000"'
 	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"'
+	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_scale_landscape' '"1.070000"'
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 	
 	
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"'
+	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_scale_landscape' '"1.070000"'
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 
 	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"'
+	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\saturn.cfg"
 	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_scale_landscape' '"1.070000"'
 	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
@@ -1212,7 +1212,7 @@ function RetroArch_snes_setConfigRA(){
 }
 
 function RetroArch_snes_bezelOn(){
-	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\snes.cfg"'
+	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\snes.cfg"
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_opacity' '"0.700000"'
@@ -1239,11 +1239,11 @@ function RetroArch_snes_ar43(){
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'aspect_ratio_index' '"0"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.170000"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"0"'
-	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\snes.cfg"'
+	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\snes.cfg"
 }
 
 function RetroArch_snes_ar87(){
-	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' '"$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\snes87.cfg"'
+	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\overlays\pegasus\snes87.cfg"
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.380000"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'aspect_ratio_index' '"15"'
