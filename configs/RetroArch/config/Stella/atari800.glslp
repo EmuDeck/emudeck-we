@@ -1,1 +1,1 @@
-#reference "/app/share/libretro/shaders/shaders_glsl/crt/crt-royale-fake-bloom.glslp"
+#reference "/app/share/libretro/shaders/shaders_glsl/crt/crt-aperture.glslp"
