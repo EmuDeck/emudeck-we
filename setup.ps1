@@ -28,17 +28,18 @@ Write-Output ""
 copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 #old Files cleanup
-if ( Test-Path $emulationPath\roms\n3ds -PathType Leaf -eq "true" ){
-	#Delete the file
-	Remove-Item $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
-	Rename-Item $emulationPath\roms\3ds $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
-}
-
-if ( Test-Path $emulationPath\roms\gc -PathType Leaf -eq "true" ){
-	#Delete the file
-	Remove-Item $emulationPath\roms\gc -ErrorAction SilentlyContinue
-	Rename-Item $emulationPath\roms\gamecube $emulationPath\roms\gc -ErrorAction SilentlyContinue
-}
+#$testN3ds
+#if ( Test-Path $emulationPath\roms\n3ds -PathType Leaf -eq "true" ){
+#	#Delete the file
+#	Remove-Item $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
+#	Rename-Item $emulationPath\roms\3ds $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
+#}
+#
+#if ( Test-Path $emulationPath\roms\gc -PathType Leaf -eq "true" ){
+#	#Delete the file
+#	Remove-Item $emulationPath\roms\gc -ErrorAction SilentlyContinue
+#	Rename-Item $emulationPath\roms\gamecube $emulationPath\roms\gc -ErrorAction SilentlyContinue
+#}
 
 
 #Dowloading..ESDE
