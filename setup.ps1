@@ -27,7 +27,7 @@ Write-Output ""
 
 copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
-//old Files cleanup
+#old Files cleanup
 if ( Test-Path $emulationPath\roms\n3ds -PathType Leaf -eq "true" ){
 	#Delete the file
 	Remove-Item $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
