@@ -12,7 +12,7 @@ function DuckStation_init(){
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\DuckStation" $destination
 	
 	#Paths
-	sedFile $destination\settings.ini "C:\Emulation\" "$emulationPath"
+	sedFile $destination\settings.ini "C:\Emulation" "$emulationPath"
 	
 	DuckStation_setupSaves
 }

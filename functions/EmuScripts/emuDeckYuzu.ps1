@@ -15,7 +15,7 @@ function Yuzu_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "C:\Emulation\" $emulationPath	
+	sedFile $destination\config\qt-config.ini "C:\Emulation" $emulationPath	
 	
 	sedFile $destination\config\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
 	
