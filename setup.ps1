@@ -8,6 +8,7 @@ Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
 # JSON Parsing to ps1 file
+setMSG 'Creating configuration files. please wait'
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1
 JSONtoPS1
 
