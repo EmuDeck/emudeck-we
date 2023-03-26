@@ -8,7 +8,20 @@ Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
 # JSON Parsing to ps1 file
-setMSG 'Creating configuration files. please wait'
+function setMSGTemp($message){
+	$progressBarValue = Get-Content -Path $userFolder\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarUpdate=[int]$progressBarValue+5
+
+	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
+	if ( $progressBarUpdate -eq 95 ){
+		$progressBarUpdate=90
+	}
+	"$progressBarUpdate" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
+	echo $message
+	Add-Content $userFolder\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
+	Start-Sleep -Seconds 0.5
+}
+setMSGTemp 'Creating configuration files. please wait'
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1
 JSONtoPS1
 
