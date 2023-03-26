@@ -55,6 +55,7 @@
 function customLocation(){
 	$drives = (Get-PSDrive -PSProvider FileSystem).Root
 	$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
+	Start-Sleep -Seconds 0.5
 	echo $winPath;
 }
 
