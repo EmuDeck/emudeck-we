@@ -69,7 +69,10 @@ function Citra_finalize(){
 	echo "NYI"
 }
 function Citra_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+	if($test){
+		echo "true"
+	}
 }
 function Citra_resetConfig(){
 	echo "NYI"

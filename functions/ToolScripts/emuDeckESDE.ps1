@@ -65,7 +65,10 @@ function ESDE_finalize(){
 	echo "NYI"
 }
 function ESDE_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE"
+	if($test){
+		echo "true"
+	}
 }
 function ESDE_resetConfig(){
 	echo "NYI"

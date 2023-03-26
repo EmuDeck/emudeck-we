@@ -110,7 +110,10 @@ function Yuzu_finalize(){
 	echo "NYI"
 }
 function Yuzu_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
+	if($test){
+		echo "true"
+	}
 }
 function Yuzu_resetConfig(){
 	echo "NYI"

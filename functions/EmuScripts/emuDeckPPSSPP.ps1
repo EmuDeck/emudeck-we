@@ -50,7 +50,10 @@ function PPSSPP_finalize(){
 	echo "NYI"
 }
 function PPSSPP_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
+	if($test){
+		echo "true"
+	}
 }
 function PPSSPP_resetConfig(){
 	echo "NYI"

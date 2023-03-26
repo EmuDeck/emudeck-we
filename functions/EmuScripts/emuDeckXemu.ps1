@@ -50,7 +50,10 @@ function Xemu_finalize(){
 	echo "NYI"
 }
 function Xemu_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xemu"
+	if($test){
+		echo "true"
+	}
 }
 function Xemu_resetConfig(){
 	echo "NYI"

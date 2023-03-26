@@ -66,7 +66,10 @@ function Cemu_finalize(){
 	echo "NYI"
 }
 function Cemu_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu"
+	if($test){
+		echo "true"
+	}
 }
 function Cemu_resetConfig(){
 	echo "NYI"

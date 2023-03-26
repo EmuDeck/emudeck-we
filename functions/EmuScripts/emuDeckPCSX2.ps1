@@ -96,7 +96,10 @@ function PCSX2_finalize(){
 	echo "NYI"
 }
 function PCSX2_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2"
+	if($test){
+		echo "true"
+	}
 }
 function PCSX2_resetConfig(){
 	echo "NYI"

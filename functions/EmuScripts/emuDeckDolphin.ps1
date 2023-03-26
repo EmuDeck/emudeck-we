@@ -162,7 +162,10 @@ function Dolphin_finalize(){
 	echo "NYI"
 }
 function Dolphin_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64"
+	if($test){
+		echo "true"
+	}
 }
 function Dolphin_resetConfig(){
 	echo "NYI"

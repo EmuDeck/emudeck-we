@@ -153,7 +153,10 @@ function RetroArch_finalize(){
 	echo "NYI"
 }
 function RetroArch_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch"
+	if($test){
+		echo "true"
+	}
 }
 function RetroArch_resetConfigRA(){
 	echo "NYI"

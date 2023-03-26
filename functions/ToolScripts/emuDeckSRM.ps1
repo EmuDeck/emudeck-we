@@ -61,7 +61,10 @@ function SRM_finalize(){
 	echo "NYI"
 }
 function SRM_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\srm.exe"
+	if($test){
+		echo "true"
+	}
 }
 function SRM_resetConfig(){
 	echo "NYI"

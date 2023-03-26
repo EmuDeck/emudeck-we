@@ -50,7 +50,10 @@ function Xenia_finalize(){
 	echo "NYI"
 }
 function Xenia_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xenia"
+	if($test){
+		echo "true"
+	}
 }
 function Xenia_resetConfig(){
 	echo "NYI"

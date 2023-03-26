@@ -81,7 +81,10 @@ function DuckStation_finalize(){
 	echo "NYI"
 }
 function DuckStation_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation"
+	if($test){
+		echo "true"
+	}
 }
 function DuckStation_resetConfig(){
 	echo "NYI"
