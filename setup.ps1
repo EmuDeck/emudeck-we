@@ -10,7 +10,7 @@ Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 # JSON Parsing to ps1 file
 function setMSGTemp($message){
 	$progressBarValue = Get-Content -Path $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
-	$progressBarUpdate=[int]$progressBarValue+5
+	$progressBarUpdate=[int]$progressBarValue+1
 
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
