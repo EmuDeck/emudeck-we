@@ -1,4 +1,7 @@
 echo "" > $env:USERPROFILE/emudeck/emudeck.log
+
+Start-Sleep -Seconds 1.5
+
 Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 
 #We install 7zip - Now its on the appimage
