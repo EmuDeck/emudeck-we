@@ -72,5 +72,8 @@ function Cemu_IsInstalled(){
 	}
 }
 function Cemu_resetConfig(){
-	echo "NYI"
+	Cemu_init
+	if($?){
+		echo "true"
+	}
 }

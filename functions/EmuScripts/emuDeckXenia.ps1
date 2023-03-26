@@ -56,5 +56,8 @@ function Xenia_IsInstalled(){
 	}
 }
 function Xenia_resetConfig(){
-	echo "NYI"
+	Xenia_init
+	if($?){
+		echo "true"
+	}
 }

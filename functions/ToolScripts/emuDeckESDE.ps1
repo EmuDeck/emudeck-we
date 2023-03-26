@@ -71,5 +71,8 @@ function ESDE_IsInstalled(){
 	}
 }
 function ESDE_resetConfig(){
-	echo "NYI"
+	ESDE_init
+	if($?){
+		echo "true"
+	}
 }

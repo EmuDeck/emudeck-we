@@ -56,7 +56,10 @@ function Xemu_IsInstalled(){
 	}
 }
 function Xemu_resetConfig(){
-	echo "NYI"
+	Xemu_init
+	if($?){
+		echo "true"
+	}
 }
 function Xemu_wideScreenOff(){
 	echo "NYI"

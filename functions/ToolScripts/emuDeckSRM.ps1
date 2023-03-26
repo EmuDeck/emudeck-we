@@ -67,5 +67,8 @@ function SRM_IsInstalled(){
 	}
 }
 function SRM_resetConfig(){
-	echo "NYI"
+	SRM_init
+	if($?){
+		echo "true"
+	}
 }

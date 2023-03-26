@@ -116,5 +116,8 @@ function Yuzu_IsInstalled(){
 	}
 }
 function Yuzu_resetConfig(){
-	echo "NYI"
+	Yuzu_init
+	if($?){
+		echo "true"
+	}
 }

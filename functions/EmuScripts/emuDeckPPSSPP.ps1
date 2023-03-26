@@ -56,5 +56,8 @@ function PPSSPP_IsInstalled(){
 	}
 }
 function PPSSPP_resetConfig(){
-	echo "NYI"
+	PPSSPP_init
+	if($?){
+		echo "true"
+	}
 }

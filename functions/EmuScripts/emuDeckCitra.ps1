@@ -75,5 +75,8 @@ function Citra_IsInstalled(){
 	}
 }
 function Citra_resetConfig(){
-	echo "NYI"
+	Citra_init
+	if($?){
+		echo "true"
+	}
 }

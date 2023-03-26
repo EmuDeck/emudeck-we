@@ -159,7 +159,10 @@ function RetroArch_IsInstalled(){
 	}
 }
 function RetroArch_resetConfigRA(){
-	echo "NYI"
+	RetroArch_init
+	if($?){
+		echo "true"
+	}
 }
 
 

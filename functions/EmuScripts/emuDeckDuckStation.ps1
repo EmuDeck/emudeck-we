@@ -87,7 +87,10 @@ function DuckStation_IsInstalled(){
 	}
 }
 function DuckStation_resetConfig(){
-	echo "NYI"
+	DuckStation_init
+	if($?){
+		echo "true"
+	}
 }
 
 function DuckStation_wideScreenOn(){

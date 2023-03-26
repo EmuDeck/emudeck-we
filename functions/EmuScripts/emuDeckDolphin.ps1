@@ -168,5 +168,8 @@ function Dolphin_IsInstalled(){
 	}
 }
 function Dolphin_resetConfig(){
-	echo "NYI"
+	Dolphin_init
+	if($?){
+		echo "true"
+	}
 }

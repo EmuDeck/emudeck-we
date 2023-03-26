@@ -51,8 +51,14 @@ function RPCS3_finalize(){
 	echo "NYI"
 }
 function RPCS3_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
+	if($test){
+		echo "true"
+	}
 }
 function RPCS3_resetConfig(){
-	echo "NYI"
+	RPCS3_init
+	if($?){
+		echo "true"
+	}
 }

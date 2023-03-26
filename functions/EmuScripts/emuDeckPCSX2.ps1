@@ -102,7 +102,10 @@ function PCSX2_IsInstalled(){
 	}
 }
 function PCSX2_resetConfig(){
-	echo "NYI"
+	PCSX2_init
+	if($?){
+		echo "true"
+	}
 }
 
 
