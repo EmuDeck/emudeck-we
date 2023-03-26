@@ -98,7 +98,7 @@ function JSONtoPS1(){
 	
 	$globPath=$myJson.storagePath
 	$globPath=$globPath.replace('\','')
-	#$globPath= $globPath -replace "`n","" -replace "`r",""
+	$globPath= $globPath -replace "`n","" -replace "`r",""
 	
 	setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
 	setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
