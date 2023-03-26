@@ -1,16 +1,19 @@
 
 
 function setSettinginFile($keySetting){		
-	#$setting=-join('a',"$keySetting")
-	#Add-Content -Path "$env:USERPROFILE/emudeck/settings.ps1" -value $keySetting
+	
+	$mutex = new-object System.Threading.Mutex $false,'SomeUniqueName'
+	$mutex.WaitOne() > $null
 	$keySetting | Out-File -FilePath "$env:USERPROFILE/emudeck/settings.ps1" -Append
 	echo "Added $keySetting to settings.ps1"
-	Start-Sleep -Seconds 1
+	$mutex.ReleaseMutex()
+	
+	#Start-Sleep -Seconds 1
 }
 
 
 function JSONtoPS1(){
-	setMSG 'Creating configuration files'
+	
 	
 	'' | Out-File -FilePath "$env:USERPROFILE/emudeck/settings.ps1"
 	$myJson = Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json -Raw | ConvertFrom-Json 
