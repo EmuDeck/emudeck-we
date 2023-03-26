@@ -9,16 +9,16 @@ Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 
 # JSON Parsing to ps1 file
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path $userFolder\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarValue = Get-Content -Path $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
 	$progressBarUpdate=[int]$progressBarValue+5
 
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
+	"$progressBarUpdate" | Out-File -encoding ascii $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log
 	echo $message
-	Add-Content $userFolder\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
+	Add-Content $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'

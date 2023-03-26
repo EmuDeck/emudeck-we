@@ -7,7 +7,7 @@ function setSettinginFile($keySetting){
 	$keySetting | Out-File -FilePath "$env:USERPROFILE/emudeck/settings.ps1" -Append
 	echo "Added $keySetting to settings.ps1"
 	$mutex.ReleaseMutex()
-	
+	setMSGTemp "Added $keySetting"
 	#Start-Sleep -Seconds 1
 }
 
