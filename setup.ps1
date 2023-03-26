@@ -1,8 +1,8 @@
 echo "" > $env:USERPROFILE/emudeck/emudeck.log
 Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
 
-#We install 7zip
-winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
+#We install 7zip - Now its on the appimage
+#winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
 # JSON Parsing to ps1 file
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1
@@ -43,10 +43,10 @@ copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 
 #Dowloading..ESDE
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
-if(-not($test)){
+#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+#if(-not($test)){
 	ESDE_install
-}
+#}
 
 
 #SRM
