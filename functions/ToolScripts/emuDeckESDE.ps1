@@ -11,18 +11,12 @@ function ESDE_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation" "$destination"
 	
-	sedFile 'tools\EmulationStation-DE\.emulationstation\es_settings.xml' '/run/media/mmcblk0p1/Emulation/roms/' $romsPath
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\themes\es-epicnoir"
-	if(-not($test)){
-		download "https://github.com/dragoonDorise/es-theme-epicnoir/archive/refs/heads/master.zip" "temp.zip"
-		moveFromTo "temp\es-theme-epicnoir-master" "tools\EmulationStation-DE\themes\es-epicnoir"
-		Remove-Item -Recurse -Force temp -ErrorAction SilentlyContinue
-	}
-	
-	#PS2 Fixes	
-	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml" 'pcsx2.exe' 'pcsx2-qtx64-avx2.exe' 
-	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_systems.xml" '%EMULATOR_PCSX2% --nogui' '%EMULATOR_PCSX2% -nogui -fastboot -fullscreen' 
-
+	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
+	$updatedXML | Set-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+			
+		
+	ESDE_applyTheme $esdeTheme
 	
 }
 function ESDE_update(){
@@ -63,6 +57,26 @@ function ESDE_bezelOff(){
 }
 function ESDE_finalize(){
 	echo "NYI"
+}
+function ESDE_applyTheme($theme){
+	
+	mkdir "tools/EmulationStation-DE/themes/" -ErrorAction SilentlyContinue
+	
+	git clone https://github.com/anthonycaccese/epic-noir-revisited-es-de "tools/EmulationStation-DE/themes/epic-noir-revisited" --depth=1
+	cd "$toolsPath/EmulationStation-DE/themes/epic-noir-revisited" ; git reset --hard HEAD ; git clean -f -d ; git pull
+	
+	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+	if($theme -eq "EPICNOIR"){
+		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'epic-noir-revisited'
+	}
+	if($theme -eq "MODERN-DE"){
+		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'modern-es-de'
+	}
+	if($theme -eq "RBSIMPLE-DE"){
+		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'slate-es-de'
+	}		
+	$updatedXML | Set-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+
 }
 function ESDE_IsInstalled(){
 	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE"
