@@ -94,3 +94,15 @@ function setMSG($message){
 function checkForFile($fileName){
 	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (echo "true") ; rm -fo $dir/$fileName
 }
+
+
+function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch){
+
+	$url = "https://api.github.com/repos/$Repository/releases/latest"
+
+	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
+		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" } | 
+		   Select-Object -ExpandProperty browser_download_url
+
+	return $url
+}

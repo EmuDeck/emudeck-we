@@ -1,5 +1,6 @@
 function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
+	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "tools/srm.exe"
 }
 function SRM_init(){

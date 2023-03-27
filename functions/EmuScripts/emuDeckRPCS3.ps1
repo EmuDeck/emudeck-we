@@ -1,5 +1,6 @@
 function RPCS3_install(){
 	setMSG 'Downloading RPCS3'
+	$url_rpcs3 = getLatestReleaseURLGH 'RPCS3/rpcs3-binaries-win' '7z'
 	download $url_rpcs3 "rpcs3.7z"
 	moveFromTo "temp/rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
 	createLauncher "RPCS3" "rpcs3"
