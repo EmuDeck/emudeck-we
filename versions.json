@@ -1,11 +1,11 @@
 {
-  "ra": { "id": "ra", "code": "RetroArch", "version": 1 },
-  "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 1 },
-  "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 1 },
-  "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 1 },
-  "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 1 },
-  "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 1 },
-  "cemu": { "id": "cemu", "code": "Cemu", "version": 1 },
-  "srm": { "id": "srm", "code": "SRM", "version": 1 },
-  "esde": { "id": "esde", "code": "ESDE", "version": 1 }
+  "ra": { "id": "ra", "code": "RetroArch", "version": 0 },
+  "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 0 },
+  "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 0 },
+  "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 0 },
+  "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 0 },
+  "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 0 },
+  "cemu": { "id": "cemu", "code": "Cemu", "version": 0 },
+  "srm": { "id": "srm", "code": "SRM", "version": 0 },
+  "esde": { "id": "esde", "code": "ESDE", "version": 0 }
 }
