@@ -9,3 +9,10 @@ function emuDeckInstallHomebrewGame($system, $gameName, $game){
 	curl "https://raw.githubusercontent.com/EmuDeck/emudeck-homebrew/main/downloaded_media/$system/screenshots/homebrew/$gameNameUrl.png" -o "$toolsPath/downloaded_media/$system/screenshots/homebrew/$gameName.png" ;
 	curl "https://raw.githubusercontent.com/EmuDeck/emudeck-homebrew/main/downloaded_media/$system/titlescreens/homebrew/$gameNameUrl.png" -o "$toolsPath/downloaded_media/$system/titlescreens/homebrew/$gameName.png" ; echo 'true'
 }
+function emuDeckUnInstallHomebrewGame($system, $gameName, $game){
+
+	rm -fo "$romsPath/$system/homebrew/$gameName.zip" ;
+	rm -fo  "$toolsPath/downloaded_media/$system/screenshots/homebrew/$gameName.png" ;
+	rm -fo  "$toolsPath/downloaded_media/$system/titlescreens/homebrew/$gameName.png" ; echo 'true'
+
+}
