@@ -114,7 +114,7 @@ function SRM_resetLaunchers(){
 	}
 	
 	if ($doInstallESDE -eq "true"){
-		createLauncher "esde/EmulationStationDE"
+		createLauncher "esde\EmulationStationDE"
 	}
 	
 }

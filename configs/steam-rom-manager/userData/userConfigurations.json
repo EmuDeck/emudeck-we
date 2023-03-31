@@ -24,7 +24,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\EmulationStationDE.bat",
+      "path": "C:\\Emulation\\tools\\launchers\\esde\\EmulationStationDE.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
