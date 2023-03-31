@@ -112,4 +112,9 @@ function SRM_resetLaunchers(){
 	if ($doInstallPCSX2QT -eq "true"){
 		createLauncher pcsx2
 	}
+	
+	if ($doInstallESDE -eq "true"){
+		createLauncher "esde/EmulationStationDE"
+	}
+	
 }
