@@ -31,7 +31,7 @@ function rclone_install($rclone_provider){
 
 function rclone_downloadEmu($emuName, $path){	
 	if (Test-Path "$rclone_bin") {
-		& $rclone_bin sync -P -L "$rclone_provider`:Emudeck\saves\$emuName\" "$path"
+		& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\" "$path"
 	}
 }
 
