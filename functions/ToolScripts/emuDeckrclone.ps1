@@ -84,33 +84,30 @@ function rclone_downloadEmuAll(){
 	if ($doInstallPCSX2 -eq "true"){
 		rclone_downloadEmu PCSX2
 	}
-	if ($doInstallRPCS3 -eq "true"){
-		rclone_downloadEmu RPCS3
-	}
+	#if ($doInstallRPCS3 -eq "true"){
+	#	rclone_downloadEmu RPCS3
+	#}
 	if ($doInstallYuzu -eq "true"){
 		rclone_downloadEmu yuzu
 	}
-	if ($doInstallCitra -eq "true"){
-		rclone_downloadEmu citra
-	}
+	#if ($doInstallCitra -eq "true"){
+	#	rclone_downloadEmu citra
+	#}
 	if ($doInstallDuck -eq "true"){
 		rclone_downloadEmu duckstation
 	}
 	if ($doInstallCemu -eq "true"){
 		rclone_downloadEmu cemu
 	}
-	if ($doInstallXenia -eq "true"){
-		rclone_downloadEmu xenia
-	}
+	#if ($doInstallXenia -eq "true"){
+	#	rclone_downloadEmu xenia
+	#}
 	if ($doInstallPPSSPP -eq "true"){
 		rclone_downloadEmu PPSSPP
 	}
-	if ($doInstallXemu -eq "true"){
-		rclone_downloadEmu xemu
-	}
-	if ($doInstallPCSX2QT -eq "true"){
-		rclone_downloadEmu pcsx2
-	}
+	#if ($doInstallXemu -eq "true"){
+	#	rclone_downloadEmu xemu
+	#}
 }
 
 function rclone_uploadEmuAll(){
@@ -123,31 +120,29 @@ function rclone_uploadEmuAll(){
 	if ($doInstallPCSX2 -eq "true"){
 		rclone_uploadEmu PCSX2
 	}
-	if ($doInstallRPCS3 -eq "true"){
-		rclone_uploadEmu RPCS3
-	}
+	#if ($doInstallRPCS3 -eq "true"){
+	#	rclone_uploadEmu RPCS3
+	#}
 	if ($doInstallYuzu -eq "true"){
 		rclone_uploadEmu yuzu
 	}
-	if ($doInstallCitra -eq "true"){
-		rclone_uploadEmu citra
-	}
+	#if ($doInstallCitra -eq "true"){
+	#	rclone_uploadEmu citra
+	#}
 	if ($doInstallDuck -eq "true"){
 		rclone_uploadEmu duckstation
 	}
 	if ($doInstallCemu -eq "true"){
 		rclone_uploadEmu cemu
 	}
-	if ($doInstallXenia -eq "true"){
-		rclone_uploadEmu xenia
-	}
+	#if ($doInstallXenia -eq "true"){
+	#	rclone_uploadEmu xenia
+	#}
 	if ($doInstallPPSSPP -eq "true"){
 		rclone_uploadEmu PPSSPP
 	}
-	if ($doInstallXemu -eq "true"){
-		rclone_uploadEmu xemu
-	}
-	if ($doInstallPCSX2QT -eq "true"){
-		rclone_uploadEmu pcsx2
-	}
+	#if ($doInstallXemu -eq "true"){
+	#	rclone_uploadEmu xemu
+	#}
+
 }
