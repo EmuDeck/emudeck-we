@@ -31,12 +31,12 @@ function rclone_install($rclone_provider){
 
 function rclone_downloadEmu($emuName, $path){	
 	if (Test-Path "$rclone_bin") {
-		& $rclone_bin sync -P -L "$path" "$rclone_provider`:Emudeck\saves\$emuName\"
+		& $rclone_bin sync -P -L "$rclone_provider`:Emudeck\saves\$emuName\" "$path"
 	}
 }
 
 function rclone_uploadEmu($emuName, $path){	
-  if (Test-Path "$rclone_bin") {
-	  & $rclone_bin sync -P -L "$rclone_provider`:Emudeck\saves\$emuName\" "$path" 
+  if (Test-Path "$rclone_bin") {	   
+	  & $rclone_bin sync -P -L "$path" "$rclone_provider`:Emudeck\saves\$emuName\"
   }
 }
