@@ -46,3 +46,4 @@ Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckESDE.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSRM.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckrclone.ps1
