@@ -1,5 +1,5 @@
 $rclone_path="$toolsPath/rclone"
-$rclone_bin="$rclone_path/rclone"
+$rclone_bin="$rclone_path/rclone.exe"
 $rclone_config="$rclone_path/rclone.conf"
 $rclone_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 
