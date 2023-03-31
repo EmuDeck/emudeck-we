@@ -10,7 +10,7 @@
   "environmentVariables": {
     "steamDirectory": "C:\\Program Files (x86)\\Steam",
     "romsDirectory": "C:\\Emulation\\roms",
-    "retroarchPath": "C:\\Emulation\\tools\\launchers\\retroarch.lnk",
+    "retroarchPath": "C:\\Emulation\\tools\\launchers\\retroarch.bat",
     "raCoresDirectory": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RetroArch\\cores",
     "localImagesDirectory": ""
   },
