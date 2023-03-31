@@ -1,10 +1,10 @@
 $rclone_path="$toolsPath/rclone"
 $rclone_bin="$rclone_path/rclone.exe"
 $rclone_config="$rclone_path/rclone.conf"
-$rclone_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
+
 
 function rclone_install($rclone_provider){	
-		
+	$rclone_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 	download $rclone_releaseURL "rclone.zip"	
 	
 	$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
