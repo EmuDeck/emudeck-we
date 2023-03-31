@@ -15,7 +15,7 @@ function ESDE_init(){
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
 	$updatedXML | Set-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
 	
-	createLauncher "esde/esde"
+	createLauncher "esde/EmulationStationDE"
 		
 	ESDE_applyTheme $esdeTheme
 	
