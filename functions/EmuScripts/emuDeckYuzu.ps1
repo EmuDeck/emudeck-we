@@ -3,7 +3,7 @@ function Yuzu_install(){
 	download $url_yuzu "yuzu.zip"
 	moveFromTo "temp/yuzu/yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
-	createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
+	createLauncher "yuzu"
 }
 function Yuzu_init(){
 

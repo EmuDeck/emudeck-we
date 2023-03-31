@@ -3,7 +3,7 @@ function Xemu_install(){
 	$url_xemu = getLatestReleaseURLGH 'xemu-project/xemu' 'zip' 'win-release'
 	download $url_xemu "xemu-win-release.zip"
 	moveFromTo "temp/xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
-	createLauncher "xemu" "xemu"
+	createLauncher "xemu"
 }
 function Xemu_init(){
 	echo "NYI"

@@ -69,7 +69,49 @@ function SRM_IsInstalled(){
 }
 function SRM_resetConfig(){
 	SRM_init
+	SRM_resetLaunchers
 	if($?){
 		echo "true"
 	}
+}
+
+function SRM_resetLaunchers(){
+	if ($doInstallRA -eq "true"){
+		createLauncher retroarch
+	}
+	if ($doInstallDolphin -eq "true"){
+		createLauncher dolphin
+	}
+	if ($doInstallPCSX2 -eq "true"){
+		createLauncher pcsx2
+	}
+	#if ($doInstallRPCS3 -eq "true"){
+	#	createLauncher rpcs3
+	#}
+	if ($doInstallYuzu -eq "true"){
+		createLauncher yuzu
+	}
+	#if ($doInstallCitra -eq "true"){
+	#	createLauncher citra
+	#}
+	if ($doInstallDuck -eq "true"){
+		createLauncher duckstation
+	}
+	if ($doInstallCemu -eq "true"){
+		createLauncher cemu
+	}
+	#if ($doInstallXenia -eq "true"){
+	#	createLauncher xenia
+	#}
+	if ($doInstallPPSSPP -eq "true"){
+		createLauncher PPSSPP
+	}
+	#if ($doInstallXemu -eq "true"){
+	#	createLauncher xemu
+	#}
+	
+	if ($doInstallESDE -eq "true"){
+		createLauncher "esde\EmulationStationDE"
+	}
+	
 }

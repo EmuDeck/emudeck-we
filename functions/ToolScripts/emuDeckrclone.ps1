@@ -29,14 +29,120 @@ function rclone_install($rclone_provider){
 	
 }
 
-function rclone_downloadEmu($emuName, $path){	
+function rclone_downloadEmu($emuName){	
 	if (Test-Path "$rclone_bin") {
-		& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\" "$path"
+		$sh = New-Object -ComObject WScript.Shell
+		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
+			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\saves" "$target"
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
+			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\states" "$target"
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
+			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\GC" "$target"
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
+			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\WII" "$target"
+		}
 	}
 }
 
-function rclone_uploadEmu($emuName, $path){	
-  if (Test-Path "$rclone_bin") {	   
-	  & $rclone_bin sync -P -L "$path" "$rclone_provider`:Emudeck\saves\$emuName\"
-  }
+function rclone_uploadEmu($emuName){	
+	if (Test-Path "$rclone_bin") {
+		$sh = New-Object -ComObject WScript.Shell
+		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
+			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\saves"
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
+			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\states" 
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
+			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\GC" 
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
+			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\WII" 
+		}
+	}
+}
+
+
+function rclone_downloadEmuAll(){
+	if ($doInstallRA -eq "true"){
+		rclone_downloadEmu retroarch
+	}
+	if ($doInstallDolphin -eq "true"){
+		rclone_downloadEmu dolphin
+	}
+	if ($doInstallPCSX2 -eq "true"){
+		rclone_downloadEmu PCSX2
+	}
+	#if ($doInstallRPCS3 -eq "true"){
+	#	rclone_downloadEmu RPCS3
+	#}
+	if ($doInstallYuzu -eq "true"){
+		rclone_downloadEmu yuzu
+	}
+	#if ($doInstallCitra -eq "true"){
+	#	rclone_downloadEmu citra
+	#}
+	if ($doInstallDuck -eq "true"){
+		rclone_downloadEmu duckstation
+	}
+	if ($doInstallCemu -eq "true"){
+		rclone_downloadEmu cemu
+	}
+	#if ($doInstallXenia -eq "true"){
+	#	rclone_downloadEmu xenia
+	#}
+	if ($doInstallPPSSPP -eq "true"){
+		rclone_downloadEmu PPSSPP
+	}
+	#if ($doInstallXemu -eq "true"){
+	#	rclone_downloadEmu xemu
+	#}
+}
+
+function rclone_uploadEmuAll(){
+	if ($doInstallRA -eq "true"){
+		rclone_uploadEmu retroarch
+	}
+	if ($doInstallDolphin -eq "true"){
+		rclone_uploadEmu dolphin
+	}
+	if ($doInstallPCSX2 -eq "true"){
+		rclone_uploadEmu PCSX2
+	}
+	#if ($doInstallRPCS3 -eq "true"){
+	#	rclone_uploadEmu RPCS3
+	#}
+	if ($doInstallYuzu -eq "true"){
+		rclone_uploadEmu yuzu
+	}
+	#if ($doInstallCitra -eq "true"){
+	#	rclone_uploadEmu citra
+	#}
+	if ($doInstallDuck -eq "true"){
+		rclone_uploadEmu duckstation
+	}
+	if ($doInstallCemu -eq "true"){
+		rclone_uploadEmu cemu
+	}
+	#if ($doInstallXenia -eq "true"){
+	#	rclone_uploadEmu xenia
+	#}
+	if ($doInstallPPSSPP -eq "true"){
+		rclone_uploadEmu PPSSPP
+	}
+	#if ($doInstallXemu -eq "true"){
+	#	rclone_uploadEmu xemu
+	#}
+
 }

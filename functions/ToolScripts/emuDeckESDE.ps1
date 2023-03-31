@@ -7,6 +7,7 @@ function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
 	mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
 	
+	
 	$destination='tools\EmulationStation-DE\.emulationstation'
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation" "$destination"
@@ -14,7 +15,9 @@ function ESDE_init(){
 	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
 	$updatedXML | Set-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
-			
+	
+	mkdir "tools\launchers\esde" -ErrorAction SilentlyContinue
+	createLauncher "esde/EmulationStationDE"
 		
 	ESDE_applyTheme $esdeTheme
 	
