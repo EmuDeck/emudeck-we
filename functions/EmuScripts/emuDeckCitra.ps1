@@ -4,7 +4,7 @@ function Citra_install(){
 	download $url_citra "citra.7z"
 	moveFromTo "temp/citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
-	createLauncher "citra" "citra-emulator"
+	createLauncher "citra"
 	
 }
 function Citra_init(){

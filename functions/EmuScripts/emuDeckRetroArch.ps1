@@ -3,7 +3,7 @@ function RetroArch_install(){
 	download $url_ra "ra.7z"
 	moveFromTo "temp/ra/RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"	
 	Remove-Item -Recurse -Force ra -ErrorAction SilentlyContinue
-	createLauncher "RetroArch" "retroarch"
+	createLauncher "retroarch"
 	
 	setMSG 'Downloading RetroArch Cores'
 	mkdir tools\EmulationStation-DE\Emulators\RetroArch\cores -ErrorAction SilentlyContinue

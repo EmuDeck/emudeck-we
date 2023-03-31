@@ -3,7 +3,7 @@ function Xenia_install(){
 	$url_xenia = getLatestReleaseURLGH 'xenia-canary/xenia-canary' 'zip'
 	download $url_xenia "xenia.zip"
 	moveFromTo "temp/xenia" "tools\EmulationStation-DE\Emulators\xenia"
-	createLauncher "xenia" "xenia"
+	createLauncher "xenia"
 }
 function Xenia_init(){
 	echo "NYI"

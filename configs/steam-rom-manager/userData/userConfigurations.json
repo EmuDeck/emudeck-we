@@ -95,7 +95,7 @@
       "useCredentials": true
     },
     "parserInputs": {
-      "glob": "**/${title}@(.lnk)"
+      "glob": "**/${title}@(.bat)"
     },
     "titleFromVariable": {
       "limitToGroups": "",
@@ -1077,7 +1077,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\xemu\\xemu.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\xemu.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1139,7 +1139,7 @@
     "localIcons": "",
     "disabled": true,
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\xenia\\xenia.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\xenia.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1220,7 +1220,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\citra\\citra-qt.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\citra.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1511,7 +1511,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\Dolphin-x64\\Dolphin.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\dolphin.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -1840,7 +1840,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\yuzu\\yuzu-windows-msvc\\yuzu.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\yuzu.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -1883,7 +1883,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\Dolphin-x64\\Dolphin.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\dolphin.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -1945,7 +1945,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\cemu\\Cemu.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\cemu.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2007,7 +2007,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\cemu\\Cemu.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\cemu.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2708,7 +2708,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\duckstation\\duckstation-qt-x64-ReleaseLTCG.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\duckstation.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -2879,7 +2879,7 @@
       "useCredentials": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\PCSX2\\pcsx2-qtx64-avx2.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\pcsx2.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2955,7 +2955,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RPCS3\\rpcs3.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\rpcs3.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3002,7 +3002,7 @@
       "useCredentials": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\RPCS3\\rpcs3.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\rpcs3.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3140,7 +3140,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\EmulationStation-DE\\Emulators\\ppsspp_win\\PPSSPPWindows.exe",
+      "path": "C:\\Emulation\\tools\\launchers\\PPSSPP.bat",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
