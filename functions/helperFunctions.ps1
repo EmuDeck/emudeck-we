@@ -12,7 +12,9 @@
 	
 		echo "Line $line changed to $newLine"
 	}else{
-		echo "Line not found on $fileToCheck"
+		$newLine=-join('$',$old,'=','"',$new,'"')
+		Add-Content $fileToCheck $newLine
+		echo "Line created on $fileToCheck"
 	}
 
 }
@@ -28,7 +30,9 @@
 		Set-Content -Path $fileToCheck -Value $modifiedContents
 		echo "Line $line changed to $newLine"
 	}else{
-		echo "Line not found on $fileToCheck"
+		$newLine=-join($old,'=',$new)
+		Add-Content $fileToCheck $newLine
+		echo "Line created on $fileToCheck"
 	}
 
 }
@@ -45,7 +49,9 @@
 		
 		echo "Line $line changed to $newLine"
 	}else{
-		echo "Line not found on $fileToCheck"
+		$newLine=-join($old,' = ',$new)
+		Add-Content $fileToCheck $newLine
+		echo "Line created on $fileToCheck"
 	}
 
 
