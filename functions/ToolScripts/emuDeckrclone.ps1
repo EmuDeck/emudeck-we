@@ -30,6 +30,7 @@ function rclone_install($rclone_provider){
 }
 
 function rclone_downloadEmu($emuName){	
+	echo "Downloading $emuName States/Saves"
 	if (Test-Path "$rclone_bin") {
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
@@ -52,6 +53,7 @@ function rclone_downloadEmu($emuName){
 }
 
 function rclone_uploadEmu($emuName){	
+	echo "Uploading $emuName States/Saves"
 	if (Test-Path "$rclone_bin") {
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
