@@ -1,6 +1,7 @@
 function Yuzu_install(){
 	setMSG 'Downloading Yuzu'
-	download $url_yuzu "yuzu.zip"
+	$url_yuzu = getLatestReleaseURLGH 'yuzu-emu/yuzu-mainline' '7z' 'windows'
+	download $url_yuzu "yuzu.7z"
 	moveFromTo "temp/yuzu/yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
 	createLauncher "yuzu"
