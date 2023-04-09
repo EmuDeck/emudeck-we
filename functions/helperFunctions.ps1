@@ -102,7 +102,7 @@ function checkForFile($fileName){
 }
 
 
-function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText){
+function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
 
