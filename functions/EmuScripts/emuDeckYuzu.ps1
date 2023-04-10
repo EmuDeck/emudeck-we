@@ -17,10 +17,7 @@ function Yuzu_init(){
 	
 	#Different ini per controller	
 	Yuzu_setController($device)
-	
-	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
-	
-	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
+
 	
 	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	#if(-not($test)){
@@ -145,6 +142,9 @@ function Yuzu_setController($device){
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"
 		}
 	}
+	
+	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
+	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
 	
 	
 }
