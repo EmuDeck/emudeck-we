@@ -12,13 +12,15 @@ function Yuzu_init(){
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered' -ErrorAction SilentlyContinue
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys' -ErrorAction SilentlyContinue
 	
-	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user'
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config'
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "C:\Emulation" $emulationPath	
+	#Different ini per controller
 	
-	sedFile $destination\config\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
+	
+	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
+	
+	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
 	
 	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	#if(-not($test)){
@@ -46,6 +48,9 @@ function Yuzu_init(){
 	
 	Yuzu_setupStorage
 	Yuzu_setupSaves
+	
+	#Controllers
+	Yuzu_setController
 }
 function Yuzu_update(){
 	echo "NYI"
@@ -121,4 +126,26 @@ function Yuzu_resetConfig(){
 	if($?){
 		echo "true"
 	}
+}
+
+function Yuzu_setController(){
+
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config'
+	
+	switch ($device) {
+		"PS5" {
+			copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" "$destination"
+		}
+		"XONE" {
+			copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.xone.ini" "$destination"
+		}
+		"X360" {
+			copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" "$destination"
+		}
+		X360 {
+			copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" "$destination"
+		}
+	}
+	
+	
 }
