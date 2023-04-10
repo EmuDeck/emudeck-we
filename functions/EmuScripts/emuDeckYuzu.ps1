@@ -142,7 +142,7 @@ function Yuzu_setController(){
 		"X360" {
 			copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" "$destination"
 		}
-		X360 {
+		Default {
 			copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" "$destination"
 		}
 	}
