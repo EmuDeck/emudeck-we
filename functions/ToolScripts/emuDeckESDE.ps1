@@ -21,6 +21,9 @@ function ESDE_init(){
 		
 	ESDE_applyTheme $esdeTheme
 	
+	#PS2 Fixes	
+	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry>' '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry><entry>%ESPATH%\Emulators\PCSX2\pcsx2-qtx64*.exe</entry>' 
+	
 }
 function ESDE_update(){
 	echo "NYI"
