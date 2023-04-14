@@ -68,6 +68,8 @@ function ESDE_applyTheme($theme){
 	git clone https://github.com/anthonycaccese/epic-noir-revisited-es-de "tools/EmulationStation-DE/themes/epic-noir-revisited" --depth=1
 	cd "$toolsPath/EmulationStation-DE/themes/epic-noir-revisited" ; git reset --hard HEAD ; git clean -f -d ; git pull
 	
+	cd "$emulationPath"
+	
 	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
 	if($theme -eq "EPICNOIR"){
 		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'epic-noir-revisited'
