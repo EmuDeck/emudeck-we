@@ -12,7 +12,8 @@ function RPCS3_install(){
 }
 function RPCS3_init(){
 	setMSG 'RPCS3 - Configuration'
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3\config.yml" -Destination "tools\EmulationStation-DE\Emulators\RPCS3"
+	$destination=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3')
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3\config.yml" -Destination $destination
 }
 function RPCS3_update(){
 	echo "NYI"
@@ -23,24 +24,27 @@ function RPCS3_setEmulationFolder(){
 function RPCS3_setResolution($resolution){
 	switch ( $resolution )
 	{
-		'720P' { $res = "1280x720";  }
-		'1080P' { $res = "1920x1080"; }
-		'1440P' { $res = "2560x1440"; }
-		'4K' { $res = "3840x2160"; }
+		'720P' { $res = "100";  }
+		'1080P' { $res = "150"; }
+		'1440P' { $res = "200"; }
+		'4K' { $res = "300"; }
 	}	
-	
-	setConfig 'Resolution:' $res '$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3\config.yml'
-
+	$destination=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3\config.yml')
+	setConfig 'Resolution Scale:' $res $destination
+	#Fix setConfig =
+	sedFile $destination "Resolution Scale:=" "  Resolution Scale: "
 
 }
+
 function RPCS3_setupSaves(){
 	setMSG 'RPCS3 - Saves Links'
-	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\RPCS3\dev_hdd0/home/00000001/savedata')
+	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3\dev_hdd0\home\00000001\savedata')
 	$ShortcutPath = -join($emulationPath,'\saves\RPCS3\saves.lnk')
 	mkdir 'saves\RPCS3' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 }
+
 function RPCS3_setupStorage(){
 	echo "NYI"
 }
