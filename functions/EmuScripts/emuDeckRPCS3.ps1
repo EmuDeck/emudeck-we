@@ -13,7 +13,7 @@ function RPCS3_install(){
 function RPCS3_init(){
 	setMSG 'RPCS3 - Configuration'
 	$destination=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3')
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3\config.yml" -Destination $destination
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
 }
 function RPCS3_update(){
 	echo "NYI"
