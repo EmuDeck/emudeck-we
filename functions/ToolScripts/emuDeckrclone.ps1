@@ -11,7 +11,7 @@ function rclone_install($rclone_provider){
 	
 	if ($rclone_releaseURL -match $regex) {
 		
-				$filename = $matches[1]
+		$filename = $matches[1]
 		
 		$filename = $filename.Replace('.zip','')
 		
@@ -58,19 +58,19 @@ function rclone_uploadEmu($emuName){
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\saves"
+			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\saves"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\states" 
+			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\states" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\GC" 
+			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\GC" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $rclone_bin sync -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\WII" 
+			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\WII" 
 		}
 	}
 }
