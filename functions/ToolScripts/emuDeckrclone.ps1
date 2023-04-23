@@ -29,6 +29,10 @@ function rclone_install($rclone_provider){
 	
 }
 
+function rclone_uninstall(){	
+	rm -fo  "$toolsPath/rclone"	
+}
+
 function rclone_downloadEmu($emuName){	
 	if (Test-Path "$rclone_bin") {
 	echo "Downloading $emuName States/Saves"
