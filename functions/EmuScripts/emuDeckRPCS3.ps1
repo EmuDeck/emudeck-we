@@ -5,9 +5,15 @@ function RPCS3_install(){
 	moveFromTo "temp/rpcs3" "tools\EmulationStation-DE\Emulators\RPCS3"
 	createLauncher "rpcs3"
 	
+	$url_vulkan = 'https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime.exe'
+	download $url_vulkan "vulkan-runtime.exe"
+	.\vulkan-runtime.exe
+	
 }
 function RPCS3_init(){
-	echo "NYI"
+	setMSG 'RPCS3 - Configuration'
+	$destination=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3')
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
 }
 function RPCS3_update(){
 	echo "NYI"
@@ -16,11 +22,29 @@ function RPCS3_setEmulationFolder(){
 	echo "NYI"
 }
 function RPCS3_setResolution($resolution){
-	echo $resolution
+	switch ( $resolution )
+	{
+		'720P' { $res = "100";  }
+		'1080P' { $res = "150"; }
+		'1440P' { $res = "200"; }
+		'4K' { $res = "300"; }
+	}	
+	$destination=-join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3\config.yml')
+	setConfig 'Resolution Scale:' $res $destination
+	#Fix setConfig =
+	sedFile $destination "Resolution Scale:=" "  Resolution Scale: "
+
 }
+
 function RPCS3_setupSaves(){
-	echo "NYI"
+	setMSG 'RPCS3 - Saves Links'
+	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3\dev_hdd0\home\00000001\savedata')
+	$ShortcutPath = -join($emulationPath,'\saves\RPCS3\saves.lnk')
+	mkdir 'saves\RPCS3' -ErrorAction SilentlyContinue
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
 }
+
 function RPCS3_setupStorage(){
 	echo "NYI"
 }

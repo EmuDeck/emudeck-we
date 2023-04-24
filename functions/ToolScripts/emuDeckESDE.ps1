@@ -21,6 +21,9 @@ function ESDE_init(){
 		
 	ESDE_applyTheme $esdeTheme
 	
+	#PS2 Fixes	
+	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry>' '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry><entry>%ESPATH%\Emulators\PCSX2\pcsx2-qtx64*.exe</entry>' 
+	
 }
 function ESDE_update(){
 	echo "NYI"
@@ -67,6 +70,8 @@ function ESDE_applyTheme($theme){
 	
 	git clone https://github.com/anthonycaccese/epic-noir-revisited-es-de "tools/EmulationStation-DE/themes/epic-noir-revisited" --depth=1
 	cd "$toolsPath/EmulationStation-DE/themes/epic-noir-revisited" ; git reset --hard HEAD ; git clean -f -d ; git pull
+	
+	cd "$emulationPath"
 	
 	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
 	if($theme -eq "EPICNOIR"){

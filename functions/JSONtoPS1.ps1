@@ -148,6 +148,9 @@ function JSONtoPS1(){
 	setSettinginFile("`$pcsx2Resolution=`"$pcsx2Resolution`"")
 	setSettinginFile("`$yuzuResolution=`"$yuzuResolution`"")
 	
+	$device = $myJson.device
+	setSettinginFile("`$device=`"$device`"")
+	
 	Start-Sleep -Seconds 0.5
 	((Get-Content -path $env:USERPROFILE/emudeck/settings.ps1 -Raw) -replace 'False','false') | Set-Content -Path $env:USERPROFILE/emudeck/settings.ps1
 	

@@ -6,7 +6,7 @@ function SRM_install(){
 function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager" tools\
-	
+	Start-Sleep -Seconds 1
 	#Paths	
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"

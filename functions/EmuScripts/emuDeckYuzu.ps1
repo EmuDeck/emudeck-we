@@ -1,6 +1,7 @@
 function Yuzu_install(){
 	setMSG 'Downloading Yuzu'
-	download $url_yuzu "yuzu.zip"
+	$url_yuzu = getLatestReleaseURLGH 'yuzu-emu/yuzu-mainline' '7z' 'windows'
+	download $url_yuzu "yuzu.7z"
 	moveFromTo "temp/yuzu/yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
 	createLauncher "yuzu"
@@ -11,13 +12,12 @@ function Yuzu_init(){
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered' -ErrorAction SilentlyContinue
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys' -ErrorAction SilentlyContinue
 	
-	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user'
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config'
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "C:\Emulation" $emulationPath	
-	
-	sedFile $destination\config\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
+	#Different ini per controller	
+	Yuzu_setController($device)
+
 	
 	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
 	#if(-not($test)){
@@ -45,6 +45,8 @@ function Yuzu_init(){
 	
 	Yuzu_setupStorage
 	Yuzu_setupSaves
+	
+
 }
 function Yuzu_update(){
 	echo "NYI"
@@ -120,4 +122,29 @@ function Yuzu_resetConfig(){
 	if($?){
 		echo "true"
 	}
+}
+
+function Yuzu_setController($device){
+
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config'
+	
+	switch ($device) {
+		"PS5" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
+		}
+		"XONE" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.xone.ini" -Destination "$destination\qt-config.ini"
+		}
+		"X360" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+		Default {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+	}
+	
+	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
+	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
+	
+	
 }

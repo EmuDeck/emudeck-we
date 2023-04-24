@@ -1,5 +1,6 @@
 function DuckStation_install(){
 	setMSG 'Downloading DuckStation'
+	$url_duck = getLatestReleaseURLGH 'stenzek/duckstation' 'zip' 'windows-x64' 'symbols'	
 	download $url_duck "duckstation.zip"
 	moveFromTo "temp/duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
 	createLauncher "duckstation"
