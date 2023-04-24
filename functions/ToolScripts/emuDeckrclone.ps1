@@ -31,7 +31,8 @@ function rclone_config($rclone_provider){
 	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
 	
 	$data = Get-Content $rclone_config
-	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers @{"content-type"="application/x-www-form-urlencoded"} -Body @{data="$data"} -ContentType "application/x-www-form-urlencoded"
+	$urlEncodedData = [System.Web.HttpUtility]::UrlEncode($data)
+	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers @{"content-type"="application/x-www-form-urlencoded"} -Body @{data="$urlEncodedData"} -ContentType "application/x-www-form-urlencoded"
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this code:`n$response", "Success!")
