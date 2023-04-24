@@ -50,12 +50,52 @@ function rclone_install_and_config($rclone_provider){
 }
 
 function rclone_install_and_config_with_code($rclone_provider){
-	$code = Read-Host "Please enter your SaveSync code"  -AsSecureString
-	$codePtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($code)
-	$codeString = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($codePtr)
-	[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($codePtr)
+	Add-Type -AssemblyName System.Windows.Forms
+	Add-Type -AssemblyName System.Drawing
+	
+	$Form = New-Object System.Windows.Forms.Form
+	$Form.Text = "Enter SaveSync Code"
+	$Form.ClientSize = New-Object System.Drawing.Size(300, 100)
+	$Form.StartPosition = "CenterScreen"
+	
+	$Label = New-Object System.Windows.Forms.Label
+	$Label.Text = "Please enter your SaveSync code:"
+	$Label.Location = New-Object System.Drawing.Point(10, 20)
+	$Label.AutoSize = $true
+	$Form.Controls.Add($Label)
+	
+	$TextBox = New-Object System.Windows.Forms.TextBox
+	$TextBox.Location = New-Object System.Drawing.Point(10, 40)
+	$TextBox.Size = New-Object System.Drawing.Size(260, 20)
+	$TextBox.PasswordChar = "*"
+	$Form.Controls.Add($TextBox)
+	
+	$OKButton = New-Object System.Windows.Forms.Button
+	$OKButton.Text = "OK"
+	$OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
+	$OKButton.Location = New-Object System.Drawing.Point(10, 70)
+	$OKButton.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right
+	$Form.AcceptButton = $OKButton
+	$Form.Controls.Add($OKButton)
+	
+	$CancelButton = New-Object System.Windows.Forms.Button
+	$CancelButton.Text = "Cancel"
+	$CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
+	$CancelButton.Location = New-Object System.Drawing.Point(90, 70)
+	$CancelButton.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right
+	$Form.CancelButton = $CancelButton
+	$Form.Controls.Add($CancelButton)
+	
+	$Form.Topmost = $true
+	
+	$Result = $Form.ShowDialog()
+	
+	if ($Result -eq [System.Windows.Forms.DialogResult]::OK) {
+		$code = $TextBox.Text
+	}
+	
 	rclone_install($rclone_provider)
-	rclone_config_with_code($codeString)
+	rclone_config_with_code($code)
 }
 
 function rclone_uninstall(){	
