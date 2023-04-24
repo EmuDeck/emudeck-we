@@ -49,7 +49,7 @@ function rclone_install_and_config(){
 	rclone_config($rclone_provider)
 }
 
-function rclone_install_and_config_with_code(){
+function rclone_install_and_config_with_code($rclone_provider){
 	$code = Read-Host "Please enter your SaveSync code"  -AsSecureString
 	$codePtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($code)
 	$codeString = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($codePtr)
