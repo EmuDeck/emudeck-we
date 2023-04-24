@@ -6,7 +6,8 @@ $rclone_config="$rclone_path/rclone.conf"
 function rclone_install($rclone_provider){	
 	$rclone_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 	download $rclone_releaseURL "rclone.zip"	
-	
+	setSetting "rclone_provider" "$rclone_provider"
+	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 	$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 	
 	if ($rclone_releaseURL -match $regex) {
@@ -21,12 +22,40 @@ function rclone_install($rclone_provider){
 		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
 		rm -fo  "temp\rclone" -Recurse
 	}
+}
 
-	& $rclone_bin config update "$rclone_provider" 
+function rclone_config($rclone_provider){
+	$rclone_bin config update "$rclone_provider" 
 	
-	setSetting "rclone_provider" "$rclone_provider"
-	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+	Add-Type -AssemblyName PresentationFramework
+	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
 	
+	$data = Get-Content $rclone_config
+	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers @{"content-type"="application/x-www-form-urlencoded"} -Body @{data="$data"} -ContentType "application/x-www-form-urlencoded"
+
+	Add-Type -AssemblyName PresentationFramework
+	[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this code:`n$response", "Success!")
+
+}
+
+function rclone_config_with_code($code){
+	Invoke-WebRequest -Uri "https://patreon.emudeck.com/hastebin.php?code=$code" -OutFile "$rclone_config"
+	Add-Type -AssemblyName PresentationFramework
+	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
+}
+
+function rclone_install_and_config(){
+	rclone_install($rclone_provider)
+	rclone_config($rclone_provider)
+}
+
+function rclone_install_and_config_with_code(){
+	$code = Read-Host "Please enter your SaveSync code"  -AsSecureString
+	$codePtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($code)
+	$codeString = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($codePtr)
+	[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($codePtr)
+	rclone_install($rclone_provider)
+	rclone_config_with_code($codeString)
 }
 
 function rclone_uninstall(){	
