@@ -25,7 +25,7 @@ function rclone_install($rclone_provider){
 }
 
 function rclone_config($rclone_provider){
-	$rclone_bin config update "$rclone_provider" 
+	& $rclone_bin config update "$rclone_provider" 
 	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
