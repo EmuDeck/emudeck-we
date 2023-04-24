@@ -44,7 +44,7 @@ function rclone_config_with_code($code){
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
 }
 
-function rclone_install_and_config(){
+function rclone_install_and_config($rclone_provider){
 	rclone_install($rclone_provider)
 	rclone_config($rclone_provider)
 }
