@@ -30,9 +30,32 @@ function rclone_config($rclone_provider){
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
 	
-	$data = Get-Content $rclone_config
-	$urlEncodedData = [System.Web.HttpUtility]::UrlEncode($data)
-	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers @{"content-type"="application/x-www-form-urlencoded"} -Body @{data="$urlEncodedData"} -ContentType "application/x-www-form-urlencoded"
+	foreach($_ in Get-Content $rclone_config) {
+		if ($_ -like "*Emudeck*") {		
+			$section = $_		
+		}elseif ($_ -like "token = *") {		
+			$token = $_
+			$stop = $true
+			break
+		}
+	}
+	
+	#Cleanup
+	$section = $section.Replace("[", "")
+	$section = $section.Replace("]", "")
+	
+	$token = $token.Replace("token =", "")
+	$token = $token.Replace("token =", "")
+	$token = $token.Replace('"', "'")
+	
+	$json = '{ "section": "' + $section + '", "token": "' + $token + '" }'
+	
+	$headers = @{
+		"content-type"="application/x-www-form-urlencoded"
+		"Content-Encoding"="utf-8"
+	}
+	
+	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType "application/x-www-form-urlencoded"
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this code:`n$response", "Success!")
@@ -40,7 +63,40 @@ function rclone_config($rclone_provider){
 }
 
 function rclone_config_with_code($code){
-	Invoke-WebRequest -Uri "https://patreon.emudeck.com/hastebin.php?code=$code" -OutFile "$rclone_config"
+	$headers = @{
+		"User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
+	}
+	
+	$response = Invoke-WebRequest -Uri "https://patreon.emudeck.com/hastebin.php?code=$code" -Headers $headers
+	
+	$json = ConvertFrom-Json $response.Content
+	
+	$section = $json.section
+	$token = $json.token
+	
+	#cleanup
+	$token = $token.Replace("'", '"')
+	#$section = $section.Replace("[", '')
+	#$section = $section.Replace("]", '')
+	
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
+
+	foreach($_ in Get-Content $rclone_config) {
+		if ($_ -eq "$section") {
+			$found = "true"
+		}elseif ($found -eq "true" -and $_ -like "token =*") {	
+			echo $_	
+			$_ = $_ -replace "token =", "token = $token"		
+			$found = "false"
+		}
+		$content += "$_" + "`n"
+	
+	}
+	
+	$content | Set-Content $rclone_config
+	
+	Get-Content -Path $rclone_config
+	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
 }

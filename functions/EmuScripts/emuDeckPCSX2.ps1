@@ -109,9 +109,7 @@ function PCSX2_resetConfig(){
 }
 
 
-function PCSX2_retroAchievementsSetLogin(){
-	function DuckStation_retroAchievementsSetLogin(){
-		$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-		setConfig 'Token' $rat 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2.ini'		
-	}
+function PCSX2_retroAchievementsSetLogin(){	
+	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
+	setConfig 'Token' $rat 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2.ini'		
 }
