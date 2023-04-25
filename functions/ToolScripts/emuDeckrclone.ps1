@@ -84,8 +84,7 @@ function rclone_config_with_code($code){
 	foreach($_ in Get-Content $rclone_config) {
 		if ($_ -eq "$section") {
 			$found = "true"
-		}elseif ($found -eq "true" -and $_ -like "token =*") {	
-			echo $_	
+		}elseif ($found -eq "true" -and $_ -like "token =*") {				
 			$_ = $_ -replace "token =", "token = $token"		
 			$found = "false"
 		}
