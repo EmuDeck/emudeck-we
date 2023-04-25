@@ -25,13 +25,37 @@ function rclone_install($rclone_provider){
 }
 
 function rclone_config($rclone_provider){
-	$rclone_bin config update "$rclone_provider" 
+	& $rclone_bin config update "$rclone_provider" 
 	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
 	
-	$data = Get-Content $rclone_config
-	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers @{"content-type"="application/x-www-form-urlencoded"} -Body @{data="$data"} -ContentType "application/x-www-form-urlencoded"
+	foreach($_ in Get-Content $rclone_config) {
+		if ($_ -like "*Emudeck*") {		
+			$section = $_		
+		}elseif ($_ -like "token = *") {		
+			$token = $_
+			$stop = $true
+			break
+		}
+	}
+	
+	#Cleanup
+	$section = $section.Replace("[", "")
+	$section = $section.Replace("]", "")
+	
+	$token = $token.Replace("token =", "")
+	$token = $token.Replace("token =", "")
+	$token = $token.Replace('"', "'")
+	
+	$json = '{ "section": "' + $section + '", "token": "' + $token + '" }'
+	
+	$headers = @{
+		"content-type"="application/x-www-form-urlencoded"
+		"Content-Encoding"="utf-8"
+	}
+	
+	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType "application/x-www-form-urlencoded"
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this code:`n$response", "Success!")
@@ -39,23 +63,96 @@ function rclone_config($rclone_provider){
 }
 
 function rclone_config_with_code($code){
-	Invoke-WebRequest -Uri "https://patreon.emudeck.com/hastebin.php?code=$code" -OutFile "$rclone_config"
+	$headers = @{
+		"User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
+	}
+	
+	$response = Invoke-WebRequest -Uri "https://patreon.emudeck.com/hastebin.php?code=$code" -Headers $headers
+	
+	$json = ConvertFrom-Json $response.Content
+	
+	$section = $json.section
+	$token = $json.token
+	
+	#cleanup
+	$token = $token.Replace("'", '"')
+	#$section = $section.Replace("[", '')
+	#$section = $section.Replace("]", '')
+	
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
+
+	foreach($_ in Get-Content $rclone_config) {
+		if ($_ -eq "$section") {
+			$found = "true"
+		}elseif ($found -eq "true" -and $_ -like "token =*") {	
+			echo $_	
+			$_ = $_ -replace "token =", "token = $token"		
+			$found = "false"
+		}
+		$content += "$_" + "`n"
+	
+	}
+	
+	$content | Set-Content $rclone_config
+	
+	Get-Content -Path $rclone_config
+	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
 }
 
-function rclone_install_and_config(){
+function rclone_install_and_config($rclone_provider){
 	rclone_install($rclone_provider)
 	rclone_config($rclone_provider)
 }
 
-function rclone_install_and_config_with_code(){
-	$code = Read-Host "Please enter your SaveSync code"  -AsSecureString
-	$codePtr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($code)
-	$codeString = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($codePtr)
-	[System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($codePtr)
+function rclone_install_and_config_with_code($rclone_provider){
+	Add-Type -AssemblyName System.Windows.Forms
+	Add-Type -AssemblyName System.Drawing
+	
+	$Form = New-Object System.Windows.Forms.Form
+	$Form.Text = "Enter SaveSync Code"
+	$Form.ClientSize = New-Object System.Drawing.Size(300, 100)
+	$Form.StartPosition = "CenterScreen"
+	
+	$Label = New-Object System.Windows.Forms.Label
+	$Label.Text = "Please enter your SaveSync code:"
+	$Label.Location = New-Object System.Drawing.Point(10, 20)
+	$Label.AutoSize = $true
+	$Form.Controls.Add($Label)
+	
+	$TextBox = New-Object System.Windows.Forms.TextBox
+	$TextBox.Location = New-Object System.Drawing.Point(10, 40)
+	$TextBox.Size = New-Object System.Drawing.Size(260, 20)
+	$TextBox.PasswordChar = "*"
+	$Form.Controls.Add($TextBox)
+	
+	$OKButton = New-Object System.Windows.Forms.Button
+	$OKButton.Text = "OK"
+	$OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
+	$OKButton.Location = New-Object System.Drawing.Point(10, 70)
+	$OKButton.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right
+	$Form.AcceptButton = $OKButton
+	$Form.Controls.Add($OKButton)
+	
+	$CancelButton = New-Object System.Windows.Forms.Button
+	$CancelButton.Text = "Cancel"
+	$CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
+	$CancelButton.Location = New-Object System.Drawing.Point(90, 70)
+	$CancelButton.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right
+	$Form.CancelButton = $CancelButton
+	$Form.Controls.Add($CancelButton)
+	
+	$Form.Topmost = $true
+	
+	$Result = $Form.ShowDialog()
+	
+	if ($Result -eq [System.Windows.Forms.DialogResult]::OK) {
+		$code = $TextBox.Text
+	}
+	
 	rclone_install($rclone_provider)
-	rclone_config_with_code($codeString)
+	rclone_config_with_code($code)
 }
 
 function rclone_uninstall(){	
