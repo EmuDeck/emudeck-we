@@ -76,25 +76,25 @@ function rclone_config_with_code($code){
 	
 	#cleanup
 	$token = $token.Replace("'", '"')
-	#$section = $section.Replace("[", '')
-	#$section = $section.Replace("]", '')
 	
 	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
 
+	echo $section;
+
 	foreach($_ in Get-Content $rclone_config) {
-		if ($_ -eq "$section") {
+		if ($_  -like "*$section*") {
 			$found = "true"
+			echo "PEPE"
 		}elseif ($found -eq "true" -and $_ -like "token =*") {				
-			$_ = $_ -replace "token =", "token = $token"		
+			$_ = $_ -replace "token =", "token =$token"		
 			$found = "false"
+			echo "PEPA"
 		}
 		$content += "$_" + "`n"
 	
 	}
 	
 	$content | Set-Content $rclone_config
-	
-	Get-Content -Path $rclone_config
 	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
