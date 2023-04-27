@@ -33,7 +33,7 @@ function rclone_config($rclone_provider){
 	foreach($_ in Get-Content $rclone_config) {
 		if ($_ -like "*Emudeck*") {		
 			$section = $_		
-		}elseif ($_ -like "token = *") {		
+		}elseif ($_ -match "^token\s*=\s*(\S.*)$") {			
 			$token = $_
 			$stop = $true
 			break
@@ -84,7 +84,7 @@ function rclone_config_with_code($code){
 	foreach($_ in Get-Content $rclone_config) {
 		if ($_ -eq "$section") {
 			$found = "true"
-		}elseif ($found -eq "true" -and $_ -like "token =*") {				
+		}elseif ($found -eq "true" -and $_ -match "^token\s*=\s*(\S.*)$") {				
 			$_ = $_ -replace "token =", "token = $token"		
 			$found = "false"
 		}
