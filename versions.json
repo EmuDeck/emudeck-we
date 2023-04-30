@@ -3,7 +3,7 @@
   "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 0 },
   "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 0 },
   "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 0 },
-  "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 1 },
+  "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 2 },
   "rpcs3": { "id": "rpcs3", "code": "RPCS3", "version": 0 },
   "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 0 },
   "cemu": { "id": "cemu", "code": "Cemu", "version": 0 },
