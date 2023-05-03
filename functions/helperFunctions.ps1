@@ -112,3 +112,13 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 
 	return $url
 }
+
+function check_internet_connection(){
+	$result = Test-NetConnection www.google.com
+	if ($result.TcpTestSucceeded) {
+		return $true
+	}
+	else {
+		return $false
+	}
+}
