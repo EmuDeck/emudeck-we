@@ -231,8 +231,8 @@ function cloud_sync_downloadEmu($emuName){
 						echo ""
 					}
 				}
-
-			
+			}else{
+				cloud_sync_download($emuName)
 			}
 		}else{
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_download
@@ -271,6 +271,8 @@ function cloud_sync_uploadEmu($emuName){
 				}
 
 			
+			}else{
+				cloud_sync_upload($emuName)
 			}
 		}else{
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_upload
