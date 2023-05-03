@@ -11,8 +11,8 @@ function PCSX2_init(){
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
-	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2
-	sedFile $destination\inis\PCSX2-reg.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2
+	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt
+	sedFile $destination\inis\PCSX2-reg.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/" "\"
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
@@ -43,13 +43,13 @@ function PCSX2_setupSaves(){
 	#Saves
 	setMSG 'PCSX2 - Saves Links'
 	mkdir saves/PCSX2 -ErrorAction SilentlyContinue
-	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2\memcards\')
+	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2-Qt\memcards\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,'\saves\PCSX2\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2\sstates\')
+	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2-Qt\sstates\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,'\saves\PCSX2\states.lnk')
 	createLink $SourceFilePath $ShortcutPath
@@ -63,7 +63,7 @@ function PCSX2_setResolution($resolution){
 		'4K' { $multiplier = 6 }
 	}	
 	
-	setConfig 'upscale_multiplier' $multiplier 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2.ini'
+	setConfig 'upscale_multiplier' $multiplier 'tools\EmulationStation-DE\Emulators\PCSX2-Qt\inis\PCSX2.ini'
 }
 function PCSX2_setupStorage(){
 	echo "NYI"
