@@ -205,7 +205,7 @@ function cloud_sync_upload($emuName){
 function cloud_sync_downloadEmu($emuName){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
-		if ( $check_internet_connection ){
+		if ( check_internet_connection -eq 'true' ){
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_download") {
 			
@@ -241,7 +241,7 @@ function cloud_sync_downloadEmu($emuName){
 function cloud_sync_uploadEmu($emuName){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
-		if ( $check_internet_connection ){
+		if ( check_internet_connection -eq 'true' ){
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_upload") {
 			
