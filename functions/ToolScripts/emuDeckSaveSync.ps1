@@ -221,9 +221,11 @@ function cloud_sync_downloadEmu($emuName){
 				switch ($result) {
 					"Yes" {
 						cloud_sync_download($emuName)
+						rm -fo "$savesPath/$emuName/.fail_download"
 					}
 					"No" {
-						cloud_sync_upload($emuName)						
+						cloud_sync_upload($emuName)		
+						rm -fo "$savesPath/$emuName/.fail_download"				
 					}
 					"Cancel" {
 						echo ""
@@ -257,9 +259,11 @@ function cloud_sync_uploadEmu($emuName){
 				switch ($result) {
 					"Yes" {
 						cloud_sync_download($emuName)
+						rm -fo "$savesPath/$emuName/.fail_upload"
 					}
 					"No" {
 						cloud_sync_upload($emuName)						
+						rm -fo  "$savesPath/$emuName/.fail_upload"
 					}
 					"Cancel" {
 						echo ""
