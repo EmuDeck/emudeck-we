@@ -213,7 +213,7 @@ function cloud_sync_downloadEmu($emuName){
 				Add-Type -AssemblyName System.Windows.Forms
 				
 				$result = [System.Windows.Forms.MessageBox]::Show(
-					"We've detected a previously failed download, do you want us to download your saves from the cloud and overwrite your local saves? Your latest download was on $date. Press Yes to download, No to upload, Cancel to skip",
+					"We've detected a previously failed download, do you want us to download your saves and overwrite your local saves? Your latest upload was on $date. Press Yes to download from the cloud and overwrite your local saves, No to upload and overwrite your Cloud saves, Cancel to skip",
 					"CloudSync conflict",
 					[System.Windows.Forms.MessageBoxButtons]::YesNoCancel
 				)
@@ -251,19 +251,19 @@ function cloud_sync_uploadEmu($emuName){
 				Add-Type -AssemblyName System.Windows.Forms
 				
 				$result = [System.Windows.Forms.MessageBox]::Show(
-					"We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud? Your latest upload was on $date. Press Yes to download, No to upload, Cancel to skip",
+					"We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud? Your latest upload was on $date. Press Yes to upload and overwrite your Cloud saves, No to download from the cloud and overwrite your local saves, Cancel to skip",
 					"CloudSync conflict",
 					[System.Windows.Forms.MessageBoxButtons]::YesNoCancel
 				)
 				
 				switch ($result) {
 					"Yes" {
-						cloud_sync_download($emuName)
-						rm -fo "$savesPath/$emuName/.fail_upload"
-					}
-					"No" {
 						cloud_sync_upload($emuName)						
 						rm -fo  "$savesPath/$emuName/.fail_upload"
+					}
+					"No" {
+						cloud_sync_download($emuName)
+						rm -fo "$savesPath/$emuName/.fail_upload"
 					}
 					"Cancel" {
 						echo ""
