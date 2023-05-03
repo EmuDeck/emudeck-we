@@ -1,16 +1,16 @@
-$rclone_path="$toolsPath/rclone"
-$rclone_bin="$rclone_path/rclone.exe"
-$rclone_config="$rclone_path/rclone.conf"
+$cloud_sync_path="$toolsPath/rclone"
+$cloud_sync_bin="$cloud_sync_path/rclone.exe"
+$cloud_sync_config="$cloud_sync_path/rclone.conf"
 
 
-function rclone_install($rclone_provider){	
-	$rclone_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
-	download $rclone_releaseURL "rclone.zip"	
-	setSetting "rclone_provider" "$rclone_provider"
+function cloud_sync_install($cloud_sync_provider){	
+	$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
+	download $cloud_sync_releaseURL "rclone.zip"	
+	setSetting "cloud_sync_provider" "$cloud_sync_provider"
 	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 	$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 	
-	if ($rclone_releaseURL -match $regex) {
+	if ($cloud_sync_releaseURL -match $regex) {
 		
 		$filename = $matches[1]
 		
@@ -24,13 +24,13 @@ function rclone_install($rclone_provider){
 	}
 }
 
-function rclone_config($rclone_provider){
-	& $rclone_bin config update "$rclone_provider" 
+function cloud_sync_config($cloud_sync_provider){
+	& $cloud_sync_bin config update "$cloud_sync_provider" 
 	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
 	
-	foreach($_ in Get-Content $rclone_config) {
+	foreach($_ in Get-Content $cloud_sync_config) {
 		if ($_ -like "*Emudeck*") {		
 			$section = $_		
 		}elseif ($_ -match "^token\s*=\s*(\S.*)$") {			
@@ -62,7 +62,7 @@ function rclone_config($rclone_provider){
 
 }
 
-function rclone_config_with_code($code){
+function cloud_sync_config_with_code($code){
 	$headers = @{
 		"User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
 	}
@@ -81,31 +81,29 @@ function rclone_config_with_code($code){
 
 	echo $section;
 
-	foreach($_ in Get-Content $rclone_config) {
+	foreach($_ in Get-Content $cloud_sync_config) {
 		if ($_  -like "*$section*") {
 			$found = "true"
-			echo "PEPE"
 		}elseif ($found -eq "true" -and $_ -like "token =*") {				
 			$_ = $_ -replace "token =", "token =$token"		
 			$found = "false"
-			echo "PEPA"
 		}
 		$content += "$_" + "`n"
 	
 	}
 	
-	$content | Set-Content $rclone_config
+	$content | Set-Content $cloud_sync_config
 	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
 }
 
-function rclone_install_and_config($rclone_provider){
-	rclone_install($rclone_provider)
-	rclone_config($rclone_provider)
+function cloud_sync_install_and_config($cloud_sync_provider){
+	cloud_sync_install($cloud_sync_provider)
+	cloud_sync_config($cloud_sync_provider)
 }
 
-function rclone_install_and_config_with_code($rclone_provider){
+function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 	Add-Type -AssemblyName System.Windows.Forms
 	Add-Type -AssemblyName System.Drawing
 	
@@ -150,130 +148,202 @@ function rclone_install_and_config_with_code($rclone_provider){
 		$code = $TextBox.Text
 	}
 	
-	rclone_install($rclone_provider)
-	rclone_config_with_code($code)
+	cloud_sync_install($cloud_sync_provider)
+	cloud_sync_config_with_code($code)
 }
 
-function rclone_uninstall(){	
+function cloud_sync_uninstall(){	
 	rm -fo  "$toolsPath/rclone"	
 }
 
-function rclone_downloadEmu($emuName){	
-	if (Test-Path "$rclone_bin") {
+function cloud_sync_download($emuName){	
+	if (Test-Path "$cloud_sync_bin") {
 	echo "Downloading $emuName States/Saves"
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\saves" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\states" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\GC" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $rclone_bin copy -P -L "$rclone_provider`:Emudeck\saves\$emuName\WII" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
 		}
 	}
 }
 
-function rclone_uploadEmu($emuName){	
-	if (Test-Path "$rclone_bin") {
+function cloud_sync_upload($emuName){	
+	if (Test-Path "$cloud_sync_bin") {
 	echo "Uploading $emuName States/Saves"
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\saves"
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\states" 
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\GC" 
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $rclone_bin copy -P -L "$target" "$rclone_provider`:Emudeck\saves\$emuName\WII" 
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
+		}
+	}
+}
+
+function cloud_sync_downloadEmu($emuName){
+	if (Test-Path "$cloud_sync_bin") {
+		#We check for internet connection
+		if ( $check_internet_connection ){
+			#Do we have a failed download?
+			if (Test-Path "$savesPath/$emuName/.fail_download") {
+			
+				$date = Get-Content "$savesPath/$emuName/.fail_download"
+				Add-Type -AssemblyName System.Windows.Forms
+				
+				$result = [System.Windows.Forms.MessageBox]::Show(
+					"We've detected a previously failed download, do you want us to download your saves from the cloud and overwrite your local saves? Your latest download was on $date. Press Yes to download, No to upload, Cancel to skip",
+					"CloudSync conflict",
+					[System.Windows.Forms.MessageBoxButtons]::YesNoCancel
+				)
+				
+				switch ($result) {
+					"Yes" {
+						cloud_sync_download($emuName)
+					}
+					"No" {
+						cloud_sync_upload($emuName)						
+					}
+					"Cancel" {
+						echo ""
+					}
+				}
+
+			
+			}
+		}else{
+			echo Get-Date > $savesPath/$emuName/.fail_download
+		}
+	}
+}
+
+function cloud_sync_uploadEmu($emuName){
+	if (Test-Path "$cloud_sync_bin") {
+		#We check for internet connection
+		if ( $check_internet_connection ){
+			#Do we have a failed download?
+			if (Test-Path "$savesPath/$emuName/.fail_upload") {
+			
+				$date = Get-Content "$savesPath/$emuName/.fail_upload"
+				Add-Type -AssemblyName System.Windows.Forms
+				
+				$result = [System.Windows.Forms.MessageBox]::Show(
+					"We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud? Your latest upload was on $date. Press Yes to download, No to upload, Cancel to skip",
+					"CloudSync conflict",
+					[System.Windows.Forms.MessageBoxButtons]::YesNoCancel
+				)
+				
+				switch ($result) {
+					"Yes" {
+						cloud_sync_download($emuName)
+					}
+					"No" {
+						cloud_sync_upload($emuName)						
+					}
+					"Cancel" {
+						echo ""
+					}
+				}
+
+			
+			}
+		}else{
+			echo Get-Date > $savesPath/$emuName/.fail_upload
 		}
 	}
 }
 
 
-function rclone_downloadEmuAll(){
+function cloud_sync_downloadEmuAll(){
 	if ($doInstallRA -eq "true"){
-		rclone_downloadEmu retroarch
+		cloud_sync_downloadEmu retroarch
 	}
 	if ($doInstallDolphin -eq "true"){
-		rclone_downloadEmu dolphin
+		cloud_sync_downloadEmu dolphin
 	}
 	if ($doInstallPCSX2 -eq "true"){
-		rclone_downloadEmu PCSX2
+		cloud_sync_downloadEmu PCSX2
 	}
 	#if ($doInstallRPCS3 -eq "true"){
-	#	rclone_downloadEmu RPCS3
+	#	cloud_sync_downloadEmu RPCS3
 	#}
 	if ($doInstallYuzu -eq "true"){
-		rclone_downloadEmu yuzu
+		cloud_sync_downloadEmu yuzu
 	}
 	#if ($doInstallCitra -eq "true"){
-	#	rclone_downloadEmu citra
+	#	cloud_sync_downloadEmu citra
 	#}
 	if ($doInstallDuck -eq "true"){
-		rclone_downloadEmu duckstation
+		cloud_sync_downloadEmu duckstation
 	}
 	if ($doInstallCemu -eq "true"){
-		rclone_downloadEmu cemu
+		cloud_sync_downloadEmu cemu
 	}
 	#if ($doInstallXenia -eq "true"){
-	#	rclone_downloadEmu xenia
+	#	cloud_sync_downloadEmu xenia
 	#}
 	if ($doInstallPPSSPP -eq "true"){
-		rclone_downloadEmu PPSSPP
+		cloud_sync_downloadEmu PPSSPP
 	}
 	#if ($doInstallXemu -eq "true"){
-	#	rclone_downloadEmu xemu
+	#	cloud_sync_downloadEmu xemu
 	#}
 }
 
-function rclone_uploadEmuAll(){
+function cloud_sync_uploadEmuAll(){
 	if ($doInstallRA -eq "true"){
-		rclone_uploadEmu retroarch
+		cloud_sync_uploadEmu retroarch
 	}
 	if ($doInstallDolphin -eq "true"){
-		rclone_uploadEmu dolphin
+		cloud_sync_uploadEmu dolphin
 	}
 	if ($doInstallPCSX2 -eq "true"){
-		rclone_uploadEmu PCSX2
+		cloud_sync_uploadEmu PCSX2
 	}
 	#if ($doInstallRPCS3 -eq "true"){
-	#	rclone_uploadEmu RPCS3
+	#	cloud_sync_uploadEmu RPCS3
 	#}
 	if ($doInstallYuzu -eq "true"){
-		rclone_uploadEmu yuzu
+		cloud_sync_uploadEmu yuzu
 	}
 	#if ($doInstallCitra -eq "true"){
-	#	rclone_uploadEmu citra
+	#	cloud_sync_uploadEmu citra
 	#}
 	if ($doInstallDuck -eq "true"){
-		rclone_uploadEmu duckstation
+		cloud_sync_uploadEmu duckstation
 	}
 	if ($doInstallCemu -eq "true"){
-		rclone_uploadEmu cemu
+		cloud_sync_uploadEmu cemu
 	}
 	#if ($doInstallXenia -eq "true"){
-	#	rclone_uploadEmu xenia
+	#	cloud_sync_uploadEmu xenia
 	#}
 	if ($doInstallPPSSPP -eq "true"){
-		rclone_uploadEmu PPSSPP
+		cloud_sync_uploadEmu PPSSPP
 	}
 	#if ($doInstallXemu -eq "true"){
-	#	rclone_uploadEmu xemu
+	#	cloud_sync_uploadEmu xemu
 	#}
 
 }
