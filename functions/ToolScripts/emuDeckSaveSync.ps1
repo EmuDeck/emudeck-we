@@ -161,19 +161,19 @@ function cloud_sync_download($emuName){
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider:Emudeck\saves\$emuName\saves" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider:Emudeck\saves\$emuName\states" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider:Emudeck\saves\$emuName\GC" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider:Emudeck\saves\$emuName\WII" "$target"
 		}
 	}
 }
@@ -184,19 +184,19 @@ function cloud_sync_upload($emuName){
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider:Emudeck\saves\$emuName\saves"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider:Emudeck\saves\$emuName\states" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider:Emudeck\saves\$emuName\GC" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider:Emudeck\saves\$emuName\WII" 
 		}
 	}
 }
