@@ -131,6 +131,9 @@ function Yuzu_setController($device){
 		"PS5" {
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
 		}
+		"PS4" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
+		}
 		"XONE" {
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.xone.ini" -Destination "$destination\qt-config.ini"
 		}

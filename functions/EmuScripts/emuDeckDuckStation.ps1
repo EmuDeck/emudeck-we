@@ -33,7 +33,7 @@ function DuckStation_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath	
 	
 	#States
-	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\duckstation\savestates')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,'\saves\duckstation\states.lnk')	
 	createLink $SourceFilePath $ShortcutPath

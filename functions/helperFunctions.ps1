@@ -119,3 +119,8 @@ function check_internet_connection(){
 	if ((Test-Connection 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue).StatusCode -eq 0) { return "true" } else { return "false" }
 
 }
+
+function changeController($device){
+	Yuzu_setController($device)
+	Citra_setController($device)
+}

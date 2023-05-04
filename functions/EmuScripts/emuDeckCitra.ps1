@@ -11,12 +11,12 @@ function Citra_install(){
 function Citra_init(){
 
 	setMSG 'Citra - Configuration'
-	$destination=-join($emulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
+	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra" "$destination"
 	
-	#sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
-	sedFile $destination\config\qt-config.ini "/" "\"
+	#Different ini per controller	
+	Citra_setController($device)
+	#copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra" "$destination"		
 	
 	Citra_setupSaves
 }
@@ -34,7 +34,7 @@ function Citra_setupSaves(){
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = -join($emulationPath, 'tools\EmulationStation-DE\Emulators\citra\user\states\')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\citra\user\states\')
 	$ShortcutPath = -join($emulationPath,'\saves\citra\states.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
@@ -52,7 +52,7 @@ function Citra_setResolution($resolution){
 		'1440P' { $multiplier = 6 }
 		'4K' { $multiplier = 9 }
 	}	
-	$destination=-join($emulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
+	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\citra\user")
 	
 	setConfig 'resolution_factor' $multiplier $destination\config\qt-config.ini
 }
@@ -95,4 +95,31 @@ function Citra_resetConfig(){
 	if($?){
 		echo "true"
 	}
+}
+
+function Citra_setController($device){
+
+	$destination='tools\EmulationStation-DE\Emulators\citra\user\config'
+	
+	switch ($device) {
+		"PS5" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
+		}
+		"PS4" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
+		}
+		"XONE" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+		"X360" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+		"WIIUPRO" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+		Default {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+	}
+	
 }
