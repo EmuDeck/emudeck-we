@@ -12,13 +12,13 @@ function PCSX2QT_init(){
 	$destination="tools\EmulationStation-DE\Emulators\PCSX2-Qt"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
-	sedFile $destination\inis\PCSX2QT_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
-	sedFile $destination\inis\PCSX2QT_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt
+	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt
 	sedFile $destination\inis\PCSX2-reg.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt
 	
-	sedFile $destination\inis\PCSX2QT_ui.ini "/" "\"
+	sedFile $destination\inis\PCSX2_ui.ini "/" "\"
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
-	sedFile $destination\inis\PCSX2QT_ui.ini "C:\" "\\"
+	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
 	
 	PCSX2QT_setupSaves
 	
