@@ -108,7 +108,8 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 
 	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
 		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } | 
-		   Select-Object -ExpandProperty browser_download_url
+		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
+		   return $url
 
 	return $url
 }
