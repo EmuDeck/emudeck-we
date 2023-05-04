@@ -25,40 +25,39 @@ function cloud_sync_install($cloud_sync_provider){
 }
 
 function cloud_sync_config($cloud_sync_provider){
-	& $cloud_sync_bin config update "$cloud_sync_provider" 
+	& $cloud_sync_bin config update "$cloud_sync_provider"  ; echo 'true'
 	
-	Add-Type -AssemblyName PresentationFramework
-	[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
-	
-	foreach($_ in Get-Content $cloud_sync_config) {
-		if ($_ -like "*Emudeck*") {		
-			$section = $_		
-		}elseif ($_ -match "^token\s*=\s*(\S.*)$") {			
-			$token = $_
-			$stop = $true
-			break
-		}
-	}
-	
-	#Cleanup
-	$section = $section.Replace("[", "")
-	$section = $section.Replace("]", "")
-	
-	$token = $token.Replace("token =", "")
-	$token = $token.Replace("token =", "")
-	$token = $token.Replace('"', "'")
-	
-	$json = '{ "section": "' + $section + '", "token": "' + $token + '" }'
-	
-	$headers = @{
-		"content-type"="application/x-www-form-urlencoded"
-		"Content-Encoding"="utf-8"
-	}
-	
-	$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType "application/x-www-form-urlencoded"
-
-	Add-Type -AssemblyName PresentationFramework
-	[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this code:`n$response", "Success!")
+	#Add-Type -AssemblyName PresentationFramework
+	#[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
+	#
+	#foreach($_ in Get-Content $cloud_sync_config) {
+	#	if ($_ -like "*Emudeck*") {		
+	#		$section = $_		
+	#	}elseif ($_ -match "^token\s*=\s*(\S.*)$") {			
+	#		$token = $_
+	#		$stop = $true
+	#		break
+	#	}
+	#}
+	#
+	##Cleanup
+	#$section = $section.Replace("[", "")
+	#$section = $section.Replace("]", "")
+	#
+	#$token = $token.Replace("token =", "")
+	#$token = $token.Replace("token =", "")
+	#$token = $token.Replace('"', "'")
+	#
+	#$json = '{ "section": "' + $section + '", "token": "' + $token + '" }'
+	#
+	#$headers = @{
+	#	"content-type"="application/x-www-form-urlencoded"
+	#	"Content-Encoding"="utf-8"
+	#}
+	#
+	#$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType #"application/x-www-form-urlencoded"
+	#Add-Type -AssemblyName PresentationFramework
+	#[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this #code:`n$response", "Success!")
 
 }
 
