@@ -93,7 +93,7 @@ if(-not($test)){
 #PCSX2 
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
 if(-not($test)){
-	PCSX2_install
+	PCSX2QT_install
 }
 
 #RPCS3
@@ -187,7 +187,7 @@ if ( "$doSetupCemu" -eq "true" ){
 }
 
 if ( "$doSetupPCSX2" -eq "true" ){
-	PCSX2_init
+	PCSX2QT_init
 }
 
 if ( "$doSetupRPCS3" -eq "true" ){
@@ -229,7 +229,7 @@ if ( "$doSetupSRM" -eq "true" ){
 setMSG "Setting Resolution Screen"
 Dolphin_setResolution $dolphinResolution
 DuckStation_setResolution $duckstationResolution
-PCSX2_setResolution $pcsx2Resolution
+PCSX2QT_setResolution $pcsx2Resolution
 Yuzu_setResolution $yuzuResolution
 Ryujinx_setResolution $yuzuResolution
 
@@ -261,7 +261,7 @@ if ( "$doSetupRA" -eq "true" ){
 
 if  ("$doRASignIn" -eq "true" ){
 	DuckStation_retroAchievementsSetLogin
-	PCSX2_retroAchievementsSetLogin
+	PCSX2QT_retroAchievementsSetLogin
 }
 
 #AR, Bezels and Shaders
