@@ -1,5 +1,6 @@
 function Yuzu_install(){
 	setMSG 'Downloading Yuzu'
+	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
 	$url_yuzu = getLatestReleaseURLGH 'yuzu-emu/yuzu-mainline' '7z' 'windows'
 	download $url_yuzu "yuzu.7z"
 	moveFromTo "temp/yuzu/yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
@@ -18,17 +19,6 @@ function Yuzu_init(){
 	#Different ini per controller	
 	Yuzu_setController($device)
 
-	
-	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
-	#if(-not($test)){
-		#setMSG 'Yuzu - Downloading Microsoft Visual C++ 2022'
-		#Win7
-		#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
-		#.\tools\vc_redist.x64.exe
-		
-		winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
-	#}
-	
 	setMSG 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
 	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered')

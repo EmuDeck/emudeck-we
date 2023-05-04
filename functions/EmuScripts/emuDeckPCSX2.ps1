@@ -1,5 +1,6 @@
 function PCSX2_install(){
 	setMSG 'Downloading PCSX2'
+	winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
 	download $url_pcsx2 "pcsx2.7z"
 	moveFromTo "temp/pcsx2/pcsx2" "tools\EmulationStation-DE\Emulators\PCSX2-Qt"
 	Remove-Item -Recurse -Force pcsx2 -ErrorAction SilentlyContinue
@@ -17,18 +18,6 @@ function PCSX2_init(){
 	sedFile $destination\inis\PCSX2_ui.ini "/" "\"
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
 	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
-	
-	
-	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x86.exe"
-	#if(-not($test)){
-		#setMSG 'PCSX2 - Downloading Microsoft Visual C++ 2022 x86'
-		##Win7
-		##download "https://aka.ms/vs/17/release/vc_redist.x86.exe" "tools/vc_redist.x86.exe"	
-		##.\tools\vc_redist.x86.exe
-		winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
-	#}
-	
-
 	
 	PCSX2_setupSaves
 	
