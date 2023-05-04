@@ -80,5 +80,8 @@ function Ryujinx_IsInstalled(){
 	}
 }
 function Ryujinx_resetConfig(){
-	echo "NYI"
+	Ryujinx_init
+	if($?){
+		echo "true"
+	}
 }
