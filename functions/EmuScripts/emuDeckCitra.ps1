@@ -4,6 +4,7 @@ function Citra_install(){
 	download $url_citra "citra.7z"
 	moveFromTo "temp/citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
+	mkdir "tools\EmulationStation-DE\Emulators\citra\user" -ErrorAction SilentlyContinue	
 	createLauncher "citra"
 	
 }
@@ -14,7 +15,7 @@ function Citra_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
+	#sedFile $destination\config\qt-config.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
 	sedFile $destination\config\qt-config.ini "/" "\"
 	
 	Citra_setupSaves
@@ -42,6 +43,20 @@ function Citra_setupSaves(){
 function Citra_setupStorage(){
 	echo "NYI"
 }
+
+function Citra_setResolution($resolution){
+	switch ( $resolution )
+	{
+		'720P' { $multiplier = 3 }
+		'1080P' { $multiplier = 5 }
+		'1440P' { $multiplier = 6 }
+		'4K' { $multiplier = 9 }
+	}	
+	$destination=-join($emulationPath, "tools\EmulationStation-DE\Emulators\citra\user")
+	
+	setConfig 'resolution_factor' $multiplier $destination\config\qt-config.ini
+}
+
 function Citra_wipe(){
 	echo "NYI"
 }

@@ -115,10 +115,16 @@ if(-not($test)){
 }
 
 #Citra
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
-#if(-not($test)){
-#	Citra_install
-#}
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+if(-not($test)){
+	Citra_install
+}
+
+#Ryujinx
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Ryujinx"
+if(-not($test)){
+	Ryujinx_install
+}
 
 #DuckStation
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
@@ -172,9 +178,9 @@ if ( "$doSetupRyujinx" -eq "true" ){
 	Ryujinx_init
 }
 
-#if ( "$doSetupCitra" -eq "true" ){
-#	Citra_init
-#}
+if ( "$doSetupCitra" -eq "true" ){
+	Citra_init
+}
 
 if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
@@ -184,9 +190,9 @@ if ( "$doSetupPCSX2" -eq "true" ){
 	PCSX2_init
 }
 
-#if ( "$doSetupRPCS3" -eq "true" ){
-	#RPCS3_init
-#}
+if ( "$doSetupRPCS3" -eq "true" ){
+	RPCS3_init
+}
 
 #if ( "$doSetupXemu" -eq "true" ){
 	#Xemu_init
@@ -225,9 +231,10 @@ Dolphin_setResolution $dolphinResolution
 DuckStation_setResolution $duckstationResolution
 PCSX2_setResolution $pcsx2Resolution
 Yuzu_setResolution $yuzuResolution
+Ryujinx_setResolution $yuzuResolution
+
 #PPSSPP_setResolution $ppssppResolution
 #RPCS3_setResolution $rpcs3Resolution
-#Ryujinx_setResolution $ryujinxResolution
 #Xemu_setResolution $xemuResolution
 #Xenia_setResolution $xeniaResolution
 
