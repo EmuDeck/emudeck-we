@@ -56,7 +56,7 @@ function Yuzu_setEmulationFolder(){
 }
 function Yuzu_setupSaves(){
 	setMSG 'Yuzu - Saves Links'
-	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\user\save')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\user\save\')	
 	$ShortcutPath = -join($emulationPath,'\saves\yuzu\saves.lnk')
 	mkdir 'saves\yuzu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
@@ -64,16 +64,15 @@ function Yuzu_setupSaves(){
 }
 function Yuzu_setResolution($resolution){
 	switch ( $resolution )
-{
-	'720P' { $multiplier = 2;  $docked='false'}
-	'1080P' { $multiplier = 2; $docked='true'   }
-	'1440P' { $multiplier = 3;  $docked='false' }
-	'4K' { $multiplier = 3; $docked='true' }
-}	
-
-setConfig 'resolution_setup' $multiplier 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
-setConfig 'use_docked_mode' $docked 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
-
+	{
+		'720P' { $multiplier = 2;  $docked='false'}
+		'1080P' { $multiplier = 2; $docked='true'   }
+		'1440P' { $multiplier = 3;  $docked='false' }
+		'4K' { $multiplier = 3; $docked='true' }
+	}	
+	
+	setConfig 'resolution_setup' $multiplier 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
+	setConfig 'use_docked_mode' $docked 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
 
 }
 function Yuzu_setupStorage(){
