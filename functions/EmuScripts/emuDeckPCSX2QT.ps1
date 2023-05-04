@@ -42,16 +42,18 @@ function PCSX2QT_setEmulationFolder(){
 function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG 'PCSX2 - Saves Links'
-	mkdir saves/PCSX2 -ErrorAction SilentlyContinue
+	rm -fo  'saves\pcsx2' -ErrorAction SilentlyContinue
+	mkdir saves\pcsx2 -ErrorAction SilentlyContinue
 	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2-Qt\memcards\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,'\saves\PCSX2\saves.lnk')
+	
+	$ShortcutPath = -join($emulationPath,'\saves\pcsx2\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
 	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2-Qt\sstates\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,'\saves\PCSX2\states.lnk')
+	$ShortcutPath = -join($emulationPath,'\saves\pcsx2\states.lnk')
 	createLink $SourceFilePath $ShortcutPath
 }
 function PCSX2QT_setResolution($resolution){
