@@ -135,8 +135,9 @@ function JSONtoPS1(){
 	setSettinginFile("`$RAHandClassic3D=`"$RAHandClassic3D`"")
 	setSettinginFile("`$RAHandHeldShader=`"$RAHandHeldShader`"")
 	
-	$doSetupSaveSync = $myJson.cloudSync
-	setSettinginFile("`$doSetupSaveSync=`"$doSetupSaveSync`"")
+	$cloud_sync_provider = $myJson.cloudSync
+	setSettinginFile("`$cloud_sync_provider=`"$cloud_sync_provider`"")
+	setSettinginFile("`$rclone_provider=`"$cloud_sync_provider`"")
 	
 	$dolphinResolution = $myJson.resolutions.dolphin
 	$duckstationResolution = $myJson.resolutions.duckstation
