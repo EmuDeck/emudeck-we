@@ -7,7 +7,7 @@ function PCSX2_install(){
 }
 function PCSX2_init(){	
 	setMSG 'PCSX2 - Configuration'
-	$destination="tools\EmulationStation-DE\Emulators\PCSX2"
+	$destination="tools\EmulationStation-DE\Emulators\PCSX2-Qt"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
@@ -96,7 +96,7 @@ function PCSX2_finalize(){
 	echo "NYI"
 }
 function PCSX2_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt"
 	if($test){
 		echo "true"
 	}
@@ -111,5 +111,5 @@ function PCSX2_resetConfig(){
 
 function PCSX2_retroAchievementsSetLogin(){	
 	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-	setConfig 'Token' $rat 'tools\EmulationStation-DE\Emulators\PCSX2\inis\PCSX2.ini'		
+	setConfig 'Token' $rat 'tools\EmulationStation-DE\Emulators\PCSX2-Qt\inis\PCSX2.ini'		
 }

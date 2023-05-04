@@ -91,7 +91,7 @@ if(-not($test)){
 }
 
 #PCSX2 
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2\pcsx2-qtx64-avx2.exe"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
 if(-not($test)){
 	PCSX2_install
 }
