@@ -40,7 +40,7 @@ function RPCS3_setupSaves(){
 	setMSG 'RPCS3 - Saves Links'
 	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\RPCS3\dev_hdd0\home\00000001\savedata')
 	$ShortcutPath = -join($emulationPath,'\saves\rpcs3\saves.lnk')
-	rm -fo  'saves\RPCS3' -ErrorAction SilentlyContinue
+	rm -fo  'saves\RPCS3' -Recurse -ErrorAction SilentlyContinue
 	mkdir 'saves\rpcs3' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath

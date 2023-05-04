@@ -32,7 +32,7 @@ function PCSX2QT_setEmulationFolder(){
 function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG 'PCSX2 - Saves Links'
-	rm -fo  'saves\pcsx2' -ErrorAction SilentlyContinue
+	rm -fo 'saves\pcsx2' -Recurse -ErrorAction SilentlyContinue
 	mkdir saves\pcsx2 -ErrorAction SilentlyContinue
 	$SourceFilePath = -join($emulationPath,'\tools\EmulationStation-DE\Emulators\PCSX2-Qt\memcards\')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
