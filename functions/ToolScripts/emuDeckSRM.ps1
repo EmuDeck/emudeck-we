@@ -20,6 +20,10 @@ function SRM_init(){
 	#Start Menu
 	#mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
 	#createLink "$emulationPath\tools\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
+	
+	#SteamInput
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input" "$env:ProgramFiles(x86)\steam\controller_base\templates\"
+	
 		
 }
 function SRM_update(){
