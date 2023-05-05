@@ -288,17 +288,20 @@ function cloud_sync_downloadEmuAll(){
 		cloud_sync_downloadEmu dolphin
 	}
 	if ($doInstallPCSX2 -eq "true"){
-		cloud_sync_downloadEmu PCSX2
+		cloud_sync_downloadEmu pcsx2
 	}
-	#if ($doInstallRPCS3 -eq "true"){
-	#	cloud_sync_downloadEmu RPCS3
-	#}
+	if ($doInstallRPCS3 -eq "true"){
+		cloud_sync_downloadEmu rpcs3
+	}
 	if ($doInstallYuzu -eq "true"){
 		cloud_sync_downloadEmu yuzu
 	}
-	#if ($doInstallCitra -eq "true"){
-	#	cloud_sync_downloadEmu citra
-	#}
+	if ($doInstallCitra -eq "true"){
+		cloud_sync_downloadEmu citra
+	}
+	if ($doInstallRyujinx -eq "true"){
+		cloud_sync_downloadEmu ryujinx
+	}
 	if ($doInstallDuck -eq "true"){
 		cloud_sync_downloadEmu duckstation
 	}
@@ -324,17 +327,20 @@ function cloud_sync_uploadEmuAll(){
 		cloud_sync_uploadEmu dolphin
 	}
 	if ($doInstallPCSX2 -eq "true"){
-		cloud_sync_uploadEmu PCSX2
+		cloud_sync_uploadEmu pcsx2
 	}
-	#if ($doInstallRPCS3 -eq "true"){
-	#	cloud_sync_uploadEmu RPCS3
-	#}
+	if ($doInstallRPCS3 -eq "true"){
+		cloud_sync_uploadEmu rpcs3
+	}
 	if ($doInstallYuzu -eq "true"){
 		cloud_sync_uploadEmu yuzu
 	}
-	#if ($doInstallCitra -eq "true"){
-	#	cloud_sync_uploadEmu citra
-	#}
+	if ($doInstallCitra -eq "true"){
+		cloud_sync_uploadEmu citra
+	}
+	if ($doInstallRyujinx -eq "true"){
+		cloud_sync_downloadEmu ryujinx
+	}
 	if ($doInstallDuck -eq "true"){
 		cloud_sync_uploadEmu duckstation
 	}
