@@ -130,8 +130,8 @@ function Yuzu_setController($device){
 		"X360" {
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"
 		}
-		"WIIUPRO" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.wiipro.ini" -Destination "$destination\qt-config.ini"
+		"SWITCHPRO" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.switchpro.ini" -Destination "$destination\qt-config.ini"
 		}
 		Default {
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"

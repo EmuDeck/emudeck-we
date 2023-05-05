@@ -114,7 +114,7 @@ function Citra_setController($device){
 		"X360" {
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
 		}
-		"WIIUPRO" {
+		"SWITCHPRO" {
 			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
 		}
 		Default {
