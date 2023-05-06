@@ -20,7 +20,7 @@ function cloud_sync_install($cloud_sync_provider){
 		
 		moveFromTo "temp/rclone/" "$toolsPath\"	
 		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
-		rm -fo  "temp\rclone" -Recurse
+		rm -fo  "temp\rclone" -Recurse 
 	}
 }
 
@@ -220,11 +220,11 @@ function cloud_sync_downloadEmu($emuName){
 				
 				switch ($result) {
 					"Yes" {
-						rm -fo "$savesPath/$emuName/.pending_upload"	
+						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue	
 						cloud_sync_upload($emuName)								
 					}
 					"No" {
-						rm -fo "$savesPath/$emuName/.pending_upload"
+						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 						cloud_sync_download($emuName)						
 					}
 					"Cancel" {
@@ -250,11 +250,11 @@ function cloud_sync_downloadEmu($emuName){
 				switch ($result) {
 					"Yes" {
 						cloud_sync_download($emuName)
-						rm -fo "$savesPath/$emuName/.fail_download"
+						rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					}
 					"No" {
-						rm -fo "$savesPath/$emuName/.pending_upload"
-						rm -fo "$savesPath/$emuName/.fail_download"	
+						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+						rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
 						cloud_sync_upload($emuName)											
 					}
 					"Cancel" {
@@ -288,15 +288,15 @@ function cloud_sync_uploadEmu($emuName){
 				
 				switch ($result) {
 					"Yes" {
-						rm -fo  "$savesPath/$emuName/.pending_upload"
+						rm -fo  "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 						cloud_sync_upload($emuName)						
-						rm -fo  "$savesPath/$emuName/.fail_upload"
+						rm -fo  "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 						
 					}
 					"No" {
-						rm -fo  "$savesPath/$emuName/.pending_upload"
+						rm -fo  "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 						cloud_sync_download($emuName)
-						rm -fo "$savesPath/$emuName/.fail_upload"						
+						rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue						
 					}
 					"Cancel" {
 						echo ""
@@ -305,8 +305,8 @@ function cloud_sync_uploadEmu($emuName){
 
 			
 			}else{
-				rm -fo  "$savesPath/$emuName/.fail_upload"
-				rm -fo  "$savesPath/$emuName/.pending_upload"
+				rm -fo  "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+				rm -fo  "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 				cloud_sync_upload($emuName)
 			}
 		}else{
