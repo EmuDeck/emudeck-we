@@ -2,7 +2,7 @@
 {
 	"version"		"3"	
 	"title"		"EmuDeck WE - Switch Pro (SRM)"
-	"description"		"Long Press START + SELECT to Exit Emulator. Long Press R1 / R2 for Citra screen swap"
+	"description"		"Long Press START + SELECT to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
 	"controller_type"		"controller_switch_pro"
 	"localization"
 	{
@@ -259,17 +259,6 @@
 							"haptic_intensity"		"2"
 						}
 					}
-					"Full_Press"
-					{
-						"bindings"
-						{
-							"binding"		"key_press F9, , "
-						}
-						"settings"
-						{
-							"haptic_intensity"		"2"
-						}
-					}
 				}
 				"disabled_activators"
 				{
@@ -304,17 +293,7 @@
 							"haptic_intensity"		"2"
 						}
 					}
-					"Full_Press"
-					{
-						"bindings"
-						{
-							"binding"		"key_press F10, , "
-						}
-						"settings"
-						{
-							"haptic_intensity"		"2"
-						}
-					}
+
 				}
 				"disabled_activators"
 				{
@@ -594,6 +573,17 @@
 							"binding"		"xinput_button shoulder_left, , "
 						}
 					}
+					"Long_Press"
+					{
+						"bindings"
+						{
+							"binding"		"key_press F9, , "
+						}
+						"settings"
+						{
+							"haptic_intensity"		"2"
+						}
+					}
 				}
 				"disabled_activators"
 				{
@@ -608,6 +598,17 @@
 						"bindings"
 						{
 							"binding"		"xinput_button shoulder_right, , "
+						}
+					}
+					"Long_Press"
+					{
+						"bindings"
+						{
+							"binding"		"key_press F10, , "
+						}
+						"settings"
+						{
+							"haptic_intensity"		"2"
 						}
 					}
 				}
