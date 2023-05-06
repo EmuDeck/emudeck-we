@@ -205,6 +205,36 @@ function cloud_sync_downloadEmu($emuName){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
+		
+			#Do we have a pending upload?
+			if (Test-Path "$savesPath/$emuName/.pending_upload") {
+			
+				$date = Get-Content "$savesPath/$emuName/.pending_upload"
+				Add-Type -AssemblyName System.Windows.Forms
+				
+				$result = [System.Windows.Forms.MessageBox]::Show(
+					"We've detected a pending upload, make sure you dont close the Emulator using the Steam Button, do you want us to upload your saves to the cloud and overwrite them? This upload should have happened on $date. Press Yes to upload them to the cloud, No to download from the cloud and overwrite your Cloud saves, or Cancel to skip",
+					"CloudSync conflict",
+					[System.Windows.Forms.MessageBoxButtons]::YesNoCancel
+				)
+				
+				switch ($result) {
+					"Yes" {
+						cloud_sync_upload($emuName)		
+						rm -fo "$savesPath/$emuName/.pending_upload"	
+					}
+					"No" {
+						cloud_sync_download($emuName)
+						Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+					}
+					"Cancel" {
+						echo ""
+					}
+				}
+			}else{
+				cloud_sync_download($emuName)
+				Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+			}		
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_download") {
 			
@@ -224,7 +254,8 @@ function cloud_sync_downloadEmu($emuName){
 					}
 					"No" {
 						cloud_sync_upload($emuName)		
-						rm -fo "$savesPath/$emuName/.fail_download"				
+						rm -fo "$savesPath/$emuName/.fail_download"
+						rm -fo "$savesPath/$emuName/.pending_upload"		
 					}
 					"Cancel" {
 						echo ""
@@ -257,12 +288,15 @@ function cloud_sync_uploadEmu($emuName){
 				
 				switch ($result) {
 					"Yes" {
+						rm -fo  "$savesPath/$emuName/.pending_upload"
 						cloud_sync_upload($emuName)						
 						rm -fo  "$savesPath/$emuName/.fail_upload"
+						
 					}
 					"No" {
+						rm -fo  "$savesPath/$emuName/.pending_upload"
 						cloud_sync_download($emuName)
-						rm -fo "$savesPath/$emuName/.fail_upload"
+						rm -fo "$savesPath/$emuName/.fail_upload"						
 					}
 					"Cancel" {
 						echo ""
