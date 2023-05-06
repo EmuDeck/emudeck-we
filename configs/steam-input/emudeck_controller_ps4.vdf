@@ -1,16 +1,16 @@
 "controller_mappings"
 {
 	"version"		"3"	
-	"title"		"EmuDeck WE - Xbox One (SRM)"
+	"title"		"EmuDeck WE - Dual Shock 4 (SRM)"
 	"description"		"Long Press START + SELECT to Exit Emulator. Long Press R1 / R2 for Citra screen swap"
-	"controller_type"		"controller_xboxone"
+	"controller_type"		"controller_ps4"
 	"localization"
 	{
 		"english"
 		{
 			"title"		"Gamepad"
 			"description"		"Long Press START + SELECT to Exit Emulator"
-		}
+		}		
 	}
 	"group"
 	{
@@ -315,7 +315,7 @@
 							"haptic_intensity"		"2"
 						}
 					}
-				}
+				}				
 				"disabled_activators"
 				{
 				}
@@ -479,58 +479,6 @@
 	}
 	"group"
 	{
-		"id"		"10"
-		"mode"		"single_button"
-		"name"		""
-		"description"		""
-		"inputs"
-		{
-			"click"
-			{
-				"activators"
-				{
-					"Full_Press"
-					{
-						"bindings"
-						{
-							"binding"		"xinput_button START, , "
-						}
-					}
-				}
-				"disabled_activators"
-				{
-				}
-			}
-		}
-	}
-	"group"
-	{
-		"id"		"11"
-		"mode"		"single_button"
-		"name"		""
-		"description"		""
-		"inputs"
-		{
-			"click"
-			{
-				"activators"
-				{
-					"Full_Press"
-					{
-						"bindings"
-						{
-							"binding"		"xinput_button SELECT, , "
-						}
-					}
-				}
-				"disabled_activators"
-				{
-				}
-			}
-		}
-	}
-	"group"
-	{
 		"id"		"7"
 		"mode"		"switches"
 		"name"		""
@@ -623,7 +571,7 @@
 					{
 						"bindings"
 						{
-							"binding"		"xinput_button a, , "
+							"binding"		"xinput_button y, , "
 						}
 					}
 				}
@@ -639,7 +587,159 @@
 					{
 						"bindings"
 						{
+							"binding"		"xinput_button a, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+			"button_back_left_upper"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
 							"binding"		"xinput_button x, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+			"button_back_right_upper"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"xinput_button b, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+			"button_capture"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"controller_action SCREENSHOT, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+	}
+	"group"
+	{
+		"id"		"10"
+		"mode"		"single_button"
+		"name"		""
+		"description"		""
+		"inputs"
+		{
+			"click"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"xinput_button START, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+	}
+	"group"
+	{
+		"id"		"11"
+		"mode"		"single_button"
+		"name"		""
+		"description"		""
+		"inputs"
+		{
+			"click"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"key_press F4, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+	}
+	"group"
+	{
+		"id"		"12"
+		"mode"		"single_button"
+		"name"		""
+		"description"		""
+		"inputs"
+		{
+			"click"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"xinput_button SELECT, , "
+						}
+					}
+				}
+				"disabled_activators"
+				{
+				}
+			}
+		}
+	}
+	"group"
+	{
+		"id"		"13"
+		"mode"		"single_button"
+		"name"		""
+		"description"		""
+		"inputs"
+		{
+			"click"
+			{
+				"activators"
+				{
+					"Full_Press"
+					{
+						"bindings"
+						{
+							"binding"		"key_press LEFT_ALT, , "
 						}
 					}
 				}
@@ -662,6 +762,10 @@
 			"5"		"right_trigger active"
 			"8"		"right_joystick active"
 			"9"		"dpad active"
+			"12"		"left_trackpad inactive"
+			"13"		"left_trackpad active"
+			"10"		"right_trackpad inactive"
+			"11"		"right_trackpad active"
 		}
 	}
 	"settings"
