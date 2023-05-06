@@ -220,21 +220,21 @@ function cloud_sync_downloadEmu($emuName){
 				
 				switch ($result) {
 					"Yes" {
-						cloud_sync_upload($emuName)		
 						rm -fo "$savesPath/$emuName/.pending_upload"	
+						cloud_sync_upload($emuName)								
 					}
 					"No" {
-						cloud_sync_download($emuName)
-						Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+						rm -fo "$savesPath/$emuName/.pending_upload"
+						cloud_sync_download($emuName)						
 					}
 					"Cancel" {
 						echo ""
 					}
-				}
-			}else{
-				cloud_sync_download($emuName)
-				Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+				}		
 			}		
+			
+			Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+			
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_download") {
 			
@@ -253,9 +253,9 @@ function cloud_sync_downloadEmu($emuName){
 						rm -fo "$savesPath/$emuName/.fail_download"
 					}
 					"No" {
-						cloud_sync_upload($emuName)		
-						rm -fo "$savesPath/$emuName/.fail_download"
-						rm -fo "$savesPath/$emuName/.pending_upload"		
+						rm -fo "$savesPath/$emuName/.pending_upload"
+						rm -fo "$savesPath/$emuName/.fail_download"	
+						cloud_sync_upload($emuName)											
 					}
 					"Cancel" {
 						echo ""
@@ -305,6 +305,8 @@ function cloud_sync_uploadEmu($emuName){
 
 			
 			}else{
+				rm -fo  "$savesPath/$emuName/.fail_upload"
+				rm -fo  "$savesPath/$emuName/.pending_upload"
 				cloud_sync_upload($emuName)
 			}
 		}else{
