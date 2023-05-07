@@ -167,6 +167,10 @@ function cloud_sync_download($emuName){
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
 			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
 		}
+		if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
+		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
 			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
@@ -193,6 +197,10 @@ function cloud_sync_upload($emuName){
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
 			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath

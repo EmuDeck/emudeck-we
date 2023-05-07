@@ -51,6 +51,13 @@ function Yuzu_setupSaves(){
 	mkdir 'saves\yuzu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
+	
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\nand/system/save/8000000000000010/su/avators\')	
+	$ShortcutPath = -join($emulationPath,'\saves\yuzu\profiles.lnk')
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
+	
+	
 }
 function Yuzu_setResolution($resolution){
 	switch ( $resolution )
