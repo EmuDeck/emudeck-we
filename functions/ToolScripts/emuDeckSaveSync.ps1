@@ -175,6 +175,10 @@ function cloud_sync_download($emuName){
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
 			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
 		}
+		if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
+		}
 	}
 }
 
@@ -197,6 +201,10 @@ function cloud_sync_upload($emuName){
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
 			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
 		}
 	}
 }

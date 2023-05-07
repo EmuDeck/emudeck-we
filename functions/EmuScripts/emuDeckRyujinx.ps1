@@ -28,6 +28,12 @@ function Ryujinx_setupSaves(){
   $ShortcutPath = -join($emulationPath,'\saves\ryujinx\saves.lnk')
   mkdir 'saves\ryujinx' -ErrorAction SilentlyContinue
   createLink $SourceFilePath $ShortcutPath
+  
+  $SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Ryujinx\portable\bis\user\saveMeta\')  
+  mkdir $SourceFilePath
+  $ShortcutPath = -join($emulationPath,'\saves\ryujinx\saveMeta.lnk')
+  createLink $SourceFilePath $ShortcutPath
+	
 }
 
 function Ryujinx_setResolution($resolution){
