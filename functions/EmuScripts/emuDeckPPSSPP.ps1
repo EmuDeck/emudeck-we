@@ -5,7 +5,10 @@ function PPSSPP_install(){
 	createLauncher "PPSSPP"
 }
 function PPSSPP_init(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\ppsspp_win"
+	if(-not($test)){
+		Rename-Item "$emulationPath\tools\EmulationStation-DE\ppsspp_win" "$emulationPath\tools\EmulationStation-DE\PPSSPP" -ErrorAction SilentlyContinue
+	}
 }
 function PPSSPP_update(){
 	echo "NYI"
