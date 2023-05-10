@@ -62,10 +62,10 @@ copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 
 #Dowloading..ESDE
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
-#if(-not($test)){
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+if(-not($test)){
 	ESDE_install
-#}
+}
 
 
 #SRM
