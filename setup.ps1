@@ -62,10 +62,10 @@ copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 
 #Dowloading..ESDE
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
-#if(-not($test)){
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
-#}
+}
 
 
 #SRM
@@ -80,67 +80,73 @@ if(-not($test)){
 
 #RetroArch
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
-if(-not($test)){
+if(-not($test) -and $doInstallRA -eq "true" ){
 	RetroArch_install
 }
 
 #Dolphin
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe"
-if(-not($test)){
+if(-not($test) -and $doInstallDolphin -eq "true" ){
 	Dolphin_install
 }
 
 #PCSX2 
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2\pcsx2-qtx64-avx2.exe"
-if(-not($test)){
-	PCSX2_install
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
+if(-not($test) -and $doInstallPCSX2 -eq "true" ){
+	PCSX2QT_install
 }
 
 #RPCS3
 #$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
-#if(-not($test)){
+#if(-not($test) -and $doInstallRPCS3 -eq "true" ){
 #	RPCS3_install
 #}
 
 #Xemu
 #$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xemu"
-#if(-not($test)){
+#if(-not($test) -and $doInstallXemu -eq "true" ){
 #	Xemu_install
 #}
 
 #Yuzu
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe"
-if(-not($test)){
+if(-not($test) -and $doInstallYuzu -eq "true" ){
 	Yuzu_install
 }
 
 #Citra
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
-#if(-not($test)){
-#	Citra_install
-#}
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+if(-not($test) -and $doInstallCitra -eq "true" ){
+	Citra_install
+}
+
+#Ryujinx
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Ryujinx"
+if(-not($test) -and $doInstallRyujinx -eq "true" ){
+	Ryujinx_install
+}
 
 #DuckStation
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
-if(-not($test)){
+if(-not($test) -and $doInstallDuck -eq "true" ){
 	DuckStation_install
 }
 
 #Cemu
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu\Cemu.exe"
-if(-not($test)){
+if(-not($test) -and $doInstallCemu -eq "true" ){
 	Cemu_install
 }
 
 #Xenia
 #$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xenia"
-#if(-not($test)){
+#if(-not($test) -and $doInstallXenia -eq "true" ){
 #	Xenia_install
 #}
 
 #PPSSPP
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win\PPSSPPWindows64.exe"
-if(-not($test)){
+if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 	PPSSPP_install
 }
 
@@ -172,21 +178,21 @@ if ( "$doSetupRyujinx" -eq "true" ){
 	Ryujinx_init
 }
 
-#if ( "$doSetupCitra" -eq "true" ){
-#	Citra_init
-#}
+if ( "$doSetupCitra" -eq "true" ){
+	Citra_init
+}
 
 if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
 }
 
 if ( "$doSetupPCSX2" -eq "true" ){
-	PCSX2_init
+	PCSX2QT_init
 }
 
-#if ( "$doSetupRPCS3" -eq "true" ){
-	#RPCS3_init
-#}
+if ( "$doSetupRPCS3" -eq "true" ){
+	RPCS3_init
+}
 
 #if ( "$doSetupXemu" -eq "true" ){
 	#Xemu_init
@@ -223,11 +229,12 @@ if ( "$doSetupSRM" -eq "true" ){
 setMSG "Setting Resolution Screen"
 Dolphin_setResolution $dolphinResolution
 DuckStation_setResolution $duckstationResolution
-PCSX2_setResolution $pcsx2Resolution
+PCSX2QT_setResolution $pcsx2Resolution
 Yuzu_setResolution $yuzuResolution
+Ryujinx_setResolution $yuzuResolution
+
 #PPSSPP_setResolution $ppssppResolution
 #RPCS3_setResolution $rpcs3Resolution
-#Ryujinx_setResolution $ryujinxResolution
 #Xemu_setResolution $xemuResolution
 #Xenia_setResolution $xeniaResolution
 
@@ -254,7 +261,7 @@ if ( "$doSetupRA" -eq "true" ){
 
 if  ("$doRASignIn" -eq "true" ){
 	DuckStation_retroAchievementsSetLogin
-	PCSX2_retroAchievementsSetLogin
+	PCSX2QT_retroAchievementsSetLogin
 }
 
 #AR, Bezels and Shaders
