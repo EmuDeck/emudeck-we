@@ -1,14 +1,15 @@
 function PPSSPP_install(){
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\ppsspp_win"
+	if($test){
+		Rename-Item "$emulationPath\tools\EmulationStation-DE\ppsspp_win" "$emulationPath\tools\EmulationStation-DE\PPSSPP" -ErrorAction SilentlyContinue
+	}
 	setMSG 'Downloading PPSSPP'
 	download $url_PPSSPP "PPSSPP.zip"
-	moveFromTo "temp/PPSSPP" "tools\EmulationStation-DE\Emulators\ppsspp_win"
+	moveFromTo "temp/PPSSPP" "tools\EmulationStation-DE\Emulators\PPSSPP"
 	createLauncher "PPSSPP"
 }
 function PPSSPP_init(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\ppsspp_win"
-	if(-not($test)){
-		Rename-Item "$emulationPath\tools\EmulationStation-DE\ppsspp_win" "$emulationPath\tools\EmulationStation-DE\PPSSPP" -ErrorAction SilentlyContinue
-	}
+	echo "NYI"
 }
 function PPSSPP_update(){
 	echo "NYI"
