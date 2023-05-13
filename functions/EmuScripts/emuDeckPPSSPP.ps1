@@ -5,7 +5,7 @@ function PPSSPP_install(){
 	createLauncher "PPSSPP"
 }
 function PPSSPP_init(){
-	echo "NYI"
+	PPSSPP_setupSaves
 }
 function PPSSPP_update(){
 	echo "NYI"
@@ -13,8 +13,19 @@ function PPSSPP_update(){
 function PPSSPP_setEmulationFolder(){
 	echo "NYI"
 }
-function PPSSPP_setupSaves(){
-	echo "NYI"
+function PPSSPP_setupSaves(){	
+	setMSG 'PPSSPP - Saves Links'
+	
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\PPSSPP\memstick\PSP\PPSSPP_STATE')	
+	$ShortcutPath = -join($emulationPath,'\saves\ppsspp\states.lnk')	
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
+	
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\PPSSPP\memstick\PSP\SAVEDATA')	
+	$ShortcutPath = -join($emulationPath,'\saves\yuzu\saves.lnk')
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
+	
 }
 function PPSSPP_setResolution($resolution){
 	echo $resolution
