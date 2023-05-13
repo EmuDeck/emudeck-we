@@ -3,7 +3,10 @@
 
 ### TEST CODE START
 
-echo "hi"
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
+if(-not($test -and $doInstallRA -eq "true" )){
+	RetroArch_install
+}
 
 ### TEST CODE FINNISH
 
