@@ -1,8 +1,12 @@
 @echo off
 set args=%*
-
-powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu rpcs3 "}
+for /f "tokens=2 delims==" %%a in ('type "%userprofile%\emudeck\settings.ps1" ^| find "$toolsPath"') do set toolsPath=%%~a
+set rcloneConfig="%toolsPath%\rclone\rclone.conf"
+if exist %rcloneConfig% (
+	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu rpcs3 "}
+)
 C:\Emulation\tools\EmulationStation-DE\Emulators\RPCS3\rpcs3.exe %args%
 cls
-
-powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu rpcs3 "}
+if exist %rcloneConfig% (
+	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu rpcs3 "}
+)
