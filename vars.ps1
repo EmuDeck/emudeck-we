@@ -9,6 +9,7 @@ $url_pcsx2 = "https://github.com/dragoonDorise/rpcsx2win/releases/download/1.7.3
 $url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/76389046/download"
 $userFolder = $env:USERPROFILE
 $emusFolder = $env:USERPROFILE/emudeck/EmulationStation-DE\Emulators
+$esdeFolder = $env:USERPROFILE/emudeck/EmulationStation-DE/
 $dolphinDir = -join($userFolder,'\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config')
 $duckDir = -join($userFolder,'\Documents\DuckStation')
 $dolphinIni=-join($dolphinDir,'\Dolphin.ini')

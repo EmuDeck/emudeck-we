@@ -2,12 +2,12 @@ function Ryujinx_install(){
 	setMSG 'Downloading Ryujinx'
 	$url_ryu = getLatestReleaseURLGH 'Ryujinx/release-channel-master' 'zip'
 	download $url_ryu "Ryujinx.zip"
-	moveFromTo "temp/Ryujinx/publish" "tools\EmulationStation-DE\Emulators\Ryujinx"
+	moveFromTo "$temp/Ryujinx/publish" "$emusFolder\Ryujinx"
 	createLauncher "Ryujinx"
 }
 function Ryujinx_init(){
 	setMSG 'Ryujinx - Configuration'
-	$destination='tools\EmulationStation-DE\Emulators\Ryujinx'
+	$destination="$emusFolder\Ryujinx"
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
 	Ryujinx_setEmulationFolder	
@@ -18,18 +18,18 @@ function Ryujinx_update(){
 	echo "NYI"
 }
 function Ryujinx_setEmulationFolder(){
-	$destination='tools\EmulationStation-DE\Emulators\Ryujinx'
+	$destination="$emusFolder\Ryujinx"
 	sedFile $destination\portable\Config.json "/run/media/mmcblk0p1/Emulation/roms/switch" "$romsPath/switch"
 }
 function Ryujinx_setupSaves(){
   setMSG 'Ryujinx - Saves Links'
-  $SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Ryujinx\portable\bis\user\save\')  
+  $SourceFilePath = "$emusFolder\Ryujinx\portable\bis\user\save\"  
   mkdir $SourceFilePath
   $ShortcutPath = -join($emulationPath,'\saves\ryujinx\saves.lnk')
   mkdir 'saves\ryujinx' -ErrorAction SilentlyContinue
   createLink $SourceFilePath $ShortcutPath
   
-  $SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Ryujinx\portable\bis\user\saveMeta\')  
+  $SourceFilePath = "$emusFolder\Ryujinx\portable\bis\user\saveMeta\"  
   mkdir $SourceFilePath
   $ShortcutPath = -join($emulationPath,'\saves\ryujinx\saveMeta.lnk')
   createLink $SourceFilePath $ShortcutPath
@@ -45,7 +45,7 @@ function Ryujinx_setResolution($resolution){
 		'4K' { $multiplier = 2; $docked='true' }
 	}	
 	
-	$jsonConfig = Get-Content -Path 'tools\EmulationStation-DE\Emulators\yuzu\Ryujinx\Config.json' | ConvertFrom-Json
+	$jsonConfig = Get-Content -Path "$emusFolder\yuzu\Ryujinx\Config.json" | ConvertFrom-Json
 	$jsonConfig.docked_mode = $docked
 	$jsonConfig.res_scale = $multiplier
 }
@@ -80,7 +80,7 @@ function Ryujinx_finalize(){
 	echo "NYI"
 }
 function Ryujinx_IsInstalled(){
-	$test=Test-Path -Path "tools\EmulationStation-DE\Emulators\Ryujinx"
+	$test=Test-Path -Path "$emusFolder\Ryujinx"
 	if($test){
 		echo "true"
 	}

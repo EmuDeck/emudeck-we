@@ -1,17 +1,17 @@
 function Cemu_install(){
 	setMSG 'Downloading Cemu'
 	download $url_cemu "cemu.zip"
-	moveFromTo "temp/cemu/cemu_1.27.1" "tools\EmulationStation-DE\Emulators\cemu"
+	moveFromTo "$temp/cemu/cemu_1.27.1" "$emusFolder\cemu"
 	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
 	createLauncher "cemu"
 
 }
 function Cemu_init(){
 	setMSG 'Cemu - Configuration'
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "tools\EmulationStation-DE\Emulators\cemu"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "$emusFolder\cemu"
 	
-	sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
-	#sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
+	sedFile "$emusFolder\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
+	#sedFile "$emusFolder\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
 	
 	
 	Cemu_setupSaves
@@ -24,7 +24,7 @@ function Cemu_setEmulationFolder(){
 }
 function Cemu_setupSaves(){
 	setMSG 'Cemu - Saves Links'
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\cemu\mlc01\usr\save\')
+	$SourceFilePath = "$emusFolder\cemu\mlc01\usr\save\"
 	rm -fo  'saves\cemu' -Recurse -ErrorAction SilentlyContinue
 	mkdir 'saves\Cemu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue	
@@ -67,7 +67,7 @@ function Cemu_finalize(){
 	echo "NYI"
 }
 function Cemu_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu"
+	$test=Test-Path -Path "$emusFolder\cemu"
 	if($test){
 		echo "true"
 	}

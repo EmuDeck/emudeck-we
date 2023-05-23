@@ -1,7 +1,7 @@
 function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
 	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
-	download $url_srm "tools/srm.exe"
+	download $url_srm "$toolsPath/srm.exe"
 }
 function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
@@ -25,6 +25,7 @@ function SRM_init(){
 	$PFPath="$env:ProgramFiles (x86)\Steam\controller_base\templates\"
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
 	
+
 		
 }
 function SRM_update(){

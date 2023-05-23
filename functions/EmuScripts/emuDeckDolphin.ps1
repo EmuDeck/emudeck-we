@@ -7,15 +7,15 @@ $Dolphin_releaseURL=""
 function Dolphin_install(){
 	setMSG 'Downloading Dolphin'
 	download $url_dolphin "dolphin.7z"
-	moveFromTo "temp/dolphin/Dolphin-x64" "tools\EmulationStation-DE\Emulators\Dolphin-x64"
+	moveFromTo "$temp/dolphin/Dolphin-x64" "$emusFolder\Dolphin-x64"
 	Remove-Item -Recurse -Force dolphin -ErrorAction SilentlyContinue
 	createLauncher "dolphin"
 	
 }
 function Dolphin_init(){
 	setMSG 'Dolphin - Configuration'
-	New-Item -Path "tools\EmulationStation-DE\Emulators\Dolphin-x64\portable.txt" -ErrorAction SilentlyContinue
-	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\Dolphin-x64\")
+	New-Item -Path "$emusFolder\Dolphin-x64\portable.txt" -ErrorAction SilentlyContinue
+	$destination=-join($emulationPath, "\$emusFolder\Dolphin-x64"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Dolphin" "$destination"
 
@@ -37,21 +37,21 @@ function Dolphin_setEmulationFolder(){
 function Dolphin_setupSaves(){
 	setMSG 'Dolphin - Creating Saves Links'
 	#Saves GC
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\GC')
+	$SourceFilePath = "$emusFolder\Dolphin-x64\User\GC"
 	$ShortcutPath = -join($emulationPath,'\saves\dolphin\GC.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Saves Wii
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Wii')
+	$SourceFilePath = "$emusFolder\Dolphin-x64\User\Wii"
 	$ShortcutPath = -join($emulationPath,'\saves\dolphin\Wii.lnk')
 	mkdir 'saves\dolphin' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\Dolphin-x64\User\StateSaves')
+	$SourceFilePath = "$emusFolder\Dolphin-x64\User\StateSaves"
 	$ShortcutPath = -join($emulationPath,'\saves\dolphin\states.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
@@ -67,7 +67,7 @@ function Dolphin_setResolution($resolution){
 		'4K' { $multiplier = 6 }
 	}		
 	
-	setConfig 'InternalResolution' $multiplier 'tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
+	setConfig 'InternalResolution' $multiplier "$emusFolder\Dolphin-x64\User\Config\GFX.ini"
 	
 }
 
@@ -89,7 +89,7 @@ function Dolphin_setABXYstyle(){
 function Dolphin_wideScreenOn(){
 	setMSG "Dolphin Widescreen On"
 	echo ""
-	$configFile='tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
+	$configFile="$emusFolder\Dolphin-x64\User\Config\GFX.ini"
 	$wideScreenHack='wideScreenHack = '
 	$wideScreenHackSetting='wideScreenHack = True'
 	$aspectRatio='AspectRatio = '
@@ -101,7 +101,7 @@ function Dolphin_wideScreenOn(){
 function Dolphin_wideScreenOff(){
 	setMSG "Dolphin Widescreen Of"
 	echo ""
-	$configFile='tools\EmulationStation-DE\Emulators\Dolphin-x64\User\Config\GFX.ini'
+	$configFile="$emusFolder\Dolphin-x64\User\Config\GFX.ini"
 	$wideScreenHack='wideScreenHack = '
 	$wideScreenHackSetting='wideScreenHack = False'
 	$aspectRatio='AspectRatio = '
@@ -119,7 +119,7 @@ function Dolphin_finalize(){
 	echo "NYI"
 }
 function Dolphin_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64"
+	$test=Test-Path -Path "$emusFolder\Dolphin-x64"
 	if($test){
 		echo "true"
 	}
@@ -136,5 +136,5 @@ function Dolphin_DynamicInputTextures(){
   $DIT_releaseURL = getLatestReleaseURLGH 'Venomalia/UniversalDynamicInput' '7z'
   mkdir "$toolsPath\EmulationStation-DE\Emulators\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
   download $DIT_releaseURL "UniversalDynamicInput.7z"
-  moveFromTo "temp/UniversalDynamicInput" "$toolsPath\EmulationStation-DE\Emulators\Dolphin-x64\User\Load"	
+  moveFromTo "$temp/UniversalDynamicInput" "$toolsPath\EmulationStation-DE\Emulators\Dolphin-x64\User\Load"	
 }

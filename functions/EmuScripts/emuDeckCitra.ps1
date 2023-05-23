@@ -2,16 +2,16 @@ function Citra_install(){
 	setMSG 'Downloading Citra'
 	$url_citra = getLatestReleaseURLGH 'citra-emu/citra-nightly' '7z' 'windows-mingw'
 	download $url_citra "citra.7z"
-	moveFromTo "temp/citra/nightly-mingw" "tools\EmulationStation-DE\Emulators\citra"
+	moveFromTo "$temp/citra/nightly-mingw" "$emusFolder\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
-	mkdir "tools\EmulationStation-DE\Emulators\citra\user" -ErrorAction SilentlyContinue	
+	mkdir "$emusFolder\citra\user" -ErrorAction SilentlyContinue	
 	createLauncher "citra"
 	
 }
 function Citra_init(){
 
 	setMSG 'Citra - Configuration'
-	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\citra\user")
+	$destination=-join($emulationPath, "\$emusFolder\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
 	
 	#Different ini per controller	
@@ -28,13 +28,13 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	setMSG 'Citra - Saves Links'
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\citra\user\sdmc\')
+	$SourceFilePath = "$emusFolder\citra\user\sdmc\"
 	$ShortcutPath = -join($emulationPath,'\saves\citra\saves.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\citra\user\states\')
+	$SourceFilePath = "$emusFolder\citra\user\states\"
 	$ShortcutPath = -join($emulationPath,'\saves\citra\states.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
@@ -52,7 +52,7 @@ function Citra_setResolution($resolution){
 		'1440P' { $multiplier = 6 }
 		'4K' { $multiplier = 9 }
 	}	
-	$destination=-join($emulationPath, "\tools\EmulationStation-DE\Emulators\citra\user")
+	$destination=-join($emulationPath, "\$emusFolder\citra\user")
 	
 	setConfig 'resolution_factor' $multiplier $destination\config\qt-config.ini
 }
@@ -85,7 +85,7 @@ function Citra_finalize(){
 	echo "NYI"
 }
 function Citra_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+	$test=Test-Path -Path "$emusFolder\citra"
 	if($test){
 		echo "true"
 	}
@@ -99,7 +99,7 @@ function Citra_resetConfig(){
 
 function Citra_setController($device){
 
-	$destination='tools\EmulationStation-DE\Emulators\citra\user\config'
+	$destination="$emusFolder\citra\user\config"
 	
 	switch ($device) {
 		"PS5" {
