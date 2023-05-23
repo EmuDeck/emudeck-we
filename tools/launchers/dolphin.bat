@@ -5,7 +5,7 @@ set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist %rcloneConfig% (
 	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu dolphin "}
 )
-C:\Emulation\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe %args%
+ESDEPATH\Emulators\Dolphin-x64\Dolphin.exe %args%
 cls
 if exist %rcloneConfig% (
 	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu dolphin "}

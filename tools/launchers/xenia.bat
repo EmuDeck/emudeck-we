@@ -5,7 +5,7 @@ set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist %rcloneConfig% (
 	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu xenia "}
 )
-C:\Emulation\tools\EmulationStation-DE\Emulators\xenia\xenia.exe %args%
+ESDEPATH\Emulators\xenia\xenia.exe %args%
 cls
 if exist %rcloneConfig% (
 	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu xenia "}
