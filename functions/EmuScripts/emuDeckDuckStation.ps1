@@ -1,8 +1,9 @@
 function DuckStation_install(){
 	setMSG 'Downloading DuckStation'
+	$url_duck = getLatestReleaseURLGH 'stenzek/duckstation' 'zip' 'windows-x64' 'symbols'	
 	download $url_duck "duckstation.zip"
 	moveFromTo "temp/duckstation" "tools\EmulationStation-DE\Emulators\duckstation"
-	createLauncher "duckstation" "duckstation-qt-x64-ReleaseLTCG"
+	createLauncher "duckstation"
 }
 function DuckStation_init(){	
 	setMSG 'DuckStation - Configuration'
@@ -24,17 +25,17 @@ function DuckStation_setEmulationFolder(){
 }
 function DuckStation_setupSaves(){
 	setMSG 'DuckStation - Creating Saves Links'
-	#Saves
-	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
-	$ShortcutPath = -join($emulationPath,'\saves\duckstation\saves.lnk')
+	#Saves	
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\duckstation\memcards')
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	$ShortcutPath = -join($emulationPath,'\saves\duckstation\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath	
 	
 	#States
-	$SourceFilePath = -join($userFolder, 'tools\EmulationStation-DE\Emulators\duckstation\savestates')
-	$ShortcutPath = -join($emulationPath,'\saves\duckstation\states.lnk')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\duckstation\savestates')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	$ShortcutPath = -join($emulationPath,'\saves\duckstation\states.lnk')	
 	createLink $SourceFilePath $ShortcutPath
 }
 
@@ -81,10 +82,16 @@ function DuckStation_finalize(){
 	echo "NYI"
 }
 function DuckStation_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation"
+	if($test){
+		echo "true"
+	}
 }
 function DuckStation_resetConfig(){
-	echo "NYI"
+	DuckStation_init
+	if($?){
+		echo "true"
+	}
 }
 
 function DuckStation_wideScreenOn(){

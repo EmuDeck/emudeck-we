@@ -1,9 +1,11 @@
 function Yuzu_install(){
 	setMSG 'Downloading Yuzu'
-	download $url_yuzu "yuzu.zip"
+	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
+	$url_yuzu = getLatestReleaseURLGH 'yuzu-emu/yuzu-mainline' '7z' 'windows'
+	download $url_yuzu "yuzu.7z"
 	moveFromTo "temp/yuzu/yuzu-windows-msvc" "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
 	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
-	createLauncher "yuzu\yuzu-windows-msvc" "yuzu"
+	createLauncher "yuzu"
 }
 function Yuzu_init(){
 
@@ -11,24 +13,12 @@ function Yuzu_init(){
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered' -ErrorAction SilentlyContinue
 	mkdir 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys' -ErrorAction SilentlyContinue
 	
-	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user'
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config'
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu" "$destination"
 	
-	sedFile $destination\config\qt-config.ini "C:\Emulation" $emulationPath	
-	
-	sedFile $destination\config\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
-	
-	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x64.exe"
-	#if(-not($test)){
-		#setMSG 'Yuzu - Downloading Microsoft Visual C++ 2022'
-		#Win7
-		#download "https://aka.ms/vs/17/release/vc_redist.x64.exe" "tools/vc_redist.x64.exe"	
-		#.\tools\vc_redist.x64.exe
-		
-		winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
-	#}
-	
+	#Different ini per controller	
+	Yuzu_setController($device)
+
 	setMSG 'Yuzu - Creating Keys & Firmware Links'
 	#Firmware
 	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered')
@@ -45,6 +35,8 @@ function Yuzu_init(){
 	
 	Yuzu_setupStorage
 	Yuzu_setupSaves
+	
+
 }
 function Yuzu_update(){
 	echo "NYI"
@@ -54,24 +46,30 @@ function Yuzu_setEmulationFolder(){
 }
 function Yuzu_setupSaves(){
 	setMSG 'Yuzu - Saves Links'
-	$SourceFilePath = -join($userFolder, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\user\save')
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\user\save\')	
 	$ShortcutPath = -join($emulationPath,'\saves\yuzu\saves.lnk')
 	mkdir 'saves\yuzu' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
+	
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators\')	
+	$ShortcutPath = -join($emulationPath,'\saves\yuzu\profiles.lnk')
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
+	
+	
 }
 function Yuzu_setResolution($resolution){
 	switch ( $resolution )
-{
-	'720P' { $multiplier = 2;  $docked='false'}
-	'1080P' { $multiplier = 2; $docked='true'   }
-	'1440P' { $multiplier = 3;  $docked='false' }
-	'4K' { $multiplier = 3; $docked='true' }
-}	
-
-setConfig 'resolution_setup' $multiplier 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
-setConfig 'use_docked_mode' $docked 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
-
+	{
+		'720P' { $multiplier = 2;  $docked='false'}
+		'1080P' { $multiplier = 2; $docked='true'   }
+		'1440P' { $multiplier = 3;  $docked='false' }
+		'4K' { $multiplier = 3; $docked='true' }
+	}	
+	
+	setConfig 'resolution_setup' $multiplier 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
+	setConfig 'use_docked_mode' $docked 'tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config\qt-config.ini'
 
 }
 function Yuzu_setupStorage(){
@@ -110,8 +108,45 @@ function Yuzu_finalize(){
 	echo "NYI"
 }
 function Yuzu_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc"
+	if($test){
+		echo "true"
+	}
 }
 function Yuzu_resetConfig(){
-	echo "NYI"
+	Yuzu_init
+	if($?){
+		echo "true"
+	}
+}
+
+function Yuzu_setController($device){
+
+	$destination='tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\config'
+	
+	switch ($device) {
+		"PS5" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
+		}
+		"PS4" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
+		}
+		"XONE" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.xone.ini" -Destination "$destination\qt-config.ini"
+		}
+		"X360" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.360.ini"
+		}
+		"SWITCHPRO" {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.switchpro.ini" -Destination "$destination\qt-config.ini"
+		}
+		Default {
+			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"
+		}
+	}
+	
+	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
+	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ':/Emulation/roms/'	
+	
+	
 }

@@ -12,7 +12,9 @@
 	
 		echo "Line $line changed to $newLine"
 	}else{
-		echo "Line not found on $fileToCheck"
+		$newLine=-join('$',$old,'=','"',$new,'"')
+		Add-Content $fileToCheck $newLine
+		echo "Line created on $fileToCheck"
 	}
 
 }
@@ -28,7 +30,9 @@
 		Set-Content -Path $fileToCheck -Value $modifiedContents
 		echo "Line $line changed to $newLine"
 	}else{
-		echo "Line not found on $fileToCheck"
+		$newLine=-join($old,'=',$new)
+		Add-Content $fileToCheck $newLine
+		echo "Line created on $fileToCheck"
 	}
 
 }
@@ -45,7 +49,9 @@
 		
 		echo "Line $line changed to $newLine"
 	}else{
-		echo "Line not found on $fileToCheck"
+		$newLine=-join($old,' = ',$new)
+		Add-Content $fileToCheck $newLine
+		echo "Line created on $fileToCheck"
 	}
 
 
@@ -93,4 +99,53 @@ function setMSG($message){
 
 function checkForFile($fileName){
 	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (echo "true") ; rm -fo $dir/$fileName
+}
+
+
+function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
+
+	$url = "https://api.github.com/repos/$Repository/releases/latest"
+
+	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
+		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } | 
+		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
+		   return $url
+
+	return $url
+}
+
+function check_internet_connection(){
+
+	if ((Test-Connection 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue).StatusCode -eq 0) { return "true" } else { return "false" }
+
+}
+
+function changeController($device){
+	Yuzu_setController($device)
+	Citra_setController($device)
+}
+
+
+function showDialog($text){
+	Add-Type -AssemblyName System.Windows.Forms
+	
+	$form = New-Object System.Windows.Forms.Form
+	$form.Text = "EmuDeck"
+	$form.Width = 300
+	$form.Height = 100
+	$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
+	$form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen	
+
+	$form.ControlBox = $false	
+
+	$label = New-Object System.Windows.Forms.Label
+	$label.Text = "$text"
+	$label.AutoSize = $true
+	$label.Left = ($form.Width - $label.Width) / 2
+	$label.Top = ($form.Height - $label.Height) / 3	
+
+	$form.Controls.Add($label)
+
+	$form.Show()
+	return $form
 }

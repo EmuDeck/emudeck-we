@@ -3,7 +3,7 @@ function RetroArch_install(){
 	download $url_ra "ra.7z"
 	moveFromTo "temp/ra/RetroArch-Win64" "tools\EmulationStation-DE\Emulators\RetroArch"	
 	Remove-Item -Recurse -Force ra -ErrorAction SilentlyContinue
-	createLauncher "RetroArch" "retroarch"
+	createLauncher "retroarch"
 	
 	setMSG 'Downloading RetroArch Cores'
 	mkdir tools\EmulationStation-DE\Emulators\RetroArch\cores -ErrorAction SilentlyContinue
@@ -153,14 +153,20 @@ function RetroArch_finalize(){
 	echo "NYI"
 }
 function RetroArch_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch"
+	if($test){
+		echo "true"
+	}
 }
-function RetroArch_resetConfigRA(){
-	echo "NYI"
+function RetroArch_resetConfig{
+	RetroArch_init
+	if($?){
+		echo "true"
+	}
 }
 
 
-function RetroArch_wswanc_setConfigRA(){	
+function RetroArch_wswanc_setConfig(){	
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -192,7 +198,7 @@ function RetroArch_wswanc_MATshaderOff(){
 	RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_smooth' '"true"'
 }
 
-function RetroArch_wswan_setConfigRA(){	
+function RetroArch_wswan_setConfig(){	
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -226,12 +232,12 @@ function RetroArch_wswan_MATshaderOff(){
 	RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_smooth' '"true"'
 }
 
-function RetroArch_dolphin_emu_setConfigRA(){
+function RetroArch_dolphin_emu_setConfig(){
 	RetroArch_setOverride 'dolphin_emu.cfg' 'dolphin_emu'  'video_driver' '"gl"'
 	RetroArch_setOverride 'dolphin_emu.cfg' 'dolphin_emu'  'video_driver' '"gl"'
 }
 
-function RetroArch_PPSSPP_setConfigRA(){
+function RetroArch_PPSSPP_setConfig(){
 	RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_auto_frameskip' '"disabled"'
 	RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_block_transfer_gpu' '"enabled"'
 	RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_button_preference' '"Cross"'
@@ -265,7 +271,7 @@ function RetroArch_PPSSPP_setConfigRA(){
 	RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_vertex_cache' '"disabled"'
 }
 
-function RetroArch_pcengine_setConfigRA(){	
+function RetroArch_pcengine_setConfig(){	
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -330,7 +336,7 @@ function RetroArch_amiga1200_setUpCoreOpt(){
 	RetroArch_setOverride 'amiga1200.opt' 'PUAE'  'puae_model' '"A1200"'
 }
 
-function RetroArch_nes_setConfigRA(){	
+function RetroArch_nes_setConfig(){	
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -400,7 +406,7 @@ function RetroArch_nes_ar32(){
 	RetroArch_nes_bezelOff
 }
 
-function RetroArch_Mupen64Plus_Next_setConfigRA(){
+function RetroArch_Mupen64Plus_Next_setConfig(){
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_crop_overscan' '"false"'
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_smooth' 'ED_RM_LINE'
@@ -420,11 +426,11 @@ function RetroArch_n64_3DCRTshaderOff(){
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_smooth' 'ED_RM_LINE'
 }
 
-function RetroArch_n64_setConfigRA(){
+function RetroArch_n64_setConfig(){
 	RetroArch_n64_3DCRTshaderOff
 }
 
-function RetroArch_lynx_setConfigRA(){	
+function RetroArch_lynx_setConfig(){	
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -473,7 +479,7 @@ function RetroArch_lynx_MATshaderOff(){
 }
 
 
-function RetroArch_SameBoy_gb_setConfigRA(){	
+function RetroArch_SameBoy_gb_setConfig(){	
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_dark_filter_level' '"0"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_gb_bootloader' '"enabled"'
@@ -503,7 +509,7 @@ function RetroArch_SameBoy_gb_setConfigRA(){
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_up_down_allowed' '"disabled"'
 }
 
-function RetroArch_ngp_setConfigRA(){	
+function RetroArch_ngp_setConfig(){	
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -535,7 +541,7 @@ function RetroArch_ngp_MATshaderOff(){
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
-function RetroArch_ngpc_setConfigRA(){	
+function RetroArch_ngpc_setConfig(){	
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -566,7 +572,7 @@ function RetroArch_ngpc_MATshaderOff(){
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
-function RetroArch_atari2600_setConfigRA(){	
+function RetroArch_atari2600_setConfig(){	
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -594,9 +600,10 @@ function RetroArch_atari2600_CRTshaderOff(){
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_smooth' '"true"'
 }
 
-function RetroArch_mame_setConfigRA(){	
+function RetroArch_mame_setConfig(){	
 	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'mame.cfg' 'MAME'  'input_player1_analog_dpad_mode' '"1"'
+	RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable = "false"'
 }
 
 function RetroArch_mame_bezelOn(){
@@ -678,7 +685,7 @@ function RetroArch_fbneo_CRTshaderOff(){
 }
 
 
-function RetroArch_segacd_setConfigRA(){	
+function RetroArch_segacd_setConfig(){	
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -724,7 +731,7 @@ function RetroArch_segacd_ar43(){
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'	
 }
 
-function RetroArch_genesis_setConfigRA(){	
+function RetroArch_genesis_setConfig(){	
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -781,7 +788,7 @@ function RetroArch_genesis_CRTshaderOff(){
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 }
 
-function RetroArch_gamegear_setConfigRA(){	
+function RetroArch_gamegear_setConfig(){	
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -828,7 +835,7 @@ function RetroArch_gamegear_MATshaderOff(){
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_smooth' '"true"'
 }
 
-function RetroArch_mastersystem_setConfigRA(){	
+function RetroArch_mastersystem_setConfig(){	
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -864,7 +871,7 @@ function RetroArch_mastersystem_CRTshaderOff(){
 function RetroArch_mastersystem_ar43(){
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'	
 }
-function RetroArch_sega32x_setConfigRA(){	
+function RetroArch_sega32x_setConfig(){	
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_player1_analog_dpad_mode' '"1"'
 }
 function RetroArch_sega32x_bezelOn(){
@@ -907,7 +914,7 @@ function RetroArch_sega32x_ar43(){
 #	#missing stuff?
 #	RetroArch_setOverride 'gba.cfg' 'mGBA'  'aspect_ratio_index' '"21"'
 #}
-function RetroArch_gba_setConfigRA(){	
+function RetroArch_gba_setConfig(){	
 	RetroArch_setOverride 'gba.cfg' 'mGBA'  'input_player1_analog_dpad_mode' '"1"'
 }
 function RetroArch_gba_MATshaderOn(){
@@ -938,7 +945,7 @@ function RetroArch_gb_bezelOn(){
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_y_offset_landscape' '"-0.150000"'
 }
 
-function RetroArch_gb_setConfigRA(){	
+function RetroArch_gb_setConfig(){	
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -969,7 +976,7 @@ function RetroArch_gb_MATshaderOff(){
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_smooth' '"true"'
 }
 
-function RetroArch_SameBoy_gbc_setConfigRA(){
+function RetroArch_SameBoy_gbc_setConfig(){
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'gambatte_gbc_color_correction' '"GBC'
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'gambatte_gbc_color_correction_mode' '"accurate"'
@@ -977,7 +984,7 @@ function RetroArch_SameBoy_gbc_setConfigRA(){
 }
 
 
-function RetroArch_gbc_setConfigRA(){	
+function RetroArch_gbc_setConfig(){	
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1049,7 +1056,7 @@ function RetroArch_n64_bezelOff(){
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_enable' '"false"'
 }
 
-function RetroArch_atari800_setConfigRA(){	
+function RetroArch_atari800_setConfig(){	
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1066,7 +1073,7 @@ function RetroArch_atari800_bezelOff(){
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_enable' '"false"'
 }
 
-function RetroArch_atari5200_setConfigRA(){	
+function RetroArch_atari5200_setConfig(){	
 	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1118,7 +1125,7 @@ function  RetroArch_dreamcast_3DCRTshaderOn(){
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_smooth' 'ED_RM_LINE'
  }
 
-function RetroArch_dreamcast_setConfigRA(){
+function RetroArch_dreamcast_setConfig(){
 	RetroArch_dreamcast_3DCRTshaderOff
 }
 
@@ -1128,7 +1135,7 @@ function RetroArch_dreamcast_3DCRTshaderOff(){
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_smooth' 'ED_RM_LINE'
 }
 
-function RetroArch_saturn_setConfigRA(){	
+function RetroArch_saturn_setConfig(){	
 	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_player1_analog_dpad_mode' '"1"'
@@ -1207,7 +1214,7 @@ function RetroArch_saturn_3DCRTshaderOff(){
 	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'	'video_smooth' 'ED_RM_LINE'
 }
 
-function RetroArch_snes_setConfigRA(){	
+function RetroArch_snes_setConfig(){	
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1284,7 +1291,7 @@ function RetroArch_melonDS_setUpCoreOpt(){
 	RetroArch_setOverride 'melonDS.opt' 'melonDS'  'melonds_touch_mode' '"Touch"'
 }
 
-function RetroArch_melonDS_setConfigRA(){	
+function RetroArch_melonDS_setConfig(){	
 	RetroArch_setOverride 'nds.cfg' 'melonDS'  'rewind_enable' '"false"'
 }
 
@@ -1648,7 +1655,7 @@ function RetroArch_Beetle_PSX_HW_wideScreenOff(){
 }
 
 
-function RetroArch_SwanStation_setConfigRA(){		
+function RetroArch_SwanStation_setConfig(){		
 	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.ResolutionScale' '"3"'	
 }
 
@@ -1721,7 +1728,7 @@ function RetroArch_psx_3DCRTshaderOff(){
 	RetroArch_setOverride 'psx.cfg' 'SwanStation'	'video_smooth' 'ED_RM_LINE'
 }
 
-function RetroArch_psx_setConfigRA(){
+function RetroArch_psx_setConfig(){
 	RetroArch_psx_3DCRTshaderOff
 }
 

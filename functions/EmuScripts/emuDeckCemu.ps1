@@ -1,9 +1,9 @@
 function Cemu_install(){
 	setMSG 'Downloading Cemu'
 	download $url_cemu "cemu.zip"
-	moveFromTo "temp/cemu/cemu_1.26.2" "tools\EmulationStation-DE\Emulators\cemu"
+	moveFromTo "temp/cemu/cemu_1.27.1" "tools\EmulationStation-DE\Emulators\cemu"
 	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
-	createLauncher "cemu" "Cemu"
+	createLauncher "cemu"
 
 }
 function Cemu_init(){
@@ -24,10 +24,11 @@ function Cemu_setEmulationFolder(){
 }
 function Cemu_setupSaves(){
 	setMSG 'Cemu - Saves Links'
-	$SourceFilePath = "tools\EmulationStation-DE\Emulators\cemu\mlc01\usr\save"
-	$ShortcutPath = -join($emulationPath,'\saves\cemu\saves.lnk')
-	mkdir 'saves\cemu' -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\cemu\mlc01\usr\save\')
+	rm -fo  'saves\cemu' -Recurse -ErrorAction SilentlyContinue
+	mkdir 'saves\Cemu' -ErrorAction SilentlyContinue
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue	
+	$ShortcutPath = -join($emulationPath,'\saves\Cemu\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath
 }
 
@@ -66,8 +67,14 @@ function Cemu_finalize(){
 	echo "NYI"
 }
 function Cemu_IsInstalled(){
-	echo "NYI"
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu"
+	if($test){
+		echo "true"
+	}
 }
 function Cemu_resetConfig(){
-	echo "NYI"
+	Cemu_init
+	if($?){
+		echo "true"
+	}
 }
