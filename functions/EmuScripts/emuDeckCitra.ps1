@@ -11,7 +11,7 @@ function Citra_install(){
 function Citra_init(){
 
 	setMSG 'Citra - Configuration'
-	$destination="$emusPath\citra\user")
+	$destination="$emusPath\citra\user
 	mkdir $destination -ErrorAction SilentlyContinue
 	
 	#Different ini per controller	
@@ -52,7 +52,7 @@ function Citra_setResolution($resolution){
 		'1440P' { $multiplier = 6 }
 		'4K' { $multiplier = 9 }
 	}	
-	$destination="$emusPath\citra\user")
+	$destination="$emusPath\citra\user
 	
 	setConfig 'resolution_factor' $multiplier $destination\config\qt-config.ini
 }

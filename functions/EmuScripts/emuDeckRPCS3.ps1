@@ -38,7 +38,7 @@ function RPCS3_setResolution($resolution){
 
 function RPCS3_setupSaves(){
 	setMSG 'RPCS3 - Saves Links'
-	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata")
+	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata"
 	$ShortcutPath = -join($emulationPath,'\saves\rpcs3\saves.lnk')
 	rm -fo  'saves\RPCS3' -Recurse -ErrorAction SilentlyContinue
 	mkdir 'saves\rpcs3' -ErrorAction SilentlyContinue
