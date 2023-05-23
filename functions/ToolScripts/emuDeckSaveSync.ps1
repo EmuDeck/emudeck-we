@@ -3,6 +3,123 @@ $cloud_sync_bin="$cloud_sync_path/rclone.exe"
 $cloud_sync_config="$cloud_sync_path/rclone.conf"
 
 
+function Get-Custom-Credentials($provider) {
+	Add-Type -AssemblyName System.Windows.Forms
+	$form = New-Object System.Windows.Forms.Form
+	$form.Text = "Cloud Login"
+	$form.Size = New-Object System.Drawing.Size(400, 300)
+	$form.StartPosition = "CenterScreen"
+	$form.FormBorderStyle = "FixedDialog"
+
+	$labelUsername = New-Object System.Windows.Forms.Label
+	$labelUsername.Text = "User:"
+	$labelUsername.Location = New-Object System.Drawing.Point(30, 30)
+	$form.Controls.Add($labelUsername)
+
+	$textBoxUsername = New-Object System.Windows.Forms.TextBox
+	$textBoxUsername.Location = New-Object System.Drawing.Point(140, 30)
+	$textBoxUsername.Size = New-Object System.Drawing.Size(150, 20)
+	$form.Controls.Add($textBoxUsername)
+
+	$labelPassword = New-Object System.Windows.Forms.Label
+	$labelPassword.Text = "Pass:"
+	$labelPassword.Location = New-Object System.Drawing.Point(30, 70)
+	$form.Controls.Add($labelPassword)
+
+	$textBoxPassword = New-Object System.Windows.Forms.TextBox
+	$textBoxPassword.Location = New-Object System.Drawing.Point(140, 70)
+	$textBoxPassword.Size = New-Object System.Drawing.Size(150, 20)
+	$textBoxPassword.PasswordChar = "*"
+	$form.Controls.Add($textBoxPassword)
+	
+	if( $provider -eq "Emudeck-NextCloud"){
+	
+		$labelWebDAV = New-Object System.Windows.Forms.Label
+		$labelWebDAV.Text = "WebDAV url:"
+		$labelWebDAV.Location = New-Object System.Drawing.Point(30, 110)
+		$form.Controls.Add($labelWebDAV)
+		
+		$textBoxWebDAV = New-Object System.Windows.Forms.TextBox
+		$textBoxWebDAV.Location = New-Object System.Drawing.Point(140, 110)
+		$textBoxWebDAV.Size = New-Object System.Drawing.Size(150, 20)
+		$form.Controls.Add($textBoxWebDAV)
+	}
+	
+	if( $provider -eq "Emudeck-SFTP" ){
+		$labelUrl = New-Object System.Windows.Forms.Label
+		$labelUrl.Text = "Url:"
+		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
+		$form.Controls.Add($labelUrl)
+		
+		$textBoxUrl = New-Object System.Windows.Forms.TextBox
+		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
+		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
+		$form.Controls.Add($textBoxUrl)
+		
+		$labelPort = New-Object System.Windows.Forms.Label
+		$labelPort.Text = "Port:"
+		$labelPort.Location = New-Object System.Drawing.Point(30, 150)
+		$form.Controls.Add($labelPort)
+		
+		$textBoxPort = New-Object System.Windows.Forms.TextBox
+		$textBoxPort.Location = New-Object System.Drawing.Point(140, 150)
+		$textBoxPort.Size = New-Object System.Drawing.Size(150, 20)
+		$form.Controls.Add($textBoxPort)
+	
+	}
+	
+	if( $provider -eq "Emudeck-SMB" ){
+		$labelUrl = New-Object System.Windows.Forms.Label
+		$labelUrl.Text = "Url:"
+		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
+		$form.Controls.Add($labelUrl)
+		
+		$textBoxUrl = New-Object System.Windows.Forms.TextBox
+		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
+		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
+		$form.Controls.Add($textBoxUrl)
+	
+	}
+	if( $provider -eq "Emudeck-SFTP" ){
+		$buttonHeight=200
+	}else{
+		$buttonHeight=160
+	}
+
+	$buttonOK = New-Object System.Windows.Forms.Button
+	$buttonOK.Text = "OK"
+	$buttonOK.DialogResult = [System.Windows.Forms.DialogResult]::OK
+	$buttonOK.Location = New-Object System.Drawing.Point(80, $buttonHeight)
+	$form.Controls.Add($buttonOK)
+
+	$buttonCancel = New-Object System.Windows.Forms.Button
+	$buttonCancel.Text = "Cancel"
+	$buttonCancel.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
+	$buttonCancel.Location = New-Object System.Drawing.Point(160, $buttonHeight)
+	$form.Controls.Add($buttonCancel)
+
+	$form.AcceptButton = $buttonOK
+	$form.CancelButton = $buttonCancel
+
+	$result = $form.ShowDialog()
+
+	if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
+		$username = $textBoxUsername.Text
+		$password = $textBoxPassword.Text
+		$url = $textBoxUrl.Text
+		$port = $textBoxPort.Text
+
+		return [PSCustomObject]@{
+			Username = $username
+			Password = $password
+			Url = $url
+			Port = $port
+		}
+	}
+
+	return $null
+}
+
 function cloud_sync_install($cloud_sync_provider){	
 	$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 	download $cloud_sync_releaseURL "rclone.zip"	
@@ -24,8 +141,26 @@ function cloud_sync_install($cloud_sync_provider){
 	}
 }
 
+cloud_sync_toggle($status){
+  setSetting "cloud_sync_status" $status
+}	
+
 function cloud_sync_config($cloud_sync_provider){
-	& $cloud_sync_bin config update "$cloud_sync_provider"  ; echo 'true'
+	
+	
+	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
+		$credentials = Get-Custom-Credentials("Emudeck-NextCloud")
+		& $rclone_bin config update "$cloud_sync_provider" vendor="nextcloud" url=$($credentials.Url)  user=$($credentials.Username) pass="$($rclone_bin obscure $($credentials.Password))" ; echo 'true'
+	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
+		$credentials = Get-Custom-Credentials("Emudeck-SFTP")
+		& $rclone_bin config update "$cloud_sync_provider" host=$($credentials.Username) user=$($credentials.Username) port=$($credentials.Port) pass="$($rclone_bin obscure $($credentials.Password))" ; echo 'true'
+	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
+		$credentials = Get-Custom-Credentials("Emudeck-SMB")
+		& $cloud_sync_bin config update "$cloud_sync_provider" host=$($credentials.Url) user=$($credentials.Username) pass="$($cloud_sync_bin obscure $($credentials.Password))" ; echo 'true'
+	} else {
+		& $cloud_sync_bin config update "$cloud_sync_provider"  ; echo 'true'
+	}
+	
 	
 	#Add-Type -AssemblyName PresentationFramework
 	#[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
@@ -156,64 +291,82 @@ function cloud_sync_uninstall(){
 }
 
 function cloud_sync_download($emuName){	
-	if (Test-Path "$cloud_sync_bin") {
-	echo "Downloading $emuName States/Saves"
+	if (Test-Path "$cloud_sync_bin" -And $cloud_sync_status -eq $true) {
+		$dialog = showDialog("Downloading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
 		}
+		if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
+		}
+		$dialog.Close()
 	}
 }
 
 function cloud_sync_upload($emuName){	
-	if (Test-Path "$cloud_sync_bin") {
-	echo "Uploading $emuName States/Saves"
+	if (Test-Path "$cloud_sync_bin" -And $cloud_sync_status -eq $true) {
+		$dialog = showDialog("Uploading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
+		}
+		if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
 		}
 		if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
 			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
-			& $cloud_sync_bin copy -P -L  --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
+			& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
 		}
+		if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
+			$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
+			& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
+		}
+	$dialog.Close()
 	}
 }
 

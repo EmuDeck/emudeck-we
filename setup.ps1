@@ -119,6 +119,11 @@ $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
 if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
+#melonDS
+$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\melonDS"
+if(-not($test) -and $doInstallmelonDS -eq "true" ){
+	melonDS_install
+}
 
 #Ryujinx
 $test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Ryujinx"
@@ -182,6 +187,11 @@ if ( "$doSetupCitra" -eq "true" ){
 	Citra_init
 }
 
+if ( "$doSetupMelonDS" -eq "true" ){
+	MelonDS_init
+}
+
+
 if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
 }
@@ -232,7 +242,7 @@ DuckStation_setResolution $duckstationResolution
 PCSX2QT_setResolution $pcsx2Resolution
 Yuzu_setResolution $yuzuResolution
 Ryujinx_setResolution $yuzuResolution
-
+melonDS_setResolution
 #PPSSPP_setResolution $ppssppResolution
 #RPCS3_setResolution $rpcs3Resolution
 #Xemu_setResolution $xemuResolution

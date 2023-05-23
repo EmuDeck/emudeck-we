@@ -135,18 +135,32 @@ function JSONtoPS1(){
 	setSettinginFile("`$RAHandClassic3D=`"$RAHandClassic3D`"")
 	setSettinginFile("`$RAHandHeldShader=`"$RAHandHeldShader`"")
 	
-	$doSetupSaveSync = $myJson.cloudSync
-	setSettinginFile("`$doSetupSaveSync=`"$doSetupSaveSync`"")
+	$cloud_sync_provider = $myJson.cloudSync
+	setSettinginFile("`$cloud_sync_provider=`"$cloud_sync_provider`"")
+	setSettinginFile("`$rclone_provider=`"$cloud_sync_provider`"")
 	
 	$dolphinResolution = $myJson.resolutions.dolphin
 	$duckstationResolution = $myJson.resolutions.duckstation
 	$pcsx2Resolution = $myJson.resolutions.pcsx2
 	$yuzuResolution = $myJson.resolutions.yuzu
+	$ppssppResolution = $myJson.resolutions.ppsspp
+	$rpcs3Resolution = $myJson.resolutions.rpcs3
+	$citraResolution = $myJson.resolutions.citra
+	$xemuResolution = $myJson.resolutions.xemu
+	$xeniaResolution = $myJson.resolutions.xenia
+	
 	
 	setSettinginFile("`$dolphinResolution=`"$dolphinResolution`"")
 	setSettinginFile("`$duckstationResolution=`"$duckstationResolution`"")
 	setSettinginFile("`$pcsx2Resolution=`"$pcsx2Resolution`"")
 	setSettinginFile("`$yuzuResolution=`"$yuzuResolution`"")
+	setSettinginFile("`$ppssppResolution=`"$ppssppResolution`"")
+	setSettinginFile("`$rpcs3Resolution=`"$rpcs3Resolution `"")
+	setSettinginFile("`$citraResolution=`"$citraResolution `"")
+	setSettinginFile("`$xemuResolution=`"$xemuResolution `"")
+	setSettinginFile("`$xeniaResolution=`"$xeniaResolution `"")
+	
+	
 	
 	$device = $myJson.device
 	setSettinginFile("`$device=`"$device`"")
