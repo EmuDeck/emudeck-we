@@ -1,12 +1,12 @@
 function DuckStation_install(){
-	setMSG 'Downloading DuckStation'
-	$url_duck = getLatestReleaseURLGH 'stenzek/duckstation' 'zip' 'windows-x64' 'symbols'	
+	setMSG "Downloading DuckStation"
+	$url_duck = getLatestReleaseURLGH "stenzek/duckstation" "zip" "windows-x64" "symbols"	
 	download $url_duck "duckstation.zip"
 	moveFromTo "$temp/duckstation" "$emusPath\duckstation"
 	createLauncher "duckstation"
 }
 function DuckStation_init(){	
-	setMSG 'DuckStation - Configuration'
+	setMSG "DuckStation - Configuration"
 	New-Item -Path "$emusPath\duckstation\portable.txt" -ErrorAction SilentlyContinue
 	$destination="$emusPath\duckstation\"
 	mkdir $destination -ErrorAction SilentlyContinue
@@ -24,31 +24,31 @@ function DuckStation_setEmulationFolder(){
 	echo "NYI"
 }
 function DuckStation_setupSaves(){
-	setMSG 'DuckStation - Creating Saves Links'
+	setMSG "DuckStation - Creating Saves Links"
 	#Saves	
 	$SourceFilePath = "$emusPath\duckstation\memcards"
-	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
+	mkdir "saves\duckstation" -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,'\saves\duckstation\saves.lnk')
+	$ShortcutPath = -join($emulationPath,"\saves\duckstation\saves.lnk")
 	createLink $SourceFilePath $ShortcutPath	
 	
 	#States
 	$SourceFilePath = "$emusPath\duckstation\savestates"
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,'\saves\duckstation\states.lnk')	
+	$ShortcutPath = -join($emulationPath,"\saves\duckstation\states.lnk")	
 	createLink $SourceFilePath $ShortcutPath
 }
 
 function DuckStation_setResolution($resolution){
 	switch ( $resolution )
 	{
-		'720P' { $multiplier = 3 }
-		'1080P' { $multiplier = 5 }
-		'1440P' { $multiplier = 6 }
-		'4K' { $multiplier = 9 }
+		"720P" { $multiplier = 3 }
+		"1080P" { $multiplier = 5 }
+		"1440P" { $multiplier = 6 }
+		"4K" { $multiplier = 9 }
 	}	
 	
-	setConfig 'ResolutionScale' $multiplier "$emusPath\duckstation\settings.ini"
+	setConfig "ResolutionScale" $multiplier "$emusPath\duckstation\settings.ini"
 }
 
 function DuckStation_setupStorage(){
@@ -95,14 +95,14 @@ function DuckStation_resetConfig(){
 }
 
 function DuckStation_wideScreenOn(){
-	setConfig 'WidescreenHack' 'true' "$emusPath\duckstation\settings.ini"
-	setConfig 'AspectRatio' '16:9' "$emusPath\duckstation\settings.ini"	
+	setConfig "WidescreenHack" "true" "$emusPath\duckstation\settings.ini"
+	setConfig "AspectRatio" "16:9" "$emusPath\duckstation\settings.ini"	
 }
 function DuckStation_wideScreenOff(){
-	setConfig 'WidescreenHack' 'false' "$emusPath\duckstation\settings.ini"
-	setConfig 'AspectRatio' '4:3' "$emusPath\duckstation\settings.ini"	
+	setConfig "WidescreenHack" "false" "$emusPath\duckstation\settings.ini"
+	setConfig "AspectRatio" "4:3" "$emusPath\duckstation\settings.ini"	
 }
 function DuckStation_retroAchievementsSetLogin(){
 	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-	setConfig 'Token' $rat "$emusPath\duckstation\settings.ini"
+	setConfig "Token" $rat "$emusPath\duckstation\settings.ini"
 }

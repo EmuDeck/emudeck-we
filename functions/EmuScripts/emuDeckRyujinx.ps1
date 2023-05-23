@@ -1,12 +1,12 @@
 function Ryujinx_install(){
-	setMSG 'Downloading Ryujinx'
-	$url_ryu = getLatestReleaseURLGH 'Ryujinx/release-channel-master' 'zip'
+	setMSG "Downloading Ryujinx"
+	$url_ryu = getLatestReleaseURLGH "Ryujinx/release-channel-master" "zip"
 	download $url_ryu "Ryujinx.zip"
 	moveFromTo "$temp/Ryujinx/publish" "$emusPath\Ryujinx"
 	createLauncher "Ryujinx"
 }
 function Ryujinx_init(){
-	setMSG 'Ryujinx - Configuration'
+	setMSG "Ryujinx - Configuration"
 	$destination="$emusPath\Ryujinx"
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
@@ -22,16 +22,16 @@ function Ryujinx_setEmulationFolder(){
 	sedFile $destination\portable\Config.json "/run/media/mmcblk0p1/Emulation/roms/switch" "$romsPath/switch"
 }
 function Ryujinx_setupSaves(){
-  setMSG 'Ryujinx - Saves Links'
+  setMSG "Ryujinx - Saves Links"
   $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\save\"  
   mkdir $SourceFilePath
-  $ShortcutPath = -join($emulationPath,'\saves\ryujinx\saves.lnk')
-  mkdir 'saves\ryujinx' -ErrorAction SilentlyContinue
+  $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saves.lnk")
+  mkdir "saves\ryujinx" -ErrorAction SilentlyContinue
   createLink $SourceFilePath $ShortcutPath
   
   $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\saveMeta\"  
   mkdir $SourceFilePath
-  $ShortcutPath = -join($emulationPath,'\saves\ryujinx\saveMeta.lnk')
+  $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saveMeta.lnk")
   createLink $SourceFilePath $ShortcutPath
 	
 }
@@ -39,10 +39,10 @@ function Ryujinx_setupSaves(){
 function Ryujinx_setResolution($resolution){
 	switch ( $resolution )
 	{
-		'720P' { $multiplier = 1;  $docked='false'}
-		'1080P' { $multiplier = 1; $docked='true'   }
-		'1440P' { $multiplier = 2;  $docked='false' }
-		'4K' { $multiplier = 2; $docked='true' }
+		"720P" { $multiplier = 1;  $docked="false"}
+		"1080P" { $multiplier = 1; $docked="true"   }
+		"1440P" { $multiplier = 2;  $docked="false" }
+		"4K" { $multiplier = 2; $docked="true" }
 	}	
 	
 	$jsonConfig = Get-Content -Path "$emusPath\yuzu\Ryujinx\Config.json" | ConvertFrom-Json

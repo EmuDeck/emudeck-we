@@ -1,6 +1,6 @@
 function Xemu_install(){
-	setMSG 'Downloading Xemu'
-	$url_xemu = getLatestReleaseURLGH 'xemu-project/xemu' 'zip' 'win-release'
+	setMSG "Downloading Xemu"
+	$url_xemu = getLatestReleaseURLGH "xemu-project/xemu" "zip" "win-release"
 	download $url_xemu "xemu-win-release.zip"
 	moveFromTo "$temp/xemu-win-release" "$emusPath\xemu"
 	createLauncher "xemu"
