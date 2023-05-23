@@ -4,8 +4,19 @@ $env:path = $env:path + ";C:\Program Files (x86)\7-zip"
 
 #Fix EmuDeck folder
 $oldName = "$env:USERPROFILE/emudeck"
-if (Get-ChildItem -LiteralPath $oldName -CaseSensitive | Measure-Object | Select-Object -ExpandProperty Count) {
-	$properName = "$env:USERPROFILE/EmuDeck"	
+$caseSensitive = $false
+
+$parentPath = Split-Path $oldName -Parent
+$items = Get-ChildItem -LiteralPath $parentPath
+
+$match = $items | Where-Object { $_.Name -ceq [System.IO.Path]::GetFileName($oldName) }
+
+if ($match -and $caseSensitive) {
+	$match = $items | Where-Object { $_.Name -ceq [System.IO.Path]::GetFileName($oldName) -and $_.Name -ceq [System.IO.Path]::GetFileName($oldName) }
+}
+
+if ($match) {
+	$properName = "$env:USERPROFILE/EmuDeck"
 	Rename-Item -Path $oldName -NewName $properName
 }
 
