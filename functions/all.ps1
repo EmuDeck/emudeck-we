@@ -2,24 +2,6 @@
 $env:path = $env:path + ";C:\Program Files\7-zip"
 $env:path = $env:path + ";C:\Program Files (x86)\7-zip"
 
-#Fix EmuDeck folder
-$oldName = "$env:USERPROFILE/emudeck"
-$caseSensitive = $false
-
-$parentPath = Split-Path $oldName -Parent
-$items = Get-ChildItem -LiteralPath $parentPath
-
-$match = $items | Where-Object { $_.Name -ceq [System.IO.Path]::GetFileName($oldName) }
-
-if ($match -and $caseSensitive) {
-	$match = $items | Where-Object { $_.Name -ceq [System.IO.Path]::GetFileName($oldName) -and $_.Name -ceq [System.IO.Path]::GetFileName($oldName) }
-}
-
-if ($match) {
-	$properName = "$env:USERPROFILE/EmuDeck"
-	Rename-Item -Path $oldName -NewName $properName
-}
-
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 . $env:USERPROFILE\EmuDeck\settings.ps1
 mkdir $emulationPath -ErrorAction SilentlyContinue
