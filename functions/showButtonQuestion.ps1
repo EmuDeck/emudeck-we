@@ -10,7 +10,7 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 	$buttonColor="69,70,67"
 	$buttonSeparation=130
 			
-	#$URL = -join("https://raw.githubusercontent.com/EmuDeck/emudeck-electron/main/src/assets/",$img)
+	#$URL = -join("https://raw.githubusercontent.com/EmuDeck/EmuDeck-electron/main/src/assets/",$img)
 	#$localImg = $img.replace('emulators/','')
 	#$Path= -join($userFolder,'/EmuDeck/',$localImg)
 	

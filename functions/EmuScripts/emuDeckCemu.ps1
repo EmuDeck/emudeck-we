@@ -9,11 +9,8 @@ function Cemu_install(){
 function Cemu_init(){
 	setMSG 'Cemu - Configuration'
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "$emusPath\cemu"
-	
 	sedFile "$emusPath\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
 	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
-	
-	
 	Cemu_setupSaves
 }
 function Cemu_update(){

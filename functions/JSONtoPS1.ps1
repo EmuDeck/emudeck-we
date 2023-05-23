@@ -1,7 +1,7 @@
 
 
 function setSettinginFile($keySetting){		
-	$keySetting | Out-File -FilePath "$env:USERPROFILE/emudeck/settings.ps1" -Append
+	$keySetting | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1" -Append
 	echo "Added $keySetting to settings.ps1"
 	#Start-Sleep -Seconds 1
 }
@@ -12,7 +12,7 @@ function JSONtoPS1(){
 	$mutex = new-object System.Threading.Mutex $false,'EmuDeckSettingsJSONParse'
 	$mutex.WaitOne() > $null
 	
-	'' | Out-File -FilePath "$env:USERPROFILE/emudeck/settings.ps1"
+	'' | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1"
 	$myJson = Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json -Raw | ConvertFrom-Json 
 	
 	#Default settings for all systems
@@ -166,10 +166,10 @@ function JSONtoPS1(){
 	setSettinginFile("`$device=`"$device`"")
 	
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path $env:USERPROFILE/emudeck/settings.ps1 -Raw) -replace 'False','false') | Set-Content -Path $env:USERPROFILE/emudeck/settings.ps1
+	((Get-Content -path $env:USERPROFILE/EmuDeck/settings.ps1 -Raw) -replace 'False','false') | Set-Content -Path $env:USERPROFILE/EmuDeck/settings.ps1
 	
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path $env:USERPROFILE/emudeck/settings.ps1 -Raw) -replace 'True','true') | Set-Content -Path $env:USERPROFILE/emudeck/settings.ps1
+	((Get-Content -path $env:USERPROFILE/EmuDeck/settings.ps1 -Raw) -replace 'True','true') | Set-Content -Path $env:USERPROFILE/EmuDeck/settings.ps1
 	
 	$mutex.ReleaseMutex()
 
