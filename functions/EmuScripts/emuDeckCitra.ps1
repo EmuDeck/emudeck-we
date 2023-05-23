@@ -2,16 +2,16 @@ function Citra_install(){
 	setMSG 'Downloading Citra'
 	$url_citra = getLatestReleaseURLGH 'citra-emu/citra-nightly' '7z' 'windows-mingw'
 	download $url_citra "citra.7z"
-	moveFromTo "$temp/citra/nightly-mingw" "$emusFolder\citra"
+	moveFromTo "$temp/citra/nightly-mingw" "$emusPath\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
-	mkdir "$emusFolder\citra\user" -ErrorAction SilentlyContinue	
+	mkdir "$emusPath\citra\user" -ErrorAction SilentlyContinue	
 	createLauncher "citra"
 	
 }
 function Citra_init(){
 
 	setMSG 'Citra - Configuration'
-	$destination=-join($emulationPath, "\$emusFolder\citra\user")
+	$destination="$emusPath\citra\user")
 	mkdir $destination -ErrorAction SilentlyContinue
 	
 	#Different ini per controller	
@@ -28,13 +28,13 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	setMSG 'Citra - Saves Links'
-	$SourceFilePath = "$emusFolder\citra\user\sdmc\"
+	$SourceFilePath = "$emusPath\citra\user\sdmc\"
 	$ShortcutPath = -join($emulationPath,'\saves\citra\saves.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = "$emusFolder\citra\user\states\"
+	$SourceFilePath = "$emusPath\citra\user\states\"
 	$ShortcutPath = -join($emulationPath,'\saves\citra\states.lnk')
 	mkdir 'saves\citra' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
@@ -52,7 +52,7 @@ function Citra_setResolution($resolution){
 		'1440P' { $multiplier = 6 }
 		'4K' { $multiplier = 9 }
 	}	
-	$destination=-join($emulationPath, "\$emusFolder\citra\user")
+	$destination="$emusPath\citra\user")
 	
 	setConfig 'resolution_factor' $multiplier $destination\config\qt-config.ini
 }
@@ -85,7 +85,7 @@ function Citra_finalize(){
 	echo "NYI"
 }
 function Citra_IsInstalled(){
-	$test=Test-Path -Path "$emusFolder\citra"
+	$test=Test-Path -Path "$emusPath\citra"
 	if($test){
 		echo "true"
 	}
@@ -99,7 +99,7 @@ function Citra_resetConfig(){
 
 function Citra_setController($device){
 
-	$destination="$emusFolder\citra\user\config"
+	$destination="$emusPath\citra\user\config"
 	
 	switch ($device) {
 		"PS5" {

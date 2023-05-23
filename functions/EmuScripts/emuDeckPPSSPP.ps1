@@ -1,17 +1,17 @@
 function PPSSPP_install(){
-	$test=Test-Path -Path "$emusFolder\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
-		Rename-Item "$emusFolder\ppsspp_win" "$emusFolder\PPSSPP" -ErrorAction SilentlyContinue
+		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
 	setMSG 'Downloading PPSSPP'
 	download $url_PPSSPP "PPSSPP.zip"
-	moveFromTo "$temp/PPSSPP" "$emusFolder\PPSSPP"
+	moveFromTo "$temp/PPSSPP" "$emusPath\PPSSPP"
 	createLauncher "PPSSPP"
 }
 function PPSSPP_init(){
-	$test=Test-Path -Path "$emusFolder\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
-		Rename-Item "$emusFolder\ppsspp_win" "$emusFolder\PPSSPP" -ErrorAction SilentlyContinue
+		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
 	PPSSPP_setupSaves
 }
@@ -24,12 +24,12 @@ function PPSSPP_setEmulationFolder(){
 function PPSSPP_setupSaves(){	
 	setMSG 'PPSSPP - Saves Links'
 	
-	$SourceFilePath = "$emusFolder\PPSSPP\memstick\PSP\PPSSPP_STATE"	
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
 	$ShortcutPath = -join($emulationPath,'\saves\ppsspp\states.lnk')	
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = "$emusFolder\PPSSPP\memstick\PSP\SAVEDATA"	
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
 	$ShortcutPath = -join($emulationPath,'\saves\yuzu\saves.lnk')
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
@@ -69,7 +69,7 @@ function PPSSPP_finalize(){
 	echo "NYI"
 }
 function PPSSPP_IsInstalled(){
-	$test=Test-Path -Path "$emusFolder\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
 		echo "true"
 	}

@@ -2,13 +2,13 @@ function DuckStation_install(){
 	setMSG 'Downloading DuckStation'
 	$url_duck = getLatestReleaseURLGH 'stenzek/duckstation' 'zip' 'windows-x64' 'symbols'	
 	download $url_duck "duckstation.zip"
-	moveFromTo "$temp/duckstation" "$emusFolder\duckstation"
+	moveFromTo "$temp/duckstation" "$emusPath\duckstation"
 	createLauncher "duckstation"
 }
 function DuckStation_init(){	
 	setMSG 'DuckStation - Configuration'
-	New-Item -Path "$emusFolder\duckstation\portable.txt" -ErrorAction SilentlyContinue
-	$destination="$emusFolder\duckstation\"
+	New-Item -Path "$emusPath\duckstation\portable.txt" -ErrorAction SilentlyContinue
+	$destination="$emusPath\duckstation\"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\DuckStation" $destination
 	
@@ -26,14 +26,14 @@ function DuckStation_setEmulationFolder(){
 function DuckStation_setupSaves(){
 	setMSG 'DuckStation - Creating Saves Links'
 	#Saves	
-	$SourceFilePath = "$emusFolder\duckstation\memcards"
+	$SourceFilePath = "$emusPath\duckstation\memcards"
 	mkdir 'saves\duckstation' -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,'\saves\duckstation\saves.lnk')
 	createLink $SourceFilePath $ShortcutPath	
 	
 	#States
-	$SourceFilePath = "$emusFolder\duckstation\savestates"
+	$SourceFilePath = "$emusPath\duckstation\savestates"
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,'\saves\duckstation\states.lnk')	
 	createLink $SourceFilePath $ShortcutPath
@@ -48,7 +48,7 @@ function DuckStation_setResolution($resolution){
 		'4K' { $multiplier = 9 }
 	}	
 	
-	setConfig 'ResolutionScale' $multiplier "$emusFolder\duckstation\settings.ini"
+	setConfig 'ResolutionScale' $multiplier "$emusPath\duckstation\settings.ini"
 }
 
 function DuckStation_setupStorage(){
@@ -82,7 +82,7 @@ function DuckStation_finalize(){
 	echo "NYI"
 }
 function DuckStation_IsInstalled(){
-	$test=Test-Path -Path "$emusFolder\duckstation"
+	$test=Test-Path -Path "$emusPath\duckstation"
 	if($test){
 		echo "true"
 	}
@@ -95,14 +95,14 @@ function DuckStation_resetConfig(){
 }
 
 function DuckStation_wideScreenOn(){
-	setConfig 'WidescreenHack' 'true' "$emusFolder\duckstation\settings.ini"
-	setConfig 'AspectRatio' '16:9' "$emusFolder\duckstation\settings.ini"	
+	setConfig 'WidescreenHack' 'true' "$emusPath\duckstation\settings.ini"
+	setConfig 'AspectRatio' '16:9' "$emusPath\duckstation\settings.ini"	
 }
 function DuckStation_wideScreenOff(){
-	setConfig 'WidescreenHack' 'false' "$emusFolder\duckstation\settings.ini"
-	setConfig 'AspectRatio' '4:3' "$emusFolder\duckstation\settings.ini"	
+	setConfig 'WidescreenHack' 'false' "$emusPath\duckstation\settings.ini"
+	setConfig 'AspectRatio' '4:3' "$emusPath\duckstation\settings.ini"	
 }
 function DuckStation_retroAchievementsSetLogin(){
 	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-	setConfig 'Token' $rat "$emusFolder\duckstation\settings.ini"
+	setConfig 'Token' $rat "$emusPath\duckstation\settings.ini"
 }

@@ -2,7 +2,7 @@ function RPCS3_install(){
 	setMSG 'Downloading RPCS3'
 	$url_rpcs3 = getLatestReleaseURLGH 'RPCS3/rpcs3-binaries-win' '7z'
 	download $url_rpcs3 "rpcs3.7z"
-	moveFromTo "$temp/rpcs3" "$emusFolder\RPCS3"
+	moveFromTo "$temp/rpcs3" "$emusPath\RPCS3"
 	createLauncher "rpcs3"
 	
 	$url_vulkan = 'https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime.exe'
@@ -12,7 +12,7 @@ function RPCS3_install(){
 }
 function RPCS3_init(){
 	setMSG 'RPCS3 - Configuration'
-	$destination="$emusFolder\RPCS3"
+	$destination="$emusPath\RPCS3"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
 }
 function RPCS3_update(){
@@ -29,7 +29,7 @@ function RPCS3_setResolution($resolution){
 		'1440P' { $res = "200"; }
 		'4K' { $res = "300"; }
 	}	
-	$destination="$emusFolder\RPCS3\config.yml"
+	$destination="$emusPath\RPCS3\config.yml"
 	setConfig 'Resolution Scale:' $res $destination
 	#Fix setConfig =
 	sedFile $destination "Resolution Scale:=" "  Resolution Scale: "
@@ -38,7 +38,7 @@ function RPCS3_setResolution($resolution){
 
 function RPCS3_setupSaves(){
 	setMSG 'RPCS3 - Saves Links'
-	$SourceFilePath = "$emusFolder\RPCS3\dev_hdd0\home\00000001\savedata")
+	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata")
 	$ShortcutPath = -join($emulationPath,'\saves\rpcs3\saves.lnk')
 	rm -fo  'saves\RPCS3' -Recurse -ErrorAction SilentlyContinue
 	mkdir 'saves\rpcs3' -ErrorAction SilentlyContinue
@@ -77,7 +77,7 @@ function RPCS3_finalize(){
 	echo "NYI"
 }
 function RPCS3_IsInstalled(){
-	$test=Test-Path -Path "$emusFolder\RPCS3"
+	$test=Test-Path -Path "$emusPath\RPCS3"
 	if($test){
 		echo "true"
 	}

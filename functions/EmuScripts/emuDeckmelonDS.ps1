@@ -2,13 +2,13 @@ function melonDS_install(){
 	setMSG 'Downloading melonDS'
 	$url_melonDS = getLatestReleaseURLGH 'melonDS-emu/melonDS' 'zip' 'win_x64'
 	download $url_melonDS "melonds.zip"
-	moveFromTo "$temp/melonDS" "$emusFolder/melonDS"
+	moveFromTo "$temp/melonDS" "$emusPath/melonDS"
 	Remove-Item -Recurse -Force melonds.zip -ErrorAction SilentlyContinue		
 	createLauncher "melonDS"
 }
 function melonDS_init(){
 	setMSG 'melonDS - Configuration'
-	$destination=-join($emulationPath, "$emusFolder/melonDS")	
+	$destination=-join($emulationPath, "$emusPath/melonDS")	
 		
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\melonDS" "$destination"		
 	
@@ -37,7 +37,7 @@ function melonDS_setResolution($resolution){
 		'1440P' { $WindowWidth = 2048; WindowHeight = 1536 }
 		'4K' { $WindowWidth = 2816;  WindowHeight = 2112 }
 	}	
-	$destination="$emusFolder/melonDS")
+	$destination="$emusPath/melonDS")
 	
 	setConfig 'WindowWidth' $WindowWidth $destination\melonDS.ini
 	setConfig 'WindowHeight' $WindowHeight $destination\melonDS.ini

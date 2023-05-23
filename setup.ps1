@@ -62,7 +62,7 @@ copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 
 #Dowloading..ESDE
-$test=Test-Path -Path "$esdeFolder\EmulationStation.exe"
+$test=Test-Path -Path "$esdePath\EmulationStation.exe"
 if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
@@ -79,78 +79,78 @@ if(-not($test)){
 #
 
 #RetroArch
-$test=Test-Path -Path "$emusFolder\RetroArch\RetroArch.exe"
+$test=Test-Path -Path "$emusPath\RetroArch\RetroArch.exe"
 if(-not($test) -and $doInstallRA -eq "true" ){
 	RetroArch_install
 }
 
 #Dolphin
-$test=Test-Path -Path "$emusFolder\Dolphin-x64\Dolphin.exe"
+$test=Test-Path -Path "$emusPath\Dolphin-x64\Dolphin.exe"
 if(-not($test) -and $doInstallDolphin -eq "true" ){
 	Dolphin_install
 }
 
 #PCSX2 
-$test=Test-Path -Path "$emusFolder\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
+$test=Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
 if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 	PCSX2QT_install
 }
 
 #RPCS3
-#$test=Test-Path -Path "$emusFolder\RPCS3"
+#$test=Test-Path -Path "$emusPath\RPCS3"
 #if(-not($test) -and $doInstallRPCS3 -eq "true" ){
 #	RPCS3_install
 #}
 
 #Xemu
-#$test=Test-Path -Path "$emusFolder\xemu"
+#$test=Test-Path -Path "$emusPath\xemu"
 #if(-not($test) -and $doInstallXemu -eq "true" ){
 #	Xemu_install
 #}
 
 #Yuzu
-$test=Test-Path -Path "$emusFolder\yuzu\yuzu-windows-msvc\yuzu.exe"
+$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc\yuzu.exe"
 if(-not($test) -and $doInstallYuzu -eq "true" ){
 	Yuzu_install
 }
 
 #Citra
-$test=Test-Path -Path "$emusFolder\citra"
+$test=Test-Path -Path "$emusPath\citra"
 if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
 #melonDS
-$test=Test-Path -Path "$emusFolder\melonDS"
+$test=Test-Path -Path "$emusPath\melonDS"
 if(-not($test) -and $doInstallmelonDS -eq "true" ){
 	melonDS_install
 }
 
 #Ryujinx
-$test=Test-Path -Path "$emusFolder\Ryujinx"
+$test=Test-Path -Path "$emusPath\Ryujinx"
 if(-not($test) -and $doInstallRyujinx -eq "true" ){
 	Ryujinx_install
 }
 
 #DuckStation
-$test=Test-Path -Path "$emusFolder\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
+$test=Test-Path -Path "$emusPath\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
 if(-not($test) -and $doInstallDuck -eq "true" ){
 	DuckStation_install
 }
 
 #Cemu
-$test=Test-Path -Path "$emusFolder\cemu\Cemu.exe"
+$test=Test-Path -Path "$emusPath\cemu\Cemu.exe"
 if(-not($test) -and $doInstallCemu -eq "true" ){
 	Cemu_install
 }
 
 #Xenia
-#$test=Test-Path -Path "$emusFolder\xenia"
+#$test=Test-Path -Path "$emusPath\xenia"
 #if(-not($test) -and $doInstallXenia -eq "true" ){
 #	Xenia_install
 #}
 
 #PPSSPP
-$test=Test-Path -Path "$emusFolder\ppsspp_win\PPSSPPWindows64.exe"
+$test=Test-Path -Path "$emusPath\ppsspp_win\PPSSPPWindows64.exe"
 if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 	PPSSPP_install
 }
