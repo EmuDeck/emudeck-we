@@ -147,6 +147,7 @@ function cloud_sync_toggle($status){
 
 function cloud_sync_config($cloud_sync_provider){
 	
+	setSetting "cloud_sync_status" "true"
 		
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
@@ -206,6 +207,8 @@ function cloud_sync_config($cloud_sync_provider){
 }
 
 function cloud_sync_config_with_code($code){
+	setSetting "cloud_sync_status" "true"
+	
 	$headers = @{
 		"User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
 	}
@@ -296,6 +299,7 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 }
 
 function cloud_sync_uninstall(){	
+	setSetting "cloud_sync_status" "false"
 	rm -fo  "$toolsPath/rclone"	
 }
 
