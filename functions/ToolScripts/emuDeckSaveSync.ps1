@@ -121,23 +121,21 @@ function Get-Custom-Credentials($provider) {
 }
 
 function cloud_sync_install($cloud_sync_provider){	
-	$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
-	download $cloud_sync_releaseURL "rclone.zip"	
-	setSetting "cloud_sync_provider" "$cloud_sync_provider"
-	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
-	$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
-	
-	if ($cloud_sync_releaseURL -match $regex) {
+	if (-not(Test-Path "$cloud_sync_bin")) {
+		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
+		download $cloud_sync_releaseURL "rclone.zip"	
+		setSetting "cloud_sync_provider" "$cloud_sync_provider"
+		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+		$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 		
-		$filename = $matches[1]
-		
-		$filename = $filename.Replace('.zip','')
-		
-		Rename-Item "temp\rclone\$filename" -NewName "rclone" 
-		
-		moveFromTo "temp/rclone/" "$toolsPath\"	
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
-		rm -fo  "temp\rclone" -Recurse 
+		if ($cloud_sync_releaseURL -match $regex) {		
+			$filename = $matches[1]		
+			$filename = $filename.Replace('.zip','')		
+			Rename-Item "$temp\rclone\$filename" -NewName "rclone" 
+			moveFromTo "$temp/melonDS" "$emusPath/melonDS"		
+			Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
+			rm -fo  "$temp\rclone" -Recurse 
+		}
 	}
 }
 
