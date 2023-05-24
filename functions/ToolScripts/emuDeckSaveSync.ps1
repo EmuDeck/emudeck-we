@@ -150,17 +150,17 @@ function cloud_sync_config($cloud_sync_provider){
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
 		$obscuredPassword = Invoke-Expression "$rclone_bin obscure $($credentials.Password)"
-		& $rclone_bin config update "$cloud_sync_provider" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+		& $rclone_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 		echo 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
 		$obscuredPassword = Invoke-Expression "$rclone_bin obscure $($credentials.Password)"
-		& $rclone_bin config update "$cloud_sync_provider" host=$($credentials.Username) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+		& $rclone_bin config update "Emudeck-SFTP" host=$($credentials.Username) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
 		echo 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 		$credentials = Get-Custom-Credentials "Emudeck-SMB"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin obscure $($credentials.Password)"
-		& $cloud_sync_bin config update "$cloud_sync_provider" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+		& $cloud_sync_bin config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 		echo 'true'
 	} else {
 		& $cloud_sync_bin config update "$cloud_sync_provider"
