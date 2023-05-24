@@ -141,7 +141,7 @@ function cloud_sync_install($cloud_sync_provider){
 	}
 }
 
-cloud_sync_toggle($status){
+function cloud_sync_toggle($status){
   setSetting "cloud_sync_status" $status
 }	
 
