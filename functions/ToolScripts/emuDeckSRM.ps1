@@ -7,13 +7,23 @@ function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager" tools\
 	Start-Sleep -Seconds 1
-	#Paths	
+	
+	#Steam installation	
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	
+	#Paths
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
 	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
-	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\\"
+	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\"
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
 	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
 	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
+	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
+	sedFile tools\UserData\userConfigurations.json "STEAMPATH" $steamInstallPath
+	
+	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\"
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
@@ -85,7 +95,11 @@ function SRM_resetConfig(){
 
 function SRM_resetLaunchers(){
 	#Temp cloud sync status
-	setSetting "cloud_sync_status" "true"
+	
+	if ($variable -ne $null) {
+		setSetting "cloud_sync_status" "true"
+	}
+	
 	if ($doInstallRA -eq "true"){
 		createLauncher retroarch
 	}
