@@ -10,6 +10,7 @@ function SRM_init(){
 	#Paths	
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
 	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
+	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\\"
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
 	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
 	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
