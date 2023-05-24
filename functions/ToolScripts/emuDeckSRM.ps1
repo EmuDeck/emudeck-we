@@ -9,6 +9,7 @@ function SRM_init(){
 	Start-Sleep -Seconds 1
 	#Paths	
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
+	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
 	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
 	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
