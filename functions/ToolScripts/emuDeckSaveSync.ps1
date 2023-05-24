@@ -39,10 +39,10 @@ function Get-Custom-Credentials($provider) {
 		$labelWebDAV.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelWebDAV)
 		
-		$textBoxWebDAV = New-Object System.Windows.Forms.TextBox
-		$textBoxWebDAV.Location = New-Object System.Drawing.Point(140, 110)
-		$textBoxWebDAV.Size = New-Object System.Drawing.Size(150, 20)
-		$form.Controls.Add($textBoxWebDAV)
+		$textBoxUrl = New-Object System.Windows.Forms.TextBox
+		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
+		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
+		$form.Controls.Add($textBoxUrl)
 	}
 	
 	if( $provider -eq "Emudeck-SFTP" ){
@@ -145,21 +145,29 @@ function cloud_sync_toggle($status){
 
 function cloud_sync_config($cloud_sync_provider){
 	
+	$cloud_sync_bin="C:\Emulation\tools\rclone\rclone.exe"
+	
 	setSetting "cloud_sync_status" "true"
 		
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
-		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
-		$obscuredPassword = Invoke-Expression "$rclone_bin obscure $($credentials.Password)"
-		& $rclone_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"		
+		$pass=$credentials.Password
+		$params="obscure $pass"
+		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+		& $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 		echo 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
-		$obscuredPassword = Invoke-Expression "$rclone_bin obscure $($credentials.Password)"
-		& $rclone_bin config update "Emudeck-SFTP" host=$($credentials.Username) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+		$pass=$credentials.Password
+		$params="obscure $pass"
+		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+		& $cloud_sync_bin config update "Emudeck-SFTP" host=$($credentials.Username) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
 		echo 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 		$credentials = Get-Custom-Credentials "Emudeck-SMB"
-		$obscuredPassword = Invoke-Expression "$cloud_sync_bin obscure $($credentials.Password)"
+		$pass=$credentials.Password
+		$params="obscure $pass"
+		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 		& $cloud_sync_bin config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 		echo 'true'
 	} else {
