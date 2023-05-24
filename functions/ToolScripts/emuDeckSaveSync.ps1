@@ -132,8 +132,7 @@ function cloud_sync_install($cloud_sync_provider){
 			$filename = $matches[1]		
 			$filename = $filename.Replace('.zip','')		
 			Rename-Item "$temp\rclone\$filename" -NewName "rclone" 
-			moveFromTo "$temp/melonDS" "$emusPath/melonDS"		
-			Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
+			moveFromTo "$temp/melonDS" "$emusPath/melonDS"					
 			rm -fo  "$temp\rclone" -Recurse 
 		}
 	}
@@ -145,8 +144,7 @@ function cloud_sync_toggle($status){
 
 function cloud_sync_config($cloud_sync_provider){
 	
-	$cloud_sync_bin="C:\Emulation\tools\rclone\rclone.exe"
-	
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"	
 	setSetting "cloud_sync_status" "true"
 		
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
