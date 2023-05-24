@@ -93,13 +93,7 @@ function SRM_resetConfig(){
 	}
 }
 
-function SRM_resetLaunchers(){
-	#Temp cloud sync status
-	
-	if ($variable -ne $null) {
-		setSetting "cloud_sync_status" "true"
-	}
-	
+function SRM_resetLaunchers(){	
 	if ($doInstallRA -eq "true"){
 		createLauncher retroarch
 	}
