@@ -1,17 +1,17 @@
 function PPSSPP_install(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
-		Rename-Item "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win" "$emulationPath\tools\EmulationStation-DE\Emulators\PPSSPP" -ErrorAction SilentlyContinue
+		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
-	setMSG 'Downloading PPSSPP'
+	setMSG "Downloading PPSSPP"
 	download $url_PPSSPP "PPSSPP.zip"
-	moveFromTo "temp/PPSSPP" "tools\EmulationStation-DE\Emulators\PPSSPP"
+	moveFromTo "$temp/PPSSPP" "$emusPath\PPSSPP"
 	createLauncher "PPSSPP"
 }
 function PPSSPP_init(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
-		Rename-Item "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win" "$emulationPath\tools\EmulationStation-DE\Emulators\PPSSPP" -ErrorAction SilentlyContinue
+		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
 	PPSSPP_setupSaves
 }
@@ -22,15 +22,15 @@ function PPSSPP_setEmulationFolder(){
 	echo "NYI"
 }
 function PPSSPP_setupSaves(){	
-	setMSG 'PPSSPP - Saves Links'
+	setMSG "PPSSPP - Saves Links"
 	
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\PPSSPP\memstick\PSP\PPSSPP_STATE')	
-	$ShortcutPath = -join($emulationPath,'\saves\ppsspp\states.lnk')	
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
+	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\states.lnk")	
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\PPSSPP\memstick\PSP\SAVEDATA')	
-	$ShortcutPath = -join($emulationPath,'\saves\yuzu\saves.lnk')
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
+	$ShortcutPath = -join($emulationPath,"\saves\yuzu\saves.lnk")
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
@@ -69,7 +69,7 @@ function PPSSPP_finalize(){
 	echo "NYI"
 }
 function PPSSPP_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
 		echo "true"
 	}

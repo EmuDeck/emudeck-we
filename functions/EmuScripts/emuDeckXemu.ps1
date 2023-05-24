@@ -1,8 +1,8 @@
 function Xemu_install(){
-	setMSG 'Downloading Xemu'
-	$url_xemu = getLatestReleaseURLGH 'xemu-project/xemu' 'zip' 'win-release'
+	setMSG "Downloading Xemu"
+	$url_xemu = getLatestReleaseURLGH "xemu-project/xemu" "zip" "win-release"
 	download $url_xemu "xemu-win-release.zip"
-	moveFromTo "temp/xemu-win-release" "tools\EmulationStation-DE\Emulators\xemu"
+	moveFromTo "$temp/xemu-win-release" "$emusPath\xemu"
 	createLauncher "xemu"
 }
 function Xemu_init(){
@@ -51,7 +51,7 @@ function Xemu_finalize(){
 	echo "NYI"
 }
 function Xemu_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xemu"
+	$test=Test-Path -Path "$emusPath\xemu"
 	if($test){
 		echo "true"
 	}

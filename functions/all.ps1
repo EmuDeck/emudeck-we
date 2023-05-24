@@ -3,7 +3,7 @@ $env:path = $env:path + ";C:\Program Files\7-zip"
 $env:path = $env:path + ";C:\Program Files (x86)\7-zip"
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
-. $env:USERPROFILE\emudeck\settings.ps1
+. $env:USERPROFILE\EmuDeck\settings.ps1
 mkdir $emulationPath -ErrorAction SilentlyContinue
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue

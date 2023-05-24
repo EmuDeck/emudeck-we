@@ -1,6 +1,6 @@
  function setSetting($old, $new){
 
-	$fileToCheck = "$userFolder\emudeck\settings.ps1"
+	$fileToCheck = "$userFolder\EmuDeck\settings.ps1"
 
 	$fileContents = Get-Content $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
