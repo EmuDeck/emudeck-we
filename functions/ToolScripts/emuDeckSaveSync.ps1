@@ -304,7 +304,7 @@ function cloud_sync_uninstall(){
 }
 
 function cloud_sync_download($emuName){	
-	if (Test-Path "$cloud_sync_bin" -And $cloud_sync_status -eq $true) {
+	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		$dialog = showDialog("Downloading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
@@ -344,7 +344,7 @@ function cloud_sync_download($emuName){
 }
 
 function cloud_sync_upload($emuName){	
-	if (Test-Path "$cloud_sync_bin" -And $cloud_sync_status -eq $true) {
+	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		$dialog = showDialog("Uploading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
