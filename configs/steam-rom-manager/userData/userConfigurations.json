@@ -1674,6 +1674,68 @@
   },
   {
     "parserType": "Glob",
+    "configTitle": "Nintendo DS - melonDS",
+    "steamCategory": "${Nintendo DS - melonDS Standalone}",
+    "executableArgs": "-f \"${filePath}\"",
+    "executableModifier": "\"${exePath}\"",
+    "romDirectory": "${romsdirglobal}/nds",
+    "steamDirectory": "${steamdirglobal}",
+    "startInDirectory": "EMUSPATH\\RetroArch",
+    "imageProviders": ["SteamGridDB"],
+    "titleModifier": "${fuzzyTitle}",
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "defaultImage": "",
+    "defaultTallImage": "",
+    "defaultHeroImage": "",
+    "defaultLogoImage": "",
+    "defaultIcon": "",
+    "localImages": "",
+    "localTallImages": "",
+    "localHeroImages": "",
+    "localLogoImages": "",
+    "localIcons": "",
+    "disabled": false,
+    "executable": {
+      "path": "C:\\Emulation\\tools\\launchers\\melonDS.bat",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "userAccounts": {
+      "specifiedAccounts": "",
+      "skipWithMissingDataDir": true,
+      "useCredentials": true
+    },
+    "parserInputs": {
+      "glob": "**/${title}@(.7z|.7Z|.nds|.NDS|.zip|.ZIP)"
+    },
+    "titleFromVariable": {
+      "limitToGroups": "",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": false
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "parserId": "164843604510657227",
+    "version": 10,
+    "imageProviderAPIs": {
+      "SteamGridDB": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      }
+    }
+  },
+  {
+    "parserType": "Glob",
     "configTitle": "Nintendo SNES - Retroarch - Snes9x",
     "steamCategory": "${Super Nintendo}",
     "executableModifier": "\"${exePath}\"",
