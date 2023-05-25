@@ -77,8 +77,14 @@ function melonDS_finalize(){
 	echo "true"
 }
 function melonDS_IsInstalled(){
-	echo "true"
+	$test=Test-Path -Path "$emusPath\melonDS"
+	if($test){
+		echo "true"
+	}
 }
 function melonDS_resetConfig(){
-	echo "true"
+	melonDS_init
+	if($?){
+		echo "true"
+	}
 }
