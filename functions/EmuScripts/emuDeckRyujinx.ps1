@@ -24,13 +24,13 @@ function Ryujinx_setEmulationFolder(){
 function Ryujinx_setupSaves(){
   setMSG "Ryujinx - Saves Links"
   $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\save\"  
-  mkdir $SourceFilePath
+  mkdir $SourceFilePath -ErrorAction SilentlyContinue
   $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saves.lnk")
   mkdir "saves\ryujinx" -ErrorAction SilentlyContinue
   createLink $SourceFilePath $ShortcutPath
   
   $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\saveMeta\"  
-  mkdir $SourceFilePath
+  mkdir $SourceFilePath -ErrorAction SilentlyContinue
   $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saveMeta.lnk")
   createLink $SourceFilePath $ShortcutPath
 	
@@ -45,7 +45,7 @@ function Ryujinx_setResolution($resolution){
 		"4K" { $multiplier = 2; $docked="true" }
 	}	
 	
-	$jsonConfig = Get-Content -Path "$emusPath\yuzu\Ryujinx\Config.json" | ConvertFrom-Json
+	$jsonConfig = Get-Content -Path "$emusPath\Ryujinx\portable\Config.json" | ConvertFrom-Json
 	$jsonConfig.docked_mode = $docked
 	$jsonConfig.res_scale = $multiplier
 }
