@@ -116,6 +116,9 @@ function SRM_resetLaunchers(){
 	if ($doInstallDuck -eq "true"){
 		createLauncher duckstation
 	}
+	if ($doInstallmelonDS -eq "true"){
+		createLauncher melonDS
+	}
 	if ($doInstallCemu -eq "true"){
 		createLauncher cemu
 	}
