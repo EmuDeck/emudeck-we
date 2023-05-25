@@ -1,7 +1,6 @@
 function download($url, $file) {
-	$wc = New-Object net.webclient	
-	$destination="$temp/$file"
-		
+	$wc = New-Object net.webclient		
+	$destination="$temp/$file"		
 	mkdir $temp -ErrorAction SilentlyContinue	
 	
 	$wc.Downloadfile($url, $destination)

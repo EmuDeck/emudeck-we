@@ -9,3 +9,4 @@ $userFolder = $env:USERPROFILE
 $emusPath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators"
 $emusPathSRM = "$env:USERPROFILE\\EmuDeck\\EmulationStation-DE\\Emulators"
 $esdePath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/"
+$temp = "$env:USERPROFILE/EmuDeck/temp"

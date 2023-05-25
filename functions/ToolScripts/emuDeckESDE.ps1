@@ -1,6 +1,7 @@
 function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
 	download $url_esde "esde.zip"
+	mkdir $esdePath -ErrorAction SilentlyContinue
 	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"	
 }
 function ESDE_init(){	
