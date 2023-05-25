@@ -59,10 +59,22 @@ function setSetting($old, $new) {
 
 
 function customLocation(){
-	$drives = (Get-PSDrive -PSProvider FileSystem).Root
-	$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
-	Start-Sleep -Seconds 0.5
-	echo $winPath;
+	
+	Add-Type -AssemblyName System.Windows.Forms
+	
+	$folderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+	$folderBrowserDialog.Description = "Selecciona una carpeta de destino"
+	$folderBrowserDialog.ShowNewFolderButton = $true
+	
+	$dialogResult = $folderBrowserDialog.ShowDialog()
+	
+	if ($dialogResult -eq [System.Windows.Forms.DialogResult]::OK) {
+		echo $selectedFolder[0]
+	} else {
+		$wshell = New-Object -ComObject Wscript.Shell	
+		$Output = $wshell.Popup("No folder has been selected")
+		exit
+	}
 }
 
 function testLocationValid(){
