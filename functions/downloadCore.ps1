@@ -1,13 +1,13 @@
 function downloadCore($url, $core) {
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$wc = New-Object net.webclient
-	$destination=-join($emulationPath,'\',$core,'.zip')
+	$destination="$emusPath/RetroArch/cores/$core.zip"
 	$wc.Downloadfile($url, $destination)
    
 	foreach ($line in $destination) {
 		$extn = [IO.Path]::GetExtension($line)
 		if ($extn -eq ".zip" ){						
-			7z x -o"$toolsPathEmulationStation-DE\Emulators\RetroArch\cores\" -aoa $destination		
+			7z x -o"$emusPath/RetroArch/cores/" -aoa $destination		
 			Start-Sleep -Seconds 0.5
 			Remove-Item $destination
 		}
