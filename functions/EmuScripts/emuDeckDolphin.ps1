@@ -18,7 +18,6 @@ function Dolphin_init(){
 	$destination="$emusPath\Dolphin-x64"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Dolphin" "$destination"
-
 	
 	#Bios Path	
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
@@ -27,6 +26,7 @@ function Dolphin_init(){
 
 	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
+	Dolphin_setResolution $dolphinResolution
 }
 function Dolphin_update(){
 	echo "NYI"

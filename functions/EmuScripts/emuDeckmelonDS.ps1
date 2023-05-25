@@ -16,6 +16,7 @@ function melonDS_init(){
 	sedFile $destination\melonDS.ini "\" "/"	
 	
 	melonDS_setupSaves
+	melonDS_setResolution $melondsResolution
 }
 function melonDS_update(){
 	echo "true"

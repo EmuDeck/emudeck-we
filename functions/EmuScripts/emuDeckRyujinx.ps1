@@ -12,6 +12,7 @@ function Ryujinx_init(){
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
 	Ryujinx_setEmulationFolder	
 	Ryujinx_setupSaves
+	Ryujinx_setResolution $yuzuResolution
 }
 
 function Ryujinx_update(){

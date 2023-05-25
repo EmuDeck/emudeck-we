@@ -21,6 +21,7 @@ function PCSX2QT_init(){
 	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
 	
 	PCSX2QT_setupSaves
+	PCSX2QT_setResolution $pcsx2Resolution
 	
 }
 function PCSX2QT_update(){
