@@ -139,6 +139,9 @@ function JSONtoPS1(){
 	setSettinginFile("`$cloud_sync_provider=`"$cloud_sync_provider`"")
 	setSettinginFile("`$rclone_provider=`"$cloud_sync_provider`"")
 	
+	$cloudSyncStatus = $myJson.cloudSyncStatus
+	setSettinginFile("`$cloud_sync_status=`"$cloudSyncStatus`"")	
+	
 	$dolphinResolution = $myJson.resolutions.dolphin
 	$duckstationResolution = $myJson.resolutions.duckstation
 	$pcsx2Resolution = $myJson.resolutions.pcsx2

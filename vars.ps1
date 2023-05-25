@@ -7,4 +7,6 @@ $url_pcsx2 = "https://github.com/dragoonDorise/rpcsx2win/releases/download/1.7.3
 $url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/76389046/download"
 $userFolder = $env:USERPROFILE
 $emusPath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators"
+$emusPathSRM = "$env:USERPROFILE\\EmuDeck\\EmulationStation-DE\\Emulators"
 $esdePath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/"
+$temp = "$env:USERPROFILE/EmuDeck/temp"

@@ -1,6 +1,7 @@
 function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
 	download $url_esde "esde.zip"
+	mkdir $esdePath -ErrorAction SilentlyContinue
 	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"	
 }
 function ESDE_init(){	
@@ -9,8 +10,26 @@ function ESDE_init(){
 	#We move ESDE + Emus to the userfolder.
 	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
 	if($test){
+	
+		$userDrive=$userFolder[0]
+		
+		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$sizeInGB = [Math]::Round($destinationFree / 1GB)
+		
+		$originSize = (Get-ChildItem -Path "$toolsPath/EmulationStation-DE" -Recurse | Measure-Object -Property Length -Sum).Sum
+		$wshell = New-Object -ComObject Wscript.Shell
+		
+		if ( $originSize -gt $destinationFree ){			
+			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
+			exit
+		}				
+		$Output = $wshell.Popup("We are going to move EmulationStation and all the Emulators to $userFolder in order to improve loading times. This will take long, so please wait until you get a new confirmation window")
+		
 		mkdir $esdePath  -ErrorAction SilentlyContinue
 		moveFromTo "$emulationPath\tools\EmulationStation-DE" "$esdePath"
+		
+		$Output = $wshell.Popup("Migration complete!")
+
 	}		
 	
 	$destination="$esdePath\.emulationstation"
@@ -21,7 +40,7 @@ function ESDE_init(){
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 	
-	mkdir "tools\launchers\esde" -ErrorAction SilentlyContinue
+	mkdir "$toolsPathlaunchers\esde" -ErrorAction SilentlyContinue
 	createLauncher "esde/EmulationStationDE"
 		
 	ESDE_applyTheme $esdeTheme
@@ -93,9 +112,10 @@ function ESDE_applyTheme($theme){
 function ESDE_IsInstalled(){
 	$test=Test-Path -Path "$esdePath"
 	$test=Test-Path -Path "$toolsPath/EmulationStation-DE"
-	if($test || $testold){
-		echo "true"
+	if ($test -or $testold) {
+		Write-Output "true"
 	}
+
 }
 function ESDE_resetConfig(){
 	ESDE_init

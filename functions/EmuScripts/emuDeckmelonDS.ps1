@@ -8,7 +8,7 @@ function melonDS_install(){
 }
 function melonDS_init(){
 	setMSG "melonDS - Configuration"
-	$destination=$emusPath/melonDS
+	$destination="$emusPath/melonDS"
 		
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\melonDS" "$destination"		
 	

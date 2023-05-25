@@ -39,10 +39,10 @@ function Get-Custom-Credentials($provider) {
 		$labelWebDAV.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelWebDAV)
 		
-		$textBoxWebDAV = New-Object System.Windows.Forms.TextBox
-		$textBoxWebDAV.Location = New-Object System.Drawing.Point(140, 110)
-		$textBoxWebDAV.Size = New-Object System.Drawing.Size(150, 20)
-		$form.Controls.Add($textBoxWebDAV)
+		$textBoxUrl = New-Object System.Windows.Forms.TextBox
+		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
+		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
+		$form.Controls.Add($textBoxUrl)
 	}
 	
 	if( $provider -eq "Emudeck-SFTP" ){
@@ -121,45 +121,58 @@ function Get-Custom-Credentials($provider) {
 }
 
 function cloud_sync_install($cloud_sync_provider){	
-	$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
-	download $cloud_sync_releaseURL "rclone.zip"	
-	setSetting "cloud_sync_provider" "$cloud_sync_provider"
-	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
-	$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
-	
-	if ($cloud_sync_releaseURL -match $regex) {
+	if (-not(Test-Path "$cloud_sync_bin")) {
+		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
+		download $cloud_sync_releaseURL "rclone.zip"	
+		setSetting "cloud_sync_provider" "$cloud_sync_provider"
+		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+		$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 		
-		$filename = $matches[1]
-		
-		$filename = $filename.Replace('.zip','')
-		
-		Rename-Item "temp\rclone\$filename" -NewName "rclone" 
-		
-		moveFromTo "temp/rclone/" "$toolsPath\"	
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
-		rm -fo  "temp\rclone" -Recurse 
+		if ($cloud_sync_releaseURL -match $regex) {		
+			$filename = $matches[1]		
+			$filename = $filename.Replace('.zip','')		
+			Rename-Item "$temp\rclone\$filename" -NewName "rclone" 
+			moveFromTo "$temp/rclone" "$toolsPath"
+		}
 	}
 }
 
-cloud_sync_toggle($status){
+function cloud_sync_toggle($status){
   setSetting "cloud_sync_status" $status
 }	
 
 function cloud_sync_config($cloud_sync_provider){
 	
-	
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"	
+	setSetting "cloud_sync_status" "true"
+		
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
-		$credentials = Get-Custom-Credentials("Emudeck-NextCloud")
-		& $rclone_bin config update "$cloud_sync_provider" vendor="nextcloud" url=$($credentials.Url)  user=$($credentials.Username) pass="$($rclone_bin obscure $($credentials.Password))" ; echo 'true'
+		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"		
+		$pass=$credentials.Password
+		$params="obscure $pass"
+		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+		& $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+		echo 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
-		$credentials = Get-Custom-Credentials("Emudeck-SFTP")
-		& $rclone_bin config update "$cloud_sync_provider" host=$($credentials.Username) user=$($credentials.Username) port=$($credentials.Port) pass="$($rclone_bin obscure $($credentials.Password))" ; echo 'true'
+		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
+		$pass=$credentials.Password
+		$params="obscure $pass"
+		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+		& $cloud_sync_bin config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+		echo 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
-		$credentials = Get-Custom-Credentials("Emudeck-SMB")
-		& $cloud_sync_bin config update "$cloud_sync_provider" host=$($credentials.Url) user=$($credentials.Username) pass="$($cloud_sync_bin obscure $($credentials.Password))" ; echo 'true'
+		$credentials = Get-Custom-Credentials "Emudeck-SMB"
+		$pass=$credentials.Password
+		$params="obscure $pass"
+		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+		& $cloud_sync_bin config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+		echo 'true'
 	} else {
-		& $cloud_sync_bin config update "$cloud_sync_provider"  ; echo 'true'
+		& $cloud_sync_bin config update "$cloud_sync_provider"
+		echo 'true'
 	}
+
+
 	
 	
 	#Add-Type -AssemblyName PresentationFramework
@@ -197,6 +210,8 @@ function cloud_sync_config($cloud_sync_provider){
 }
 
 function cloud_sync_config_with_code($code){
+	setSetting "cloud_sync_status" "true"
+	
 	$headers = @{
 		"User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
 	}
@@ -287,11 +302,12 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 }
 
 function cloud_sync_uninstall(){	
+	setSetting "cloud_sync_status" "false"
 	rm -fo  "$toolsPath/rclone"	
 }
 
 function cloud_sync_download($emuName){	
-	if (Test-Path "$cloud_sync_bin" -And $cloud_sync_status -eq $true) {
+	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		$dialog = showDialog("Downloading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
@@ -331,7 +347,7 @@ function cloud_sync_download($emuName){
 }
 
 function cloud_sync_upload($emuName){	
-	if (Test-Path "$cloud_sync_bin" -And $cloud_sync_status -eq $true) {
+	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		$dialog = showDialog("Uploading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
 		if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
