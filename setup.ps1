@@ -256,8 +256,12 @@ if ( "$doSetupRA" -eq "true" ){
 }
 
 if  ("$doRASignIn" -eq "true" ){
-	DuckStation_retroAchievementsSetLogin
-	PCSX2QT_retroAchievementsSetLogin
+	if ( "$doInstallDuck" -eq "true" ){
+		DuckStation_retroAchievementsSetLogin
+	}
+	if ( "$doInstallPCSX2" -eq "true" ){
+		PCSX2QT_retroAchievementsSetLogin
+	}
 }
 
 #AR, Bezels and Shaders
