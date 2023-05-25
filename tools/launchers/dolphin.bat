@@ -8,7 +8,7 @@ if exist "%rcloneConfig%" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu dolphin "}
 	)
 )
-ESDEPATH\Emulators\Dolphin-x64\Dolphin.exe %args%
+"ESDEPATH\Emulators\Dolphin-x64\Dolphin.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (

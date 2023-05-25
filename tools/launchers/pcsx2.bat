@@ -8,7 +8,7 @@ if exist "%rcloneConfig%" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu pcsx2 "}
 	)
 )
-ESDEPATH\Emulators\PCSX2-Qt\pcsx2-qtx64-avx2.exe %args%
+"ESDEPATH\Emulators\PCSX2-Qt\pcsx2-qtx64-avx2.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (

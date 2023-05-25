@@ -9,7 +9,7 @@ if exist "%rcloneConfig%" (
 	)
 	
 )
-ESDEPATH\Emulators\PPSSPP\PPSSPPWindows64.exe %args%
+"ESDEPATH\Emulators\PPSSPP\PPSSPPWindows64.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (

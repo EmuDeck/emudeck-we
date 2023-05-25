@@ -8,7 +8,7 @@ if exist "%rcloneConfig%" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu yuzu "}		
 	)
 )	
-ESDEPATH\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe %args%
+"ESDEPATH\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (
