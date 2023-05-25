@@ -13,7 +13,7 @@ function download($url, $file) {
 			Remove-Item $temp/$file
 		}
 		if ($extn -eq ".7z" ){
-			$dir = $output.replace('.7z','')
+			$dir = $file.replace('.7z','')
 			7z x -o"$temp/$dir" -aoa "$temp/$file"	
 			Remove-Item $temp/$file
 		}
