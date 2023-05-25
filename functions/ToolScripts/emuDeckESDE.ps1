@@ -9,8 +9,26 @@ function ESDE_init(){
 	#We move ESDE + Emus to the userfolder.
 	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
 	if($test){
+	
+		$userDrive=$userFolder[0]
+		
+		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$sizeInGB = [Math]::Round($destinationFree / 1GB)
+		
+		$originSize = (Get-ChildItem -Path "$toolsPath/EmulationStation-DE" -Recurse | Measure-Object -Property Length -Sum).Sum
+		$wshell = New-Object -ComObject Wscript.Shell
+		
+		if ( $originSize -gt $destinationFree ){			
+			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
+			exit
+		}				
+		$Output = $wshell.Popup("We are going to move EmulationStation and all the Emulators to $userFolder in order to improve loading times. This will take long, so please wait until you get a new confirmation window")
+		
 		mkdir $esdePath  -ErrorAction SilentlyContinue
 		moveFromTo "$emulationPath\tools\EmulationStation-DE" "$esdePath"
+		
+		$Output = $wshell.Popup("Migration complete!")
+
 	}		
 	
 	$destination="$esdePath\.emulationstation"
