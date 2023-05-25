@@ -20,11 +20,11 @@ function SRM_init(){
 	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\"
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
 	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
-	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
-	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
-	sedFile tools\UserData\userConfigurations.json "STEAMPATH" $steamInstallPath
 	
-	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\"
+	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
+	sedFile tools\UserData\userSettings.json "EMUSPATH" $emusPathSRM
+	sedFile tools\UserData\userSettings.json "STEAMPATH" $steamInstallPath
+	sedFile tools\UserData\userSettings.json "Users\" "Users\\"
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
