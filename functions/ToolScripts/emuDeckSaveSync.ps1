@@ -132,7 +132,7 @@ function cloud_sync_install($cloud_sync_provider){
 			$filename = $matches[1]		
 			$filename = $filename.Replace('.zip','')		
 			Rename-Item "$temp\rclone\$filename" -NewName "rclone" 
-			moveFromTo "$temp/melonDS" "$emusPath/melonDS"					
+			moveFromTo "$temp/rclone" "$toolsPath/rclone"					
 			rm -fo  "$temp\rclone" -Recurse 
 		}
 	}
