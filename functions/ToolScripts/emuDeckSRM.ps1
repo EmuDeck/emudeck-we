@@ -2,7 +2,7 @@ function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
 	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "$toolsPath/srm.exe"	
-	Move-Item –path "$temp/srm.exe" -destination  "$toolsPath/srm.exe"	
+	MOVE "$temp/srm.exe" "$toolsPath/srm.exe"	
 }
 function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
