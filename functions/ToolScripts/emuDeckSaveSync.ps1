@@ -306,22 +306,8 @@ function cloud_sync_uninstall(){
 	rm -fo  "$toolsPath/rclone"	
 }
 
-function cloud_sync_download($emuName){	
-Add-Type -TypeDefinition @"
-	using System;
-	using System.Runtime.InteropServices;
-
-	public class Win32 {
-		[DllImport("user32.dll")]
-		public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-	}
-"@
-
-	$Process = Get-Process -Name "cmd" | Select-Object -First 1
-	$Handle = $Process.MainWindowHandle
-	$Minimize = 6
+function cloud_sync_download($emuName){
 	
-	[Win32]::ShowWindowAsync($Handle, $Minimize)
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		$dialog = showDialog("Downloading saves for $emuName...")
 		$sh = New-Object -ComObject WScript.Shell
