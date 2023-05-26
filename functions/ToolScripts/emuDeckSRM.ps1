@@ -104,15 +104,15 @@ function SRM_resetLaunchers(){
 	if ($doInstallPCSX2 -eq "true"){
 		createLauncher pcsx2
 	}
-	#if ($doInstallRPCS3 -eq "true"){
-	#	createLauncher rpcs3
-	#}
+	if ($doInstallRPCS3 -eq "true"){
+		createLauncher rpcs3
+	}
 	if ($doInstallYuzu -eq "true"){
 		createLauncher yuzu
 	}
-	#if ($doInstallCitra -eq "true"){
-	#	createLauncher citra
-	#}
+	if ($doInstallCitra -eq "true"){
+		createLauncher citra
+	}
 	if ($doInstallDuck -eq "true"){
 		createLauncher duckstation
 	}
