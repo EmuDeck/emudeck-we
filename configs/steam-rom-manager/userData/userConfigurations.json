@@ -1674,7 +1674,7 @@
   },
   {
     "parserType": "Glob",
-    "configTitle": "Nintendo DS - melonDS",
+    "configTitle": "Nintendo DS - melonDS Standalone",
     "steamCategory": "${Nintendo DS - melonDS Standalone}",
     "executableArgs": "-f \"${filePath}\"",
     "executableModifier": "\"${exePath}\"",
@@ -1707,7 +1707,7 @@
       "useCredentials": true
     },
     "parserInputs": {
-      "glob": "**/${title}@(.7z|.7Z|.nds|.NDS|.zip|.ZIP)"
+      "glob": "**/${title}@(.nds|.NDS)"
     },
     "titleFromVariable": {
       "limitToGroups": "",
