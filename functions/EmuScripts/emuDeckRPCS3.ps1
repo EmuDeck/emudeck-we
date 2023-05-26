@@ -14,6 +14,7 @@ function RPCS3_init(){
 	setMSG "RPCS3 - Configuration"
 	$destination="$emusPath\RPCS3"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
+	#RPCS3_setResolution $rpcs3Resolution
 }
 function RPCS3_update(){
 	echo "NYI"

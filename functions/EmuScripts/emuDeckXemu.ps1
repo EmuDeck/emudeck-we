@@ -7,6 +7,7 @@ function Xemu_install(){
 }
 function Xemu_init(){
 	echo "NYI"
+	#Xemu_setResolution $xemuResolution
 }
 function Xemu_update(){
 	echo "NYI"

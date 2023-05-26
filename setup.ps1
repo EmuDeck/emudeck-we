@@ -235,20 +235,6 @@ if ( "$doSetupSRM" -eq "true" ){
 
 #Customization
 
-#Resolution
-setMSG "Setting Resolution Screen"
-Dolphin_setResolution $dolphinResolution
-DuckStation_setResolution $duckstationResolution
-PCSX2QT_setResolution $pcsx2Resolution
-Yuzu_setResolution $yuzuResolution
-Ryujinx_setResolution $yuzuResolution
-melonDS_setResolution
-#PPSSPP_setResolution $ppssppResolution
-#RPCS3_setResolution $rpcs3Resolution
-#Xemu_setResolution $xemuResolution
-#Xenia_setResolution $xeniaResolution
-
-
 #RetroAchievments
 if ( "$doSetupRA" -eq "true" ){
 	RetroArch_retroAchievementsSetLogin
@@ -270,8 +256,12 @@ if ( "$doSetupRA" -eq "true" ){
 }
 
 if  ("$doRASignIn" -eq "true" ){
-	DuckStation_retroAchievementsSetLogin
-	PCSX2QT_retroAchievementsSetLogin
+	if ( "$doInstallDuck" -eq "true" ){
+		DuckStation_retroAchievementsSetLogin
+	}
+	if ( "$doInstallPCSX2" -eq "true" ){
+		PCSX2QT_retroAchievementsSetLogin
+	}
 }
 
 #AR, Bezels and Shaders

@@ -151,6 +151,7 @@ function JSONtoPS1(){
 	$citraResolution = $myJson.resolutions.citra
 	$xemuResolution = $myJson.resolutions.xemu
 	$xeniaResolution = $myJson.resolutions.xenia
+	$melondsResolution = $myJson.resolutions.melonds
 	
 	
 	setSettinginFile("`$dolphinResolution=`"$dolphinResolution`"")
@@ -162,6 +163,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$citraResolution=`"$citraResolution `"")
 	setSettinginFile("`$xemuResolution=`"$xemuResolution `"")
 	setSettinginFile("`$xeniaResolution=`"$xeniaResolution `"")
+	setSettinginFile("`$melondsResolution=`"$melondsResolution `"")
 	
 	
 	

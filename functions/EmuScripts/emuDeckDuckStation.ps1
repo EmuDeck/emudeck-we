@@ -16,6 +16,7 @@ function DuckStation_init(){
 	sedFile $destination\settings.ini "C:\Emulation" "$emulationPath"
 	
 	DuckStation_setupSaves
+	DuckStation_setResolution $duckstationResolution
 }
 function DuckStation_update(){
 	echo "NYI"

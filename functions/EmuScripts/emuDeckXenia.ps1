@@ -7,6 +7,7 @@ function Xenia_install(){
 }
 function Xenia_init(){
 	echo "NYI"
+	#Xenia_setResolution $xeniaResolution
 }
 function Xenia_update(){
 	echo "NYI"

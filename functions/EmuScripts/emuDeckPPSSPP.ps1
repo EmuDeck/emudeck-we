@@ -14,6 +14,7 @@ function PPSSPP_init(){
 		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
 	PPSSPP_setupSaves
+	#PPSSPP_setResolution $ppssppResolution
 }
 function PPSSPP_update(){
 	echo "NYI"

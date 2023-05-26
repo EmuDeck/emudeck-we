@@ -16,6 +16,7 @@ function melonDS_init(){
 	sedFile $destination\melonDS.ini "\" "/"	
 	
 	melonDS_setupSaves
+	melonDS_setResolution $melondsResolution
 }
 function melonDS_update(){
 	echo "true"
@@ -76,8 +77,14 @@ function melonDS_finalize(){
 	echo "true"
 }
 function melonDS_IsInstalled(){
-	echo "true"
+	$test=Test-Path -Path "$emusPath\melonDS"
+	if($test){
+		echo "true"
+	}
 }
 function melonDS_resetConfig(){
-	echo "true"
+	melonDS_init
+	if($?){
+		echo "true"
+	}
 }
