@@ -1,12 +1,13 @@
 function Xenia_install(){
-	setMSG 'Downloading Xenia'
-	$url_xenia = getLatestReleaseURLGH 'xenia-canary/xenia-canary' 'zip'
+	setMSG "Downloading Xenia"
+	$url_xenia = getLatestReleaseURLGH "xenia-canary/xenia-canary" "zip"
 	download $url_xenia "xenia.zip"
-	moveFromTo "temp/xenia" "tools\EmulationStation-DE\Emulators\xenia"
+	moveFromTo "$temp/xenia" "$emusPath\xenia"
 	createLauncher "xenia"
 }
 function Xenia_init(){
 	echo "NYI"
+	#Xenia_setResolution $xeniaResolution
 }
 function Xenia_update(){
 	echo "NYI"
@@ -51,7 +52,7 @@ function Xenia_finalize(){
 	echo "NYI"
 }
 function Xenia_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xenia"
+	$test=Test-Path -Path "$emusPath\xenia"
 	if($test){
 		echo "true"
 	}

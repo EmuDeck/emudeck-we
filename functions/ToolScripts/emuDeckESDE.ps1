@@ -1,28 +1,52 @@
 function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
 	download $url_esde "esde.zip"
-	moveFromTo "temp/esde/EmulationStation-DE" "tools/EmulationStation-DE"	
+	mkdir $esdePath -ErrorAction SilentlyContinue
+	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"	
 }
 function ESDE_init(){	
 	setMSG 'EmulationStation DE - Paths and Themes'
-	mkdir "tools\EmulationStation-DE\.emulationstation" -ErrorAction SilentlyContinue
 	
+	#We move ESDE + Emus to the userfolder.
+	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+	if($test){
 	
-	$destination='tools\EmulationStation-DE\.emulationstation'
+		$userDrive=$userFolder[0]
+		
+		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$sizeInGB = [Math]::Round($destinationFree / 1GB)
+		
+		$originSize = (Get-ChildItem -Path "$toolsPath/EmulationStation-DE" -Recurse | Measure-Object -Property Length -Sum).Sum
+		$wshell = New-Object -ComObject Wscript.Shell
+		
+		if ( $originSize -gt $destinationFree ){			
+			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
+			exit
+		}				
+		$Output = $wshell.Popup("We are going to move EmulationStation and all the Emulators to $userFolder in order to improve loading times. This will take long, so please wait until you get a new confirmation window")
+		
+		mkdir $esdePath  -ErrorAction SilentlyContinue
+		moveFromTo "$emulationPath\tools\EmulationStation-DE" "$esdePath"
+		
+		$Output = $wshell.Popup("Migration complete!")
+
+	}		
+	
+	$destination="$esdePath\.emulationstation"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation" "$destination"
 	
-	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
-	$updatedXML | Set-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 	
-	mkdir "tools\launchers\esde" -ErrorAction SilentlyContinue
+	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
 	createLauncher "esde/EmulationStationDE"
 		
 	ESDE_applyTheme $esdeTheme
 	
 	#PS2 Fixes	
-	sedFile "tools\EmulationStation-DE\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry>' '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry><entry>%ESPATH%\Emulators\PCSX2\pcsx2-qtx64*.exe</entry>' 
+	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry>' '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry><entry>%ESPATH%\Emulators\PCSX2\pcsx2-qtx64*.exe</entry>' 
 	
 }
 function ESDE_update(){
@@ -66,14 +90,13 @@ function ESDE_finalize(){
 }
 function ESDE_applyTheme($theme){
 	
-	mkdir "tools/EmulationStation-DE/themes/" -ErrorAction SilentlyContinue
+	mkdir "$esdePath/themes/" -ErrorAction SilentlyContinue
 	
-	git clone https://github.com/anthonycaccese/epic-noir-revisited-es-de "tools/EmulationStation-DE/themes/epic-noir-revisited" --depth=1
-	cd "$toolsPath/EmulationStation-DE/themes/epic-noir-revisited" ; git reset --hard HEAD ; git clean -f -d ; git pull
+	git clone https://github.com/anthonycaccese/epic-noir-revisited-es-de "$esdePath/themes/epic-noir-revisited" --depth=1
+	cd "$esdePath/themes/epic-noir-revisited" ; git reset --hard HEAD ; git clean -f -d ; git pull
+
 	
-	cd "$emulationPath"
-	
-	$xml = Get-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	if($theme -eq "EPICNOIR"){
 		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'epic-noir-revisited'
 	}
@@ -83,14 +106,16 @@ function ESDE_applyTheme($theme){
 	if($theme -eq "RBSIMPLE-DE"){
 		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'slate-es-de'
 	}		
-	$updatedXML | Set-Content "$toolsPath\EmulationStation-DE\.emulationstation\es_settings.xml"
+	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 
 }
 function ESDE_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE"
-	if($test){
-		echo "true"
+	$test=Test-Path -Path "$esdePath"
+	$test=Test-Path -Path "$toolsPath/EmulationStation-DE"
+	if ($test -or $testold) {
+		Write-Output "true"
 	}
+
 }
 function ESDE_resetConfig(){
 	ESDE_init

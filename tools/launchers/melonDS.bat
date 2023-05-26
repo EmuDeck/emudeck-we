@@ -4,14 +4,14 @@ for /f "tokens=2 delims==" %%a in ('type "%userprofile%\EmuDeck\settings.ps1" ^|
 for /f "tokens=2 delims==" %%b in ('type "%userprofile%\EmuDeck\settings.ps1" ^| find "cloud_sync_status"') do set "cloud_sync_status=%%~b"
 set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist "%rcloneConfig%" (
-	if "%cloud_sync_status%"=="true" (	
-		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu dolphin "}
+	if "%cloud_sync_status%"=="true" (
+		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu melonDS "}		
 	)
 )
-"ESDEPATH\Emulators\Dolphin-x64\Dolphin.exe" %args%
+"ESDEPATH\Emulators\melonDS\melonDS.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (
-		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu dolphin "}	
+		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu melonDS "}		
 	)
 )

@@ -13,11 +13,11 @@ function setMSGTemp($message){
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-echo "" > $env:USERPROFILE/emudeck/emudeck.log
+echo "" > $env:USERPROFILE/EmuDeck/EmuDeck.log
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript $env:USERPROFILE/emudeck/emudeck.log
+Start-Transcript $env:USERPROFILE/EmuDeck/EmuDeck.log
 
 #We install 7zip - Now its on the appimage
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
@@ -62,7 +62,7 @@ copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 
 #Dowloading..ESDE
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+$test=Test-Path -Path "$esdePath\EmulationStation.exe"
 if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
@@ -79,73 +79,78 @@ if(-not($test)){
 #
 
 #RetroArch
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RetroArch\RetroArch.exe"
+$test=Test-Path -Path "$emusPath\RetroArch\RetroArch.exe"
 if(-not($test) -and $doInstallRA -eq "true" ){
 	RetroArch_install
 }
 
 #Dolphin
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Dolphin-x64\Dolphin.exe"
+$test=Test-Path -Path "$emusPath\Dolphin-x64\Dolphin.exe"
 if(-not($test) -and $doInstallDolphin -eq "true" ){
 	Dolphin_install
 }
 
 #PCSX2 
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
+$test=Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
 if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 	PCSX2QT_install
 }
 
 #RPCS3
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\RPCS3"
+#$test=Test-Path -Path "$emusPath\RPCS3"
 #if(-not($test) -and $doInstallRPCS3 -eq "true" ){
 #	RPCS3_install
 #}
 
 #Xemu
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xemu"
+#$test=Test-Path -Path "$emusPath\xemu"
 #if(-not($test) -and $doInstallXemu -eq "true" ){
 #	Xemu_install
 #}
 
 #Yuzu
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe"
+$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc\yuzu.exe"
 if(-not($test) -and $doInstallYuzu -eq "true" ){
 	Yuzu_install
 }
 
 #Citra
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\citra"
+$test=Test-Path -Path "$emusPath\citra"
 if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
+#melonDS
+$test=Test-Path -Path "$emusPath\melonDS"
+if(-not($test) -and $doInstallmelonDS -eq "true" ){
+	melonDS_install
+}
 
 #Ryujinx
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\Ryujinx"
+$test=Test-Path -Path "$emusPath\Ryujinx"
 if(-not($test) -and $doInstallRyujinx -eq "true" ){
 	Ryujinx_install
 }
 
 #DuckStation
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
+$test=Test-Path -Path "$emusPath\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
 if(-not($test) -and $doInstallDuck -eq "true" ){
 	DuckStation_install
 }
 
 #Cemu
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu\Cemu.exe"
+$test=Test-Path -Path "$emusPath\cemu\Cemu.exe"
 if(-not($test) -and $doInstallCemu -eq "true" ){
 	Cemu_install
 }
 
 #Xenia
-#$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\xenia"
+#$test=Test-Path -Path "$emusPath\xenia"
 #if(-not($test) -and $doInstallXenia -eq "true" ){
 #	Xenia_install
 #}
 
 #PPSSPP
-$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\ppsspp_win\PPSSPPWindows64.exe"
+$test=Test-Path -Path "$emusPath\ppsspp_win\PPSSPPWindows64.exe"
 if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 	PPSSPP_install
 }
@@ -225,20 +230,6 @@ if ( "$doSetupSRM" -eq "true" ){
 
 #Customization
 
-#Resolution
-setMSG "Setting Resolution Screen"
-Dolphin_setResolution $dolphinResolution
-DuckStation_setResolution $duckstationResolution
-PCSX2QT_setResolution $pcsx2Resolution
-Yuzu_setResolution $yuzuResolution
-Ryujinx_setResolution $yuzuResolution
-
-#PPSSPP_setResolution $ppssppResolution
-#RPCS3_setResolution $rpcs3Resolution
-#Xemu_setResolution $xemuResolution
-#Xenia_setResolution $xeniaResolution
-
-
 #RetroAchievments
 if ( "$doSetupRA" -eq "true" ){
 	RetroArch_retroAchievementsSetLogin
@@ -260,8 +251,12 @@ if ( "$doSetupRA" -eq "true" ){
 }
 
 if  ("$doRASignIn" -eq "true" ){
-	DuckStation_retroAchievementsSetLogin
-	PCSX2QT_retroAchievementsSetLogin
+	if ( "$doInstallDuck" -eq "true" ){
+		DuckStation_retroAchievementsSetLogin
+	}
+	if ( "$doInstallPCSX2" -eq "true" ){
+		PCSX2QT_retroAchievementsSetLogin
+	}
 }
 
 #AR, Bezels and Shaders

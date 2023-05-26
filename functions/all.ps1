@@ -3,7 +3,7 @@ $env:path = $env:path + ";C:\Program Files\7-zip"
 $env:path = $env:path + ";C:\Program Files (x86)\7-zip"
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
-. $env:USERPROFILE\emudeck\settings.ps1
+. $env:USERPROFILE\EmuDeck\settings.ps1
 mkdir $emulationPath -ErrorAction SilentlyContinue
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
@@ -24,6 +24,7 @@ Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showButtonQuestionImg.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showButtonQuestion.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\checkBIOS.ps1
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\appImageInit.ps1
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1

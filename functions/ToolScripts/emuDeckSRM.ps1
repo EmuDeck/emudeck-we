@@ -1,17 +1,30 @@
 function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
 	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
-	download $url_srm "tools/srm.exe"
+	download $url_srm "srm.exe"	
+	MOVE "$temp/srm.exe" "$toolsPath/srm.exe"	
 }
 function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager" tools\
 	Start-Sleep -Seconds 1
-	#Paths	
+	
+	#Steam installation	
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	
+	#Paths
 	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
+	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
+	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\"
 	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
 	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
+	
 	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
+	sedFile tools\UserData\userSettings.json "EMUSPATH" $emusPathSRM
+	sedFile tools\UserData\userSettings.json "STEAMPATH" $steamInstallPath
+	sedFile tools\UserData\userSettings.json "Users\" "Users\\"
 	sedFile tools\UserData\userSettings.json ":\" ":\\"
 	sedFile tools\UserData\userSettings.json "\\\" "\\"
 
@@ -25,6 +38,7 @@ function SRM_init(){
 	$PFPath="$env:ProgramFiles (x86)\Steam\controller_base\templates\"
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
 	
+
 		
 }
 function SRM_update(){
@@ -80,7 +94,7 @@ function SRM_resetConfig(){
 	}
 }
 
-function SRM_resetLaunchers(){
+function SRM_resetLaunchers(){	
 	if ($doInstallRA -eq "true"){
 		createLauncher retroarch
 	}
@@ -101,6 +115,9 @@ function SRM_resetLaunchers(){
 	#}
 	if ($doInstallDuck -eq "true"){
 		createLauncher duckstation
+	}
+	if ($doInstallmelonDS -eq "true"){
+		createLauncher melonDS
 	}
 	if ($doInstallCemu -eq "true"){
 		createLauncher cemu

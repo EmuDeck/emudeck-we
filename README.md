@@ -1,2 +1,2 @@
-# emudeck-we
+# EmuDeck-we
 Windows Edition

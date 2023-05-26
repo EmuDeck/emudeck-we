@@ -1,12 +1,17 @@
 @echo off
 set args=%*
-for /f "tokens=2 delims==" %%a in ('type "%userprofile%\emudeck\settings.ps1" ^| find "$toolsPath"') do set toolsPath=%%~a
+for /f "tokens=2 delims==" %%a in ('type "%userprofile%\EmuDeck\settings.ps1" ^| find "$toolsPath"') do set "toolsPath=%%~a"
+for /f "tokens=2 delims==" %%b in ('type "%userprofile%\EmuDeck\settings.ps1" ^| find "cloud_sync_status"') do set "cloud_sync_status=%%~b"
 set rcloneConfig="%toolsPath%\rclone\rclone.conf"
-if exist %rcloneConfig% (
-	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu rpcs3 "}
+if exist "%rcloneConfig%" (
+	if "%cloud_sync_status%"=="true" (
+		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu rpcs3 "}		
+	)
 )
-C:\Emulation\tools\EmulationStation-DE\Emulators\RPCS3\rpcs3.exe %args%
+"ESDEPATH\Emulators\RPCS3\rpcs3.exe" %args%
 cls
-if exist %rcloneConfig% (
-	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu rpcs3 "}
+if exist "%rcloneConfig%" (
+	if "%cloud_sync_status%"=="true" (
+		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu rpcs3 "}		
+	)
 )

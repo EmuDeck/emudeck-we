@@ -4,5 +4,5 @@ function createLauncher($exe){
   $ShortcutPath = "$toolsPath\launchers\$exe.bat"
   Copy-Item -Path $SourceFilePath -Destination $ShortcutPath 
   
-  sedFile $ShortcutPath "C:\Emulation" $emulationPath
+  sedFile $ShortcutPath "ESDEPATH" "$userFolder\EmuDeck\EmulationStation-DE"
 }

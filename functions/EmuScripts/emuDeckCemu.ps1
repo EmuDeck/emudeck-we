@@ -1,19 +1,16 @@
 function Cemu_install(){
-	setMSG 'Downloading Cemu'
+	setMSG "Downloading Cemu"
 	download $url_cemu "cemu.zip"
-	moveFromTo "temp/cemu/cemu_1.27.1" "tools\EmulationStation-DE\Emulators\cemu"
+	moveFromTo "$temp/cemu/cemu_1.27.1" "$emusPath\cemu"
 	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
 	createLauncher "cemu"
 
 }
 function Cemu_init(){
-	setMSG 'Cemu - Configuration'
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "tools\EmulationStation-DE\Emulators\cemu"
-	
-	sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
-	#sedFile "tools\EmulationStation-DE\Emulators\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
-	
-	
+	setMSG "Cemu - Configuration"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "$emusPath\cemu"
+	sedFile "$emusPath\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
+	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
 	Cemu_setupSaves
 }
 function Cemu_update(){
@@ -23,12 +20,12 @@ function Cemu_setEmulationFolder(){
 	echo "NYI"
 }
 function Cemu_setupSaves(){
-	setMSG 'Cemu - Saves Links'
-	$SourceFilePath = -join($emulationPath, '\tools\EmulationStation-DE\Emulators\cemu\mlc01\usr\save\')
-	rm -fo  'saves\cemu' -Recurse -ErrorAction SilentlyContinue
-	mkdir 'saves\Cemu' -ErrorAction SilentlyContinue
+	setMSG "Cemu - Saves Links"
+	$SourceFilePath = "$emusPath\cemu\mlc01\usr\save\"
+	rm -fo  "saves\cemu" -Recurse -ErrorAction SilentlyContinue
+	mkdir "saves\Cemu" -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue	
-	$ShortcutPath = -join($emulationPath,'\saves\Cemu\saves.lnk')
+	$ShortcutPath = -join($emulationPath,"\saves\Cemu\saves.lnk")
 	createLink $SourceFilePath $ShortcutPath
 }
 
@@ -67,7 +64,7 @@ function Cemu_finalize(){
 	echo "NYI"
 }
 function Cemu_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\Emulators\cemu"
+	$test=Test-Path -Path "$emusPath\cemu"
 	if($test){
 		echo "true"
 	}
