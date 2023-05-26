@@ -123,6 +123,7 @@ function check_internet_connection(){
 function changeController($device){
 	Yuzu_setController($device)
 	Citra_setController($device)
+	Dolphin_setController($device)
 }
 
 
