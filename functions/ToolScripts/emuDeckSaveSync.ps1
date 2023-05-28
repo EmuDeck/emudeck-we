@@ -31,7 +31,7 @@ function Get-Custom-Credentials($provider) {
 	$textBoxPassword.Size = New-Object System.Drawing.Size(150, 20)
 	$textBoxPassword.PasswordChar = "*"
 	$form.Controls.Add($textBoxPassword)
-	
+		
 	if( $provider -eq "Emudeck-NextCloud"){
 	
 		$labelWebDAV = New-Object System.Windows.Forms.Label
@@ -39,6 +39,7 @@ function Get-Custom-Credentials($provider) {
 		$labelWebDAV.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelWebDAV)
 		
+		$filename = $matches[1]
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
@@ -51,11 +52,13 @@ function Get-Custom-Credentials($provider) {
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 		
+		$filename = $filename.Replace('.zip','')
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
 		$form.Controls.Add($textBoxUrl)
 		
+		Rename-Item "temp\rclone\$filename" -NewName "rclone" 
 		$labelPort = New-Object System.Windows.Forms.Label
 		$labelPort.Text = "Port:"
 		$labelPort.Location = New-Object System.Drawing.Point(30, 150)
@@ -74,6 +77,9 @@ function Get-Custom-Credentials($provider) {
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 		
+		moveFromTo "temp/rclone/" "$toolsPath\"	
+		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
+		rm -fo  "temp\rclone" -Recurse 
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)

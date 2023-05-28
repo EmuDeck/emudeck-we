@@ -130,23 +130,28 @@ function changeController($device){
 function showDialog($text){
 	Add-Type -AssemblyName System.Windows.Forms
 	
+	# Crea una instancia del formulario
 	$form = New-Object System.Windows.Forms.Form
 	$form.Text = "EmuDeck"
 	$form.Width = 300
 	$form.Height = 100
 	$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
-	$form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen	
-
-	$form.ControlBox = $false	
-
+	$form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
+	
+	# Oculta los controles de la ventana (Maximizar, Minimizar, Cerrar)
+	$form.ControlBox = $false
+	
+	# Crea una instancia del control Label para mostrar el texto
 	$label = New-Object System.Windows.Forms.Label
 	$label.Text = "$text"
 	$label.AutoSize = $true
 	$label.Left = ($form.Width - $label.Width) / 2
-	$label.Top = ($form.Height - $label.Height) / 3	
-
+	$label.Top = ($form.Height - $label.Height) / 3
+	
+	# Agrega el control Label al formulario
 	$form.Controls.Add($label)
-
+	
+	# Muestra el formulario y el texto
 	$form.Show()
 	return $form
 }

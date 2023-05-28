@@ -5,4 +5,5 @@ function appImageInit(){
 	if ($melondsResolution -eq $null) {	
 		setSetting "melondsResolution" "720P"
 	}
+	cd $env:USERPROFILE ; cd AppData ; cd Roaming  ; cd EmuDeck ; cd backend; git checkout early; git pull
 }

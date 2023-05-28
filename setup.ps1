@@ -187,11 +187,6 @@ if ( "$doSetupCitra" -eq "true" ){
 	Citra_init
 }
 
-if ( "$doSetupMelonDS" -eq "true" ){
-	MelonDS_init
-}
-
-
 if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
 }

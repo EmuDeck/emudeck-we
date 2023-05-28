@@ -25,9 +25,7 @@ function melonDS_setEmulationFolder(){
 	echo "true"
 }
 function melonDS_setupSaves(){
-	mkdir $emulationPath\saves\melonDS\saves  -ErrorAction SilentlyContinue
-	mkdir $emulationPath\saves\melonDS\states  -ErrorAction SilentlyContinue
-	
+	echo "true"
 }
 
 function melonDS_setResolution($resolution){
