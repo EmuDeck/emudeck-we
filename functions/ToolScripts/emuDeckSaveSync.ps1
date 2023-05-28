@@ -31,8 +31,7 @@ function Get-Custom-Credentials($provider) {
 	$textBoxPassword.Size = New-Object System.Drawing.Size(150, 20)
 	$textBoxPassword.PasswordChar = "*"
 	$form.Controls.Add($textBoxPassword)
-	
-	if ($cloud_sync_releaseURL -match $regex) {
+		
 	if( $provider -eq "Emudeck-NextCloud"){
 	
 		$labelWebDAV = New-Object System.Windows.Forms.Label
