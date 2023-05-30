@@ -5,7 +5,7 @@
     "steamCategory": "${Emulation}",
     "executableArgs": "",
     "executableModifier": "\"${exePath}\"",
-    "romDirectory": "USERPATH\\EmuDeck\\EmulationStation-DE",
+    "romDirectory": "C:\\Emulation\\tools\\launchers\\esde\\",
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "imageProviders": ["SteamGridDB"],
