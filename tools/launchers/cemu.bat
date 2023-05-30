@@ -10,7 +10,7 @@ if exist "%rcloneConfig%" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu Cemu "}
 	)
 )
-"ESDEPATH\cemu\Cemu.exe" %args%
+"ESDEPATH\Emulators\cemu\Cemu.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (	
