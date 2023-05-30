@@ -30,10 +30,10 @@ function SRM_init(){
 	sedFile $toolsPath\UserData\userSettings.json "\\\" "\\"
 
 	#Desktop Icon
-	createLink "$emulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+	createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
 	#Start Menu
 	#mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
-	#createLink "$emulationPath\tools\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
+	#createLink "$toolsPath\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
 	
 	#SteamInput
 	$PFPath="$env:ProgramFiles (x86)\Steam\controller_base\templates\"
@@ -82,7 +82,7 @@ function SRM_finalize(){
 	echo "NYI"
 }
 function SRM_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\srm.exe"
+	$test=Test-Path -Path "$toolsPath\srm.exe"
 	if($test){
 		echo "true"
 	}

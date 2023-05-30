@@ -69,7 +69,7 @@ if(-not($test) -and $doInstallESDE -eq "true" ){
 
 
 #SRM
-$test=Test-Path -Path "$emulationPath\tools\srm.exe"
+$test=Test-Path -Path "$toolsPath\srm.exe"
 if(-not($test)){
 	SRM_install
 }

@@ -8,7 +8,7 @@ function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
 	
 	#We move ESDE + Emus to the userfolder.
-	$test=Test-Path -Path "$emulationPath\tools\EmulationStation-DE\EmulationStation.exe"
+	$test=Test-Path -Path "$toolsPath\EmulationStation-DE\EmulationStation.exe"
 	if($test){
 	
 		$userDrive=$userFolder[0]
@@ -26,7 +26,7 @@ function ESDE_init(){
 		$Output = $wshell.Popup("We are going to move EmulationStation and all the Emulators to $userFolder in order to improve loading times. This will take long, so please wait until you get a new confirmation window")
 		
 		mkdir $esdePath  -ErrorAction SilentlyContinue
-		moveFromTo "$emulationPath\tools\EmulationStation-DE" "$esdePath"
+		moveFromTo "$toolsPath\EmulationStation-DE" "$esdePath"
 		
 		$Output = $wshell.Popup("Migration complete!")
 
