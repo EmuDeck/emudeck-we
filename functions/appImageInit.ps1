@@ -16,4 +16,5 @@ function appImageInit(){
 	RetroArch_setupSaves
 	Ryujinx_setupSaves
 	Duckstation_setupSaves
+	createLauncher "cemu"
 }
