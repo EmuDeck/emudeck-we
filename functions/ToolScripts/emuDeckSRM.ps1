@@ -6,7 +6,7 @@ function SRM_install(){
 }
 function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager" tools\
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager" $toolsPath\
 	Start-Sleep -Seconds 1
 	
 	#Steam installation	
@@ -15,24 +15,25 @@ function SRM_init(){
 	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
 	
 	#Paths
-	sedFile tools\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
-	sedFile tools\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
-	sedFile tools\UserData\userConfigurations.json "Users\" "Users\\"
-	sedFile tools\UserData\userConfigurations.json ":\" ":\\"
-	sedFile tools\UserData\userConfigurations.json "\\\" "\\"
+	sedFile $toolsPath\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
+	sedFile $toolsPath\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
+	sedFile $toolsPath\UserData\userConfigurations.json "USERPATH" $userFolder
+	sedFile $toolsPath\UserData\userConfigurations.json "Users\" "Users\\"
+	sedFile $toolsPath\UserData\userConfigurations.json ":\" ":\\"
+	sedFile $toolsPath\UserData\userConfigurations.json "\\\" "\\"
 	
-	sedFile tools\UserData\userSettings.json "C:\\Emulation" $emulationPath
-	sedFile tools\UserData\userSettings.json "EMUSPATH" $emusPathSRM
-	sedFile tools\UserData\userSettings.json "STEAMPATH" $steamInstallPath
-	sedFile tools\UserData\userSettings.json "Users\" "Users\\"
-	sedFile tools\UserData\userSettings.json ":\" ":\\"
-	sedFile tools\UserData\userSettings.json "\\\" "\\"
+	sedFile $toolsPath\UserData\userSettings.json "C:\\Emulation" $emulationPath
+	sedFile $toolsPath\UserData\userSettings.json "EMUSPATH" $emusPathSRM
+	sedFile $toolsPath\UserData\userSettings.json "STEAMPATH" $steamInstallPath
+	sedFile $toolsPath\UserData\userSettings.json "Users\" "Users\\"
+	sedFile $toolsPath\UserData\userSettings.json ":\" ":\\"
+	sedFile $toolsPath\UserData\userSettings.json "\\\" "\\"
 
 	#Desktop Icon
-	createLink "$emulationPath\tools\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+	createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
 	#Start Menu
 	#mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
-	#createLink "$emulationPath\tools\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
+	#createLink "$toolsPath\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
 	
 	#SteamInput
 	$PFPath="$env:ProgramFiles (x86)\Steam\controller_base\templates\"
@@ -81,7 +82,7 @@ function SRM_finalize(){
 	echo "NYI"
 }
 function SRM_IsInstalled(){
-	$test=Test-Path -Path "$emulationPath\tools\srm.exe"
+	$test=Test-Path -Path "$toolsPath\srm.exe"
 	if($test){
 		echo "true"
 	}

@@ -1,5 +1,5 @@
 function PCSX2QT_install(){
-	#$test=Test-Path -Path "$emulationPath\tools\vc_redist.x86.exe"
+	#$test=Test-Path -Path "$toolsPath\vc_redist.x86.exe"
 	winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
 	setMSG "Downloading PCSX2"
 	download $url_pcsx2 "pcsx2.7z"

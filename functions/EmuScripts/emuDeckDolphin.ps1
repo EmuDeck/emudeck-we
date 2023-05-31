@@ -136,9 +136,9 @@ function Dolphin_resetConfig(){
 
 function Dolphin_DynamicInputTextures(){
   $DIT_releaseURL = getLatestReleaseURLGH "Venomalia/UniversalDynamicInput" "7z"
-  mkdir "$toolsPath\EmulationStation-DE\Emulators\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
+  mkdir "$emusPath\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
   download $DIT_releaseURL "UniversalDynamicInput.7z"
-  moveFromTo "$temp/UniversalDynamicInput" "$toolsPath\EmulationStation-DE\Emulators\Dolphin-x64\User\Load"	
+  moveFromTo "$temp/UniversalDynamicInput" "$emusPath\Dolphin-x64\User\Load"	
 }
 
 function Dolphin_setController($device){
