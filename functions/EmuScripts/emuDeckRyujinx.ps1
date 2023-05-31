@@ -8,8 +8,8 @@ function Ryujinx_install(){
 function Ryujinx_init(){
 	setMSG "Ryujinx - Configuration"
 	$destination="$emusPath\Ryujinx"
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
 	Ryujinx_setEmulationFolder	
 	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
