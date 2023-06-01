@@ -1,7 +1,7 @@
 "controller_mappings"
 {
 	"version"		"3"	
-	"title"		"EmuDeck WE - Xbox One (SRM)"
+	"title"		"EmuDeck WE - Xbox One"
 	"description"		"Long Press START + SELECT to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
 	"controller_type"		"controller_xboxone"
 	"localization"

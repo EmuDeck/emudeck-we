@@ -1,7 +1,7 @@
 "controller_mappings"
 {
 	"version"		"3"	
-	"title"		"EmuDeck WE - Xbox 360 (SRM)"
+	"title"		"EmuDeck WE - Xbox 360"
 	"description"		"Long Press START + SELECT to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
 	"controller_type"		"controller_xbox360"
 	"localization"
