@@ -1743,7 +1743,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "EMUSPATH\\RetroArch",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "\"\"C:\\Emulation\\tools\\launchers\\retroarch.bat\" \"-L\" \"${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"${filePath}\"\" && exit",
+    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\retroarch.bat\" \"-L\" \"${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}snes9x_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"${filePath}\"\" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
