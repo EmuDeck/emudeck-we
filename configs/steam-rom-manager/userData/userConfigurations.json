@@ -1077,7 +1077,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\xemu.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1139,7 +1139,7 @@
     "localIcons": "",
     "disabled": true,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\xenia.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1220,7 +1220,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\citra.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1697,7 +1697,7 @@
     "localIcons": "",
     "disabled": true,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\melonDS.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -1902,7 +1902,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "\"C:WindowsSystem32cmd.exe\" /k \"\"C:\\Emulation\\tools\\launchers\\yuzu.bat\"\"",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -1964,7 +1964,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\ryujinx.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2007,7 +2007,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\dolphin.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2069,7 +2069,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\cemu.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2131,7 +2131,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\cemu.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -2670,7 +2670,7 @@
     "steamCategory": "${Saturn}",
     "steamDirectory": "${steamdirglobal}",
     "romDirectory": "${romsdirglobal}/saturn",
-    "executableArgs": "-L /mednafen_saturn_libretro.so \"${filePath}\"",
+    "executableArgs": "/K  \"\"C:\\Emulation\\tools\\launchers\\retroarch.bat\" \"-L\" \"${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_saturn_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"${filePath}\"\" && exit",
     "executableModifier": "\"${exePath}\"",
     "startInDirectory": "EMUSPATH\\RetroArch",
     "titleModifier": "${fuzzyTitle}",
@@ -2797,7 +2797,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\cemu.bat\" \"-fullscreen\" \"${filePath}\"\" && exit",
+    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\duckstation.bat\" \"-fullscreen\" \"${filePath}\"\" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
@@ -2832,7 +2832,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\duckstation.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -2854,7 +2854,7 @@
     "parserType": "Glob",
     "configTitle": "Sony PlayStation - Retroarch - Beetle PSX HW",
     "steamCategory": "${PlayStation - Beetle}",
-    "executableArgs": "-L /mednafen_psx_hw_libretro.so \"${filePath}\"",
+    "executableArgs": "/K  \"\"C:\\Emulation\\tools\\launchers\\retroarch.bat\" \"-L\" \"${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_psx_hw_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"${filePath}\"\" && exit",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "${romsdirglobal}/psx",
     "steamDirectory": "${steamdirglobal}",
@@ -2918,7 +2918,7 @@
     "steamCategory": "${PlayStation - SwanStation}",
     "steamDirectory": "${steamdirglobal}",
     "romDirectory": "${romsdirglobal}/psx",
-    "executableArgs": "-L /swanstation_libretro.so \"${filePath}\"",
+    "executableArgs": "/K  \"\"C:\\Emulation\\tools\\launchers\\retroarch.bat\" \"-L\" \"${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}swanstation_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"${filePath}\"\" && exit",
     "executableModifier": "\"${exePath}\"",
     "startInDirectory": "EMUSPATH\\RetroArch",
     "titleModifier": "${fuzzyTitle}",
@@ -3003,7 +3003,7 @@
       "useCredentials": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\pcsx2.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
@@ -3079,7 +3079,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\rpcs3.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3126,7 +3126,7 @@
       "useCredentials": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\rpcs3.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
@@ -3264,7 +3264,7 @@
       "removeBrackets": true
     },
     "executable": {
-      "path": "C:\\Emulation\\tools\\launchers\\PPSSPP.bat",
+      "path": "\"C:\\Windows\\System32\\cmd.exe\"",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
