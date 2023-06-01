@@ -70,7 +70,7 @@ function PPSSPP_finalize(){
 	echo "NYI"
 }
 function PPSSPP_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\ppsspp_win"
+	$test=Test-Path -Path "$emusPath\PPSSPP\PPSSPPWindows64.exe"
 	if($test){
 		echo "true"
 	}
