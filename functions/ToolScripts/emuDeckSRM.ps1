@@ -111,6 +111,9 @@ function SRM_resetLaunchers(){
 	if ($doInstallYuzu -eq "true"){
 		createLauncher yuzu
 	}
+	if ($doInstallRyujinx -eq "true"){
+		createLauncher "Ryujinx"
+	}
 	if ($doInstallCitra -eq "true"){
 		createLauncher citra
 	}
