@@ -2076,11 +2076,12 @@
       }
     }
   },
+
   {
     "parserType": "Glob",
     "configTitle": "Nintendo GameCube - Dolphin",
     "steamCategory": "${Gamecube}",
-    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\dolphin.bat\" \"-b\" \"-e\" \"${filePath}\" && exit",
+    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\dolphin.bat\" \"-b\" \"-e\" \"${filePath}\"\" && exit",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "${romsdirglobal}/gc",
     "steamDirectory": "${steamdirglobal}",
