@@ -28,7 +28,7 @@
 					{
 						"bindings"
 						{
-							"binding"		"xinput_button A, , "
+							"binding"		"xinput_button B, , "
 						}
 					}
 				}
@@ -44,7 +44,7 @@
 					{
 						"bindings"
 						{
-							"binding"		"xinput_button B, , "
+							"binding"		"xinput_button A, , "
 						}
 					}
 				}
@@ -60,7 +60,7 @@
 					{
 						"bindings"
 						{
-							"binding"		"xinput_button X, , "
+							"binding"		"xinput_button Y, , "
 						}
 					}
 				}
@@ -76,7 +76,7 @@
 					{
 						"bindings"
 						{
-							"binding"		"xinput_button Y, , "
+							"binding"		"xinput_button X, , "
 						}
 					}
 				}
