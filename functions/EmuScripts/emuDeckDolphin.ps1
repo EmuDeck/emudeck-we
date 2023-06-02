@@ -18,7 +18,7 @@ function Dolphin_init(){
 	$destination="$emusPath\Dolphin-x64"
 	mkdir $destination -ErrorAction SilentlyContinue
 			
-	$destination="$emusPath\Dolphin-x64\user\config"
+	$destination="$emusPath\Dolphin-x64\"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Dolphin" "$destination"
 	#Bios Path	
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
@@ -135,8 +135,9 @@ function Dolphin_resetConfig(){
 
 
 function Dolphin_DynamicInputTextures(){
-  $DIT_releaseURL = getLatestReleaseURLGH "Venomalia/UniversalDynamicInput" "7z"
-  mkdir "$emusPath\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
-  download $DIT_releaseURL "UniversalDynamicInput.7z"
-  moveFromTo "$temp/UniversalDynamicInput" "$emusPath\Dolphin-x64\User\Load"	
+echo "nope"
+  #$DIT_releaseURL = getLatestReleaseURLGH "Venomalia/UniversalDynamicInput" "7z"
+  #mkdir "$emusPath\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
+  #download $DIT_releaseURL "UniversalDynamicInput.7z"
+  #moveFromTo "$temp/UniversalDynamicInput" "$emusPath\Dolphin-x64\User\Load"	
 }
