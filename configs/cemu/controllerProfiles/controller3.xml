@@ -3,8 +3,8 @@
 	<type>Wii U Pro Controller</type>
 	<controller>
 		<api>XInput</api>
-		<uuid>0</uuid>
-		<display_name>Controller 1</display_name>
+		<uuid>3</uuid>
+		<display_name>Controller 4</display_name>
 		<rumble>0</rumble>
 		<axis>
 			<deadzone>0.15</deadzone>
