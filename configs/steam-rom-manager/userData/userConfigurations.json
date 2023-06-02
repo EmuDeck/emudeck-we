@@ -2101,7 +2101,7 @@
     "localIcons": "",
     "disabled": false,
     "executable": {
-      "path": "",
+      "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
       "appendArgsToExecutable": false
     },
