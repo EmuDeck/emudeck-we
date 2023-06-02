@@ -28,7 +28,7 @@ function Dolphin_init(){
 	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
 	Dolphin_setResolution $dolphinResolution
-	Dolphin_setController
+	
 }
 function Dolphin_update(){
 	echo "NYI"
@@ -139,33 +139,4 @@ function Dolphin_DynamicInputTextures(){
   mkdir "$emusPath\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
   download $DIT_releaseURL "UniversalDynamicInput.7z"
   moveFromTo "$temp/UniversalDynamicInput" "$emusPath\Dolphin-x64\User\Load"	
-}
-
-function Dolphin_setController($device){
-	
-	switch ($device) {
-		"PS5" {
-			Copy-Item -Path "$emusPath\Dolphin-x64\user\config\User\Config\GCPadNew.ps5.ini" "$emusPath\Dolphin-x64\user\config\User\Config\GCPadNew.ini"
-			Copy-Item -Path "$emusPath\Dolphin-x64\user\config\User\Config\WiimoteNew.ps5.ini" "$emusPath\Dolphin-x64\user\config\User\Config\WiimoteNew.ini"
-		}
-		#"PS4" {
-		#	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
-		#}
-		#"XONE" {
-		#	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.xone.ini" -Destination "$destination\qt-config.ini"
-		#}
-		#"X360" {
-		#	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.360.ini"
-		#}
-		#"SWITCHPRO" {
-		#	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.switchpro.ini" -Destination "$destination\qt-config.ini"
-		#}
-		Default {
-			Copy-Item -Path "$emusPath\Dolphin-x64\user\config\User\Config\GCPadNew.ps5.ini" "$emusPath\Dolphin-x64\user\config\User\Config\GCPadNew.ini"
-			Copy-Item -Path "$emusPath\Dolphin-x64\user\config\User\Config\WiimoteNew.ps5.ini" "$emusPath\Dolphin-x64\user\config\User\Config\WiimoteNew.ini"
-		}
-	}
-	
-	
-	
 }
