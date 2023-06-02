@@ -1,15 +1,15 @@
 {
   "ra": { "id": "ra", "code": "RetroArch", "version": 0 },
-  "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 4 },
+  "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 5 },
   "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 2 },
   "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 4 },
   "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 3 },
   "rpcs3": { "id": "rpcs3", "code": "RPCS3", "version": 3 },
-  "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 2 },
-  "cemu": { "id": "cemu", "code": "Cemu", "version": 3 },
-  "srm": { "id": "srm", "code": "SRM", "version": 6 },
+  "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 3 },
+  "cemu": { "id": "cemu", "code": "Cemu", "version": 4 },
+  "srm": { "id": "srm", "code": "SRM", "version": 7 },
   "esde": { "id": "esde", "code": "ESDE", "version": 1 },
-  "citra": { "id": "citra", "code": "Citra", "version": 0 },
-  "ryujinx": { "id": "ryujinx", "code": "Ryujinx", "version": 2 },
+  "citra": { "id": "citra", "code": "Citra", "version": 1 },
+  "ryujinx": { "id": "ryujinx", "code": "Ryujinx", "version": 3 },
   "melonds": { "id": "melonds", "code": "melonDS", "version": 0 }
 }
