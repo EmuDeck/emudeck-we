@@ -2661,7 +2661,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\yuzu.bat\" \"-f\" \"-g\" \"${filePath}\" && exit",
+    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\yuzu.bat\" \"-f\" \"-g\" \"${filePath}\"\" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
