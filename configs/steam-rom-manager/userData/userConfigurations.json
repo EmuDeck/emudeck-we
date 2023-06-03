@@ -1,5 +1,4 @@
-[
-  {
+[{
     "parserType": "Glob",
     "configTitle": "EmulationStationDE",
     "steamCategory": "${Emulation}",
@@ -38,37 +37,16 @@
     "parserId": "164824496516097458",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -134,27 +112,16 @@
     "parserId": "164824333516097458",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -229,6 +196,7 @@
       "switch_pro": null,
       "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -293,6 +261,16 @@
     },
     "parserId": "164785598905398120",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -357,6 +335,16 @@
     },
     "parserId": "164785598905398121",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -421,6 +409,16 @@
     },
     "parserId": "164785598905398122",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -485,6 +483,16 @@
     },
     "parserId": "164785598905398123",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -548,40 +556,7 @@
       "removeCharacters": true,
       "removeBrackets": true
     },
-    "controllers": {
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      },
-      "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      }
-    },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -607,8 +582,18 @@
       "logo": "",
       "icon": ""
     },
-    "parserId": "164785580134372556",
-    "version": 15
+    "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "parserId": "164785580134372556"
   },
   {
     "parserType": "Glob",
@@ -646,8 +631,18 @@
       "shortcutPassthrough": false,
       "appendArgsToExecutable": true
     },
-    "parserId": "164585567134532556",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
+    "parserId": "164585567134532556",
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -712,6 +707,16 @@
     },
     "parserId": "164785567134372556",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -776,6 +781,16 @@
     },
     "parserId": "164824416516097457",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -840,6 +855,16 @@
     },
     "parserId": "164785583010740299",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -904,6 +929,16 @@
     },
     "parserId": "164785590686474494",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -968,6 +1003,16 @@
     },
     "parserId": "164785595449272606",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1042,6 +1087,16 @@
     },
     "parserId": "164785598905497512",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -1096,6 +1151,16 @@
     },
     "parserId": "164785092749272606",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1160,6 +1225,16 @@
     },
     "parserId": "165155371770791847",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1225,37 +1300,16 @@
     "parserId": "16478559884003904",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1321,12 +1375,16 @@
     "parserId": "164785598905398114",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1392,12 +1450,16 @@
     "parserId": "164785598952083233",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1463,12 +1525,16 @@
     "parserId": "164785598936495323",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1534,12 +1600,16 @@
     "parserId": "164785598920514822",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1605,12 +1675,16 @@
     "parserId": "164770728884890304",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1676,12 +1750,16 @@
     "parserId": "164785621824841888",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1746,6 +1824,16 @@
     },
     "parserId": "164823604520657522",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1811,12 +1899,16 @@
     "parserId": "164843604510657227",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1882,12 +1974,16 @@
     "parserId": "164785621840217949",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1953,12 +2049,16 @@
     "parserId": "166785621840217949",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2024,37 +2124,16 @@
     "parserId": "164785621855061650",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2120,37 +2199,16 @@
     "parserId": "164785621185061650",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2216,12 +2274,16 @@
     "parserId": "164770823452964732",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2287,37 +2349,16 @@
     "parserId": "164824416516097458",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2383,37 +2424,16 @@
     "parserId": "164824416518097458",
     "version": 15,
     "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      },
-      "neptune": {
-        "title": "EmuDeck WE - Steam Deck",
-        "mappingId": "emudeck_controller_steamdeck.vdf",
-        "profileType": "template"
-      },
-      "ps4": {
-        "title": "EmuDeck WE - Dual Shock 4",
-        "mappingId": "emudeck_controller_ps4.vdf",
-        "profileType": "template"
-      },
-      "ps5": {
-        "title": "EmuDeck WE - Dual Sense",
-        "mappingId": "emudeck_controller_ps5.vdf",
-        "profileType": "template"
-      },
-      "xbox360": {
-        "title": "EmuDeck WE - Xbox 360",
-        "mappingId": "emudeck_controller_xbox360.vdf",
-        "profileType": "template"
-      },
-      "xboxone": {
-        "title": "EmuDeck WE - Xbox One",
-        "mappingId": "emudeck_controller_xboxone.vdf",
-        "profileType": "template"
-      }
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
     },
+
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2478,6 +2498,16 @@
     },
     "parserId": "164785621902111196",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2542,6 +2572,16 @@
     },
     "parserId": "164785622132332421",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2606,6 +2646,16 @@
     },
     "parserId": "164785622173694320",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2670,6 +2720,16 @@
     },
     "parserId": "164785645224239563",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2734,6 +2794,16 @@
     },
     "parserId": "164806160364417694",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2798,6 +2868,16 @@
     },
     "parserId": "164806164364417694",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2862,6 +2942,16 @@
     },
     "parserId": "16478564523883851",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2926,6 +3016,16 @@
     },
     "parserId": "164785645253672240",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3001,6 +3101,16 @@
     },
     "parserId": "166502992463815988",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3054,6 +3164,16 @@
     },
     "parserId": "164785621885441701",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3118,6 +3238,16 @@
     },
     "parserId": "164785656699856393",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3182,6 +3312,16 @@
     },
     "parserId": "165153198040340580",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3257,6 +3397,16 @@
     },
     "parserId": "166001743996365855",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3320,6 +3470,16 @@
     },
     "parserId": "164785208872922785",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3374,6 +3534,16 @@
     },
     "parserId": "164785645271669680",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3438,6 +3608,16 @@
     },
     "parserId": "164785656684747068",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3502,6 +3682,16 @@
     },
     "parserId": "164785656634747068",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3576,6 +3766,16 @@
     },
     "parserId": "165768545254166037",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3640,6 +3840,16 @@
     },
     "parserId": "165855998563219386",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3704,6 +3914,16 @@
     },
     "parserId": "165856080826916450",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3768,6 +3988,16 @@
     },
     "parserId": "164785583010740300",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "disabled": false,
     "defaultImage": {
       "long": "",
@@ -3832,6 +4062,16 @@
     },
     "parserId": "166486574949993186",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3886,6 +4126,16 @@
     },
     "parserId": "164785127823332556",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -3950,6 +4200,16 @@
     },
     "parserId": "164785127820983556",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -4014,6 +4274,16 @@
     },
     "parserId": "1647850989120983556",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -4088,6 +4358,16 @@
     },
     "parserId": "164712598905497531",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "defaultImage": {
       "long": "",
       "tall": "",
