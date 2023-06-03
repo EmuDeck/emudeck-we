@@ -2,7 +2,7 @@
 {
 	"version"		"3"	
 	"title"		"EmuDeck WE - Switch Pro"
-	"description"		"Long Press START + SELECT to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
+	"description"		"Long Press - & + to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
 	"controller_type"		"controller_switch_pro"
 	"localization"
 	{

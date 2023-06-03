@@ -67,7 +67,9 @@
         "title": "EmuDeck WE - Xbox One",
         "mappingId": "emudeck_controller_xboxone.vdf",
         "profileType": "template"
-      }
+      },
+      "switch_joycon_left": null,
+      "switch_joycon_right": null
     },
     "imageProviderAPIs": {
       "SteamGridDB": {
@@ -163,7 +165,9 @@
         "title": "EmuDeck WE - Xbox One",
         "mappingId": "emudeck_controller_xboxone.vdf",
         "profileType": "template"
-      }
+      },
+      "switch_joycon_left": null,
+      "switch_joycon_right": null
     },
     "imageProviderAPIs": {
       "SteamGridDB": {
@@ -1343,16 +1347,39 @@
     "parserId": "16478559884003904",
     "version": 15,
     "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
+      "neptune": {
+        "title": "EmuDeck WE - Steam Deck",
+        "mappingId": "emudeck_controller_steamdeck.vdf",
+        "profileType": "template"
+      },
+      "ps4": {
+        "title": "EmuDeck WE - Dual Shock 4",
+        "mappingId": "emudeck_controller_ps4.vdf",
+        "profileType": "template"
+      },
+      "ps5": {
+        "title": "EmuDeck WE - Dual Sense",
+        "mappingId": "emudeck_controller_ps5.vdf",
+        "profileType": "template"
+      },
+      "xbox360": {
+        "title": "EmuDeck WE - Xbox 360",
+        "mappingId": "emudeck_controller_xbox360.vdf",
+        "profileType": "template"
+      },
+      "xboxone": {
+        "title": "EmuDeck WE - Xbox One",
+        "mappingId": "emudeck_controller_xboxone.vdf",
+        "profileType": "template"
+      },
       "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
+      "switch_joycon_right": null
     },
-
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1424,7 +1451,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -1499,7 +1530,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -1574,7 +1609,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -1649,7 +1688,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -1724,7 +1767,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -1799,7 +1846,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -1874,7 +1925,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
     "imageProviderAPIs": {
@@ -1948,7 +2003,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -2023,7 +2082,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -2098,7 +2161,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -2167,16 +2234,39 @@
     "parserId": "164785621855061650",
     "version": 15,
     "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
+      "neptune": {
+        "title": "EmuDeck WE - Steam Deck",
+        "mappingId": "emudeck_controller_steamdeck.vdf",
+        "profileType": "template"
+      },
+      "ps4": {
+        "title": "EmuDeck WE - Dual Shock 4",
+        "mappingId": "emudeck_controller_ps4.vdf",
+        "profileType": "template"
+      },
+      "ps5": {
+        "title": "EmuDeck WE - Dual Sense",
+        "mappingId": "emudeck_controller_ps5.vdf",
+        "profileType": "template"
+      },
+      "xbox360": {
+        "title": "EmuDeck WE - Xbox 360",
+        "mappingId": "emudeck_controller_xbox360.vdf",
+        "profileType": "template"
+      },
+      "xboxone": {
+        "title": "EmuDeck WE - Xbox One",
+        "mappingId": "emudeck_controller_xboxone.vdf",
+        "profileType": "template"
+      },
       "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
+      "switch_joycon_right": null
     },
-
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2242,16 +2332,39 @@
     "parserId": "164785621185061650",
     "version": 15,
     "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
+      "neptune": {
+        "title": "EmuDeck WE - Steam Deck",
+        "mappingId": "emudeck_controller_steamdeck.vdf",
+        "profileType": "template"
+      },
+      "ps4": {
+        "title": "EmuDeck WE - Dual Shock 4",
+        "mappingId": "emudeck_controller_ps4.vdf",
+        "profileType": "template"
+      },
+      "ps5": {
+        "title": "EmuDeck WE - Dual Sense",
+        "mappingId": "emudeck_controller_ps5.vdf",
+        "profileType": "template"
+      },
+      "xbox360": {
+        "title": "EmuDeck WE - Xbox 360",
+        "mappingId": "emudeck_controller_xbox360.vdf",
+        "profileType": "template"
+      },
+      "xboxone": {
+        "title": "EmuDeck WE - Xbox One",
+        "mappingId": "emudeck_controller_xboxone.vdf",
+        "profileType": "template"
+      },
       "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
+      "switch_joycon_right": null
     },
-
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -2323,7 +2436,11 @@
       "xboxone": null,
       "switch_joycon_left": null,
       "switch_joycon_right": null,
-      "switch_pro": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
       "neptune": null
     },
 
@@ -2392,16 +2509,39 @@
     "parserId": "164824416516097458",
     "version": 15,
     "controllers": {
-      "ps4": null,
-      "ps5": null,
-      "xbox360": null,
-      "xboxone": null,
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
+      "neptune": {
+        "title": "EmuDeck WE - Steam Deck",
+        "mappingId": "emudeck_controller_steamdeck.vdf",
+        "profileType": "template"
+      },
+      "ps4": {
+        "title": "EmuDeck WE - Dual Shock 4",
+        "mappingId": "emudeck_controller_ps4.vdf",
+        "profileType": "template"
+      },
+      "ps5": {
+        "title": "EmuDeck WE - Dual Sense",
+        "mappingId": "emudeck_controller_ps5.vdf",
+        "profileType": "template"
+      },
+      "xbox360": {
+        "title": "EmuDeck WE - Xbox 360",
+        "mappingId": "emudeck_controller_xbox360.vdf",
+        "profileType": "template"
+      },
+      "xboxone": {
+        "title": "EmuDeck WE - Xbox One",
+        "mappingId": "emudeck_controller_xboxone.vdf",
+        "profileType": "template"
+      },
       "switch_joycon_left": null,
-      "switch_joycon_right": null,
-      "switch_pro": null,
-      "neptune": null
+      "switch_joycon_right": null
     },
-
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
