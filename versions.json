@@ -2,7 +2,7 @@
   "ra": { "id": "ra", "code": "RetroArch", "version": 0 },
   "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 5 },
   "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 2 },
-  "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 4 },
+  "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 5 },
   "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 3 },
   "rpcs3": { "id": "rpcs3", "code": "RPCS3", "version": 3 },
   "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 3 },
