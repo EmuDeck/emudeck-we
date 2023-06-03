@@ -59,6 +59,16 @@
         "title": "EmuDeck WE - Dual Sense",
         "mappingId": "emudeck_controller_ps5.vdf",
         "profileType": "template"
+      },
+      "xbox360": {
+        "title": "EmuDeck WE - Xbox 360",
+        "mappingId": "emudeck_controller_xbox360.vdf",
+        "profileType": "template"
+      },
+      "xboxone": {
+        "title": "EmuDeck WE - Xbox One",
+        "mappingId": "emudeck_controller_xboxone.vdf",
+        "profileType": "template"
       }
     },
     "imageProviderAPIs": {
