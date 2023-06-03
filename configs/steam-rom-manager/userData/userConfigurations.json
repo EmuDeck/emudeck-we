@@ -49,7 +49,28 @@
     },
     "parserId": "164824496516097458",
     "version": 13,
-    "controllers": {},
+    "controllers": {
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
+      "neptune": {
+        "title": "EmuDeck WE - Steam Deck",
+        "mappingId": "emudeck_controller_steamdeck.vdf",
+        "profileType": "template"
+      },
+      "ps4": {
+        "title": "EmuDeck WE - Dual Shock 4",
+        "mappingId": "emudeck_controller_ps4.vdf",
+        "profileType": "template"
+      },
+      "ps5": {
+        "title": "EmuDeck WE - Dual Sense",
+        "mappingId": "emudeck_controller_ps5.vdf",
+        "profileType": "template"
+      }
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -111,7 +132,28 @@
     },
     "parserId": "164824333516097458",
     "version": 13,
-    "controllers": {},
+    "controllers": {
+      "switch_pro": {
+        "title": "EmuDeck WE - Switch Pro",
+        "mappingId": "emudeck_controller_switch_pro.vdf",
+        "profileType": "template"
+      },
+      "neptune": {
+        "title": "EmuDeck WE - Steam Deck",
+        "mappingId": "emudeck_controller_steamdeck.vdf",
+        "profileType": "template"
+      },
+      "ps4": {
+        "title": "EmuDeck WE - Dual Shock 4",
+        "mappingId": "emudeck_controller_ps4.vdf",
+        "profileType": "template"
+      },
+      "ps5": {
+        "title": "EmuDeck WE - Dual Sense",
+        "mappingId": "emudeck_controller_ps5.vdf",
+        "profileType": "template"
+      }
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
