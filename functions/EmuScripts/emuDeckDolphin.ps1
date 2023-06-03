@@ -18,7 +18,7 @@ function Dolphin_init(){
 	$destination="$emusPath\Dolphin-x64"
 	mkdir $destination -ErrorAction SilentlyContinue
 			
-	$destination="$emusPath\Dolphin-x64\"
+	$destination="$emusPath\Dolphin-x64"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Dolphin" "$destination"
 	#Bios Path	
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
