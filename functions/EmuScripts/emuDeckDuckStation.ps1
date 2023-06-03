@@ -8,7 +8,7 @@ function DuckStation_install(){
 function DuckStation_init(){	
 	setMSG "DuckStation - Configuration"
 	New-Item -Path "$emusPath\duckstation\portable.txt" -ErrorAction SilentlyContinue
-	$destination="$emusPath\duckstation\"
+	$destination="$emusPath\duckstation"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\DuckStation" $destination
 	
