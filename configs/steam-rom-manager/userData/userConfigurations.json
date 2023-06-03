@@ -219,6 +219,16 @@
     },
     "parserId": "164785580114332556",
     "version": 15,
+    "controllers": {
+      "ps4": null,
+      "ps5": null,
+      "xbox360": null,
+      "xboxone": null,
+      "switch_joycon_left": null,
+      "switch_joycon_right": null,
+      "switch_pro": null,
+      "neptune": null
+    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
