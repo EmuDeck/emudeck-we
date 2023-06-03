@@ -12,7 +12,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
@@ -108,7 +108,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "",
       "shortcutPassthrough": false,
@@ -194,7 +194,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -258,7 +258,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -322,7 +322,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -386,7 +386,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -450,7 +450,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -613,7 +613,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -677,7 +677,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -741,7 +741,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "${retroarchpath}",
       "shortcutPassthrough": false,
@@ -805,7 +805,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -869,7 +869,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -933,7 +933,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1061,7 +1061,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1125,7 +1125,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "${retroarchpath}",
       "shortcutPassthrough": false,
@@ -1189,7 +1189,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1285,7 +1285,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1356,7 +1356,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1427,7 +1427,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1498,7 +1498,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1569,7 +1569,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
@@ -1640,7 +1640,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1736,13 +1736,6 @@
     },
     "parserId": "164823604520657522",
     "version": 15,
-    "controllers": {
-      "switch_pro": {
-        "title": "EmuDeck WE - Switch Pro",
-        "mappingId": "emudeck_controller_switch_pro.vdf",
-        "profileType": "template"
-      }
-    },
     "imageProviderAPIs": {
       "SteamGridDB": {
         "nsfw": false,
@@ -1782,7 +1775,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
@@ -1853,7 +1846,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1924,7 +1917,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -1995,7 +1988,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2187,7 +2180,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
@@ -2258,7 +2251,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
@@ -2354,7 +2347,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "C:\\Windows\\System32\\cmd.exe",
       "shortcutPassthrough": false,
@@ -2450,7 +2443,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2514,7 +2507,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2578,7 +2571,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2642,7 +2635,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2706,7 +2699,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "${retroarchpath}",
       "shortcutPassthrough": false,
@@ -2770,7 +2763,7 @@
     "titleModifier": "${fuzzyTitle}",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "executable": {
       "path": "${retroarchpath}",
       "shortcutPassthrough": false,
@@ -2834,7 +2827,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2898,7 +2891,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -2962,7 +2955,7 @@
     "imageProviders": ["SteamGridDB"],
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3026,7 +3019,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3090,7 +3083,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3346,7 +3339,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3474,7 +3467,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3765,7 +3758,7 @@
     },
     "parserId": "164785583010740300",
     "version": 15,
-    "disabled": true,
+    "disabled": false,
     "defaultImage": {
       "long": "",
       "tall": "",
@@ -3858,7 +3851,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3922,7 +3915,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -3986,7 +3979,7 @@
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
-    "disabled": true,
+    "disabled": false,
     "userAccounts": {
       "specifiedAccounts": ""
     },
