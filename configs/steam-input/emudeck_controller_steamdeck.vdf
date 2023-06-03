@@ -1,14 +1,14 @@
 "controller_mappings"
 {
 	"version"		"3"	
-	"title"		"EmuDeck WE - Steam Deck (SRM)"
+	"title"		"EmuDeck WE - Steam Deck"
 	"description"		"Long Press START + SELECT to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
 	"controller_type"		"controller_neptune"
 	"localization"
 	{
 		"english"
 		{
-			"title"		"Gamepad"
+			"title"		"EmuDeck WE - Steam Deck"
 			"description"		"Long Press START + SELECT to Exit Emulator"
 		}
 	}

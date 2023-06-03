@@ -10,7 +10,7 @@
   "environmentVariables": {
     "steamDirectory": "STEAMPATH",
     "romsDirectory": "C:\\Emulation\\roms",
-    "retroarchPath": "C:\\Emulation\\tools\\launchers\\retroarch.bat",
+    "retroarchPath": "C:\\Windows\\System32\\cmd.exe",
     "raCoresDirectory": "EMUSPATH\\RetroArch\\cores",
     "localImagesDirectory": ""
   },

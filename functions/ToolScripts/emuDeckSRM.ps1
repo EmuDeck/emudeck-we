@@ -28,6 +28,12 @@ function SRM_init(){
 	sedFile $toolsPath\UserData\userSettings.json "Users\" "Users\\"
 	sedFile $toolsPath\UserData\userSettings.json ":\" ":\\"
 	sedFile $toolsPath\UserData\userSettings.json "\\\" "\\"
+	
+	sedFile $toolsPath\UserData\controllerTemplates.json "STEAMPATH" $steamInstallPath
+	sedFile $toolsPath\UserData\controllerTemplates.json "Users\" "Users\\"
+	sedFile $toolsPath\UserData\controllerTemplates.json ":\" ":\\"
+	sedFile $toolsPath\UserData\controllerTemplates.json "\\\" "\\"
+
 
 	#Desktop Icon
 	createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
@@ -110,6 +116,9 @@ function SRM_resetLaunchers(){
 	}
 	if ($doInstallYuzu -eq "true"){
 		createLauncher yuzu
+	}
+	if ($doInstallRyujinx -eq "true"){
+		createLauncher "Ryujinx"
 	}
 	if ($doInstallCitra -eq "true"){
 		createLauncher citra

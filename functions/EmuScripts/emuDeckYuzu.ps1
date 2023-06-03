@@ -15,9 +15,10 @@ function Yuzu_init(){
 	
 	$destination="$emusPath\yuzu\yuzu-windows-msvc\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config" "$destination"
 	
-	#Different ini per controller	
-	Yuzu_setController($device)
+	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
+	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ":/Emulation/roms/"	
 
 	setMSG "Yuzu - Creating Keys & Firmware Links"
 	#Firmware
@@ -119,35 +120,4 @@ function Yuzu_resetConfig(){
 	if($?){
 		echo "true"
 	}
-}
-
-function Yuzu_setController($device){
-
-	$destination="$emusPath\yuzu\yuzu-windows-msvc\user\config"
-	
-	switch ($device) {
-		"PS5" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
-		}
-		"PS4" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
-		}
-		"XONE" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.xone.ini" -Destination "$destination\qt-config.ini"
-		}
-		"X360" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.360.ini"
-		}
-		"SWITCHPRO" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.switchpro.ini" -Destination "$destination\qt-config.ini"
-		}
-		Default {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config\qt-config.ini" -Destination "$destination\qt-config.ini"
-		}
-	}
-	
-	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
-	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ":/Emulation/roms/"	
-	
-	
 }

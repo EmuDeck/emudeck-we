@@ -14,8 +14,10 @@ function Citra_init(){
 	$destination="$emusPath\citra\user"
 	mkdir $destination -ErrorAction SilentlyContinue
 	
-	#Different ini per controller	
-	Citra_setController($device)	
+	$destination="$emusPath\citra\user\config"	
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config" "$destination"
+	
 	
 	Citra_setupSaves
 }
@@ -94,31 +96,4 @@ function Citra_resetConfig(){
 	if($?){
 		echo "true"
 	}
-}
-
-function Citra_setController($device){
-
-	$destination="$emusPath\citra\user\config"
-	
-	switch ($device) {
-		"PS5" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
-		}
-		"PS4" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ps5.ini" -Destination "$destination\qt-config.ini"
-		}
-		"XONE" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
-		}
-		"X360" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
-		}
-		"SWITCHPRO" {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
-		}
-		Default {
-			Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config\qt-config.ini" -Destination "$destination\qt-config.ini"
-		}
-	}
-	
 }
