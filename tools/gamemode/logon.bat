@@ -1,1 +1,1 @@
- "C:\Program Files (x86)\Steam\Steam.exe" "-bigpicture" && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\desktopmode.bat"
+ "C:\Program Files (x86)\Steam\Steam.exe" "-bigpicture" && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.bat"
