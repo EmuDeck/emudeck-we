@@ -55,7 +55,7 @@
  if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 
-# Get explorer.exe back to logon
+:: Get explorer.exe back to logon
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "explorer.exe" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 taskkill /f /im sihost.exe > NUL 2>NUL

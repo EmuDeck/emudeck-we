@@ -54,12 +54,39 @@
  setlocal & cd /d %~dp0
  if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
-#We exit steam
-taskkill /f /im steam.exe > NUL 2>NUL
-# Get our logon.exe instead of explorer.exe
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\logon.exe" /f > NUL 2>NUL
+ ::::::::::::::::::::::::::::
+ ::START
+ ::::::::::::::::::::::::::::
+
+
+echo|set /p="Escape - Changing shell to explorer.exe .......................... "
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "C:\Program Files (x86)\Steam\steam.exe" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-taskkill /f /im sihost.exe > NUL 2>NUL
+
+:echo|set /p="Escape - Killing sihost.exe ...................................... " 
+taskkill /F /IM sihost.exe > NUL 2>NUL
+
+echo OK!
+
+
+echo|set /p="Escape - Waiting some time for sihost.exe to shutdown ............ " 
+
+timeout /T 5 /nobreak > NUL 2>NUL
+
+echo OK!
+
+
+echo|set /p="Escape - Restarting sihost.exe ................................... " 
 start C:\Windows\System32\sihost.exe > NUL 2>NUL
-taskkill /f /im explorer.exe > NUL 2>NUL
-"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture" && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\desktopmode.bat"
+
+echo OK!
+
+
+echo|set /p="Escape - Waiting some time for sihost.exe to start ............... " 
+
+timeout /T 15 /nobreak > NUL 2>NUL
+
+echo OK!
+taskkill /f /im explorer.exe
+"C:\Program Files (x86)\Steam\steam.exe" /bigpicture
+:: 6/6 could be a REG change back to the previous custom shell for the next system (re)start. The explorer shell will still be available.
