@@ -88,5 +88,5 @@ timeout /T 15 /nobreak > NUL 2>NUL
 
 echo OK!
 taskkill /f /im explorer.exe
-"C:\Program Files (x86)\Steam\steam.exe" /bigpicture
+"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "C:\Users\rsedano\Desktop\desktopmode.bat"
 :: 6/6 could be a REG change back to the previous custom shell for the next system (re)start. The explorer shell will still be available.
