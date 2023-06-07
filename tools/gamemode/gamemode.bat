@@ -60,7 +60,7 @@
 
 
 echo|set /p="Escape - Changing shell to explorer.exe .......................... "
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "C:\Program Files (x86)\Steam\steam.exe" /f > NUL 2>NUL
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "C:\logon.bat" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 
 :echo|set /p="Escape - Killing sihost.exe ...................................... " 
@@ -88,5 +88,5 @@ timeout /T 15 /nobreak > NUL 2>NUL
 
 echo OK!
 taskkill /f /im explorer.exe
-"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "C:\Users\rsedano\Desktop\desktopmode.bat"
+"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "C:\desktopmode.bat"
 :: 6/6 could be a REG change back to the previous custom shell for the next system (re)start. The explorer shell will still be available.
