@@ -81,10 +81,3 @@ echo|set /p="Escape - Restarting sihost.exe ................................... 
 start sihost.exe > NUL 2>NUL
 
 echo OK!
-
-
-echo|set /p="Escape - Changing shell to logon.exe .......................... "
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat" /f > NUL 2>NUL
-IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-
-echo OK!
