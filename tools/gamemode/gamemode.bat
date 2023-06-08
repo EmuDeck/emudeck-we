@@ -59,8 +59,8 @@
  ::::::::::::::::::::::::::::
 
 
-echo|set /p="Escape - Changing shell to explorer.exe .......................... "
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "C:\logon.bat" /f > NUL 2>NUL
+echo|set /p="Escape - Changing shell to logon.exe .......................... "
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.exe" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 
 :echo|set /p="Escape - Killing sihost.exe ...................................... " 
@@ -88,5 +88,5 @@ timeout /T 15 /nobreak > NUL 2>NUL
 
 echo OK!
 taskkill /f /im explorer.exe
-"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "C:\desktopmode.bat"
+"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.exe"
 :: 6/6 could be a REG change back to the previous custom shell for the next system (re)start. The explorer shell will still be available.
