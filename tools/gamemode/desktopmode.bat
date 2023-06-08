@@ -60,29 +60,11 @@
 
 
 taskkill /F /IM steam.exe > NUL 2>NUL
-echo|set /p="Escape - Changing shell to explorer.exe .......................... "
+echo|set /p="Loading Windows Desktop in 5 seconds..."
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "explorer.exe" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-
-
-echo|set /p="Escape - Killing sihost.exe ...................................... " 
 taskkill /F /IM sihost.exe > NUL 2>NUL
-
-echo OK!
-
-echo|set /p="Escape - Waiting some time for sihost.exe to shutdown ............ " 
-
 timeout /T 5 /nobreak > NUL 2>NUL
-
-echo OK!
-
-
-echo|set /p="Escape - Restarting sihost.exe ................................... " 
 start sihost.exe > NUL 2>NUL
-
-echo OK!
-
-
-echo|set /p="Escape - Changing shell to explorer.exe .......................... "
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )

@@ -59,33 +59,20 @@
  ::::::::::::::::::::::::::::
 
 
-echo|set /p="Escape - Changing shell to explorer.exe .......................... "
+echo|set /p="Setting up Steam UI..."
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-
-:echo|set /p="Escape - Killing sihost.exe ...................................... " 
 taskkill /F /IM sihost.exe > NUL 2>NUL
-
 echo OK!
 
 
-echo|set /p="Escape - Waiting some time for sihost.exe to shutdown ............ " 
-
+echo|set /p="Waiting for changes to be enabled, this will take some seconds..." 
 timeout /T 5 /nobreak > NUL 2>NUL
-
-echo OK!
-
-
-echo|set /p="Escape - Restarting sihost.exe ................................... " 
 start C:\Windows\System32\sihost.exe > NUL 2>NUL
-
+timeout /T 5 /nobreak > NUL 2>NUL
 echo OK!
 
-
-echo|set /p="Escape - Waiting some time for sihost.exe to start ............... " 
-
-timeout /T 15 /nobreak > NUL 2>NUL
-
-echo OK!
 taskkill /f /im explorer.exe
 "C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.bat"
+
+echo|set /p="Starting Steam UI" 
