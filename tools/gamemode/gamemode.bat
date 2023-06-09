@@ -54,12 +54,25 @@
  setlocal & cd /d %~dp0
  if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
-#We exit steam
-taskkill /f /im steam.exe > NUL 2>NUL
-# Get our logon.exe instead of explorer.exe
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\logon.exe" /f > NUL 2>NUL
+ ::::::::::::::::::::::::::::
+ ::START
+ ::::::::::::::::::::::::::::
+
+
+echo|set /p="Setting up Steam UI..."
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-taskkill /f /im sihost.exe > NUL 2>NUL
+taskkill /F /IM sihost.exe > NUL 2>NUL
+echo OK!
+
+
+echo|set /p="Waiting for changes to be enabled, this will take some seconds..." 
+timeout /T 5 /nobreak > NUL 2>NUL
 start C:\Windows\System32\sihost.exe > NUL 2>NUL
-taskkill /f /im explorer.exe > NUL 2>NUL
-"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture" && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\desktopmode.bat"
+timeout /T 5 /nobreak > NUL 2>NUL
+echo OK!
+
+taskkill /f /im explorer.exe
+"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.bat"
+
+echo|set /p="Starting Steam UI" 

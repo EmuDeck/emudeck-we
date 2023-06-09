@@ -54,13 +54,17 @@
  setlocal & cd /d %~dp0
  if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
+ ::::::::::::::::::::::::::::
+ ::START
+ ::::::::::::::::::::::::::::
 
-# Get explorer.exe back to logon temporarely
+
+taskkill /F /IM steam.exe > NUL 2>NUL
+echo|set /p="Loading Windows Desktop in 5 seconds..."
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "explorer.exe" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-taskkill /f /im sihost.exe > NUL 2>NUL
+taskkill /F /IM sihost.exe > NUL 2>NUL
+timeout /T 5 /nobreak > NUL 2>NUL
 start sihost.exe > NUL 2>NUL
-
-#Back to our logon so the change persists on reboots
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\logon.exe" /f > NUL 2>NUL
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
