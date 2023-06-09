@@ -74,3 +74,4 @@ taskkill /f /im explorer.exe
 "C:\Program Files (x86)\Steam\steam.exe" "-bigpicture" && cmd /c start /min "" "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.bat"
 
 echo|set /p="Starting Steam UI" 
+exit
