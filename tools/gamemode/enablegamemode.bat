@@ -63,21 +63,11 @@ echo|set /p="Setting up Steam UI..."
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """" ""%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat""" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 taskkill /F /IM sihost.exe > NUL 2>NUL
-echo OK!
-
-set "ruta_archivo=%USERPROFILE%\Desktop\Back to Gaming Mode.lnk"
-set "ruta_icono=%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\icon.ico"
-
-echo [InternetShortcut] >%ruta_archivo%
-echo URL=file://%ruta_archivo_objetivo% >>%ruta_archivo%
-echo IconFile=%ruta_icono% >>%ruta_archivo%
-echo IconIndex=0 >>%ruta_archivo%
-
 echo|set /p="Waiting for changes to be enabled, this will take some seconds..." 
 timeout /T 5 /nobreak > NUL 2>NUL
 start C:\Windows\System32\sihost.exe > NUL 2>NUL
+IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 timeout /T 5 /nobreak > NUL 2>NUL
-echo OK!
 
 ::taskkill /f /im explorer.exe
 ::"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && ::"%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.bat"
