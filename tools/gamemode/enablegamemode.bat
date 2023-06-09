@@ -60,7 +60,7 @@
 
 
 echo|set /p="Setting up Steam UI..."
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat" /f > NUL 2>NUL
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """" ""%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat""" /f > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 taskkill /F /IM sihost.exe > NUL 2>NUL
 echo OK!
