@@ -64,12 +64,6 @@ REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogo
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 taskkill /F /IM sihost.exe > NUL 2>NUL
 echo|set /p="Waiting for changes to be enabled, this will take some seconds..." 
-timeout /T 5 /nobreak > NUL 2>NUL
+::timeout /T 5 /nobreak > NUL 2>NUL
 start C:\Windows\System32\sihost.exe > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-timeout /T 5 /nobreak > NUL 2>NUL
-
-::taskkill /f /im explorer.exe
-::"C:\Program Files (x86)\Steam\steam.exe" "-bigpicture"  && "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\desktopmode.bat"
-::
-::echo|set /p="Starting Steam UI" 
