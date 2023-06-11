@@ -60,12 +60,13 @@
 
 
 taskkill /F /IM steam.exe > NUL 2>NUL
-echo|set /p="Loading Windows Desktop in a few seconds seconds..."
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "explorer.exe" /f > NUL 2>NUL
+echo|set /p="Loading Windows Desktop in a few seconds seconds, don't close this window..."
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "explorer.exe" /f
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-taskkill /F /IM sihost.exe > NUL 2>NUL
+taskkill /F /IM sihost.exe
 timeout /T 5 /nobreak > NUL 2>NUL
-start sihost.exe > NUL 2>NUL
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """""" """%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat"""" /f > NUL 2>NUL
+start sihost.exe
+timeout /T 5 /nobreak > NUL 2>NUL
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """""" """%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat"""" /f
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 exit
