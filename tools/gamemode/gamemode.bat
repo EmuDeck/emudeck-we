@@ -60,13 +60,13 @@
 
 
 echo|set /p="Setting up Steam UI..."
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """""" """%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat"""" /f > NUL 2>NUL
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """""" """%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat"""" /f
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
-taskkill /F /IM sihost.exe > NUL 2>NUL
+taskkill /F /IM sihost.exe
 
 echo|set /p="Waiting for changes to be enabled, this will take some seconds..." 
 timeout /T 5 /nobreak > NUL 2>NUL
-start C:\Windows\System32\sihost.exe > NUL 2>NUL
+start C:\Windows\System32\sihost.exe
 timeout /T 5 /nobreak > NUL 2>NUL
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 
