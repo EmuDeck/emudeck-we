@@ -429,7 +429,7 @@ function cloud_sync_downloadEmu($emuName){
 				Add-Type -AssemblyName System.Windows.Forms
 				
 				$result = [System.Windows.Forms.MessageBox]::Show(
-					"We've detected a pending upload, make sure you dont close the Emulator using the Steam Button, do you want us to upload your saves to the cloud and overwrite them? This upload should have happened on $date. Press Yes to upload them to the cloud, No to download from the cloud and overwrite your Cloud saves, or Cancel to skip",
+					"We've detected a pending upload, make sure you dont close the Emulator using the Steam Button, do you want us to upload your saves to the cloud and overwrite them? This upload should have happened on $date. Press Yes to upload them to the cloud, No to download from the cloud and overwrite your local saves, or Cancel to skip",
 					"CloudSync conflict",
 					[System.Windows.Forms.MessageBoxButtons]::YesNoCancel
 				)
