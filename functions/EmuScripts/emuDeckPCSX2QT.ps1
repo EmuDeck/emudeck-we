@@ -15,10 +15,13 @@ function PCSX2QT_init(){
 	sedFile $destination\inis\PCSX2_ui.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile $destination\inis\PCSX2_ui.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emusPath\PCSX2-Qt
 	sedFile $destination\inis\PCSX2-reg.ini "/home/deck/.var/app/net.pcsx2.PCSX2/config/PCSX2" $emusPath\PCSX2-Qt
+	sedFile $destination\inis\PCSX2.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	
 	sedFile $destination\inis\PCSX2_ui.ini "/" "\"
+	sedFile $destination\inis\PCSX2.ini "/" "\"
 	sedFile $destination\inis\PCSX2-reg.ini "/" "\"	
 	sedFile $destination\inis\PCSX2_ui.ini "C:\" "\\"
+	sedFile $destination\inis\PCSX2.ini "C:\" "\\"
 	
 	PCSX2QT_setupSaves
 	PCSX2QT_setResolution $pcsx2Resolution

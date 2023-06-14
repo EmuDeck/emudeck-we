@@ -30,7 +30,6 @@ Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckDolphin.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckDuckStation.ps1
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckPCSX2.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckRetroArch.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckRPCS3.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckTemplate.ps1
