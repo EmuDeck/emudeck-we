@@ -32,12 +32,43 @@ function ESDE_init(){
 
 	}		
 	
+	#We move download_media folder
+	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\.emulationstation"
+	if($test){
+	
+		$userDrive=$userFolder[0]
+		
+		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$sizeInGB = [Math]::Round($destinationFree / 1GB)
+		
+		$originSize = (Get-ChildItem -Path "$toolsPath/EmulationStation-DE" -Recurse | Measure-Object -Property Length -Sum).Sum
+		$wshell = New-Object -ComObject Wscript.Shell
+		
+		if ( $originSize -gt $destinationFree ){			
+			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
+			exit
+		}				
+		$Output = $wshell.Popup("We are going to move EmulationStation scrap data to $emulationPath/storage in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
+		
+		mkdir $emulationPath/storage/downloaded_media  -ErrorAction SilentlyContinue
+		moveFromTo "$esdePath/.emulationstation/downloaded_media" "$emulationPath/storage/downloaded_media"
+		
+		$Output = $wshell.Popup("Migration complete!")
+	
+	}		
+	
 	$destination="$esdePath\.emulationstation"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation" "$destination"
 	
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
+	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
+	
+	mkdir $emulationPath/storage/downloaded_media -ErrorAction SilentlyContinue 
+	
+	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 	
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
@@ -47,6 +78,10 @@ function ESDE_init(){
 	
 	#PS2 Fixes	
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry>' '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry><entry>%ESPATH%\Emulators\PCSX2\pcsx2-qtx64*.exe</entry>' 
+	
+	#Citra fixes
+	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\Emulators\citra\citra-qt.exe</entry>'
+	
 	
 }
 function ESDE_update(){
