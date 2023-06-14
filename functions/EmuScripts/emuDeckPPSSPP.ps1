@@ -31,7 +31,7 @@ function PPSSPP_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath
 	
 	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
-	$ShortcutPath = -join($emulationPath,"\saves\yuzu\saves.lnk")
+	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\saves.lnk")
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
