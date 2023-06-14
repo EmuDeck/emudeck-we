@@ -13,6 +13,11 @@ function PPSSPP_init(){
 	if($test){
 		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
+	
+	$destination="$emusPath\PPSSPP\memstick\PSP\SYSTEM"
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
+	
 	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution
 }

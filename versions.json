@@ -1,7 +1,7 @@
 {
   "ra": { "id": "ra", "code": "RetroArch", "version": 0 },
   "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 6 },
-  "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 3 },
+  "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 4 },
   "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 5 },
   "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 3 },
   "rpcs3": { "id": "rpcs3", "code": "RPCS3", "version": 3 },
