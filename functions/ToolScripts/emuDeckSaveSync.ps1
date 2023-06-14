@@ -561,7 +561,7 @@ function cloud_sync_downloadEmuAll(){
 		cloud_sync_downloadEmu duckstation
 	}
 	if ($doInstallCemu -eq "true"){
-		cloud_sync_downloadEmu cemu
+		cloud_sync_downloadEmu Cemu
 	}
 	#if ($doInstallXenia -eq "true"){
 	#	cloud_sync_downloadEmu xenia
@@ -603,7 +603,7 @@ function cloud_sync_uploadEmuAll(){
 		cloud_sync_uploadEmu duckstation
 	}
 	if ($doInstallCemu -eq "true"){
-		cloud_sync_uploadEmu cemu
+		cloud_sync_uploadEmu Cemu
 	}
 	#if ($doInstallXenia -eq "true"){
 	#	cloud_sync_uploadEmu xenia
