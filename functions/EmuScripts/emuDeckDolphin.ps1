@@ -24,6 +24,10 @@ function Dolphin_init(){
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$emulationPath\roms\gamecube"
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/wii" "$emulationPath\roms\wii"
+	
+	sedFile $destination\User\Config\Dolphin.ini "Emulation" "Emulation\"
+	
+	sedFile $destination\User\Config\Dolphin.ini "/" "\"
 
 	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
