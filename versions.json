@@ -1,5 +1,5 @@
 {
-  "ra": { "id": "ra", "code": "RetroArch", "version": 0 },
+  "ra": { "id": "ra", "code": "RetroArch", "version": 1 },
   "dolphin": { "id": "dolphin", "code": "Dolphin", "version": 6 },
   "ppsspp": { "id": "ppsspp", "code": "PPSSPP", "version": 4 },
   "duckstation": { "id": "duckstation", "code": "Duckstation", "version": 5 },
