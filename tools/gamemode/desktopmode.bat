@@ -67,6 +67,6 @@ taskkill /F /IM sihost.exe
 timeout /T 5 /nobreak > NUL 2>NUL
 start sihost.exe
 timeout /T 5 /nobreak > NUL 2>NUL
-REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """""" """%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat"""" /f
+REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "cmd /c start /min """GamingMode""" """%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\gamemode\logon.bat"""" /f
 IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
 exit
