@@ -33,7 +33,7 @@ function ESDE_init(){
 	}		
 	
 	#We move download_media folder
-	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\.emulationstation"
+	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\.emulationstation\downloaded_media"
 	if($test){
 	
 		$userDrive=$userFolder[0]
@@ -48,7 +48,7 @@ function ESDE_init(){
 			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
 			exit
 		}				
-		$Output = $wshell.Popup("We are going to move EmulationStation scrap data to $emulationPath/storage in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
+		$Output = $wshell.Popup("We are going to move EmulationStation scrape data to $emulationPath/storage in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
 		
 		mkdir $emulationPath/storage/downloaded_media  -ErrorAction SilentlyContinue
 		moveFromTo "$esdePath/.emulationstation/downloaded_media" "$emulationPath/storage/downloaded_media"
