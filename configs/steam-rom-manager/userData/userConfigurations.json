@@ -22,7 +22,7 @@
       "specifiedAccounts": ""
     },
     "parserInputs": {
-      "glob": "${title}@(.exe)"
+      "glob": "${title}@(.bat)"
     },
     "titleFromVariable": {
       "limitToGroups": "",
@@ -120,7 +120,7 @@
       "specifiedAccounts": ""
     },
     "parserInputs": {
-      "glob": "**/${title}@(.bat)"
+      "glob": "${title}@(.bat)"
     },
     "titleFromVariable": {
       "limitToGroups": "",
