@@ -2301,7 +2301,7 @@
     "romDirectory": "${romsdirglobal}/switch",
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
-    "titleModifier": "${fuzzyTitle}",
+    "titleModifier": "${fuzzyTitle} (Ryujinx)",
     "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\ryujinx.bat\" \"-f\" \"${filePath}\"\" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
