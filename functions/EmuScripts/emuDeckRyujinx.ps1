@@ -13,6 +13,15 @@ function Ryujinx_init(){
 	Ryujinx_setEmulationFolder	
 	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
+	
+	setMSG "Ryujinx - Creating Keys  Links"
+	#Firmware
+	$SourceFilePath = "$emusPath\Ryujinx\portable\system"
+	$ShortcutPath = -join($emulationPath,"\bios\ryujinx\keys.lnk")
+	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	createLink $SourceFilePath $ShortcutPath
+	
 }
 
 function Ryujinx_update(){
