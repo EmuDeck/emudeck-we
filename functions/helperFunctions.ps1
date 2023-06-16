@@ -114,6 +114,17 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 	return $url
 }
 
+function getReleaseURLGH($Repository, $FileType, $IgnoreText = "pepe"){
+
+    $url = "https://api.github.com/repos/$Repository/releases?per_page=1"
+    $apiData = Invoke-RestMethod -Uri $url
+
+    $releaseURL = $apiData.assets |
+        Where-Object { $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
+        Select-Object -ExpandProperty browser_download_url 
+	return $releaseURL
+}
+
 function check_internet_connection(){
 
 	if ((Test-Connection 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue).StatusCode -eq 0) { return "true" } else { return "false" }
