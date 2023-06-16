@@ -2302,7 +2302,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\ryujinx.bat\" \"-f\" \"-g\" \"${filePath}\"\" && exit",
+    "executableArgs": "/K \"\"C:\\Emulation\\tools\\launchers\\ryujinx.bat\" \"-f\" \"${filePath}\"\" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
