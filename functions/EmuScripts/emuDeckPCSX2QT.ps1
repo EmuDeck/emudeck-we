@@ -6,12 +6,13 @@ function PCSX2QT_install(){
 	download $url_pcsx2 "pcsx2.7z"
 	moveFromTo "$temp\pcsx2" "$emusPath\PCSX2-Qt"
 	Remove-Item -Recurse -Force $temp\pcsx2 -ErrorAction SilentlyContinue
+	Rename-Item -Path "$emusPath\PCSX2-Qt\pcsx2-qt.exe" -NewName "pcsx2-qtx64.exe"
 	createLauncher "pcsx2"
 }
 function PCSX2QT_init(){	
 	setMSG "PCSX2 - Configuration"
 	$destination="$emusPath\PCSX2-Qt"
-	New-Item -force $emusPath\PCSX2-Qt\portable.ini
+	New-Item "$emusPath\PCSX2-Qt\portable.ini" -ErrorAction SilentlyContinue
 
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
@@ -20,7 +21,7 @@ function PCSX2QT_init(){
 	PCSX2QT_setResolution $pcsx2Resolution
 }
 function PCSX2QT_update(){
-	echo "NYI"
+	Write-Outpute-Output "NYI"
 }
 function PCSX2QT_setEmulationFolder(){
 	sedFile $destination\inis\PCSX2.ini "C:\Emulation" "$emulationPath"
@@ -28,17 +29,17 @@ function PCSX2QT_setEmulationFolder(){
 function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG "PCSX2 - Saves Links"
-	rm -fo "saves\pcsx2" -Recurse -ErrorAction SilentlyContinue
-	mkdir saves\pcsx2 -ErrorAction SilentlyContinue
+	Remove-Item -fo "saves\pcsx2" -Recurse -ErrorAction SilentlyContinue
+	New-Item saves\pcsx2 -ErrorAction SilentlyContinue
 	$SourceFilePath = "$emusPath\PCSX2-Qt\memcards"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	New-Item $SourceFilePath -ErrorAction SilentlyContinue
 	
 	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\saves.lnk")
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
 	$SourceFilePath = "$emusPath\PCSX2-Qt\sstates\"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	New-Item $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\states.lnk")
 	createLink $SourceFilePath $ShortcutPath
 }
@@ -54,50 +55,49 @@ function PCSX2QT_setResolution($resolution){
 	setConfig "upscale_multiplier" $multiplier "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
 }
 function PCSX2QT_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\PCSX2-Qt"
-	if($test){
-		echo "true"
+	if(Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64.exe"){
+		Write-Output "true"
 	}
 }
 function PCSX2QT_resetConfig(){
 	PCSX2QT_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 
 
 function PCSX2QT_retroAchievementsSetLogin(){	
 	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-	setConfig "Token" $rat "$emusPath\PCSX2-Qt\inis\PCSX2.ini"		
+	#setConfig "Token" $rat "$emusPath\PCSX2-Qt\inis\PCSX2.ini"		
 }
