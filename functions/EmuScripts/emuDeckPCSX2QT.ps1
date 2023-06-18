@@ -30,16 +30,17 @@ function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG "PCSX2 - Saves Links"
 	Remove-Item -fo "saves\pcsx2" -Recurse -ErrorAction SilentlyContinue
-	New-Item saves\pcsx2 -ErrorAction SilentlyContinue
+	New-Item -ItemType "directory" -path "saves\pcsx2"
+
+	#memcards
 	$SourceFilePath = "$emusPath\PCSX2-Qt\memcards"
-	New-Item $SourceFilePath -ErrorAction SilentlyContinue
-	
+	New-Item -ItemType "directory" -path $SourceFilePath
 	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\saves.lnk")
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
 	$SourceFilePath = "$emusPath\PCSX2-Qt\sstates\"
-	New-Item $SourceFilePath -ErrorAction SilentlyContinue
+	New-Item -ItemType "directory" -path $SourceFilePath
 	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\states.lnk")
 	createLink $SourceFilePath $ShortcutPath
 }
