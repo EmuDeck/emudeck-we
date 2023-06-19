@@ -30,16 +30,25 @@ function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG "PCSX2 - Saves Links"
 	Remove-Item -fo "saves\pcsx2" -Recurse -ErrorAction SilentlyContinue
-	New-Item saves\pcsx2 -ErrorAction SilentlyContinue
+	New-Item -ItemType "directory" -path "saves\pcsx2"
+
+	#memcards
 	$SourceFilePath = "$emusPath\PCSX2-Qt\memcards"
-	New-Item $SourceFilePath -ErrorAction SilentlyContinue
-	
+	if (Test-Path -Path $SourceFilePath -PathType Leaf) {
+		Write-Output "$SourceFilePath Exixsts as file. Deleting."
+		Remove-Item -Path $SourceFilePath -Force
+	} 
+	New-Item -ItemType "directory" -path $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\saves.lnk")
 	createLink $SourceFilePath $ShortcutPath
 	
 	#States
-	$SourceFilePath = "$emusPath\PCSX2-Qt\sstates\"
-	New-Item $SourceFilePath -ErrorAction SilentlyContinue
+	$SourceFilePath = "$emusPath\PCSX2-Qt\sstates"
+	if (Test-Path -Path $SourceFilePath -PathType Leaf) {
+		Write-Output "$SourceFilePath Exixsts as file. Deleting."
+		Remove-Item -Path $SourceFilePath -Force
+	} 
+	New-Item -ItemType "directory" -path $SourceFilePath  -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\states.lnk")
 	createLink $SourceFilePath $ShortcutPath
 }
@@ -50,7 +59,7 @@ function PCSX2QT_setResolution($resolution){
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
-	}	
+	}
 	
 	setConfig "upscale_multiplier" $multiplier "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
 }
