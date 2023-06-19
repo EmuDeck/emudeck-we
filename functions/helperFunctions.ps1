@@ -62,16 +62,15 @@ function customLocation(){
 	$drives = (Get-PSDrive -PSProvider FileSystem).Root
 	$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 	Start-Sleep -Seconds 0.5
-	
-	if(!$winPath){
-		$winPath = 'C:\'
-	}
-	
 	echo $winPath;
 }
 
-function testLocationValid(){
-	echo "Valid"
+function testLocationValid($mode, $path){
+	if (!$path){
+		echo "Wrong"
+	}else{
+		echo "Valid"
+	}	
 }
 
 function escapeSedKeyword($input){
