@@ -141,30 +141,33 @@ function changeController($device){
 
 
 function showDialog($text){
-	Add-Type -AssemblyName System.Windows.Forms
-	
-	# Crea una instancia del formulario
-	$form = New-Object System.Windows.Forms.Form
-	$form.Text = "EmuDeck"
-	$form.Width = 300
-	$form.Height = 100
-	$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
-	$form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
-	
-	# Oculta los controles de la ventana (Maximizar, Minimizar, Cerrar)
-	$form.ControlBox = $false
-	
-	# Crea una instancia del control Label para mostrar el texto
-	$label = New-Object System.Windows.Forms.Label
-	$label.Text = "$text"
-	$label.AutoSize = $true
-	$label.Left = ($form.Width - $label.Width) / 2
-	$label.Top = ($form.Height - $label.Height) / 3
-	
-	# Agrega el control Label al formulario
-	$form.Controls.Add($label)
-	
-	# Muestra el formulario y el texto
-	$form.Show()
-	return $form
+    Add-Type -AssemblyName System.Windows.Forms
+
+    # Create an instance of the form
+    $form = New-Object System.Windows.Forms.Form
+    $form.Text = "EmuDeck"
+    $form.Width = 300
+    $form.Height = 100
+    $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedSingle
+    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
+
+    # Disable the maximize button
+    $form.MaximizeBox = $false
+
+	# Set the form to be topmost
+	$form.TopMost = $true
+
+    # Create an instance of the control Label to show the text
+    $label = New-Object System.Windows.Forms.Label
+    $label.Text = "$text"
+    $label.AutoSize = $true
+    $label.Left = ($form.Width - $label.Width) / 2
+    $label.Top = ($form.Height - $label.Height) / 3
+
+    # Add the Label control to the form
+    $form.Controls.Add($label)
+
+    # Show the form and the text
+    $form.Show()
+    return $form
 }
