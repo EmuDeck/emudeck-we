@@ -79,7 +79,7 @@ function Get-Custom-Credentials($provider) {
 		
 		moveFromTo "temp/rclone/" "$toolsPath\"	
 		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
-		rm -fo  "temp\rclone" -Recurse 
+		rm -fo "temp\rclone" -Recurse 
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
@@ -144,7 +144,7 @@ function cloud_sync_install($cloud_sync_provider){
 }
 
 function cloud_sync_toggle($status){
-  setSetting "cloud_sync_status" $status
+ setSetting "cloud_sync_status" $status
 }	
 
 function cloud_sync_config($cloud_sync_provider){
@@ -237,7 +237,7 @@ function cloud_sync_config_with_code($code){
 	echo $section;
 
 	foreach($_ in Get-Content $cloud_sync_config) {
-		if ($_  -like "*$section*") {
+		if ($_ -like "*$section*") {
 			$found = "true"
 		}elseif ($found -eq "true" -and $_ -like "token =*") {				
 			$_ = $_ -replace "token =", "token =$token"		
@@ -309,7 +309,7 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 
 function cloud_sync_uninstall(){	
 	setSetting "cloud_sync_status" "false"
-	rm -fo  "$toolsPath/rclone"	
+	rm -fo "$toolsPath/rclone"	
 }
 
 function cloud_sync_download($emuName){
@@ -319,45 +319,37 @@ function cloud_sync_download($emuName){
 		if ($emuName -eq "melonDS"){
 			if (Test-Path "$emulationPath\saves\$emuName\saves") {	
 				$target = "$emulationPath\saves\$emuName\saves"
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\states") {	
 				$target = "$emulationPath\saves\$emuName\states"
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
 			}
 		}else{
 			
 			if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
-				& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
 			}
-			if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
+			if (Test-Path "$emulationPath\saves\$emuName\Wii.lnk") {	
+				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\Wii.lnk").TargetPath
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
-				& $cloud_sync_bin copy -P -L "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
 			}
 		}
 		$dialog.Close()
@@ -372,45 +364,37 @@ function cloud_sync_upload($emuName){
 		if ($emuName -eq "melonDS"){
 			if (Test-Path "$emulationPath\saves\$emuName\saves") {	
 				$target = "$emulationPath\saves\$emuName\saves"
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\states") {	
 				$target = "$emulationPath\saves\$emuName\states"
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states"
 			}
 		}else{
 			
 			if (Test-Path "$emulationPath\saves\$emuName\saves.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\states.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\profiles.lnk") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles.lnk").TargetPath
-				& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\GC.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
 			}
-			if (Test-Path "$emulationPath\saves\$emuName\WII.lnk") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\WII.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
-				& $cloud_sync_bin copy --quiet --exclude=/.fail_upload --exclude=/.fail_download--exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
+			if (Test-Path "$emulationPath\saves\$emuName\Wii.lnk") {	
+				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\Wii.lnk").TargetPath
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
 			}
 			if (Test-Path "$emulationPath\saves\$emuName\saveMeta.lnk") {	
 				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta.lnk").TargetPath
-				& $cloud_sync_bin copy -P -L "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
 			}
 		}
 	$dialog.Close()
@@ -504,13 +488,13 @@ function cloud_sync_uploadEmu($emuName){
 				
 				switch ($result) {
 					"Yes" {
-						rm -fo  "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 						cloud_sync_upload($emuName)						
-						rm -fo  "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+						rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 						
 					}
 					"No" {
-						rm -fo  "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 						cloud_sync_download($emuName)
 						rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue						
 					}
@@ -521,8 +505,8 @@ function cloud_sync_uploadEmu($emuName){
 
 			
 			}else{
-				rm -fo  "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
-				rm -fo  "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 				cloud_sync_upload($emuName)
 			}
 		}else{
