@@ -26,6 +26,8 @@ function Citra_update(){
 }
 function Citra_setEmulationFolder(){
 	echo "NYI"
+
+	#Paths\gamedirs\3\path=C:/Emulation/roms/n3ds
 }
 function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
