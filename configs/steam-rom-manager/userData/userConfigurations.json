@@ -4,7 +4,6 @@
     "configTitle": "EmulationStationDE",
     "steamCategory": "${Emulation}",
     "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"C:\\Emulation\\tools\\launchers\\esde\\EmulationStationDE.bat\" && exit \" && exit",
-
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "C:\\Emulation\\tools\\launchers\\esde\\",
     "steamDirectory": "${steamdirglobal}",
@@ -103,20 +102,15 @@
     "configTitle": "Emulators",
     "steamCategory": "${Emulation}",
     "executableModifier": "\"${exePath}\"\"",
-    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\"  /K \"\"${exePath}\" && exit \" && exit",
     "romDirectory": "C:\\Emulation\\tools\\launchers",
     "steamDirectory": "${steamdirglobal}",
-    "startInDirectory": "",
-    "imageProviders": ["SteamGridDB"],
+    "startInDirectory": "C:\\Emulation\\tools\\launchers",
     "titleModifier": "${fuzzyTitle}",
+    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"C:\\Emulation\\tools\\launchers\\yuzu.bat\" \"-f\" \"-g\" \"${filePath}\" && exit \" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
+    "imageProviders": ["SteamGridDB"],
     "disabled": false,
-    "executable": {
-      "path": "C:\\Windows\\System32\\cmd.exe",
-      "shortcutPassthrough": false,
-      "appendArgsToExecutable": true
-    },
     "userAccounts": {
       "specifiedAccounts": ""
     },
@@ -133,6 +127,11 @@
       "replaceDiacritics": true,
       "removeCharacters": true,
       "removeBrackets": true
+    },
+    "executable": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": false
     },
     "parserId": "164824333516097458",
     "version": 15,
