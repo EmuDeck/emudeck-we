@@ -106,7 +106,7 @@
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "C:\\Emulation\\tools\\launchers",
     "titleModifier": "${fuzzyTitle}",
-    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"${exePath}\" && exit \" && exit",
+    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"${filePath}\" && exit \" && exit",
     "onlineImageQueries": "${${fuzzyTitle}}",
     "imagePool": "${fuzzyTitle}",
     "imageProviders": ["SteamGridDB"],
