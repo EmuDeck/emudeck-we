@@ -27,6 +27,8 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 	$form.StartPosition = 'CenterScreen'
 	$form.BackColor = '34, 34, 42'
 	
+	# Set the form to be topmost
+	$form.TopMost = $true
 	
 	#Title
 	$title = New-Object System.Windows.Forms.label

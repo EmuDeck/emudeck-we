@@ -33,6 +33,13 @@ function Dolphin_init(){
 	Dolphin_DynamicInputTextures
 	Dolphin_setResolution $dolphinResolution
 	
+
+	if ( "$arDolphin" -eq 169 ){	
+		Dolphin_wideScreenOn
+	}else{
+		Dolphin_wideScreenOff
+	}	
+	
 }
 function Dolphin_update(){
 	echo "NYI"
@@ -97,24 +104,24 @@ function Dolphin_wideScreenOn(){
 	setMSG "Dolphin Widescreen On"
 	echo ""
 	$configFile="$emusPath\Dolphin-x64\User\Config\GFX.ini"
-	$wideScreenHack="wideScreenHack = "
+	$wideScreenHack="wideScreenHack"
 	$wideScreenHackSetting="wideScreenHack = True"
-	$aspectRatio="AspectRatio = "
-	$aspectRatioSetting="AspectRatio = 1"
-	sedFile $configFile $wideScreenHack $wideScreenHackSetting
-	sedFile $configFile $aspectRatio $aspectRatioSetting
+	$AspectRatio="AspectRatio"	
+	
+	setSettingNoQuotes $configFile $wideScreenHack "True"
+	setSettingNoQuotes $configFile $AspectRatio "1"	
 
 }
 function Dolphin_wideScreenOff(){
 	setMSG "Dolphin Widescreen Of"
 	echo ""
 	$configFile="$emusPath\Dolphin-x64\User\Config\GFX.ini"
-	$wideScreenHack="wideScreenHack = "
-	$wideScreenHackSetting="wideScreenHack = False"
-	$aspectRatio="AspectRatio = "
-	$aspectRatioSetting="AspectRatio = 0"
-	sedFile $configFile $wideScreenHack $wideScreenHackSetting
-	sedFile $configFile $aspectRatio $aspectRatioSetting
+	$wideScreenHack="wideScreenHack"
+	$wideScreenHackSetting="wideScreenHack = True"
+	$AspectRatio="AspectRatio"	
+	
+	setSettingNoQuotes $configFile $wideScreenHack "False"
+	setSettingNoQuotes $configFile $AspectRatio "0"	
 }
 function Dolphin_bezelOn(){
 	echo "NYI"

@@ -105,7 +105,7 @@ function checkDSBios() {
 
 
 function checkYuzuBios(){
-	$file = "$userFolder\EmulationStation-DE\Emulators\yuzu\yuzu-windows-msvc\user\keys\prod.keys"
+	$file = "$esdePath\Emulators\yuzu\yuzu-windows-msvc\user\keys\prod.keys"
 	if (Test-Path $file -PathType Leaf) {
 		Write-Host "true"
 	} else {
