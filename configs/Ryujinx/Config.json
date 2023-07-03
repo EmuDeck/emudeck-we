@@ -58,7 +58,7 @@
     "sort_column_id": 0,
     "sort_ascending": false
   },
-  "game_dirs": [],
+  "game_dirs": ["C:\\Emulation\\roms\\switch"],
   "shown_file_types": {
     "nsp": true,
     "pfs0": true,

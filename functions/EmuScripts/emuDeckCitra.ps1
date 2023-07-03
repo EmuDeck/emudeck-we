@@ -18,6 +18,8 @@ function Citra_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config" "$destination"
 	
+	sedFile "$emusPath\citra\user\config\qt-config.ini" "C:/Emulation" "$emulationPath"
+	sedFile "$emusPath\citra\user\config\qt-config.ini" ":\Emulation" ":/Emulation"
 	
 	Citra_setupSaves
 }

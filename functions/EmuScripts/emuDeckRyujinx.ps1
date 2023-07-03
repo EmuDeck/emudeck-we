@@ -14,6 +14,11 @@ function Ryujinx_init(){
 	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
 	
+	
+	sedFile "$destination\portable\Config.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$destination\portable\Config.json" ":\Emulation" ":\\Emulation"
+	
+	
 	setMSG "Ryujinx - Creating Keys  Links"
 	#Firmware
 	$SourceFilePath = "$emusPath\Ryujinx\portable\system"
