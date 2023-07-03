@@ -1,0 +1,50 @@
+name: Sign PowerShell Scripts
+# https://tech.nicolonsky.ch/github-actions-powershell-signing/
+on:
+  push:
+    branches: [none]
+
+env:
+  ARTIFACT_NAME: PowerShell.Workflows.ScriptSigning
+
+jobs:
+  sign_scripts:
+    name: Sign and publish PowerShell scripts as pipeline artifacts
+    runs-on: windows-2019
+    steps:
+      - name: Import code signing certificate
+        shell: powershell
+        run: |
+          $pfxCertFilePath = Join-Path -Path $PSScriptRoot -ChildPath "CodeSigningCertificate.pfx"
+          Set-Content -Value $([System.Convert]::FromBase64String($env:BASE64_PFX)) -Path $pfxCertFilePath -Encoding Byte
+          $codeSigningCert = Import-PfxCertificate -FilePath $pfxCertFilePath -Password $($env:PFX_PASSWORD | ConvertTo-SecureString -AsPlainText -Force) -CertStoreLocation Cert:\CurrentUser\My
+        env:
+          BASE64_PFX: ${{ secrets.BASE64_PFX }}
+          PFX_PASSWORD: ${{ secrets.PFX_PASSWORD }}
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Sign PowerShell scripts
+        shell: powershell
+        run: |
+          # remove git dir from checked out repo
+          Get-ChildItem -Path "." -Filter ".git*" -Force | ForEach-Object {Remove-Item -Path $_.FullName -Recurse -Force}
+          $scripts = Get-ChildItem -Path . -Filter "*.ps1" -Recurse -ErrorAction Stop
+          # load cert
+          $codeSigningCert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Select-Object -First 1
+
+          foreach ($script in $scripts) {
+              try {
+                    $scriptContent = Get-Content -Path $script.FullName
+                    Write-Output "Signing script `"$($script.Name)`" with certificate `"$($codeSigningCert.Thumbprint)`""
+                    # sign script
+                    $null = Set-AuthenticodeSignature -Certificate $codeSigningCert -FilePath $script.FullName -TimestampServer "http://timestamp.comodoca.com/rfc3161"
+              }
+              catch {
+                  Write-Error $_
+              }
+          }
+      - name: Publish artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: .
