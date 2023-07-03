@@ -1,0 +1,94 @@
+function PPSSPP_install(){
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
+	if($test){
+		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
+	}
+	setMSG "Downloading PPSSPP"
+	download $url_PPSSPP "PPSSPP.zip"
+	moveFromTo "$temp/PPSSPP" "$emusPath\PPSSPP"
+	createLauncher "PPSSPP"
+}
+function PPSSPP_init(){
+	$test=Test-Path -Path "$emusPath\ppsspp_win"
+	if($test){
+		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
+	}
+	
+	$destination="$emusPath\PPSSPP\memstick\PSP\SYSTEM"
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
+
+	
+	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"
+	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" ":\Emulation" ":/Emulation"
+	
+	PPSSPP_setupSaves
+	#PPSSPP_setResolution $ppssppResolution
+}
+function PPSSPP_update(){
+	echo "NYI"
+}
+function PPSSPP_setEmulationFolder(){
+	echo "NYI"
+}
+function PPSSPP_setupSaves(){	
+	setMSG "PPSSPP - Saves Links"
+	mkdir "$savesPath/ppsspp"  -ErrorAction SilentlyContinue
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\states.lnk")	
+	
+	createLink $SourceFilePath $ShortcutPath
+	
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
+	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\saves.lnk")
+	
+	createLink $SourceFilePath $ShortcutPath
+	
+}
+function PPSSPP_setResolution($resolution){
+	echo $resolution
+}
+function PPSSPP_setupStorage(){
+	echo "NYI"
+}
+function PPSSPP_wipe(){
+	echo "NYI"
+}
+function PPSSPP_uninstall(){
+	echo "NYI"
+}
+function PPSSPP_migrate(){
+	echo "NYI"
+}
+function PPSSPP_setABXYstyle(){
+	echo "NYI"
+}
+function PPSSPP_wideScreenOn(){
+	echo "NYI"
+}
+function PPSSPP_wideScreenOff(){
+	echo "NYI"
+}
+function PPSSPP_bezelOn(){
+	echo "NYI"
+}
+function PPSSPP_bezelOff(){
+	echo "NYI"
+}
+function PPSSPP_finalize(){
+	echo "NYI"
+}
+function PPSSPP_IsInstalled(){
+	$test=Test-Path -Path "$emusPath\PPSSPP\PPSSPPWindows64.exe"
+	if($test){
+		echo "true"
+	}
+}
+function PPSSPP_resetConfig(){
+	PPSSPP_init
+	if($?){
+		echo "true"
+	}
+}

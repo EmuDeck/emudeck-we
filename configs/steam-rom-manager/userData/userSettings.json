@@ -1,0 +1,30 @@
+{
+  "fuzzyMatcher": {
+    "timestamps": {
+      "check": 1670669774072,
+      "download": 1670669774072
+    },
+    "verbose": false,
+    "filterProviders": true
+  },
+  "environmentVariables": {
+    "steamDirectory": "STEAMPATH",
+    "romsDirectory": "C:\\Emulation\\roms",
+    "retroarchPath": "C:\\Windows\\System32\\cmd.exe",
+    "raCoresDirectory": "EMUSPATH\\RetroArch\\cores",
+    "localImagesDirectory": ""
+  },
+  "previewSettings": {
+    "retrieveCurrentSteamImages": true,
+    "deleteDisabledShortcuts": false,
+    "imageZoomPercentage": 40,
+    "preload": false
+  },
+  "enabledProviders": ["SteamGridDB"],
+  "language": "en-US",
+  "offlineMode": false,
+  "navigationWidth": 256,
+  "clearLogOnTest": false,
+  "version": 5,
+  "theme": "EmuDeck"
+}

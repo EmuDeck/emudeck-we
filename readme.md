@@ -1,3 +1,2 @@
 # EmuDeck-we
-
 Windows Edition
