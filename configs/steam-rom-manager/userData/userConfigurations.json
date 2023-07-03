@@ -4,6 +4,7 @@
     "configTitle": "EmulationStationDE",
     "steamCategory": "${Emulation}",
     "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"C:\\Emulation\\tools\\launchers\\esde\\EmulationStationDE.bat\" && exit \" && exit",
+
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "C:\\Emulation\\tools\\launchers\\esde\\",
     "steamDirectory": "${steamdirglobal}",
@@ -101,8 +102,8 @@
     "parserType": "Glob",
     "configTitle": "Emulators",
     "steamCategory": "${Emulation}",
-    "executableArgs": "",
-    "executableModifier": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"${exePath}\" && exit \" && exit",
+    "executableModifier": "\"${exePath}\"\"",
+    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\"  /K \"\"${exePath}\" && exit \" && exit",
     "romDirectory": "C:\\Emulation\\tools\\launchers",
     "steamDirectory": "${steamdirglobal}",
     "startInDirectory": "",
