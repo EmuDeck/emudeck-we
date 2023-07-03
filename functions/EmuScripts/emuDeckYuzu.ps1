@@ -18,7 +18,8 @@ function Yuzu_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config" "$destination"
 	
-	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath
+	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath	
+	sedFile $destination\qt-config.ini ":\\Emulation\roms\" ":/Emulation/roms/"	
 
 	setMSG "Yuzu - Creating Keys & Firmware Links"
 	#Firmware

@@ -17,23 +17,6 @@ function DuckStation_init(){
 	
 	DuckStation_setupSaves
 	DuckStation_setResolution $duckstationResolution
-	
-	if  ("$doRASignIn" -eq "true" ){
-		DuckStation_retroAchievementsSetLogin
-	}
-	
-	#
-	#New Aspect Ratios
-	#
-	
-	# Classic 3D Games
-	if ( "$arClassic3D" -eq 169 ){				
-		DuckStation_wideScreenOn		
-	}else{
-		DuckStation_wideScreenOff
-	}
-
-	
 }
 function DuckStation_update(){
 	echo "NYI"

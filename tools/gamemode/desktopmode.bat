@@ -7,7 +7,7 @@
  CLS
  ECHO.
  ECHO =============================
- ECHO Running Admin shell desktopmode.bat
+ ECHO Running Admin shell
  ECHO =============================
 
 :init

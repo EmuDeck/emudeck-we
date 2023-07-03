@@ -17,10 +17,6 @@ function PPSSPP_init(){
 	$destination="$emusPath\PPSSPP\memstick\PSP\SYSTEM"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
-
-	
-	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"
-	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" ":\Emulation" ":/Emulation"
 	
 	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution
@@ -33,17 +29,15 @@ function PPSSPP_setEmulationFolder(){
 }
 function PPSSPP_setupSaves(){	
 	setMSG "PPSSPP - Saves Links"
-	mkdir "$savesPath/ppsspp"  -ErrorAction SilentlyContinue
-	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\states.lnk")	
 	
+	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
+	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\states.lnk")	
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 	$SourceFilePath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	$ShortcutPath = -join($emulationPath,"\saves\ppsspp\saves.lnk")
-	
+	mkdir $SourceFilePath -ErrorAction SilentlyContinue
 	createLink $SourceFilePath $ShortcutPath
 	
 }

@@ -32,7 +32,6 @@ function JSONtoPS1(){
 	$SetupXemu= $myJson.overwriteConfigEmus.xemu.status
 	$SetupESDE= $myJson.overwriteConfigEmus.esde.status
 	$SetupSRM= $myJson.overwriteConfigEmus.srm.status
-	$SetupmelonDS= $myJson.overwriteConfigEmus.melonDS.status
 	
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
@@ -50,7 +49,6 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupXemu=`"$SetupXemu`"")
 	setSettinginFile("`$doSetupESDE=`"$SetupESDE`"")
 	setSettinginFile("`$doSetupSRM=`"$SetupSRM`"")
-	setSettinginFile("`$doSetupmelonDS=`"$SetupmelonDS`"")
 	
 	
 	#Install all systems by default
@@ -70,7 +68,6 @@ function JSONtoPS1(){
 	$InstallXemu= $myJson.installEmus.xemu.status
 	$InstallESDE= $myJson.installEmus.esde.status
 	$InstallSRM= $myJson.installEmus.srm.status
-	$InstallmelonDS= $myJson.installEmus.melonDS.status
 	
 	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
@@ -88,7 +85,6 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallXemu=`"$InstallXemu`"")
 	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
 	setSettinginFile("`$doInstallSRM=`"$InstallSRM`"")
-	setSettinginFile("`$doInstallmelonDS=`"$InstallmelonDS`"")
 	
 	
 	$RABezels=$myJson.bezels

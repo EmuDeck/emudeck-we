@@ -97,13 +97,13 @@ if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 }
 
 #RPCS3
-#$test=Test-Path -Path "$emusPath\RPCS3\rpcs3.exe"
+#$test=Test-Path -Path "$emusPath\RPCS3"
 #if(-not($test) -and $doInstallRPCS3 -eq "true" ){
 #	RPCS3_install
 #}
 
 #Xemu
-#$test=Test-Path -Path "$emusPath\xemu\xemu.exe"
+#$test=Test-Path -Path "$emusPath\xemu"
 #if(-not($test) -and $doInstallXemu -eq "true" ){
 #	Xemu_install
 #}
@@ -115,18 +115,18 @@ if(-not($test) -and $doInstallYuzu -eq "true" ){
 }
 
 #Citra
-$test=Test-Path -Path "$emusPath\citra\citra-qt.exe"
+$test=Test-Path -Path "$emusPath\citra"
 if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
 #melonDS
-$test=Test-Path -Path "$emusPath\melonDS\melonDS.exe"
+$test=Test-Path -Path "$emusPath\melonDS"
 if(-not($test) -and $doInstallmelonDS -eq "true" ){
 	melonDS_install
 }
 
 #Ryujinx
-$test=Test-Path -Path "$emusPath\Ryujinx\Ryujinx.exe"
+$test=Test-Path -Path "$emusPath\Ryujinx"
 if(-not($test) -and $doInstallRyujinx -eq "true" ){
 	Ryujinx_install
 }
@@ -144,7 +144,7 @@ if(-not($test) -and $doInstallCemu -eq "true" ){
 }
 
 #Xenia
-#$test=Test-Path -Path "$emusPath\xenia\xenia.exe"
+#$test=Test-Path -Path "$emusPath\xenia"
 #if(-not($test) -and $doInstallXenia -eq "true" ){
 #	Xenia_install
 #}
@@ -227,5 +227,164 @@ if ( "$doSetupSRM" -eq "true" ){
 	SRM_init
 }
 
+
+#Customization
+
+#RetroAchievments
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_retroAchievementsSetLogin
+	if  ("$doRASignIn" -eq "true" ){
+		#RetroArch_retroAchievementsPromptLogin
+		#RetroArch_retroAchievementsSetLogin
+		RetroArch_retroAchievementsOn
+	}
+	
+	if ( "$doRAEnable" -eq "true" ){
+		RetroArch_retroAchievementsOn
+	}
+	
+	if ( "$achievementsHardcore" -eq "true" ){
+		RetroArch_retroAchievementsHardCoreOn
+	}else{
+		RetroArch_retroAchievementsHardCoreOff
+	}
+}
+
+if  ("$doRASignIn" -eq "true" ){
+	if ( "$doInstallDuck" -eq "true" ){
+		DuckStation_retroAchievementsSetLogin
+	}
+	if ( "$doInstallPCSX2" -eq "true" ){
+		PCSX2QT_retroAchievementsSetLogin
+	}
+}
+
+#AR, Bezels and Shaders
+#RA Bezels	
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_setBezels #needs to change
+	
+	#RA AutoSave	
+	if ( "$RAautoSave" -eq "true" ){
+		RetroArch_autoSaveOn
+	}else{
+		RetroArch_autoSaveOff
+	}	
+}
+
+#
+#New Shaders
+#Moved before widescreen, so widescreen disabled if needed.
+#	
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_setShadersCRT
+	RetroArch_setShaders3DCRT
+	RetroArch_setShadersMAT
+}
+
+	#
+	#New Aspect Ratios
+	#
+	
+	#Sega Games
+		#Master System
+		#Genesis
+		#Sega CD
+		#Sega 32X
+	if ( "$doSetupRA" -eq "true" ){
+		switch ($arSega){
+		  32 {	 
+			RetroArch_mastersystem_ar32;
+			RetroArch_genesis_ar32;
+			RetroArch_segacd_ar32
+			RetroArch_sega32x_ar32	
+		  }			
+		  43 {
+			RetroArch_mastersystem_ar43
+			RetroArch_genesis_ar43
+			RetroArch_segacd_ar43
+			RetroArch_sega32x_ar43
+			if ( "$RABezels" -eq "true"){
+				if ("$doSetupRA" -eq "true" ){
+				  RetroArch_mastersystem_bezelOn
+				  RetroArch_genesis_bezelOn
+				  RetroArch_segacd_bezelOn
+				  RetroArch_sega32x_bezelOn
+				}
+			}
+		  }
+		}
+		
+		#Snes and NES
+		switch ($arSnes){
+		  87{
+			RetroArch_snes_ar87
+			RetroArch_nes_ar87
+		  }
+		  43{
+			RetroArch_snes_ar43
+			RetroArch_nes_ar43
+			if ( "$RABezels" -eq "true" ){
+				if( "$doSetupRA" -eq "true" ){
+					RetroArch_snes_bezelOn
+				}	
+			}
+		  }		  
+		}
+	}
+	# Classic 3D Games
+		#Dreamcast
+		#PSX
+		#Nintendo 64
+		#Saturn
+		#Xbox
+	if ( "$arClassic3D" -eq 169 ){		
+		if ( "$doSetupRA" -eq "true" ){	
+			RetroArch_Beetle_PSX_HW_wideScreenOn
+			RetroArch_Flycast_wideScreenOn			
+			RetroArch_dreamcast_bezelOff
+			RetroArch_psx_bezelOff
+			RetroArch_n64_wideScreenOn
+			RetroArch_SwanStation_wideScreenOn
+		}
+		if ( "$doSetupDuck" -eq "true" ){
+			DuckStation_wideScreenOn
+		}
+		if ( "$doSetupXemu" -eq "true" ){
+			Xemu_wideScreenOn
+		}
+
+	}else{
+		if ( "$doSetupRA" -eq "true" ){
+			#"SET 4:3"
+			RetroArch_Flycast_wideScreenOff
+			RetroArch_n64_wideScreenOff
+			RetroArch_Beetle_PSX_HW_wideScreenOff
+			RetroArch_SwanStation_wideScreenOff
+		}
+		if ( "$doSetupDuck" -eq "true" ){
+			DuckStation_wideScreenOff
+		}
+		if ( "$doSetupXemu" -eq "true" ){
+			Xemu_wideScreenOff
+		}
+		#"Bezels on"
+		if ( "$RABezels" -eq "true" ){
+			if( "$doSetupRA" -eq "true" ){
+			RetroArch_dreamcast_bezelOn			
+			RetroArch_n64_bezelOn
+			RetroArch_psx_bezelOn
+			}
+		}			
+	}
+	
+	# GameCube
+	if ( "$doSetupDolphin" -eq "true" ){
+		if ( "$arDolphin" -eq 169 ){	
+			Dolphin_wideScreenOn
+		}else{
+			Dolphin_wideScreenOff
+		}
+	}
 
 Stop-Transcript

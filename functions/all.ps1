@@ -1,6 +1,6 @@
 #We add 7z folders to the Path
-$env:path = $env:path + ";$env:ProgramFiles\7-zip"
-$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
+$env:path = $env:path + ";C:\Program Files\7-zip"
+$env:path = $env:path + ";C:\Program Files (x86)\7-zip"
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 . $env:USERPROFILE\EmuDeck\settings.ps1
@@ -10,6 +10,7 @@ mkdir $toolsPath -ErrorAction SilentlyContinue
 mkdir $toolsPath\launchers -ErrorAction SilentlyContinue
 mkdir $savesPath -ErrorAction SilentlyContinue
 Set-Location $emulationPath
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showListDialog.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showNotification.ps1
@@ -20,6 +21,8 @@ Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\createLink.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showButtonQuestionImg.ps1
+. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showButtonQuestion.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\checkBIOS.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\appImageInit.ps1
 

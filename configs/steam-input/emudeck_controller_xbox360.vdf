@@ -2,14 +2,14 @@
 {
 	"version"		"3"	
 	"title"		"EmuDeck WE - Xbox 360"
-	"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for Citra screen swap / Layout"
+	"description"		"Long Press START + SELECT to Exit Emulator. Long Press L1 / L2 for Citra screen swap"
 	"controller_type"		"controller_xbox360"
 	"localization"
 	{
 		"english"
 		{
 			"title"		"EmuDeck WE - Xbox 360"
-			"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for Citra screen swap / Layout"
+			"description"		"Long Press START + SELECT to Exit Emulator"
 		}
 	}
 	"group"
@@ -259,17 +259,6 @@
 							"haptic_intensity"		"2"
 						}
 					}
-					"chord"
-					{
-						"bindings"
-						{
-							"binding"		"key_press F9, , "
-						}
-						"settings"
-						{
-							"chord_button"		"15"
-						}
-					}
 				}
 				"disabled_activators"
 				{
@@ -302,17 +291,6 @@
 						"settings"
 						{
 							"haptic_intensity"		"2"
-						}
-					}
-					"chord"
-					{
-						"bindings"
-						{
-							"binding"		"key_press F10, , "
-						}
-						"settings"
-						{
-							"chord_button"		"15"
 						}
 					}
 				}
@@ -548,28 +526,11 @@
 							"binding"		"xinput_button start, , "
 						}
 					}
-					"chord"
-					{
-						"bindings"
-						{
-							"binding"		"key_press LEFT_ALT, , "
-						}
-						"settings"
-						{
-							"chord_button"		"15"
-							"interruptable"		"0"
-						}
-					}
-					"chord"
+					"Long_Press"
 					{
 						"bindings"
 						{
 							"binding"		"key_press F4, , "
-						}
-						"settings"
-						{
-							"chord_button"		"15"
-							"interruptable"		"0"
 						}
 					}
 				}
@@ -588,6 +549,13 @@
 							"binding"		"xinput_button select, , "
 						}
 					}
+					"Long_Press"
+					{
+						"bindings"
+						{
+							"binding"		"key_press LEFT_ALT, , "
+						}
+					}
 				}
 				"disabled_activators"
 				{
@@ -604,15 +572,15 @@
 							"binding"		"xinput_button shoulder_left, , "
 						}
 					}
-					"chord"
+					"Long_Press"
 					{
 						"bindings"
 						{
-							"binding"		"key_press F4, , "
+							"binding"		"key_press F9, , "
 						}
 						"settings"
 						{
-							"chord_button"		"15"
+							"haptic_intensity"		"2"
 						}
 					}
 				}
@@ -631,15 +599,15 @@
 							"binding"		"xinput_button shoulder_right, , "
 						}
 					}
-					"chord"
+					"Long_Press"
 					{
 						"bindings"
 						{
-							"binding"		"key_press F2, , "
+							"binding"		"key_press F10, , "
 						}
 						"settings"
 						{
-							"chord_button"		"15"
+							"haptic_intensity"		"2"
 						}
 					}
 				}
