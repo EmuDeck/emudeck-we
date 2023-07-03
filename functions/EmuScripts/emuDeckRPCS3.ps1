@@ -34,7 +34,6 @@ function RPCS3_setResolution($resolution){
 	setConfig "Resolution Scale:" $res $destination
 	#Fix setConfig =
 	sedFile $destination "Resolution Scale:=" "  Resolution Scale: "
-
 }
 
 function RPCS3_setupSaves(){
