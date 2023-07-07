@@ -23,7 +23,7 @@ function RPCS3_update(){
 	echo "NYI"
 }
 function RPCS3_setEmulationFolder(){
-	sedFile "$emusPath\RPCS3\vfs.yml" "C:\Emulation" "$emulationPath"
+	sedFile "$emusPath\RPCS3\config/vfs.yml" "C:\Emulation" "$emulationPath"
 	
 }
 function RPCS3_setResolution($resolution){
