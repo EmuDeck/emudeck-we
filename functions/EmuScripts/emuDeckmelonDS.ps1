@@ -25,8 +25,8 @@ function melonDS_setEmulationFolder(){
 	echo "true"
 }
 function melonDS_setupSaves(){
-	mkdir "$savesPath\melonDS\saves" -ErrorAction SilentlyContinue
-	mkdir "$savesPath\melonDS\states" -ErrorAction SilentlyContinue
+	mkdir "$savesPath\melonds\saves" -ErrorAction SilentlyContinue
+	mkdir "$savesPath\melonds\states" -ErrorAction SilentlyContinue
 	mkdir "$emulationPath\storage\melonDS\cheats" -ErrorAction SilentlyContinue
 	echo "true"
 }
