@@ -23,7 +23,7 @@ function RPCS3_update(){
 	echo "NYI"
 }
 function RPCS3_setEmulationFolder(){
-	sedFile "$emusPath/RPCS3/config/vfs.yml" "C:\Emulation" "$emulationPath"
+	sedFile "$emusPath/RPCS3/config/vfs.yml" "C:/Emulation" "$emulationPath"
 	
 }
 function RPCS3_setResolution($resolution){
@@ -43,14 +43,14 @@ function RPCS3_setResolution($resolution){
 function RPCS3_setupSaves(){
 	setMSG "RPCS3 - Saves Links"
 	rm -fo "$savesPath\rpcs3\saves.lnk" -Recurse -ErrorAction SilentlyContinue
-	createLink $emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata "$savesPath\rpcs3\saves.lnk"
+	mkdir "$savesPath\rpcs3\" -ErrorAction SilentlyContinue
+	createLink "$emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata" "$savesPath\rpcs3\saves.lnk"
 }
 
 function RPCS3_setupStorage(){
-	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata"
-	$ShortcutPath = "$savesPath\rpcs3\saves.lnk"
+	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0"
 	
-	mkdir "$emulationPath/storage/rpcs3/dev_hdd0\home\00000001\savedata"  -ErrorAction SilentlyContinue
+SilentlyContinue
 	
 	#We move HDD to the Emulation storage folder
 	$test=Test-Path -Path "$emusPath\RPCS3\dev_hdd0"
@@ -67,13 +67,15 @@ function RPCS3_setupStorage(){
 			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
 			exit
 		}				
-		$Output = $wshell.Popup("We are going to move RPCS3 data to $userDrive to save space from your internal storage. This will take long, so please wait until you get a new confirmation window")
+		$Output = $wshell.Popup("We are going to move RPCS3 data to $userDrive to save space from your internal storage. This could take long, so please wait until you get a new confirmation window")
 		
 		
 		moveFromTo "$emusPath\RPCS3\dev_hdd0" "$emulationPath/storage/rpcs3/dev_hdd0"	
 		$Output = $wshell.Popup("Migration complete!")
 	
-	}	
+	}else{
+		mkdir "$emulationPath/storage/rpcs3/dev_hdd0/home/00000001/savedata" -ErrorAction SilentlyContinue
+	}
 }
 function RPCS3_wipe(){
 	echo "NYI"
