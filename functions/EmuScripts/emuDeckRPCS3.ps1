@@ -15,12 +15,16 @@ function RPCS3_init(){
 	$destination="$emusPath\RPCS3"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
 	#RPCS3_setResolution $rpcs3Resolution
+	RPCS3_setupStorage
+	RPCS3_setupSaves
+	RPCS3_setEmulationFolder
 }
 function RPCS3_update(){
 	echo "NYI"
 }
 function RPCS3_setEmulationFolder(){
-	echo "NYI"
+	sedFile "$emusPath\RPCS3\vfs.yml" "C:\Emulation" "$emulationPath"
+	
 }
 function RPCS3_setResolution($resolution){
 	switch ( $resolution )
@@ -38,16 +42,38 @@ function RPCS3_setResolution($resolution){
 
 function RPCS3_setupSaves(){
 	setMSG "RPCS3 - Saves Links"
-	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata"
-	$ShortcutPath = -join($emulationPath,"\saves\rpcs3\saves.lnk")
-	rm -fo  "saves\RPCS3" -Recurse -ErrorAction SilentlyContinue
-	mkdir "saves\rpcs3" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	rm -fo "$savesPath\rpcs3\saves.lnk" -Recurse -ErrorAction SilentlyContinue
+	createLink $emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata $ShortcutPath
 }
 
 function RPCS3_setupStorage(){
-	echo "NYI"
+	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata"
+	$ShortcutPath = "$savesPath\rpcs3\saves.lnk"
+	
+	mkdir $emulationPath/storage/rpcs3/dev_hdd0  -ErrorAction SilentlyContinue
+	
+	#We move HDD to the Emulation storage folder
+	$test=Test-Path -Path $SourceFilePath
+	if($test){	
+		$userDrive=$emulationPath[0]
+		
+		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$sizeInGB = [Math]::Round($destinationFree / 1GB)
+		
+		$originSize = (Get-ChildItem -Path $SourceFilePath -Recurse | Measure-Object -Property Length -Sum).Sum
+		$wshell = New-Object -ComObject Wscript.Shell
+		
+		if ( $originSize -gt $destinationFree ){			
+			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
+			exit
+		}				
+		$Output = $wshell.Popup("We are going to move RPCS3 data to $userDrive to save space from your internal storage. This will take long, so please wait until you get a new confirmation window")
+		
+		
+		moveFromTo "$emusPath\RPCS3\dev_hdd0" "$emulationPath/storage/rpcs3/dev_hdd0"	
+		$Output = $wshell.Popup("Migration complete!")
+	
+	}	
 }
 function RPCS3_wipe(){
 	echo "NYI"
