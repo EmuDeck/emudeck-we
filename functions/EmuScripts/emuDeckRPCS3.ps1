@@ -43,7 +43,7 @@ function RPCS3_setResolution($resolution){
 function RPCS3_setupSaves(){
 	setMSG "RPCS3 - Saves Links"
 	rm -fo "$savesPath\rpcs3\saves.lnk" -Recurse -ErrorAction SilentlyContinue
-	createLink $emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata $ShortcutPath
+	createLink $emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata "$savesPath\rpcs3\saves.lnk"
 }
 
 function RPCS3_setupStorage(){
