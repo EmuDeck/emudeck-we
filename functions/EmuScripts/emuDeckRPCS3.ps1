@@ -50,8 +50,6 @@ function RPCS3_setupSaves(){
 function RPCS3_setupStorage(){
 	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0"
 	
-SilentlyContinue
-	
 	#We move HDD to the Emulation storage folder
 	$test=Test-Path -Path "$emusPath\RPCS3\dev_hdd0"
 	if($test){	
@@ -74,7 +72,7 @@ SilentlyContinue
 		$Output = $wshell.Popup("Migration complete!")
 	
 	}else{
-		mkdir "$emulationPath/storage/rpcs3/dev_hdd0/home/00000001/savedata" -ErrorAction SilentlyContinue
+		mkdir "$emulationPath/storage/rpcs3/dev_hdd0/home/00000001/savedata"  -ErrorAction SilentlyContinue
 	}
 }
 function RPCS3_wipe(){
