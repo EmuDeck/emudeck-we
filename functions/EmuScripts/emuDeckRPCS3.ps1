@@ -23,7 +23,7 @@ function RPCS3_update(){
 	echo "NYI"
 }
 function RPCS3_setEmulationFolder(){
-	sedFile "$emusPath\RPCS3\config/vfs.yml" "C:\Emulation" "$emulationPath"
+	sedFile "$emusPath/RPCS3/config/vfs.yml" "C:\Emulation" "$emulationPath"
 	
 }
 function RPCS3_setResolution($resolution){
@@ -50,10 +50,10 @@ function RPCS3_setupStorage(){
 	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata"
 	$ShortcutPath = "$savesPath\rpcs3\saves.lnk"
 	
-	mkdir $emulationPath/storage/rpcs3/dev_hdd0  -ErrorAction SilentlyContinue
+	mkdir "$emulationPath/storage/rpcs3/dev_hdd0\home\00000001\savedata"  -ErrorAction SilentlyContinue
 	
 	#We move HDD to the Emulation storage folder
-	$test=Test-Path -Path $SourceFilePath
+	$test=Test-Path -Path "$emusPath\RPCS3\dev_hdd0"
 	if($test){	
 		$userDrive=$emulationPath[0]
 		
