@@ -7,13 +7,13 @@ function setMSGTemp($message){
 		$progressBarUpdate=90
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log
-	echo $message
+	Write-Output $message
 	Add-Content $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-echo "" > $env:USERPROFILE/EmuDeck/EmuDeck.log
+Write-Output "" > $env:USERPROFILE/EmuDeck/EmuDeck.log
 
 Start-Sleep -Seconds 1.5
 

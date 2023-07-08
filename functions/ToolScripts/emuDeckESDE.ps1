@@ -184,43 +184,43 @@ function ESDE_addLauncher($emucode, $launcher){
 }
 
 function ESDE_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setupSaves(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_applyTheme($theme){
 	
@@ -254,6 +254,6 @@ function ESDE_IsInstalled(){
 function ESDE_resetConfig(){
 	ESDE_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

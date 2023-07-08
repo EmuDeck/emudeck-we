@@ -7,7 +7,7 @@ function showNotification {
 		[parameter(ValueFromPipeline)]
 		$ToastText
 	)
-	$echo = -join($ToastTitle,'...')
+	$Write-Output = -join($ToastTitle,'...')
 	Write-Output $echo
 	[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null
 	$Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)

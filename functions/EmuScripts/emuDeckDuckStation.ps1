@@ -36,10 +36,10 @@ function DuckStation_init(){
 	
 }
 function DuckStation_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_setupSaves(){
 	setMSG "DuckStation - Creating Saves Links"
@@ -70,45 +70,45 @@ function DuckStation_setResolution($resolution){
 }
 
 function DuckStation_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function DuckStation_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\duckstation"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function DuckStation_resetConfig(){
 	DuckStation_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 

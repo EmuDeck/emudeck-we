@@ -159,24 +159,24 @@ function cloud_sync_config($cloud_sync_provider){
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 		& $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
-		echo 'true'
+		Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
 		$pass=$credentials.Password
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 		& $cloud_sync_bin config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
-		echo 'true'
+		Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 		$credentials = Get-Custom-Credentials "Emudeck-SMB"
 		$pass=$credentials.Password
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 		& $cloud_sync_bin config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
-		echo 'true'
+		Write-Output 'true'
 	} else {
 		& $cloud_sync_bin config update "$cloud_sync_provider"
-		echo 'true'
+		Write-Output 'true'
 	}
 
 	$result = showYesNoDialog "First Sync" "Press Yes to download all your saved games from the cloud.`nThis will overwrite your local saves.`n`nPress No to upload your local saved games to the cloud.`nThis will overwrite your cloud saves"
@@ -244,7 +244,7 @@ function cloud_sync_config_with_code($code){
 	
 	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
 
-	echo $section;
+	Write-Output $section;
 
 	foreach($_ in Get-Content $cloud_sync_config_file) {
 		if ($_ -like "*$section*") {

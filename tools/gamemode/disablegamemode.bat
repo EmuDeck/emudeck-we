@@ -3,12 +3,12 @@
 :: Automatically check & get admin rights
 :: see "https://stackoverflow.com/a/12264592/1016343" for description
 ::::::::::::::::::::::::::::::::::::::::::::
- @echo off
+ @Write-Output off
  CLS
  ECHO.
- ECHO =============================
- ECHO Running Admin shell
- ECHO =============================
+ Write-Output =============================
+ Write-Output Running Admin shell
+ Write-Output =============================
 
 :init
  setlocal DisableDelayedExpansion
@@ -25,26 +25,26 @@
   if '%errorlevel%' == '0' ( goto gotPrivileges ) else ( goto getPrivileges )
 
 :getPrivileges
-  if '%1'=='ELEV' (echo ELEV & shift /1 & goto gotPrivileges)
+  if '%1'=='ELEV' (Write-Output ELEV & shift /1 & goto gotPrivileges)
   ECHO.
-  ECHO **************************************
-  ECHO Invoking UAC for Privilege Escalation
-  ECHO **************************************
+  Write-Output **************************************
+  Write-Output Invoking UAC for Privilege Escalation
+  Write-Output **************************************
 
-  ECHO Set UAC = CreateObject^("Shell.Application"^) > "%vbsGetPrivileges%"
-  ECHO args = "ELEV " >> "%vbsGetPrivileges%"
-  ECHO For Each strArg in WScript.Arguments >> "%vbsGetPrivileges%"
-  ECHO args = args ^& strArg ^& " "  >> "%vbsGetPrivileges%"
-  ECHO Next >> "%vbsGetPrivileges%"
+  Write-Output Set UAC = CreateObject^("Shell.Application"^) > "%vbsGetPrivileges%"
+  Write-Output args = "ELEV " >> "%vbsGetPrivileges%"
+  Write-Output For Each strArg in WScript.Arguments >> "%vbsGetPrivileges%"
+  Write-Output args = args ^& strArg ^& " "  >> "%vbsGetPrivileges%"
+  Write-Output Next >> "%vbsGetPrivileges%"
   
   if '%cmdInvoke%'=='1' goto InvokeCmd 
 
-  ECHO UAC.ShellExecute "!batchPath!", args, "", "runas", 1 >> "%vbsGetPrivileges%"
+  Write-Output UAC.ShellExecute "!batchPath!", args, "", "runas", 1 >> "%vbsGetPrivileges%"
   goto ExecElevation
 
 :InvokeCmd
-  ECHO args = "/c """ + "!batchPath!" + """ " + args >> "%vbsGetPrivileges%"
-  ECHO UAC.ShellExecute "%SystemRoot%\%winSysFolder%\cmd.exe", args, "", "runas", 1 >> "%vbsGetPrivileges%"
+  Write-Output args = "/c """ + "!batchPath!" + """ " + args >> "%vbsGetPrivileges%"
+  Write-Output UAC.ShellExecute "%SystemRoot%\%winSysFolder%\cmd.exe", args, "", "runas", 1 >> "%vbsGetPrivileges%"
 
 :ExecElevation
  "%SystemRoot%\%winSysFolder%\WScript.exe" "%vbsGetPrivileges%" %*
@@ -65,4 +65,4 @@ REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogo
 taskkill /F /IM sihost.exe
 timeout /T 5 /nobreak
 start sihost.exe
-IF %ERRORLEVEL% == 0 ( ECHO OK! ) ELSE ( ECHO FAIL! )
+IF %ERRORLEVEL% == 0 ( Write-Output OK! ) ELSE ( Write-Output FAIL! )

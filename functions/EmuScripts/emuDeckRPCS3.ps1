@@ -20,7 +20,7 @@ function RPCS3_init(){
 	RPCS3_setEmulationFolder
 }
 function RPCS3_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_setEmulationFolder(){
 	sedFile "$emusPath/RPCS3/config/vfs.yml" "C:/Emulation" "$emulationPath"
@@ -76,41 +76,41 @@ function RPCS3_setupStorage(){
 	}
 }
 function RPCS3_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\RPCS3"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function RPCS3_resetConfig(){
 	RPCS3_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

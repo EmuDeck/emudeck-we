@@ -24,10 +24,10 @@ function Citra_init(){
 	Citra_setupSaves
 }
 function Citra_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
@@ -44,7 +44,7 @@ function Citra_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath
 }
 function Citra_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 
 function Citra_setResolution($resolution){
@@ -61,41 +61,41 @@ function Citra_setResolution($resolution){
 }
 
 function Citra_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Citra_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\citra"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Citra_resetConfig(){
 	Citra_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

@@ -49,11 +49,11 @@ function setSettingNoQuotes($file, $old, $new) {
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 	
 		Set-Content -Path $fileToCheck -Value $modifiedContents
-		echo "Line $line changed to $newLine"
+		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,'=',$new)
 		Add-Content $fileToCheck $newLine
-		echo "Line created on $fileToCheck"
+		Write-Output "Line created on $fileToCheck"
 	}
 
 }
@@ -68,11 +68,11 @@ function setSettingNoQuotes($file, $old, $new) {
 		
 		Set-Content -Path $fileToCheck -Value $modifiedContents
 		
-		echo "Line $line changed to $newLine"
+		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,' = ',$new)
 		Add-Content $fileToCheck $newLine
-		echo "Line created on $fileToCheck"
+		Write-Output "Line created on $fileToCheck"
 	}
 
 
@@ -83,23 +83,23 @@ function customLocation(){
 	$drives = (Get-PSDrive -PSProvider FileSystem).Root
 	$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 	Start-Sleep -Seconds 0.5
-	echo $winPath;
+	Write-Output $winPath;
 }
 
 function testLocationValid($mode, $path){
 	if (!$path){
-		echo "Wrong"
+		Write-Output "Wrong"
 	}else{
-		echo "Valid"
+		Write-Output "Valid"
 	}	
 }
 
 function escapeSedKeyword($input){
-	echo $input
+	Write-Output $input
 }
 
 function escapeSedValue($input){
-	echo $input
+	Write-Output $input
 }
 
 function changeLine($keyword, $replace, $file) {
@@ -115,7 +115,7 @@ function setMSG($message){
 		$progressBarUpdate=90
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii $userFolder\AppData\Roaming\EmuDeck\msg.log
-	echo $message
+	Write-Output $message
 	Add-Content $userFolder\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
@@ -123,7 +123,7 @@ function setMSG($message){
 
 
 function checkForFile($fileName){
-	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (echo "true") ; rm -fo $dir/$fileName
+	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
 }
 
 
@@ -157,7 +157,7 @@ function check_internet_connection(){
 }
 
 function changeController($device){
-	echo "NYI"
+	Write-Output "NYI"
 }
 
 

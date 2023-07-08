@@ -19,16 +19,16 @@ function melonDS_init(){
 	melonDS_setResolution $melondsResolution
 }
 function melonDS_update(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_setEmulationFolder(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_setupSaves(){
 	mkdir "$savesPath\melonds\saves" -ErrorAction SilentlyContinue
 	mkdir "$savesPath\melonds\states" -ErrorAction SilentlyContinue
 	mkdir "$emulationPath\storage\melonDS\cheats" -ErrorAction SilentlyContinue
-	echo "true"
+	Write-Output "true"
 }
 
 function melonDS_setResolution($resolution){
@@ -48,44 +48,44 @@ function melonDS_setResolution($resolution){
 
 
 function melonDS_setupStorage(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_wipe(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_uninstall(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_migrate(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_setABXYstyle(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_wideScreenOn(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_wideScreenOff(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_bezelOn(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_bezelOff(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_finalize(){
-	echo "true"
+	Write-Output "true"
 }
 function melonDS_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\melonDS"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function melonDS_resetConfig(){
 	melonDS_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

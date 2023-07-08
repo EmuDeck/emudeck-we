@@ -6,66 +6,66 @@ function Xemu_install(){
 	createLauncher "xemu"
 }
 function Xemu_init(){
-	echo "NYI"
+	Write-Output "NYI"
 	#Xemu_setResolution $xemuResolution
 }
 function Xemu_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_setupSaves(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_setResolution($resolution){
-	echo $resolution
+	Write-Output $resolution
 }
 function Xemu_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\xemu"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Xemu_resetConfig(){
 	Xemu_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Xemu_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xemu_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }

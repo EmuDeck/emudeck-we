@@ -6,60 +6,60 @@ function Xenia_install(){
 	createLauncher "xenia"
 }
 function Xenia_init(){
-	echo "NYI"
+	Write-Output "NYI"
 	#Xenia_setResolution $xeniaResolution
 }
 function Xenia_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_setupSaves(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_setResolution($resolution){
-	echo $resolution
+	Write-Output $resolution
 }
 function Xenia_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Xenia_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\xenia"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Xenia_resetConfig(){
 	Xenia_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
