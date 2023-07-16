@@ -1,6 +1,6 @@
 function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
-	rm -fo "$temp/esde" -ErrorAction SilentlyContinue;
+	rm -r -fo "$temp/esde" -ErrorAction SilentlyContinue
 	download $url_esde "esde.zip"
 	mkdir $esdePath -ErrorAction SilentlyContinue
 	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"	
