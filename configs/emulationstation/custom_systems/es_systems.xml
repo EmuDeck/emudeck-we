@@ -10,9 +10,9 @@
         <theme>ps3</theme>
     </system>
     <system>
-        <name>ps3</name>
+        <name>ps3-shortcut</name>
         <fullname>Sony PlayStation 3 - Shortcut Games</fullname>
-        <path>%ROMPATH%\ps3</path>
+        <path>%ROMPATH%\ps3\shortcuts</path>
         <extension>.lnk .LNK</extension>
         <command label="RPCS3 Shortcut (Standalone)">%HIDEWINDOW% %ESCAPESPECIALS% %EMULATOR_OS-SHELL% /C %ROM%</command>
         <platform>ps3</platform>
