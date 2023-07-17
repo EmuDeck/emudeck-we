@@ -5,9 +5,9 @@ function RPCS3_install(){
 	moveFromTo "$temp/rpcs3" "$emusPath\RPCS3"
 	createLauncher "rpcs3"
 	
-	$url_vulkan = "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime.exe"
-	download $url_vulkan "vulkan-runtime.exe"
-	.\vulkan-runtime.exe
+	#$url_vulkan = "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime.exe"
+	#download $url_vulkan "vulkan-runtime.exe"
+	#.\$temp\vulkan-runtime.exe
 	
 }
 function RPCS3_init(){
@@ -24,6 +24,7 @@ function RPCS3_update(){
 }
 function RPCS3_setEmulationFolder(){
 	sedFile "$emusPath/RPCS3/config/vfs.yml" "C:/Emulation" "$emulationPath"
+	sedFile "$emusPath/RPCS3/config/vfs.yml" "\" "/"
 	
 }
 function RPCS3_setResolution($resolution){
@@ -65,8 +66,7 @@ function RPCS3_setupStorage(){
 			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
 			exit
 		}				
-		$Output = $wshell.Popup("We are going to move RPCS3 data to $userDrive to save space from your internal storage. This could take long, so please wait until you get a new confirmation window")
-		
+		$Output = $wshell.Popup("We are going to move RPCS3 data to your $userDrive/Emulation/storage/rpcs3/dev_hdd0 to optimize storage. This could take long, so please wait until you get a new confirmation window")
 		
 		moveFromTo "$emusPath\RPCS3\dev_hdd0" "$emulationPath/storage/rpcs3/dev_hdd0"	
 		$Output = $wshell.Popup("Migration complete!")
