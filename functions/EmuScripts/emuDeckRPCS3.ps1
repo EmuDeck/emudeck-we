@@ -27,6 +27,22 @@ function RPCS3_setEmulationFolder(){
 	sedFile "$emusPath/RPCS3/config/vfs.yml" "\" "/"
 	
 }
+function RPCS3_renameFolders(){
+	$basePath = "$romsPath/ps3"
+	$directories = Get-ChildItem -Path $basePath -Directory
+	
+	foreach ($directory in $directories) {
+		$name = $directory.Name
+	
+		if ($name -ne "shortcuts") {
+			if (-not $name.EndsWith(".ps3")) {
+				$newName = $name + ".ps3"
+				$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
+				Rename-Item -Path $directory.FullName -NewName $newName
+			}
+		}
+	}
+}
 function RPCS3_setResolution($resolution){
 	switch ( $resolution )
 	{
