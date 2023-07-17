@@ -1,51 +1,51 @@
 function template_install(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_init(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_setupSaves(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_IsInstalled(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function template_resetConfig(){
-	echo "NYI"
+	Write-Output "NYI"
 }

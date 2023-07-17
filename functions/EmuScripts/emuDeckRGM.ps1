@@ -1,51 +1,51 @@
 function RGM_install(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_init(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_update(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_setEmulationFolder(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_setupSaves(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_setupStorage(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_wipe(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_uninstall(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_migrate(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_setABXYstyle(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_wideScreenOn(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_wideScreenOff(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_bezelOn(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_bezelOff(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_finalize(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_IsInstalled(){
-	echo "true"
+	Write-Output "true"
 }
 function RGM_resetConfig(){
-	echo "true"
+	Write-Output "true"
 }

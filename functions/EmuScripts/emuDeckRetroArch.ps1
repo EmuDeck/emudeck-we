@@ -15,7 +15,7 @@ function RetroArch_install(){
 	foreach ( $core in $RAcores )
 	{
 		$url= -join("http://buildbot.libretro.com/nightly/windows/x86_64/latest/",$core,".zip")	
-		echo "Downloading $url"	
+		Write-Output "Downloading $url"	
 		downloadCore $url $core
 	}
 }
@@ -198,10 +198,10 @@ function RetroArch_init(){
 	
 }
 function RetroArch_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_setupSaves(){
 	#Saves
@@ -246,49 +246,49 @@ function RetroArch_bezelOffAll(){
 }
 
 function RetroArch_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 
 function RetroArch_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RetroArch_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\RetroArch"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function RetroArch_resetConfig{
 	RetroArch_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 

@@ -1,51 +1,51 @@
 function mGBA_install(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_init(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_update(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_setEmulationFolder(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_setupSaves(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_setupStorage(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_wipe(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_uninstall(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_migrate(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_setABXYstyle(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_wideScreenOn(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_wideScreenOff(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_bezelOn(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_bezelOff(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_finalize(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_IsInstalled(){
-	echo "true"
+	Write-Output "true"
 }
 function mGBA_resetConfig(){
-	echo "true"
+	Write-Output "true"
 }

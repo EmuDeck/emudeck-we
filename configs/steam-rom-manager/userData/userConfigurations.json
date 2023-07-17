@@ -3778,6 +3778,67 @@
     }
   },
   {
+    "parserType": "Glob-regex",
+    "configTitle": "Sony PlayStation 3 - RPCS3 (Installed PKG)",
+    "steamCategory": "${PlayStation 3}",
+    "steamDirectory": "${steamdirglobal}",
+    "romDirectory": "C:\\Emulation\\storage\\rpcs3\\dev_hdd0\\game",
+    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"C:\\Emulation\\tools\\launchers\\rpcs3.bat\" \"--no-gui\" \"${filePath}\" && exit \" && exit",
+    "executableModifier": "\"${exePath}\"",
+    "startInDirectory": "",
+    "titleModifier": "${fuzzyTitle}",
+    "imageProviders": ["SteamGridDB"],
+    "onlineImageQueries": "${${fuzzyTitle}}",
+    "imagePool": "${fuzzyTitle}",
+    "defaultImage": "",
+    "defaultTallImage": "",
+    "defaultHeroImage": "",
+    "defaultLogoImage": "",
+    "defaultIcon": "",
+    "localImages": "",
+    "localTallImages": "",
+    "localHeroImages": "",
+    "localLogoImages": "",
+    "localIcons": "",
+    "userAccounts": {
+      "specifiedAccounts": "",
+      "skipWithMissingDataDir": true,
+      "useCredentials": true
+    },
+    "executable": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "shortcutPassthrough": false,
+      "appendArgsToExecutable": true
+    },
+    "parserInputs": {
+      "glob-regex": "${/(^[NP].+)/}/USRDIR/@(eboot.bin|EBOOT.BIN)"
+    },
+    "titleFromVariable": {
+      "limitToGroups": "${PS3}",
+      "caseInsensitiveVariables": false,
+      "skipFileIfVariableWasNotFound": false,
+      "tryToMatchTitle": true
+    },
+    "fuzzyMatch": {
+      "replaceDiacritics": true,
+      "removeCharacters": true,
+      "removeBrackets": true
+    },
+    "parserId": "165182011334544893",
+    "version": 10,
+    "imageProviderAPIs": {
+      "SteamGridDB": {
+        "nsfw": false,
+        "humor": false,
+        "imageMotionTypes": ["static"],
+        "styles": [],
+        "stylesHero": [],
+        "stylesLogo": [],
+        "stylesIcon": []
+      }
+    }
+  },
+  {
     "parserType": "Glob",
     "configTitle": "Sony PlayStation Portable - Retroarch - PPSSPP",
     "steamCategory": "${PSP}",

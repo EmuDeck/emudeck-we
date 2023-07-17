@@ -30,7 +30,7 @@ function Ryujinx_init(){
 }
 
 function Ryujinx_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_setEmulationFolder(){
 	$destination="$emusPath\Ryujinx"
@@ -65,44 +65,44 @@ function Ryujinx_setResolution($resolution){
 	$jsonConfig.res_scale = $multiplier
 }
 function Ryujinx_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Ryujinx_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\Ryujinx"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Ryujinx_resetConfig(){
 	Ryujinx_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

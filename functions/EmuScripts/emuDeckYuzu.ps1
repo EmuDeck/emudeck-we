@@ -44,10 +44,10 @@ function Yuzu_init(){
 
 }
 function Yuzu_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_setupSaves(){
 	setMSG "Yuzu - Saves Links"
@@ -86,41 +86,41 @@ function Yuzu_setupStorage(){
 	mkdir $emulationPath\storage\yuzu\tas -ErrorAction SilentlyContinue
 }
 function Yuzu_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Yuzu_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Yuzu_resetConfig(){
 	Yuzu_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

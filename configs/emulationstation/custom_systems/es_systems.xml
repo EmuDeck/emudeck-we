@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<systemList>
+    <system>
+        <name>ps3</name>
+        <fullname>Sony PlayStation 3</fullname>
+        <path>%ROMPATH%\ps3</path>
+        <extension>.ps3 .PS3</extension>
+        <command label="RPCS3 Directory (Standalone)">%EMULATOR_RPCS3% --no-gui %ROM%</command>
+        <platform>ps3</platform>
+        <theme>ps3</theme>
+    </system>
+    <system>
+        <name>ps3-shortcut</name>
+        <fullname>Sony PlayStation 3 - Shortcut Games</fullname>
+        <path>%ROMPATH%\ps3\shortcuts</path>
+        <extension>.lnk .LNK</extension>
+        <command label="RPCS3 Shortcut (Standalone)">%HIDEWINDOW% %ESCAPESPECIALS% %EMULATOR_OS-SHELL% /C %ROM%</command>
+        <platform>ps3</platform>
+        <theme>ps3</theme>
+    </system>
+</systemList>

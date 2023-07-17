@@ -16,7 +16,7 @@ function game_mode_enable(){
 
 	& $userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\enablegamemode.bat
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 
@@ -24,6 +24,6 @@ function game_mode_disable(){
 	 rm -fo "$env:USERPROFILE\Desktop\Return to Gaming Mode.lnk" -ErrorAction SilentlyContinue
 	& $userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\disablegamemode.bat
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

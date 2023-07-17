@@ -42,10 +42,10 @@ function Dolphin_init(){
 	
 }
 function Dolphin_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_setupSaves(){
 	setMSG "Dolphin - Creating Saves Links"
@@ -86,23 +86,23 @@ function Dolphin_setResolution($resolution){
 }
 
 function Dolphin_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_wideScreenOn(){
 	setMSG "Dolphin Widescreen On"
-	echo ""
+	Write-Output ""
 	$configFile="$emusPath\Dolphin-x64\User\Config\GFX.ini"
 	$wideScreenHack="wideScreenHack"
 	$wideScreenHackSetting="wideScreenHack = True"
@@ -114,7 +114,7 @@ function Dolphin_wideScreenOn(){
 }
 function Dolphin_wideScreenOff(){
 	setMSG "Dolphin Widescreen Of"
-	echo ""
+	Write-Output ""
 	$configFile="$emusPath\Dolphin-x64\User\Config\GFX.ini"
 	$wideScreenHack="wideScreenHack"
 	$wideScreenHackSetting="wideScreenHack = True"
@@ -124,30 +124,30 @@ function Dolphin_wideScreenOff(){
 	setSettingNoQuotes $configFile $AspectRatio "0"	
 }
 function Dolphin_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function Dolphin_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\Dolphin-x64"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function Dolphin_resetConfig(){
 	Dolphin_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 
 
 function Dolphin_DynamicInputTextures(){
-echo "nope"
+Write-Output "nope"
   #$DIT_releaseURL = getLatestReleaseURLGH "Venomalia/UniversalDynamicInput" "7z"
   #mkdir "$emusPath\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
   #download $DIT_releaseURL "UniversalDynamicInput.7z"

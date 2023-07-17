@@ -5,9 +5,9 @@ function RPCS3_install(){
 	moveFromTo "$temp/rpcs3" "$emusPath\RPCS3"
 	createLauncher "rpcs3"
 	
-	$url_vulkan = "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime.exe"
-	download $url_vulkan "vulkan-runtime.exe"
-	.\vulkan-runtime.exe
+	#$url_vulkan = "https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-runtime.exe"
+	#download $url_vulkan "vulkan-runtime.exe"
+	#.\$temp\vulkan-runtime.exe
 	
 }
 function RPCS3_init(){
@@ -15,12 +15,33 @@ function RPCS3_init(){
 	$destination="$emusPath\RPCS3"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
 	#RPCS3_setResolution $rpcs3Resolution
+	RPCS3_setupStorage
+	RPCS3_setupSaves
+	RPCS3_setEmulationFolder
 }
 function RPCS3_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_setEmulationFolder(){
-	echo "NYI"
+	sedFile "$emusPath/RPCS3/config/vfs.yml" "C:/Emulation" "$emulationPath"
+	sedFile "$emusPath/RPCS3/config/vfs.yml" "\" "/"
+	
+}
+function RPCS3_renameFolders(){
+	$basePath = "$romsPath/ps3"
+	$directories = Get-ChildItem -Path $basePath -Directory
+	
+	foreach ($directory in $directories) {
+		$name = $directory.Name
+	
+		if ($name -ne "shortcuts") {
+			if (-not $name.EndsWith(".ps3")) {
+				$newName = $name + ".ps3"
+				$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
+				Rename-Item -Path $directory.FullName -NewName $newName
+			}
+		}
+	}
 }
 function RPCS3_setResolution($resolution){
 	switch ( $resolution )
@@ -38,53 +59,74 @@ function RPCS3_setResolution($resolution){
 
 function RPCS3_setupSaves(){
 	setMSG "RPCS3 - Saves Links"
-	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0\home\00000001\savedata"
-	$ShortcutPath = -join($emulationPath,"\saves\rpcs3\saves.lnk")
-	rm -fo  "saves\RPCS3" -Recurse -ErrorAction SilentlyContinue
-	mkdir "saves\rpcs3" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	rm -fo "$savesPath\rpcs3\saves.lnk" -Recurse -ErrorAction SilentlyContinue
+	mkdir "$savesPath\rpcs3\" -ErrorAction SilentlyContinue
+	createLink "$emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata" "$savesPath\rpcs3\saves.lnk"
 }
 
 function RPCS3_setupStorage(){
-	echo "NYI"
+	$SourceFilePath = "$emusPath\RPCS3\dev_hdd0"
+	
+	#We move HDD to the Emulation storage folder
+	$test=Test-Path -Path "$emusPath\RPCS3\dev_hdd0"
+	if($test){	
+		$userDrive=$emulationPath[0]
+		
+		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$sizeInGB = [Math]::Round($destinationFree / 1GB)
+		
+		$originSize = (Get-ChildItem -Path $SourceFilePath -Recurse | Measure-Object -Property Length -Sum).Sum
+		$wshell = New-Object -ComObject Wscript.Shell
+		
+		if ( $originSize -gt $destinationFree ){			
+			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
+			exit
+		}				
+		$Output = $wshell.Popup("We are going to move RPCS3 data to your $userDrive/Emulation/storage/rpcs3/dev_hdd0 to optimize storage. This could take long, so please wait until you get a new confirmation window")
+		
+		moveFromTo "$emusPath\RPCS3\dev_hdd0" "$emulationPath/storage/rpcs3/dev_hdd0"	
+		$Output = $wshell.Popup("Migration complete!")
+	
+	}else{
+		mkdir "$emulationPath/storage/rpcs3/dev_hdd0/home/00000001/savedata"  -ErrorAction SilentlyContinue
+	}
 }
 function RPCS3_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function RPCS3_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\RPCS3"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function RPCS3_resetConfig(){
 	RPCS3_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

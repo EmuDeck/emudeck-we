@@ -26,10 +26,10 @@ function PPSSPP_init(){
 	#PPSSPP_setResolution $ppssppResolution
 }
 function PPSSPP_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_setupSaves(){	
 	setMSG "PPSSPP - Saves Links"
@@ -48,47 +48,47 @@ function PPSSPP_setupSaves(){
 	
 }
 function PPSSPP_setResolution($resolution){
-	echo $resolution
+	Write-Output $resolution
 }
 function PPSSPP_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function PPSSPP_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\PPSSPP\PPSSPPWindows64.exe"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function PPSSPP_resetConfig(){
 	PPSSPP_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }

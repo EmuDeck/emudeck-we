@@ -49,55 +49,55 @@ function SRM_init(){
 		
 }
 function SRM_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_setupSaves(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function SRM_IsInstalled(){
 	$test=Test-Path -Path "$toolsPath\srm.exe"
 	if($test){
-		echo "true"
+		Write-Output "true"
 	}
 }
 function SRM_resetConfig(){
 	SRM_init
 	SRM_resetLaunchers
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
 }
 

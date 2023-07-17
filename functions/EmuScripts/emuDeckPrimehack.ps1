@@ -1,51 +1,51 @@
 function Primehack_install(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_init(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_update(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_setEmulationFolder(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_setupSaves(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_setupStorage(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_wipe(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_uninstall(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_migrate(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_setABXYstyle(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_wideScreenOn(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_wideScreenOff(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_bezelOn(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_bezelOff(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_finalize(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_IsInstalled(){
-	echo "true"
+	Write-Output "true"
 }
 function Primehack_resetConfig(){
-	echo "true"
+	Write-Output "true"
 }

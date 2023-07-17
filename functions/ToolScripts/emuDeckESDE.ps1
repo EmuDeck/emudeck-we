@@ -81,70 +81,9 @@ function ESDE_init(){
 		
 	ESDE_applyTheme $esdeTheme
 	
+	ESDE_setDefaultEmulators
 	
-	#Fixing mistakes.
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/es_systems.xml" -Destination "$esdePath/resources/systems/windows/es_systems.xml"
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/es_find_rules.xml" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml"
 	
-	#PS2 Fixes	
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry>' '<entry>%ESPATH%\Emulators\PCSX2-Qt\pcsx2-qtx64*.exe</entry><entry>%ESPATH%\Emulators\PCSX2\pcsx2-qtx64*.exe</entry>' 
-	
-	#Citra fixes
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\Emulators\citra\citra-qt.exe</entry>'
-	
-	##Backup
-#	Copy-Item "$esdePath/resources/systems/windows/es_systems.xml" -Destination "$esdePath/resources/systems/windows/es_systems.xml.bak"
-	#Copy-Item "$esdePath/resources/systems/windows/es_find_rules.xml" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml.bak"	
-	#
-	##Citra
-	#ESDE_addLauncher CITRA citra	
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_CITRA% %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_CITRA%" %ROM% `&`& exit " `&`& exit'
-	#
-	##RetroArch
-	#ESDE_addLauncher RETROARCH retroarch
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_RETROARCH% -L %CORE_RETROARCH%' 'C:\Windows\System32\cmd.exe /k start #/max "Emu" C:\Windows\System32\cmd.exe /K " "%EMULATOR_RETROARCH%" "-L" "%CORE_RETROARCH%'
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '.dll %ROM%' '.dll" %ROM% `&`& exit " `&`& exit'
-#
-	#
-	#sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '%EMUPATH%\cores' '%ESPATH%\Emulators\RetroArch\cores'
-	#
-	#
-	##Yuzu
-#	ESDE_addLauncher YUZU yuzu
-#	sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_YUZU% -f -g %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_YUZU%" "-f" "-g" %ROM% `&`& exit " `&`& exit'
-	#	
-	##Ryujinx
-	#ESDE_addLauncher RYUJINX ryujinx
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_RYUJINX% %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_RYUJINX%" %ROM% `&`& exit " `&`& exit'
-	#				
-	##Dolphin
-	#ESDE_addLauncher DOLPHIN dolphin
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_DOLPHIN% -b -e %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_DOLPHIN%" "-b" "-e" %ROM% `&`& exit " `&`& exit'	
-	#
-	##PCSX2
-	#ESDE_addLauncher PCSX2 pcsx2
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_PCSX2% -batch %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_PCSX2%" "-batch" %ROM% `&`& exit " `&`& exit'
-	#
-	##RPCS3
-	#ESDE_addLauncher RPCS3 rpcs3
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_RPCS3% --no-gui %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_RPCS3%" "--no-gui" %ROM% `&`& exit " `&`& exit'
-	#
-#	#PPSSPP
-#	ESDE_addLauncher PPSSPP PPSSPP
-#	sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_PPSSPP% %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_PPSSPP%" %ROM% `&`& exit " `&`& exit'
-	#
-	##MelonDS
-	#ESDE_addLauncher MELONDS melonDS
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_MELONDS% %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_MELONDS%" %ROM% `&`& exit " `&`& exit'
-	#
-	##Duckstation
-	#ESDE_addLauncher DUCKSTATION duckstation
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_DUCKSTATION% -batch %ROM%' 'C:\Windows\System32\cmd.exe /k start /max #"Emu" C:\Windows\System32\cmd.exe /K " "%EMULATOR_DUCKSTATION%" "-batch" %ROM% `&`& exit " `&`& exit'
-	#
-	##Cemu
-	#ESDE_addLauncher CEMU Cemu	
-	#sedFile "$esdePath\resources\systems\windows\es_systems.xml" '%EMULATOR_CEMU% -f -g %ROM%' 'C:\Windows\System32\cmd.exe /k start /max "Emu" #C:\Windows\System32\cmd.exe /K " "%EMULATOR_CEMU%" "-f" "-g" %ROM% `&`& exit " `&`& exit'
-	#
 }
 
 function ESDE_addLauncher($emucode, $launcher){
@@ -185,43 +124,43 @@ function ESDE_addLauncher($emucode, $launcher){
 }
 
 function ESDE_update(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setEmulationFolder(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setupSaves(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setupStorage(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_wipe(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_uninstall(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_migrate(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_setABXYstyle(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_wideScreenOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_wideScreenOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_bezelOn(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_bezelOff(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_finalize(){
-	echo "NYI"
+	Write-Output "NYI"
 }
 function ESDE_applyTheme($theme){
 	
@@ -244,6 +183,7 @@ function ESDE_applyTheme($theme){
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 
 }
+
 function ESDE_IsInstalled(){
 	$test=Test-Path -Path "$esdePath"
 	$testold=Test-Path -Path "$toolsPath/EmulationStation-DE"
@@ -255,6 +195,49 @@ function ESDE_IsInstalled(){
 function ESDE_resetConfig(){
 	ESDE_init
 	if($?){
-		echo "true"
+		Write-Output "true"
 	}
+}
+
+
+
+function ESDE_setDefaultEmulators(){
+	mkdir "$esdePath/.emulationstation/gamelists/"  -ErrorAction SilentlyContinue
+	
+	ESDE_setEmu 'Dolphin (Standalone)' gc
+	ESDE_setEmu 'PPSSPP (Standalone)' psp
+	ESDE_setEmu 'Dolphin (Standalone)' wii
+	ESDE_setEmu 'PCSX2 (Standalone)' ps2
+	ESDE_setEmu 'melonDS' nds
+	ESDE_setEmu 'Citra (Standalone)' n3ds
+	ESDE_setEmu 'Beetle Lynx' atarilynx
+	ESDE_setEmu 'DuckStation (Standalone)' psx
+	ESDE_setEmu 'Beetle Saturn' saturn
+	ESDE_setEmu 'ScummVM (Standalone)' scummvm
+}
+
+
+function ESDE_setEmu($emu, $system){		
+    $gamelistFile="$esdePath/.emulationstation/gamelists/$system/gamelist.xml"
+	$test=Test-Path -Path "gamelistFile"
+	
+	if ( Test-Path -Path "$gamelistFile" ){
+			
+		$xml = [xml](Get-Content $gamelistFile)
+		
+		# Modificar el valor del label dentro de alternativeEmulator
+		$xml.alternativeEmulator.label = $emu
+		
+		# Guardar los cambios en el archivo XML
+		$xml.Save($gamelistFile)
+	
+	}else{
+	
+		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
+		
+		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
+		
+		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
+	}
+	
 }
