@@ -1,8 +1,8 @@
 function Yuzu_install(){
 	setMSG "Downloading Yuzu"
 	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
-	#$url_yuzu = getLatestReleaseURLGH "yuzu-emu/yuzu-mainline" "7z" "windows"
-	$url_yuzu = "https://github.com/yuzu-emu/yuzu-mainline/releases/download/mainline-0-1476/yuzu-windows-msvc-20230621-e3122c5b4.7z"
+	$url_yuzu = getLatestReleaseURLGH "yuzu-emu/yuzu-mainline" "7z" "windows"
+	#$url_yuzu = "https://github.com/yuzu-emu/yuzu-mainline/releases/download/mainline-0-1476/yuzu-windows-msvc-20230621-e3122c5b4.7z"
 	download $url_yuzu "yuzu.7z"
 	moveFromTo "$temp/yuzu/yuzu-windows-msvc" "$emusPath\yuzu\yuzu-windows-msvc"
 	Remove-Item -Recurse -Force yuzu -ErrorAction SilentlyContinue
@@ -17,6 +17,9 @@ function Yuzu_init(){
 	$destination="$emusPath\yuzu\yuzu-windows-msvc\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config" "$destination"
+	
+	#SDL fix
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
 	
 	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath
 
