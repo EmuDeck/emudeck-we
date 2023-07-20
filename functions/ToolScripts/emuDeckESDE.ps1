@@ -223,22 +223,22 @@ function ESDE_setEmu($emu, $system){
 	
 	if ( Test-Path -Path "$gamelistFile" ){
 			
-		$xml = [xml](Get-Content $gamelistFile)
+		echo "we do nothing"
+		#$xml = [xml](Get-Content $gamelistFile)		
 		
-		# Modificar el valor del label dentro de alternativeEmulator
-		$xml.alternativeEmulator.label = $emu
+		#$xml.alternativeEmulator.label = $emu
 		
 		# Guardar los cambios en el archivo XML
-		$xml.Save($gamelistFile)
+		#$xml.Save($gamelistFile)
 	
 	}
-#	else{
-#	
-#		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
-#		
-#		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
-#		
-#		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
-#	}
+	else{
+	
+		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
+		
+		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
+		
+		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
+	}
 	
 }
