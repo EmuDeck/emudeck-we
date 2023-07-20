@@ -231,13 +231,14 @@ function ESDE_setEmu($emu, $system){
 		# Guardar los cambios en el archivo XML
 		$xml.Save($gamelistFile)
 	
-	}else{
-	
-		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
-		
-		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
-		
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
 	}
+#	else{
+#	
+#		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
+#		
+#		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
+#		
+#		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
+#	}
 	
 }
