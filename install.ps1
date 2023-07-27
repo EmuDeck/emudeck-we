@@ -31,26 +31,33 @@ function download($url, $file) {
 			Remove-Item $temp/$file
 		}
 	}
-	Write-Host "Done!" -ForegroundColor green -BackgroundColor black
+	Write-Host "Done!" -NoNewline -ForegroundColor green -BackgroundColor black
 }
 
 clear
-echo " ⚙️ Installing EmuDeck WE Dependencies"
-&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
-&winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
-if($?){
-	echo " ❌ There was an error trying to install dependencies, please visit this url to learn how to fix it: https://github.com/EmuDeck/emudeck-we/wiki/Installation-Issues#7zip-and-git-are-not-being-installed"
-}else{
-	#We add 7z folders to the Path
-	$env:path = $env:path + ";$env:ProgramFiles\7-zip"
-	$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
+
+Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
+Write-Host ""
+#&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
+&winget install -e --id 8zip.7zip --accept-package-agreements --accept-source-agreements
+if ($LASTEXITCODE -ne 0) {
+	$Host.UI.RawUI.BackgroundColor = "Red"
+	#Clear-Host
+	Write-Host ""
+	Write-Host "There was an error trying to install dependencies, please visit this url to learn how to fix it:" -ForegroundColor white
+	Write-Host  "https://github.com/EmuDeck/emudeck-we/wiki/Installation-Issues#7zip-and-git-are-not-being-installed" -ForegroundColor white
 	
-	echo " ⬇️ Downloading EmuDeck"
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-we' 'exe' ''
+	Write-Host ""
+	$Host.UI.RawUI.BackgroundColor = "Black"
+	Read-Host -Prompt "Press any key to exit" 
+	
+}else{
+	Write-Host "Downloading EmuDeck..." -ForegroundColor white
+	Write-Host ""
+	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
 	download $url_emudeck "emudeck_install.exe"
-	$temp = Join-Path $env:USERPROFILE "Downloads"
-	clear
-	echo "Opening EmuDeck Install"
+	$temp = Join-Path $env:USERPROFILE "Downloads" 
+	
+	Write-Host " Opening EmuDeck Installer"
 	&"$temp/emudeck_install.exe"
 }
-
