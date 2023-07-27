@@ -35,20 +35,22 @@ function download($url, $file) {
 }
 
 clear
-echo "Installing EmuDeck WE Dependencies"
+echo " ⚙️ Installing EmuDeck WE Dependencies"
 &winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
 &winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 if($?){
-	echo "There was an error trying to install dependencies, please visit this url to learn how to fix it: https://github.com/EmuDeck/emudeck-we/wiki/Installation-Issues#7zip-and-git-are-not-being-installed"
+	echo " ❌ There was an error trying to install dependencies, please visit this url to learn how to fix it: https://github.com/EmuDeck/emudeck-we/wiki/Installation-Issues#7zip-and-git-are-not-being-installed"
 }else{
 	#We add 7z folders to the Path
 	$env:path = $env:path + ";$env:ProgramFiles\7-zip"
 	$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
 	
-	echo "Downloading EmuDeck"
-	$url_emudeck = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
+	echo " ⬇️ Downloading EmuDeck"
+	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-we' 'exe' ''
 	download $url_emudeck "emudeck_install.exe"
 	$temp = Join-Path $env:USERPROFILE "Downloads"
+	clear
+	echo "Opening EmuDeck Install"
 	&"$temp/emudeck_install.exe"
 }
 
