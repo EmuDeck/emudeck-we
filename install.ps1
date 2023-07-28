@@ -40,7 +40,8 @@ Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
 &winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
 &winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
-if ($LASTEXITCODE -ne 0) {
+
+if ($LASTEXITCODE -eq '-1978335212') {
 	$Host.UI.RawUI.BackgroundColor = "Red"
 	#Clear-Host
 	Write-Host ""
@@ -49,9 +50,9 @@ if ($LASTEXITCODE -ne 0) {
 	
 	Write-Host ""
 	$Host.UI.RawUI.BackgroundColor = "Black"
-	Read-Host -Prompt "Press any key to exit" 
-	
+	Read-Host -Prompt "Press any key to exit" 	
 }else{
+	Write-Host ""
 	Write-Host "Downloading EmuDeck..." -ForegroundColor white
 	Write-Host ""
 	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
