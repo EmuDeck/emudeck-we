@@ -46,7 +46,7 @@ if ($LASTEXITCODE -eq '-1978335212') {
 	#Clear-Host
 	Write-Host ""
 	Write-Host "There was an error trying to install dependencies, please visit this url to learn how to fix it:" -ForegroundColor white
-	Write-Host  "https://github.com/EmuDeck/emudeck-we/wiki/Installation-Issues#7zip-and-git-are-not-being-installed" -ForegroundColor white
+	Write-Host  "https://emudeck.github.io/common-issues/windows/#7zip-and-git-are-not-being-installed" -ForegroundColor white
 	
 	Write-Host ""
 	$Host.UI.RawUI.BackgroundColor = "Black"
