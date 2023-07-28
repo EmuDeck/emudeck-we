@@ -38,8 +38,8 @@ clear
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
-#&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
-&winget install -e --id 8zip.7zip --accept-package-agreements --accept-source-agreements
+&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
+&winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 if ($LASTEXITCODE -ne 0) {
 	$Host.UI.RawUI.BackgroundColor = "Red"
 	#Clear-Host
