@@ -421,8 +421,9 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force						
 			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse
 			
-			if ($?) {
-				$backupName = "$simLinkPath" + "_bak"
+			if ($?) {				
+				$backupSuffix = "_bak"
+				$backupName = "{0}{1}" -f $simLinkPath, $backupSuffix
 				Rename-Item -Path "$simLinkPath" -NewName "$backupName"
 			}
 		}	
