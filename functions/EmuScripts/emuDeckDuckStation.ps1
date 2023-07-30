@@ -41,7 +41,7 @@ function DuckStation_update(){
 function DuckStation_setEmulationFolder(){
 	Write-Output "NYI"
 }
-#function DuckStation_setupSaves(){
+function DuckStation_setupSaves(){
 	setMSG "DuckStation - Creating Saves Links"
 	#Saves	
 	$simLinkPath = "$emusPath\duckstation\memcards"
