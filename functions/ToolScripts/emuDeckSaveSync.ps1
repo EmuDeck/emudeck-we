@@ -208,18 +208,6 @@ function cloud_sync_config($cloud_sync_provider){
 	#& $cloud_sync_bin mkdir  "$cloud_sync_provider`:Emudeck\saves\Vita3K\saves";
 	#& $cloud_sync_bin mkdir  "$cloud_sync_provider`:Emudeck\saves\yuzu\saves" ;
 	#& $cloud_sync_bin mkdir  "$cloud_sync_provider`:Emudeck\saves\yuzu\profiles";
-		
-
-	$result = showYesNoDialog "First Sync" "Press Yes to download all your saved games from the cloud.`nThis will overwrite your local saves.`n`nPress No to upload your local saved games to the cloud.`nThis will overwrite your cloud saves"
-	
-	switch ($result) {
-		"Yes" {
-			cloud_sync_downloadEmuAll						
-		}
-		"No" {
-			cloud_sync_uploadEmuAll
-		}
-	}	
 	
 	
 	#Add-Type -AssemblyName PresentationFramework
