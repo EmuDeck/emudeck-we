@@ -409,7 +409,7 @@ function cloud_sync_upload($emuName){
 					$failUploadFile = Join-Path "$savesPath" $emuName ".fail_upload"
 				
 					if (Test-Path -PathType Container $folder) {
-						Set-Content -Path "$lastUploadFile" -Value $timestamp
+						Set-Content -Path " $lastUploadFile" -Value $timestamp
 						Remove-Item -Path "$failUploadFile" -Force -Recurse
 					}
 				}								
@@ -532,86 +532,28 @@ function cloud_sync_uploadEmu($emuName, $mode){
 
 
 function cloud_sync_downloadEmuAll(){
-	if ($doInstallRA -eq "true"){
-		cloud_sync_downloadEmu retroarch
-	}
-	if ($doInstallDolphin -eq "true"){
-		cloud_sync_downloadEmu dolphin
-	}
-	if ($doInstallPCSX2 -eq "true"){
-		cloud_sync_downloadEmu pcsx2
-	}
-	if ($doInstallRPCS3 -eq "true"){
-		cloud_sync_downloadEmu rpcs3
-	}
-	if ($doInstallYuzu -eq "true"){
-		cloud_sync_downloadEmu yuzu
-	}
-	if ($doInstallCitra -eq "true"){
-		cloud_sync_downloadEmu citra
-	}
-	if ($doInstallmelonDS -eq "true"){
-		cloud_sync_downloadEmu melonDS
-	}
-	if ($doInstallRyujinx -eq "true"){
-		cloud_sync_downloadEmu ryujinx
-	}
-	if ($doInstallDuck -eq "true"){
-		cloud_sync_downloadEmu duckstation
-	}
-	if ($doInstallCemu -eq "true"){
-		cloud_sync_downloadEmu Cemu
-	}
-	#if ($doInstallXenia -eq "true"){
-	#	cloud_sync_downloadEmu xenia
-	#}
-	if ($doInstallPPSSPP -eq "true"){
-		cloud_sync_downloadEmu PPSSPP
-	}
-	#if ($doInstallXemu -eq "true"){
-	#	cloud_sync_downloadEmu xemu
-	#}
+			
+	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
+		$simLinkPath = $_.FullName
+		$folderInfo = Get-Item -Path $simLinkPath
+		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+			$emuName = (Get-Item $simLinkPath).Name
+			cloud_sync_uploadEmu $emuName 'check-conflicts'
+		}			
+	}					
+	cloud_sync_download 'all'
 }
 
 function cloud_sync_uploadEmuAll(){
-	if ($doInstallRA -eq "true"){
-		cloud_sync_uploadEmu retroarch
-	}
-	if ($doInstallDolphin -eq "true"){
-		cloud_sync_uploadEmu dolphin
-	}
-	if ($doInstallPCSX2 -eq "true"){
-		cloud_sync_uploadEmu pcsx2
-	}
-	if ($doInstallRPCS3 -eq "true"){
-		cloud_sync_uploadEmu rpcs3
-	}
-	if ($doInstallYuzu -eq "true"){
-		cloud_sync_uploadEmu yuzu
-	}
-	if ($doInstallCitra -eq "true"){
-		cloud_sync_uploadEmu citra
-	}
-	if ($doInstallmelonDS -eq "true"){
-		cloud_sync_uploadEmu melonDS
-	}
-	if ($doInstallRyujinx -eq "true"){
-		cloud_sync_downloadEmu ryujinx
-	}
-	if ($doInstallDuck -eq "true"){
-		cloud_sync_uploadEmu duckstation
-	}
-	if ($doInstallCemu -eq "true"){
-		cloud_sync_uploadEmu Cemu
-	}
-	#if ($doInstallXenia -eq "true"){
-	#	cloud_sync_uploadEmu xenia
-	#}
-	if ($doInstallPPSSPP -eq "true"){
-		cloud_sync_uploadEmu PPSSPP
-	}
-	#if ($doInstallXemu -eq "true"){
-	#	cloud_sync_uploadEmu xemu
-	#}
-
+	
+	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
+		$simLinkPath = $_.FullName
+		$folderInfo = Get-Item -Path $simLinkPath
+		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+			$emuName = (Get-Item $simLinkPath).Name
+			cloud_sync_uploadEmu $emuName 'check-conflicts'
+		}			
+	}				
+	
+	cloud_sync_upload 'all'
 }
