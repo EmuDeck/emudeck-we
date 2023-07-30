@@ -419,9 +419,9 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			# We copy the saves to the Emulation/saves Folder adn create a backup
 			echo "Migrating saves"
 			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force						
-			Copy-Item -Path "$simLinkPath" -Destination $emuSavePath -Recurse
-			
+			Copy-Item -Path "$simLinkPath" -Destination $emuSavePath\ -Recurse			
 			if ($?) {
+				echo "rename"
 				Rename-Item -Path "$simLinkPath" -NewName "$simLinkPath"_bak
 			}
 		}	
