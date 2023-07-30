@@ -362,7 +362,7 @@ function cloud_sync_download($emuName){
 				
 					if (Test-Path -PathType Container $folder) {
 						Set-Content -Path "$lastUploadFile" -Value $timestamp
-						Remove-Item -Path "$failUploadFile" -Force -Recurse
+						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
 				}								
 			}
@@ -397,8 +397,8 @@ function cloud_sync_upload($emuName){
 					$failUploadFile = "$savesPath/$emuName/.fail_upload"
 				
 					if (Test-Path -PathType Container $folder) {
-						Set-Content -Path " $lastUploadFile" -Value $timestamp
-						Remove-Item -Path "$failUploadFile" -Force -Recurse
+						Set-Content -Path "$lastUploadFile" -Value $timestamp
+						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
 				}								
 			}
