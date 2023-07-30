@@ -34,27 +34,9 @@ function Cemu_setEmulationFolder(){
 	Write-Output "NYI"
 }
 
-function createSaveLink($simLinkPath, $emuSavePath){
-	mkdir "$emuSavePath" -ErrorAction SilentlyContinue
-	#Symlink?
-	$folderInfo = Get-Item -Path $simLinkPath
-	
-	if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-		echo "Symlink already exists OK"
-	} else {
-		# We move the saves to the Emulation/saves Folder
-		echo "Symlink no exists"
-		Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force
-		if ($?) {
-			rm -fo  "$simLinkPath" -Recurse -ErrorAction SilentlyContinue
-		}
-	}	
-	createSymlink $simLinkPath $emuSavePath
-}
-
 function Cemu_setupSaves(){
 	setMSG "Cemu - Saves Links"
-	$simLinkPath = "$emusPath\cemu\mlc01\usr\save\"
+	$simLinkPath = "$emusPath\cemu\mlc01\usr\saves\"
 	$emuSavePath = -join($emulationPath,"\saves\Cemu\saves")
 	createSaveLink $simLinkPath $emuSavePath 	
 }
