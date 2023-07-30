@@ -350,7 +350,7 @@ function cloud_sync_download($emuName){
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\"
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
 			if ($?) {			
 				$baseFolder = "$target"
 				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
@@ -523,11 +523,8 @@ function cloud_sync_downloadEmuAll(){
 			
 	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
 		$simLinkPath = $_.FullName
-		$folderInfo = Get-Item -Path $simLinkPath
-		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-			$emuName = (Get-Item $simLinkPath).Name
-			cloud_sync_downloadEmu $emuName 'check-conflicts'
-		}			
+		$emuName = (Get-Item $simLinkPath).Name
+		cloud_sync_downloadEmu $emuName 'check-conflicts'			
 	}					
 	cloud_sync_download 'all'
 }
@@ -536,12 +533,10 @@ function cloud_sync_uploadEmuAll(){
 	
 	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
 		$simLinkPath = $_.FullName
-		$folderInfo = Get-Item -Path $simLinkPath
-		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-			$emuName = (Get-Item $simLinkPath).Name
-			cloud_sync_uploadEmu $emuName 'check-conflicts'
-		}			
+		$emuName = (Get-Item $simLinkPath).Name
+		cloud_sync_uploadEmu $emuName 'check-conflicts'
+				
 	}				
 	
-	cloud_sync_upload 'all'
+	cloud_sync_download 'all'
 }
