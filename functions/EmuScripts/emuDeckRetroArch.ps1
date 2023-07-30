@@ -205,17 +205,15 @@ function RetroArch_setEmulationFolder(){
 }
 function RetroArch_setupSaves(){
 	#Saves
-	mkdir saves/retroarch -ErrorAction SilentlyContinue
-	$SourceFilePath = "$emusPath\RetroArch\saves"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\retroarch\saves.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	
+	$simLinkPath = "$emusPath\RetroArch\saves"
+	$emuSavePath = -join($emulationPath,"\saves\retroarch\saves")
+	createSymlink $simLinkPath $emuSavePath
 	
 	#States
-	$SourceFilePath = "$emusPath\RetroArch\states"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\retroarch\states.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\RetroArch\states"	
+	$emuSavePath = -join($emulationPath,"\saves\retroarch\states")
+	createSymlink $simLinkPath $emuSavePath
 }
 
 function RetroArch_setOverride($fileToCheck, $name, $key, $value){

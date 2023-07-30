@@ -21,11 +21,11 @@ function Ryujinx_init(){
 	
 	setMSG "Ryujinx - Creating Keys  Links"
 	#Firmware
-	$SourceFilePath = "$emusPath\Ryujinx\portable\system"
-	$ShortcutPath = -join($emulationPath,"\bios\ryujinx\keys.lnk")
+	$simLinkPath = "$emusPath\Ryujinx\portable\system"
+	$emuSavePath = -join($emulationPath,"\bios\ryujinx\keys")
 	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	mkdir $simLinkPath -ErrorAction SilentlyContinue
+	createSymlink $simLinkPath $emuSavePath
 	
 }
 
@@ -38,16 +38,13 @@ function Ryujinx_setEmulationFolder(){
 }
 function Ryujinx_setupSaves(){
   setMSG "Ryujinx - Saves Links"
-  $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\save\"  
-  mkdir $SourceFilePath -ErrorAction SilentlyContinue
-  $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saves.lnk")
-  mkdir "saves\ryujinx" -ErrorAction SilentlyContinue
-  createLink $SourceFilePath $ShortcutPath
+  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save\"  
+  $emuSavePath = -join($emulationPath,"\saves\ryujinx\saves")
+  createSymlink $simLinkPath $emuSavePath
   
-  $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\saveMeta\"  
-  mkdir $SourceFilePath -ErrorAction SilentlyContinue
-  $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saveMeta.lnk")
-  createLink $SourceFilePath $ShortcutPath
+  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta\"  
+  $emuSavePath = -join($emulationPath,"\saves\ryujinx\saveMeta")
+  createSymlink $simLinkPath $emuSavePath
 	
 }
 

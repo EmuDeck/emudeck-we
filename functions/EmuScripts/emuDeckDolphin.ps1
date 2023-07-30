@@ -50,25 +50,19 @@ function Dolphin_setEmulationFolder(){
 function Dolphin_setupSaves(){
 	setMSG "Dolphin - Creating Saves Links"
 	#Saves GC
-	$SourceFilePath = "$emusPath\Dolphin-x64\User\GC"
-	$ShortcutPath = -join($emulationPath,"\saves\dolphin\GC.lnk")
-	mkdir "saves\dolphin" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\Dolphin-x64\User\GC"
+	$emuSavePath = -join($emulationPath,"\saves\dolphin\GC")
+	createSymlink $simLinkPath $emuSavePath
 	
 	#Saves Wii
-	$SourceFilePath = "$emusPath\Dolphin-x64\User\WII"
-	$ShortcutPath = -join($emulationPath,"\saves\dolphin\WII.lnk")
-	rm -fo  $ShortcutPath -Recurse -ErrorAction SilentlyContinue
-	mkdir "saves\dolphin" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\Dolphin-x64\User\WII"
+	$emuSavePath = -join($emulationPath,"\saves\dolphin\WII")
+	createSymlink $simLinkPath $emuSavePath
 	
 	#States
-	$SourceFilePath = "$emusPath\Dolphin-x64\User\StateSaves"
-	$ShortcutPath = -join($emulationPath,"\saves\dolphin\states.lnk")
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\Dolphin-x64\User\StateSaves"
+	$emuSavePath = -join($emulationPath,"\saves\dolphin\states")
+	createSymlink $simLinkPath $emuSavePath
 }
 
 function Dolphin_setResolution($resolution){

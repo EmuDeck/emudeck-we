@@ -390,3 +390,40 @@ function testAdministrator {
 	$isAdmin = $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 	return $isAdmin
 }
+
+function createSaveLink($simLinkPath, $emuSavePath){
+	mkdir "$emuSavePath" -ErrorAction SilentlyContinue
+	#Symlink?
+		
+	if(Test-Path -Path "$simLinkPath"){
+			
+		$folderInfo = Get-Item -Path $simLinkPath
+		
+		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+			echo "Symlink already exists, we do nothing"
+		} else {			
+			#Check if we have space
+			
+			$userDrive=$emulationPath[0]		
+			$destinationFree = (Get-PSDrive -Name $userDrive).Free
+			$sizeInGB = [Math]::Round($destinationFree / 1GB)
+			
+			$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
+			$wshell = New-Object -ComObject Wscript.Shell
+			
+			if ( $originSize -gt $destinationFree ){			
+				$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
+				exit
+			}				
+		
+			# We move the saves to the Emulation/saves Folder
+			echo "Migrating saves"
+			Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force
+			if ($?) {
+				rm -fo  "$simLinkPath" -Recurse -ErrorAction SilentlyContinue
+			}
+		}	
+	}	
+
+	createSymlink $simLinkPath $emuSavePath
+}

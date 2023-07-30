@@ -33,14 +33,30 @@ function Cemu_update(){
 function Cemu_setEmulationFolder(){
 	Write-Output "NYI"
 }
+
+function createSaveLink($simLinkPath, $emuSavePath){
+	mkdir "$emuSavePath" -ErrorAction SilentlyContinue
+	#Symlink?
+	$folderInfo = Get-Item -Path $simLinkPath
+	
+	if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+		echo "Symlink already exists OK"
+	} else {
+		# We move the saves to the Emulation/saves Folder
+		echo "Symlink no exists"
+		Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force
+		if ($?) {
+			rm -fo  "$simLinkPath" -Recurse -ErrorAction SilentlyContinue
+		}
+	}	
+	createSymlink $simLinkPath $emuSavePath
+}
+
 function Cemu_setupSaves(){
 	setMSG "Cemu - Saves Links"
-	$SourceFilePath = "$emusPath\cemu\mlc01\usr\save\"
-	rm -fo  "saves\cemu" -Recurse -ErrorAction SilentlyContinue
-	mkdir "saves\Cemu" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue	
-	$ShortcutPath = -join($emulationPath,"\saves\Cemu\saves.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\cemu\mlc01\usr\save\"
+	$emuSavePath = -join($emulationPath,"\saves\Cemu\saves")
+	createSaveLink $simLinkPath $emuSavePath 	
 }
 
 function Cemu_setResolution($resolution){

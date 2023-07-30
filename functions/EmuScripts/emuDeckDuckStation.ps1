@@ -44,17 +44,14 @@ function DuckStation_setEmulationFolder(){
 function DuckStation_setupSaves(){
 	setMSG "DuckStation - Creating Saves Links"
 	#Saves	
-	$SourceFilePath = "$emusPath\duckstation\memcards"
-	mkdir "saves\duckstation" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\duckstation\saves.lnk")
-	createLink $SourceFilePath $ShortcutPath	
+	$simLinkPath = "$emusPath\duckstation\memcards"
+	$emuSavePath = -join($emulationPath,"\saves\duckstation\saves")
+	createSymlink $simLinkPath $emuSavePath	
 	
 	#States
-	$SourceFilePath = "$emusPath\duckstation\savestates"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\duckstation\states.lnk")	
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\duckstation\savestates"
+	$emuSavePath = -join($emulationPath,"\saves\duckstation\states")	
+	createSymlink $simLinkPath $emuSavePath
 }
 
 function DuckStation_setResolution($resolution){

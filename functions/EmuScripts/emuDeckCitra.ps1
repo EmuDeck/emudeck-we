@@ -31,17 +31,13 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
-	$SourceFilePath = "$emusPath\citra\user\sdmc\"
-	$ShortcutPath = -join($emulationPath,"\saves\citra\saves.lnk")
-	mkdir "saves\citra" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\citra\user\sdmc\"
+	$emuSavePath = -join($emulationPath,"\saves\citra\saves")
+	createSymlink $simLinkPath $emuSavePath
 	
-	$SourceFilePath = "$emusPath\citra\user\states\"
-	$ShortcutPath = -join($emulationPath,"\saves\citra\states.lnk")
-	mkdir "saves\citra" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\citra\user\states\"
+	$emuSavePath = -join($emulationPath,"\saves\citra\states")
+	createSymlink $simLinkPath $emuSavePath
 }
 function Citra_setupStorage(){
 	Write-Output "NYI"

@@ -25,17 +25,17 @@ function Yuzu_init(){
 
 	setMSG "Yuzu - Creating Keys & Firmware Links"
 	#Firmware
-	$SourceFilePath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered"
-	$ShortcutPath = -join($emulationPath,"\bios\yuzu\firmware.lnk")
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered"
+	$emuSavePath = -join($emulationPath,"\bios\yuzu\firmware")
 	mkdir "bios\yuzu" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	mkdir $simLinkPath -ErrorAction SilentlyContinue
+	createSymlink $simLinkPath $emuSavePath
 	
 	#Keys
-	$SourceFilePath = "$emusPath\yuzu\yuzu-windows-msvc\user\keys"
-	$ShortcutPath = -join($emulationPath,"\bios\yuzu\keys.lnk")
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\keys"
+	$emuSavePath = -join($emulationPath,"\bios\yuzu\keys")
+	mkdir $simLinkPath -ErrorAction SilentlyContinue
+	createSymlink $simLinkPath $emuSavePath
 	
 	Yuzu_setupStorage
 	Yuzu_setupSaves
@@ -51,16 +51,13 @@ function Yuzu_setEmulationFolder(){
 }
 function Yuzu_setupSaves(){
 	setMSG "Yuzu - Saves Links"
-	$SourceFilePath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save\"	
-	$ShortcutPath = -join($emulationPath,"\saves\yuzu\saves.lnk")
-	mkdir "saves\yuzu" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save\"	
+	$emuSavePath = -join($emulationPath,"\saves\yuzu\saves")
+	createSymlink $simLinkPath $emuSavePath
 	
-	$SourceFilePath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators\"	
-	$ShortcutPath = -join($emulationPath,"\saves\yuzu\profiles.lnk")
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators\"	
+	$emuSavePath = -join($emulationPath,"\saves\yuzu\profiles")	
+	createSymlink $simLinkPath $emuSavePath
 	
 	
 }

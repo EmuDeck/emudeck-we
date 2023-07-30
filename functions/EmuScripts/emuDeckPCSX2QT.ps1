@@ -35,28 +35,15 @@ function PCSX2QT_setEmulationFolder(){
 function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG "PCSX2 - Saves Links"
-	Remove-Item -fo "saves\pcsx2" -Recurse -ErrorAction SilentlyContinue
-	New-Item -ItemType "directory" -path "saves\pcsx2"
-
 	#memcards
-	$SourceFilePath = "$emusPath\PCSX2-Qt\memcards"
-	if (Test-Path -Path $SourceFilePath -PathType Leaf) {
-		Write-Output "$SourceFilePath Exixsts as file. Deleting."
-		Remove-Item -Path $SourceFilePath -Force
-	} 
-	New-Item -ItemType "directory" -path $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\saves.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\PCSX2-Qt\memcards"
+	$emuSavePath = -join($emulationPath,"\saves\pcsx2\saves")
+	createSymlink $simLinkPath $emuSavePath
 	
 	#States
-	$SourceFilePath = "$emusPath\PCSX2-Qt\sstates"
-	if (Test-Path -Path $SourceFilePath -PathType Leaf) {
-		Write-Output "$SourceFilePath Exixsts as file. Deleting."
-		Remove-Item -Path $SourceFilePath -Force
-	} 
-	New-Item -ItemType "directory" -path $SourceFilePath  -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\pcsx2\states.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\PCSX2-Qt\sstates"
+	$emuSavePath = -join($emulationPath,"\saves\pcsx2\states")
+	createSymlink $simLinkPath $emuSavePath
 }
 function PCSX2QT_setResolution($resolution){
 	switch ( $resolution )
