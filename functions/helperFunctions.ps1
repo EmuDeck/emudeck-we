@@ -359,7 +359,7 @@ function showYesNoDialog($title, $desc){
 
 #StartScriptWithAdmin -ScriptContent $scriptContent
 
-function StartScriptWithAdmin {
+function startScriptWithAdmin {
 	param (
 		[string]$ScriptContent
 	)
@@ -382,5 +382,11 @@ function createSymlink($source, $target) {
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
 "@
 
-	StartScriptWithAdmin -ScriptContent $scriptContent
+	startScriptWithAdmin -ScriptContent $scriptContent
+}
+
+function testAdministrator {
+	$currentUser = New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())
+	$isAdmin = $currentUser.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+	return $isAdmin
 }
