@@ -526,7 +526,7 @@ function cloud_sync_downloadEmuAll(){
 		$folderInfo = Get-Item -Path $simLinkPath
 		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
 			$emuName = (Get-Item $simLinkPath).Name
-			cloud_sync_uploadEmu $emuName 'check-conflicts'
+			cloud_sync_downloadEmu $emuName 'check-conflicts'
 		}			
 	}					
 	cloud_sync_download 'all'
