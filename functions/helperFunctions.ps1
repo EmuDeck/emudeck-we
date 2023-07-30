@@ -353,6 +353,7 @@ function showYesNoDialog($title, $desc){
 }
 
 #$scriptContent = @"
+#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; 
 #Write-Host "I'm Admin"
 #"@
 
@@ -364,7 +365,7 @@ function StartScriptWithAdmin {
 	)
 
 	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
-	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
+	$ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
 	
 	$psi = New-Object System.Diagnostics.ProcessStartInfo
 	$psi.Verb = "runas"
@@ -373,4 +374,14 @@ function StartScriptWithAdmin {
 	[System.Diagnostics.Process]::Start($psi).WaitForExit()
 
 	Remove-Item $tempScriptPath -Force
+}
+
+function createSymlink($source, $target){
+
+	$scriptContent = @"
+		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; 	
+		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
+	"@
+	
+	StartScriptWithAdmin -ScriptContent $scriptContent
 }
