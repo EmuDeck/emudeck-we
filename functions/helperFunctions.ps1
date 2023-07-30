@@ -376,12 +376,11 @@ function StartScriptWithAdmin {
 	Remove-Item $tempScriptPath -Force
 }
 
-function createSymlink($source, $target){
-
+function createSymlink($source, $target) {	
 	$scriptContent = @"
-		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; 	
+		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
-	"@
-	
+"@
+
 	StartScriptWithAdmin -ScriptContent $scriptContent
 }
