@@ -351,3 +351,26 @@ function showYesNoDialog($title, $desc){
 	return $result
 
 }
+
+#$scriptContent = @"
+#Write-Host "I'm Admin"
+#"@
+
+#StartScriptWithAdmin -ScriptContent $scriptContent
+
+function StartScriptWithAdmin {
+	param (
+		[string]$ScriptContent
+	)
+
+	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
+	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
+	
+	$psi = New-Object System.Diagnostics.ProcessStartInfo
+	$psi.Verb = "runas"
+	$psi.FileName = "powershell.exe"
+	$psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -File ""$tempScriptPath"""
+	[System.Diagnostics.Process]::Start($psi).WaitForExit()
+
+	Remove-Item $tempScriptPath -Force
+}
