@@ -377,12 +377,16 @@ function startScriptWithAdmin {
 }
 
 function createSymlink($source, $target) {	
+if(testAdministrator){
+	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
+}else{
 	$scriptContent = @"
 		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
 "@
-
+	
 	startScriptWithAdmin -ScriptContent $scriptContent
+}
 }
 
 function testAdministrator {
