@@ -11,7 +11,7 @@ function Ryujinx_init(){
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
 	Ryujinx_setEmulationFolder	
-	Ryujinx_setupSaves
+#	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
 	
 	

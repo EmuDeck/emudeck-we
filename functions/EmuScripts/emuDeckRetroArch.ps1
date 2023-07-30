@@ -66,7 +66,7 @@ function RetroArch_init(){
 	
 	setMSG "RetroArch - Bios & Saves"
 	
-	RetroArch_setupSaves
+#	RetroArch_setupSaves
 	
 	#retroAchievements
 	RetroArch_retroAchievementsSetLogin
@@ -205,7 +205,7 @@ function RetroArch_setEmulationFolder(){
 }
 function RetroArch_setupSaves(){
 	#Saves
-	
+	setMSG "RetroArch - Creating Saves Links"
 	$simLinkPath = "$emusPath\RetroArch\saves"
 	$emuSavePath = -join($emulationPath,"\saves\retroarch\saves")
 	createSaveLink $simLinkPath $emuSavePath

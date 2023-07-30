@@ -22,7 +22,7 @@ function Cemu_init(){
 	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"	
 	sedFile "$emusPath\cemu\settings.xml" "C:\Emulation" "$emulationPath"
 	
-	Cemu_setupSaves
+#	Cemu_setupSaves
 	
 	
 	

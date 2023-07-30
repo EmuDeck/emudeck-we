@@ -162,70 +162,88 @@ if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 
 setMSG 'Configuring Emulators'
 
-
+$setupSaves=''
 if ( "$doSetupRA" -eq "true" ){
 	RetroArch_init
+	$setupSaves+="RetroArch_setupSaves;"
 }
 
 if ( "$doSetupDuck" -eq "true" ){
 	DuckStation_init
+	$setupSaves+="DuckStation_setupSaves;"
 }
 
 if ( "$doSetupDolphin" -eq "true" ){
 	Dolphin_init
+	$setupSaves+="Dolphin_setupSaves;"
 }
 
 if ( "$doSetupYuzu" -eq "true" ){
 	Yuzu_init
+	$setupSaves+="Yuzu_setupSaves;"
 }
 
 if ( "$doSetupRyujinx" -eq "true" ){
 	Ryujinx_init
+	$setupSaves+="Ryujinx_setupSaves;"
 }
 
 if ( "$doSetupCitra" -eq "true" ){
 	Citra_init
+	$setupSaves+="Citra_setupSaves;"
 }
 
 if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
+	$setupSaves+="Cemu_setupSaves;"
 }
 
 if ( "$doSetupPCSX2" -eq "true" ){
 	PCSX2QT_init
+	$setupSaves+="PCSX2QT_setupSaves;"
 }
 
 if ( "$doSetupRPCS3" -eq "true" ){
 	RPCS3_init
+	$setupSaves+="RPCS3_setupSaves;"
 }
 
 #if ( "$doSetupXemu" -eq "true" ){
 	#Xemu_init
+	#$setupSaves+="#Xemu_setupSaves;"
 #}
 
 #if ( "$doSetupXenia" -eq "true" ){
 	#Xenia_init
+	#$setupSaves+="#Xenia_setupSaves;"
 #}
 
 #if ( "$doSetupPPSSPP" -eq "true" ){
 	#PPSSPP_init
+	#$setupSaves+="#PPSSPP_setupSaves;"
 #}
 
 #if ( "$doSetupVita3K" -eq "true" ){
 	#Vita3K_init
+	#$setupSaves+="#Vita3K_setupSaves;"
 #}
 
 #if ( "$doSetupScummVM" -eq "true" ){
 	#ScummVM_init
+	#$setupSaves+="#ScummVM_setupSaves;"
 #}
 
 if ( "$doSetupESDE" -eq "true" ){
 	ESDE_init
+	#$setupSaves+="ESDE_setupSaves;"
 }
 
 if ( "$doSetupSRM" -eq "true" ){
 	SRM_init
 }
 
+setMSG 'Configuring Save folder - Waiting for user confirmatiom'
+
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& { Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command &{ cd $env:USERPROFILE ; cd AppData ; cd Roaming ; cd EmuDeck ; cd backend ; cd functions ; . ./all.ps1 ; $setupSaves waitForUser }' -Verb RunAs }"
 
 Stop-Transcript

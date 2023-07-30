@@ -21,7 +21,7 @@ function Citra_init(){
 	sedFile "$emusPath\citra\user\config\qt-config.ini" "C:/Emulation" "$emulationPath"
 	sedFile "$emusPath\citra\user\config\qt-config.ini" ":\Emulation" ":/Emulation"
 	
-	Citra_setupSaves
+#	Citra_setupSaves
 }
 function Citra_update(){
 	Write-Output "NYI"

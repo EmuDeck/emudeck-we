@@ -15,7 +15,7 @@ function DuckStation_init(){
 	#Paths
 	sedFile $destination\settings.ini "C:\Emulation" "$emulationPath"
 	
-	DuckStation_setupSaves
+#	DuckStation_setupSaves
 	DuckStation_setResolution $duckstationResolution
 	
 	if  ("$doRASignIn" -eq "true" ){
@@ -41,7 +41,7 @@ function DuckStation_update(){
 function DuckStation_setEmulationFolder(){
 	Write-Output "NYI"
 }
-function DuckStation_setupSaves(){
+#function DuckStation_setupSaves(){
 	setMSG "DuckStation - Creating Saves Links"
 	#Saves	
 	$simLinkPath = "$emusPath\duckstation\memcards"

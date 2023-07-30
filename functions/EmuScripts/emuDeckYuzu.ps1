@@ -35,7 +35,7 @@ function Yuzu_init(){
 	createSaveLink $simLinkPath $emuSavePath
 	
 	Yuzu_setupStorage
-	Yuzu_setupSaves
+#	Yuzu_setupSaves
 	Yuzu_setResolution $yuzuResolution
 	
 

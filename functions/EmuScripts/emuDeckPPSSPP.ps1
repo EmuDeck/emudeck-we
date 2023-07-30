@@ -22,7 +22,7 @@ function PPSSPP_init(){
 	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"
 	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" ":\Emulation" ":/Emulation"
 	
-	PPSSPP_setupSaves
+#	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution
 }
 function PPSSPP_update(){

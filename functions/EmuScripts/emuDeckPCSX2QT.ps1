@@ -17,7 +17,7 @@ function PCSX2QT_init(){
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
 	
 	PCSX2QT_setEmulationFolder
-	PCSX2QT_setupSaves
+#	PCSX2QT_setupSaves
 	PCSX2QT_setResolution $pcsx2Resolution
 	
 	if ("$doRASignIn" -eq "true" ){

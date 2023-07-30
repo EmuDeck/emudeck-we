@@ -29,7 +29,7 @@ function Dolphin_init(){
 	
 	sedFile $destination\User\Config\Dolphin.ini "/" "\"
 
-	Dolphin_setupSaves
+#	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
 	Dolphin_setResolution $dolphinResolution
 	
