@@ -355,96 +355,82 @@ function cloud_sync_uninstall(){
 
 function cloud_sync_download($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
-		$dialog = showDialog("Downloading saves for $emuName...")
-		$sh = New-Object -ComObject WScript.Shell
-		if ($emuName -eq "melonDS"){
-			if (Test-Path "$emulationPath\saves\$emuName\saves") {	
-				$target = "$emulationPath\saves\$emuName\saves"
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\states") {	
-				$target = "$emulationPath\saves\$emuName\states"
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
+	
+		if ($emuName -eq 'all'){
+				
+			$dialog = showDialog("Downloading saves - All systems")
+			$sh = New-Object -ComObject WScript.Shell	
+			
+			$target = "$emulationPath\saves\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\"
+			if ($?) {			
+				$baseFolder = "$target"
+				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
+				Get-ChildItem -Directory $baseFolder | ForEach-Object {
+					$folder = $_.FullName
+					$emuName = (Get-Item $folder).Name
+					$lastUploadFile = Join-Path "$savesPath" $emuName ".last_download"
+					$failUploadFile = Join-Path "$savesPath" $emuName ".fail_upload"
+				
+					if (Test-Path -PathType Container $folder) {
+						Set-Content -Path "$lastUploadFile" -Value $timestamp
+						Remove-Item -Path "$failUploadFile" -Force -Recurse
+					}
+				}								
 			}
 		}else{
-			
-			if (Test-Path "$emulationPath\saves\$emuName\saves") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saves" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\states") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\states" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\profiles") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\GC") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\Wii") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\Wii").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" "$target"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\saveMeta") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" "$target"
-			}
+			$dialog = showDialog("Downloading saves for $emuName...")
+			$target = "$emulationPath\saves\$emuName\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 		}
+	
+
 		$dialog.Close()
 	}
 }
 
 function cloud_sync_upload($emuName){	
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
-		$dialog = showDialog("Uploading saves for $emuName...")
-		$sh = New-Object -ComObject WScript.Shell	
-		if ($emuName -eq "melonDS"){
-			if (Test-Path "$emulationPath\saves\$emuName\saves") {	
-				$target = "$emulationPath\saves\$emuName\saves"
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\states") {	
-				$target = "$emulationPath\saves\$emuName\states"
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states"
+	
+		if ($emuName -eq 'all'){
+				
+			$dialog = showDialog("Uploading saves - All systems")
+			$sh = New-Object -ComObject WScript.Shell	
+			
+			$target = "$emulationPath\saves\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\"
+			if ($?) {			
+				$baseFolder = "$target"
+				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
+				Get-ChildItem -Directory $baseFolder | ForEach-Object {
+					$folder = $_.FullName
+					$emuName = (Get-Item $folder).Name
+					$lastUploadFile = Join-Path "$savesPath" $emuName ".last_upload"
+					$failUploadFile = Join-Path "$savesPath" $emuName ".fail_upload"
+				
+					if (Test-Path -PathType Container $folder) {
+						Set-Content -Path "$lastUploadFile" -Value $timestamp
+						Remove-Item -Path "$failUploadFile" -Force -Recurse
+					}
+				}								
 			}
 		}else{
+				
+			$dialog = showDialog("Uploading saves for $emuName...")
+			$sh = New-Object -ComObject WScript.Shell	
 			
-			if (Test-Path "$emulationPath\saves\$emuName\saves") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saves").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saves"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\states") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\states").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\states" 
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\profiles") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\profiles").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\profiles"
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\GC") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\GC").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\GC" 
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\Wii") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\Wii").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\WII" 
-			}
-			if (Test-Path "$emulationPath\saves\$emuName\saveMeta") {	
-				$target = $sh.CreateShortcut("$emulationPath\saves\$emuName\saveMeta").TargetPath
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\saveMeta" 
+			$target = "$emulationPath\saves\$emuName\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+			if ($?) {
+				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 			}
 		}
-		
-		rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-		
-	$dialog.Close()
+
+		$dialog.Close()
 	}
 }
 
-function cloud_sync_downloadEmu($emuName){
+function cloud_sync_downloadEmu($emuName, $mode){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
@@ -492,7 +478,10 @@ function cloud_sync_downloadEmu($emuName){
 					}
 				}
 			}else{
-				cloud_sync_download($emuName)
+				
+				if($mode -ne 'check-conflicts'){
+					cloud_sync_download($emuName)
+				}
 			}
 		}else{
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_download
@@ -500,7 +489,7 @@ function cloud_sync_downloadEmu($emuName){
 	}
 }
 
-function cloud_sync_uploadEmu($emuName){
+function cloud_sync_uploadEmu($emuName, $mode){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
@@ -530,7 +519,10 @@ function cloud_sync_uploadEmu($emuName){
 			}else{
 				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-				cloud_sync_upload($emuName)
+				if($mode -ne 'check-conflicts'){
+					cloud_sync_upload($emuName)
+				}
+				
 			}
 		}else{
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_upload
