@@ -38,11 +38,11 @@ function Ryujinx_setEmulationFolder(){
 }
 function Ryujinx_setupSaves(){
   setMSG "Ryujinx - Saves Links"
-  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save\"  
+  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"  
   $emuSavePath = -join($emulationPath,"\saves\ryujinx\saves")
   createSymlink $simLinkPath $emuSavePath
   
-  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta\"  
+  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"  
   $emuSavePath = -join($emulationPath,"\saves\ryujinx\saveMeta")
   createSymlink $simLinkPath $emuSavePath
 	

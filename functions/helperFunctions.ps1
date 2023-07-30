@@ -423,8 +423,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			
 			if ($?) {				
 				$backupSuffix = "_bak"
-				$backupName = -join($simLinkPath, $backupSuffix)
-				echo $backupName				
+				$backupName = -join($simLinkPath, $backupSuffix)						
 				Rename-Item -Path "$simLinkPath" -NewName "$backupName"
 			}
 		}	
@@ -432,3 +431,4 @@ function createSaveLink($simLinkPath, $emuSavePath){
 
 	createSymlink $simLinkPath $emuSavePath
 }
+
