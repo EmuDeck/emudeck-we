@@ -357,8 +357,8 @@ function cloud_sync_download($emuName){
 				Get-ChildItem -Directory $baseFolder | ForEach-Object {
 					$folder = $_.FullName
 					$emuName = (Get-Item $folder).Name
-					$lastUploadFile = Join-Path "$savesPath" $emuName ".last_download"
-					$failUploadFile = Join-Path "$savesPath" $emuName ".fail_upload"
+					$lastUploadFile = "$savesPath/$emuName/.last_download"
+					$failUploadFile = "$savesPath/$emuName/.fail_upload"
 				
 					if (Test-Path -PathType Container $folder) {
 						Set-Content -Path "$lastUploadFile" -Value $timestamp
@@ -393,8 +393,8 @@ function cloud_sync_upload($emuName){
 				Get-ChildItem -Directory $baseFolder | ForEach-Object {
 					$folder = $_.FullName
 					$emuName = (Get-Item $folder).Name
-					$lastUploadFile = Join-Path "$savesPath" $emuName ".last_upload"
-					$failUploadFile = Join-Path "$savesPath" $emuName ".fail_upload"
+					$lastUploadFile = "$savesPath/$emuName/.last_upload"
+					$failUploadFile = "$savesPath/$emuName/.fail_upload"
 				
 					if (Test-Path -PathType Container $folder) {
 						Set-Content -Path " $lastUploadFile" -Value $timestamp
