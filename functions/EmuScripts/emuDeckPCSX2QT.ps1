@@ -38,12 +38,12 @@ function PCSX2QT_setupSaves(){
 	#memcards
 	$simLinkPath = "$emusPath\PCSX2-Qt\memcards"
 	$emuSavePath = -join($emulationPath,"\saves\pcsx2\saves")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 	#States
 	$simLinkPath = "$emusPath\PCSX2-Qt\sstates"
 	$emuSavePath = -join($emulationPath,"\saves\pcsx2\states")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 }
 function PCSX2QT_setResolution($resolution){
 	switch ( $resolution )

@@ -33,11 +33,11 @@ function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
 	$simLinkPath = "$emusPath\citra\user\sdmc"
 	$emuSavePath = -join($emulationPath,"\saves\citra\saves")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 	$simLinkPath = "$emusPath\citra\user\states"
 	$emuSavePath = -join($emulationPath,"\saves\citra\states")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 }
 function Citra_setupStorage(){
 	Write-Output "NYI"

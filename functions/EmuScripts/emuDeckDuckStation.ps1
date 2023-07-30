@@ -46,12 +46,12 @@ function DuckStation_setupSaves(){
 	#Saves	
 	$simLinkPath = "$emusPath\duckstation\memcards"
 	$emuSavePath = -join($emulationPath,"\saves\duckstation\saves")
-	createSymlink $simLinkPath $emuSavePath	
+	createSaveLink $simLinkPath $emuSavePath	
 	
 	#States
 	$simLinkPath = "$emusPath\duckstation\savestates"
 	$emuSavePath = -join($emulationPath,"\saves\duckstation\states")	
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 }
 
 function DuckStation_setResolution($resolution){

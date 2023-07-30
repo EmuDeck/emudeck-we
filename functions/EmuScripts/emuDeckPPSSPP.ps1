@@ -35,11 +35,11 @@ function PPSSPP_setupSaves(){
 	setMSG "PPSSPP - Saves Links"
 	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
 	$emuSavePath = -join($emulationPath,"\saves\ppsspp\states")	
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
 	$emuSavePath = -join($emulationPath,"\saves\ppsspp\saves")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 }
 function PPSSPP_setResolution($resolution){

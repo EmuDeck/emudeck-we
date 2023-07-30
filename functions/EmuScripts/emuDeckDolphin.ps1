@@ -52,17 +52,17 @@ function Dolphin_setupSaves(){
 	#Saves GC
 	$simLinkPath = "$emusPath\Dolphin-x64\User\GC"
 	$emuSavePath = -join($emulationPath,"\saves\dolphin\GC")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 	#Saves Wii
 	$simLinkPath = "$emusPath\Dolphin-x64\User\WII"
 	$emuSavePath = -join($emulationPath,"\saves\dolphin\WII")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 	#States
 	$simLinkPath = "$emusPath\Dolphin-x64\User\StateSaves"
 	$emuSavePath = -join($emulationPath,"\saves\dolphin\states")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 }
 
 function Dolphin_setResolution($resolution){

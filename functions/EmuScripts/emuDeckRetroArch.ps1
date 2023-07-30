@@ -208,12 +208,12 @@ function RetroArch_setupSaves(){
 	
 	$simLinkPath = "$emusPath\RetroArch\saves"
 	$emuSavePath = -join($emulationPath,"\saves\retroarch\saves")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 	
 	#States
 	$simLinkPath = "$emusPath\RetroArch\states"	
 	$emuSavePath = -join($emulationPath,"\saves\retroarch\states")
-	createSymlink $simLinkPath $emuSavePath
+	createSaveLink $simLinkPath $emuSavePath
 }
 
 function RetroArch_setOverride($fileToCheck, $name, $key, $value){
