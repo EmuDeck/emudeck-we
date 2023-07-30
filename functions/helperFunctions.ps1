@@ -377,7 +377,7 @@ function startScriptWithAdmin {
 }
 
 function createSymlink($source, $target) {	
-if(testAdministrator){
+if(testAdministrator -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
 }else{
 	$scriptContent = @"
