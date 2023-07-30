@@ -423,7 +423,7 @@ function cloud_sync_downloadEmu($emuName){
 			
 				$date = Get-Content "$savesPath/$emuName/.pending_upload"
 				
-				$result = showYesNoDialog "CloudSync conflict" "We've detected a pending upload, make sure you always close the Emulator pressing SELECT + START for a few seconds , do you want us to upload your saves to the cloud and overwrite them?`n`nThis upload should have happened on $date.`n`nPress Yes to upload them to the cloud.`n`nPress no to download from the cloud and overwrite your local saves"
+				$result = showYesNoDialog "CloudSync conflict - $emuName" "We've detected a pending upload, make sure you always close the Emulator pressing SELECT + START for a few seconds , do you want us to upload your saves to the cloud and overwrite them?`n`nThis upload should have happened on $date.`n`nPress Yes to upload them to the cloud.`n`nPress no to download from the cloud and overwrite your local saves"
 				
 				switch ($result) {
 					"Yes" {
@@ -446,7 +446,7 @@ function cloud_sync_downloadEmu($emuName){
 			
 				$date = Get-Content "$savesPath/$emuName/.fail_download"
 				
-				$result = showYesNoDialog "CloudSync conflict" "We've detected a previously failed download, do you want us to download your saves and overwrite your local saves?`n`nYour latest upload was on $date.`n`nPress Yes to download from the cloud and overwrite your local saves.`n`nPress No to upload and overwrite your Cloud saves"
+				$result = showYesNoDialog "CloudSync conflict - $emuName" "We've detected a previously failed download, do you want us to download your saves and overwrite your local saves?`n`nYour latest upload was on $date.`n`nPress Yes to download from the cloud and overwrite your local saves.`n`nPress No to upload and overwrite your Cloud saves"
 				
 				switch ($result) {
 					"Yes" {
@@ -479,7 +479,7 @@ function cloud_sync_uploadEmu($emuName){
 				$date = Get-Content "$savesPath/$emuName/.fail_upload"
 				Add-Type -AssemblyName System.Windows.Forms
 				
-				$result = showYesNoDialog "CloudSync conflict" "We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`nPress Yes to upload and overwrite your Cloud saves.`n`nPress no to download from the cloud and overwrite your local saves" 
+				$result = showYesNoDialog "CloudSync conflict - $emuName" "We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`nPress Yes to upload and overwrite your Cloud saves.`n`nPress no to download from the cloud and overwrite your local saves" 
 				
 				switch ($result) {
 					"Yes" {
