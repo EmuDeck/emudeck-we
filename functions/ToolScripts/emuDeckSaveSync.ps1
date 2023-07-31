@@ -535,7 +535,7 @@ function cloud_sync_uploadEmuAll(){
 				
 	}				
 	
-	cloud_sync_download 'all'
+	cloud_sync_upload 'all'
 }
 
 
