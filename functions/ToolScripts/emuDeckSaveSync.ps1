@@ -534,7 +534,7 @@ function cloud_sync_uploadEmuAll(){
 		cloud_sync_uploadEmu $emuName 'check-conflicts'
 				
 	}				
-	Start-Job -ScriptBlock { cloud_sync_upload 'all' }
+	cloud_sync_upload 'all'
 	
 }
 
