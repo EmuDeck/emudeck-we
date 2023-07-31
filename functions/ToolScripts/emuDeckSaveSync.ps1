@@ -562,7 +562,7 @@ function cloud_sync_check_lock(){
 }
 
 
-$thread_upload = [System.Threading.Thread]::new({
+$thread_upload = [[System.Threading.Thread]::new([System.Threading.ThreadStart]{
 	param (
 		[string]$Parameter
 	)
