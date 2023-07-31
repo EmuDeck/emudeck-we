@@ -11,7 +11,6 @@ if exist "%rcloneConfig%" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmuAll "}		
 	)
 )
-$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmuAll "}
 "ESDEPATH\EmulationStation.exe" %args%
 cls
 if exist "%rcloneConfig%" (
