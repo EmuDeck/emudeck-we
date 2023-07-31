@@ -347,7 +347,8 @@ function cloud_sync_download($emuName){
 		cloud_sync_check_lock
 		if ($emuName -eq 'all'){
 				
-			$dialog = showDialog("Downloading saves - All systems")
+			$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
+			
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\"
@@ -368,11 +369,10 @@ function cloud_sync_download($emuName){
 				}								
 			}
 		}else{
-			$dialog = showDialog("Downloading saves for $emuName...")
+			$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."			
 			$target = "$emulationPath\saves\$emuName\"
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
-		}
-	
+		}	
 
 		$dialog.Close()
 	}
@@ -384,9 +384,8 @@ function cloud_sync_upload($emuName){
 		cloud_sync_lock
 		if ($emuName -eq 'all'){
 				
-			toastNotification -title "EmuDeck CloudSync" -message "Uploading saves for $emuName in the background..." -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
-				
-			$dialog = showDialog("Uploading saves - All systems")
+			toastNotification -title "EmuDeck CloudSync" -message "Uploading saves for all systems in the background..." -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
+						
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\"
@@ -408,8 +407,7 @@ function cloud_sync_upload($emuName){
 				toastNotification -title "EmuDeck CloudSync" -message "Saves uploaded!" -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"			
 			}
 		}else{				
-			$dialog = showDialog("Uploading saves for $emuName...")
-			
+						
 			toastNotification -title "EmuDeck CloudSync" -message "Uploading saves for $emuName in the background..." -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
 			
 			$sh = New-Object -ComObject WScript.Shell	
