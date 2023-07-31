@@ -121,7 +121,7 @@ function setMSG($message){
 }
 
 
-
+#Used in the appimage only
 function checkForFile($fileName){
 	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
 }
@@ -192,6 +192,7 @@ function showDialog($text){
     $form.Show()
     return $form
 }
+
 
 function showListDialog($title, $subtitle, $options){
 	Add-Type -AssemblyName System.Windows.Forms
@@ -306,63 +307,186 @@ Function NewWPFDialog() {
 }
 
 
-Function NewPopUpWindow () {
-	param(
-		[string]
-		$MessageText = "No Message Supplied")
-
-	# This is the XaML that defines the GUI.
-	$WPFXamL = @'
+function confirmDialog {
+	param (
+		[string]$TitleText = "Do you want to continue?",
+		[string]$MessageText = "",
+		[string]$OKButtonText = "OK",
+		[string]$CancelButtonText = "Cancel"
+	)
+	# This is the XAML that defines the GUI.
+	$WPFXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" Padding="20" Margin="0">
-	<Grid Name="grid">
-		<Button Name="OKButton" Content="OK" HorizontalAlignment="Right" Margin="0,0,30,20" VerticalAlignment="Bottom" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
-		<TextBlock Name="Message" Margin="100,60,100,80" TextWrapping="Wrap" Text="_CONTENT_" FontSize="36"/>
-	</Grid>
+		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0">
+ <Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,20,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,0" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+					</StackPanel>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
 </Window>
 '@
 
 	# Build Dialog
 	$WPFGui = NewWPFDialog -XamlData $WPFXaml
 	$WPFGui.Message.Text = $MessageText
-	$WPFGui.OKButton.Add_Click( { $WPFGui.UI.Close() })
+	$WPFGui.Title.Text = $TitleText
+	$WPFGui.Message.Text = $MessageText
+
+	$WPFGui.OKButton.Content = $OKButtonText
+
+	# Add the script block to the button's Click event
+	$WPFGui.OKButton.Add_Click($buttonClickEvent)
+
+	# Create a variable to hold the result
+	$global:Result = $null
+
+	# Show the dialog
 	$null = $WPFGUI.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.ShowDialog() }.Wait()
+
+	# Return the result
+	return $global:Result
+}
+
+
+function yesNoDialog {
+	param (
+		[string]$TitleText = "Do you want to continue?",
+		[string]$MessageText = "",
+		[string]$OKButtonText = "OK",
+		[string]$CancelButtonText = "Cancel",
+		[bool]$ShowCancelButton = $true
+		
+	)
+	# This is the XAML that defines the GUI.
+	$WPFXaml = @'
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0">
+ <Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,20,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,0" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+						<Button Name="CancelButton" Content="_CANCELBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+					</StackPanel>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+</Window>
+'@
+
+	# Build Dialog
+	$WPFGui = NewWPFDialog -XamlData $WPFXaml
+	$WPFGui.Message.Text = $MessageText
+	$WPFGui.Title.Text = $TitleText
+	$WPFGui.Message.Text = $MessageText
+
+	$WPFGui.OKButton.Content = $OKButtonText
+	$WPFGui.CancelButton.Content = $CancelButtonText
+
+	# Create a script block to handle the button click event
+	$buttonClickEvent = {
+		param($sender, $e)
+		$global:Result = $sender.Name
+		$WPFGui.UI.Close()
+	}
+
+	# Add the script block to the button's Click event
+	$WPFGui.OKButton.Add_Click($buttonClickEvent)
 	
-	#
-	function ClosePopup() {
+	# Create a script block to handle the button click event for "Cancel" button
+	$cancelButtonClickEvent = {
+		param($sender, $e)
+		$global:Result = $sender.Name  # Set the Result to the name of the clicked button ("CancelButton")
 		$WPFGui.UI.Close()
 	}
 	
+	# Add the script block to the "Cancel" button's Click event
+	$WPFGui.CancelButton.Add_Click($cancelButtonClickEvent)
+
+	# Create a variable to hold the result
+	$global:Result = $null
+
+	# Show the dialog
+	$null = $WPFGUI.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.ShowDialog() }.Wait()
+
+	# Return the result
+	return $global:Result
 }
 
-#NewPopUpWindow -MessageText "Hey there, I'm a pretty blue form"
-
-function showYesNoDialog($title, $desc){
-
-	Add-Type -AssemblyName System.Windows.Forms
-
-	$result = [System.Windows.Forms.MessageBox]::Show(
-		"$desc",
-		"$title",
-		[System.Windows.Forms.MessageBoxButtons]::YesNo
+function cleanDialog {
+	param (
+		[string]$TitleText = "Do you want to continue?",
+		[string]$MessageText = "",
+		[string]$OKButtonText = "OK",
+		[string]$CancelButtonText = "Cancel"
 	)
-	
-	return $result
 
+	# This is the XAML that defines the GUI.
+	$WPFXaml = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0">
+	<Grid Name="grid">
+		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+			<StackPanel>
+				<Border Margin="20,20,0,20" Background="Transparent">
+					<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+				</Border>
+				<Border Margin="20,0,20,20" Background="Transparent">
+					<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+				</Border>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Window>
+"@
+
+	# Build Dialog
+	$WPFGui = NewWPFDialog -XamlData $WPFXaml
+	$WPFGui.Title.Text = $TitleText
+	$WPFGui.Message.Text = $MessageText
+
+	# Show the dialog
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()	
+
+	# Return the UI
+	return $WPFGui.UI
 }
 
-#$scriptContent = @"
-#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; 
-#Write-Host "I'm Admin"
-#"@
-
-#StartScriptWithAdmin -ScriptContent $scriptContent
 
 function startScriptWithAdmin {
 	param (
 		[string]$ScriptContent
 	)
+	
+	#$scriptContent = @"
+	#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; 
+	#Write-Host "I'm Admin"
+	#"@
+	
+	#StartScriptWithAdmin -ScriptContent $scriptContent
 
 	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
 	$ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force

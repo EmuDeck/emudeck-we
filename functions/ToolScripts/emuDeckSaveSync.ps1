@@ -379,7 +379,8 @@ function cloud_sync_download($emuName){
 
 function cloud_sync_upload($emuName){	
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
-	
+		#We lock cloudsync
+		cloud_sync_lock
 		if ($emuName -eq 'all'){
 				
 			$dialog = showDialog("Uploading saves - All systems")
@@ -402,8 +403,7 @@ function cloud_sync_upload($emuName){
 					}
 				}								
 			}
-		}else{
-				
+		}else{				
 			$dialog = showDialog("Uploading saves for $emuName...")
 			$sh = New-Object -ComObject WScript.Shell	
 			
@@ -413,7 +413,8 @@ function cloud_sync_upload($emuName){
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 			}
 		}
-
+		#We unlock cloudsync
+		cloud_sync_unlock
 		$dialog.Close()
 	}
 }
@@ -428,20 +429,17 @@ function cloud_sync_downloadEmu($emuName, $mode){
 			
 				$date = Get-Content "$savesPath/$emuName/.pending_upload"
 				
-				$result = showYesNoDialog "CloudSync conflict - $emuName" "We've detected a pending upload, make sure you always close the Emulator pressing SELECT + START for a few seconds , do you want us to upload your saves to the cloud and overwrite them?`n`nThis upload should have happened on $date.`n`nPress Yes to upload them to the cloud.`n`nPress no to download from the cloud and overwrite your local saves"
+				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a pending upload, make sure you always close the Emulator pressing SELECT + START, do you want us to upload your saves to the cloud now?`n`nThis upload should have happened on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 				
-				switch ($result) {
-					"Yes" {
-						rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-						cloud_sync_upload($emuName)								
-					}
-					"No" {
-						rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-						#cloud_sync_download($emuName) No need to download, since we are going to do it later on this same script
-					}
-				}		
+				if ($result -eq "OKButton") {
+					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_upload($emuName)
+				} else {
+					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					#cloud_sync_download($emuName) No need to download, since we are going to do it later on this same script
+				}
 			}		
 			
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
@@ -451,20 +449,18 @@ function cloud_sync_downloadEmu($emuName, $mode){
 			
 				$date = Get-Content "$savesPath/$emuName/.fail_download"
 				
-				$result = showYesNoDialog "CloudSync conflict - $emuName" "We've detected a previously failed download, do you want us to download your saves and overwrite your local saves?`n`nYour latest upload was on $date.`n`nPress Yes to download from the cloud and overwrite your local saves.`n`nPress No to upload and overwrite your Cloud saves"
+				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a previously failed download, do you want us to download your saves and overwrite your local saves?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 				
-				switch ($result) {
-					"Yes" {
-						rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-						cloud_sync_download($emuName)
-					}
-					"No" {
-						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-						rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
-						cloud_sync_upload($emuName)											
-					}
+				if ($result -eq "OKButton") {
+					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_download($emuName)
+				} else {
+					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
+					cloud_sync_upload($emuName)	
 				}
+
 			}else{
 				
 				if($mode -ne 'check-conflicts'){
@@ -487,22 +483,17 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				$date = Get-Content "$savesPath/$emuName/.fail_upload"
 				Add-Type -AssemblyName System.Windows.Forms
 				
-				$result = showYesNoDialog "CloudSync conflict - $emuName" "We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`nPress Yes to upload and overwrite your Cloud saves.`n`nPress no to download from the cloud and overwrite your local saves" 
+				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 				
-				switch ($result) {
-					"Yes" {
-						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-						cloud_sync_upload($emuName)						
-						rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
-						
-					}
-					"No" {
-						rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-						cloud_sync_download($emuName)
-						rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue						
-					}
+				if ($result -eq "OKButton") {
+					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_upload($emuName)						
+					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+				} else {
+					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_download($emuName)
+					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue	
 				}
-
 			
 			}else{
 				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
@@ -539,4 +530,28 @@ function cloud_sync_uploadEmuAll(){
 	}				
 	
 	cloud_sync_download 'all'
+}
+
+
+function cloud_sync_lock(){
+	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
+}
+
+function cloud_sync_unlock(){
+	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
+}
+
+function cloud_sync_check_lock(){
+	$lockedFile = "$userFolder\EmuDeck\cloud.lock"
+	if (Test-Path -Path $lockedFile) {
+		$modal = cleanDialog -TitleText "CloudSync in progress" -MessageText "We're syncing your saved games, please wait..."
+	}
+
+	while (Test-Path -Path $lockedFile) {
+		Start-Sleep -Seconds 1
+	}
+		
+	$modal.Close()
+
+	return $true
 }
