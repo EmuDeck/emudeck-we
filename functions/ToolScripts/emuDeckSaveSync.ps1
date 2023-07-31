@@ -440,7 +440,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-					$thread_upload.Start($emuName)
+					cloud_sync_upload($emuName)
 				} else {
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
@@ -464,7 +464,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				} else {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
-					$thread_upload.Start($emuName)	
+					cloud_sync_upload($emuName)	
 				}
 
 			}else{
@@ -493,7 +493,7 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-					$thread_upload.Start($emuName)						
+					cloud_sync_upload($emuName)						
 					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				} else {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
@@ -505,7 +505,7 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 				if($mode -ne 'check-conflicts'){
-					$thread_upload.Start($emuName)
+					cloud_sync_upload($emuName)
 				}
 				
 			}
@@ -534,7 +534,8 @@ function cloud_sync_uploadEmuAll(){
 		cloud_sync_uploadEmu $emuName 'check-conflicts'
 				
 	}				
-	$thread_upload.Start('all')	
+	Start-Job -ScriptBlock { cloud_sync_upload 'all' }
+	
 }
 
 
@@ -560,12 +561,3 @@ function cloud_sync_check_lock(){
 	}
 	return $true
 }
-
-
-$thread_upload = [[System.Threading.Thread]::new([System.Threading.ThreadStart]{
-	param (
-		[string]$Parameter
-	)
-
-	cloud_sync_upload -Parameter $Parameter
-})
