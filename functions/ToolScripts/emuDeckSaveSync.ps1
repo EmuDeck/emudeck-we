@@ -483,7 +483,7 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				$date = Get-Content "$savesPath/$emuName/.fail_upload"
 				Add-Type -AssemblyName System.Windows.Forms
 				
-				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
+				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud" -OKButtonText "Upload" -CancelButtonText "Download"
 				
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
