@@ -343,7 +343,8 @@ function cloud_sync_uninstall(){
 
 function cloud_sync_download($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
-	
+		#We wait for any upload in progress
+		cloud_sync_check_lock
 		if ($emuName -eq 'all'){
 				
 			$dialog = showDialog("Downloading saves - All systems")
@@ -383,6 +384,8 @@ function cloud_sync_upload($emuName){
 		cloud_sync_lock
 		if ($emuName -eq 'all'){
 				
+			toastNotification -title "EmuDeck CloudSync" -message "Uploading saves for $emuName in the background..." -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
+				
 			$dialog = showDialog("Uploading saves - All systems")
 			$sh = New-Object -ComObject WScript.Shell	
 			
@@ -401,16 +404,21 @@ function cloud_sync_upload($emuName){
 						Set-Content -Path "$lastUploadFile" -Value $timestamp
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
-				}								
+				}
+				toastNotification -title "EmuDeck CloudSync" -message "Saves uploaded!" -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"			
 			}
 		}else{				
 			$dialog = showDialog("Uploading saves for $emuName...")
+			
+			toastNotification -title "EmuDeck CloudSync" -message "Uploading saves for $emuName in the background..." -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
+			
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\$emuName\"
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			if ($?) {
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				toastNotification -title "EmuDeck CloudSync" -message "Saves uploaded!" -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
 			}
 		}
 		#We unlock cloudsync
