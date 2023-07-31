@@ -558,8 +558,8 @@ function cloud_sync_check_lock(){
 	while (Test-Path -Path $lockedFile) {
 		Start-Sleep -Seconds 1
 	}
-		
-	$modal.Close()
-
+	if ($modal) {
+		$modal.Close()
+	}
 	return $true
 }
