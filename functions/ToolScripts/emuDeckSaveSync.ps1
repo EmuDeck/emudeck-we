@@ -412,8 +412,64 @@ function cloud_sync_upload($emuName){
 			
 			$sh = New-Object -ComObject WScript.Shell	
 			
-			$target = "$emulationPath\saves\$emuName\"
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+			$target = "$emulationPath\saves\$emuName\"						
+			
+			$folderToMonitor = "$savesPath/$emuName"
+			
+			# Create a FileSystemWatcher object
+			$watcher = New-Object System.IO.FileSystemWatcher
+			$watcher.Path = $folderToMonitor
+			
+			# Enable notifications for changes in subdirectories
+			$watcher.IncludeSubdirectories = $true
+			
+			# Specify the types of changes to monitor
+			$watcher.NotifyFilter = [System.IO.NotifyFilters]::FileName -bor [System.IO.NotifyFilters]::LastWrite -bor [System.IO.NotifyFilters]::CreationTime -bor [System.IO.NotifyFilters]::Size -bor [System.IO.NotifyFilters]::DirectoryName
+			
+			# Event that triggers when a change occurs
+			$onChangeAction = {
+				try {
+					$changeType = $eventArgs.ChangeType
+					$filePath = $eventArgs.FullPath
+					$parentFolder = Split-Path $filePath -Parent
+					$grandparentFolder = Split-Path $parentFolder -Parent
+			
+					# Debug message to verify that the event is being triggered
+					Write-Host "Change event triggered: $changeType - $filePath"
+			
+					# Execute the cloud_sync_upload function when a change is detected
+					
+					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+					
+				} catch {
+					# Debug message to capture any potential errors
+					Write-Host "Error in event handling: $_"
+				}
+			}
+			
+			# Associate the event with the FileSystemWatcher object
+			Register-ObjectEvent -InputObject $watcher -EventName Changed -SourceIdentifier FileChanged -Action $onChangeAction
+			
+			# Start monitoring for changes in the background using a background job
+			$job = Start-Job -ScriptBlock {
+				while ($true) {
+					Start-Sleep 1
+				}
+			}
+			
+			# Keep the script running while the job is executing in the background
+			Write-Host "Listening for changes in folder $folderToMonitor. The monitoring is running in the background."
+			Write-Host "Press Ctrl+C to stop the monitoring."
+			try {
+				Wait-Job $job -Timeout 1
+			} catch {
+				# If the script is interrupted or terminated, clean up the job and stop event notification
+				Unregister-Event -SourceIdentifier FileChanged
+				$watcher.Dispose()
+				Remove-Job $job
+			}
+			
+			
 			if ($?) {
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 				toastNotification -title "EmuDeck CloudSync" -message "Saves uploaded!" -img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
@@ -474,58 +530,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 					cloud_sync_download($emuName)
 				}
 				
-				$folderToMonitor = "$savesPath/$emuName"
 				
-				# Create a FileSystemWatcher object
-				$watcher = New-Object System.IO.FileSystemWatcher
-				$watcher.Path = $folderToMonitor
-				
-				# Enable notifications for changes in subdirectories
-				$watcher.IncludeSubdirectories = $true
-				
-				# Specify the types of changes to monitor
-				$watcher.NotifyFilter = [System.IO.NotifyFilters]::FileName -bor [System.IO.NotifyFilters]::LastWrite -bor [System.IO.NotifyFilters]::CreationTime -bor [System.IO.NotifyFilters]::Size -bor [System.IO.NotifyFilters]::DirectoryName
-				
-				# Event that triggers when a change occurs
-				$onChangeAction = {
-					try {
-						$changeType = $eventArgs.ChangeType
-						$filePath = $eventArgs.FullPath
-						$parentFolder = Split-Path $filePath -Parent
-						$grandparentFolder = Split-Path $parentFolder -Parent
-				
-						# Debug message to verify that the event is being triggered
-						Write-Host "Change event triggered: $changeType - $filePath"
-				
-						# Execute the cloud_sync_upload function when a change is detected
-						cloud_sync_upload $emuName
-					} catch {
-						# Debug message to capture any potential errors
-						Write-Host "Error in event handling: $_"
-					}
-				}
-				
-				# Associate the event with the FileSystemWatcher object
-				Register-ObjectEvent -InputObject $watcher -EventName Changed -SourceIdentifier FileChanged -Action $onChangeAction
-				
-				# Start monitoring for changes in the background using a background job
-				$job = Start-Job -ScriptBlock {
-					while ($true) {
-						Start-Sleep 1
-					}
-				}
-				
-				# Keep the script running while the job is executing in the background
-				Write-Host "Listening for changes in folder $folderToMonitor. The monitoring is running in the background."
-				Write-Host "Press Ctrl+C to stop the monitoring."
-				try {
-					Wait-Job $job -Timeout 1
-				} catch {
-					# If the script is interrupted or terminated, clean up the job and stop event notification
-					Unregister-Event -SourceIdentifier FileChanged
-					$watcher.Dispose()
-					Remove-Job $job
-				}
 			}
 		}else{
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_download
