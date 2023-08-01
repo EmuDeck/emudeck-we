@@ -559,7 +559,7 @@ function cloud_sync_check_lock(){
 }
 
 
-function cloud_sync_monitor(){	
+function cloud_sync_monitor($emuName){	
 	# Folder to monitor
 	$folderToMonitor = $savesPath
 	# Create a FileSystemWatcher object
@@ -579,7 +579,7 @@ function cloud_sync_monitor(){
 		$parentFolder = Split-Path $filePath -Parent
 	
 		# Execute the cloud_sync_upload function when a change is detected
-		cloud_sync_upload 
+		cloud_sync_upload $emuName
 	}
 	
 	# Associate the event with the FileSystemWatcher object
