@@ -375,8 +375,9 @@ function cloud_sync_download($emuName){
 		}	
 
 		$dialog.Close()
+				
+		Start-Process powershell -ArgumentList "-Command {. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; cloud_sync_monitor}" -WindowStyle Minimized		
 		
-		cloud_sync_monitor
 	}
 }
 
