@@ -6,17 +6,13 @@ set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu retroarch;  "}		
-		start /min powershell -ExecutionPolicy Bypass . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloud_sync_monitor.ps1" retroarch
+		start /min "CloudSync" powershell -ExecutionPolicy Bypass . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloud_sync_monitor.ps1" retroarch
 	)
 )
 "ESDEPATH\Emulators\RetroArch\retroarch.exe" %args%
 cls
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (
-		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmu retroarch "}		
+		taskkill /FI "WINDOWTITLE eq CloudSync*"	
 	)
 )
-
-
-powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu retroarch "}		
-"C:\Users\rsedano\EmuDeck\EmulationStation-DE\Emulators\RetroArch\retroarch.exe" %args%
