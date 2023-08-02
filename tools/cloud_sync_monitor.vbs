@@ -11,7 +11,7 @@ Dim exclusionList
 exclusionList = Array(".fail_upload", ".fail_download", ".pending_upload")
 
 ' Comando de PowerShell que se ejecutará cuando se detecte un cambio
-psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\all.ps1; cloud_sync_uploadEmu emuName"
+psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\all.ps1; cloud_sync_uploadEmu " & emuName
 
 ' Ruta del archivo "cloud.lock" dentro de la carpeta del usuario
 Dim cloudLockPath
@@ -37,8 +37,6 @@ End Sub
 ' Función para comprobar cambios en la carpeta y ejecutar el comando de PowerShell
 Sub CheckForChanges(folder)
 	On Error Resume Next
-
-	
 
 	Dim subFolder, file
 
