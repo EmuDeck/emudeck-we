@@ -7,18 +7,6 @@ set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu citra "}
-		start /min "CloudSync" powershell -ExecutionPolicy Bypass . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloud_sync_monitor.ps1" retroarch
 	)
 )
 "ESDEPATH\Emulators\citra\citra-qt.exe" %args%
-set lockFile="%userprofile%\EmuDeck\cloud.lock"
-
-:search_lock
-if not exist "%lockFile%" (		
-	taskkill /FI "WINDOWTITLE eq CloudSync"
-	exit
-) else (
-	echo "lock file detected, waiting..."
-)
-timeout /t 1 >nul
-goto search_lock
