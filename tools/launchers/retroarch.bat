@@ -9,3 +9,4 @@ if exist "%rcloneConfig%" (
 		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_downloadEmu retroarch"}
 	)
 )
+"ESDEPATH\Emulators\RetroArch\retroarch.exe" %args%
