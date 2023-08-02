@@ -365,7 +365,7 @@ function cloud_sync_download($emuName){
 					if (Test-Path -PathType Container $folder) {
 						Set-Content -Path "$lastUploadFile" -Value $timestamp
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
-						cscript //nologo "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/cloud_sync_monitor.vbs" "all"
+						cscript //nologo "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloud_sync_monitor.vbs" "all"
 					}
 				}								
 			}
@@ -374,7 +374,7 @@ function cloud_sync_download($emuName){
 			$target = "$emulationPath\saves\$emuName\"
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			if ($?) {	
-				cscript //nologo "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/cloud_sync_monitor.vbs" "$emuName"
+				cscript //nologo "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloud_sync_monitor.vbs" "$emuName"
 			}	
 		}	
 
