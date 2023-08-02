@@ -413,8 +413,7 @@ function cloud_sync_upload($emuName){
 			}
 		}
 		#We unlock cloudsync
-		cloud_sync_unlock
-		#$dialog.Close()
+		cloud_sync_unlock		
 	}
 }
 
