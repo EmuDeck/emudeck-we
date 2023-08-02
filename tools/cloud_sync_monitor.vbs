@@ -1,7 +1,8 @@
 Option Explicit
 
-Dim objFSO, objShell, psCommand, timer
+Dim objFSO, objShell, psCommand, timer, emuName
 Dim folderPath, folderModifiedTime, folderContents
+emuName = WScript.Arguments(0)
 
 ' Ruta de la carpeta que se va a monitorizar
 folderPath = "C:\Emulation\saves"
@@ -10,7 +11,7 @@ Dim exclusionList
 exclusionList = Array(".fail_upload", ".fail_download", ".pending_upload")
 
 ' Comando de PowerShell que se ejecutará cuando se detecte un cambio
-psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\all.ps1; cloud_sync_uploadEmu retroarch; waitForUser "
+psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\all.ps1; cloud_sync_uploadEmu emuName"
 
 ' Ruta del archivo "cloud.lock" dentro de la carpeta del usuario
 Dim cloudLockPath
@@ -42,9 +43,7 @@ Sub CheckForChanges(folder)
 	Dim subFolder, file
 
 	' Verificar si ha habido cambios en la carpeta actual
-	If folder.DateLastModified <> folderModifiedTime Or Not AreContentsEqual(folder) Then
-	
-		WScript.Echo "Comprobando cambios en la carpeta: " & folder.Path
+	If folder.DateLastModified <> folderModifiedTime Or Not AreContentsEqual(folder) Then			
 		
 		' Almacenar la nueva fecha de modificación y los contenidos de la carpeta
 		folderModifiedTime = folder.DateLastModified
