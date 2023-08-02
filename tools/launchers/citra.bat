@@ -1,4 +1,4 @@
-@Write-Output off
+@echo off
 set args=%*
 title EmuDeck Launcher
 for /f "tokens=2 delims==" %%a in ('type "%userprofile%\EmuDeck\settings.ps1" ^| find "$toolsPath"') do set "toolsPath=%%~a"
