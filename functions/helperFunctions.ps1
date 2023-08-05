@@ -139,7 +139,7 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 	return $url
 }
 
-function getReleaseURLGH($Repository, $FileType, $IgnoreText = "pepe"){
+function getReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
 
     $url = "https://api.github.com/repos/$Repository/releases?per_page=1"
     $apiData = Invoke-RestMethod -Uri $url
