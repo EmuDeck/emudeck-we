@@ -61,6 +61,9 @@ function RPCS3_setupSaves(){
 	setMSG "RPCS3 - Saves Links"	
 	$simLinkPath = "$emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata"
 	$emuSavePath = "$savesPath\rpcs3\saves"
+	createSaveLink $simLinkPath $emuSavePath	
+	$simLinkPath = "$emulationPath\storage\rpcs3\dev_hdd0\home\00000001\trophy"	
+	$emuSavePath = "$savesPath\rpcs3\trophy"
 	createSaveLink $simLinkPath $emuSavePath
 }
 
