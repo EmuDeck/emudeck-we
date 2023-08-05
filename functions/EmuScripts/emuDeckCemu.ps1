@@ -1,6 +1,6 @@
 function Cemu_install(){
 	setMSG "Downloading Cemu"
-	$url_cemu = getLatestReleaseURLGH 'cemu-project/Cemu' 'zip' 'windows-x64'
+	$url_cemu = getReleaseURLGH 'cemu-project/Cemu' 'zip' 'windows-x64' "ubuntu"
 	download $url_cemu "cemu.zip"
 	
 	$folderPath = "$temp/cemu"
