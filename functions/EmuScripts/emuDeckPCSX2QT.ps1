@@ -2,7 +2,7 @@ function PCSX2QT_install(){
 	#$test=Test-Path -Path "$toolsPath\vc_redist.x86.exe"
 	winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
 	setMSG "Downloading PCSX2"
-	$url_pcsx2 = getReleaseURLGH "pcsx2/pcsx2" "7z" "symbols"
+	$url_pcsx2 = getReleaseURLGH "pcsx2/pcsx2" "7z" "windows" "symbols"
 	download $url_pcsx2 "pcsx2.7z"
 	moveFromTo "$temp\pcsx2" "$emusPath\PCSX2-Qt"
 	Remove-Item -Recurse -Force $temp\pcsx2 -ErrorAction SilentlyContinue
