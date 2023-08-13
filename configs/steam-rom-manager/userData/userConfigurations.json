@@ -1962,7 +1962,7 @@
     "parserType": "Glob",
     "configTitle": "Nintendo DS - melonDS Standalone",
     "steamCategory": "${Nintendo DS - melonDS Standalone}",
-    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"C:\\Emulation\\tools\\launchers\\melonDS.bat\" \"-f@\" \"${filePath}\" && exit \" && exit --emudeck",
+    "executableArgs": "/k start /min \"Emu\" \"C:\\Windows\\System32\\cmd.exe\" /K \"\"C:\\Emulation\\tools\\launchers\\melonDS.bat\" \"-f\" \"${filePath}\" && exit \" && exit --emudeck",
     "executableModifier": "\"${exePath}\"",
     "romDirectory": "${romsdirglobal}/nds",
     "steamDirectory": "${steamdirglobal}",
