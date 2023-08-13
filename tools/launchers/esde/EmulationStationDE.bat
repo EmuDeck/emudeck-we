@@ -1,5 +1,9 @@
-@Write-Output off
+@echo off
 set args=%*
+if "%args%" NEQ "--emudeck" (
+	powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; $result = confirmDialog -TitleText "Steam not detected" -MessageText "In order to use EmuDeck's automatic controller config you need to launch this system from Steam" -OKButtonText "OK" -CancelButtonText "NO" "}
+	exit
+)
 
 powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; RPCS3_renameFolders "}
 
@@ -12,9 +16,3 @@ if exist "%rcloneConfig%" (
 	)
 )
 "ESDEPATH\EmulationStation.exe" %args%
-cls
-if exist "%rcloneConfig%" (
-	if "%cloud_sync_status%"=="true" (
-		powershell -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1 ; cloud_sync_uploadEmuAll "}		
-	)
-)
