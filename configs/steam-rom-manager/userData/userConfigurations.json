@@ -3701,7 +3701,7 @@
       "logo": "",
       "icon": ""
     },
-    "disabled": true
+    "disabled": false
   },
   {
     "parserType": "Glob",
