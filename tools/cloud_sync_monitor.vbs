@@ -1,11 +1,13 @@
 Option Explicit
 
 Dim objFSO, objShell, psCommand, timer, emuName
-Dim folderPath, folderModifiedTime, folderContents
+Dim folderPath, savesPath folderModifiedTime, folderContents
 emuName = WScript.Arguments(0)
 
 ' Ruta de la carpeta que se va a monitorizar
-folderPath = "C:\Emulation\saves"
+savesPath = WScript.Arguments(1)
+
+folderPath = Replace(savesPath, "/", "\")
 
 Dim exclusionList
 exclusionList = Array(".fail_upload", ".fail_download", ".pending_upload")
