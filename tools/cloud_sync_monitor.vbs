@@ -1,7 +1,7 @@
 Option Explicit
 
-Dim objFSO, objShell, psCommand, timer, emuName
-Dim folderPath, savesPath folderModifiedTime, folderContents
+Dim objFSO, objShell, psCommand, timer, emuName, alert
+Dim folderPath, savesPath, folderModifiedTime, folderContents
 emuName = WScript.Arguments(0)
 
 ' Ruta de la carpeta que se va a monitorizar
@@ -23,7 +23,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objShell = CreateObject("WScript.Shell")
 
 ' Alert
-alert = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""EmuDeck CloudSync"" -message ""Saves uploaded!"" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
+alert = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""CloudSync"" -message ""Enabled"" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
 
 ExecutePowerShellCommand alert
 
