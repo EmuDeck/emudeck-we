@@ -1,6 +1,6 @@
 Option Explicit
 
-Dim objFSO, objShell, psCommand, timer, emuName, alert
+Dim objFSO, objShell, psCommand, timer, emuName, alert, alertExit
 Dim folderPath, savesPath, folderModifiedTime, folderContents
 emuName = WScript.Arguments(0)
 
@@ -74,7 +74,9 @@ Sub CheckForChanges(folder)
 		' Esperar hasta que el archivo "cloud.lock" deje de existir
 		WaitForFileDeletion cloudLockPath
 	Else
+		alertExit = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""CloudSync"" -message ""Disabled"" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
 		
+		ExecutePowerShellCommand alertExit
 		' Finalizar el script
 		StopTimer
 		WScript.Quit
