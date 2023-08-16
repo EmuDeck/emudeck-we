@@ -581,6 +581,7 @@ function toastNotification {
 	#Build XML Template
 	$ToastTemplate = @"
 <toast>
+	<duration value="0.5"/>
 	<visual>
 		<binding template="ToastImageAndText03">
 			<text id="1">$Title</text>

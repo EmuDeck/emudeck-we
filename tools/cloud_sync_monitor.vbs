@@ -20,6 +20,11 @@ cloudLockPath = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%USERPRO
 Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objShell = CreateObject("WScript.Shell")
 
+' Alert
+alert = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""EmuDeck CloudSync"" -message ""Saves uploaded!"" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
+
+ExecutePowerShellCommand alert
+
 ' Función para ejecutar el comando de PowerShell
 Sub ExecutePowerShellCommand(command)
 	Dim cmd
