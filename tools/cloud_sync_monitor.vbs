@@ -74,7 +74,7 @@ Sub CheckForChanges(folder)
 		' Esperar hasta que el archivo "cloud.lock" deje de existir
 		WaitForFileDeletion cloudLockPath
 	Else
-		alertExit = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""CloudSync"" -message ""Disabled"" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
+		alertExit = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""CloudSync"" -message ""Disabling..."" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
 		
 		ExecutePowerShellCommand alertExit
 		' Finalizar el script
