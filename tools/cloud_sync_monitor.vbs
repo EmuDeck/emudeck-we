@@ -25,7 +25,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objShell = CreateObject("WScript.Shell")
 
 ' Alert
-alert = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""CloudSync"" -message ""Enabled"" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
+alert = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; cloudDialog -Img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
 
 ExecutePowerShellCommand alert
 
@@ -78,7 +78,8 @@ Sub CheckForChanges(folder)
 		' Esperar hasta que el archivo "cloud.lock" deje de existir
 		WaitForFileDeletion cloudLockPath
 	Else
-		alertExit = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; toastNotification -title ""CloudSync"" -message ""Disabling..."" -img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
+		
+		alertExit = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; cloudDialog -Img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
 		
 		ExecutePowerShellCommand alertExit
 		' Finalizar el script

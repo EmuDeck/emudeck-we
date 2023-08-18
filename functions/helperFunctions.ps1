@@ -475,6 +475,52 @@ function cleanDialog {
 	return $WPFGui.UI
 }
 
+function cloudDialog {
+	param (
+		[string]$TitleText = "",
+		[string]$MessageText = "",
+		[string]$Img = "",
+		[string]$OKButtonText = "OK",
+		[string]$CancelButtonText = "Cancel"
+	)
+	
+	Add-Type -AssemblyName System.Windows.Forms
+	
+	$screen = [System.Windows.Forms.Screen]::PrimaryScreen
+	$width = $screen.Bounds.Width
+	$height = $screen.Bounds.Height
+	
+	$top = $height - 60
+	$left = $width - 60
+
+	# This is the XAML that defines the GUI.
+	$WPFXaml = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Popup" Background="Transparent" Foreground="#00FFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual" Width="50" Height="50" Top="$top" Left="$left" WindowStyle="None" MaxWidth="50" Padding="0" Margin="0" Topmost="True" AllowsTransparency="True">
+	<Grid Name="grid">
+		<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+			<StackPanel>
+				<Image Name="Picture" Width="50"  Height="50"/>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Window>
+"@
+
+
+
+	# Build Dialog
+	$WPFGui = NewWPFDialog -XamlData $WPFXaml
+	$WPFGui.Picture.Source = $Img
+
+	# Show the dialog
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()	
+
+	# Return the UI
+	return $WPFGui.UI
+}
+
 
 function startScriptWithAdmin {
 	param (
