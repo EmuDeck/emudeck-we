@@ -501,7 +501,8 @@ function startScriptWithAdmin {
 }
 
 function createSymlink($source, $target) {	
-mkdir "$source" -ErrorAction SilentlyContinue
+#target is the real folder, source is the simlink because...windows
+mkdir "$target" -ErrorAction SilentlyContinue
 if(testAdministrator -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
