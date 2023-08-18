@@ -64,7 +64,7 @@ function RetroArch_init(){
 	}
 	
 	
-	setMSG "RetroArch - Bios & Saves"
+	#setMSG "RetroArch - Bios & Saves"
 	
 #	RetroArch_setupSaves
 	

@@ -162,6 +162,15 @@ if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 
 setMSG 'Configuring Emulators'
 
+if ( "$doSetupESDE" -eq "true" ){
+	ESDE_init
+	#$setupSaves+="ESDE_setupSaves;"
+}
+
+if ( "$doSetupSRM" -eq "true" ){
+	SRM_init
+}
+
 $setupSaves=''
 if ( "$doSetupRA" -eq "true" ){
 	RetroArch_init
@@ -233,16 +242,8 @@ if ( "$doSetupRPCS3" -eq "true" ){
 	#$setupSaves+="#ScummVM_setupSaves;"
 #}
 
-if ( "$doSetupESDE" -eq "true" ){
-	ESDE_init
-	#$setupSaves+="ESDE_setupSaves;"
-}
 
-if ( "$doSetupSRM" -eq "true" ){
-	SRM_init
-}
-
-setMSG 'Configuring Save folder - Waiting for user confirmatiom'
+setMSG 'Configuring Save folders - Waiting for user confirmatiom'
 
 $scriptContent = @"
 	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $setupSaves
