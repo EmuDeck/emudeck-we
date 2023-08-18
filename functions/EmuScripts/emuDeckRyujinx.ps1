@@ -18,15 +18,6 @@ function Ryujinx_init(){
 	sedFile "$destination\portable\Config.json" "C:\\Emulation" "$emulationPath"
 	sedFile "$destination\portable\Config.json" ":\Emulation" ":\\Emulation"
 	
-	
-	setMSG "Ryujinx - Creating Keys  Links"
-	#Firmware
-	$simLinkPath = "$emusPath\Ryujinx\portable\system"
-	$emuSavePath = -join($emulationPath,"\bios\ryujinx\keys")
-	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
-	mkdir $simLinkPath -ErrorAction SilentlyContinue
-	createSaveLink $simLinkPath $emuSavePath
-	
 }
 
 function Ryujinx_update(){
@@ -37,14 +28,23 @@ function Ryujinx_setEmulationFolder(){
 	sedFile $destination\portable\Config.json "/run/media/mmcblk0p1/Emulation/roms/switch" "$romsPath/switch"
 }
 function Ryujinx_setupSaves(){
-  setMSG "Ryujinx - Saves Links"
-  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"  
-  $emuSavePath = -join($emulationPath,"\saves\ryujinx\saves")
-  createSaveLink $simLinkPath $emuSavePath
-  
-  $simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"  
-  $emuSavePath = -join($emulationPath,"\saves\ryujinx\saveMeta")
-  createSaveLink $simLinkPath $emuSavePath
+
+	setMSG "Ryujinx - Creating Keys  Links"
+	#Firmware
+	$simLinkPath = "$emusPath\Ryujinx\portable\system"
+	$emuSavePath = -join($emulationPath,"\bios\ryujinx\keys")
+	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
+	mkdir $simLinkPath -ErrorAction SilentlyContinue
+	createSaveLink $simLinkPath $emuSavePath	
+
+	setMSG "Ryujinx - Saves Links"
+	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"  
+	$emuSavePath = -join($emulationPath,"\saves\ryujinx\saves")
+	createSaveLink $simLinkPath $emuSavePath
+	
+	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"  
+	$emuSavePath = -join($emulationPath,"\saves\ryujinx\saveMeta")
+	createSaveLink $simLinkPath $emuSavePath
 	
 }
 
