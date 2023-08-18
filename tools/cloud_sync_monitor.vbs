@@ -24,9 +24,6 @@ cloudLockPath = CreateObject("WScript.Shell").ExpandEnvironmentStrings("%USERPRO
 Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objShell = CreateObject("WScript.Shell")
 
-' Alert
-msgBox "Iniciando"
-
 ' Función para ejecutar el comando de PowerShell
 Sub ExecutePowerShellCommand(command)
 	Dim cmd
