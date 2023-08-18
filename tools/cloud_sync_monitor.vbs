@@ -1,5 +1,7 @@
 Option Explicit
 
+WScript.Echo "Starting CloudSync watcher"
+
 Dim objFSO, objShell, psCommand, timer, emuName, alert, alertExit
 Dim folderPath, savesPath, folderModifiedTime, folderContents
 emuName = WScript.Arguments(0)
@@ -30,6 +32,7 @@ ExecutePowerShellCommand alert
 ' Función para ejecutar el comando de PowerShell
 Sub ExecutePowerShellCommand(command)
 	Dim cmd
+	WScript.Echo "Running Powershell command"
 	cmd = "powershell -ExecutionPolicy Bypass -Command """ & command & """"
 	objShell.Run cmd, 0, False
 End Sub
@@ -37,7 +40,8 @@ End Sub
 ' Función para verificar si existe algún archivo y esperar hasta que deje de existir
 Sub WaitForFileDeletion(filePath)
 	Do While objFSO.FileExists(filePath)
-		WScript.Sleep 1000
+		WScript.Echo "Lock file detected, testing again in 500ms"
+		WScript.Sleep 500
 	Loop
 End Sub
 
@@ -49,7 +53,7 @@ Sub CheckForChanges(folder)
 
 	' Verificar si ha habido cambios en la carpeta actual
 	If folder.DateLastModified <> folderModifiedTime Or Not AreContentsEqual(folder) Then			
-		
+		WScript.Echo "Changed detected."
 		' Almacenar la nueva fecha de modificación y los contenidos de la carpeta
 		folderModifiedTime = folder.DateLastModified
 		folderContents = GetFolderContents(folder)
@@ -91,6 +95,7 @@ End Sub
 
 ' Función para buscar si un proceso está en ejecución por su nombre
 Function CheckCmdRunning(processName)
+	WScript.Echo "cmd.exe is running, testing again."
 	Dim colProcesses, objProcess
 	Set colProcesses = GetObject("winmgmts:\\.\root\cimv2").ExecQuery("SELECT * FROM Win32_Process WHERE Name='" & processName & "'")
 	

@@ -259,6 +259,4 @@ $scriptContent = @"
 
 startScriptWithAdmin -ScriptContent $scriptContent
 
-#PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& { Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command &{ cd $env:USERPROFILE ; cd AppData ; cd Roaming ; cd EmuDeck ; cd backend ; cd functions ; . ./all.ps1 ; startScriptWithAdmin -ScriptContent $setupSaves }' -Verb RunAs }"
-
 Stop-Transcript
