@@ -15,7 +15,7 @@ function melonDS_init(){
 	sedFile $destination\melonDS.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
 	sedFile $destination\melonDS.ini "\" "/"	
 	
-	melonDS_setupSaves
+	#melonDS_setupSaves
 	melonDS_setResolution $melondsResolution
 }
 function melonDS_update(){

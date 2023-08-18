@@ -217,6 +217,18 @@ if ( "$doSetupRPCS3" -eq "true" ){
 	$setupSaves+="RPCS3_setupSaves;"
 }
 
+
+if ( "$doSetupPPSSPP" -eq "true" ){
+	PPSSPP_init
+	$setupSaves+="PPSSPP_setupSaves;"
+}
+
+
+if ( "$doSetupmelonDS" -eq "true" ){
+	melonDS_init
+	$setupSaves+="melonDS_setupSaves;"
+}
+
 #if ( "$doSetupXemu" -eq "true" ){
 	#Xemu_init
 	#$setupSaves+="#Xemu_setupSaves;"
@@ -227,10 +239,6 @@ if ( "$doSetupRPCS3" -eq "true" ){
 	#$setupSaves+="#Xenia_setupSaves;"
 #}
 
-#if ( "$doSetupPPSSPP" -eq "true" ){
-	#PPSSPP_init
-	#$setupSaves+="#PPSSPP_setupSaves;"
-#}
 
 #if ( "$doSetupVita3K" -eq "true" ){
 	#Vita3K_init
