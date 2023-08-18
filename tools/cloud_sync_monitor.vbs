@@ -46,7 +46,7 @@ End Sub
 ' Función para comprobar cambios en la carpeta y ejecutar el comando de PowerShell
 Sub CheckForChanges(folder)
 	On Error Resume Next
-
+	WScript.Echo "Checking for changes"
 	Dim subFolder, file
 
 	' Verificar si ha habido cambios en la carpeta actual
@@ -76,8 +76,6 @@ Sub CheckForChanges(folder)
 		' Esperar hasta que el archivo "cloud.lock" deje de existir
 		WaitForFileDeletion cloudLockPath
 	Else
-		
-		msgBox "Saliendo"
 		' Finalizar el script
 		StopTimer
 		WScript.Quit
@@ -155,9 +153,10 @@ End Function
 
 ' Función para iniciar el temporizador
 Sub StartTimer(interval)
-	Dim cmd
-	cmd = "ping -n " & interval & " 127.0.0.1"
-	Set timer = objShell.Exec(cmd)
+	' Dim cmd
+	' cmd = "ping -n " & interval & " 127.0.0.1"
+	WScript.Sleep 200
+	Set timer = "200"
 End Sub
 
 ' Función para detener el temporizador
