@@ -25,9 +25,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")
 Set objShell = CreateObject("WScript.Shell")
 
 ' Alert
-alert = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; cloudDialog -Img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
-
-ExecutePowerShellCommand alert
+msgBox "Iniciando"
 
 ' Función para ejecutar el comando de PowerShell
 Sub ExecutePowerShellCommand(command)
@@ -79,9 +77,7 @@ Sub CheckForChanges(folder)
 		WaitForFileDeletion cloudLockPath
 	Else
 		
-		alertExit = ". $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; cloudDialog -Img ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"""
-		
-		ExecutePowerShellCommand alertExit
+		msgBox "Saliendo"
 		' Finalizar el script
 		StopTimer
 		WScript.Quit
@@ -96,7 +92,8 @@ End Sub
 
 ' Función para buscar si un proceso está en ejecución por su nombre
 Function CheckCmdRunning(processName)
-	WScript.Echo "cmd.exe is running, testing again."
+	WScript.Echo "cmd.exe detected, testing again in 500ms"
+	WScript.Sleep 1000
 	Dim colProcesses, objProcess
 	Set colProcesses = GetObject("winmgmts:\\.\root\cimv2").ExecQuery("SELECT * FROM Win32_Process WHERE Name='" & processName & "'")
 	
@@ -106,6 +103,7 @@ Function CheckCmdRunning(processName)
 			Exit Function
 		End If
 	Next
+	
 	
 	CheckCmdRunning = False
 End Function
