@@ -59,6 +59,6 @@ if ($LASTEXITCODE -eq '-1978335212') {
 	download $url_emudeck "emudeck_install.exe"
 	$temp = Join-Path $env:USERPROFILE "Downloads" 
 	
-	Write-Host " Opening EmuDeck Installer"
+	Write-Host " Launching EmuDeck Installer, please wait..."
 	&"$temp/emudeck_install.exe"
 }

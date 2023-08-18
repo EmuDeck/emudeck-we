@@ -244,6 +244,12 @@ if ( "$doSetupSRM" -eq "true" ){
 
 setMSG 'Configuring Save folder - Waiting for user confirmatiom'
 
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& { Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command &{ cd $env:USERPROFILE ; cd AppData ; cd Roaming ; cd EmuDeck ; cd backend ; cd functions ; . ./all.ps1 ; $setupSaves waitForUser }' -Verb RunAs }"
+$scriptContent = @"
+	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $setupSaves
+"@
+
+startScriptWithAdmin -ScriptContent $scriptContent
+
+#PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& { Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command &{ cd $env:USERPROFILE ; cd AppData ; cd Roaming ; cd EmuDeck ; cd backend ; cd functions ; . ./all.ps1 ; startScriptWithAdmin -ScriptContent $setupSaves }' -Verb RunAs }"
 
 Stop-Transcript

@@ -503,7 +503,7 @@ function startScriptWithAdmin {
 function createSymlink($source, $target) {	
 mkdir "$source" -ErrorAction SilentlyContinue
 if(testAdministrator -eq $true){
-	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
+	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
 	$scriptContent = @"
 		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
@@ -546,7 +546,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			}				
 		
 			# We copy the saves to the Emulation/saves Folder adn create a backup
-			echo "Migrating saves"
+			echo "Creating saves symlink"
 			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force						
 			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse
 			
