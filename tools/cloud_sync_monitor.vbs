@@ -153,10 +153,9 @@ End Function
 
 ' Función para iniciar el temporizador
 Sub StartTimer(interval)
-	' Dim cmd
-	' cmd = "ping -n " & interval & " 127.0.0.1"
-	WScript.Sleep 200
-	Set timer = "200"
+	Dim cmd
+	cmd = "ping -n " & interval & " 127.0.0.1"
+	Set timer = objShell.Exec(cmd)
 End Sub
 
 ' Función para detener el temporizador
