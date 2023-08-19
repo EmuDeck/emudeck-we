@@ -368,7 +368,7 @@ function cloud_sync_download($emuName){
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
 			
 			
-			if (Test-Path -PathType "$target\$emuName\.hash"){
+			if (Test-Path -PathType Any "$target\$emuName\.hash"){
 				$hashCloud= Get-Content "$target\$emuName\.hash"
 				if ($hash -eq $hashCloud){					
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
@@ -431,7 +431,7 @@ function cloud_sync_download($emuName){
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
 			
 			
-			if (Test-Path -PathType "$target\$emuName\.hash"){
+			if (Test-Path -PathType Any "$target\$emuName\.hash"){
 				$hashCloud= Get-Content "$target\$emuName\.hash"
 				if ($hash -eq $hashCloud){
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
