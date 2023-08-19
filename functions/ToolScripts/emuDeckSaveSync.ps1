@@ -398,7 +398,7 @@ function cloud_sync_download($emuName){
 			
 		}else{
 			$target = "$emulationPath\saves\$emuName\"
-			$filePath = $target\.hash
+			$filePath = "$target\.hash"
 			#We compare the hashes
 			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
 			
