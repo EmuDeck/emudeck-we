@@ -53,6 +53,8 @@ Sub CheckForChanges(folder)
 		folderModifiedTime = folder.DateLastModified
 		folderContents = GetFolderContents(folder)
 
+		WScript.Echo folder.Path
+
 		' Ejecutar la función de PowerShell solo si hay cambios en la carpeta
 		If Not IsExcluded(folder.Path) Then
 			ExecutePowerShellCommand psCommand

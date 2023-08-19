@@ -355,7 +355,7 @@ function cloud_sync_download($emuName){
 			$filePath = "$target\.hash"
 			
 			#We compare the hashes
-			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
+			& $cloud_sync_bin  --overwrite --progress copy --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
 			
 			# Calculate the total size of the folder (including subfolders)
 			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
@@ -369,8 +369,8 @@ function cloud_sync_download($emuName){
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
 			
 			
-			if (Test-Path -PathType Any "$target\$emuName\.hash"){
-				$hashCloud= Get-Content "$target\$emuName\.hash"
+			if (Test-Path -PathType Any "$target\.hash"){
+				$hashCloud= Get-Content "$target\.hash"
 				if ($hash -eq $hashCloud){					
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
 				}else{
@@ -418,7 +418,7 @@ function cloud_sync_download($emuName){
 			$target = "$emulationPath\saves\$emuName\"
 			$filePath = "$target\.hash"
 			#We compare the hashes
-			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
+			& $cloud_sync_bin  --overwrite --progress copy --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
 			
 			# Calculate the total size of the folder (including subfolders)
 			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
