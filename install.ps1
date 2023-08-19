@@ -11,6 +11,10 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 }
 
 function download($url, $file) {
+	#We add 7z folders to the Path
+	$env:path = $env:path + ";$env:ProgramFiles\7-zip"
+	$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
+
 	$wc = New-Object net.webclient		
 	$temp = Join-Path $env:USERPROFILE "Downloads"
 	$destination="$temp/$file"

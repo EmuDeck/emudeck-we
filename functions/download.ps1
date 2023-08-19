@@ -1,4 +1,8 @@
 function download($url, $file) {
+	#We add 7z folders to the Path
+	$env:path = $env:path + ";$env:ProgramFiles\7-zip"
+	$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
+
 	$wc = New-Object net.webclient		
 	$destination="$temp/$file"		
 	mkdir $temp -ErrorAction SilentlyContinue

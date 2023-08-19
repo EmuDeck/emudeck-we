@@ -15,7 +15,7 @@ Dim exclusionList
 exclusionList = Array(".fail_upload", ".fail_download", ".pending_upload")
 
 ' Comando de PowerShell que se ejecutará cuando se detecte un cambio
-psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\all.ps1; cloud_sync_uploadEmu " & emuName
+psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\allCloud.ps1; cloud_sync_uploadEmu " & emuName
 
 ' Ruta del archivo "cloud.lock" dentro de la carpeta del usuario
 Dim cloudLockPath
@@ -28,7 +28,7 @@ Set objShell = CreateObject("WScript.Shell")
 Sub ExecutePowerShellCommand(command)
 	Dim cmd
 	WScript.Echo "Running Powershell command"
-	cmd = "powershell -ExecutionPolicy Bypass -Command """ & command & """"
+	cmd = "powershell -NoProfile -ExecutionPolicy Bypass -Command """ & command & """"
 	objShell.Run cmd, 0, False
 End Sub
 

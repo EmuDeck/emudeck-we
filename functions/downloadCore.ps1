@@ -1,4 +1,8 @@
 function downloadCore($url, $core) {
+	#We add 7z folders to the Path
+	$env:path = $env:path + ";$env:ProgramFiles\7-zip"
+	$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
+
 	#Invoke-WebRequest -Uri $url -OutFile $output
 	$wc = New-Object net.webclient
 	$destination="$emusPath/RetroArch/cores/$core.zip"
