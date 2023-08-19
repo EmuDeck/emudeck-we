@@ -41,24 +41,24 @@ Write-Host ""
 &winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
 &winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
-if ($LASTEXITCODE -eq '-1978335212') {
-	$Host.UI.RawUI.BackgroundColor = "Red"
-	#Clear-Host
-	Write-Host ""
-	Write-Host "There was an error trying to install dependencies, please visit this url to learn how to fix it:" -ForegroundColor white
-	Write-Host  "https://emudeck.github.io/common-issues/windows/#7zip-and-git-are-not-being-installed" -ForegroundColor white
 	
-	Write-Host ""
-	$Host.UI.RawUI.BackgroundColor = "Black"
-	Read-Host -Prompt "Press any key to exit" 	
-}else{
-	Write-Host ""
-	Write-Host "Downloading EmuDeck..." -ForegroundColor white
-	Write-Host ""
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
-	download $url_emudeck "emudeck_install.exe"
-	$temp = Join-Path $env:USERPROFILE "Downloads" 
-	
-	Write-Host " Opening EmuDeck Installer"
-	&"$temp/emudeck_install.exe"
-}
+	if (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe") -or -not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {	
+		clear
+		$Host.UI.RawUI.BackgroundColor = "Red"
+		#Clear-Host
+		Write-Host ""
+		Write-Host "There was an error trying to install dependencies, please visit this url to learn how to fix it:" -ForegroundColor white
+		Write-Host  "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host "EmuDeck can't be installed."
+		$Host.UI.RawUI.BackgroundColor = "Black"
+		Read-Host -Prompt "Press any key to exit" 	
+	}else{	
+		Write-Host ""
+		Write-Host "Downloading EmuDeck..." -ForegroundColor white
+		Write-Host ""
+		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+		download $url_emudeck "emudeck_install.exe"
+		$temp = Join-Path $env:USERPROFILE "Downloads" 		
+		Write-Host " Launching EmuDeck Installer, please wait..."
+		&"$temp/emudeck_install.exe"
+	}
