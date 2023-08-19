@@ -347,8 +347,6 @@ function cloud_sync_download($emuName){
 		cloud_sync_check_lock
 		if ($emuName -eq 'all'){
 				
-			$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
-			
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\"
@@ -368,14 +366,33 @@ function cloud_sync_download($emuName){
 			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
 			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-			$hashCloud= Get-Content "$target\$emuName\.hash"
 			
-			#Write-Host $hash
-			#Write-Host $hashCloud
 			
-			if ($hash -eq $hashCloud){
-				echo "Already up to date"
+			if (Test-Path -PathType "$target\$emuName\.hash"){
+				$hashCloud= Get-Content "$target\$emuName\.hash"
+				if ($hash -eq $hashCloud){					
+					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
+				}else{
+					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
+					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
+					if ($?) {			
+						$baseFolder = "$target"
+						$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
+						Get-ChildItem -Directory $baseFolder | ForEach-Object {
+							$folder = $_.FullName
+							$emuName = (Get-Item $folder).Name
+							$lastUploadFile = "$savesPath/$emuName/.last_download"
+							$failUploadFile = "$savesPath/$emuName/.fail_upload"
+						
+							if (Test-Path -PathType Container $folder) {
+								Set-Content -Path "$lastUploadFile" -Value $timestamp
+								Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
+							}
+						}								
+					}
+				}
 			}else{
+				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
 				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
 				if ($?) {			
 					$baseFolder = "$target"
@@ -412,18 +429,21 @@ function cloud_sync_download($emuName){
 			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
 			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-			$hashCloud= Get-Content "$target\$emuName\.hash"
 			
-			#Write-Host $hash
-			#Write-Host $hashCloud
 			
-			if ($hash -eq $hashCloud){
-				echo "Already up to date"
+			if (Test-Path -PathType "$target\$emuName\.hash"){
+				$hashCloud= Get-Content "$target\$emuName\.hash"
+				if ($hash -eq $hashCloud){
+					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
+				}else{
+					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."							
+					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+				}
+				
 			}else{
 				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."							
 				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			}
-		
 			
 		}	
 
