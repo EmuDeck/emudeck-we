@@ -352,26 +352,79 @@ function cloud_sync_download($emuName){
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\"
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
-			if ($?) {			
-				$baseFolder = "$target"
-				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
-				Get-ChildItem -Directory $baseFolder | ForEach-Object {
-					$folder = $_.FullName
-					$emuName = (Get-Item $folder).Name
-					$lastUploadFile = "$savesPath/$emuName/.last_download"
-					$failUploadFile = "$savesPath/$emuName/.fail_upload"
-				
-					if (Test-Path -PathType Container $folder) {
-						Set-Content -Path "$lastUploadFile" -Value $timestamp
-						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
-					}
-				}								
+			
+			$filePath = "$target\hash.txt"
+			
+			#We compare the hashes
+			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "$filePath" "Emudeck-DropBox`:Emudeck\saves\hash.txt"
+			
+			# Calculate the total size of the folder (including subfolders)
+			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
+			
+			# Convert the size to a string
+			$targetSizeString = $targetSize.ToString()
+			
+			# Calculate the SHA256 hash of the size string
+			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
+			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
+			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
+			$hashCloud= Get-Content "$target\$emuName\hash.txt"
+			
+			#Write-Host $hash
+			#Write-Host $hashCloud
+			
+			if ($hash -eq $hashCloud){
+				echo "Already up to date"
+			}else{
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
+				if ($?) {			
+					$baseFolder = "$target"
+					$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
+					Get-ChildItem -Directory $baseFolder | ForEach-Object {
+						$folder = $_.FullName
+						$emuName = (Get-Item $folder).Name
+						$lastUploadFile = "$savesPath/$emuName/.last_download"
+						$failUploadFile = "$savesPath/$emuName/.fail_upload"
+					
+						if (Test-Path -PathType Container $folder) {
+							Set-Content -Path "$lastUploadFile" -Value $timestamp
+							Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
+						}
+					}								
+				}
 			}
+			
+			
+			
 		}else{
-			$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."			
-			$target = "$emulationPath\saves\$emuName\"
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+		
+			#We compare the hashes
+			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "$filePath" "Emudeck-DropBox`:Emudeck\saves\$emuName\hash.txt"
+			
+			# Calculate the total size of the folder (including subfolders)
+			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
+			
+			# Convert the size to a string
+			$targetSizeString = $targetSize.ToString()
+			
+			# Calculate the SHA256 hash of the size string
+			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
+			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
+			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
+			$hashCloud= Get-Content "$target\$emuName\hash.txt"
+			
+			#Write-Host $hash
+			#Write-Host $hashCloud
+			
+			if ($hash -eq $hashCloud){
+				echo "Already up to date"
+			}else{
+				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."			
+				$target = "$emulationPath\saves\$emuName\"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+			}
+		
+			
 		}	
 
 		$dialog.Close()
@@ -387,6 +440,29 @@ function cloud_sync_upload($emuName){
 			$sh = New-Object -ComObject WScript.Shell	
 			
 			$target = "$emulationPath\saves\"
+			
+			#HASH
+			
+			# Calculate the total size of the folder (including subfolders)
+			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
+			
+			# Convert the size to a string
+			$targetSizeString = $targetSize.ToString()
+			
+			# Calculate the SHA256 hash of the size string
+			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
+			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
+			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
+			
+			# Path to the file where you want to save the hash
+			$filePath = "$target\hash.txt"
+			
+			# Save the hash to a file
+			$hash | Out-File -FilePath $filePath
+			
+			# Print the SHA256 hash to the console
+			#Write-Host "The SHA256 hash of the folder size for $target is: $hash"
+
 			$modal = cloudDialog -Img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\"
 			if ($?) {			
@@ -406,7 +482,28 @@ function cloud_sync_upload($emuName){
 				$modal.Close()
 			}
 		}else{				
-			$target = "$emulationPath\saves\$emuName"					
+			$target = "$emulationPath\saves\$emuName"	
+			#HASH
+			
+			# Calculate the total size of the folder (including subfolders)
+			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
+			
+			# Convert the size to a string
+			$targetSizeString = $targetSize.ToString()
+			
+			# Calculate the SHA256 hash of the size string
+			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
+			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
+			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
+			
+			# Path to the file where you want to save the hash
+			$filePath = "$target\hash.txt"
+			
+			# Save the hash to a file
+			$hash | Out-File -FilePath $filePath
+			
+			# Print the SHA256 hash to the console
+			#Write-Host "The SHA256 hash of the folder size for $target is: $hash"				
 			$modal = cloudDialog -Img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"			
 			if ($?) {
