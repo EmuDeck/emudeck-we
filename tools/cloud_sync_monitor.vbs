@@ -12,7 +12,7 @@ savesPath = WScript.Arguments(1)
 folderPath = Replace(savesPath, "/", "\")
 
 Dim exclusionList
-exclusionList = Array(".fail_upload", ".fail_download", ".pending_upload")
+exclusionList = Array(".fail_upload", ".fail_download", ".pending_upload", ".hash")
 
 ' Comando de PowerShell que se ejecutará cuando se detecte un cambio
 psCommand = ". $env:USERPROFILE\Appdata\Roaming\EmuDeck\backend\functions\allCloud.ps1; cloud_sync_uploadEmu " & emuName
