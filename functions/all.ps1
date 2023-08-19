@@ -1,7 +1,3 @@
-#We add 7z folders to the Path
-$env:path = $env:path + ";$env:ProgramFiles\7-zip"
-$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
-
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 . $env:USERPROFILE\EmuDeck\settings.ps1
 
