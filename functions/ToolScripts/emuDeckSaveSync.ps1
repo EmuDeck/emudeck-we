@@ -180,6 +180,7 @@ function cloud_sync_config($cloud_sync_provider){
 	}
 	
 	#we create the folders to avoid errors in some providers
+	
 	#& $cloud_sync_bin mkdir  "$cloud_sync_provider`:Emudeck\saves\Cemu\saves";
 	#& $cloud_sync_bin mkdir  "$cloud_sync_provider`:Emudeck\saves\citra\saves" ;
 	#& $cloud_sync_bin mkdir  "$cloud_sync_provider`:Emudeck\saves\citra\states";
@@ -354,7 +355,7 @@ function cloud_sync_download($emuName){
 			$filePath = "$target\.hash"
 			
 			#We compare the hashes
-			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
+			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
 			
 			# Calculate the total size of the folder (including subfolders)
 			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
@@ -374,7 +375,7 @@ function cloud_sync_download($emuName){
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
-					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
+					& $cloud_sync_bin copy --fast-list --checkers=50  --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
 					if ($?) {			
 						$baseFolder = "$target"
 						$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
@@ -393,7 +394,7 @@ function cloud_sync_download($emuName){
 				}
 			}else{
 				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
+				& $cloud_sync_bin copy --fast-list --checkers=50  --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$cloud_sync_provider`:Emudeck\saves\" "$target" 
 				if ($?) {			
 					$baseFolder = "$target"
 					$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
@@ -417,7 +418,7 @@ function cloud_sync_download($emuName){
 			$target = "$emulationPath\saves\$emuName\"
 			$filePath = "$target\.hash"
 			#We compare the hashes
-			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
+			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
 			
 			# Calculate the total size of the folder (including subfolders)
 			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
