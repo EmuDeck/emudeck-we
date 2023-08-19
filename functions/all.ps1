@@ -4,11 +4,7 @@ $env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1
 . $env:USERPROFILE\EmuDeck\settings.ps1
-mkdir $emulationPath -ErrorAction SilentlyContinue
-mkdir $biosPath -ErrorAction SilentlyContinue
-mkdir $toolsPath -ErrorAction SilentlyContinue
-mkdir $toolsPath\launchers -ErrorAction SilentlyContinue
-mkdir $savesPath -ErrorAction SilentlyContinue
+
 Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1
