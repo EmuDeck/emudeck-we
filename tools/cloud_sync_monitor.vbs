@@ -47,31 +47,17 @@ Sub CheckForChanges(folder)
 	Dim subFolder, file
 
 	' Verificar si ha habido cambios en la carpeta actual
-	If folder.DateLastModified <> folderModifiedTime Or Not AreContentsEqual(folder) Then
-		' avoid reset fo .hash files
-		Dim changedFile
-		Dim hasChangedFile As Boolean
-		hasChangedFile = False
-		For Each changedFile In folder.Files
-			If Not IsExcluded(folder.Path) And Not LCase(Right(changedFile.Name, 5)) = ".hash" Then
-				hasChangedFile = True
-				Exit For
-			End If
-		Next
-	
-		If hasChangedFile Then
-			WScript.Echo "Changed detected."
-			' Almacenar la nueva fecha de modificación y los contenidos de la carpeta
-			folderModifiedTime = folder.DateLastModified
-			folderContents = GetFolderContents(folder)
-	
-			' Ejecutar la función de PowerShell solo si hay cambios en la carpeta
-			If Not IsExcluded(folder.Path) Then
-				ExecutePowerShellCommand psCommand
-			End If
+	If folder.DateLastModified <> folderModifiedTime Or Not AreContentsEqual(folder) Then			
+		WScript.Echo "Changed detected."
+		' Almacenar la nueva fecha de modificación y los contenidos de la carpeta
+		folderModifiedTime = folder.DateLastModified
+		folderContents = GetFolderContents(folder)
+
+		' Ejecutar la función de PowerShell solo si hay cambios en la carpeta
+		If Not IsExcluded(folder.Path) Then
+			ExecutePowerShellCommand psCommand
 		End If
 	End If
-
 
 	On Error GoTo 0
 
