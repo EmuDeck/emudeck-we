@@ -353,10 +353,10 @@ function cloud_sync_download($emuName){
 			
 			$target = "$emulationPath\saves\"
 			
-			$filePath = "$target\hash.txt"
+			$filePath = "$target\.hash"
 			
 			#We compare the hashes
-			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "$filePath" "Emudeck-DropBox`:Emudeck\saves\hash.txt"
+			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
 			
 			# Calculate the total size of the folder (including subfolders)
 			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
@@ -368,7 +368,7 @@ function cloud_sync_download($emuName){
 			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
 			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-			$hashCloud= Get-Content "$target\$emuName\hash.txt"
+			$hashCloud= Get-Content "$target\$emuName\.hash"
 			
 			#Write-Host $hash
 			#Write-Host $hashCloud
@@ -397,9 +397,10 @@ function cloud_sync_download($emuName){
 			
 			
 		}else{
-		
+			$target = "$emulationPath\saves\$emuName\"
+			$filePath = $target\.hash
 			#We compare the hashes
-			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "$filePath" "Emudeck-DropBox`:Emudeck\saves\$emuName\hash.txt"
+			& $cloud_sync_bin --progress copy --fast-list --checkers=50 --transfers=50 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
 			
 			# Calculate the total size of the folder (including subfolders)
 			$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
@@ -411,7 +412,7 @@ function cloud_sync_download($emuName){
 			$sha256 = New-Object System.Security.Cryptography.SHA256Managed
 			$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-			$hashCloud= Get-Content "$target\$emuName\hash.txt"
+			$hashCloud= Get-Content "$target\$emuName\.hash"
 			
 			#Write-Host $hash
 			#Write-Host $hashCloud
@@ -419,8 +420,7 @@ function cloud_sync_download($emuName){
 			if ($hash -eq $hashCloud){
 				echo "Already up to date"
 			}else{
-				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."			
-				$target = "$emulationPath\saves\$emuName\"
+				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."							
 				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			}
 		
@@ -455,7 +455,7 @@ function cloud_sync_upload($emuName){
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
 			
 			# Path to the file where you want to save the hash
-			$filePath = "$target\hash.txt"
+			$filePath = "$target\.hash"
 			
 			# Save the hash to a file
 			$hash | Out-File -FilePath $filePath
@@ -497,7 +497,7 @@ function cloud_sync_upload($emuName){
 			$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
 			
 			# Path to the file where you want to save the hash
-			$filePath = "$target\hash.txt"
+			$filePath = "$target\.hash"
 			
 			# Save the hash to a file
 			$hash | Out-File -FilePath $filePath
