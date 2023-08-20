@@ -346,6 +346,7 @@ function cloud_sync_download($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We wait for any upload in progress
 		cloud_sync_check_lock
+		$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Testing if we need to sync..."
 		if ($emuName -eq 'all'){
 				
 			$sh = New-Object -ComObject WScript.Shell	
@@ -355,6 +356,7 @@ function cloud_sync_download($emuName){
 			$filePath = "$target\.hash"
 			
 			#We compare the hashes
+			
 			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
 			
 			# Calculate the total size of the folder (including subfolders)
@@ -408,12 +410,9 @@ function cloud_sync_download($emuName){
 							Set-Content -Path "$lastUploadFile" -Value $timestamp
 							Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 						}
-					}								
+					}							
 				}
 			}
-			
-			
-			
 		}else{
 			$target = "$emulationPath\saves\$emuName\"
 			$filePath = "$target\.hash"
@@ -450,6 +449,9 @@ function cloud_sync_download($emuName){
 
 		$dialog.Close()
 	}
+	
+	//We start the upload watcher
+	Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\cloud_sync_watcher.ps1 $emuName" -WindowStyle Minimized	
 }
 
 function cloud_sync_upload($emuName){	
@@ -592,6 +594,8 @@ function cloud_sync_downloadEmu($emuName, $mode){
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_download
 		}
 	}
+	
+
 }
 
 function cloud_sync_uploadEmu($emuName, $mode){
