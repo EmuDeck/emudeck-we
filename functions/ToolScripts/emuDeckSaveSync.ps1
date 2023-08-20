@@ -433,6 +433,10 @@ function cloud_sync_download($emuName){
 			
 			if (Test-Path -PathType Any "$target\$emuName\.hash"){
 				$hashCloud= Get-Content "$target\$emuName\.hash"
+				
+				Write-Host $hash
+				Write-Host $hashCloud
+				
 				if ($hash -eq $hashCloud){
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
 				}else{
