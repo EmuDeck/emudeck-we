@@ -450,7 +450,7 @@ function cloud_sync_download($emuName){
 		$dialog.Close()
 	}
 	
-	//We start the upload watcher
+	#We start the upload watcher
 	Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\cloud_sync_watcher.ps1 $emuName" -WindowStyle Minimized	
 }
 
