@@ -490,7 +490,7 @@ function cloudDialog {
 	$width = $screen.Bounds.Width
 	$height = $screen.Bounds.Height
 	
-	$top = $height - 60
+	$top = 20
 	$left = $width - 60
 
 	# This is the XAML that defines the GUI.

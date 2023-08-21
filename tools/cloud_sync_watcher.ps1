@@ -4,14 +4,13 @@
 
 $emuName = $args[0]
 
-# specify the path to the folder you want to monitor:
+# specify the path to the folder you want to watch:
 $Path = "$savesPath"
 if ($emuName -eq 'all'){
 	$emuPath = "$savesPath"
 }else{
 	$emuPath = "$savesPath\$emuName"
 }
-
 
 # specify which files you want to monitor
 $FileFilter = '*'  
@@ -21,6 +20,9 @@ $IncludeSubfolders = $true
 
 # specify the file or folder properties you want to monitor:
 $AttributeFilter = [IO.NotifyFilters]::FileName, [IO.NotifyFilters]::LastWrite 
+
+# Create a dictionary to track the last modified time of each file
+$lastModifiedTimes = @{}
 
 try
 {
@@ -34,64 +36,77 @@ try
   # define the code that should execute when a change occurs:
   $action = {
 	# the code is receiving this to work with:
-	
+
 	# change type information:
 	$details = $event.SourceEventArgs
 	$Name = $details.Name
 	$FullPath = $details.FullPath
 	$OldFullPath = $details.OldFullPath
 	$OldName = $details.OldName
-	
-	$ValoresABuscar = @(".hash", ".last_upload", ".pending_upload", "$emuPath")
-	
-	# Verificar si $String contiene cualquiera de los valores en $ValoresABuscar
-	$ContieneAlgunValor = $ValoresABuscar | ForEach-Object { $FullPath -like "*$_" }
 
-		
+	$blackList = @(".hash", ".last_upload", ".pending_upload", "$emuPath")
+
+	# Check if the file is in the blacklist to skip to the next loop
+	$skip = $blackList | ForEach-Object { $FullPath -like "*$_" }
+
+	if($skip -contains $true){
+		Write-Host "SKIP blacklist"
+		return
+	}
+
 	# type of change:
 	$ChangeType = $details.ChangeType
-	
-	# when the change occured:
+
+	# when the change occurred:
 	$Timestamp = $event.TimeGenerated
-	
+
+	# Check if the file was modified in the last 2 seconds
+	$lastModifiedTime = $lastModifiedTimes[$FullPath]
+	if ($lastModifiedTime -and ($Timestamp).Subtract($lastModifiedTime).TotalSeconds -lt 1) {
+		Write-Host "Ignoring $FullPath because it was modified again too quickly."
+		return
+	}
+
+	# Update the last modified time for this file
+	$lastModifiedTimes[$FullPath] = (Get-Date)
+
 	# save information to a global variable for testing purposes
 	# so you can examine it later
 	# MAKE SURE YOU REMOVE THIS IN PRODUCTION!
 	#$global:all = $details
-	
+
 	# now you can define some action to take based on the
 	# details about the change event:
-	
+
 	# let's compose a message:
 	$text = "{0} was {1} at {2}" -f $FullPath, $ChangeType, $Timestamp
 	Write-Host ""
-	#Write-Host $text -ForegroundColor DarkYellow
-	
-	Write-Host $FullPath
-	
+	Write-Host $text -ForegroundColor DarkYellow
+
 	# you can also execute code based on change type here:
 	switch ($ChangeType)
 	{
-	  'Changed'  { "CHANGE"
+	  'Changed'  { 
 	  
-	  	if ($ContieneAlgunValor -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
+		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {
-			  Write-Host "upload";
-			  cloud_sync_uploadEmu $emuName
-		  }
+			  Write-Host "Uploading";
+			  cloud_sync_uploadEmu $emuName              
+		  }       
 	  }
-	  'Created'  { "CREATED"
-	  	if ($ContieneAlgunValor -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
-			  Write-Host "No upload"
+	  'Created'  {      
+		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
+			  Write-Host "No upload"              
 		  } else {
-			  Write-Host "upload";
-			  cloud_sync_uploadEmu $emuName
-		  }
+			  Write-Host "Uploading";    
+			  cloud_sync_uploadEmu $emuName             
+		  }                
+		  
 	  }
 	  'Deleted'  { "DELETED"
 		# to illustrate that ALL changes are picked up even if
-		# handling an event takes a lot of time, we artifically
+		# handling an event takes a lot of time, we artificially
 		# extend the time the handler needs whenever a file is deleted
 		Write-Host "Deletion Handler Start" -ForegroundColor Gray
 		Start-Sleep -Seconds 4    
@@ -114,8 +129,8 @@ try
   $handlers = . {
 	Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action $action 
 	Register-ObjectEvent -InputObject $watcher -EventName Created  -Action $action 
-	Register-ObjectEvent -InputObject $watcher -EventName Deleted  -Action $action 
-	Register-ObjectEvent -InputObject $watcher -EventName Renamed  -Action $action 
+	#Register-ObjectEvent -InputObject $watcher -EventName Deleted  -Action $action 
+	#Register-ObjectEvent -InputObject $watcher -EventName Renamed  -Action $action 
   }
 
   # monitoring starts now:
@@ -135,37 +150,27 @@ try
 	# write a dot to indicate we are still monitoring:
 	Write-Host "." -NoNewline
 	
-	# Nombre del proceso a buscar
-	$nombreProceso = "EmuDeck Launcher"
-	$rutaArchivo = "$env:USERPROFILE\emudeck\cloud.lock"
+	# Process name to find
+	$processName = "EmuDeck Launcher"
+	$lockFile = "$env:USERPROFILE\emudeck\cloud.lock"
 	
-	# Verificar si existe un proceso con el nombre especificado
-	$proceso = Get-Process | Where-Object { $_.MainWindowTitle -eq $nombreProceso }
+	# Check if the process exists
+	$process = Get-Process | Where-Object { $_.MainWindowTitle -eq $processName }
 	
-	# Si no se encuentra el proceso, salimos del script
-	if ($proceso -eq $null) {
-		#Write-Host "La ventana de CMD '$nombreProceso' no se encontró. El script se terminará."
-		
-		# Buscar archivo
-		if (-not (Test-Path $rutaArchivo)) {
-			#Write-Host "La ventana de CMD '$nombreProceso' no se encontró y el archivo '$rutaArchivo' no existe."
-			# Esperar un período de tiempo antes de volver a verificar
+	# We exit if it doesn't
+	if ($process -eq $null) {
+	
+		# Check for lock file
+		if (-not (Test-Path $lockFile)) {
 			exit
-		} else {
-			# Si se encuentra el archivo, establecer $encontrado en $true para salir del bucle			
-			#Write-Host "El archivo '$rutaArchivo' se encontró. Continuar con el script..."
-		}
-		
+		}       
 	}
-	
-	# Si se encuentra el proceso, puedes continuar con tu lógica aquí
-	
 		
   } while ($true)
 }
 finally
 {
-  # this gets executed when user presses CTRL+C:
+  # this gets executed when the user presses CTRL+C:
   
   # stop monitoring
   $watcher.EnableRaisingEvents = $false
@@ -176,13 +181,5 @@ finally
   }
   
   # event handlers are technically implemented as a special kind
-  # of background job, so remove the jobs now:
-  $handlers | Remove-Job
-  
-  # properly dispose the FileSystemWatcher:
-  $watcher.Dispose()
-  
-  Write-Warning "Event Handler disabled, monitoring ends."
+  # of background job, so remove the jobs now
 }
-
-### TEST CODE FINNISH
