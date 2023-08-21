@@ -10,7 +10,7 @@ if exist "%rcloneConfig%" (
 		
 		powershell -NoProfile -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1 ; cloud_sync_downloadEmu retroarch"}
 		
-		start /min "Watcher" C:\Windows\System32\cmd.exe /c start /b "pepe" powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\cloud_sync_watcher.ps1" retroarch	
+		start /min "Watcher" powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\cloud_sync_watcher.ps1" retroarch
 	)
 )
 "ESDEPATH\Emulators\RetroArch\retroarch.exe" %args%
