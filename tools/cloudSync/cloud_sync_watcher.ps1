@@ -19,7 +19,6 @@ $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\w
 . $f5
 
 
-
 # specify the path to the folder you want to watch:
 
 if ($emuName -eq 'all'){
@@ -111,19 +110,17 @@ try
 	  
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
-		  } else {
-			  Write-Host "Uploading";
-			  #cloud_sync_uploadEmu $emuName  			  
-			  cloud_sync_uploadEmu $emuName  
-			              
+		  } else {	   		  
+				Write-Host "cloud_sync_uploadEmu"; 	  
+			  cloud_sync_uploadEmu $emuName $userPath
 		  }       
 	  }
 	  'Created'  {      
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"              
 		  } else {
-			  Write-Host "Uploading";    
-			  cloud_sync_uploadEmu $emuName             
+			  Write-Host "cloud_sync_uploadEmu";   
+			  cloud_sync_uploadEmu($emuName,$("$userPath"))
 		  }                
 		  
 	  }
@@ -187,7 +184,7 @@ try
 		#echo "NO CMD!"
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
-			echo "NO Lock, exit!"
+			Write-Host "NO Lock, exit!"
 			& $nssm stop CloudWatch
 			exit
 		}       

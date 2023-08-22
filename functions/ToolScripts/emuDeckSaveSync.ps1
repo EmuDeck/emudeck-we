@@ -456,26 +456,22 @@ function cloud_sync_download($emuName){
 function cloud_sync_save_hash($target){
 	# Calculate the total size of the folder (including subfolders)
 	$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
-	
 	# Convert the size to a string
 	$targetSizeString = $targetSize.ToString()
-	
 	# Calculate the SHA256 hash of the size string
 	$sha256 = New-Object System.Security.Cryptography.SHA256Managed
 	$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
 	$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-	
 	# Path to the file where you want to save the hash
 	$filePath = "$target\.hash"
-	
 	# Save the hash to a file
 	$hash | Out-File -FilePath $filePath
 }
 
-function cloud_sync_upload($emuName){	
+function cloud_sync_upload($emuName, $userPath){	
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We lock cloudsync
-		cloud_sync_lock
+		cloud_sync_lock $userPath
 		if ($emuName -eq 'all'){
 		
 			$sh = New-Object -ComObject WScript.Shell	
@@ -484,7 +480,7 @@ function cloud_sync_upload($emuName){
 	
 			cloud_sync_save_hash($target)
 			
-			$modal = cloudDialog -Img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
+			#$modal = cloudDialog -Img "$userPath\AppData\Roaming\EmuDeck\backend\img\cloud.png"
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\"
 			if ($?) {			
 				$baseFolder = "$target"
@@ -500,22 +496,19 @@ function cloud_sync_upload($emuName){
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
 				}
-				$modal.Close()
+				#$modal.Close()
 			}
 		}else{				
 			$target = "$emulationPath\saves\$emuName"	
-			
 			cloud_sync_save_hash($target)
-			
-			$modal = cloudDialog -Img "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\cloud.png"
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"			
+			& $cloud_sync_bin copy --progress --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"			
 			if ($?) {
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-				$modal.Close()
+				#$modal.Close()
 			}
 		}
 		#We unlock cloudsync
-		cloud_sync_unlock		
+		cloud_sync_unlock $userPath
 	}
 }
 
@@ -584,7 +577,6 @@ function cloud_sync_uploadEmu($emuName, $mode){
 		if ( check_internet_connection -eq 'true' ){
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_upload") {
-			
 				$date = Get-Content "$savesPath/$emuName/.fail_upload"
 				Add-Type -AssemblyName System.Windows.Forms
 				
@@ -603,8 +595,10 @@ function cloud_sync_uploadEmu($emuName, $mode){
 			}else{
 				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				
+				#We use $mode for also check conflicts and to pass the username where using the background service
 				if($mode -ne 'check-conflicts'){
-					cloud_sync_upload($emuName)
+					cloud_sync_upload $emuName $mode
 				}
 				
 			}
@@ -638,11 +632,17 @@ function cloud_sync_uploadEmuAll(){
 }
 
 
-function cloud_sync_lock(){
+function cloud_sync_lock($userPath){
+	if (-not [string]::IsNullOrEmpty($userPath)) {
+		$userFolder = $userPath
+	}
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
 }
 
-function cloud_sync_unlock(){
+function cloud_sync_unlock($userPath){
+	if (-not [string]::IsNullOrEmpty($userPath)) {
+		$userFolder = $userPath
+	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
 }
 
