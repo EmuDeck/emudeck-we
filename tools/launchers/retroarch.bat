@@ -6,13 +6,12 @@ for /f "tokens=2 delims==" %%a in ('type "%userprofile%\EmuDeck\settings.ps1" ^|
 for /f "tokens=2 delims==" %%b in ('type "%userprofile%\EmuDeck\settings.ps1" ^| find "cloud_sync_status"') do set "cloud_sync_status=%%~b"
 set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist "%rcloneConfig%" (
-	if "%cloud_sync_status%"=="true" (
-		
-		powershell -NoProfile -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1 ; cloud_sync_downloadEmu retroarch"}
-		
-		start /min "Watcher" powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\AppData\Roaming\EmuDeck\backend\tools\cloud_sync_watcher.ps1" retroarch
+	if "%cloud_sync_status%"=="true" (		
+		powershell -NoProfile -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1 ; cloud_sync_downloadEmu retroarch"}		
+		%userprofile%\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe start "CloudWatch"
 	)
 )
+
 "ESDEPATH\Emulators\RetroArch\retroarch.exe" %args%
 
 

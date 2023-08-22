@@ -1,16 +1,37 @@
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
-
 ### TEST CODE START
+$user=$args[0]
+$emuName=$args[1]
 
-$emuName = $args[0]
+$userPath = ( Get-CimInstance Win32_UserProfile -Filter "SID = '$((Get-LocalUser $user).Sid)'" ).LocalPath
+
+$f1 = Join-Path -Path $userPath -ChildPath 'EmuDeck\settings.ps1'
+$f2 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
+$f3 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1'
+$f4 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1'
+$f5 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1'
+
+$nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
+
+. $f1
+. $f2
+. $f3
+. $f4
+. $f5
+
+
 
 # specify the path to the folder you want to watch:
-$Path = "$savesPath"
+
 if ($emuName -eq 'all'){
 	$emuPath = "$savesPath"
+}elseif($emuName -eq $null -or $emuName -eq ''){
+	$emuPath = "$savesPath"
+	$emuName = 'all'
 }else{
 	$emuPath = "$savesPath\$emuName"
 }
+
+$Path = "$emuPath"
 
 # specify which files you want to monitor
 $FileFilter = '*'  
@@ -92,7 +113,9 @@ try
 			  Write-Host "No upload"
 		  } else {
 			  Write-Host "Uploading";
-			  cloud_sync_uploadEmu $emuName              
+			  #cloud_sync_uploadEmu $emuName  			  
+			  cloud_sync_uploadEmu $emuName  
+			              
 		  }       
 	  }
 	  'Created'  {      
@@ -152,16 +175,20 @@ try
 	
 	# Process name to find
 	$processName = "EmuDeck Launcher"
-	$lockFile = "$env:USERPROFILE\emudeck\cloud.lock"
+	
+	$lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
 	
 	# Check if the process exists
 	$process = Get-Process | Where-Object { $_.MainWindowTitle -eq $processName }
+
 	
 	# We exit if it doesn't
 	if ($process -eq $null) {
-	
+		#echo "NO CMD!"
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
+			echo "NO Lock, exit!"
+			& $nssm stop CloudWatch
 			exit
 		}       
 	}
