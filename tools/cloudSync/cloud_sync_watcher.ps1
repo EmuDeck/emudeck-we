@@ -1,7 +1,7 @@
 $user=$args[0]
-$emuName=$args[1]
-
 $userPath = ( Get-CimInstance Win32_UserProfile -Filter "SID = '$((Get-LocalUser $user).Sid)'" ).LocalPath
+
+Start-Transcript $userPath\emudeck\cloudwatcher.log
 
 $f1 = Join-Path -Path $userPath -ChildPath 'EmuDeck\settings.ps1'
 $f2 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
@@ -9,14 +9,14 @@ $f3 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\func
 $f4 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1'
 $f5 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1'
 
-$nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
-
 . $f1
 . $f2
 . $f3
 . $f4
 . $f5
-$emuName="retroarch"
+
+$nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
+$emuName = Get-Content "$savesPath/.emulator"
 
 # specify the path to the folder you want to watch:
 
@@ -63,7 +63,7 @@ try
 	$OldFullPath = $details.OldFullPath
 	$OldName = $details.OldName
 
-	$blackList = @(".hash", ".last_upload", ".pending_upload", ".watching", ".emulator", ".user", "$emuPath")
+	$blackList = @(".hash", ".last_upload", ".pending_upload", ".watching", "$emuPath")
 
 	# Check if the file is in the blacklist to skip to the next loop
 	$skip = $blackList | ForEach-Object { $FullPath -like "*$_" }
@@ -204,3 +204,4 @@ finally
   # event handlers are technically implemented as a special kind
   # of background job, so remove the jobs now
 }
+Stop-Transcript
