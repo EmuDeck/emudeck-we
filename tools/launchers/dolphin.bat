@@ -7,8 +7,17 @@ for /f "tokens=2 delims==" %%b in ('type "%userprofile%\EmuDeck\settings.ps1" ^|
 set rcloneConfig="%toolsPath%\rclone\rclone.conf"
 if exist "%rcloneConfig%" (
 	if "%cloud_sync_status%"=="true" (	
-		powershell -NoProfile -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1 ; cloud_sync_downloadEmu dolphin "}
-		start /min "CloudSync Monitor" cscript //nologo "%userprofile%/AppData/Roaming/EmuDeck/backend/tools/cloud_sync_monitor.vbs" dolphin %savesPath%
+		echo. > %savesPath%\.watching
+		echo "%USERNAME%" > %savesPath%\.user
+		echo|set /p="dolphin" > "%savesPath%\.emulator"
+	
+		powershell -NoProfile -ExecutionPolicy Bypass -command "& { . $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1 ; cloud_sync_downloadEmu dolphin"}		
+		%userprofile%\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe stop "CloudWatch"
+		%userprofile%\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe start "CloudWatch"
 	)
 )
+
 "ESDEPATH\Emulators\Dolphin-x64\Dolphin.exe" %args%
+del %savesPath%\.watching
+del %savesPath%\.emulator
+del %savesPath%\.user

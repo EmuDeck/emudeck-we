@@ -1,4 +1,3 @@
-### TEST CODE START
 $user=$args[0]
 $emuName=$args[1]
 
@@ -17,7 +16,7 @@ $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\w
 . $f3
 . $f4
 . $f5
-
+$emuName="retroarch"
 
 # specify the path to the folder you want to watch:
 
@@ -64,13 +63,13 @@ try
 	$OldFullPath = $details.OldFullPath
 	$OldName = $details.OldName
 
-	$blackList = @(".hash", ".last_upload", ".pending_upload", "$emuPath")
+	$blackList = @(".hash", ".last_upload", ".pending_upload", ".watching", ".emulator", ".user", "$emuPath")
 
 	# Check if the file is in the blacklist to skip to the next loop
 	$skip = $blackList | ForEach-Object { $FullPath -like "*$_" }
 
 	if($skip -contains $true){
-		Write-Host "SKIP blacklist"
+		Write-Host "Ignoring blacklisted file"
 		return
 	}
 
@@ -111,16 +110,14 @@ try
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {	   		  
-				Write-Host "cloud_sync_uploadEmu"; 	  
 			  cloud_sync_uploadEmu $emuName $userPath
 		  }       
 	  }
 	  'Created'  {      
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"              
-		  } else {
-			  Write-Host "cloud_sync_uploadEmu";   
-			  cloud_sync_uploadEmu($emuName,$("$userPath"))
+		  } else {			  
+			  cloud_sync_uploadEmu $emuName $userPath
 		  }                
 		  
 	  }
@@ -181,10 +178,10 @@ try
 	
 	# We exit if it doesn't
 	if (-not (Test-Path $cmdFile)) {
-		#echo "NO CMD!"
+		Write-Host "There's no .watching file"
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
-			Write-Host "NO Lock, exit!"
+			Write-Host "There's no lock file, bye!"
 			& $nssm stop CloudWatch
 			exit
 		}       
