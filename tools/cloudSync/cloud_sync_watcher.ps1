@@ -172,7 +172,7 @@ try
 	
 	# Process name to find
 	$processName = "EmuDeck Launcher"
-	
+	$cmdFile = Join-Path -Path $savesPath -ChildPath '.watching'
 	$lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
 	
 	# Check if the process exists
@@ -180,7 +180,7 @@ try
 
 	
 	# We exit if it doesn't
-	if ($process -eq $null) {
+	if (-not (Test-Path $cmdFile)) {
 		#echo "NO CMD!"
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
