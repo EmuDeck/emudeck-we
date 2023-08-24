@@ -670,3 +670,16 @@ function cloud_sync_check_lock(){
 	}
 	return $true
 }
+
+
+function cloud_sync_init($emulator){
+	if ( Test-Path $cloud_sync_config_file ){	
+		if ( $cloud_sync_status -eq "true"){		
+			#We pass the emulator to the service		
+			echo "$emulator" > $savesPath/.emulator
+			cloud_sync_downloadEmu $emulator
+			#& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
+			#& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe start "CloudWatch"
+		}
+	}
+}

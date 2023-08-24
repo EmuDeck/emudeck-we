@@ -15,6 +15,9 @@ $f5 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\func
 . $f4
 . $f5
 
+echo "" > $savesPath/.watching
+
+
 $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
 $emuName = Get-Content "$savesPath/.emulator"
 
@@ -183,6 +186,8 @@ try
 		if (-not (Test-Path $lockFile)) {
 			Write-Host "There's no lock file, bye!"
 			& $nssm stop CloudWatch
+			rm -fo "$savesPath/.watching"
+			rm -fo "$savesPath/.emulator"
 			exit
 		}       
 	}
