@@ -186,8 +186,6 @@ try
 		if (-not (Test-Path $lockFile)) {
 			Write-Host "There's no lock file, bye!"
 			& $nssm stop CloudWatch
-			rm -fo "$savesPath/.watching"
-			rm -fo "$savesPath/.emulator"
 			exit
 		}       
 	}
