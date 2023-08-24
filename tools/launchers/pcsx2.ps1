@@ -1,4 +1,4 @@
-$emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/RetroArch/retroarch.exe"
+$emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/PCSX2-Qt/pcsx2-qtx64.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 $NewTitle = "EmuDeck Launcher - $scriptFileName"
 [Console]::Title = $NewTitle
