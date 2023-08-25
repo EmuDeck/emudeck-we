@@ -2,7 +2,7 @@ function Citra_install(){
 	setMSG "Downloading Citra"
 	$url_citra = getLatestReleaseURLGH "citra-emu/citra-nightly" "7z" "windows-msvc"
 	download $url_citra "citra.7z"
-	moveFromTo "$temp/citra/nightly-msvc" "$emusPath\citra"
+	moveFromTo "$temp/citra/nightly" "$emusPath\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
 	mkdir "$emusPath\citra\user" -ErrorAction SilentlyContinue	
 	createLauncher "citra"
