@@ -342,19 +342,6 @@ function cloud_sync_uninstall(){
 	rm -fo "$toolsPath/rclone" -Recurse 
 }
 
-function cloud_sync_hash($target){
-	# Calculate the total size of the folder (including subfolders)
-	$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
-	
-	# Convert the size to a string
-	$targetSizeString = $targetSize.ToString()
-	
-	# Calculate the SHA256 hash of the size string
-	$sha256 = New-Object System.Security.Cryptography.SHA256Managed
-	$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
-	return [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-}
-
 function cloud_sync_download($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We wait for any upload in progress
@@ -372,8 +359,7 @@ function cloud_sync_download($emuName){
 			$hash= Get-Content "$target\.hash"
 			
 			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
-			
-			#$hash = cloud_sync_hash($target)
+					
 			
 			$hashCloud= Get-Content "$target\.hash"
 			
