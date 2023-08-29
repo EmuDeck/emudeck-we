@@ -496,7 +496,7 @@ function cloud_sync_upload($emuName, $userPath){
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
-				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				#rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 				#$modal.Close()
 			}else{
 				Write-Host "upload KO"
@@ -532,7 +532,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				}
 			}		
 			
-			Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+			#Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_download") {

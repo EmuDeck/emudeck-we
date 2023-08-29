@@ -112,15 +112,19 @@ try
 	  
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
-		  } else {	   		  
+		  } else {
+		  	  Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload	   		  
 			  cloud_sync_uploadEmu $emuName $userPath
+			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue			  
 		  }       
 	  }
 	  'Created'  {      
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"              
 		  } else {			  
+		      Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu $emuName $userPath
+			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }                
 		  
 	  }
