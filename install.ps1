@@ -1,6 +1,32 @@
 $PSversionMajor = $PSVersionTable.PSVersion.Major
 $PSversionMinor = $PSVersionTable.PSVersion.Minor
 $PSversion = "$PSversionMajor$PSversionMinor"
+
+
+function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
+
+	$url = "https://api.github.com/repos/$Repository/releases/latest"
+
+	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
+		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } | 
+		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
+		   return $url
+
+	return $url
+}
+
+function download($url, $file) {
+
+	$wc = New-Object net.webclient		
+	$temp = Join-Path $env:USERPROFILE "Downloads"
+	$destination="$temp/$file"
+	mkdir $temp -ErrorAction SilentlyContinue
+	
+	$wc.Downloadfile($url, $destination)
+	
+	Write-Host "Done!" -NoNewline -ForegroundColor green -BackgroundColor black
+}
+
 if ( $PSversion -lt 51 ){
 	clear
 	Write-Host "Updating PowerShell to 5.1" -ForegroundColor white
@@ -26,29 +52,6 @@ if ( $PSversion -lt 51 ){
 	Write-Host "PowerShell updated to 5.1" -ForegroundColor white	
 }
 
-function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
-
-	$url = "https://api.github.com/repos/$Repository/releases/latest"
-
-	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
-		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } | 
-		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
-		   return $url
-
-	return $url
-}
-
-function download($url, $file) {
-
-	$wc = New-Object net.webclient		
-	$temp = Join-Path $env:USERPROFILE "Downloads"
-	$destination="$temp/$file"
-	mkdir $temp -ErrorAction SilentlyContinue
-	
-	$wc.Downloadfile($url, $destination)
-	
-	Write-Host "Done!" -NoNewline -ForegroundColor green -BackgroundColor black
-}
 
 clear
 
