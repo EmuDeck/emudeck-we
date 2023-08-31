@@ -80,6 +80,22 @@ function setSettingNoQuotes($file, $old, $new) {
 
 
 function customLocation(){
+
+#	# Get a list of all logical drives in the system
+#	$drives = Get-WmiObject -Class Win32_LogicalDisk
+#	
+#	# Filter internal and removable drives
+#	$internalDrives = $drives | Where-Object { $_.DriveType -eq 3 }  # 3 represents internal drives
+#	$removableDrives = $drives | Where-Object { $_.DriveType -eq 2 }  # 2 represents removable drives
+#	
+#	# Display drive letters for internal drives
+#	Write-Host "Internal Hard Drives:"
+#	$internalDrives | ForEach-Object { $_.DeviceID } | Sort-Object | Format-Table -AutoSize
+#	
+#	# Display drive letters for removable drives (e.g., SD cards)
+#	Write-Host "Removable Drives (e.g., SD Cards):"
+#	$removableDrives | ForEach-Object { $_.DeviceID } | Sort-Object | Format-Table -AutoSize
+
 	$drives = (Get-PSDrive -PSProvider FileSystem).Root
 	$winPath = showListDialog 'Select Destination' 'Please select where do you want to install EmuDeck:' $drives
 	Start-Sleep -Seconds 0.5
