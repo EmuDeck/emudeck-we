@@ -1,3 +1,31 @@
+$PSversionMajor = $PSVersionTable.PSVersion.Major
+$PSversionMinor = $PSVersionTable.PSVersion.Minor
+$PSversion = "$PSversionMajor$PSversionMinor"
+if ( $PSversion -lt 51 ){
+	clear
+	Write-Host "Updating PowerShell to 5.1" -ForegroundColor white
+	Write-Host ""
+	Write-Host " Downloading .NET..."
+	download "https://go.microsoft.com/fwlink/?linkid=2088631" "dotNet.exe"
+	$temp = Join-Path $env:USERPROFILE "Downloads" 			
+	&"$temp/dotNet.exe"
+	rm -fo "$temp/dotNet.exe"
+	
+	Write-Host ""	
+	Write-Host " Downloading WMF 5.1..."
+	download "https://go.microsoft.com/fwlink/?linkid=839516" "wmf51.msu"
+	
+	$temp = Join-Path $env:USERPROFILE "Downloads" 		
+	&"$temp/wmf51.msu"	
+	rm -fo "$temp/wmf51.msu"
+	
+	Write-Host ""	
+	Write-Host " If the WMF installation fails please restart Windows and run the installer again"  -ForegroundColor white
+	Read-Host -Prompt "Press any key to continue or CTRL+C to quit" 	
+	clear
+	Write-Host "PowerShell updated to 5.1" -ForegroundColor white	
+}
+
 function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
