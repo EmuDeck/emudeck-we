@@ -659,7 +659,14 @@ function toastNotification {
 	$ToastXml = [Windows.Data.Xml.Dom.XmlDocument]::New()
 	$ToastXml.LoadXml($ToastTemplate)
 
-	#Prepare and Create Toast
-	$ToastMessage = [Windows.UI.Notifications.ToastNotification]::New($ToastXML)
+    # Prepare and Create Toast
+	$ToastMessage = [Windows.UI.Notifications.ToastNotification]::New($ToastXml)
+	
+	# Create a scheduled trigger to remove the notification after a delay
+	$Trigger = New-ScheduledTaskTrigger -At ([System.DateTime]::Now.AddSeconds(2))
+	Register-ScheduledTask -Trigger $Trigger -Action { Unregister-ScheduledTask -TaskName "RemoveNotificationTask" } -TaskName "RemoveNotificationTask" -Force
+	
+	# Show the toast notification
 	[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($LauncherID).Show($ToastMessage)
+
 }

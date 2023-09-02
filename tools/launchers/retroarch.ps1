@@ -7,3 +7,4 @@ cloud_sync_init($scriptFileName)
 Start-Process $emulatorFile -Wait -Args ($args -join " ")
 rm -fo "$savesPath/.watching" -ErrorAction SilentlyContinue
 rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
+toastNotification -Title "Uploading saves in the background" -Message "Don't turn off yor device until we tell you it's safe"
