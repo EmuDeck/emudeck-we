@@ -57,8 +57,8 @@ function Dolphin_setupSaves(){
 	createLink $SourceFilePath $ShortcutPath
 	
 	#Saves Wii
-	$SourceFilePath = "$emusPath\Dolphin-x64\User\WII"
-	$ShortcutPath = -join($emulationPath,"\saves\dolphin\WII.lnk")
+	$SourceFilePath = "$emusPath\Dolphin-x64\User\Wii"
+	$ShortcutPath = -join($emulationPath,"\saves\dolphin\Wii.lnk")
 	rm -fo  $ShortcutPath -Recurse -ErrorAction SilentlyContinue
 	mkdir "saves\dolphin" -ErrorAction SilentlyContinue
 	mkdir $SourceFilePath -ErrorAction SilentlyContinue
