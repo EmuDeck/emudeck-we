@@ -97,10 +97,10 @@ if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 }
 
 #RPCS3
-#$test=Test-Path -Path "$emusPath\RPCS3\rpcs3.exe"
-#if(-not($test) -and $doInstallRPCS3 -eq "true" ){
-#	RPCS3_install
-#}
+$test=Test-Path -Path "$emusPath\RPCS3\rpcs3.exe"
+if(-not($test) -and $doInstallRPCS3 -eq "true" ){
+	RPCS3_install
+}
 
 #Xemu
 #$test=Test-Path -Path "$emusPath\xemu\xemu.exe"
