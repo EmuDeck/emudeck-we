@@ -1,4 +1,4 @@
-function download($url, $file) {
+function download($url, $file, $token) {
 	#We add 7z folders to the Path
 	#$env:path = $env:path + ";$env:ProgramFiles\7-zip"
 	#$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
@@ -6,6 +6,10 @@ function download($url, $file) {
 	$wc = New-Object net.webclient		
 	$destination="$temp/$file"		
 	mkdir $temp -ErrorAction SilentlyContinue
+	if ($token -ne $null -and $token -ne "") {
+		$wc.Headers.Add("Authorization", "Bearer $$token")
+		$wc.Headers.Add("User-Agent", "EmuDeck")
+	}
 	
 	$wc.Downloadfile($url, $destination)
 	

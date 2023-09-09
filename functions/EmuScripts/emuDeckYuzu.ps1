@@ -121,53 +121,74 @@ function Yuzu_resetConfig(){
 }
 
 
-
-
-
 ### Yuzu EA
 
-function YuzuEA_install() {
-	local jwtHost="https://api.yuzu-emu.org/jwt/installer/"
-	local yuzuEaHost="https://api.yuzu-emu.org/downloads/earlyaccess/"
-	local yuzuEaMetadata=$(curl -fSs ${yuzuEaHost})
-	local fileToDownload=$(echo "$yuzuEaMetadata" | jq -r '.files[] | select(.name|test(".*.AppImage")).url')
-	local currentVer=$(echo "$yuzuEaMetadata" | jq -r '.files[] | select(.name|test(".*.AppImage")).name')
-	local showProgress="$1"
-	local tokenValue="$2"
-	
-	#echo "get bearer token"
-	BEARERTOKEN=$(curl -X POST ${jwtHost} -H "X-Username: ${user}" -H "X-Token: ${auth}" -H "User-Agent: EmuDeck")
+function YuzuEA_install($tokenValue) {
+	$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
+	$yuzuEaHost = "https://api.yuzu-emu.org/downloads/earlyaccess/"
+	$user = $null
+	$auth = $null
 
-	#echo "download ea appimage"
-	#response=$(curl -f -X GET ${fileToDownload} --write-out '%{http_code}' -H "Accept: application/json" -H "Authorization: Bearer ${BEARERTOKEN}" -o "${YuzuEA_emuPath}.temp")
-	if safeDownload "yuzu-ea" "$fileToDownload" "${YuzuEA_emuPath}" "$showProgress" "Authorization: Bearer ${BEARERTOKEN}"; then
-		chmod +x "$YuzuEA_emuPath"
-		# echo "latest version $currentVer > $YuzuEA_lastVerFile"
-		# echo "${currentVer}" >"${YuzuEA_lastVerFile}"
-		cp -v "${EMUDECKGIT}/tools/launchers/yuzu.sh" "${toolsPath}/launchers/" &>/dev/null
-		chmod +x "${toolsPath}/launchers/yuzu.sh"
-		echo "true"
-		return 0
-	else
-		echo "fail"
-		return 1
-	fi
+	$tokenValue = "$tokenValue===="
+	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }	
+	if ($tokenParts[-1].Length -lt 4) {
+		$tokenParts = $tokenParts[0..($tokenParts.Count - 2)]
+	}
+	$tokenValue = $tokenParts -join ''	
+	
+	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($tokenValue))
+	$user, $auth = $decodedData.Split(':')
+
+	if ($user -ne $null -and $auth -ne $null) {
+		
+		$yuzuEaMetadata = curl  "https://api.yuzu-emu.org/downloads/earlyaccess/" | ConvertFrom-Json
+
+		$url_yuzuEA = ($yuzuEaMetadata.files | Where-Object { $_.name -match ".*\.7z" }).url
+		echo $url_yuzuEA 
+		
+		$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
+		
+		$headers = @{
+			"X-Username" = $user
+			"X-Token" = $auth
+			"User-Agent" = "EmuDeck"
+		}
+		
+		$BEARERTOKEN = Invoke-WebRequest -Uri $jwtHost -Method Post -Headers $headers
+		rm -fo "$temp/yuzu"	 -ErrorAction SilentlyContinue
+		
+		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN
+		moveFromTo "$temp/yuzu/yuzu-windows-msvc-early-access" "$emusPath\yuzu\yuzu-windows-msvc"
+		rm -fo "$temp/yuzu"	 -ErrorAction SilentlyContinue
+		createLauncher "yuzu"
+		
+	} else {
+		Write-Host "invalid"		
+	}
 
 }
 
 function YuzuEA_addToken(){    
-	local tokenValue=$1
-	local user=""
-	local auth=""
-	echo $tokenValue >"$YuzuEA_tokenFile"
-   
-   read -r user auth <<<"$(echo "$tokenValue"==== | fold -w 4 | sed '$ d' | tr -d '\n' | base64 --decode| awk -F":" '{print $1" "$2}')" && YuzuEA_install $tokenValue || echo "invalid"
+	$tokenValue = "$tokenValue===="
+	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }	
+	if ($tokenParts[-1].Length -lt 4) {
+		$tokenParts = $tokenParts[0..($tokenParts.Count - 2)]
+	}
+	$tokenValue = $tokenParts -join ''	
+	
+	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($tokenValue))
+	$user, $auth = $decodedData.Split(':')
+	
+	if ($user -ne $null -and $auth -ne $null) {
+		YuzuEA_install $tokenValue
+	}
 }
 
 function YuzuEA_IsInstalled() {
 	$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc"
-if($test){
-	Write-Output "true"
+	if($test){
+		Write-Output "true"
+	}
 }
 
 function YuzuEA_uninstall() {
