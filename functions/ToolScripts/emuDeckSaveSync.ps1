@@ -1,6 +1,7 @@
 $cloud_sync_path="$toolsPath/rclone"
 $cloud_sync_bin="$cloud_sync_path/rclone.exe"
-$cloud_sync_config_file="$cloud_sync_path/rclone.conf"
+$cloud_sync_config_file_symlink="$cloud_sync_path/rclone.conf"
+$cloud_sync_config_file="$env:USERPROFILE\AppData\Roaming\EmuDeck\rclone.conf"
 
 
 function Get-Custom-Credentials($provider) {
@@ -76,10 +77,6 @@ function Get-Custom-Credentials($provider) {
 		$labelUrl.Text = "Url:"
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
-		
-		moveFromTo "temp/rclone/" "$toolsPath\"	
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
-		rm -fo "temp\rclone" -Recurse 
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
@@ -149,7 +146,8 @@ function cloud_sync_toggle($status){
 
 function cloud_sync_config($cloud_sync_provider){
 	taskkill /F /IM rclone.exe > NUL 2>NUL
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"	
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path"	
+	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
 	
@@ -214,7 +212,7 @@ function cloud_sync_config($cloud_sync_provider){
 	#Add-Type -AssemblyName PresentationFramework
 	#[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
 	#
-	#foreach($_ in Get-Content $cloud_sync_config_file) {
+	#foreach($_ in Get-Content $cloud_sync_config_file_symlink) {
 	#	if ($_ -like "*Emudeck*") {		
 	#		$section = $_		
 	#	}elseif ($_ -match "^token\s*=\s*(\S.*)$") {			
@@ -262,11 +260,13 @@ function cloud_sync_config_with_code($code){
 	#cleanup
 	$token = $token.Replace("'", '"')
 	
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$toolsPath/rclone"
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:USERPROFILE\AppData\Roaming\EmuDeck"
+	
+	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 
 	Write-Output $section;
 
-	foreach($_ in Get-Content $cloud_sync_config_file) {
+	foreach($_ in Get-Content $cloud_sync_config_file_symlink) {
 		if ($_ -like "*$section*") {
 			$found = "true"
 		}elseif ($found -eq "true" -and $_ -like "token =*") {				
@@ -277,7 +277,7 @@ function cloud_sync_config_with_code($code){
 	
 	}
 	
-	$content | Set-Content $cloud_sync_config_file
+	$content | Set-Content $cloud_sync_config_file_symlink
 	
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
@@ -339,7 +339,7 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 
 function cloud_sync_uninstall(){	
 	setSetting "cloud_sync_status" "false"
-	rm -fo "$toolsPath/rclone" -Recurse 
+	rm -fo "$cloud_sync_path" -Recurse 
 }
 
 function cloud_sync_download($emuName){
@@ -659,7 +659,7 @@ function cloud_sync_check_lock(){
 
 
 function cloud_sync_init($emulator){
-	if ( Test-Path $cloud_sync_config_file ){	
+	if ( Test-Path $cloud_sync_config_file_symlink ){	
 		if ( $cloud_sync_status -eq "true"){		
 			#We pass the emulator to the service		
 			echo "$emulator" > $savesPath/.emulator
