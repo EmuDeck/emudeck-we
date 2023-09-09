@@ -129,14 +129,7 @@ function YuzuEA_install($tokenValue) {
 	$user = $null
 	$auth = $null
 
-	$tokenValue = "$tokenValue===="
-	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }	
-	if ($tokenParts[-1].Length -lt 4) {
-		$tokenParts = $tokenParts[0..($tokenParts.Count - 2)]
-	}
-	$tokenValue = $tokenParts -join ''	
-	
-	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($tokenValue))
+	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
 	$user, $auth = $decodedData.Split(':')
 
 	if ($user -ne $null -and $auth -ne $null) {
@@ -155,11 +148,11 @@ function YuzuEA_install($tokenValue) {
 		}
 		
 		$BEARERTOKEN = Invoke-WebRequest -Uri $jwtHost -Method Post -Headers $headers
-		rm -fo "$temp/yuzu"	 -ErrorAction SilentlyContinue
+		rm -fo "$temp/yuzuEA"	 -ErrorAction SilentlyContinue
 		
 		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN
-		moveFromTo "$temp/yuzu/yuzu-windows-msvc-early-access" "$emusPath\yuzu\yuzu-windows-msvc"
-		rm -fo "$temp/yuzu"	 -ErrorAction SilentlyContinue
+		moveFromTo "$temp/yuzuEA/yuzu-windows-msvc-early-access" "$emusPath\yuzu\yuzu-windows-msvc"
+		rm -fo "$temp/yuzuEA"	 -ErrorAction SilentlyContinue
 		createLauncher "yuzu"
 		
 	} else {
@@ -168,15 +161,16 @@ function YuzuEA_install($tokenValue) {
 
 }
 
-function YuzuEA_addToken(){    
-	$tokenValue = "$tokenValue===="
+function YuzuEA_addToken($tokenValueRaw){    
+	$tokenValue = "$tokenValueRaw===="
 	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }	
 	if ($tokenParts[-1].Length -lt 4) {
 		$tokenParts = $tokenParts[0..($tokenParts.Count - 2)]
 	}
 	$tokenValue = $tokenParts -join ''	
-	
-	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($tokenValue))
+
+	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
+	#echo $decodedData
 	$user, $auth = $decodedData.Split(':')
 	
 	if ($user -ne $null -and $auth -ne $null) {
