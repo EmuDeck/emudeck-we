@@ -54,7 +54,7 @@ function melonDS_wipe(){
 	Write-Output "true"
 }
 function melonDS_uninstall(){
-	Write-Output "true"
+	Remove-Item –path "$emusPath\melonDS" –recurse -force
 }
 function melonDS_migrate(){
 	Write-Output "true"

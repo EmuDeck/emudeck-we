@@ -98,7 +98,7 @@ function RPCS3_wipe(){
 	Write-Output "NYI"
 }
 function RPCS3_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\RPCS3" –recurse -force
 }
 function RPCS3_migrate(){
 	Write-Output "NYI"

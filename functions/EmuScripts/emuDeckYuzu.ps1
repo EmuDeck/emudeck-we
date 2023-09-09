@@ -84,7 +84,7 @@ function Yuzu_wipe(){
 	Write-Output "NYI"
 }
 function Yuzu_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\yuzu" –recurse -force
 }
 function Yuzu_migrate(){
 	Write-Output "NYI"
@@ -118,4 +118,59 @@ function Yuzu_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+
+
+
+
+### Yuzu EA
+
+function YuzuEA_install() {
+	local jwtHost="https://api.yuzu-emu.org/jwt/installer/"
+	local yuzuEaHost="https://api.yuzu-emu.org/downloads/earlyaccess/"
+	local yuzuEaMetadata=$(curl -fSs ${yuzuEaHost})
+	local fileToDownload=$(echo "$yuzuEaMetadata" | jq -r '.files[] | select(.name|test(".*.AppImage")).url')
+	local currentVer=$(echo "$yuzuEaMetadata" | jq -r '.files[] | select(.name|test(".*.AppImage")).name')
+	local showProgress="$1"
+	local tokenValue="$2"
+	
+	#echo "get bearer token"
+	BEARERTOKEN=$(curl -X POST ${jwtHost} -H "X-Username: ${user}" -H "X-Token: ${auth}" -H "User-Agent: EmuDeck")
+
+	#echo "download ea appimage"
+	#response=$(curl -f -X GET ${fileToDownload} --write-out '%{http_code}' -H "Accept: application/json" -H "Authorization: Bearer ${BEARERTOKEN}" -o "${YuzuEA_emuPath}.temp")
+	if safeDownload "yuzu-ea" "$fileToDownload" "${YuzuEA_emuPath}" "$showProgress" "Authorization: Bearer ${BEARERTOKEN}"; then
+		chmod +x "$YuzuEA_emuPath"
+		# echo "latest version $currentVer > $YuzuEA_lastVerFile"
+		# echo "${currentVer}" >"${YuzuEA_lastVerFile}"
+		cp -v "${EMUDECKGIT}/tools/launchers/yuzu.sh" "${toolsPath}/launchers/" &>/dev/null
+		chmod +x "${toolsPath}/launchers/yuzu.sh"
+		echo "true"
+		return 0
+	else
+		echo "fail"
+		return 1
+	fi
+
+}
+
+function YuzuEA_addToken(){    
+	local tokenValue=$1
+	local user=""
+	local auth=""
+	echo $tokenValue >"$YuzuEA_tokenFile"
+   
+   read -r user auth <<<"$(echo "$tokenValue"==== | fold -w 4 | sed '$ d' | tr -d '\n' | base64 --decode| awk -F":" '{print $1" "$2}')" && YuzuEA_install $tokenValue || echo "invalid"
+}
+
+function YuzuEA_IsInstalled() {
+	$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc"
+if($test){
+	Write-Output "true"
+}
+
+function YuzuEA_uninstall() {
+	echo "Begin Yuzu EA uninstall"
+	Write-Output "NYI"
 }

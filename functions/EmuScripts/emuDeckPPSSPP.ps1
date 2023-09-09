@@ -52,7 +52,7 @@ function PPSSPP_wipe(){
 	Write-Output "NYI"
 }
 function PPSSPP_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\PPSSPP" –recurse -force
 }
 function PPSSPP_migrate(){
 	Write-Output "NYI"

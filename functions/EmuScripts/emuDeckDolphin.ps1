@@ -86,7 +86,7 @@ function Dolphin_wipe(){
 	Write-Output "NYI"
 }
 function Dolphin_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Dolphin" –recurse -force
 }
 function Dolphin_migrate(){
 	Write-Output "NYI"

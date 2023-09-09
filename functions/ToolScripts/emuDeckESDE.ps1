@@ -141,7 +141,7 @@ function ESDE_wipe(){
 	Write-Output "NYI"
 }
 function ESDE_uninstall(){
-	Write-Output "NYI"
+	Get-ChildItem -Path "$emusPath\EmulationStation-DE" | Where-Object { $_.Name -ne "Emulators" } | Remove-Item -Recurse -Force
 }
 function ESDE_migrate(){
 	Write-Output "NYI"

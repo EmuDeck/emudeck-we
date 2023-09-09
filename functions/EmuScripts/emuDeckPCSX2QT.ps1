@@ -63,7 +63,7 @@ function PCSX2QT_wipe(){
 	Write-Output "NYI"
 }
 function PCSX2QT_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\PCSX2-Qt" –recurse -force
 }
 function PCSX2QT_migrate(){
 	Write-Output "NYI"

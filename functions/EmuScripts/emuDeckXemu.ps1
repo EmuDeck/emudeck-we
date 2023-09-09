@@ -28,7 +28,7 @@ function Xemu_wipe(){
 	Write-Output "NYI"
 }
 function Xemu_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Xemu" –recurse -force
 }
 function Xemu_migrate(){
 	Write-Output "NYI"

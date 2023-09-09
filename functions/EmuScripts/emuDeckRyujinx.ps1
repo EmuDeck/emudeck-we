@@ -68,7 +68,7 @@ function Ryujinx_wipe(){
 	Write-Output "NYI"
 }
 function Ryujinx_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Ryujinx" –recurse -force
 }
 function Ryujinx_migrate(){
 	Write-Output "NYI"

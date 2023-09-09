@@ -52,7 +52,7 @@ function Cemu_wipe(){
 	Write-Output "NYI"
 }
 function Cemu_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Cemu" –recurse -force
 }
 function Cemu_migrate(){
 	Write-Output "NYI"

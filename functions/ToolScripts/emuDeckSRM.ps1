@@ -64,7 +64,8 @@ function SRM_wipe(){
 	Write-Output "NYI"
 }
 function SRM_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$toolsPath\userData" –recurse -force
+	Remove-Item –path "$toolsPath\srm.exe" –recurse -force
 }
 function SRM_migrate(){
 	Write-Output "NYI"

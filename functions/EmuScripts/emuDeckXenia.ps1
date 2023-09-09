@@ -28,7 +28,7 @@ function Xenia_wipe(){
 	Write-Output "NYI"
 }
 function Xenia_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Xenia" –recurse -force
 }
 function Xenia_migrate(){
 	Write-Output "NYI"

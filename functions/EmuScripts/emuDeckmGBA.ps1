@@ -20,7 +20,7 @@ function mGBA_wipe(){
 	Write-Output "true"
 }
 function mGBA_uninstall(){
-	Write-Output "true"
+	Remove-Item –path "$emusPath\mGBA" –recurse -force
 }
 function mGBA_migrate(){
 	Write-Output "true"
