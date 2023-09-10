@@ -123,7 +123,7 @@ function Yuzu_resetConfig(){
 
 ### Yuzu EA
 
-unction YuzuEA_install($tokenValue) {
+function YuzuEA_install($tokenValue) {
 	$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
 	$yuzuEaHost = "https://api.yuzu-emu.org/downloads/earlyaccess/"
 	$user = $null
