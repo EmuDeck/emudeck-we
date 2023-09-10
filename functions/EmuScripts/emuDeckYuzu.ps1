@@ -123,12 +123,11 @@ function Yuzu_resetConfig(){
 
 ### Yuzu EA
 
-function YuzuEA_install($tokenValue) {
+unction YuzuEA_install($tokenValue) {
 	$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
 	$yuzuEaHost = "https://api.yuzu-emu.org/downloads/earlyaccess/"
 	$user = $null
 	$auth = $null
-
 	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
 	$user, $auth = $decodedData.Split(':')
 
@@ -137,8 +136,7 @@ function YuzuEA_install($tokenValue) {
 		$yuzuEaMetadata = curl  "https://api.yuzu-emu.org/downloads/earlyaccess/" | ConvertFrom-Json
 
 		$url_yuzuEA = ($yuzuEaMetadata.files | Where-Object { $_.name -match ".*\.7z" }).url
-		echo $url_yuzuEA 
-		
+
 		$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
 		
 		$headers = @{
@@ -147,14 +145,18 @@ function YuzuEA_install($tokenValue) {
 			"User-Agent" = "EmuDeck"
 		}
 		
-		$BEARERTOKEN = Invoke-WebRequest -Uri $jwtHost -Method Post -Headers $headers
-		rm -fo "$temp/yuzuEA"	 -ErrorAction SilentlyContinue
-		
-		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN
-		moveFromTo "$temp/yuzuEA/yuzu-windows-msvc-early-access" "$emusPath\yuzu\yuzu-windows-msvc"
-		rm -fo "$temp/yuzuEA"	 -ErrorAction SilentlyContinue
+		$response = Invoke-WebRequest -Uri $jwtHost -Method Post -Headers $headers
+		$BEARERTOKEN = $response.Content
+
+			
+		rm -r -fo "$temp/yuzuEA"-ErrorAction SilentlyContinue		
+		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN		
+		moveFromTo "$temp/yuzuEA/yuzu-windows-msvc-early-access" "$emusPath\yuzu\yuzu-windows-msvc"		
+		rm -r -fo "$temp/yuzuEA"	 -ErrorAction SilentlyContinue		
 		createLauncher "yuzu"
+		Write-Host "true"	
 		
+
 	} else {
 		Write-Host "invalid"		
 	}
@@ -169,10 +171,8 @@ function YuzuEA_addToken($tokenValueRaw){
 	}
 	$tokenValue = $tokenParts -join ''	
 
-	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
-	#echo $decodedData
+	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))	
 	$user, $auth = $decodedData.Split(':')
-	
 	if ($user -ne $null -and $auth -ne $null) {
 		YuzuEA_install $tokenValue
 	}
