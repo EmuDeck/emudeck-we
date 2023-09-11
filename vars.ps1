@@ -8,6 +8,6 @@ $userFolder = $env:USERPROFILE
 $emusPath = "$env:USERPROFILE\EmuDeck\EmulationStation-DE\Emulators"
 $emusPathSRM = "$env:USERPROFILE\\EmuDeck\\EmulationStation-DE\\Emulators"
 $esdePath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE"
-$temp = "$env:USERPROFILE/EmuDeck/temp"
+$temp = "$env:USERPROFILE\EmuDeck\temp"
 $nssm = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe"
 $7z = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\7z.exe"
