@@ -151,12 +151,11 @@ function YuzuEA_install($tokenValue) {
 			
 		rm -r -fo "$temp/yuzuEA"-ErrorAction SilentlyContinue		
 		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN		
-		moveFromTo "$temp/yuzuEA/yuzu-windows-msvc-early-access" "$emusPath\yuzu\yuzu-windows-msvc"		
-		rm -r -fo "$temp/yuzuEA"	 -ErrorAction SilentlyContinue		
-		createLauncher "yuzu"
-		Write-Host "true"	
+		xcopy "$temp\yuzuEA\yuzu-windows-msvc-early-access\" "$emusPath\yuzu\yuzu-windows-msvc\" /H /E /Y		
+		rm -r -fo "$temp/yuzuEA" -ErrorAction SilentlyContinue		
+		#createLauncher "yuzu"
+		Write-Host "true"			
 		
-
 	} else {
 		Write-Host "invalid"		
 	}
