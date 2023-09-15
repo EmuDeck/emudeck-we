@@ -168,6 +168,23 @@ function JSONtoPS1(){
 	setSettinginFile("`$xemuResolution=`"$xemuResolution `"")
 	setSettinginFile("`$xeniaResolution=`"$xeniaResolution `"")
 	setSettinginFile("`$melondsResolution=`"$melondsResolution `"")
+		
+	#Emus Parsers
+	$emuGBA = $myJson.emulatorAlternative.gba
+	$emuMAME = $myJson.emulatorAlternative.mame
+	$emuMULTI = $myJson.emulatorAlternative.multiemulator
+	$emuN64 = $myJson.emulatorAlternative.n64
+	$emuNDS = $myJson.emulatorAlternative.nds
+	$emuPSP = $myJson.emulatorAlternative.psp
+	$emuPSX = $myJson.emulatorAlternative.psx
+	
+	setSettinginFile("`$emuGBA=`"$emuGBA`"")
+	setSettinginFile("`$emuMAME=`"$emuMAME`"")
+	setSettinginFile("`$emuMULTI=`"$emuMULTI`"")
+	setSettinginFile("`$emuN64=`"$emuN64`"")
+	setSettinginFile("`$emuNDS=`"$emuNDS`"")
+	setSettinginFile("`$emuPSP=`"$emuPSP`"")
+	setSettinginFile("`$emuPSX=`"$emuPSX`"")
 	
 	
 	
