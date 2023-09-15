@@ -35,7 +35,7 @@
     "glob": "**/${title}/@(eboot.bin|EBOOT.BIN)"
   },
   "titleFromVariable": {
-    "limitToGroups": "${PSV}",
+    "limitToGroups": "",
     "caseInsensitiveVariables": true,
     "skipFileIfVariableWasNotFound": false,
     "tryToMatchTitle": true

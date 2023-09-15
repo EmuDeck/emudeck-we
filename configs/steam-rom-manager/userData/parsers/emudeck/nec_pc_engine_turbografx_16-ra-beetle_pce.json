@@ -1,6 +1,6 @@
-  {
+{
   "parserType": "Glob",
-"configTitle": "NEC PC Engine/TurboGrafx 16 - RetroArch Beetle PCE",
+  "configTitle": "NEC PC Engine/TurboGrafx 16 - RetroArch Beetle PCE",
   "steamCategory": "${NEC PC Engine/TurboGrafx 16}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "${romsdirglobal}/pcengine",
@@ -71,4 +71,4 @@
     "icon": ""
   },
   "disabled": true
-},
+}

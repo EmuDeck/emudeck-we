@@ -1,4 +1,4 @@
-  {
+{
   "parserType": "Glob",
   "configTitle": "Nintendo 3DS - Citra",
   "steamCategory": "${Nintendo 3DS}",
@@ -95,4 +95,4 @@
     "logo": "",
     "icon": ""
   }
-},
+}

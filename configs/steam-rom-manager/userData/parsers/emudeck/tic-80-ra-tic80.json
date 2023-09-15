@@ -19,7 +19,7 @@
     "glob": "**/${title}@(.tic|.TIC)"
   },
   "titleFromVariable": {
-    "limitToGroups": "${TIC-80}",
+    "limitToGroups": "",
     "caseInsensitiveVariables": false,
     "skipFileIfVariableWasNotFound": false,
     "tryToMatchTitle": true

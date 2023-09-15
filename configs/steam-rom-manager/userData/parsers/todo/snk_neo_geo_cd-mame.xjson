@@ -35,7 +35,7 @@
     "glob": "@(neogeocd|neogeocdjp)/**/${title}@(.chd|.CHD)"
   },
   "titleFromVariable": {
-    "limitToGroups": "${MAME}",
+    "limitToGroups": "",
     "caseInsensitiveVariables": false,
     "skipFileIfVariableWasNotFound": false,
     "tryToMatchTitle": true

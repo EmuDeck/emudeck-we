@@ -95,7 +95,7 @@ function SRM_init(){
 	
 	#$exclusionList | Set-Content -Path "$env:USERPROFILE\EmuDeck\exclude.txt"
 	
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\*" -Destination "$toolsPath\userData\parsers\emudeck" -Recurse -Force -Exclude $exclusionList
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\*.json" -Destination "$toolsPath\userData\parsers\emudeck" -Recurse -Force -Exclude $exclusionList
 	
 	$mainParserFolder="$toolsPath\userData\parsers\"
 	$mainParserFile = "$toolsPath\userData\userConfigurations.json"

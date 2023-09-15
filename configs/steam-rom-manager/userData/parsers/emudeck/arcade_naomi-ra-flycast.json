@@ -23,7 +23,7 @@
     "glob": "**/${title}@(.zip|.ZIP)"
   },
   "titleFromVariable": {
-    "limitToGroups": "${MAME}",
+    "limitToGroups": "",
     "caseInsensitiveVariables": false,
     "skipFileIfVariableWasNotFound": false,
     "tryToMatchTitle": true

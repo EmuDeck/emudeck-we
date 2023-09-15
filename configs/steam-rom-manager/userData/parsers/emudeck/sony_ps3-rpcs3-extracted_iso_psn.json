@@ -19,7 +19,7 @@
     "glob": "**/${title}/PS3_GAME/USRDIR/@(eboot.bin|EBOOT.BIN|ISO.BIN.EDAT|iso.bin.edat)"
   },
   "titleFromVariable": {
-    "limitToGroups": "${PS3}",
+    "limitToGroups": "",
     "caseInsensitiveVariables": false,
     "skipFileIfVariableWasNotFound": false,
     "tryToMatchTitle": true
