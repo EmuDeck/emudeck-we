@@ -6,6 +6,7 @@ function SRM_install(){
 }
 function SRM_init(){
 	setMSG 'Steam Rom Manager - Configuration'	
+	rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue			  
 	mkdir $toolsPath\userData\parsers\emudeck -ErrorAction SilentlyContinue
 	mkdir $toolsPath\userData\parsers\custom -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" $toolsPath\userData\
