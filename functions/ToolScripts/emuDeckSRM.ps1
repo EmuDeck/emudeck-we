@@ -47,50 +47,50 @@ function SRM_init(){
 	#gba?
 	if ( "$emuGBA" -ne "both" ){
 		if ( "$emuGBA" -eq "mgba" ){
-			$exclusionList=$exclusionList"nintendo_gameboy-advance-ares.json "
-			$exclusionList=$exclusionList"nintendo_gba-ra-mgba.json "
+			$exclusionList="${exclusionList}nintendo_gameboy-advance-ares.json "
+			$exclusionList="${exclusionList}nintendo_gba-ra-mgba.json "
 		}else{		
-			$exclusionList=$exclusionList"nintendo_gba-mgba.json "
+			$exclusionList="${exclusionList}nintendo_gba-mgba.json "
 		}
 	}
 	#psp
 	if ( "$emuPSP" -ne "both" ){
 		if ( "$emuPSP" -eq "ppsspp" ){
-			$exclusionList=$exclusionList"sony_psp-ra-ppsspp.json "
+			$exclusionList="${exclusionList}sony_psp-ra-ppsspp.json "
 		}else{
-			$exclusionList=$exclusionList"sony_psp-ppsspp.json "		
+			$exclusionList="${exclusionList}sony_psp-ppsspp.json "		
 		}
 	}
 	#melonDS
 	if ( "$emuNDS" -ne "both" ){
 		if ( "$emuNDS" -eq "melonds" ){
-			$exclusionList=$exclusionList"nintendo_ds-ra-melonds.json "
+			$exclusionList="${exclusionList}nintendo_ds-ra-melonds.json "
 		}else{
-			$exclusionList=$exclusionList"nintendo_ds-melonds.json "
+			$exclusionList="${exclusionList}nintendo_ds-melonds.json "
 		}
 	}
 	#mame
 	if ( "$emuMAME" -ne "both" ){
 		if ( "$emuMAME" -eq "mame" ){	
-			$exclusionList=$exclusionList"arcade-ra-mame_2010.json "
-			$exclusionList=$exclusionList"arcade-ra-mame.json "
-			$exclusionList=$exclusionList"arcade-ra-mame_2003_plus.json "
+			$exclusionList="${exclusionList}arcade-ra-mame_2010.json "
+			$exclusionList="${exclusionList}arcade-ra-mame.json "
+			$exclusionList="${exclusionList}arcade-ra-mame_2003_plus.json "
 		}else{
-			$exclusionList=$exclusionList"arcade-mame.json "
-			$exclusionList=$exclusionList"tiger_electronics_gamecom-mame.json "
-			$exclusionList=$exclusionList"vtech_vsmile-mame.json "
-			$exclusionList=$exclusionList"snk_neo_geo_cd-mame.json "
-			$exclusionList=$exclusionList"philips_cd_i-mame.json "		
+			$exclusionList="${exclusionList}arcade-mame.json "
+			$exclusionList="${exclusionList}tiger_electronics_gamecom-mame.json "
+			$exclusionList="${exclusionList}vtech_vsmile-mame.json "
+			$exclusionList="${exclusionList}snk_neo_geo_cd-mame.json "
+			$exclusionList="${exclusionList}philips_cd_i-mame.json "		
 		}
 	}
 	
 	#Optional parsers
-	$exclusionList=$exclusionList"nintendo_gbc-ra-sameboy.json "
-	$exclusionList=$exclusionList"nintendo_gb-ra-sameboy.json "
-	$exclusionList=$exclusionList"sega_saturn-ra-yabause.json "
-	$exclusionList=$exclusionList"sony_psx-ra-swanstation.json "
-	$exclusionList=$exclusionList"nintendo_gbc-mgba.json "
-	$exclusionList=$exclusionList"nintendo_gb-mGBA.json "
+	$exclusionList="${exclusionList}nintendo_gbc-ra-sameboy.json "
+	$exclusionList="${exclusionList}nintendo_gb-ra-sameboy.json "
+	$exclusionList="${exclusionList}sega_saturn-ra-yabause.json "
+	$exclusionList="${exclusionList}sony_psx-ra-swanstation.json "
+	$exclusionList="${exclusionList}nintendo_gbc-mgba.json "
+	$exclusionList="${exclusionList}nintendo_gb-mGBA.json "
 	
 	
 	#$exclusionList | Set-Content -Path "$env:USERPROFILE\EmuDeck\exclude.txt"
