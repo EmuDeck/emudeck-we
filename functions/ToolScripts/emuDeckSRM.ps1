@@ -211,57 +211,57 @@ function SRM_resetLaunchers(){
 	#We reset the saves folders
 	$setupSaves=''
 	$element = Get-Item -Path "$savesPath\retroarch\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="RetroArch_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\duckstation\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="DuckStation_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\dolphin\wii"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="Dolphin_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\yuzu\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="Yuzu_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\ryujinx\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="Ryujinx_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\citra\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="Citra_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\Cemu\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="Cemu_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\pcsx2\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="PCSX2QT_setupSaves;"
 	}
 	
 	$element = Get-Item -Path "$savesPath\rpcs3\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="RPCS3_setupSaves;"
 	}	
 	
 	$element = Get-Item -Path "$savesPath\ppsspp\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="PPSSPP_setupSaves;"
 	}	
 	
 	$element = Get-Item -Path "$savesPath\melonDS\saves"
-	if ( "$element -eq ".lnk" ){
+	if ( "$element" -eq ".lnk" ){
 		$setupSaves+="melonDS_setupSaves;"
 	}
 	
