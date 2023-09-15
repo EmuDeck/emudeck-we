@@ -1,0 +1,74 @@
+{
+  "parserType": "Glob",
+  "configTitle": "Sony PlayStation - Retroarch - Beetle PSX HW",
+  "steamCategory": "${Sony PlayStation - Beetle PSX HW}",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\retroarch.ps1 \"-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}mednafen_psx_hw_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"${filePath}\" && exit \" && exit --emudeck",
+  "executableModifier": "\"${exePath}\"",
+  "romDirectory": "${romsdirglobal}/psx",
+  "steamDirectory": "${steamdirglobal}",
+  "startInDirectory": "EMUSPATH\\RetroArch",
+  "imageProviders": ["SteamGridDB"],
+  "titleModifier": "${fuzzyTitle}",
+  "onlineImageQueries": "${${fuzzyTitle}}",
+  "imagePool": "${fuzzyTitle}",
+  "disabled": true,
+  "executable": {
+    "path": "${retroarchpath}",
+    "shortcutPassthrough": false,
+    "appendArgsToExecutable": true
+  },
+  "userAccounts": {
+    "specifiedAccounts": ""
+  },
+  "parserInputs": {
+    "glob": "**/${title}@(.ccd|.CCD|.chd|.CHD|.cue|.CUE|.m3u|.M3U|.pbp|.PBP|.toc|.TOC)"
+  },
+  "titleFromVariable": {
+    "limitToGroups": "",
+    "caseInsensitiveVariables": false,
+    "skipFileIfVariableWasNotFound": false,
+    "tryToMatchTitle": false
+  },
+  "fuzzyMatch": {
+    "replaceDiacritics": true,
+    "removeCharacters": true,
+    "removeBrackets": true
+  },
+  "parserId": "165153198040340580",
+  "version": 15,
+  "controllers": {
+    "ps4": null,
+    "ps5": null,
+    "xbox360": null,
+    "xboxone": null,
+    "switch_joycon_left": null,
+    "switch_joycon_right": null,
+    "switch_pro": null,
+    "neptune": null
+  },
+  "imageProviderAPIs": {
+    "SteamGridDB": {
+      "nsfw": false,
+      "humor": false,
+      "imageMotionTypes": ["static"],
+      "styles": [],
+      "stylesHero": [],
+      "stylesLogo": [],
+      "stylesIcon": []
+    }
+  },
+  "defaultImage": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  },
+  "localImages": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  }
+}
