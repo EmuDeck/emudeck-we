@@ -123,21 +123,49 @@ function Get-Custom-Credentials($provider) {
 	return $null
 }
 
+function cloud_sync_install_service(){
+	$currentUser=(whoami).Split('\')[1] 		
+	$Binary = (Get-Command Powershell).Source
+	$Arguments = "-ExecutionPolicy Bypass -NoProfile -File ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\cloudSync\cloud_sync_watcher.ps1 $currentUser"" "	
+	& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe install CloudWatch $Binary $Arguments	
+	  
+	#We change the service permissions
+	  
+$scriptContent = @"
+& sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+"@
+	startScriptWithAdmin -ScriptContent $scriptContent
+
+}
+
+
+
 function cloud_sync_install($cloud_sync_provider){	
-	if (-not(Test-Path "$cloud_sync_bin")) {
-		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
-		download $cloud_sync_releaseURL "rclone.zip"	
-		setSetting "cloud_sync_provider" "$cloud_sync_provider"
-		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
-		$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
-		
-		if ($cloud_sync_releaseURL -match $regex) {		
-			$filename = $matches[1]		
-			$filename = $filename.Replace('.zip','')		
-			Rename-Item "$temp\rclone\$filename" -NewName "rclone" 
-			moveFromTo "$temp/rclone" "$toolsPath"
-		}
+  
+  & $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
+  
+  if (-not ( & $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe status "CloudWatch" )) {		
+	#We create the service
+	cloud_sync_install_service
+  }else{    
+	& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
+	& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe remove "CloudWatch" confirm
+	cloud_sync_install_service
+  }
+  if (-not(Test-Path "$cloud_sync_bin")) {
+	$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
+	download $cloud_sync_releaseURL "rclone.zip"	
+	setSetting "cloud_sync_provider" "$cloud_sync_provider"
+	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+	$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
+	
+	if ($cloud_sync_releaseURL -match $regex) {		
+	  $filename = $matches[1]		
+	  $filename = $filename.Replace('.zip','')		
+	  Rename-Item "$temp\rclone\$filename" -NewName "rclone" 
+	  moveFromTo "$temp/rclone" "$toolsPath"
 	}
+  }
 }
 
 function cloud_sync_toggle($status){
