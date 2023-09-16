@@ -45,7 +45,7 @@ function SRM_init(){
 		}
 	}
 	
-	#gba?
+	#gba
 	if ( "$emuGBA" -ne "both" ){
 		if ( "$emuGBA" -eq "mgba" ){
 			$exclusionList="${exclusionList}nintendo_gameboy-advance-ares.json "
@@ -60,6 +60,15 @@ function SRM_init(){
 			$exclusionList="${exclusionList}sony_psp-ra-ppsspp.json "
 		}else{
 			$exclusionList="${exclusionList}sony_psp-ppsspp.json "		
+		}
+	}
+	#psx
+	if ( "$emuPSX" -ne "both" ){
+		if ( "$emuPSX" -eq "duckstation" ){
+			$exclusionList="${exclusionList}sony_psx-ra-swanstation.json "
+			$exclusionList="${exclusionList}sony_psx-ra-beetle_psx_hw.json "
+		}else{
+			$exclusionList="${exclusionList}sony_psx-duckstation.json "		
 		}
 	}
 	#melonDS
