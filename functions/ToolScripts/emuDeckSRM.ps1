@@ -93,25 +93,13 @@ function SRM_init(){
 	$exclusionList="${exclusionList}nintendo_gbc-mgba.json "
 	$exclusionList="${exclusionList}nintendo_gb-mGBA.json "
 	
-	
-	#$exclusionList | Set-Content -Path "$env:USERPROFILE\EmuDeck\exclude.txt"
-	
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\*.json" -Destination "$toolsPath\userData\parsers\emudeck" -Recurse -Force -Exclude $exclusionList
 	
-	$mainParserFolder="$toolsPath\userData\parsers\"
+	$mainParserFolder = "$toolsPath\userData\parsers\emudeck"
 	$mainParserFile = "$toolsPath\userData\userConfigurations.json"
-	 
-	$JSONpartials = Get-ChildItem -Path "$mainParserFolder" -Filter "*.json" -File -Recurse
-	$combinedData = @()
-	foreach ($file in $JSONpartials) {
-		$JSONcontent = Get-Content -Path $file.FullName | ConvertFrom-Json
-		$combinedData += $JSONcontent
-	}
-	$combinedData | ConvertTo-Json | Set-Content -Path $mainParserFile
-	
-	#rm -fo "$env:USERPROFILE\EmuDeck\exclude.txt"
-	
-	
+	"[`n" + ((Get-Content $mainParserFolder\*.json -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+	(get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
+
 	Start-Sleep -Seconds 1
 	
 	#Steam installation	
