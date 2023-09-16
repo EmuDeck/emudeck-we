@@ -11,7 +11,7 @@
   "titleModifier": "${fuzzyTitle}",
   "onlineImageQueries": "${${fuzzyTitle}}",
   "imagePool": "${fuzzyTitle}",
-  "disabled": true,
+  "disabled": false,
   "executable": {
     "path": "${retroarchpath}",
     "shortcutPassthrough": false,
