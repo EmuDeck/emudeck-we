@@ -6,7 +6,8 @@ function SRM_install(){
 }
 function SRM_init(){
   setMSG 'Steam Rom Manager - Configuration'	
-  rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse	  
+  rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+  Start-Sleep -Seconds 1
   mkdir $toolsPath\userData\parsers\emudeck -ErrorAction SilentlyContinue
   mkdir $toolsPath\userData\parsers\custom -ErrorAction SilentlyContinue
   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\"
@@ -15,100 +16,102 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 
   
   $exclusionList = @(
-	'nintendo_gbc-ra-sameboy.json',
-	'nintendo_gb-ra-sameboy.json',
-	'sega_saturn-ra-yabause.json',
-	'sony_psx-ra-swanstation.json',
-	'nintendo_gbc-mgba.json',
-	'nintendo_gb-mGBA.json'
+  'nintendo_gbc-ra-sameboy.json',
+  'nintendo_gb-ra-sameboy.json',
+  'sega_saturn-ra-yabause.json',
+  'sony_psx-ra-swanstation.json',
+  'nintendo_gbc-mgba.json',
+  'nintendo_gb-mGBA.json'
   )
   
   
   # Multiemulator?
   if ( "$emuMULTI" -ne "both" ){
-	if ( "$emuMULTI" -eq "ra" ){
-	  $exclusionList = $exclusionList + 'ares/'
-	}else{
-	  $exclusionList = $exclusionList + 'atari_2600-ra-stella.json'
-	  $exclusionList = $exclusionList + 'bandai_wonderswan_color-ra-mednafen_swan.json'
-	  $exclusionList = $exclusionList + 'bandai_wonderswan-ra-mednafen_swan.json'
-	  $exclusionList = $exclusionList + 'nec_pc_engine_turbografx_16_cd-ra-beetle_pce.json'
-	  $exclusionList = $exclusionList + 'nec_pc_engine_turbografx_16-ra-beetle_pce.json'
-	  $exclusionList = $exclusionList + 'nintendo_64-ra-mupen64plus_next.json'
-	  $exclusionList = $exclusionList + 'nintendo_gb-ra-gambatte.json'
-	  $exclusionList = $exclusionList + 'nintendo_gb-ra-sameboy.json'
-	  $exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
-	  $exclusionList = $exclusionList + 'nintendo_gbc-ra-gambatte.json'
-	  $exclusionList = $exclusionList + 'nintendo_gbc-ra-sameboy.json'
-	  $exclusionList = $exclusionList + 'nintendo_nes-ra-mesen.json'
-	  $exclusionList = $exclusionList + 'nintendo_snes-ra-bsnes_hd.json'
-	  $exclusionList = $exclusionList + 'nintendo_snes-ra-snes9x.json'
-	  $exclusionList = $exclusionList + 'sega_32X-ra-picodrive.json'
-	  $exclusionList = $exclusionList + 'sega_CD_Mega_CD-ra-genesis_plus_gx.json'
-	  $exclusionList = $exclusionList + 'sega_dreamcast-ra-flycast.json'
-	  $exclusionList = $exclusionList + 'sega_game_gear-ra-genesis_plus_gx.json'
-	  $exclusionList = $exclusionList + 'sega_genesis-ra-genesis_plus_gx_wide.json'
-	  $exclusionList = $exclusionList + 'sega_genesis-ra-genesis_plus_gx.json'
-	  $exclusionList = $exclusionList + 'sega_mastersystem-ra-genesis-plus-gx.json'
-	  $exclusionList = $exclusionList + 'sinclair_zx-spectrum-ra-fuse.json'
-	  $exclusionList = $exclusionList + 'snk_neo_geo_pocket_color-ra-beetle_neopop.json'
-	  $exclusionList = $exclusionList + 'snk_neo_geo_pocket-ra-beetle_neopop.json'
-	}
+  	if ( "$emuMULTI" -eq "ra" ){
+		$exclusionList = $exclusionList + 'ares/'
+  	}else{
+		$exclusionList = $exclusionList + 'atari_2600-ra-stella.json'
+		$exclusionList = $exclusionList + 'bandai_wonderswan_color-ra-mednafen_swan.json'
+		$exclusionList = $exclusionList + 'bandai_wonderswan-ra-mednafen_swan.json'
+		$exclusionList = $exclusionList + 'nec_pc_engine_turbografx_16_cd-ra-beetle_pce.json'
+		$exclusionList = $exclusionList + 'nec_pc_engine_turbografx_16-ra-beetle_pce.json'
+		$exclusionList = $exclusionList + 'nintendo_64-ra-mupen64plus_next.json'
+		$exclusionList = $exclusionList + 'nintendo_gb-ra-gambatte.json'
+		$exclusionList = $exclusionList + 'nintendo_gb-ra-sameboy.json'
+		$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
+		$exclusionList = $exclusionList + 'nintendo_gbc-ra-gambatte.json'
+		$exclusionList = $exclusionList + 'nintendo_gbc-ra-sameboy.json'
+		$exclusionList = $exclusionList + 'nintendo_nes-ra-mesen.json'
+		$exclusionList = $exclusionList + 'nintendo_snes-ra-bsnes_hd.json'
+		$exclusionList = $exclusionList + 'nintendo_snes-ra-snes9x.json'
+		$exclusionList = $exclusionList + 'sega_32X-ra-picodrive.json'
+		$exclusionList = $exclusionList + 'sega_CD_Mega_CD-ra-genesis_plus_gx.json'
+		$exclusionList = $exclusionList + 'sega_dreamcast-ra-flycast.json'
+		$exclusionList = $exclusionList + 'sega_game_gear-ra-genesis_plus_gx.json'
+		$exclusionList = $exclusionList + 'sega_genesis-ra-genesis_plus_gx_wide.json'
+		$exclusionList = $exclusionList + 'sega_genesis-ra-genesis_plus_gx.json'
+		$exclusionList = $exclusionList + 'sega_mastersystem-ra-genesis-plus-gx.json'
+		$exclusionList = $exclusionList + 'sinclair_zx-spectrum-ra-fuse.json'
+		$exclusionList = $exclusionList + 'snk_neo_geo_pocket_color-ra-beetle_neopop.json'
+		$exclusionList = $exclusionList + 'snk_neo_geo_pocket-ra-beetle_neopop.json'
+  	}
   }
   
   #gba
   if ( "$emuGBA" -ne "both" ){
-	if ( "$emuGBA" -eq "mgba" ){
-	  $exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
-	  $exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
-	}else{		
-	  $exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
-	}
+  	if ( "$emuGBA" -eq "mgba" ){
+		$exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
+		$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
+  	}else{		
+		$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
+  	}
   }
   #psp
   if ( "$emuPSP" -ne "both" ){
-	if ( "$emuPSP" -eq "ppsspp" ){
-	  $exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
-	}else{
-	  $exclusionList = $exclusionList + 'sony_psp-ppsspp.json'		
-	}
+  	if ( "$emuPSP" -eq "ppsspp" ){
+		$exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
+  	}else{
+		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'		
+  	}
   }
   #psx
   if ( "$emuPSX" -ne "both" ){
-	if ( "$emuPSX" -eq "duckstation" ){
-	  $exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
-	  $exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
-	}else{
-	  $exclusionList = $exclusionList + 'sony_psx-duckstation.json'		
-	}
+  	if ( "$emuPSX" -eq "duckstation" ){
+		$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
+		$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
+  	}else{
+		$exclusionList = $exclusionList + 'sony_psx-duckstation.json'		
+  	}
   }
   #melonDS
   if ( "$emuNDS" -ne "both" ){
-	if ( "$emuNDS" -eq "melonds" ){
-	  $exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
-	}else{
-	  $exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
-	}
+  	if ( "$emuNDS" -eq "melonds" ){
+		$exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
+  	}else{
+		$exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
+  	}
   }
   #mame
   if ( "$emuMAME" -ne "both" ){
-	if ( "$emuMAME" -eq "mame" ){	
-	  $exclusionList = $exclusionList + 'arcade-ra-mame_2010.json'
-	  $exclusionList = $exclusionList + 'arcade-ra-mame.json'
-	  $exclusionList = $exclusionList + 'arcade-ra-mame_2003_plus.json'
-	}else{
-	  $exclusionList = $exclusionList + 'arcade-mame.json'
-	  $exclusionList = $exclusionList + 'tiger_electronics_gamecom-mame.json'
-	  $exclusionList = $exclusionList + 'vtech_vsmile-mame.json'
-	  $exclusionList = $exclusionList + 'snk_neo_geo_cd-mame.json'
-	  $exclusionList = $exclusionList + 'philips_cd_i-mame.json'		
-	}
+  	if ( "$emuMAME" -eq "mame" ){	
+		$exclusionList = $exclusionList + 'arcade-ra-mame_2010.json'
+		$exclusionList = $exclusionList + 'arcade-ra-mame.json'
+		$exclusionList = $exclusionList + 'arcade-ra-mame_2003_plus.json'
+  	}else{
+		$exclusionList = $exclusionList + 'arcade-mame.json'
+		$exclusionList = $exclusionList + 'tiger_electronics_gamecom-mame.json'
+		$exclusionList = $exclusionList + 'vtech_vsmile-mame.json'
+		$exclusionList = $exclusionList + 'snk_neo_geo_cd-mame.json'
+		$exclusionList = $exclusionList + 'philips_cd_i-mame.json'		
+  	}
   }
   
+  Start-Sleep -Seconds 1
+  
   Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
-	  if ($_ -notin $exclusionList) {
-		  Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
-	  }
+	if ($_ -notin $exclusionList) {
+	  Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
+	}
   }
   
   $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
@@ -117,7 +120,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
-  Start-Sleep -Seconds 1
+  
   
   #Steam installation	
   $steamRegPath = "HKCU:\Software\Valve\Steam"
@@ -155,7 +158,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   $PFPath="$env:ProgramFiles (x86)\Steam\controller_base\templates\"
   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
  
-	
+  
 }
 
 function SRM_update(){
