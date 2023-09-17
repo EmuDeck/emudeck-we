@@ -676,6 +676,7 @@ function cloud_sync_unlock($userPath){
 }
 
 function cloud_sync_check_lock(){
+	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	while (Test-Path -Path $lockedFile) {
 		Start-Sleep -Seconds 1
 	}
