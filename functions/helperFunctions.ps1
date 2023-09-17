@@ -723,7 +723,7 @@ function steamToast {
 	echo $ScreenWidth;
 	echo $ScreenHeight;
 	# Calcula la posición y el tamaño de la ventana
-	$WindowWidth = 200  # Ancho de la ventana
+	$WindowWidth = 300  # Ancho de la ventana
 	$WindowHeight = 80  # Alto de la ventana
 	$Margin = 50  # Margen desde el borde
 
@@ -735,7 +735,7 @@ function steamToast {
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
-			Width="$WindowWidth" Height="$WindowHeight" SizeToContent="WidthAndHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
+			Width="$WindowWidth" Height="$WindowHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
 		<Grid Name="grid">
 			<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
 				<StackPanel>
