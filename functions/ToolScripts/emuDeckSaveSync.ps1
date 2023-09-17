@@ -664,7 +664,7 @@ function cloud_sync_lock($userPath){
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline	
 	$modal = steamToast -MessageText "Uploading..."
 	Start-Sleep -Seconds 2
-	$modal.close()
+	$modal.Close()
 }
 
 function cloud_sync_unlock($userPath){
@@ -674,7 +674,7 @@ function cloud_sync_unlock($userPath){
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue	
 	$modal = steamToast -MessageText "Uploads completed!"
 	Start-Sleep -Seconds 2
-	$modal.close()
+	$modal.Close()
 }
 
 function cloud_sync_check_lock(){
