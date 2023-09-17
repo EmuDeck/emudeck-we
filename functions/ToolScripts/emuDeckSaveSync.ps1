@@ -669,7 +669,7 @@ function cloud_sync_unlock($userPath){
 		$userFolder = $userPath
 	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
-	cloud_sync_notification "Upload completed!"
+
 }
 
 function cloud_sync_check_lock(){

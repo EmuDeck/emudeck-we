@@ -191,7 +191,7 @@ try
 			Write-Host "There's no lock file, bye!"
 			
 			$LoggedInUser = Get-CimInstance -ClassName Win32_ComputerSystem | Select-Object -expand UserName
-			$TaskAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -command ""& { . $userPath\AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1; cleanDialog -TitleText 'CloudSync' -MessageText 'CloudSync finished. It is safe to turn off your device'}"" "
+			$TaskAction = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -command ""& { . $userPath\AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1; 	cloud_sync_notification 'Upload completed!'}"" "
 			$TaskPrincipal = New-ScheduledTaskPrincipal -UserId $LoggedInUser
 			$Task = New-ScheduledTask -Action $TaskAction -Principal $TaskPrincipal
 			$ScheduledTask = Register-ScheduledTask -TaskName 'CloudSync' -TaskPath '\CloudSync' -InputObject $Task
