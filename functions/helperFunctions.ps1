@@ -714,7 +714,7 @@ function toastNotification {
 function steamToast {
 	param (
 		[string]$TitleText = "CloudSync",
-		[string]$MessageText = "",
+		[string]$MessageText = ""
 	)
 
 	# Obtiene el tamaño de la pantalla
