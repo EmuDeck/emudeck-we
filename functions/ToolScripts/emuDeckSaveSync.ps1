@@ -496,8 +496,7 @@ function cloud_sync_upload($emuName, $userPath){
 			$target = "$emulationPath\saves\"
 	
 			cloud_sync_save_hash($target)
-			
-			#$modal = cloudDialog -Img "$userPath\AppData\Roaming\EmuDeck\backend\img\cloud.png"
+						
 			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\"
 			if ($?) {			
 				$baseFolder = "$target"
@@ -512,8 +511,7 @@ function cloud_sync_upload($emuName, $userPath){
 						Set-Content -Path "$lastUploadFile" -Value $timestamp
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
-				}
-				#$modal.Close()
+				}			
 			}
 		}else{			
 			Write-Host "upload one"	
@@ -525,7 +523,7 @@ function cloud_sync_upload($emuName, $userPath){
 				Write-Host "upload success"
 				Write-Host $target
 				#rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-				#$modal.Close()
+
 			}else{
 				Write-Host "upload KO"
 			}
@@ -662,9 +660,9 @@ function cloud_sync_lock($userPath){
 	}
 	
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline	
-	$modal = steamToast -MessageText "Uploading..."
+	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Seconds 2
-	$modal.Close()
+	$toast.Close()
 }
 
 function cloud_sync_unlock($userPath){
@@ -672,22 +670,22 @@ function cloud_sync_unlock($userPath){
 		$userFolder = $userPath
 	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue	
-	$modal = steamToast -MessageText "Uploads completed!"
+	$toast = steamToast -MessageText "Uploads completed!"
 	Start-Sleep -Seconds 2
-	$modal.Close()
+	$toast.Close()
 }
 
 function cloud_sync_check_lock(){
 	$lockedFile = "$userFolder\EmuDeck\cloud.lock"
 	if (Test-Path -Path $lockedFile) {		
-		$modal = steamToast -MessageText "We are uploading your saves... Please wait"
+		$toast = steamToast -MessageText "We are uploading your saves... Please wait"
 	}
 
 	while (Test-Path -Path $lockedFile) {
 		Start-Sleep -Seconds 1
 	}
-	if ($modal) {
-		$modal.Close()
+	if ($toast) {
+		$toast.Close()
 	}
 	return $true
 }
@@ -707,14 +705,14 @@ function cloud_sync_notification($text){
 function cloud_sync_init($emulator){
 	if ( Test-Path $cloud_sync_config_file_symlink ){	
 		if ( $cloud_sync_status -eq "true"){		
-			$modal = steamToast -MessageText "CloudSync ready!"
+			$toast = steamToast -MessageText "CloudSync ready!"
 			#We pass the emulator to the service		
 			echo "$emulator" > $savesPath/.emulator
 			cloud_sync_downloadEmu $emulator
 			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
 			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 			
-			$modal.Close()			
+			$toast.Close()			
 		}
 	}
 }

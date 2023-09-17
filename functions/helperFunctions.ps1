@@ -712,57 +712,54 @@ function toastNotification {
 }
 
 function steamToast {
-	param (
-		[string]$TitleText = "CloudSync",
-		[string]$MessageText = ""
-	)
+  param (
+	[string]$TitleText = "CloudSync",
+	[string]$MessageText = ""
+  )
 
-	# Obtiene el tamaño de la pantalla
-	$ScreenWidth =  (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-	$ScreenHeight =  (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-	echo $ScreenWidth;
-	echo $ScreenHeight;
-	# Calcula la posición y el tamaño de la ventana
-	$WindowWidth = 300  # Ancho de la ventana
-	$WindowHeight = 80  # Alto de la ventana
-	$Margin = 50  # Margen desde el borde
+  # Obtiene el tamaño de la pantalla
+  $ScreenWidth =  (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+  $ScreenHeight =  (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+  # Calcula la posición y el tamaño de la ventana
+  $WindowWidth = 400  # Ancho de la ventana
+  $WindowHeight = 80  # Alto de la ventana
+  $Margin = 50  # Margen desde el borde
 
-	$WindowLeft = $ScreenWidth - $WindowWidth - 150
-	$WindowTop = $ScreenHeight - $WindowHeight - 50
+  $WindowLeft = $ScreenWidth - $WindowWidth - 50
+  $WindowTop = $ScreenHeight - $WindowHeight - 50
 
-	# Define el XAML que define la GUI con la posición y el tamaño calculados
-	$WPFXaml = @"
+  # Define el XAML que define la GUI con la posición y el tamaño calculados
+  $WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
-			Width="$WindowWidth" Height="$WindowHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
-		<Grid Name="grid">
-			<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-				<StackPanel>
-					<Border Margin="10,10,10,10" Background="#000000">
-						<StackPanel Orientation="Horizontal">
-							<Image Source="$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/steamdecklogo.png" Width="50" Height="50" VerticalAlignment="Center" Margin="0,0,10,0" />
-							<StackPanel Orientation="Vertical">
-							  <TextBlock Name="Title" Margin="0,0,0,0" Text="_TITLE_" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left"/>
-							  <TextBlock Name="Message" Margin="0,0,0,0" TextWrapping="Wrap"  HorizontalAlignment="Left" Text="_CONTENT_" FontSize="12"/>
-							</StackPanel>
-						</StackPanel>
-					</Border>
-				</StackPanel>
-			</ScrollViewer>
-		</Grid>
-	</Window>
-
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
+	  Width="$WindowWidth" Height="$WindowHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
+	<Grid Name="grid">
+	  <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+		<StackPanel>
+		  <Border Margin="10,10,10,10" Background="#000000">
+			<StackPanel Orientation="Horizontal">
+			  <Image Source="$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/steamdecklogo.png" Width="50" Height="50" VerticalAlignment="Center" Margin="0,0,10,0" />
+			  <StackPanel Orientation="Vertical">
+				<TextBlock Name="Title" Margin="0,0,0,0" Text="_TITLE_" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left"/>
+				<TextBlock Name="Message" Margin="0,0,0,0" TextWrapping="Wrap"  HorizontalAlignment="Left" Text="_CONTENT_" FontSize="12"/>
+			  </StackPanel>
+			</StackPanel>
+		  </Border>
+		</StackPanel>
+	  </ScrollViewer>
+	</Grid>
+  </Window>
 "@
 
-	# Construye el diálogo
-	$WPFGui = NewWPFDialog -XamlData $WPFXaml
-	$WPFGui.Title.Text = $TitleText
-	$WPFGui.Message.Text = $MessageText
+  # Construye el diálogo
+  $WPFGui = NewWPFDialog -XamlData $WPFXaml
+  $WPFGui.Title.Text = $TitleText
+  $WPFGui.Message.Text = $MessageText
 
-	# Muestra el diálogo
-	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
+  # Muestra el diálogo
+  $null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
 
-	# Retorna la UI
-	return $WPFGui.UI
+  # Retorna la UI
+  return $WPFGui.UI
 }
