@@ -491,6 +491,46 @@ function cleanDialog {
 	return $WPFGui.UI
 }
 
+function cleanDialogBottomRight {
+	param (
+		[string]$TitleText = "Do you want to continue?",
+		[string]$MessageText = "",
+		[string]$OKButtonText = "OK",
+		[string]$CancelButtonText = "Cancel"
+	)
+
+	# This is the XAML that defines the GUI.
+	$WPFXaml = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Grid Name="grid">
+		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+			<StackPanel>
+				<Border Margin="20,20,0,20" Background="Transparent">
+					<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+				</Border>
+				<Border Margin="20,0,20,20" Background="Transparent">
+					<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+				</Border>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Window>
+"@
+
+	# Build Dialog
+	$WPFGui = NewWPFDialog -XamlData $WPFXaml
+	$WPFGui.Title.Text = $TitleText
+	$WPFGui.Message.Text = $MessageText
+
+	# Show the dialog
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()	
+
+	# Return the UI
+	return $WPFGui.UI
+}
+
 function cloudDialog {
 	param (
 		[string]$TitleText = "",
@@ -669,4 +709,60 @@ function toastNotification {
 	# Show the toast notification
 	[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($LauncherID).Show($ToastMessage)
 
+}
+
+function steamToast {
+	param (
+		[string]$TitleText = "CloudSync",
+		[string]$MessageText = "",
+	)
+
+	# Obtiene el tamaño de la pantalla
+	$ScreenWidth =  (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+	$ScreenHeight =  (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+	echo $ScreenWidth;
+	echo $ScreenHeight;
+	# Calcula la posición y el tamaño de la ventana
+	$WindowWidth = 200  # Ancho de la ventana
+	$WindowHeight = 80  # Alto de la ventana
+	$Margin = 50  # Margen desde el borde
+
+	$WindowLeft = $ScreenWidth - $WindowWidth - 150
+	$WindowTop = $ScreenHeight - $WindowHeight - 50
+
+	# Define el XAML que define la GUI con la posición y el tamaño calculados
+	$WPFXaml = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
+			Width="$WindowWidth" Height="$WindowHeight" SizeToContent="WidthAndHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="10,10,10,10" Background="#000000">
+						<StackPanel Orientation="Horizontal">
+							<Image Source="$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/steamdecklogo.png" Width="50" Height="50" VerticalAlignment="Center" Margin="0,0,10,0" />
+							<StackPanel Orientation="Vertical">
+							  <TextBlock Name="Title" Margin="0,0,0,0" Text="_TITLE_" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left"/>
+							  <TextBlock Name="Message" Margin="0,0,0,0" TextWrapping="Wrap"  HorizontalAlignment="Left" Text="_CONTENT_" FontSize="12"/>
+							</StackPanel>
+						</StackPanel>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Window>
+
+"@
+
+	# Construye el diálogo
+	$WPFGui = NewWPFDialog -XamlData $WPFXaml
+	$WPFGui.Title.Text = $TitleText
+	$WPFGui.Message.Text = $MessageText
+
+	# Muestra el diálogo
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
+
+	# Retorna la UI
+	return $WPFGui.UI
 }

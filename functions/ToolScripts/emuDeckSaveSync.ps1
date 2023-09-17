@@ -660,22 +660,27 @@ function cloud_sync_lock($userPath){
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = $userPath
 	}
-	cloud_sync_notification "Uploading!"
-	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
+	
+	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline	
+	$modal = steamToast -MessageText "Uploading..."
+	Start-Sleep -Seconds 2
+	$modal.close()
 }
 
 function cloud_sync_unlock($userPath){
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = $userPath
 	}
-	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
-	cloud_sync_notification "Upload Done!"
+	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue	
+	$modal = steamToast -MessageText "Uploads completed!"
+	Start-Sleep -Seconds 2
+	$modal.close()
 }
 
 function cloud_sync_check_lock(){
 	$lockedFile = "$userFolder\EmuDeck\cloud.lock"
-	if (Test-Path -Path $lockedFile) {
-		$modal = cleanDialog -TitleText "CloudSync in progress" -MessageText "We're syncing your saved games, please wait..."
+	if (Test-Path -Path $lockedFile) {		
+		$modal = steamToast -MessageText "We are uploading your saves... Please wait"
 	}
 
 	while (Test-Path -Path $lockedFile) {
@@ -702,15 +707,14 @@ function cloud_sync_notification($text){
 function cloud_sync_init($emulator){
 	if ( Test-Path $cloud_sync_config_file_symlink ){	
 		if ( $cloud_sync_status -eq "true"){		
-			
+			$modal = steamToast -MessageText "CloudSync ready!"
 			#We pass the emulator to the service		
 			echo "$emulator" > $savesPath/.emulator
 			cloud_sync_downloadEmu $emulator
 			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
 			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 			
-			cloud_sync_notification "CloudSync ready!"	
-			
+			$modal.Close()			
 		}
 	}
 }
