@@ -660,6 +660,7 @@ function cloud_sync_lock($userPath){
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = $userPath
 	}
+	cloud_sync_notification "Uploading!"
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
 }
 
@@ -668,6 +669,7 @@ function cloud_sync_unlock($userPath){
 		$userFolder = $userPath
 	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
+	cloud_sync_notification "Upload completed!"
 }
 
 function cloud_sync_check_lock(){
@@ -684,16 +686,31 @@ function cloud_sync_check_lock(){
 	}
 	return $true
 }
+function cloud_sync_notification($text){
+	
+	[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+	$objNotifyIcon = New-Object System.Windows.Forms.NotifyIcon
+	$objNotifyIcon.Icon = [System.Drawing.SystemIcons]::Information
+	$objNotifyIcon.BalloonTipIcon = "Info" 
+	$objNotifyIcon.BalloonTipTitle = "CloudSync" 
+	$objNotifyIcon.BalloonTipText = "$text"
+	$objNotifyIcon.Visible = $True 
+	$objNotifyIcon.ShowBalloonTip(10000)
 
+}
 
 function cloud_sync_init($emulator){
 	if ( Test-Path $cloud_sync_config_file_symlink ){	
 		if ( $cloud_sync_status -eq "true"){		
+			
 			#We pass the emulator to the service		
 			echo "$emulator" > $savesPath/.emulator
 			cloud_sync_downloadEmu $emulator
 			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
 			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+			
+			cloud_sync_notification "CloudSync ready!"	
+			
 		}
 	}
 }

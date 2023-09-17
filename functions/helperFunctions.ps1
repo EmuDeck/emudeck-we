@@ -663,7 +663,7 @@ function toastNotification {
 	$ToastMessage = [Windows.UI.Notifications.ToastNotification]::New($ToastXml)
 	
 	# Create a scheduled trigger to remove the notification after a delay
-	$Trigger = New-ScheduledTaskTrigger -At ([System.DateTime]::Now.AddSeconds(2))
+	$Trigger = New-ScheduledTaskTrigger -Once -At ([System.DateTime]::Now.AddSeconds(2))
 	Register-ScheduledTask -Trigger $Trigger -Action { Unregister-ScheduledTask -TaskName "RemoveNotificationTask" } -TaskName "RemoveNotificationTask" -Force
 	
 	# Show the toast notification
