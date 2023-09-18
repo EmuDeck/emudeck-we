@@ -1,6 +1,6 @@
 {
   "parserType": "Glob",
-  "configTitle": "Emulators",
+  "configTitle": "Emulators - Emulators",
   "steamCategory": "${Emulation}",
   "executableModifier": "\"${exePath}\"\"",
   "romDirectory": "C:\\Emulation\\tools\\launchers",
