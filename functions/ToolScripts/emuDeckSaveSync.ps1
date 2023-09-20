@@ -550,10 +550,12 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_createBackup($emuName)
 					cloud_sync_upload($emuName)
 				} else {
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_createBackup($emuName)
 					#cloud_sync_download($emuName) No need to download, since we are going to do it later on this same script
 				}
 			}		
@@ -570,10 +572,12 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_createBackup($emuName)
 					cloud_sync_download($emuName)
 				} else {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
+					cloud_sync_createBackup($emuName)
 					cloud_sync_upload($emuName)	
 				}
 
@@ -593,6 +597,14 @@ function cloud_sync_downloadEmu($emuName, $mode){
 
 }
 
+function cloud_sync_createBackup($emuName){
+  $date = Get-Date -Format "MM_dd_yyyy"  
+  Copy-Item -Path "$savesPath\$emuName" -Destination "$toolsPath\save-backups\$emuName" -Recurse
+  #We delete backups older than one month
+  $oldDate = (Get-Date).AddDays(-30)
+  Get-ChildItem -Path "$toolsPath\save-backups" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
+}
+
 function cloud_sync_uploadEmu($emuName, $mode){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
@@ -606,10 +618,12 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_createBackup($emuName)
 					cloud_sync_upload($emuName)						
 					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				} else {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					cloud_sync_createBackup($emuName)
 					cloud_sync_download($emuName)
 					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue	
 				}
