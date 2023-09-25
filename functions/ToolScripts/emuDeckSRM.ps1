@@ -219,58 +219,93 @@ function SRM_resetLaunchers(){
 
 	#We reset the saves folders
 	$setupSaves=''
-	$element = Get-Item -Path "$savesPath\retroarch\saves"
-	if ( "$element" -eq ".lnk" ){
+	$path="$savesPath\retroarch\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="RetroArch_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RetroArch_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\duckstation\saves"
-	if ( "$element" -eq ".lnk" ){
+	
+	
+    $path = "$savesPath\duckstation\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="DuckStation_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="DuckStation_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\dolphin\wii"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\dolphin\wii"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="Dolphin_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Dolphin_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\yuzu\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\yuzu\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="Yuzu_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Yuzu_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\ryujinx\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\ryujinx\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="Ryujinx_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Ryujinx_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\citra\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\citra\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="Citra_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Citra_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\Cemu\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\Cemu\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="Cemu_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Cemu_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\pcsx2\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\pcsx2\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="PCSX2QT_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="PCSX2QT_setupSaves;"
 	}
 	
-	$element = Get-Item -Path "$savesPath\rpcs3\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\rpcs3\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="RPCS3_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RPCS3_setupSaves;"
 	}	
 	
-	$element = Get-Item -Path "$savesPath\ppsspp\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\ppsspp\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="PPSSPP_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="PPSSPP_setupSaves;"
 	}	
 	
-	$element = Get-Item -Path "$savesPath\melonDS\saves"
-	if ( "$element" -eq ".lnk" ){
+    $path = "$savesPath\melonDS\saves"
+	$element = Get-Item -Path $path
+	if (-not (Test-Path -Path $path)) {
+		$setupSaves+="melonDS_setupSaves;"
+	}else if ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="melonDS_setupSaves;"
 	}
 	
