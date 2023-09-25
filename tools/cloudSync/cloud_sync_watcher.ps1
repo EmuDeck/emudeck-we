@@ -2,7 +2,7 @@ $user=$args[0]
 $userPath = ( Get-CimInstance Win32_UserProfile -Filter "SID = '$((Get-LocalUser $user).Sid)'" ).LocalPath
 
 Start-Transcript $userPath\emudeck\cloudwatcher.log
-
+echo $userPath
 $f1 = Join-Path -Path $userPath -ChildPath 'EmuDeck\settings.ps1'
 $f2 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
 $f3 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1'
@@ -113,7 +113,7 @@ try
 			  Write-Host "No upload"
 		  } else {
 		  	  Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload	   		  
-			  cloud_sync_uploadEmu $emuName $userPath
+			  cloud_sync_uploadEmu($emuName,$userPath)
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue			  
 		  }       
 	  }
@@ -122,7 +122,7 @@ try
 			  Write-Host "No upload"              
 		  } else {			  
 		      Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
-			  cloud_sync_uploadEmu $emuName $userPath
+			  cloud_sync_uploadEmu($emuName,$userPath)
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }                
 		  
