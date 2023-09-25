@@ -398,7 +398,7 @@ function cloud_sync_download($emuName){
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
-					& $cloud_sync_bin copy --fast-list --checkers=50  --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target" 
+					& $cloud_sync_bin copy --fast-list --checkers=50  --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator -P --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target" 
 					if ($?) {			
 						$baseFolder = "$target"
 						$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
@@ -442,7 +442,7 @@ function cloud_sync_download($emuName){
 			
 			$hash= Get-Content "$target\.hash"
 			
-			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$filePath"
+			& $cloud_sync_bin  -P copyto --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$filePath"
 			
 			$hashCloud= Get-Content "$target\.hash"
 			
@@ -451,12 +451,11 @@ function cloud_sync_download($emuName){
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."							
-					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target" 
-				}
-				
+					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator -P --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target" 
+				}				
 			}else{
 				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."							
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target" 
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator -P  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target" 
 			}
 			
 		}	
