@@ -716,22 +716,27 @@ function steamToast {
 	[string]$TitleText = "CloudSync",
 	[string]$MessageText = ""
   )
-
-  $ScreenWidth =  (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-  $ScreenHeight =  (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-  $monitor = Get-WmiObject -Namespace "root\wmi" -Class "WmiMonitorBasicDisplayParams"
+  Add-Type -Assembly System.Windows.Forms;
   
-  if ($monitor.CurrentOrientation -ne 1) {
-	$ScreenWidth = $ScreenHeight
-	$ScreenHeight = $ScreenWidth
+  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
+  
+  if ($ScreenOrientation -ne "Angle0") {
+	$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+	$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+
+  }else{
+	$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+	$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
   }
 
   $WindowWidth = 400
   $WindowHeight = 80 
-  $Margin = 50 
+  $Margin = 25 
+  
+  $Scale=getScreenRatio
 
-  $WindowLeft = $ScreenWidth - $WindowWidth - $Margin
-  $WindowTop = $ScreenHeight - $WindowHeight - $Margin
+  $WindowLeft = $ScreenWidth/$Scale - $WindowWidth - $Margin
+  $WindowTop = $ScreenHeight/$Scale  - $WindowHeight - $Margin
 
   $WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -764,4 +769,33 @@ function steamToast {
   $null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
 
   return $WPFGui.UI
+}
+
+function getScreenRatio(){
+Add-Type @'
+  using System;
+  using System.Runtime.InteropServices;
+  using System.Drawing;
+
+  public class DPI {
+	[DllImport("gdi32.dll")]
+	static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+
+	public enum DeviceCap {
+	  VERTRES = 10,
+	  DESKTOPVERTRES = 117
+	}
+
+	public static float scaling() {
+	  Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+	  IntPtr desktop = g.GetHdc();
+	  int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+	  int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+
+	  return (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+	}
+  }
+'@ -ReferencedAssemblies 'System.Drawing.dll'
+
+return [Math]::round([DPI]::scaling(), 2)
 }
