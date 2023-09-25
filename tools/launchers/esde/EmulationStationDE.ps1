@@ -8,7 +8,11 @@ if ($steamRunning) {
 	. $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/EmuScripts/emuDeckRPCS3.ps1
 	RPCS3_renameFolders
 	cloud_sync_init($scriptFileName)
+	if($args){
 	Start-Process $emulatorFile -Wait -Args ($args -join " ")
+}else{
+	Start-Process $emulatorFile
+}
 	rm -fo "$savesPath/.watching" -ErrorAction SilentlyContinue
 	rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
 } else {

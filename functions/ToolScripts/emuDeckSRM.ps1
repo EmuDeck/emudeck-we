@@ -85,7 +85,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   }
   #melonDS
   if ( "$emuNDS" -ne "both" ){
-  	if ( "$emuNDS" -eq "melonds" ){
+  	if ( "$emuNDS" -eq "melonDS" ){
 		$exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
   	}else{
 		$exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
@@ -149,7 +149,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 
 
   #Desktop Icon
-  createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+  #createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
   #Start Menu
   #mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
   #createLink "$toolsPath\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
