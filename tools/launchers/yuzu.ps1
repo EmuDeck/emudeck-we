@@ -7,9 +7,9 @@ if ($steamRunning) {
 	. $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1
 	cloud_sync_init($scriptFileName)
 	if($args){
-	Start-Process $emulatorFile -Wait -Args ($args -join " ")
+	Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args ($args -join " ")
 }else{
-	Start-Process $emulatorFile
+	Start-Process $emulatorFile -WindowStyle Maximized -Wait
 }
 	rm -fo "$savesPath/.watching" -ErrorAction SilentlyContinue
 	rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
