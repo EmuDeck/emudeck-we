@@ -496,7 +496,7 @@ function cloud_sync_upload($emuName, $userPath){
 	
 			cloud_sync_save_hash($target)
 						
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user -P "$target" "$cloud_sync_provider`:Emudeck\saves\"
 			if ($?) {			
 				$baseFolder = "$target"
 				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"				
@@ -517,7 +517,7 @@ function cloud_sync_upload($emuName, $userPath){
 			$target = "$emulationPath\saves\$emuName"	
 			cloud_sync_save_hash($target)
 			
-			& $cloud_sync_bin copy --progress --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"			
+			& $cloud_sync_bin copy -P --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator  --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"			
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
