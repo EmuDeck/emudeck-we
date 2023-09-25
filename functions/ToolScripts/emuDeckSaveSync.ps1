@@ -692,13 +692,11 @@ function cloud_sync_check_lock(){
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
 		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games, please wait..."
-	}
-	while (Test-Path -Path $lockedFile) {
-		Start-Sleep -Seconds 1
-	}
-	if($toast){
+		while (Test-Path -Path $lockedFile) {
+			Start-Sleep -Seconds 1
+		}
 		$toast.Close()
-	}	
+	}
 	return $true
 }
 function cloud_sync_notification($text){
@@ -723,7 +721,7 @@ function cloud_sync_init($emulator){
 			cloud_sync_downloadEmu $emulator
 			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
 			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
-			
+			Start-Sleep -Seconds 1
 			$toast.Close()			
 		}
 	}
