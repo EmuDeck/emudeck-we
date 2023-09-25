@@ -481,7 +481,11 @@ function cloud_sync_save_hash($target){
 	$hash | Out-File -FilePath $filePath
 }
 
-function cloud_sync_upload($emuName, $userPath){	
+function cloud_sync_upload{	
+	param(
+		[string]$emuName,
+		[string]$userPath
+	)
 	Write-Host "upload"
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We lock cloudsync
@@ -550,7 +554,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
-					cloud_sync_upload($emuName)
+					cloud_sync_upload -emuName $emuName
 				} else {
 					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
@@ -577,7 +581,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
-					cloud_sync_upload($emuName)	
+					cloud_sync_upload -emuName $emuName
 				}
 
 			}else{
@@ -604,7 +608,11 @@ function cloud_sync_createBackup($emuName){
   Get-ChildItem -Path "$toolsPath\save-backups" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
 }
 
-function cloud_sync_uploadEmu($emuName, $mode){
+function cloud_sync_uploadEmu{
+	param(
+		[string]$emuName,
+		[string]$mode
+	)
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
@@ -618,7 +626,7 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				if ($result -eq "OKButton") {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
-					cloud_sync_upload($emuName)						
+					cloud_sync_upload -emuName $emuName
 					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				} else {
 					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
@@ -633,7 +641,7 @@ function cloud_sync_uploadEmu($emuName, $mode){
 				
 				#We use $mode for also check conflicts and to pass the username where using the background service
 				if($mode -ne 'check-conflicts'){
-					cloud_sync_upload $emuName $mode
+					cloud_sync_upload -emuName $emuName -mode $mode
 				}
 				
 			}
@@ -715,7 +723,7 @@ function cloud_sync_notification($text){
 function cloud_sync_init($emulator){
 	if ( Test-Path $cloud_sync_config_file_symlink ){	
 		if ( $cloud_sync_status -eq "true"){		
-			$toast = steamToast -MessageText "CloudSync ready!"
+			$toast = steamToast -MessageText "CloudSync watching in the background"
 			#We pass the emulator to the service		
 			echo "$emulator" > $savesPath/.emulator
 			cloud_sync_downloadEmu $emulator
