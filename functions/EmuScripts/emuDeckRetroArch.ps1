@@ -214,6 +214,7 @@ function RetroArch_setupSaves(){
 	$simLinkPath = "$emusPath\RetroArch\states"	
 	$emuSavePath = -join($emulationPath,"\saves\retroarch\states")
 	createSaveLink $simLinkPath $emuSavePath
+	cloud_sync_save_hash "$savesPath\retroarch"
 }
 
 function RetroArch_setOverride($fileToCheck, $name, $key, $value){

@@ -44,6 +44,7 @@ function PCSX2QT_setupSaves(){
 	$simLinkPath = "$emusPath\PCSX2-Qt\sstates"
 	$emuSavePath = -join($emulationPath,"\saves\pcsx2\states")
 	createSaveLink $simLinkPath $emuSavePath
+	cloud_sync_save_hash "$savesPath\pcsx2"
 }
 function PCSX2QT_setResolution($resolution){
 	switch ( $resolution )

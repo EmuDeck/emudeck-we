@@ -39,6 +39,7 @@ function Cemu_setupSaves(){
 	$simLinkPath = "$emusPath\cemu\mlc01\usr\saves"
 	$emuSavePath = -join($emulationPath,"\saves\Cemu\saves")
 	createSaveLink $simLinkPath $emuSavePath 	
+	cloud_sync_save_hash "$savesPath\Cemu"
 }
 
 function Cemu_setResolution($resolution){

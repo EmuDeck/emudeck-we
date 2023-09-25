@@ -29,6 +29,7 @@ function melonDS_setupSaves(){
 	mkdir "$savesPath\melonds\states" -ErrorAction SilentlyContinue
 	mkdir "$emulationPath\storage\melonDS\cheats" -ErrorAction SilentlyContinue
 	Write-Output "true"
+	cloud_sync_save_hash "$savesPath\melonds"
 }
 
 function melonDS_setResolution($resolution){
