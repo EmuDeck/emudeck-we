@@ -717,18 +717,22 @@ function steamToast {
 	[string]$MessageText = ""
   )
 
-  # Obtiene el tamaño de la pantalla
   $ScreenWidth =  (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
   $ScreenHeight =  (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-  # Calcula la posición y el tamaño de la ventana
-  $WindowWidth = 400  # Ancho de la ventana
-  $WindowHeight = 80  # Alto de la ventana
-  $Margin = 50  # Margen desde el borde
+  $monitor = Get-WmiObject -Namespace "root\wmi" -Class "WmiMonitorBasicDisplayParams"
+  
+  if ($monitor.CurrentOrientation -ne 1) {
+	$ScreenWidth = $ScreenHeight
+	$ScreenHeight = $ScreenWidth
+  }
 
-  $WindowLeft = $ScreenWidth - $WindowWidth - 50
-  $WindowTop = $ScreenHeight - $WindowHeight - 50
+  $WindowWidth = 400
+  $WindowHeight = 80 
+  $Margin = 50 
 
-  # Define el XAML que define la GUI con la posición y el tamaño calculados
+  $WindowLeft = $ScreenWidth - $WindowWidth - $Margin
+  $WindowTop = $ScreenHeight - $WindowHeight - $Margin
+
   $WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -752,14 +756,12 @@ function steamToast {
   </Window>
 "@
 
-  # Construye el diálogo
+
   $WPFGui = NewWPFDialog -XamlData $WPFXaml
   $WPFGui.Title.Text = $TitleText
   $WPFGui.Message.Text = $MessageText
 
-  # Muestra el diálogo
   $null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
 
-  # Retorna la UI
   return $WPFGui.UI
 }
