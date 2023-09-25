@@ -386,7 +386,7 @@ function cloud_sync_download($emuName){
 			
 			$hash= Get-Content "$target\.hash"
 			
-			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\.hash" "$filePath" 
+			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\.hash" "$filePath" 
 					
 			
 			$hashCloud= Get-Content "$target\.hash"
@@ -442,7 +442,7 @@ function cloud_sync_download($emuName){
 			
 			$hash= Get-Content "$target\.hash"
 			
-			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "Emudeck-DropBox`:Emudeck\saves\$emuName\.hash" "$filePath"
+			& $cloud_sync_bin  --progress copyto --fast-list --checkers=50 --transfers=50  --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$filePath"
 			
 			$hashCloud= Get-Content "$target\.hash"
 			
