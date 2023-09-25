@@ -223,7 +223,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="RetroArch_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RetroArch_setupSaves;"
 	}
 	
@@ -233,7 +233,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="DuckStation_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="DuckStation_setupSaves;"
 	}
 	
@@ -241,7 +241,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Dolphin_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Dolphin_setupSaves;"
 	}
 	
@@ -249,7 +249,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Yuzu_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Yuzu_setupSaves;"
 	}
 	
@@ -257,7 +257,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Ryujinx_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Ryujinx_setupSaves;"
 	}
 	
@@ -265,7 +265,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Citra_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Citra_setupSaves;"
 	}
 	
@@ -273,7 +273,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Cemu_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Cemu_setupSaves;"
 	}
 	
@@ -281,7 +281,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="PCSX2QT_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="PCSX2QT_setupSaves;"
 	}
 	
@@ -289,7 +289,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="RPCS3_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RPCS3_setupSaves;"
 	}	
 	
@@ -297,7 +297,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="PPSSPP_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="PPSSPP_setupSaves;"
 	}	
 	
@@ -305,7 +305,7 @@ function SRM_resetLaunchers(){
 	$element = Get-Item -Path $path
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="melonDS_setupSaves;"
-	}else if ( $element.Extension -eq ".lnk" ){
+	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="melonDS_setupSaves;"
 	}
 	
