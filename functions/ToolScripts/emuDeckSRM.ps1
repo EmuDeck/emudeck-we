@@ -220,7 +220,9 @@ function SRM_resetLaunchers(){
 	#We reset the saves folders
 	$setupSaves=''
 	$path="$savesPath\retroarch\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="RetroArch_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -230,7 +232,9 @@ function SRM_resetLaunchers(){
 	
 	
     $path = "$savesPath\duckstation\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="DuckStation_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -238,7 +242,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\dolphin\wii"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Dolphin_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -246,7 +252,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\yuzu\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Yuzu_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -254,7 +262,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\ryujinx\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Ryujinx_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -262,7 +272,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\citra\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Citra_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -270,7 +282,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\Cemu\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="Cemu_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -278,7 +292,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\pcsx2\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="PCSX2QT_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -286,7 +302,9 @@ function SRM_resetLaunchers(){
 	}
 	
     $path = "$savesPath\rpcs3\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="RPCS3_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -294,7 +312,9 @@ function SRM_resetLaunchers(){
 	}	
 	
     $path = "$savesPath\ppsspp\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="PPSSPP_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
@@ -302,7 +322,9 @@ function SRM_resetLaunchers(){
 	}	
 	
     $path = "$savesPath\melonDS\saves"
-	$element = Get-Item -Path $path
+	if (Test-Path -Path $path) {
+		$element = Get-Item -Path $path
+	}
 	if (-not (Test-Path -Path $path)) {
 		$setupSaves+="melonDS_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
