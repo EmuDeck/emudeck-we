@@ -14,5 +14,3 @@ $7z = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\7z.exe"
 $ScreenWidth= 0
 $ScreenHeight= 0
 $Scale=1
-
-getScreenDimensionsScale
