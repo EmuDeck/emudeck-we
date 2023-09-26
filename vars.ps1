@@ -11,6 +11,3 @@ $esdePath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE"
 $temp = "$env:USERPROFILE\EmuDeck\temp"
 $nssm = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe"
 $7z = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\7z.exe"
-$ScreenWidth= 0
-$ScreenHeight= 0
-$Scale=1

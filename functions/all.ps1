@@ -37,4 +37,4 @@ Set-Location $emulationPath
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1
 
-getScreenDimensionsScale
+setScreenDimensionsScale

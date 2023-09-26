@@ -711,7 +711,7 @@ function toastNotification {
 
 }
 
-function getScreenDimensionsScale(){
+function setScreenDimensionsScale(){
       Add-Type -Assembly System.Windows.Forms;
 
 	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
@@ -725,6 +725,11 @@ function getScreenDimensionsScale(){
 		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
 	  }
 	  $Scale = getScreenScale
+
+	  setSetting "ScreenWidth" "$ScreenWidth"
+	  setSetting "ScreenHeight" "$ScreenHeight"
+	  setSetting "Scale" "$Scale"
+
 }
 
 function steamToast {
