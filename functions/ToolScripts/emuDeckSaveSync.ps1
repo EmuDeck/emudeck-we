@@ -395,9 +395,9 @@ function cloud_sync_download($emuName){
 			if (Test-Path -PathType Any "$target\.hash"){
 
 				if ($hash -eq $hashCloud){
-					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
+					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
-					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
+					$dialog = steamToast  -MessageText "Downloading saves for all installed system, please wait..."
 					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator -q --log-file "$userFolder/emudeck/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
 					if ($?) {
 						$baseFolder = "$target"
@@ -416,7 +416,7 @@ function cloud_sync_download($emuName){
 					}
 				}
 			}else{
-				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for all installed system, please wait..."
+				$dialog = steamToast  -MessageText "Downloading saves for all installed system, please wait..."
 				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
 				if ($?) {
 					$baseFolder = "$target"
@@ -448,13 +448,13 @@ function cloud_sync_download($emuName){
 
 			if (Test-Path -PathType Any "$target\.hash"){
 				if ($hash -eq $hashCloud){
-					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Saves up to date, no need to sync"
+					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
-					$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."
+					$dialog = steamToast  -MessageText "Downloading saves for $emuName, please wait..."
 					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator -q --log-file "$userFolder/emudeck/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
 				}
 			}else{
-				$dialog = cleanDialog -TitleText "CloudSync" -MessageText "Downloading saves for $emuName, please wait..."
+				$dialog = steamToast  -MessageText "Downloading saves for $emuName, please wait..."
 				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/.emulator -q --log-file "$userFolder/emudeck/rclone.log"  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
 			}
 
@@ -721,6 +721,28 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
+	Add-Type -Assembly System.Windows.Forms;
+
+	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
+
+	  if ($ScreenOrientation -ne "Angle0") {
+		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+
+	  }else{
+		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+	  }
+
+	  $WindowWidthToast = 400
+	  $WindowHeightToast = 80
+	  $MarginToast = 25
+
+	  $Scale=getScreenRatio
+
+	  $WindowLeftToast = $ScreenWidth/$Scale - $WindowWidthToast - $MarginToast
+	  $WindowTopToast = $ScreenHeight/$Scale  - $WindowHeightToast - $MarginToast
+
 	if ( Test-Path $cloud_sync_config_file_symlink ){
 		if ( $cloud_sync_status -eq "true"){
 			$toast = steamToast -MessageText "CloudSync watching in the background"
