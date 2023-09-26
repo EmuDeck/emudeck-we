@@ -494,13 +494,21 @@ function cloud_sync_save_hash($target){
 function cloud_sync_upload{
 	param(
 		[string]$emuName,
-		[string]$mode = $userFolder
+		[string]$mode
 	)
+
+	if ($userFolder.Contains("sers")) {
+		echo "running as user"
+	}else{
+		echo "running as service"
+		$userFolder = $mode
+	}
+
 	Write-Host "upload"
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We lock cloudsync
 		Write-Host "Locking..."
-		cloud_sync_lock $mode
+		cloud_sync_lock $userFolder
 		Write-Host "Locked"
 		if ($emuName -eq 'all'){
 			Write-Host "upload all"
@@ -543,7 +551,7 @@ function cloud_sync_upload{
 
 		}
 		#We unlock cloudsync
-		cloud_sync_unlock $mode
+		cloud_sync_unlock $userFolder
 	}
 }
 
