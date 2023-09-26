@@ -497,7 +497,7 @@ function cloud_sync_upload{
 		[string]$mode
 	)
 
-	if ($userFolder.Contains("sers")) {
+	if ($userFolder) {
 		echo "running as user"
 	}else{
 		echo "running as service"

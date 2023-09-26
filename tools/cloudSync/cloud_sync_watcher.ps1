@@ -34,13 +34,13 @@ if ($emuName -eq 'all'){
 $Path = "$emuPath"
 
 # specify which files you want to monitor
-$FileFilter = '*'  
+$FileFilter = '*'
 
 # specify whether you want to monitor subfolders as well:
 $IncludeSubfolders = $true
 
 # specify the file or folder properties you want to monitor:
-$AttributeFilter = [IO.NotifyFilters]::FileName, [IO.NotifyFilters]::LastWrite 
+$AttributeFilter = [IO.NotifyFilters]::FileName, [IO.NotifyFilters]::LastWrite
 
 # Create a dictionary to track the last modified time of each file
 $lastModifiedTimes = @{}
@@ -107,41 +107,41 @@ try
 	# you can also execute code based on change type here:
 	switch ($ChangeType)
 	{
-	  'Changed'  { 
-	  
+	  'Changed'  {
+
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {
-		  	  Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload	   		  
+		  	  Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode $userPath
-			  
-			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue			  
-		  }       
+
+			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+		  }
 	  }
-	  'Created'  {      
+	  'Created'  {
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
-			  Write-Host "No upload"              
-		  } else {			  
+			  Write-Host "No upload"
+		  } else {
 		      Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode $userPath
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-		  }                
-		  
+		  }
+
 	  }
 	  'Deleted'  { "DELETED"
 		# to illustrate that ALL changes are picked up even if
 		# handling an event takes a lot of time, we artificially
 		# extend the time the handler needs whenever a file is deleted
 		Write-Host "Deletion Handler Start" -ForegroundColor Gray
-		Start-Sleep -Seconds 4    
+		Start-Sleep -Seconds 4
 		Write-Host "Deletion Handler End" -ForegroundColor Gray
 	  }
-	  'Renamed'  { 
+	  'Renamed'  {
 		# this executes only when a file was renamed
 		$text = "File {0} was renamed to {1}" -f $OldName, $Name
 		Write-Host $text -ForegroundColor Yellow
 	  }
-		
+
 	  # any unhandled change types surface here:
 	  default   { Write-Host $_ -ForegroundColor Red -BackgroundColor White }
 	}
@@ -151,10 +151,10 @@ try
   # important to you. Do this as a scriptblock so all returned
   # event handlers can be easily stored in $handlers:
   $handlers = . {
-	Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action $action 
-	Register-ObjectEvent -InputObject $watcher -EventName Created  -Action $action 
-	#Register-ObjectEvent -InputObject $watcher -EventName Deleted  -Action $action 
-	#Register-ObjectEvent -InputObject $watcher -EventName Renamed  -Action $action 
+	Register-ObjectEvent -InputObject $watcher -EventName Changed  -Action $action
+	Register-ObjectEvent -InputObject $watcher -EventName Created  -Action $action
+	#Register-ObjectEvent -InputObject $watcher -EventName Deleted  -Action $action
+	#Register-ObjectEvent -InputObject $watcher -EventName Renamed  -Action $action
   }
 
   # monitoring starts now:
@@ -173,42 +173,42 @@ try
 
 	# write a dot to indicate we are still monitoring:
 	Write-Host "." -NoNewline
-	
+
 	# Process name to find
 	$processName = "EmuDeck Launcher"
 	$cmdFile = Join-Path -Path $savesPath -ChildPath '.watching'
 	$lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
-	
+
 	# Check if the process exists
 	$process = Get-Process | Where-Object { $_.MainWindowTitle -eq $processName }
 
-	
+
 	# We exit if it doesn't
 	if (-not (Test-Path $cmdFile)) {
 		Write-Host "There's no .watching file"
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
 			Write-Host "There's no lock file, bye!"
-			
+
 			& $nssm stop CloudWatch
 			exit
-		}       
+		}
 	}
-		
+
   } while ($true)
 }
 finally
 {
   # this gets executed when the user presses CTRL+C:
-  
+
   # stop monitoring
   $watcher.EnableRaisingEvents = $false
-  
+
   # remove the event handlers
   $handlers | ForEach-Object {
 	Unregister-Event -SourceIdentifier $_.Name
   }
-  
+
   # event handlers are technically implemented as a special kind
   # of background job, so remove the jobs now
 }
