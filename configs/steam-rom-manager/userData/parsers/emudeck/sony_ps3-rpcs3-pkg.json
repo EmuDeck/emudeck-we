@@ -4,7 +4,7 @@
   "steamCategory": "${Sony PlayStation 3}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "C:\\Emulation\\storage\\rpcs3\\dev_hdd0\\game",
-  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\rpcs3.ps1 \"--no-gui\" \"\\\"${filePath}\"\\\" && exit \" && exit --emudeck\"",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\rpcs3.ps1 \"--no-gui\" \"\"\"${filePath}\"\"\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",

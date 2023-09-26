@@ -120,7 +120,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
-  sedFile $mainParserFile '\"\\\\"${filePath}\"\\\\"' sedFil '\"\\\\\"${filePath}\"\\\\\"'
+  
   
   #Steam installation	
   $steamRegPath = "HKCU:\Software\Valve\Steam"
