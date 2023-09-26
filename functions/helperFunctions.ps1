@@ -730,6 +730,8 @@ function setScreenDimensionsScale(){
 	  setSetting "ScreenHeight" "$ScreenHeight"
 	  setSetting "Scale" "$Scale"
 
+	  . $env:USERPROFILE\EmuDeck\settings.ps1
+
 }
 
 function steamToast {
