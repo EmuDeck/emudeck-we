@@ -721,6 +721,28 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
+	Add-Type -Assembly System.Windows.Forms;
+
+	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
+
+	  if ($ScreenOrientation -ne "Angle0") {
+		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+
+	  }else{
+		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+	  }
+
+	  $WindowWidthToast = 400
+	  $WindowHeightToast = 80
+	  $MarginToast = 25
+
+	  $Scale=getScreenRatio
+
+	  $WindowLeftToast = $ScreenWidth/$Scale - $WindowWidthToast - $MarginToast
+	  $WindowTopToast = $ScreenHeight/$Scale  - $WindowHeightToast - $MarginToast
+
 	if ( Test-Path $cloud_sync_config_file_symlink ){
 		if ( $cloud_sync_status -eq "true"){
 			$toast = steamToast -MessageText "CloudSync watching in the background"
