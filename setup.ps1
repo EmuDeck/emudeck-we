@@ -34,6 +34,8 @@ JSONtoPS1
 
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 
+setScreenDimensionsScale
+
 mkdir $emulationPath -ErrorAction SilentlyContinue
 mkdir $biosPath -ErrorAction SilentlyContinue
 mkdir $toolsPath -ErrorAction SilentlyContinue
@@ -95,7 +97,7 @@ if(-not($test) -and $doInstallDolphin -eq "true" ){
 	Dolphin_install
 }
 
-#PCSX2 
+#PCSX2
 $test=Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
 if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 	PCSX2QT_install
@@ -163,7 +165,7 @@ if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 
 #
 # Emus Configuration
-# 
+#
 
 setMSG 'Configuring Emulators'
 
