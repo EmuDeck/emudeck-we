@@ -705,7 +705,6 @@ function cloud_sync_check_lock(){
 		}
 		$toast.Close()
 	}
-	return $true
 }
 function cloud_sync_notification($text){
 
