@@ -7,7 +7,7 @@
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\duckstation.ps1 \"-fullscreen\" \"\"\"${filePath}\"\"\" && exit \" && exit --emudeck",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\duckstation.ps1 \"-fullscreen\" \"\\\"${filePath}\\\"\" && exit \" && exit --emudeck\"",
   "onlineImageQueries": "${${fuzzyTitle}}",
   "imagePool": "${fuzzyTitle}",
   "imageProviders": ["SteamGridDB"],
