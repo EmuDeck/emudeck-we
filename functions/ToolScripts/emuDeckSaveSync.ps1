@@ -380,19 +380,22 @@ function cloud_sync_download($emuName){
 
 			$target = "$emulationPath\saves\"
 
-			$filePath = "$target\.hash"
+			$fileHash = "$target\.hash"
 
 			#We compare the hashes
+			if (Test-Path -PathType Any "$fileHash"){
+				$hash= Get-Content $fileHash
+			}else{
+				$hash="0"
+			}
 
-			$hash= Get-Content "$target\.hash"
+			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\.hash" "$fileHash"
 
-			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\.hash" "$filePath"
+			if (Test-Path -PathType Any "$fileHash"){
+				$hashCloud= Get-Content $fileHash
+			}
 
-
-			$hashCloud= Get-Content "$target\.hash"
-
-
-			if (Test-Path -PathType Any "$target\.hash"){
+			if (Test-Path -PathType Any "$fileHash"){
 
 				if ($hash -eq $hashCloud){
 					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
@@ -436,17 +439,24 @@ function cloud_sync_download($emuName){
 			}
 		}else{
 			$target = "$emulationPath\saves\$emuName\"
-			$filePath = "$target\.hash"
+
+			$fileHash = "$target\.hash"
 
 			#We compare the hashes
+			if (Test-Path -PathType Any "$fileHash"){
+				$hash= Get-Content $fileHash
+			}else{
+				$hash="0"
+			}
 
-			$hash= Get-Content "$target\.hash"
+			& $cloud_sync_bin -q --log-file "$userFolder/emudeck/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$fileHash"
 
-			& $cloud_sync_bin -q --log-file "$userFolder/emudeck/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$filePath"
+			if (Test-Path -PathType Any "$fileHash"){
+				$hashCloud= Get-Content $fileHash
+			}
 
-			$hashCloud= Get-Content "$target\.hash"
 
-			if (Test-Path -PathType Any "$target\.hash"){
+			if (Test-Path -PathType Any "$fileHash"){
 				if ($hash -eq $hashCloud){
 					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
@@ -726,8 +736,8 @@ function cloud_sync_init($emulator){
 			#We pass the emulator to the service
 			echo "$emulator" > $savesPath/.emulator
 			cloud_sync_downloadEmu $emulator
-			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
-			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch" > $null 2>&1
+			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden > $null 2>&1
 			Start-Sleep -Seconds 1
 			$toast.Close()
 		}
