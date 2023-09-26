@@ -40,14 +40,14 @@ function setSettingNoQuotes($file, $old, $new) {
 	}
 }
 
- function setConfig($old, $new, $fileToCheck){	
+ function setConfig($old, $new, $fileToCheck){
 
 	$fileContents = Get-Content $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
 	if ($line){
 		$newLine=-join($old,'=',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
-	
+
 		Set-Content -Path $fileToCheck -Value $modifiedContents
 		Write-Output "Line $line changed to $newLine"
 	}else{
@@ -58,16 +58,16 @@ function setSettingNoQuotes($file, $old, $new) {
 
 }
 
- function setConfigRA($old, $new, $fileToCheck){	
+ function setConfigRA($old, $new, $fileToCheck){
 
 	$fileContents = Get-Content $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
 	if ($line){
 		$newLine=-join($old,' = ',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
-		
+
 		Set-Content -Path $fileToCheck -Value $modifiedContents
-		
+
 		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,' = ',$new)
@@ -83,15 +83,15 @@ function customLocation(){
 
 #	# Get a list of all logical drives in the system
 #	$drives = Get-WmiObject -Class Win32_LogicalDisk
-#	
+#
 #	# Filter internal and removable drives
 #	$internalDrives = $drives | Where-Object { $_.DriveType -eq 3 }  # 3 represents internal drives
 #	$removableDrives = $drives | Where-Object { $_.DriveType -eq 2 }  # 2 represents removable drives
-#	
+#
 #	# Display drive letters for internal drives
 #	Write-Host "Internal Hard Drives:"
 #	$internalDrives | ForEach-Object { $_.DeviceID } | Sort-Object | Format-Table -AutoSize
-#	
+#
 #	# Display drive letters for removable drives (e.g., SD cards)
 #	Write-Host "Removable Drives (e.g., SD Cards):"
 #	$removableDrives | ForEach-Object { $_.DeviceID } | Sort-Object | Format-Table -AutoSize
@@ -107,7 +107,7 @@ function testLocationValid($mode, $path){
 		Write-Output "Wrong"
 	}else{
 		Write-Output "Valid"
-	}	
+	}
 }
 
 function escapeSedKeyword($input){
@@ -147,8 +147,8 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
 
-	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
-		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } | 
+	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets |
+		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
 		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
 		   return $url
 
@@ -162,7 +162,7 @@ function getReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pe
 
     $releaseURL = $apiData.assets |
         Where-Object { $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
-        Select-Object -ExpandProperty browser_download_url 
+        Select-Object -ExpandProperty browser_download_url
 	return $releaseURL
 }
 
@@ -213,12 +213,12 @@ function showDialog($text){
 function showListDialog($title, $subtitle, $options){
 	Add-Type -AssemblyName System.Windows.Forms
 	Add-Type -AssemblyName System.Drawing
-	
+
 	$form = New-Object System.Windows.Forms.Form
 	$form.Text = $title
 	$form.Size = New-Object System.Drawing.Size(300,200)
 	$form.StartPosition = 'CenterScreen'
-	
+
 	$okButton = New-Object System.Windows.Forms.Button
 	$okButton.Location = New-Object System.Drawing.Point(75,120)
 	$okButton.Size = New-Object System.Drawing.Size(75,23)
@@ -226,7 +226,7 @@ function showListDialog($title, $subtitle, $options){
 	$okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
 	$form.AcceptButton = $okButton
 	$form.Controls.Add($okButton)
-	
+
 	$cancelButton = New-Object System.Windows.Forms.Button
 	$cancelButton.Location = New-Object System.Drawing.Point(150,120)
 	$cancelButton.Size = New-Object System.Drawing.Size(75,23)
@@ -234,28 +234,28 @@ function showListDialog($title, $subtitle, $options){
 	$cancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
 	$form.CancelButton = $cancelButton
 	$form.Controls.Add($cancelButton)
-	
+
 	$label = New-Object System.Windows.Forms.Label
 	$label.Location = New-Object System.Drawing.Point(10,20)
 	$label.Size = New-Object System.Drawing.Size(280,20)
 	$label.Text = $subtitle
 	$form.Controls.Add($label)
-	
+
 	$listBox = New-Object System.Windows.Forms.ListBox
 	$listBox.Location = New-Object System.Drawing.Point(10,40)
 	$listBox.Size = New-Object System.Drawing.Size(260,20)
 	$listBox.Height = 80
-	
-	
-	
+
+
+
 	ForEach ($option in $options) { [void] $listBox.Items.Add($option) }
-	
+
 	$form.Controls.Add($listBox)
-	
+
 	$form.Topmost = $true
-	
+
 	$result = $form.ShowDialog()
-	
+
 	if ($result -eq [System.Windows.Forms.DialogResult]::OK)
 	{
 		return $listBox.SelectedItem
@@ -268,7 +268,7 @@ Function NewWPFDialog() {
 	<#
 	.SYNOPSIS
 	This neat little function is based on the one from Brian Posey's Article on Powershell GUIs
-	
+
 	.DESCRIPTION
 	  I re-factored a bit to return the resulting XaML Reader and controls as a single, named collection.
 
@@ -293,10 +293,10 @@ Function NewWPFDialog() {
 	.OUTPUTS
 	 a collection of WPF GUI objects.
   #>
-	
+
 	Param([Parameter(Mandatory = $True, HelpMessage = 'XaML Data defining a GUI', Position = 1)]
 		[string]$XamlData)
-	
+
 	# Add WPF and Windows Forms assemblies
 	try {
 		Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase, system.windows.forms
@@ -304,10 +304,10 @@ Function NewWPFDialog() {
 	catch {
 		Throw 'Failed to load Windows Presentation Framework assemblies.'
 	}
-	
+
 	# Create an XML Object with the XaML data in it
 	[xml]$xmlWPF = $XamlData
-	
+
 	# Create the XAML reader using a new XML node reader, UI is the only hard-coded object name here
 	Set-Variable -Name XaMLReader -Value @{ 'UI' = ([Windows.Markup.XamlReader]::Load((new-object -TypeName System.Xml.XmlNodeReader -ArgumentList $xmlWPF))) }
 
@@ -384,7 +384,7 @@ function yesNoDialog {
 		[string]$OKButtonText = "OK",
 		[string]$CancelButtonText = "Cancel",
 		[bool]$ShowCancelButton = $true
-		
+
 	)
 	# This is the XAML that defines the GUI.
 	$WPFXaml = @'
@@ -430,14 +430,14 @@ function yesNoDialog {
 
 	# Add the script block to the button's Click event
 	$WPFGui.OKButton.Add_Click($buttonClickEvent)
-	
+
 	# Create a script block to handle the button click event for "Cancel" button
 	$cancelButtonClickEvent = {
 		param($sender, $e)
 		$global:Result = $sender.Name  # Set the Result to the name of the clicked button ("CancelButton")
 		$WPFGui.UI.Close()
 	}
-	
+
 	# Add the script block to the "Cancel" button's Click event
 	$WPFGui.CancelButton.Add_Click($cancelButtonClickEvent)
 
@@ -485,7 +485,7 @@ function cleanDialog {
 	$WPFGui.Message.Text = $MessageText
 
 	# Show the dialog
-	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()	
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
 
 	# Return the UI
 	return $WPFGui.UI
@@ -525,7 +525,7 @@ function cleanDialogBottomRight {
 	$WPFGui.Message.Text = $MessageText
 
 	# Show the dialog
-	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()	
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
 
 	# Return the UI
 	return $WPFGui.UI
@@ -539,13 +539,13 @@ function cloudDialog {
 		[string]$OKButtonText = "OK",
 		[string]$CancelButtonText = "Cancel"
 	)
-	
+
 	Add-Type -AssemblyName System.Windows.Forms
-	
+
 	$screen = [System.Windows.Forms.Screen]::PrimaryScreen
 	$width = $screen.Bounds.Width
 	$height = $screen.Bounds.Height
-	
+
 	$top = 20
 	$left = $width - 60
 
@@ -571,7 +571,7 @@ function cloudDialog {
 	$WPFGui.Picture.Source = $Img
 
 	# Show the dialog
-	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()	
+	$null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
 
 	# Return the UI
 	return $WPFGui.UI
@@ -582,17 +582,17 @@ function startScriptWithAdmin {
 	param (
 		[string]$ScriptContent
 	)
-	
+
 	#$scriptContent = @"
-	#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; 
+	#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1;
 	#Write-Host "I'm Admin"
 	#"@
-	
+
 	#StartScriptWithAdmin -ScriptContent $scriptContent
 
 	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
 	$ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
-	
+
 	$psi = New-Object System.Diagnostics.ProcessStartInfo
 	$psi.Verb = "runas"
 	$psi.FileName = "powershell.exe"
@@ -602,7 +602,7 @@ function startScriptWithAdmin {
 	Remove-Item $tempScriptPath -Force
 }
 
-function createSymlink($source, $target) {	
+function createSymlink($source, $target) {
 #target is the real folder, source is the simlink because...windows
 mkdir "$target" -ErrorAction SilentlyContinue
 if(testAdministrator -eq $true){
@@ -612,7 +612,7 @@ if(testAdministrator -eq $true){
 		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
 "@
-	
+
 	startScriptWithAdmin -ScriptContent $scriptContent
 }
 }
@@ -626,44 +626,44 @@ function testAdministrator {
 function createSaveLink($simLinkPath, $emuSavePath){
 	mkdir "$emuSavePath" -ErrorAction SilentlyContinue
 	#Symlink?
-		
+
 	if(Test-Path -Path "$simLinkPath"){
-			
+
 		$folderInfo = Get-Item -Path $simLinkPath
-		
+
 		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
 			echo "Symlink already exists, we do nothing"
-		} else {			
+		} else {
 			#Check if we have space
-			
-			$userDrive=$emulationPath[0]		
+
+			$userDrive=$emulationPath[0]
 			$destinationFree = (Get-PSDrive -Name $userDrive).Free
 			$sizeInGB = [Math]::Round($destinationFree / 1GB)
-			
+
 			$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
 			$wshell = New-Object -ComObject Wscript.Shell
-			
-			if ( $originSize -gt $destinationFree ){			
+
+			if ( $originSize -gt $destinationFree ){
 				$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
 				exit
-			}				
-		
+			}
+
 			# We copy the saves to the Emulation/saves Folder and we create a backup
 			echo "Creating saves symlink"
-			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force						
+			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force
 			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse
-			
-			if ($?) {				
+
+			if ($?) {
 				$backupSuffix = "_bak"
-				$backupName = -join($simLinkPath, $backupSuffix)						
+				$backupName = -join($simLinkPath, $backupSuffix)
 				Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
 			}
 			createSymlink $simLinkPath $emuSavePath
-		}	
+		}
 	}else{
 		createSymlink $simLinkPath $emuSavePath
 	}
-	
+
 }
 
 
@@ -701,14 +701,30 @@ function toastNotification {
 
     # Prepare and Create Toast
 	$ToastMessage = [Windows.UI.Notifications.ToastNotification]::New($ToastXml)
-	
+
 	# Create a scheduled trigger to remove the notification after a delay
 	$Trigger = New-ScheduledTaskTrigger -Once -At ([System.DateTime]::Now.AddSeconds(2))
 	Register-ScheduledTask -Trigger $Trigger -Action { Unregister-ScheduledTask -TaskName "RemoveNotificationTask" } -TaskName "RemoveNotificationTask" -Force
-	
+
 	# Show the toast notification
 	[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($LauncherID).Show($ToastMessage)
 
+}
+
+function getScreenDimensionsScale(){
+      Add-Type -Assembly System.Windows.Forms;
+
+	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
+
+	  if ($ScreenOrientation -ne "Angle0") {
+		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+
+	  }else{
+		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
+		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
+	  }
+	  $Scale = getScreenScale
 }
 
 function steamToast {
@@ -716,24 +732,15 @@ function steamToast {
 	[string]$TitleText = "CloudSync",
 	[string]$MessageText = ""
   )
-  Add-Type -Assembly System.Windows.Forms;
-  
-  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
-  
-  if ($ScreenOrientation -ne "Angle0") {
-	$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-	$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
 
-  }else{
-	$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-	$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-  }
+  #$ScreenWidth= 1920
+  #$ScreenHeight= 1200
+  #$Scale=2
+
 
   $WindowWidth = 400
-  $WindowHeight = 80 
-  $Margin = 25 
-  
-  $Scale=getScreenRatio
+  $WindowHeight = 80
+  $Margin = 25
 
   $WindowLeft = $ScreenWidth/$Scale - $WindowWidth - $Margin
   $WindowTop = $ScreenHeight/$Scale  - $WindowHeight - $Margin
@@ -771,7 +778,7 @@ function steamToast {
   return $WPFGui.UI
 }
 
-function getScreenRatio(){
+function getScreenScale(){
 Add-Type @'
   using System;
   using System.Runtime.InteropServices;
