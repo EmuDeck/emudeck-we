@@ -15,7 +15,7 @@
   "executable": {
     "path": "${retroarchpath}",
     "shortcutPassthrough": false,
-    "appendArgsToExecutable": false
+    "appendArgsToExecutable": true
   },
   "userAccounts": {
     "specifiedAccounts": ""

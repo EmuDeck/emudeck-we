@@ -29,7 +29,7 @@
   "executable": {
     "path": "",
     "shortcutPassthrough": false,
-    "appendArgsToExecutable": false
+    "appendArgsToExecutable": true
   },
   "parserInputs": {
     "glob": "**/${title}@(.sh|.AppImage)"

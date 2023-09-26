@@ -21,7 +21,7 @@
       "executable": {
           "path": "/run/media/mmcblk0p1/Emulation/tools/launchers/flycast.sh",
           "shortcutPassthrough": false,
-          "appendArgsToExecutable": false
+          "appendArgsToExecutable": true
       },
       "parserInputs": {
           "glob": "**/${title}@(.7z|.7Z|.cdi|.CDI|.chd|.CHD|.cue|.CUE|.gdi|.GDI)"

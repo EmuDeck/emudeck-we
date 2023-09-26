@@ -44,7 +44,7 @@
   "executable": {
     "path": "/run/media/mmcblk0p1/Emulation/tools/launchers/mgba.sh",
     "shortcutPassthrough": false,
-    "appendArgsToExecutable": false
+    "appendArgsToExecutable": true
   },
   "parserId": "164785621855061661",
   "version": 13,
