@@ -736,8 +736,10 @@ function cloud_sync_init($emulator){
 			#We pass the emulator to the service
 			echo "$emulator" > $savesPath/.emulator
 			cloud_sync_downloadEmu $emulator
-			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch" > $null 2>&1
-			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden > $null 2>&1
+			& $env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe stop "CloudWatch"
+			cls
+			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+			cls
 			Start-Sleep -Seconds 1
 			$toast.Close()
 		}
