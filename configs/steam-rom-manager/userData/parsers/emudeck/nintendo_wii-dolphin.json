@@ -2,7 +2,7 @@
   "parserType": "Glob",
   "configTitle": "Nintendo Wii - Dolphin",
   "steamCategory": "${Nintendo Wii}",
-  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\dolphin.ps1 \"-b\" \"-e\" \"\\\"${filePath}\\\"\" && exit \" && exit --emudeck\"",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\dolphin.ps1 \"-b\" \"-e\" \"\\\"${filePath}\"\\\" && exit \" && exit --emudeck\"",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}/wii",
   "steamDirectory": "${steamdirglobal}",
