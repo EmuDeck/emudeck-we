@@ -83,7 +83,7 @@ try
 
 	# Check if the file was modified in the last 2 seconds
 	$lastModifiedTime = $lastModifiedTimes[$FullPath]
-	if ($lastModifiedTime -and ($Timestamp).Subtract($lastModifiedTime).TotalSeconds -lt 1) {
+	if ($lastModifiedTime -and ($Timestamp).Subtract($lastModifiedTime).TotalMilliseconds -lt 500) {
 		Write-Host "Ignoring $FullPath because it was modified again too quickly."
 		return
 	}
