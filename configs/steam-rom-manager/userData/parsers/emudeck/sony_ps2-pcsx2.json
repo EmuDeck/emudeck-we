@@ -4,7 +4,7 @@
   "steamCategory": "${Playstation 2}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "${romsdirglobal}/ps2",
-  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\pcsx2.ps1 \"\\\"${filePath}\"\\\" && exit \" && exit --emudeck\"",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\pcsx2.ps1 \"\\\\\"${filePath}\"\\\\\" && exit \" && exit --emudeck\"",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",

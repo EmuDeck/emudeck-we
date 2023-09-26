@@ -2,7 +2,7 @@
   "parserType": "Glob",
   "configTitle": "Sony PlayStation 3 - RPCS3 (Extracted ISO/PSN)",
   "steamCategory": "${Sony PlayStation 3}",
-  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\rpcs3.ps1 \"--no-gui\" \"\\\"${filePath}\"\\\" && exit \" && exit --emudeck\"",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\rpcs3.ps1 \"--no-gui\" \"\\\\\"${filePath}\"\\\\\" && exit \" && exit --emudeck\"",
   "romDirectory": "${romsdirglobal}/ps3",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
