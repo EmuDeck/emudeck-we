@@ -3,11 +3,11 @@ $userPath = ( Get-CimInstance Win32_UserProfile -Filter "SID = '$((Get-LocalUser
 
 Start-Transcript $userPath\emudeck\cloudwatcher.log
 echo $userPath
-$f1 = Join-Path -Path $userPath -ChildPath 'EmuDeck\settings.ps1'
-$f2 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
-$f3 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1'
-$f4 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1'
-$f5 = Join-Path -Path $userPath -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1'
+$f1 = Join-Path -Path "$userPath" -ChildPath 'EmuDeck\settings.ps1'
+$f2 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
+$f3 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1'
+$f4 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1'
+$f5 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1'
 
 . $f1
 . $f2
@@ -113,7 +113,7 @@ try
 			  Write-Host "No upload"
 		  } else {
 		  	  Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
-			  cloud_sync_uploadEmu -emuName $emuName -mode $userPath
+			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }
@@ -123,7 +123,7 @@ try
 			  Write-Host "No upload"
 		  } else {
 		      Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
-			  cloud_sync_uploadEmu -emuName $emuName -mode $userPath
+			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }
 

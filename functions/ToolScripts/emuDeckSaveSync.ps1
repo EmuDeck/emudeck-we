@@ -508,7 +508,7 @@ function cloud_sync_upload{
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We lock cloudsync
 		Write-Host "Locking..."
-		cloud_sync_lock $userFolder
+		cloud_sync_lock "$userFolder"
 		Write-Host "Locked"
 		if ($emuName -eq 'all'){
 			Write-Host "upload all"
@@ -551,7 +551,7 @@ function cloud_sync_upload{
 
 		}
 		#We unlock cloudsync
-		cloud_sync_unlock $userFolder
+		cloud_sync_unlock "$userFolder"
 	}
 }
 
@@ -695,7 +695,7 @@ function cloud_sync_uploadEmuAll(){
 
 function cloud_sync_lock($userPath){
 	if (-not [string]::IsNullOrEmpty($userPath)) {
-		$userFolder = $userPath
+		$userFolder = "$userPath"
 	}
 
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
@@ -706,7 +706,7 @@ function cloud_sync_lock($userPath){
 
 function cloud_sync_unlock($userPath){
 	if (-not [string]::IsNullOrEmpty($userPath)) {
-		$userFolder = $userPath
+		$userFolder = "$userPath"
 	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
 	$toast = steamToast -MessageText "Uploads completed!"

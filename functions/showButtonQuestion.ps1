@@ -1,6 +1,6 @@
 function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Text, $button3Text, $button4Text){
-	
-	$paddingLeft= 32	
+
+	$paddingLeft= 32
 	$paddingTop= 50
 	$subtitleTop= 128
 	$textColor="183,182,177"
@@ -9,11 +9,11 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 	$buttonBG="white"
 	$buttonColor="69,70,67"
 	$buttonSeparation=130
-			
+
 	#$URL = -join("https://raw.githubusercontent.com/EmuDeck/EmuDeck-electron/main/src/assets/",$img)
 	#$localImg = $img.replace('emulators/','')
-	#$Path= -join($userFolder,'/EmuDeck/',$localImg)
-	
+	#$Path= -join("$userFolder",'/EmuDeck/',$localImg)
+
 	#Invoke-WebRequest -URI $URL -OutFile $Path
 	Add-Type -AssemblyName 'System.Windows.Forms'
 	#$file = (get-item $Path)
@@ -22,41 +22,41 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 	$form = new-object Windows.Forms.Form
 	$form.Text = "EmuDeck"
 	#$form.Width = 1280;
-	#$form.Height =  800;	
+	#$form.Height =  800;
 	$form.Size = New-Object System.Drawing.Size(1280,720)
 	$form.StartPosition = 'CenterScreen'
 	$form.BackColor = '34, 34, 42'
-	
+
 	# Set the form to be topmost
 	$form.TopMost = $true
-	
+
 	#Title
 	$title = New-Object System.Windows.Forms.label
-	$title.Location = New-Object System.Drawing.Size($paddingLeft,$paddingTop)	
-	$title.AutoSize = "true"	
-	$title.ForeColor = "White"	
+	$title.Location = New-Object System.Drawing.Size($paddingLeft,$paddingTop)
+	$title.AutoSize = "true"
+	$title.ForeColor = "White"
 	$title.Text = $titleText
 	$title.Font = New-Object System.Drawing.Font("Verdana",32,[System.Drawing.FontStyle]::Bold)
 	$form.Controls.Add($title)
-	
+
 	#SubTitle
 	$subtitle = New-Object System.Windows.Forms.label
-	$subtitle.Location = New-Object System.Drawing.Size($paddingLeft,$subtitleTop)	
+	$subtitle.Location = New-Object System.Drawing.Size($paddingLeft,$subtitleTop)
 	$subtitle.AutoSize = "true"
-	$subtitle.ForeColor = $textColor	
+	$subtitle.ForeColor = $textColor
 	$subtitle.Text = $subtitleText
 	$subtitle.Font = New-Object System.Drawing.Font("Verdana",16,[System.Drawing.FontStyle]::Regular)
 	$form.Controls.Add($subtitle)
-	
+
 	#Image
 	#$pictureBox = new-object Windows.Forms.PictureBox
 	#$pictureBox.Width =  630;
 	#$pictureBox.Height =  370;
-	#$pictureBox.Location = New-Object System.Drawing.Size($paddingLeft,$imgTop)	
+	#$pictureBox.Location = New-Object System.Drawing.Size($paddingLeft,$imgTop)
 	#$pictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 	#$pictureBox.Image = $img;
 	#$form.controls.add($pictureBox)
-	
+
 	#Buttons
 	$button1 = New-Object System.Windows.Forms.Button
 	$button1.Location = New-Object System.Drawing.Point(32,200)
@@ -68,7 +68,7 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 	$button1.DialogResult = [System.Windows.Forms.DialogResult]::Yes
 	#$form.button1 = $button1
 	$form.Controls.Add($button1)
-	
+
 	$button2 = New-Object System.Windows.Forms.Button
 	$button2.Location = New-Object System.Drawing.Point(380,(200))
 	$button2.Size = New-Object System.Drawing.Size(300,200)
@@ -79,7 +79,7 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 	$button2.DialogResult = [System.Windows.Forms.DialogResult]::No
 	#$form.button2 = $button2
 	$form.Controls.Add($button2)
-	
+
 	if($button3Text){
 		$button3 = New-Object System.Windows.Forms.Button
 		$button3.Location = New-Object System.Drawing.Point(682,(180 + $buttonSeparation * 2 ))
@@ -100,17 +100,17 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 		$button4.ForeColor = $buttonColor
 		$button4.BackColor = $buttonBG;
 		$button4.Font = New-Object System.Drawing.Font("Verdana",18,[System.Drawing.FontStyle]::Bold)
-		$button4.DialogResult = [System.Windows.Forms.DialogResult]::Abort	
+		$button4.DialogResult = [System.Windows.Forms.DialogResult]::Abort
 		$form.Controls.Add($button4)
 	}
 
 	$form.Add_Shown( { $form.Activate() } )
 	$result = $form.ShowDialog()
-	
+
 	if($result -eq 'Yes'){
 		$result=$button1Text
 	}
-	
+
 	switch ( $result )
 	{
 		'Yes' { $result = $button1Text }
@@ -118,7 +118,7 @@ function showButtonQuestion($titleText, $subtitleText, $button1Text, $button2Tex
 		'Cancel' { $result = $button3Text   }
 		'Abort' { $result = $button4Text }
 	}
-	
+
 	return $result
-	
+
 }
