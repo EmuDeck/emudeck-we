@@ -127,11 +127,12 @@ function cloud_sync_install_service(){
 	$currentUser=(whoami).Split('\')[1]
 	$Binary = (Get-Command Powershell).Source
 	$Arguments = "-ExecutionPolicy Bypass -NoProfile -File ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\cloudSync\cloud_sync_watcher.ps1 $currentUser"" "
-	& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" install CloudWatch $Binary $Arguments
+
 
 	#We change the service permissions
 
 $scriptContent = @"
+& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" install CloudWatch $Binary $Arguments
 & sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
