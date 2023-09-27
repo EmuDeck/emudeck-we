@@ -4,7 +4,7 @@
 Set-Location $emulationPath
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1"
-. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showNotification."ps1
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showNotification.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\moveFromTo.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\copyFromTo.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\waitForUser.ps1"
