@@ -1,30 +1,30 @@
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarValue = Get-Content -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
 	$progressBarUpdate=[int]$progressBarValue+1
 
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log
+	"$progressBarUpdate" | Out-File -encoding ascii "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log"
 	Write-Output $message
-	Add-Content $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
+	Add-Content "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > $env:USERPROFILE/EmuDeck/EmuDeck.log
+Write-Output "" > "$env:USERPROFILE/EmuDeck/EmuDeck.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript $env:USERPROFILE/EmuDeck/EmuDeck.log
+Start-Transcript "$env:USERPROFILE/EmuDeck/EmuDeck.log"
 
 #We install 7zip - Now its on the appimage
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
 # JSON Parsing to ps1 file
 
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1"
 JSONtoPS1
 
 
@@ -32,7 +32,7 @@ JSONtoPS1
 # Functions, settings and vars
 #
 
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
 
 setScreenDimensionsScale
 
@@ -261,7 +261,7 @@ if ( "$doSetupmelonDS" -eq "true" ){
 setMSG 'Configuring Save folders - Waiting for user confirmatiom'
 
 $scriptContent = @"
-	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $setupSaves
+	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
 "@
 
 startScriptWithAdmin -ScriptContent $scriptContent

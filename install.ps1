@@ -21,7 +21,7 @@ function startScriptWithAdmin {
 	)
 
 	#$scriptContent = @"
-	#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1;
+	#. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1";
 	#Write-Host "I'm Admin"
 	#"@
 
@@ -42,7 +42,7 @@ function startScriptWithAdmin {
 function download($url, $file) {
 
 	$wc = New-Object net.webclient
-	$temp = Join-Path $env:USERPROFILE "Downloads"
+	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	$destination="$temp/$file"
 	mkdir $temp -ErrorAction SilentlyContinue
 
@@ -57,7 +57,7 @@ if ( $PSversion -lt 51 ){
 	Write-Host ""
 	Write-Host " Downloading .NET..."
 	download "https://go.microsoft.com/fwlink/?linkid=2088631" "dotNet.exe"
-	$temp = Join-Path $env:USERPROFILE "Downloads"
+	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	&"$temp/dotNet.exe"
 	rm -fo "$temp/dotNet.exe"
 
@@ -65,7 +65,7 @@ if ( $PSversion -lt 51 ){
 	Write-Host " Downloading WMF 5.1..."
 	download "https://go.microsoft.com/fwlink/?linkid=839516" "wmf51.msu"
 
-	$temp = Join-Path $env:USERPROFILE "Downloads"
+	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	&"$temp/wmf51.msu"
 	rm -fo "$temp/wmf51.msu"
 
@@ -80,10 +80,10 @@ if ( $PSversion -lt 51 ){
 	$EnabledValue = $FIPSAlgorithmPolicy.Enabled
 
 	if($EnabledValue -eq 1){
-		Write-Host "Windows 10 FIPS detected, we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -ForegroundColor white
+		Write-Host "Windows FIPS detected, we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -ForegroundColor white
 		Read-Host -Prompt "Press any key to apply the fix and restart"
 $scriptContent = @"
-New-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
+Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
 "@
 			startScriptWithAdmin -ScriptContent $scriptContent
 	}
@@ -112,7 +112,7 @@ Write-Host ""
 		Write-Host ""
 		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
 		download $url_emudeck "emudeck_install.exe"
-		$temp = Join-Path $env:USERPROFILE "Downloads"
+		$temp = Join-Path "$env:USERPROFILE" "Downloads"
 		Write-Host " Launching EmuDeck Installer, please wait..."
 		&"$temp/emudeck_install.exe"
 	}

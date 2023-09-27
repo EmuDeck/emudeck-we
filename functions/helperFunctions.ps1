@@ -584,7 +584,7 @@ function startScriptWithAdmin {
 	)
 
 	#$scriptContent = @"
-	#. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1;
+	#. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1";
 	#Write-Host "I'm Admin"
 	#"@
 
@@ -609,7 +609,7 @@ if(testAdministrator -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
 	$scriptContent = @"
-		. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
 "@
 
@@ -730,7 +730,7 @@ function setScreenDimensionsScale(){
 	  setSetting "ScreenHeight" "$ScreenHeight"
 	  setSetting "Scale" "$Scale"
 
-	  . $env:USERPROFILE\EmuDeck\settings.ps1
+	  . "$env:USERPROFILE\EmuDeck\settings.ps1"
 
 }
 

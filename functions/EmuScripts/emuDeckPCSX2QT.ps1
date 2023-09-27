@@ -9,22 +9,22 @@ function PCSX2QT_install(){
 	Rename-Item -Path "$emusPath\PCSX2-Qt\pcsx2-qt.exe" -NewName "pcsx2-qtx64.exe"
 	createLauncher "pcsx2"
 }
-function PCSX2QT_init(){	
+function PCSX2QT_init(){
 	setMSG "PCSX2 - Configuration"
 	$destination="$emusPath\PCSX2-Qt"
 	New-Item "$emusPath\PCSX2-Qt\portable.ini" -ErrorAction SilentlyContinue
 
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
-	
+
 	PCSX2QT_setEmulationFolder
 #	PCSX2QT_setupSaves
 	PCSX2QT_setResolution $pcsx2Resolution
-	
+
 	if ("$doRASignIn" -eq "true" ){
 		PCSX2QT_retroAchievementsSetLogin
 	}
 
-	
+
 }
 function PCSX2QT_update(){
 	Write-Outpute-Output "NYI"
@@ -39,7 +39,7 @@ function PCSX2QT_setupSaves(){
 	$simLinkPath = "$emusPath\PCSX2-Qt\memcards"
 	$emuSavePath = -join($emulationPath,"\saves\pcsx2\saves")
 	createSaveLink $simLinkPath $emuSavePath
-	
+
 	#States
 	$simLinkPath = "$emusPath\PCSX2-Qt\sstates"
 	$emuSavePath = -join($emulationPath,"\saves\pcsx2\states")
@@ -54,7 +54,7 @@ function PCSX2QT_setResolution($resolution){
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
 	}
-	
+
 	setConfig "upscale_multiplier" $multiplier "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
 }
 function PCSX2QT_setupStorage(){
@@ -100,7 +100,7 @@ function PCSX2QT_resetConfig(){
 }
 
 
-function PCSX2QT_retroAchievementsSetLogin(){	
-	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-	#setConfig "Token" $rat "$emusPath\PCSX2-Qt\inis\PCSX2.ini"		
+function PCSX2QT_retroAchievementsSetLogin(){
+	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
+	#setConfig "Token" $rat "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
 }

@@ -364,7 +364,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 	#}
 
 $scriptContent = @"
-	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $setupSaves
+	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
 "@
 
 	startScriptWithAdmin -ScriptContent $scriptContent
