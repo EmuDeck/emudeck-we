@@ -1,11 +1,11 @@
 function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
 	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
-	download $url_srm "srm.exe"	
-	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force	
+	download $url_srm "srm.exe"
+	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
 }
 function SRM_init(){
-  setMSG 'Steam Rom Manager - Configuration'	
+  setMSG 'Steam Rom Manager - Configuration'
   rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
   Start-Sleep -Seconds 1
   mkdir $toolsPath\userData\parsers\emudeck -ErrorAction SilentlyContinue
@@ -14,7 +14,7 @@ function SRM_init(){
 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\"
 
 
-  
+
   $exclusionList = @(
   'nintendo_gbc-ra-sameboy.json',
   'nintendo_gb-ra-sameboy.json',
@@ -23,8 +23,8 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   'nintendo_gbc-mgba.json',
   'nintendo_gb-mGBA.json'
   )
-  
-  
+
+
   # Multiemulator?
   if ( "$emuMULTI" -ne "both" ){
   	if ( "$emuMULTI" -eq "ra" ){
@@ -56,13 +56,13 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 		$exclusionList = $exclusionList + 'snk_neo_geo_pocket-ra-beetle_neopop.json'
   	}
   }
-  
+
   #gba
   if ( "$emuGBA" -ne "both" ){
   	if ( "$emuGBA" -eq "mgba" ){
 		$exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
 		$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
-  	}else{		
+  	}else{
 		$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
   	}
   }
@@ -71,7 +71,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   	if ( "$emuPSP" -eq "ppsspp" ){
 		$exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
   	}else{
-		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'		
+		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'
   	}
   }
   #psx
@@ -80,7 +80,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 		$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
 		$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
   	}else{
-		$exclusionList = $exclusionList + 'sony_psx-duckstation.json'		
+		$exclusionList = $exclusionList + 'sony_psx-duckstation.json'
   	}
   }
   #melonDS
@@ -93,7 +93,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   }
   #mame
   if ( "$emuMAME" -ne "both" ){
-  	if ( "$emuMAME" -eq "mame" ){	
+  	if ( "$emuMAME" -eq "mame" ){
 		$exclusionList = $exclusionList + 'arcade-ra-mame_2010.json'
 		$exclusionList = $exclusionList + 'arcade-ra-mame.json'
 		$exclusionList = $exclusionList + 'arcade-ra-mame_2003_plus.json'
@@ -102,46 +102,46 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 		$exclusionList = $exclusionList + 'tiger_electronics_gamecom-mame.json'
 		$exclusionList = $exclusionList + 'vtech_vsmile-mame.json'
 		$exclusionList = $exclusionList + 'snk_neo_geo_cd-mame.json'
-		$exclusionList = $exclusionList + 'philips_cd_i-mame.json'		
+		$exclusionList = $exclusionList + 'philips_cd_i-mame.json'
   	}
   }
-  
+
   Start-Sleep -Seconds 1
-  
+
   Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 	if ($_ -notin $exclusionList) {
 	  Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
 	}
   }
-  
+
   $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
   "[`n" + ((Get-Content $mainParserFolder\*.json -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-  
+
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
-  
-  
-  #Steam installation	
+
+
+  #Steam installation
   $steamRegPath = "HKCU:\Software\Valve\Steam"
   $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
   $steamInstallPath = $steamInstallPath.Replace("/", "\\")
-  
+
   #Paths
   sedFile $toolsPath\UserData\userConfigurations.json "C:\\Emulation" $emulationPath
   sedFile $toolsPath\UserData\userConfigurations.json "EMUSPATH" $emusPathSRM
-  sedFile $toolsPath\UserData\userConfigurations.json "USERPATH" $userFolder
+  sedFile $toolsPath\UserData\userConfigurations.json "USERPATH" "$userFolder"
   sedFile $toolsPath\UserData\userConfigurations.json "Users\" "Users\\"
   sedFile $toolsPath\UserData\userConfigurations.json ":\" ":\\"
   sedFile $toolsPath\UserData\userConfigurations.json "\\\" "\\"
-  
+
   sedFile $toolsPath\UserData\userSettings.json "C:\\Emulation" $emulationPath
   sedFile $toolsPath\UserData\userSettings.json "EMUSPATH" $emusPathSRM
   sedFile $toolsPath\UserData\userSettings.json "STEAMPATH" $steamInstallPath
   sedFile $toolsPath\UserData\userSettings.json "Users\" "Users\\"
   sedFile $toolsPath\UserData\userSettings.json ":\" ":\\"
   sedFile $toolsPath\UserData\userSettings.json "\\\" "\\"
-  
+
   sedFile $toolsPath\UserData\controllerTemplates.json "STEAMPATH" $steamInstallPath
   sedFile $toolsPath\UserData\controllerTemplates.json "Users\" "Users\\"
   sedFile $toolsPath\UserData\controllerTemplates.json ":\" ":\\"
@@ -149,16 +149,16 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 
 
   #Desktop Icon
-  #createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"		
+  #createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"
   #Start Menu
   #mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
   #createLink "$toolsPath\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
-  
+
   #SteamInput
   $PFPath="$env:ProgramFiles (x86)\Steam\controller_base\templates\"
   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
- 
-  
+
+
 }
 
 function SRM_update(){
@@ -215,7 +215,7 @@ function SRM_resetConfig(){
 	}
 }
 
-function SRM_resetLaunchers(){	
+function SRM_resetLaunchers(){
 
 	#We reset the saves folders
 	$setupSaves=''
@@ -228,9 +228,9 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RetroArch_setupSaves;"
 	}
-	
-	
-	
+
+
+
     $path = "$savesPath\duckstation\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -240,7 +240,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="DuckStation_setupSaves;"
 	}
-	
+
     $path = "$savesPath\dolphin\wii"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -250,7 +250,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Dolphin_setupSaves;"
 	}
-	
+
     $path = "$savesPath\yuzu\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -260,7 +260,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Yuzu_setupSaves;"
 	}
-	
+
     $path = "$savesPath\ryujinx\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -270,7 +270,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Ryujinx_setupSaves;"
 	}
-	
+
     $path = "$savesPath\citra\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -280,7 +280,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Citra_setupSaves;"
 	}
-	
+
     $path = "$savesPath\Cemu\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -290,7 +290,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="Cemu_setupSaves;"
 	}
-	
+
     $path = "$savesPath\pcsx2\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -300,7 +300,7 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="PCSX2QT_setupSaves;"
 	}
-	
+
     $path = "$savesPath\rpcs3\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -309,8 +309,8 @@ function SRM_resetLaunchers(){
 		$setupSaves+="RPCS3_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RPCS3_setupSaves;"
-	}	
-	
+	}
+
     $path = "$savesPath\ppsspp\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -319,8 +319,8 @@ function SRM_resetLaunchers(){
 		$setupSaves+="PPSSPP_setupSaves;"
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="PPSSPP_setupSaves;"
-	}	
-	
+	}
+
     $path = "$savesPath\melonDS\saves"
 	if (Test-Path -Path $path) {
 		$element = Get-Item -Path $path
@@ -330,32 +330,32 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="melonDS_setupSaves;"
 	}
-	
+
 	#if ( "$doSetupXemu" -eq "true" ){
 		#$setupSaves+="#Xemu_setupSaves;"
 	#}
-	
+
 	#if ( "$doSetupXenia" -eq "true" ){
 		#$setupSaves+="#Xenia_setupSaves;"
 	#}
-	
-	
+
+
 	#if ( "$doSetupVita3K" -eq "true" ){
 		#$setupSaves+="#Vita3K_setupSaves;"
 	#}
-	
+
 	#if ( "$doSetupScummVM" -eq "true" ){
 		#$setupSaves+="#ScummVM_setupSaves;"
 	#}
-	
+
 $scriptContent = @"
 	. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1; $setupSaves
 "@
-	
+
 	startScriptWithAdmin -ScriptContent $scriptContent
-	
+
 	Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
-	
+
 	Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
 
 	if ($doInstallRA -eq "true"){
@@ -397,9 +397,9 @@ $scriptContent = @"
 	#if ($doInstallXemu -eq "true"){
 	#	createLauncher xemu
 	#}
-	
+
 	if ($doInstallESDE -eq "true"){
 		createLauncher "esde\EmulationStationDE"
 	}
-	
+
 }
