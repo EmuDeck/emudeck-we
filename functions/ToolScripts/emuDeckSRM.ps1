@@ -217,6 +217,23 @@ function SRM_resetConfig(){
 
 function SRM_resetLaunchers(){
 
+
+	$FIPSAlgorithmPolicy = Get-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
+	$EnabledValue = $FIPSAlgorithmPolicy.Enabled
+
+	if($EnabledValue -eq 1){
+		$result = yesNoDialog -TitleText "Windows FIPS detected" -MessageText "we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -OKButtonText "Fix and restart" -CancelButtonText ""
+
+		if ($result -eq "OKButton") {
+$scriptContent = @"
+Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
+"@
+			startScriptWithAdmin -ScriptContent $scriptContent
+		} else {
+			echo "nope"
+		}
+	}
+
 	#We reset the saves folders
 	$setupSaves=''
 	$path="$savesPath\retroarch\saves"
@@ -228,8 +245,6 @@ function SRM_resetLaunchers(){
 	}elseif ( $element.Extension -eq ".lnk" ){
 		$setupSaves+="RetroArch_setupSaves;"
 	}
-
-
 
     $path = "$savesPath\duckstation\saves"
 	if (Test-Path -Path $path) {
