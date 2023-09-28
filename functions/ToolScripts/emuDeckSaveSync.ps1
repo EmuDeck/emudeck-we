@@ -134,11 +134,11 @@ function cloud_sync_install_service(){
 $scriptContent = @"
 & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.exe" install
 Start-Sleep -Seconds 1
-& sc.exe sdset pepe "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+& sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 
-	cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git reset --hard
+	#cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git reset --hard
 
 }
 
