@@ -133,6 +133,7 @@ function cloud_sync_install_service(){
 
 $scriptContent = @"
 & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" install CloudWatch $Binary $Arguments
+Start-Sleep -Seconds 1
 & sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
