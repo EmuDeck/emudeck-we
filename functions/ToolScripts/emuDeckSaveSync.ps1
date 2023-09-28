@@ -128,8 +128,8 @@ function cloud_sync_install_service(){
 
 	#We change the service permissions
 
-	sed "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.xml" "USERPATH" "$env:USERPROFILE"
-	sed "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.xml" "USER" "$env:USERNAME"
+	sedFile "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.xml" "USERPATH" "$env:USERPROFILE"
+	sedFile "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.xml" "USER" "$env:USERNAME"
 
 $scriptContent = @"
 & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.exe" install
