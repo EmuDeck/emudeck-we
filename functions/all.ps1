@@ -38,6 +38,7 @@ Set-Location $emulationPath
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckGameMode.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
+}
 catch
 {
 	Write-Error $_.Exception.ToString()

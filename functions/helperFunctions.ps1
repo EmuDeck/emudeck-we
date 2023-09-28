@@ -582,14 +582,6 @@ function startScriptWithAdmin {
 	param (
 		[string]$ScriptContent
 	)
-
-	#$scriptContent = @"
-	#. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1";
-	#Write-Host "I'm Admin"
-	#"@
-
-	#StartScriptWithAdmin -ScriptContent $scriptContent
-
 	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
 	$ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
 
