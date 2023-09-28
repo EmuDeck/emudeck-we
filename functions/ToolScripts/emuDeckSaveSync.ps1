@@ -125,18 +125,20 @@ function Get-Custom-Credentials($provider) {
 
 function cloud_sync_install_service(){
 	$currentUser=(whoami).Split('\')[1]
-	$Binary = (Get-Command Powershell).Source
-	$Arguments = "-ExecutionPolicy Bypass -NoProfile -File ""$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\cloudSync\cloud_sync_watcher.ps1 $currentUser"" "
-
 
 	#We change the service permissions
 
+	sed "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.xml" "USERPATH" "$env:USERPROFILE"
+	sed "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.xml" "USER" "$env:USERNAME"
+
 $scriptContent = @"
-& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" install CloudWatch $Binary $Arguments
+& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/WinSW-x64.exe" install
 Start-Sleep -Seconds 1
-& sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+& sc.exe sdset pepe "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
+
+	cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git reset --hard
 
 }
 

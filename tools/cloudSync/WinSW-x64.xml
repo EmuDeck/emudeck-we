@@ -1,0 +1,7 @@
+<service>
+  <id>CloudWatch</id>
+  <name>EmuDeck CloudWatch</name>
+  <description>EmuDeck CloudSync watcher</description>
+  <executable>powershell.exe</executable>
+  <arguments>-ExecutionPolicy Bypass -NoProfile -File "USERPATH\AppData\Roaming\EmuDeck\backend\tools\cloudSync\cloud_sync_watcher.ps1" "USERNAME"</arguments>
+</service>
