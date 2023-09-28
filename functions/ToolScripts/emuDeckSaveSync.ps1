@@ -139,7 +139,7 @@ Start-Sleep -Seconds 1
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 
-	#cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git reset --hard
+	cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git reset --hard
 
 }
 
