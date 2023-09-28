@@ -124,21 +124,21 @@ function Get-Custom-Credentials($provider) {
 }
 
 function cloud_sync_install_service(){
-	$currentUser=(whoami).Split('\')[1]
 
-	#We change the service permissions
+	mkdir "$toolsPath/cloudSync" -ErrorAction SilentlyContinue
+	cp "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.xml" "$toolsPath/cloudSync"
+	cp "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.exe" "$toolsPath/cloudSync"
 
-	sedFile "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.xml" "USERPATH" "$env:USERPROFILE"
-	sedFile "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.xml" "USERNAME" "$env:USERNAME"
+	sedFile "$toolsPath/cloudSync/WinSW-x64.xml" "USERPATH" "$env:USERPROFILE"
+	sedFile "$toolsPath/cloudSync/WinSW-x64.xml" "USERNAME" "$env:USERNAME"
 
 $scriptContent = @"
-& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.exe" uninstall
-& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.exe" install
+& "$toolsPath/cloudSync/WinSW-x64.exe" uninstall
+& "$toolsPath/cloudSync/WinSW-x64.exe" install
 & sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Start-Sleep -Seconds 2
-	cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git reset --hard
 
 }
 
