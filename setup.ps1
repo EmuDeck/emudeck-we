@@ -74,6 +74,10 @@ if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
 
+$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
+if(-not($test) -and $doInstallPegasus -eq "true" ){
+	Pegasus_install
+}
 
 #SRM
 $test=Test-Path -Path "$toolsPath\srm.exe"
@@ -172,6 +176,10 @@ setMSG 'Configuring Emulators'
 if ( "$doSetupESDE" -eq "true" ){
 	ESDE_init
 	#$setupSaves+="ESDE_setupSaves;"
+}
+
+if ( "$doSetupPegasus" -eq "true" ){
+	Pegasus_init
 }
 
 if ( "$doSetupSRM" -eq "true" ){

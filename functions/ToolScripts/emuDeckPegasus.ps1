@@ -28,7 +28,7 @@ function Pegasus_init(){
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\pegasus" "$destination"
 
 	#metadata and cores paths
-	rsync -r  "$EMUDECKGIT/roms/" "$romsPath"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
 
 	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" | ForEach-Object {
 		(Get-Content $_.FullName) | ForEach-Object {
