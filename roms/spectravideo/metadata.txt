@@ -1,0 +1,6 @@
+collection: Spectravideo
+shortname: spectravideo
+extensions: rom, ROM, ri, RI, mx1, MX1, mx2, MX2, col, COL, dsk, DSK, cas, CAS, sg, SG, sc, SC, m3u, M3U, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/bluemsx_libretro.dll {file.path}
+
+

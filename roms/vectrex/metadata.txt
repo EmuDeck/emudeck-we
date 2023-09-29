@@ -1,0 +1,6 @@
+collection: Vectrex
+shortname: vectrex
+extensions: bin, BIN, vec, VEC, gam, GAM, vc, VC, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/vecx_libretro.dll {file.path}
+
+

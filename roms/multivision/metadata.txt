@@ -1,0 +1,4 @@
+collection: Othello Multivision
+shortname: multivision
+extensions: bin, BIN, gg, GG, rom, ROM, sg, SG, sms, SMS, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/gearsystem_libretro.dll {file.path}

@@ -1,0 +1,6 @@
+collection: WASM-4 Fantasy Console
+shortname: wasm4
+extensions: wasm, WASM
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/wasm4_libretro.dll {file.path}
+
+

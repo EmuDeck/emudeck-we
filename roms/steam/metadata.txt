@@ -1,0 +1,6 @@
+collection: Valve Steam
+shortname: steam
+extensions: desktop, sh
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File   {file.path}
+
+

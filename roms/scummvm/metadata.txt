@@ -1,0 +1,4 @@
+collection: ScummVM Game Engine
+shortname: scummvm
+extensions: scummvm, SCUMMVM, svm, SVM
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/scummvm.ps1" --path="{file.path}" --auto-detect

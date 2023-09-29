@@ -1,0 +1,4 @@
+collection: Nintendo Super Game Boy
+shortname: sgb
+extensions: gb, GB, gbc, GBC, sgb, SGB, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/mesen-s_libretro.dll {file.path}

@@ -1,0 +1,6 @@
+collection: Sinclair ZX81
+shortname: zx81
+extensions: tzx, TZX, p, P, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/81_libretro.dll {file.path}
+
+

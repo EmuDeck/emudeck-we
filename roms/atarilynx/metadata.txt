@@ -1,0 +1,4 @@
+collection: Atari Lynx
+shortname: atarilynx
+extensions: lnx, LNX, o, O, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/mednafen_lynx_libretro.dll {file.path}
