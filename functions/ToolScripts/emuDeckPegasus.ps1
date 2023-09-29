@@ -17,7 +17,7 @@ function Pegasus_install(){
 	download $url_pegasus "Pegasus.7z"
 	moveFromTo "$temp/Pegasus/" "$pegasusPath/"
 	Remove-Item -Recurse -Force $temp/Pegasus -ErrorAction SilentlyContinue
-	createLauncher "Pegasus"
+	createLauncher "pegasus\pegasus-frontend"
 }
 
 #ApplyInitialSettings
