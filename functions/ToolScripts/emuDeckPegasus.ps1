@@ -28,11 +28,17 @@ function Pegasus_init(){
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\pegasus" "$destination"
 
 	#metadata and cores paths
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
+	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "$romsPath"
 
-	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" | ForEach-Object {
+	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
 		(Get-Content $_.FullName) | ForEach-Object {
-			$_ -replace "CORESPATH", "$emusPath\RetroArch\cores"
+			$_ -replace "CORESPATH/", "$emusPath\RetroArch\cores\"
+		} | Set-Content $_.FullName
+	}
+
+	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
+		(Get-Content $_.FullName) | ForEach-Object {
+			$_ -replace "/run/media/mmcblk0p1/Emulation/tools/launchers/", "$toolsPath\launchers\"
 		} | Set-Content $_.FullName
 	}
 
