@@ -42,11 +42,17 @@ function Pegasus_init(){
 
 
 function Pegasus_resetConfig(){
-	Pegasus_init &>/dev/null && echo "true" || echo "false"
+	Pegasus_init
+	if($?){
+		Write-Output "true"
+	}
 }
 
 function Pegasus_update(){
-	Pegasus_init &>/dev/null && echo "true" || echo "false"
+	Pegasus_init
+	if($?){
+		Write-Output "true"
+	}
 }
 
 function Pegasus_addCustomSystems(){
