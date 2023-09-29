@@ -2,8 +2,8 @@
 #variables
 $Pegasus_toolName="Pegasus Frontend"
 $Pegasus_path="$env:USERPROFILE\AppData\Local\pegasus-frontend"
-$Pegasus_dir_file="Pegasus_path\game_dirs.txt"
-$Pegasus_config_file="Pegasus_path\settings.txt"
+$Pegasus_dir_file="$Pegasus_path\game_dirs.txt"
+$Pegasus_config_file="$Pegasus_path\settings.txt"
 
 function Pegasus_cleanup(){
 	echo "NYI"
