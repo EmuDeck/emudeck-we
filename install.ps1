@@ -92,27 +92,54 @@ clear
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
-&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
-&winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
+if (Test-Path "$env:SystemRoot\System32\winget.exe") {
+	&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
+	&winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
+}
 
+if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
+	clear
+	$Host.UI.RawUI.BackgroundColor = "Red"
 
-	if (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe") -or -not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
-		clear
+	#Clear-Host
+	Write-Host ""
+	Write-Host "There was an error trying to install dependencies using Winget."
+	Write-Host "We are gonna try to install them manually..."
+	Write-Host ""
+	$Host.UI.RawUI.BackgroundColor = "Black"
+
+	#Download git
+	Write-Host "Downloading GIT..."
+	$url_git = getLatestReleaseURLGH 'git-for-windows/git' 'exe' '64-bit'
+	download $url_git "git_install.exe"
+	$temp = Join-Path "$env:USERPROFILE" "Downloads"
+
+	Write-Host " Launching GIT Installer, please wait..."
+
+	$installDir="$env:ProgramFiles\Git\"
+
+	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
+
+	if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
-		#Clear-Host
+		Write-Host "GIT Download Failed" -ForegroundColor white
+		$Host.UI.RawUI.BackgroundColor = "Black"
+		Write-Host "Please visit this url to learn how to install all the dependencies manually by yourself:" -ForegroundColor white
 		Write-Host ""
-		Write-Host "There was an error trying to install dependencies, please visit this url to learn how to fix it:" -ForegroundColor white
-		Write-Host  "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
-		Write-Host "EmuDeck can't be installed."
+		Write-Host "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host ""
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		Read-Host -Prompt "Press any key to exit"
-	}else{
-		Write-Host ""
-		Write-Host "Downloading EmuDeck..." -ForegroundColor white
-		Write-Host ""
-		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
-		download $url_emudeck "emudeck_install.exe"
-		$temp = Join-Path "$env:USERPROFILE" "Downloads"
-		Write-Host " Launching EmuDeck Installer, please wait..."
-		&"$temp/emudeck_install.exe"
 	}
+
+}else{
+	Write-Host "All dependencies are installed" -ForegroundColor white
+	Write-Host ""
+	Write-Host "Downloading EmuDeck..." -ForegroundColor white
+	Write-Host ""
+	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+	download $url_emudeck "emudeck_install.exe"
+	$temp = Join-Path "$env:USERPROFILE" "Downloads"
+	Write-Host " Launching EmuDeck Installer, please wait..."
+	&"$temp/emudeck_install.exe"
+}
