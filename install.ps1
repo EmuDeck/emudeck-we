@@ -9,8 +9,8 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
 
-	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets | 
-		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } | 
+	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets |
+		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
 		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
 		   return $url
 
@@ -18,23 +18,23 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 }
 
 function download($url, $file) {
-	$wc = New-Object net.webclient		
+	$wc = New-Object net.webclient
 	$temp = Join-Path $env:USERPROFILE "Downloads"
 	$destination="$temp/$file"
 	mkdir $temp -ErrorAction SilentlyContinue
-	
+
 	$wc.Downloadfile($url, $destination)
-	
+
 	foreach ($line in $file) {
 		$extn = [IO.Path]::GetExtension($line)
-		if ($extn -eq ".zip" ){			
+		if ($extn -eq ".zip" ){
 			$dir = $file.replace('.zip','')
 			7z x -o"$temp/$dir" -aoa "$temp/$file"
 			Remove-Item $temp/$file
 		}
 		if ($extn -eq ".7z" ){
 			$dir = $file.replace('.7z','')
-			7z x -o"$temp/$dir" -aoa "$temp/$file"	
+			7z x -o"$temp/$dir" -aoa "$temp/$file"
 			Remove-Item $temp/$file
 		}
 	}
@@ -131,14 +131,24 @@ if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
 		Write-Host  "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
 		Write-Host "EmuDeck can't be installed."
 		$Host.UI.RawUI.BackgroundColor = "Black"
-		Read-Host -Prompt "Press any key to exit" 	
-	}else{	
+		Read-Host -Prompt "Press any key to exit"
+	}else{
 		Write-Host ""
 		Write-Host "Downloading EmuDeck..." -ForegroundColor white
 		Write-Host ""
 		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
 		download $url_emudeck "emudeck_install.exe"
-		$temp = Join-Path $env:USERPROFILE "Downloads" 		
+		$temp = Join-Path $env:USERPROFILE "Downloads"
 		Write-Host " Launching EmuDeck Installer, please wait..."
 		&"$temp/emudeck_install.exe"
 	}
+}else{
+		Write-Host ""
+		Write-Host "Downloading EmuDeck..." -ForegroundColor white
+		Write-Host ""
+		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+		download $url_emudeck "emudeck_install.exe"
+		$temp = Join-Path $env:USERPROFILE "Downloads"
+		Write-Host " Launching EmuDeck Installer, please wait..."
+		&"$temp/emudeck_install.exe"
+}
