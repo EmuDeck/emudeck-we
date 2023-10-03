@@ -17,39 +17,27 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 	return $url
 }
 
-function startScriptWithAdmin {
-	param (
-		[string]$ScriptContent
-	)
-
-	#$scriptContent = @"
-	#. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1";
-	#Write-Host "I'm Admin"
-	#"@
-
-	#StartScriptWithAdmin -ScriptContent $scriptContent
-
-	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
-	$ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
-
-	$psi = New-Object System.Diagnostics.ProcessStartInfo
-	$psi.Verb = "runas"
-	$psi.FileName = "powershell.exe"
-	$psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -File ""$tempScriptPath"""
-	[System.Diagnostics.Process]::Start($psi).WaitForExit()
-
-	Remove-Item $tempScriptPath -Force
-}
-
 function download($url, $file) {
-
 	$wc = New-Object net.webclient
-	$temp = Join-Path "$env:USERPROFILE" "Downloads"
+	$temp = Join-Path $env:USERPROFILE "Downloads"
 	$destination="$temp/$file"
 	mkdir $temp -ErrorAction SilentlyContinue
 
 	$wc.Downloadfile($url, $destination)
 
+	foreach ($line in $file) {
+		$extn = [IO.Path]::GetExtension($line)
+		if ($extn -eq ".zip" ){
+			$dir = $file.replace('.zip','')
+			7z x -o"$temp/$dir" -aoa "$temp/$file"
+			Remove-Item $temp/$file
+		}
+		if ($extn -eq ".7z" ){
+			$dir = $file.replace('.7z','')
+			7z x -o"$temp/$dir" -aoa "$temp/$file"
+			Remove-Item $temp/$file
+		}
+	}
 	Write-Host "Done!" -NoNewline -ForegroundColor green -BackgroundColor black
 }
 
@@ -137,24 +125,30 @@ if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
 
 	if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
-		Write-Host "GIT Download Failed" -ForegroundColor white
-		$Host.UI.RawUI.BackgroundColor = "Black"
-		Write-Host "Please visit this url to learn how to install all the dependencies manually by yourself:" -ForegroundColor white
+		#Clear-Host
 		Write-Host ""
-		Write-Host "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
-		Write-Host ""
+		Write-Host "There was an error trying to install dependencies, please visit this url to learn how to fix it:" -ForegroundColor white
+		Write-Host  "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host "EmuDeck can't be installed."
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		Read-Host -Prompt "Press any key to exit"
+	}else{
+		Write-Host ""
+		Write-Host "Downloading EmuDeck..." -ForegroundColor white
+		Write-Host ""
+		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+		download $url_emudeck "emudeck_install.exe"
+		$temp = Join-Path $env:USERPROFILE "Downloads"
+		Write-Host " Launching EmuDeck Installer, please wait..."
+		&"$temp/emudeck_install.exe"
 	}
-
 }else{
-	Write-Host "All dependencies are installed" -ForegroundColor white
-	Write-Host ""
-	Write-Host "Downloading EmuDeck..." -ForegroundColor white
-	Write-Host ""
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-beta' 'exe' 'emudeck'
-	download $url_emudeck "emudeck_install.exe"
-	$temp = Join-Path "$env:USERPROFILE" "Downloads"
-	Write-Host " Launching EmuDeck Installer, please wait..."
-	&"$temp/emudeck_install.exe"
+		Write-Host ""
+		Write-Host "Downloading EmuDeck..." -ForegroundColor white
+		Write-Host ""
+		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-beta' 'exe' 'emudeck'
+		download $url_emudeck "emudeck_install.exe"
+		$temp = Join-Path $env:USERPROFILE "Downloads"
+		Write-Host " Launching EmuDeck Installer, please wait..."
+		&"$temp/emudeck_install.exe"
 }
