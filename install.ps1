@@ -1,4 +1,4 @@
-cls
+clear
 
 $PSversionMajor = $PSVersionTable.PSVersion.Major
 $PSversionMinor = $PSVersionTable.PSVersion.Minor
@@ -90,7 +90,6 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 			startScriptWithAdmin -ScriptContent $scriptContent
 	}
 
-clear
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
@@ -101,7 +100,7 @@ if (Test-Path "$env:SystemRoot\System32\winget.exe") {
 }
 
 if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
-	clear
+
 	$Host.UI.RawUI.BackgroundColor = "Red"
 
 	#Clear-Host
