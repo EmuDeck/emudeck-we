@@ -93,7 +93,20 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
-if (Test-Path "$env:SystemRoot\System32\winget.exe") {
+if (Test-Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe") {
+
+	$wingetVersion = (winget -v) -replace '[^\d.]'
+	$minVersion = '1.8.2721'
+	# Compara las versiones
+	if ([version]$wingetVersion -lt [version]$minVersion) {
+		Write-Host "Updating Winget..."
+
+		$url_git = getLatestReleaseURLGH 'microsoft/winget-cli' 'msixbundle'
+		download $url_git "winget.msixbundle"
+		$temp = Join-Path "$env:USERPROFILE" "Downloads"
+
+		Start-Process "$temp/winget.msixbundle" -Wait
+	}
 
 	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
 	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements"
