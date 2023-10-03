@@ -1,3 +1,5 @@
+cls
+
 $PSversionMajor = $PSVersionTable.PSVersion.Major
 $PSversionMinor = $PSVersionTable.PSVersion.Minor
 $PSversion = "$PSversionMajor$PSversionMinor"
@@ -93,8 +95,9 @@ clear
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
 if (Test-Path "$env:SystemRoot\System32\winget.exe") {
-	&winget install -e --id Git.Git --accept-package-agreements --accept-source-agreements
-	&winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
+
+	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
+	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements"
 }
 
 if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
