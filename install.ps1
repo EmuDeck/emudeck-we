@@ -96,7 +96,7 @@ Write-Host ""
 if (Test-Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe") {
 
 	$wingetVersion = (winget -v) -replace '[^\d.]'
-	$minVersion = '1.8.2721'
+	$minVersion = '1.6.2721'
 	# Compara las versiones
 	if ([version]$wingetVersion -lt [version]$minVersion) {
 		Write-Host "Updating Winget..."
