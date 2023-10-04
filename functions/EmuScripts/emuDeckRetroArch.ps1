@@ -190,6 +190,8 @@ function RetroArch_init(){
 	$line="`rsystem_directory = `"$biosPath`""
 	$line | Add-Content $RetroArch_configFile
 
+	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
+
 	#Ally
 	if($device -eq "Asus Rog Ally"){
 		$line="`raudio_driver = `"wasapi`""
