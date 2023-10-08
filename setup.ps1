@@ -264,8 +264,6 @@ $scriptContent = @"
 	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
 "@
 
-confirmDialog -TitleText "Administrator Privileges needed" -MessageText "In order to cloudSync to work we need to create symlinks for every emulator saves folder. Expect a window asking for elevated privileges after this message."
-
 startScriptWithAdmin -ScriptContent $scriptContent
 
 Stop-Transcript

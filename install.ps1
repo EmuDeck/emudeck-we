@@ -80,7 +80,7 @@ if ( $PSversion -lt 51 ){
 	$EnabledValue = $FIPSAlgorithmPolicy.Enabled
 
 	if($EnabledValue -eq 1){
-		Write-Host "Windows FIPS detected, we need to turn it off so cloudSync can be used, after that the computer will restart. Expect a window asking for elevated privileges after this message. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -ForegroundColor white
+		Write-Host "Windows FIPS detected, we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -ForegroundColor white
 		Read-Host -Prompt "Press any key to apply the fix and restart"
 $scriptContent = @"
 Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
