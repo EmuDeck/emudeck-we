@@ -137,6 +137,8 @@ $scriptContent = @"
 & "$toolsPath/cloudSync/WinSW-x64.exe" install
 & sc.exe sdset CloudWatch "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;WD)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
 "@
+	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "In order to cloudSync to work we need to set the proper permissions for our background service to work. Expect a window asking for elevated privileges after this message."
+	startScriptWithAdmin -ScriptContent $scriptContent
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Start-Sleep -Seconds 2
 

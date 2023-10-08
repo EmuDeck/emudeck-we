@@ -222,7 +222,7 @@ function SRM_resetLaunchers(){
 	$EnabledValue = $FIPSAlgorithmPolicy.Enabled
 
 	if($EnabledValue -eq 1){
-		$result = yesNoDialog -TitleText "Windows FIPS detected" -MessageText "we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -OKButtonText "Fix and restart" -CancelButtonText ""
+		$result = confirmDialog -TitleText "Windows FIPS detected" -MessageText "we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. Expect a window asking for elevated privileges after this message. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -OKButtonText "Fix and restart"
 
 		if ($result -eq "OKButton") {
 $scriptContent = @"
@@ -366,7 +366,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 $scriptContent = @"
 	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
 "@
-
+	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "In order to cloudSync to work we need to create symlinks for every emulator saves folder. Expect a window asking for elevated privileges after this message."
 	startScriptWithAdmin -ScriptContent $scriptContent
 
 	Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force

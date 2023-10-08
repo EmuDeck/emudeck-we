@@ -611,7 +611,7 @@ if(testAdministrator -eq $true){
 		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
 "@
-
+confirmDialog -TitleText "Administrator Privileges needed" -MessageText "In order to cloudSync to work we need create a symlink of the emulator saves folder. Expect a window asking for elevated privileges after this message."
 	startScriptWithAdmin -ScriptContent $scriptContent
 }
 }
