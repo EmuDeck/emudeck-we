@@ -362,6 +362,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 	#if ( "$doSetupScummVM" -eq "true" ){
 		#$setupSaves+="#ScummVM_setupSaves;"
 	#}
+	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "After this message you'll get several windows asking for elevated permissions. This is so we can create symlinks for all your emulators saves and states folders."
 
 $scriptContent = @"
 	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
