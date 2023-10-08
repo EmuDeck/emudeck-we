@@ -2,7 +2,7 @@ function download($url, $file, $token) {
 	#We add 7z folders to the Path
 	$env:path = $env:path + ";$env:ProgramFiles\7-zip"
 	$env:path = $env:path + ";$env:ProgramFiles (x86)\7-zip"
-	$env:path = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\"
+	$env:path = $env:path + "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\"
 
 	$wc = New-Object net.webclient
 	$destination="$temp/$file"
