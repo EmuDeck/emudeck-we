@@ -27,5 +27,5 @@ function download($url, $file, $token) {
 			Remove-Item $temp/$file
 		}
 	}
-	Write-Host "Done!" -ForegroundColor green -BackgroundColor black
+	#Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 }
