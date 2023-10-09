@@ -22,4 +22,10 @@ function appImageInit(){
 		Copy-Item -Path "$subfolderPath\*" -Destination $destinationFolder -Recurse
 	}
 
+	setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
+	setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
+	setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
+	setConfigRA "sort_savestates_enable" "false" $RetroArch_configFile
+	setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
+
 }
