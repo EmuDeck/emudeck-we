@@ -186,11 +186,15 @@ try
 	# We exit if it doesn't
 	if (-not (Test-Path $cmdFile)) {
 		Write-Host "There's no .watching file"
+		$dialog = steamToast  -MessageText "Uploading... don't turn off your device"
+
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
+			$dialog.Close()
 			Write-Host "There's no lock file, bye!"
-
+			$dialog = steamToast  -MessageText "Sync Completed! You can safely turn off your device"
 			& $nssm stop CloudWatch
+			$dialog.Close()
 			exit
 		}
 	}
