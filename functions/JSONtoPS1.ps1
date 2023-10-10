@@ -1,6 +1,6 @@
 
 
-function setSettinginFile($keySetting){		
+function setSettinginFile($keySetting){
 	$keySetting | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1" -Append
 	Write-Output "Added $keySetting to settings.ps1"
 	#Start-Sleep -Seconds 1
@@ -8,13 +8,13 @@ function setSettinginFile($keySetting){
 
 
 function JSONtoPS1(){
-	
+
 	$mutex = new-object System.Threading.Mutex $false,'EmuDeckSettingsJSONParse'
 	$mutex.WaitOne() > $null
-	
+
 	'' | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1"
-	$myJson = Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json -Raw | ConvertFrom-Json 
-	
+	$myJson = Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json" -Raw | ConvertFrom-Json
+
 	#Default settings for all systems
 	$SetupRA = $myJson.overwriteConfigEmus.ra.status
 	$SetupDolphin= $myJson.overwriteConfigEmus.dolphin.status
@@ -33,7 +33,7 @@ function JSONtoPS1(){
 	$SetupESDE= $myJson.overwriteConfigEmus.esde.status
 	$SetupSRM= $myJson.overwriteConfigEmus.srm.status
 	$SetupmelonDS= $myJson.overwriteConfigEmus.melonDS.status
-	
+
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
 	setSettinginFile("`$doSetupPCSX2=`"$SetupPCSX2`"")
@@ -51,8 +51,8 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupESDE=`"$SetupESDE`"")
 	setSettinginFile("`$doSetupSRM=`"$SetupSRM`"")
 	setSettinginFile("`$doSetupmelonDS=`"$SetupmelonDS`"")
-	
-	
+
+
 	#Install all systems by default
 	$InstallRA = $myJson.installEmus.ra.status
 	$InstallDolphin= $myJson.installEmus.dolphin.status
@@ -71,7 +71,7 @@ function JSONtoPS1(){
 	$InstallESDE= $myJson.installEmus.esde.status
 	$InstallSRM= $myJson.installEmus.srm.status
 	$InstallmelonDS= $myJson.installEmus.melonDS.status
-	
+
 	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
 	setSettinginFile("`$doInstallPCSX2=`"$InstallPCSX2`"")
@@ -89,21 +89,21 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
 	setSettinginFile("`$doInstallSRM=`"$InstallSRM`"")
 	setSettinginFile("`$doInstallmelonDS=`"$InstallmelonDS`"")
-	
-	
+
+
 	$RABezels=$myJson.bezels
 	$RAautoSave=$myJson.autosave
-	
-	#Default RetroArch configuration 
+
+	#Default RetroArch configuration
 	setSettinginFile("`$RABezels=`"$RABezels`"")
 	setSettinginFile("`$RAautoSave=`"$RAautoSave`"")
-	
+
 	#Default installation folders
-	
+
 	$globPath=$myJson.storagePath
 	$globPath=$globPath.replace('\','')
 	$globPath= $globPath -replace "`n","" -replace "`r",""
-	
+
 	setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
 	setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
 	setSettinginFile("`$toolsPath=`"$globPath\Emulation\tools`"")
@@ -111,41 +111,41 @@ function JSONtoPS1(){
 	setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
 	setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
 	setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
-	
+
 	#Default ESDE Theme
 	$esdeTheme=$myJson.theme
 	setSettinginFile("`$esdeTheme=`"$esdeTheme`"")
-	
-	
+
+
 	#Advanced settings
 	setSettinginFile("`$doRASignIn=`"true`"")
 	setSettinginFile("`$doRAEnable=`"true`"")
-	
+
 	$arClassic3D = $myJson.ar.classic3d
 	$arDolphin = $myJson.ar.dolphin
 	$arSega = $myJson.ar.sega
 	$arSnes = $myJson.ar.snes
-	
+
 	setSettinginFile("`$arClassic3D=`"$arClassic3D`"")
 	setSettinginFile("`$arDolphin=`"$arDolphin`"")
 	setSettinginFile("`$arSega=`"$arSega`"")
 	setSettinginFile("`$arSnes=`"$arSnes`"")
-	
+
 	$RAHandClassic2D = $myJson.shaders.classic
 	$RAHandClassic3D = $myJson.shaders.classic3d
 	$RAHandHeldShader = $myJson.shaders.handhelds
-	
+
 	setSettinginFile("`$RAHandClassic2D=`"$RAHandClassic2D`"")
 	setSettinginFile("`$RAHandClassic3D=`"$RAHandClassic3D`"")
 	setSettinginFile("`$RAHandHeldShader=`"$RAHandHeldShader`"")
-	
+
 	$cloud_sync_provider = $myJson.cloudSync
 	setSettinginFile("`$cloud_sync_provider=`"$cloud_sync_provider`"")
 	setSettinginFile("`$rclone_provider=`"$cloud_sync_provider`"")
-	
+
 	$cloudSyncStatus = $myJson.cloudSyncStatus
-	setSettinginFile("`$cloud_sync_status=`"$cloudSyncStatus`"")	
-	
+	setSettinginFile("`$cloud_sync_status=`"$cloudSyncStatus`"")
+
 	$dolphinResolution = $myJson.resolutions.dolphin
 	$duckstationResolution = $myJson.resolutions.duckstation
 	$pcsx2Resolution = $myJson.resolutions.pcsx2
@@ -156,8 +156,8 @@ function JSONtoPS1(){
 	$xemuResolution = $myJson.resolutions.xemu
 	$xeniaResolution = $myJson.resolutions.xenia
 	$melondsResolution = $myJson.resolutions.melonds
-	
-	
+
+
 	setSettinginFile("`$dolphinResolution=`"$dolphinResolution`"")
 	setSettinginFile("`$duckstationResolution=`"$duckstationResolution`"")
 	setSettinginFile("`$pcsx2Resolution=`"$pcsx2Resolution`"")
@@ -168,18 +168,35 @@ function JSONtoPS1(){
 	setSettinginFile("`$xemuResolution=`"$xemuResolution `"")
 	setSettinginFile("`$xeniaResolution=`"$xeniaResolution `"")
 	setSettinginFile("`$melondsResolution=`"$melondsResolution `"")
-	
-	
-	
+
+	#Emus Parsers
+	$emuGBA = $myJson.emulatorAlternative.gba
+	$emuMAME = $myJson.emulatorAlternative.mame
+	$emuMULTI = $myJson.emulatorAlternative.multiemulator
+	$emuN64 = $myJson.emulatorAlternative.n64
+	$emuNDS = $myJson.emulatorAlternative.nds
+	$emuPSP = $myJson.emulatorAlternative.psp
+	$emuPSX = $myJson.emulatorAlternative.psx
+
+	setSettinginFile("`$emuGBA=`"$emuGBA`"")
+	setSettinginFile("`$emuMAME=`"$emuMAME`"")
+	setSettinginFile("`$emuMULTI=`"$emuMULTI`"")
+	setSettinginFile("`$emuN64=`"$emuN64`"")
+	setSettinginFile("`$emuNDS=`"$emuNDS`"")
+	setSettinginFile("`$emuPSP=`"$emuPSP`"")
+	setSettinginFile("`$emuPSX=`"$emuPSX`"")
+
+
+
 	$device = $myJson.device
 	setSettinginFile("`$device=`"$device`"")
-	
+
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path $env:USERPROFILE/EmuDeck/settings.ps1 -Raw) -replace 'False','false') | Set-Content -Path $env:USERPROFILE/EmuDeck/settings.ps1
-	
+	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1"
+
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path $env:USERPROFILE/EmuDeck/settings.ps1 -Raw) -replace 'True','true') | Set-Content -Path $env:USERPROFILE/EmuDeck/settings.ps1
-	
+	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1"
+
 	$mutex.ReleaseMutex()
 
 }

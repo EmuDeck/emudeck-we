@@ -11,21 +11,12 @@ function Ryujinx_init(){
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
 	Ryujinx_setEmulationFolder	
-	Ryujinx_setupSaves
+#	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
 	
 	
 	sedFile "$destination\portable\Config.json" "C:\\Emulation" "$emulationPath"
 	sedFile "$destination\portable\Config.json" ":\Emulation" ":\\Emulation"
-	
-	
-	setMSG "Ryujinx - Creating Keys  Links"
-	#Firmware
-	$SourceFilePath = "$emusPath\Ryujinx\portable\system"
-	$ShortcutPath = -join($emulationPath,"\bios\ryujinx\keys.lnk")
-	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
 	
 }
 
@@ -37,17 +28,24 @@ function Ryujinx_setEmulationFolder(){
 	sedFile $destination\portable\Config.json "/run/media/mmcblk0p1/Emulation/roms/switch" "$romsPath/switch"
 }
 function Ryujinx_setupSaves(){
-  setMSG "Ryujinx - Saves Links"
-  $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\save\"  
-  mkdir $SourceFilePath -ErrorAction SilentlyContinue
-  $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saves.lnk")
-  mkdir "saves\ryujinx" -ErrorAction SilentlyContinue
-  createLink $SourceFilePath $ShortcutPath
-  
-  $SourceFilePath = "$emusPath\Ryujinx\portable\bis\user\saveMeta\"  
-  mkdir $SourceFilePath -ErrorAction SilentlyContinue
-  $ShortcutPath = -join($emulationPath,"\saves\ryujinx\saveMeta.lnk")
-  createLink $SourceFilePath $ShortcutPath
+
+	setMSG "Ryujinx - Creating Keys  Links"
+	#Firmware
+	$simLinkPath = "$emusPath\Ryujinx\portable\system"
+	$emuSavePath = -join($emulationPath,"\bios\ryujinx\keys")
+	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
+	mkdir $simLinkPath -ErrorAction SilentlyContinue
+	createSaveLink $simLinkPath $emuSavePath	
+
+	setMSG "Ryujinx - Saves Links"
+	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"  
+	$emuSavePath = -join($emulationPath,"\saves\ryujinx\saves")
+	createSaveLink $simLinkPath $emuSavePath
+	
+	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"  
+	$emuSavePath = -join($emulationPath,"\saves\ryujinx\saveMeta")
+	createSaveLink $simLinkPath $emuSavePath
+	cloud_sync_save_hash "$savesPath\ryjuinx"
 	
 }
 
@@ -71,7 +69,7 @@ function Ryujinx_wipe(){
 	Write-Output "NYI"
 }
 function Ryujinx_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Ryujinx" –recurse -force
 }
 function Ryujinx_migrate(){
 	Write-Output "NYI"

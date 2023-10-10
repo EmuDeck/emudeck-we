@@ -3,19 +3,19 @@ $RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
 function RetroArch_install(){
 	setMSG "Downloading RetroArch"
 	download $url_ra "ra.7z"
-	moveFromTo "$temp/ra/RetroArch-Win64" "$emusPath\RetroArch"	
+	moveFromTo "$temp/ra/RetroArch-Win64" "$emusPath\RetroArch"
 	Remove-Item -Recurse -Force ra -ErrorAction SilentlyContinue
 	createLauncher "retroarch"
-	
+
 	setMSG "Downloading RetroArch Cores"
 	mkdir $emusPath\RetroArch\cores -ErrorAction SilentlyContinue
 	$RAcores = @("a5200_libretro.dll","81_libretro.dll","atari800_libretro.dll","bluemsx_libretro.dll","chailove_libretro.dll","fbneo_libretro.dll","freechaf_libretro.dll","freeintv_libretro.dll","fuse_libretro.dll","gearsystem_libretro.dll","gw_libretro.dll","hatari_libretro.dll","lutro_libretro.dll","mednafen_pcfx_libretro.dll","mednafen_vb_libretro.dll","mednafen_wswan_libretro.dll","mu_libretro.dll","neocd_libretro.dll","nestopia_libretro.dll","nxengine_libretro.dll","o2em_libretro.dll","picodrive_libretro.dll","pokemini_libretro.dll","prboom_libretro.dll","prosystem_libretro.dll","px68k_libretro.dll","quasi88_libretro.dll","scummvm_libretro.dll","squirreljme_libretro.dll","theodore_libretro.dll","uzem_libretro.dll","vecx_libretro.dll","vice_xvic_libretro.dll","virtualjaguar_libretro.dll","x1_libretro.dll","mednafen_lynx_libretro.dll","mednafen_ngp_libretro.dll","mednafen_pce_libretro.dll","mednafen_pce_fast_libretro.dll","mednafen_psx_libretro.dll","mednafen_psx_hw_libretro.dll","mednafen_saturn_libretro.dll","mednafen_supafaust_libretro.dll","mednafen_supergrafx_libretro.dll","blastem_libretro.dll","bluemsx_libretro.dll","bsnes_libretro.dll","bsnes_mercury_accuracy_libretro.dll","cap32_libretro.dll","citra2018_libretro.dll","citra_libretro.dll","crocods_libretro.dll","desmume2015_libretro.dll","desmume_libretro.dll","dolphin_libretro.dll","dosbox_core_libretro.dll","dosbox_pure_libretro.dll","dosbox_svn_libretro.dll","fbalpha2012_cps1_libretro.dll","fbalpha2012_cps2_libretro.dll","fbalpha2012_cps3_libretro.dll","fbalpha2012_libretro.dll","fbalpha2012_neogeo_libretro.dll","fceumm_libretro.dll","fbneo_libretro.dll","flycast_libretro.dll","fmsx_libretro.dll","frodo_libretro.dll","gambatte_libretro.dll","gearboy_libretro.dll","gearsystem_libretro.dll","genesis_plus_gx_libretro.dll","genesis_plus_gx_wide_libretro.dll","gpsp_libretro.dll","handy_libretro.dll","kronos_libretro.dll","mame2000_libretro.dll","mame2003_plus_libretro.dll","mame2010_libretro.dll","mame_libretro.dll","melonds_libretro.dll","mesen_libretro.dll","mesen-s_libretro.dll","mgba_libretro.dll","mupen64plus_next_libretro.dll","nekop2_libretro.dll","np2kai_libretro.dll","nestopia_libretro.dll","parallel_n64_libretro.dll","pcsx2_libretro.dll","pcsx_rearmed_libretro.dll","picodrive_libretro.dll","ppsspp_libretro.dll","puae_libretro.dll","quicknes_libretro.dll","race_libretro.dll","sameboy_libretro.dll","smsplus_libretro.dll","snes9x2010_libretro.dll","snes9x_libretro.dll","stella2014_libretro.dll","stella_libretro.dll","tgbdual_libretro.dll","vbam_libretro.dll","vba_next_libretro.dll","vice_x128_libretro.dll","vice_x64_libretro.dll","vice_x64sc_libretro.dll","vice_xscpu64_libretro.dll","yabasanshiro_libretro.dll","yabause_libretro.dll","bsnes_hd_beta_libretro.dll","swanstation_libretro.dll")
 	$RAcores.count
-	
+
 	foreach ( $core in $RAcores )
 	{
-		$url= -join("http://buildbot.libretro.com/nightly/windows/x86_64/latest/",$core,".zip")	
-		Write-Output "Downloading $url"	
+		$url= -join("http://buildbot.libretro.com/nightly/windows/x86_64/latest/",$core,".zip")
+		Write-Output "Downloading $url"
 		downloadCore $url $core
 	}
 }
@@ -23,84 +23,84 @@ function RetroArch_init(){
 
 	#We just convert the SteamOS settings with our windows paths
 	Remove-Item $RetroArch_configFile  -ErrorAction SilentlyContinue
-	
+
 	setMSG "RetroArch - Bezels & Filters"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RetroArch" "$emusPath\RetroArch"
 	$path="$emusPath\RetroArch\config"
-	Get-ChildItem $path -Recurse -Filter *.cfg | 
+	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
 		$originFile = $_.FullName
-	
+
 		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/"
 		$target="$emusPath\RetroArch\overlays\pegasus\"
-		
+
 		sedFile $originFile $origin $target
-		
+
 		#Video Filters path
 		$origin="/app/lib/retroarch/filters/video/"
 		$target="$emusPath\RetroArch\filters\video\"
-		
+
 		sedFile $originFile $origin $target
 	}
-	
+
 	setMSG "RetroArch - Shaders"
 	$path="$emusPath\RetroArch\config"
-	Get-ChildItem $path -Recurse -Filter *.glslp | 
+	Get-ChildItem $path -Recurse -Filter *.glslp |
 	Foreach-Object {
 		$originFile = $_.FullName
-	
+
 		$origin="/app/share/libretro/shaders/"
 		$target=":/shaders/"
 		sedFile $originFile $origin $target
 	}
 	$path="$emusPath\RetroArch\config"
-	Get-ChildItem $path -Recurse -Filter *.slangp | 
+	Get-ChildItem $path -Recurse -Filter *.slangp |
 	Foreach-Object {
 		$originFile = $_.FullName
-	
+
 		$origin="/app/share/libretro/shaders/"
 		$target=":/shaders/"
 		sedFile $originFile $origin $target
 	}
-	
-	
-	setMSG "RetroArch - Bios & Saves"
-	
-	RetroArch_setupSaves
-	
+
+
+	#setMSG "RetroArch - Bios & Saves"
+
+#	RetroArch_setupSaves
+
 	#retroAchievements
 	RetroArch_retroAchievementsSetLogin
 	if  ("$doRASignIn" -eq "true" ){
 		RetroArch_retroAchievementsOn
 	}
-	
+
 	if ( "$doRAEnable" -eq "true" ){
 		RetroArch_retroAchievementsOn
 	}
-	
+
 	if ( "$achievementsHardcore" -eq "true" ){
 		RetroArch_retroAchievementsHardCoreOn
 	}else{
 		RetroArch_retroAchievementsHardCoreOff
 	}
 
-	
-	#RA Bezels	
+
+	#RA Bezels
 	RetroArch_setBezels #needs to change
-		
-	#RA AutoSave	
+
+	#RA AutoSave
 	if ( "$RAautoSave" -eq "true" ){
 		RetroArch_autoSaveOn
 	}else{
 		RetroArch_autoSaveOff
-	}	
-	
+	}
+
 
 	#
 	#New Shaders
 	#Moved before widescreen, so widescreen disabled if needed.
-	#	
-	
+	#
+
 	RetroArch_setShadersCRT
 	RetroArch_setShaders3DCRT
 	RetroArch_setShadersMAT
@@ -109,7 +109,7 @@ function RetroArch_init(){
 	#
 	#New Aspect Ratios
 	#
-	
+
 	#Sega Games
 	#Master System
 	#Genesis
@@ -117,12 +117,12 @@ function RetroArch_init(){
 	#Sega 32X
 
 	switch ($arSega){
-	  32 {	 
+	  32 {
 		RetroArch_mastersystem_ar32;
 		RetroArch_genesis_ar32;
 		RetroArch_segacd_ar32
-		RetroArch_sega32x_ar32	
-	  }			
+		RetroArch_sega32x_ar32
+	  }
 	  43 {
 		RetroArch_mastersystem_ar43
 		RetroArch_genesis_ar43
@@ -138,7 +138,7 @@ function RetroArch_init(){
 		}
 	  }
 	}
-	
+
 	#Snes and NES
 	switch ($arSnes){
 	  87{
@@ -151,9 +151,9 @@ function RetroArch_init(){
 		if ( "$RABezels" -eq "true" ){
 			if( "$doSetupRA" -eq "true" ){
 				RetroArch_snes_bezelOn
-			}	
+			}
 		}
-	  }		  
+	  }
 	}
 
 	# Classic 3D Games
@@ -162,40 +162,48 @@ function RetroArch_init(){
 		#Nintendo 64
 		#Saturn
 		#Xbox
-	if ( "$arClassic3D" -eq 169 ){		
+	if ( "$arClassic3D" -eq 169 ){
 			RetroArch_Beetle_PSX_HW_wideScreenOn
-			RetroArch_Flycast_wideScreenOn			
+			RetroArch_Flycast_wideScreenOn
 			RetroArch_dreamcast_bezelOff
 			RetroArch_psx_bezelOff
 			RetroArch_n64_wideScreenOn
 			RetroArch_SwanStation_wideScreenOn
-	}else{			
+	}else{
 		#"SET 4:3"
 		RetroArch_Flycast_wideScreenOff
 		RetroArch_n64_wideScreenOff
 		RetroArch_Beetle_PSX_HW_wideScreenOff
 		RetroArch_SwanStation_wideScreenOff
-	
-		
+
+
 		if ( "$RABezels" -eq "true" ){
 			if( "$doSetupRA" -eq "true" ){
-			RetroArch_dreamcast_bezelOn			
+			RetroArch_dreamcast_bezelOn
 			RetroArch_n64_bezelOn
 			RetroArch_psx_bezelOn
 			}
-		}			
+		}
 	}
 
 	#Bios
 	$line="`rsystem_directory = `"$biosPath`""
 	$line | Add-Content $RetroArch_configFile
-	
+
+	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
+	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
+
+
+	Set-Content -Path "$biosPath/mame/bios/readme.txt" -Value "Put your Mame bios here"
+	Set-Content -Path "$biosPath/dc/readme.txt" -Value "Put your Dreamcast bios here"
+	Set-Content -Path "$biosPath/readme.txt" -Value "Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!"
+
 	#Ally
-	if($device -eq "Asus Rog Ally"){	
+	if($device -eq "Asus Rog Ally"){
 		$line="`raudio_driver = `"wasapi`""
 		$line | Add-Content $RetroArch_configFile
 	}
-	
+
 }
 function RetroArch_update(){
 	Write-Output "NYI"
@@ -205,43 +213,42 @@ function RetroArch_setEmulationFolder(){
 }
 function RetroArch_setupSaves(){
 	#Saves
-	mkdir saves/retroarch -ErrorAction SilentlyContinue
-	$SourceFilePath = "$emusPath\RetroArch\saves"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\retroarch\saves.lnk")
-	createLink $SourceFilePath $ShortcutPath
-	
+	setMSG "RetroArch - Creating Saves Links"
+	$simLinkPath = "$emusPath\RetroArch\saves"
+	$emuSavePath = -join($emulationPath,"\saves\retroarch\saves")
+	createSaveLink $simLinkPath $emuSavePath
+
 	#States
-	$SourceFilePath = "$emusPath\RetroArch\states"
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	$ShortcutPath = -join($emulationPath,"\saves\retroarch\states.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\RetroArch\states"
+	$emuSavePath = -join($emulationPath,"\saves\retroarch\states")
+	createSaveLink $simLinkPath $emuSavePath
+	cloud_sync_save_hash "$savesPath\retroarch"
 }
 
 function RetroArch_setOverride($fileToCheck, $name, $key, $value){
 	$path="$emusPath\RetroArch\config"
-	Get-ChildItem $path -Recurse -Filter $fileToCheck | 
+	Get-ChildItem $path -Recurse -Filter $fileToCheck |
 	Foreach-Object {
-		$originFile = $_.FullName				 
-		setConfigRA $key $value $originFile			
+		$originFile = $_.FullName
+		setConfigRA $key $value $originFile
 	}
 }
 
 function RetroArch_bezelOnAll(){
 	$path="$emusPath\RetroArch\config"
-	Get-ChildItem $path -Recurse -Filter *.cfg | 
+	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
-		$originFile = $_.FullName		 
-		setConfigRA "input_overlay_enable" "true" $originFile		
-	}	
+		$originFile = $_.FullName
+		setConfigRA "input_overlay_enable" "true" $originFile
+	}
 }
 
 function RetroArch_bezelOffAll(){
 	$path="$emusPath\RetroArch\config"
-	Get-ChildItem $path -Recurse -Filter *.cfg | 
+	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
-		$originFile = $_.FullName		 
-		setConfigRA "input_overlay_enable" "false" $originFile			
+		$originFile = $_.FullName
+		setConfigRA "input_overlay_enable" "false" $originFile
 	}
 }
 
@@ -256,7 +263,7 @@ function RetroArch_wipe(){
 	Write-Output "NYI"
 }
 function RetroArch_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Retroarch" –recurse -force
 }
 function RetroArch_migrate(){
 	Write-Output "NYI"
@@ -293,13 +300,13 @@ function RetroArch_resetConfig{
 }
 
 
-function RetroArch_wswanc_setConfig(){	
+function RetroArch_wswanc_setConfig(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" ""1""
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" ""1""
 }
 function RetroArch_wswanc_bezelOn(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" ""false""
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" ""false""	
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" ""false""
 }
 function RetroArch_wswanc_bezelOff(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" ""false""
@@ -325,7 +332,7 @@ function RetroArch_wswanc_MATshaderOff(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" ""true""
 }
 
-function RetroArch_wswan_setConfig(){	
+function RetroArch_wswan_setConfig(){
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" ""1""
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" ""1""
 }
@@ -398,7 +405,7 @@ function RetroArch_PPSSPP_setConfig(){
 	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_vertex_cache" ""disabled""
 }
 
-function RetroArch_pcengine_setConfig(){	
+function RetroArch_pcengine_setConfig(){
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_player1_analog_dpad_mode" ""1""
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_player1_analog_dpad_mode" ""1""
 }
@@ -441,7 +448,7 @@ function RetroArch_pcengine_CRTshaderOff(){
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" ""false""
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_smooth" '"true"'
-	
+
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'video_shader_enable' '"false"'
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_smooth' '"true"'
@@ -463,7 +470,7 @@ function RetroArch_amiga1200_setUpCoreOpt(){
 	RetroArch_setOverride 'amiga1200.opt' 'PUAE'  'puae_model' '"A1200"'
 }
 
-function RetroArch_nes_setConfig(){	
+function RetroArch_nes_setConfig(){
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -476,7 +483,7 @@ function RetroArch_nes_bezelOn(){
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_scale_landscape' '"1.070000"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_scale_integer' '"false"'
-	RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"0"'	
+	RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"0"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\nes.cfg"
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_enable' '"true"'
@@ -506,7 +513,7 @@ function RetroArch_nes_CRTshaderOff(){
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_shader_enable' '"false"'
 	RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_smooth' '"true"'
-	
+
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'video_shader_enable' '"false"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_smooth' '"true"'
@@ -518,7 +525,7 @@ function RetroArch_nes_ar43(){
 	RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"0"'
 }
 
-function RetroArch_nes_ar87(){	
+function RetroArch_nes_ar87(){
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_scale_landscape' '"1.380000"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
 	RetroArch_setOverride 'nes.cfg' 'Nestopia'  'aspect_ratio_index' '"15"'
@@ -557,7 +564,7 @@ function RetroArch_n64_setConfig(){
 	RetroArch_n64_3DCRTshaderOff
 }
 
-function RetroArch_lynx_setConfig(){	
+function RetroArch_lynx_setConfig(){
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -570,7 +577,7 @@ function RetroArch_lynx_bezelOn(){
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_opacity' '"0.700000"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_scale_landscape' '"1.170000"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_scale_integer' '"false"'
-	
+
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'aspect_ratio_index' '"21"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\lynx.cfg"
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_auto_scale' '"false"'
@@ -606,7 +613,7 @@ function RetroArch_lynx_MATshaderOff(){
 }
 
 
-function RetroArch_SameBoy_gb_setConfig(){	
+function RetroArch_SameBoy_gb_setConfig(){
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_dark_filter_level' '"0"'
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_gb_bootloader' '"enabled"'
@@ -636,7 +643,7 @@ function RetroArch_SameBoy_gb_setConfig(){
 	RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_up_down_allowed' '"disabled"'
 }
 
-function RetroArch_ngp_setConfig(){	
+function RetroArch_ngp_setConfig(){
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -668,7 +675,7 @@ function RetroArch_ngp_MATshaderOff(){
 	RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
-function RetroArch_ngpc_setConfig(){	
+function RetroArch_ngpc_setConfig(){
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -699,7 +706,7 @@ function RetroArch_ngpc_MATshaderOff(){
 	RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
-function RetroArch_atari2600_setConfig(){	
+function RetroArch_atari2600_setConfig(){
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -727,7 +734,7 @@ function RetroArch_atari2600_CRTshaderOff(){
 	RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_smooth' '"true"'
 }
 
-function RetroArch_mame_setConfig(){	
+function RetroArch_mame_setConfig(){
 	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'mame.cfg' 'MAME'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable = "false"'
@@ -812,7 +819,7 @@ function RetroArch_fbneo_CRTshaderOff(){
 }
 
 
-function RetroArch_segacd_setConfig(){	
+function RetroArch_segacd_setConfig(){
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -854,11 +861,11 @@ function RetroArch_segacd_ar32(){
 	RetroArch_segacd_bezelOff
 }
 function RetroArch_segacd_ar43(){
-	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'	
-	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'	
+	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
+	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 }
 
-function RetroArch_genesis_setConfig(){	
+function RetroArch_genesis_setConfig(){
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -867,7 +874,7 @@ function RetroArch_genesis_bezelOn(){
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\genesis.cfg"
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
-	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'	
+	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\genesis.cfg"
@@ -891,8 +898,8 @@ function RetroArch_genesis_ar32(){
 }
 
 function RetroArch_genesis_ar43(){
-	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'	
-	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'		
+	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
+	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 }
 
 function RetroArch_genesis_CRTshaderOn(){
@@ -915,7 +922,7 @@ function RetroArch_genesis_CRTshaderOff(){
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 }
 
-function RetroArch_gamegear_setConfig(){	
+function RetroArch_gamegear_setConfig(){
 	RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_player1_analog_dpad_mode' '"1"'
 }
@@ -962,7 +969,7 @@ function RetroArch_gamegear_MATshaderOff(){
 	RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_smooth' '"true"'
 }
 
-function RetroArch_mastersystem_setConfig(){	
+function RetroArch_mastersystem_setConfig(){
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -996,9 +1003,9 @@ function RetroArch_mastersystem_CRTshaderOff(){
 }
 
 function RetroArch_mastersystem_ar43(){
-	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'	
+	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 }
-function RetroArch_sega32x_setConfig(){	
+function RetroArch_sega32x_setConfig(){
 	RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_player1_analog_dpad_mode' '"1"'
 }
 function RetroArch_sega32x_bezelOn(){
@@ -1041,7 +1048,7 @@ function RetroArch_sega32x_ar43(){
 #	#missing stuff?
 #	RetroArch_setOverride 'gba.cfg' 'mGBA'  'aspect_ratio_index' '"21"'
 #}
-function RetroArch_gba_setConfig(){	
+function RetroArch_gba_setConfig(){
 	RetroArch_setOverride 'gba.cfg' 'mGBA'  'input_player1_analog_dpad_mode' '"1"'
 }
 function RetroArch_gba_MATshaderOn(){
@@ -1053,7 +1060,7 @@ function RetroArch_gba_MATshaderOn(){
 function RetroArch_gba_MATshaderOff(){
 	RetroArch_setOverride 'gba.cfg' 'mGBA'  'video_shader_enable' '"false"'
 	RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_smooth' '"true"'	
+	RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_smooth' '"true"'
 }
 
 function RetroArch_gb_bezelOn(){
@@ -1072,7 +1079,7 @@ function RetroArch_gb_bezelOn(){
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_y_offset_landscape' '"-0.150000"'
 }
 
-function RetroArch_gb_setConfig(){	
+function RetroArch_gb_setConfig(){
 	RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1111,7 +1118,7 @@ function RetroArch_SameBoy_gbc_setConfig(){
 }
 
 
-function RetroArch_gbc_setConfig(){	
+function RetroArch_gbc_setConfig(){
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1151,23 +1158,23 @@ function RetroArch_gbc_MATshaderOn(){
 function RetroArch_gbc_MATshaderOff(){
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'video_shader_enable' 'false'
 	RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_smooth' '"true"'	
-	
+	RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_smooth' '"true"'
+
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'video_shader_enable' 'false'
 	RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_smooth' '"true"'	
+	RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_smooth' '"true"'
 }
 
 function RetroArch_n64_wideScreenOn(){
-	RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"16:9 adjusted"'	
-	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"1"'	
+	RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"16:9 adjusted"'
+	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"1"'
 	RetroArch_n64_bezelOff
 	RetroArch_n64_3DCRTshaderOff
 }
 
 function RetroArch_n64_wideScreenOff(){
-	RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"4:3"'	
-	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'	
+	RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"4:3"'
+	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
 	#RetroArch_n64_bezelOn
 }
 
@@ -1183,7 +1190,7 @@ function RetroArch_n64_bezelOff(){
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_enable' '"false"'
 }
 
-function RetroArch_atari800_setConfig(){	
+function RetroArch_atari800_setConfig(){
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1200,7 +1207,7 @@ function RetroArch_atari800_bezelOff(){
 	RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_enable' '"false"'
 }
 
-function RetroArch_atari5200_setConfig(){	
+function RetroArch_atari5200_setConfig(){
 	RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1262,7 +1269,7 @@ function RetroArch_dreamcast_3DCRTshaderOff(){
 	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_smooth' 'ED_RM_LINE'
 }
 
-function RetroArch_saturn_setConfig(){	
+function RetroArch_saturn_setConfig(){
 	RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_player1_analog_dpad_mode' '"1"'
@@ -1282,8 +1289,8 @@ function RetroArch_saturn_bezelOn(){
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_scale_landscape' '"1.070000"'
 	RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
-	
-	
+
+
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'aspect_ratio_index' '"0"'
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\saturn.cfg"
 	RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_enable' '"true"'
@@ -1341,7 +1348,7 @@ function RetroArch_saturn_3DCRTshaderOff(){
 	RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'	'video_smooth' 'ED_RM_LINE'
 }
 
-function RetroArch_snes_setConfig(){	
+function RetroArch_snes_setConfig(){
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_player1_analog_dpad_mode' '"1"'
 }
 
@@ -1418,7 +1425,7 @@ function RetroArch_melonDS_setUpCoreOpt(){
 	RetroArch_setOverride 'melonDS.opt' 'melonDS'  'melonds_touch_mode' '"Touch"'
 }
 
-function RetroArch_melonDS_setConfig(){	
+function RetroArch_melonDS_setConfig(){
 	RetroArch_setOverride 'nds.cfg' 'melonDS'  'rewind_enable' '"false"'
 }
 
@@ -1759,7 +1766,7 @@ function RetroArch_bsnes_hd_beta_setUpCoreOpt(){
 function RetroArch_Flycast_wideScreenOn(){
 	RetroArch_setOverride 'Flycast.opt' 	'Flycast'  	'reicast_widescreen_cheats' 	'"enabled"'
 	RetroArch_setOverride 'Flycast.opt' 	'Flycast'  	'reicast_widescreen_hack' 	'"enabled"'
-	RetroArch_setOverride 'dreamcast.cfg' 	'Flycast'  	'aspect_ratio_index' 		'"1"'	
+	RetroArch_setOverride 'dreamcast.cfg' 	'Flycast'  	'aspect_ratio_index' 		'"1"'
 	RetroArch_dreamcast_bezelOff
 	RetroArch_dreamcast_3DCRTshaderOff
 }
@@ -1767,7 +1774,7 @@ function RetroArch_Flycast_wideScreenOn(){
 function RetroArch_Flycast_wideScreenOff(){
 	RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_widescreen_cheats' '"disabled"'
 	RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_widescreen_hack' '"disabled"'
-	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'aspect_ratio_index' '"0"'	
+	RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'aspect_ratio_index' '"0"'
 }
 
 function RetroArch_Beetle_PSX_HW_wideScreenOn(){
@@ -1782,21 +1789,21 @@ function RetroArch_Beetle_PSX_HW_wideScreenOff(){
 }
 
 
-function RetroArch_SwanStation_setConfig(){		
-	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.ResolutionScale' '"3"'	
+function RetroArch_SwanStation_setConfig(){
+	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.ResolutionScale' '"3"'
 }
 
 function RetroArch_SwanStation_wideScreenOn(){
 	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.WidescreenHack' '"true"'
 	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_Display.AspectRatio' '"16:9"'
-	RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"1"'	
-	RetroArch_psx_bezelOff	
+	RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"1"'
+	RetroArch_psx_bezelOff
 }
 
 function RetroArch_SwanStation_wideScreenOff(){
 	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.WidescreenHack' '"false"'
 	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_Display.AspectRatio' '"auto"'
-	RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"0"'	
+	RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"0"'
 }
 
 function RetroArch_psx_bezelOn(){
@@ -1840,7 +1847,7 @@ function  RetroArch_psx_3DCRTshaderOn(){
 	RetroArch_setOverride 'psx.cfg' 'SwanStation'	'video_filter' 'ED_RM_LINE'
 	RetroArch_setOverride 'psx.cfg' 'SwanStation'	'video_smooth' 'ED_RM_LINE'
  }
- 
+
 function RetroArch_psx_3DCRTshaderOff(){
 	RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'  'video_shader_enable' '"false"'
 	RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'	'video_filter' 'ED_RM_LINE'
@@ -1862,11 +1869,11 @@ function RetroArch_psx_setConfig(){
 
 function RetroArch_autoSaveOn(){
 	setConfigRA "savestate_auto_load" "true" $RetroArch_configFile
-	setConfigRA "savestate_auto_save" "true" $RetroArch_configFile	
+	setConfigRA "savestate_auto_save" "true" $RetroArch_configFile
 }
 function RetroArch_autoSaveOff(){
 	setConfigRA "savestate_auto_load" "false" $RetroArch_configFile
-	setConfigRA "savestate_auto_save" "false" $RetroArch_configFile	
+	setConfigRA "savestate_auto_save" "false" $RetroArch_configFile
 }
 
 function RetroArch_retroAchievementsOn(){
@@ -1890,47 +1897,47 @@ function RetroArch_retroAchievementsHardCoreOff(){
 }
 
 function RetroArch_retroAchievementsSetLogin(){
-	$rat=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rat -Raw
-	$rau=Get-Content $env:USERPROFILE/AppData/Roaming/EmuDeck/.rau -Raw
+	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
+	$rau=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rau" -Raw
 	setConfigRA 'cheevos_token' $rat "$RetroArch_configFile"
 	setConfigRA 'cheevos_username' $rau "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 
 function RetroArch_setSNESAR(){
-	if ( "$SNESAR" -eq 87 ){	
+	if ( "$SNESAR" -eq 87 ){
 		RetroArch_snes_ar87
 	}else{
 		RetroArch_snes_ar43
 	}
 }
 function RetroArch_setBezels(){
-	if ( "$RABezels" -eq "true" ){	
+	if ( "$RABezels" -eq "true" ){
 		RetroArch_bezelOnAll
 	}else{
 		RetroArch_bezelOffAll
-	}	
+	}
 }
 function RetroArch_setShadersCRT(){
-	if ( "$RAHandClassic2D" -eq "true" ){	
+	if ( "$RAHandClassic2D" -eq "true" ){
 		RetroArch_CRTshaderOnAll
 	}else{
 		RetroArch_CRTshaderOffAll
-	}	
+	}
 }
 function RetroArch_setShaders3DCRT(){
-	if ( "$RAHandClassic3D" -eq "true" ){	
+	if ( "$RAHandClassic3D" -eq "true" ){
 		RetroArch_3DCRTshaderOnAll
 	}else{
 		RetroArch_3DCRTshaderOffAll
-	}	
+	}
 }
 function RetroArch_setShadersMAT(){
-	if ( "$RAHandHeldShader" -eq "true" ){	
+	if ( "$RAHandHeldShader" -eq "true" ){
 		RetroArch_MATshadersOnAll
 	}else{
 		RetroArch_MATshadersOffAll
-	}	
+	}
 }
 
 function RetroArch_MATshadersOnAll(){

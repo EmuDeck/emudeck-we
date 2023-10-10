@@ -21,7 +21,7 @@ function Citra_init(){
 	sedFile "$emusPath\citra\user\config\qt-config.ini" "C:/Emulation" "$emulationPath"
 	sedFile "$emusPath\citra\user\config\qt-config.ini" ":\Emulation" ":/Emulation"
 	
-	Citra_setupSaves
+#	Citra_setupSaves
 }
 function Citra_update(){
 	Write-Output "NYI"
@@ -31,17 +31,14 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
-	$SourceFilePath = "$emusPath\citra\user\sdmc\"
-	$ShortcutPath = -join($emulationPath,"\saves\citra\saves.lnk")
-	mkdir "saves\citra" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\citra\user\sdmc"
+	$emuSavePath = -join($emulationPath,"\saves\citra\saves")
+	createSaveLink $simLinkPath $emuSavePath
 	
-	$SourceFilePath = "$emusPath\citra\user\states\"
-	$ShortcutPath = -join($emulationPath,"\saves\citra\states.lnk")
-	mkdir "saves\citra" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\citra\user\states"
+	$emuSavePath = -join($emulationPath,"\saves\citra\states")
+	createSaveLink $simLinkPath $emuSavePath
+	cloud_sync_save_hash "$savesPath\citra"
 }
 function Citra_setupStorage(){
 	Write-Output "NYI"
@@ -64,7 +61,7 @@ function Citra_wipe(){
 	Write-Output "NYI"
 }
 function Citra_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\citra" –recurse -force
 }
 function Citra_migrate(){
 	Write-Output "NYI"

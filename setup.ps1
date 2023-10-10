@@ -1,30 +1,30 @@
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarValue = Get-Content -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
 	$progressBarUpdate=[int]$progressBarValue+1
 
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log
+	"$progressBarUpdate" | Out-File -encoding ascii "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log"
 	Write-Output $message
-	Add-Content $env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log "# $message" -NoNewline
+	Add-Content "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > $env:USERPROFILE/EmuDeck/EmuDeck.log
+Write-Output "" > "$env:USERPROFILE/EmuDeck/EmuDeck.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript $env:USERPROFILE/EmuDeck/EmuDeck.log
+Start-Transcript "$env:USERPROFILE/EmuDeck/EmuDeck.log"
 
 #We install 7zip - Now its on the appimage
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
 
 # JSON Parsing to ps1 file
 
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1"
 JSONtoPS1
 
 
@@ -32,15 +32,22 @@ JSONtoPS1
 # Functions, settings and vars
 #
 
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
 
+setScreenDimensionsScale
+
+mkdir $emulationPath -ErrorAction SilentlyContinue
+mkdir $biosPath -ErrorAction SilentlyContinue
+mkdir $toolsPath -ErrorAction SilentlyContinue
+mkdir $toolsPath\launchers -ErrorAction SilentlyContinue
+mkdir $savesPath -ErrorAction SilentlyContinue
 
 #
 # Installation
 #
 #
 #Clear old installation msg log
-Remove-Item $userFolder\AppData\Roaming\EmuDeck\msg.log -ErrorAction SilentlyContinue
+Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyContinue
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
@@ -90,7 +97,7 @@ if(-not($test) -and $doInstallDolphin -eq "true" ){
 	Dolphin_install
 }
 
-#PCSX2 
+#PCSX2
 $test=Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
 if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 	PCSX2QT_install
@@ -158,74 +165,105 @@ if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 
 #
 # Emus Configuration
-# 
+#
 
 setMSG 'Configuring Emulators'
 
-
-if ( "$doSetupRA" -eq "true" ){
-	RetroArch_init
-}
-
-if ( "$doSetupDuck" -eq "true" ){
-	DuckStation_init
-}
-
-if ( "$doSetupDolphin" -eq "true" ){
-	Dolphin_init
-}
-
-if ( "$doSetupYuzu" -eq "true" ){
-	Yuzu_init
-}
-
-if ( "$doSetupRyujinx" -eq "true" ){
-	Ryujinx_init
-}
-
-if ( "$doSetupCitra" -eq "true" ){
-	Citra_init
-}
-
-if ( "$doSetupCemu" -eq "true" ){
-	Cemu_init
-}
-
-if ( "$doSetupPCSX2" -eq "true" ){
-	PCSX2QT_init
-}
-
-if ( "$doSetupRPCS3" -eq "true" ){
-	RPCS3_init
-}
-
-#if ( "$doSetupXemu" -eq "true" ){
-	#Xemu_init
-#}
-
-#if ( "$doSetupXenia" -eq "true" ){
-	#Xenia_init
-#}
-
-#if ( "$doSetupPPSSPP" -eq "true" ){
-	#PPSSPP_init
-#}
-
-#if ( "$doSetupVita3K" -eq "true" ){
-	#Vita3K_init
-#}
-
-#if ( "$doSetupScummVM" -eq "true" ){
-	#ScummVM_init
-#}
-
 if ( "$doSetupESDE" -eq "true" ){
 	ESDE_init
+	#$setupSaves+="ESDE_setupSaves;"
 }
 
 if ( "$doSetupSRM" -eq "true" ){
 	SRM_init
 }
 
+$setupSaves=''
+if ( "$doSetupRA" -eq "true" ){
+	RetroArch_init
+	$setupSaves+="RetroArch_setupSaves;"
+}
+
+if ( "$doSetupDuck" -eq "true" ){
+	DuckStation_init
+	$setupSaves+="DuckStation_setupSaves;"
+}
+
+if ( "$doSetupDolphin" -eq "true" ){
+	Dolphin_init
+	$setupSaves+="Dolphin_setupSaves;"
+}
+
+if ( "$doSetupYuzu" -eq "true" ){
+	Yuzu_init
+	$setupSaves+="Yuzu_setupSaves;"
+}
+
+if ( "$doSetupRyujinx" -eq "true" ){
+	Ryujinx_init
+	$setupSaves+="Ryujinx_setupSaves;"
+}
+
+if ( "$doSetupCitra" -eq "true" ){
+	Citra_init
+	$setupSaves+="Citra_setupSaves;"
+}
+
+if ( "$doSetupCemu" -eq "true" ){
+	Cemu_init
+	$setupSaves+="Cemu_setupSaves;"
+}
+
+if ( "$doSetupPCSX2" -eq "true" ){
+	PCSX2QT_init
+	$setupSaves+="PCSX2QT_setupSaves;"
+}
+
+if ( "$doSetupRPCS3" -eq "true" ){
+	RPCS3_init
+	$setupSaves+="RPCS3_setupSaves;"
+}
+
+
+if ( "$doSetupPPSSPP" -eq "true" ){
+	PPSSPP_init
+	$setupSaves+="PPSSPP_setupSaves;"
+}
+
+
+if ( "$doSetupmelonDS" -eq "true" ){
+	melonDS_init
+	$setupSaves+="melonDS_setupSaves;"
+}
+
+#if ( "$doSetupXemu" -eq "true" ){
+	#Xemu_init
+	#$setupSaves+="#Xemu_setupSaves;"
+#}
+
+#if ( "$doSetupXenia" -eq "true" ){
+	#Xenia_init
+	#$setupSaves+="#Xenia_setupSaves;"
+#}
+
+
+#if ( "$doSetupVita3K" -eq "true" ){
+	#Vita3K_init
+	#$setupSaves+="#Vita3K_setupSaves;"
+#}
+
+#if ( "$doSetupScummVM" -eq "true" ){
+	#ScummVM_init
+	#$setupSaves+="#ScummVM_setupSaves;"
+#}
+
+
+setMSG 'Configuring Save folders - Waiting for user confirmatiom'
+
+$scriptContent = @"
+	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
+"@
+
+startScriptWithAdmin -ScriptContent $scriptContent
 
 Stop-Transcript

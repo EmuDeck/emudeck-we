@@ -20,7 +20,7 @@ function template_wipe(){
 	Write-Output "NYI"
 }
 function template_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Retroarch" –recurse -force
 }
 function template_migrate(){
 	Write-Output "NYI"

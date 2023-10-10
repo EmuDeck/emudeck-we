@@ -1,0 +1,74 @@
+{
+  "parserType": "Glob",
+  "configTitle": "Amiga CD - RetroArch PUAE",
+  "steamCategory": "${Amiga CD}",
+  "executableModifier": "\"${exePath}\"",
+  "romDirectory": "${romsdirglobal}/amigacd32",
+  "steamDirectory": "${steamdirglobal}",
+  "startInDirectory": "EMUSPATH\\RetroArch",
+  "titleModifier": "${fuzzyTitle}",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\retroarch.ps1 \"-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}puae_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"\"\"${filePath}\"\"\" && exit \" && exit --emudeck",
+  "onlineImageQueries": "${${fuzzyTitle}}",
+  "imagePool": "${fuzzyTitle}",
+  "imageProviders": ["SteamGridDB"],
+  "disabled": false,
+  "userAccounts": {
+    "specifiedAccounts": ""
+  },
+  "parserInputs": {
+    "glob": "**/${title}@(.adf|.ADF|.adz|.ADZ|.dms|.DMS|.fdi|.FDI|.ipf|.IPF|.hdf|.HDF|.hdz|.HDZ|.lha|.LHA|.slave|.SLAVE|.info|.INFO|.cue|.CUE|.ccd|.CCD|.chd|.CHD|.nrg|.NRG|.mds|.MDS|.iso|.ISO|.uae|.UAE|.m3u|.M3U|.zip|.ZIP|.7z|.7Z)"
+  },
+  "titleFromVariable": {
+    "limitToGroups": "",
+    "caseInsensitiveVariables": false,
+    "skipFileIfVariableWasNotFound": false,
+    "tryToMatchTitle": false
+  },
+  "fuzzyMatch": {
+    "replaceDiacritics": true,
+    "removeCharacters": true,
+    "removeBrackets": true
+  },
+  "executable": {
+    "path": "${retroarchpath}",
+    "shortcutPassthrough": false,
+    "appendArgsToExecutable": true
+  },
+  "parserId": "164785598905398123",
+  "version": 15,
+  "controllers": {
+    "ps4": null,
+    "ps5": null,
+    "xbox360": null,
+    "xboxone": null,
+    "switch_joycon_left": null,
+    "switch_joycon_right": null,
+    "switch_pro": null,
+    "neptune": null
+  },
+  "imageProviderAPIs": {
+    "SteamGridDB": {
+      "nsfw": false,
+      "humor": false,
+      "imageMotionTypes": ["static"],
+      "styles": [],
+      "stylesHero": [],
+      "stylesLogo": [],
+      "stylesIcon": []
+    }
+  },
+  "defaultImage": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  },
+  "localImages": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  }
+}

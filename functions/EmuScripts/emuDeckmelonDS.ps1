@@ -15,7 +15,7 @@ function melonDS_init(){
 	sedFile $destination\melonDS.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
 	sedFile $destination\melonDS.ini "\" "/"	
 	
-	melonDS_setupSaves
+	#melonDS_setupSaves
 	melonDS_setResolution $melondsResolution
 }
 function melonDS_update(){
@@ -29,6 +29,7 @@ function melonDS_setupSaves(){
 	mkdir "$savesPath\melonds\states" -ErrorAction SilentlyContinue
 	mkdir "$emulationPath\storage\melonDS\cheats" -ErrorAction SilentlyContinue
 	Write-Output "true"
+	cloud_sync_save_hash "$savesPath\melonds"
 }
 
 function melonDS_setResolution($resolution){
@@ -54,7 +55,7 @@ function melonDS_wipe(){
 	Write-Output "true"
 }
 function melonDS_uninstall(){
-	Write-Output "true"
+	Remove-Item –path "$emusPath\melonDS" –recurse -force
 }
 function melonDS_migrate(){
 	Write-Output "true"

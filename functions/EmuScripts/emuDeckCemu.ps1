@@ -22,7 +22,7 @@ function Cemu_init(){
 	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"	
 	sedFile "$emusPath\cemu\settings.xml" "C:\Emulation" "$emulationPath"
 	
-	Cemu_setupSaves
+#	Cemu_setupSaves
 	
 	
 	
@@ -33,14 +33,13 @@ function Cemu_update(){
 function Cemu_setEmulationFolder(){
 	Write-Output "NYI"
 }
+
 function Cemu_setupSaves(){
 	setMSG "Cemu - Saves Links"
-	$SourceFilePath = "$emusPath\cemu\mlc01\usr\save\"
-	rm -fo  "saves\cemu" -Recurse -ErrorAction SilentlyContinue
-	mkdir "saves\Cemu" -ErrorAction SilentlyContinue
-	mkdir $SourceFilePath -ErrorAction SilentlyContinue	
-	$ShortcutPath = -join($emulationPath,"\saves\Cemu\saves.lnk")
-	createLink $SourceFilePath $ShortcutPath
+	$simLinkPath = "$emusPath\cemu\mlc01\usr\saves"
+	$emuSavePath = -join($emulationPath,"\saves\Cemu\saves")
+	createSaveLink $simLinkPath $emuSavePath 	
+	cloud_sync_save_hash "$savesPath\Cemu"
 }
 
 function Cemu_setResolution($resolution){
@@ -54,7 +53,7 @@ function Cemu_wipe(){
 	Write-Output "NYI"
 }
 function Cemu_uninstall(){
-	Write-Output "NYI"
+	Remove-Item –path "$emusPath\Cemu" –recurse -force
 }
 function Cemu_migrate(){
 	Write-Output "NYI"

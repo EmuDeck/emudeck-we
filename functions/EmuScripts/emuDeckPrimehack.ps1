@@ -20,7 +20,7 @@ function Primehack_wipe(){
 	Write-Output "true"
 }
 function Primehack_uninstall(){
-	Write-Output "true"
+	Remove-Item –path "$emusPath\primehack" –recurse -force
 }
 function Primehack_migrate(){
 	Write-Output "true"
