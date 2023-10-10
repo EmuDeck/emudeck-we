@@ -744,18 +744,24 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
-	if ( Test-Path $cloud_sync_config_file_symlink ){
-		if ( $cloud_sync_status -eq "true"){
-			$toast = steamToast -MessageText "CloudSync watching in the background"
-			#We pass the emulator to the service
-			echo "$emulator" > $savesPath/.emulator
-			cloud_sync_downloadEmu $emulator
-			& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
-			cls
-			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
-			cls
-			Start-Sleep -Seconds 1
-			$toast.Close()
+	if ( check_internet_connection -eq 'true' ){
+		if ( Test-Path $cloud_sync_config_file_symlink ){
+			if ( $cloud_sync_status -eq "true"){
+				$toast = steamToast -MessageText "CloudSync watching in the background"
+				#We pass the emulator to the service
+				echo "$emulator" > $savesPath/.emulator
+				cloud_sync_downloadEmu $emulator
+				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
+				cls
+				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+				cls
+				Start-Sleep -Seconds 1
+				$toast.Close()
+			}
 		}
+	}else{
+		$toast = steamToast -MessageText "CloudSync Disabled.Your saved games will be uploaded next time you play them with internet connection."
+		Start-Sleep -Seconds 1
+		$toast.Close()
 	}
 }
