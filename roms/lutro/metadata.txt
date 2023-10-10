@@ -1,0 +1,6 @@
+collection: Lutro Game Engine
+shortname: lutro
+extensions: lua, LUA, lutro, LUTRO, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/lutro_libretro.dll {file.path}
+
+

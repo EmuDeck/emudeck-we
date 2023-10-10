@@ -1,0 +1,6 @@
+collection: Nintendo Game and Watch
+shortname: gameandwatch
+extensions: mgw, MGW, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/gw_libretro.dll {file.path}
+
+

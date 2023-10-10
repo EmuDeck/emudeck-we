@@ -1,0 +1,6 @@
+collection: Nintendo Satellaview
+shortname: satellaview
+extensions: bml, BML, bs, BS, fig, FIG, sfc, SFC, smc, SMC, swc, SWC, st, ST, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/snes9x_libretro.dll {file.path}
+
+

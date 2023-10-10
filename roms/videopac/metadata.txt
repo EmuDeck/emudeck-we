@@ -1,0 +1,6 @@
+collection: Philips Videopac G7000
+shortname: videopac
+extensions: bin, BIN, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/o2em_libretro.dll {file.path}
+
+

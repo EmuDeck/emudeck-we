@@ -1,0 +1,7 @@
+collection: Philips CD-i
+shortname: cdimono1
+extensions: chd, CHD, cue, CUE, iso, ISO
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/same_cdi_libretro.dll {file.path}
+
+
+

@@ -1,0 +1,6 @@
+collection: 3DO
+shortname: 3do
+extensions: iso, ISO, bin, BIN, chd, CHD, cue, CUE, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/opera_libretro.dll {file.path}
+
+

@@ -1,0 +1,6 @@
+collection: Multi Emulator Super System
+shortname: mess
+extensions: chd, CHD, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/mess2015_libretro.dll {file.path}
+
+

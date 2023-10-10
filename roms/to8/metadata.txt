@@ -1,0 +1,6 @@
+collection: Thomson TO8
+shortname: to8
+extensions: fd, FD, sap, SAP, k7, K7, m7, M7, m5, M5, rom, ROM, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/theodore_libretro.dll {file.path}
+
+

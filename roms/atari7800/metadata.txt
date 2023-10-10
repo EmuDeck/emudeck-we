@@ -1,0 +1,6 @@
+collection: Atari 7800 ProSystem
+shortname: atari7800
+extensions: a78, A78, bin, BIN, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/prosystem_libretro.dll {file.path}
+
+

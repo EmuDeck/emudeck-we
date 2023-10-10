@@ -1,0 +1,4 @@
+collection: EasyRPG Game Engine
+shortname: easyrpg
+extensions: easyrpg, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/easyrpg_libretro.dll {file.path}
