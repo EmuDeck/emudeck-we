@@ -27,8 +27,6 @@ function startScriptWithAdmin {
 	#Write-Host "I'm Admin"
 	#"@
 
-	#StartScriptWithAdmin -ScriptContent $scriptContent
-
 	$tempScriptPath = [System.IO.Path]::GetTempFileName() + ".ps1"
 	$ScriptContent | Out-File -FilePath $tempScriptPath -Encoding utf8 -Force
 

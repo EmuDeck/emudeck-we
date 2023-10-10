@@ -363,6 +363,13 @@ function confirmDialog {
 
 	$WPFGui.OKButton.Content = $OKButtonText
 
+	# Create a script block to handle the button click event
+	$buttonClickEvent = {
+		param($sender, $e)
+		$global:Result = $sender.Name
+		$WPFGui.UI.Close()
+	}
+
 	# Add the script block to the button's Click event
 	$WPFGui.OKButton.Add_Click($buttonClickEvent)
 

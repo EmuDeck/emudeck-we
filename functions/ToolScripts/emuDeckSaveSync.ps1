@@ -146,6 +146,8 @@ $scriptContent = @"
 
 function cloud_sync_install($cloud_sync_provider){
 
+ confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
+
  & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 
  if (-not ( & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" status "CloudWatch" )) {
@@ -742,18 +744,24 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
-	if ( Test-Path $cloud_sync_config_file_symlink ){
-		if ( $cloud_sync_status -eq "true"){
-			$toast = steamToast -MessageText "CloudSync watching in the background"
-			#We pass the emulator to the service
-			echo "$emulator" > $savesPath/.emulator
-			cloud_sync_downloadEmu $emulator
-			& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
-			cls
-			Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
-			cls
-			Start-Sleep -Seconds 1
-			$toast.Close()
+	if ( check_internet_connection -eq 'true' ){
+		if ( Test-Path $cloud_sync_config_file_symlink ){
+			if ( $cloud_sync_status -eq "true"){
+				$toast = steamToast -MessageText "CloudSync watching in the background"
+				#We pass the emulator to the service
+				echo "$emulator" > $savesPath/.emulator
+				cloud_sync_downloadEmu $emulator
+				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
+				cls
+				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+				cls
+				Start-Sleep -Seconds 1
+				$toast.Close()
+			}
 		}
+	}else{
+		$toast = steamToast -MessageText "CloudSync Disabled.Your saved games will be uploaded next time you play them with internet connection."
+		Start-Sleep -Seconds 1
+		$toast.Close()
 	}
 }

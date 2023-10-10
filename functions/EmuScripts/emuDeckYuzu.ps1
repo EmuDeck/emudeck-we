@@ -13,20 +13,20 @@ function Yuzu_init(){
 	setMSG "Yuzu - Configuration"
 	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered" -ErrorAction SilentlyContinue
 	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\keys" -ErrorAction SilentlyContinue
-	
+
 	$destination="$emusPath\yuzu\yuzu-windows-msvc\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config" "$destination"
-	
+
 	#SDL fix
 	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
-	
+
 	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath
-	
+
 	Yuzu_setupStorage
 #	Yuzu_setupSaves
 	Yuzu_setResolution $yuzuResolution
-	
+
 
 }
 function Yuzu_update(){
@@ -42,23 +42,23 @@ function Yuzu_setupSaves(){
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered"
 	$emuSavePath = -join($emulationPath,"\bios\yuzu\firmware")
 	createSaveLink $simLinkPath $emuSavePath
-	
+
 	#Keys
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\keys"
 	$emuSavePath = -join($emulationPath,"\bios\yuzu\keys")
 	createSaveLink $simLinkPath $emuSavePath
 
 	setMSG "Yuzu - Saves Links"
-	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save"	
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save"
 	$emuSavePath = -join($emulationPath,"\saves\yuzu\saves")
 	createSaveLink $simLinkPath $emuSavePath
-	
-	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators"	
-	$emuSavePath = -join($emulationPath,"\saves\yuzu\profiles")	
+
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators"
+	$emuSavePath = -join($emulationPath,"\saves\yuzu\profiles")
 	createSaveLink $simLinkPath $emuSavePath
 	cloud_sync_save_hash "$savesPath\yuzu"
-	
-	
+
+
 }
 function Yuzu_setResolution($resolution){
 	switch ( $resolution )
@@ -67,8 +67,8 @@ function Yuzu_setResolution($resolution){
 		"1080P" { $multiplier = 2; $docked="true"   }
 		"1440P" { $multiplier = 3;  $docked="false" }
 		"4K" { $multiplier = 3; $docked="true" }
-	}	
-	
+	}
+
 	setConfig "resolution_setup" $multiplier "$emusPath\yuzu\yuzu-windows-msvc\user\config\qt-config.ini"
 	setConfig "use_docked_mode" $docked "$emusPath\yuzu\yuzu-windows-msvc\user\config\qt-config.ini"
 
@@ -133,45 +133,45 @@ function YuzuEA_install($tokenValue) {
 	$user, $auth = $decodedData.Split(':')
 
 	if ($user -ne $null -and $auth -ne $null) {
-		
+
 		$yuzuEaMetadata = curl  "https://api.yuzu-emu.org/downloads/earlyaccess/" | ConvertFrom-Json
 
 		$url_yuzuEA = ($yuzuEaMetadata.files | Where-Object { $_.name -match ".*\.7z" }).url
 
 		$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
-		
+
 		$headers = @{
 			"X-Username" = $user
 			"X-Token" = $auth
 			"User-Agent" = "EmuDeck"
 		}
-		
+
 		$response = Invoke-WebRequest -Uri $jwtHost -Method Post -Headers $headers
 		$BEARERTOKEN = $response.Content
 
-			
-		rm -r -fo "$temp/yuzuEA"-ErrorAction SilentlyContinue		
-		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN		
-		xcopy "$temp\yuzuEA\yuzu-windows-msvc-early-access\" "$emusPath\yuzu\yuzu-windows-msvc\" /H /E /Y		
-		rm -r -fo "$temp/yuzuEA" -ErrorAction SilentlyContinue		
+
+		rm -r -fo "$temp/yuzuEA"-ErrorAction SilentlyContinue > $null
+		download $url_yuzuEA "yuzuEA.7z" $BEARERTOKEN > $null
+		xcopy "$temp\yuzuEA\yuzu-windows-msvc-early-access\" "$emusPath\yuzu\yuzu-windows-msvc\" /H /E /Y > $null
+		rm -r -fo "$temp/yuzuEA" -ErrorAction SilentlyContinue > $null
 		#createLauncher "yuzu"
-		Write-Host "true"			
-		
+		Write-Host "true"
+
 	} else {
-		Write-Host "invalid"		
+		Write-Host "invalid"
 	}
 
 }
 
-function YuzuEA_addToken($tokenValueRaw){    
+function YuzuEA_addToken($tokenValueRaw){
 	$tokenValue = "$tokenValueRaw===="
-	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }	
+	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }
 	if ($tokenParts[-1].Length -lt 4) {
 		$tokenParts = $tokenParts[0..($tokenParts.Count - 2)]
 	}
-	$tokenValue = $tokenParts -join ''	
+	$tokenValue = $tokenParts -join ''
 
-	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))	
+	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
 	$user, $auth = $decodedData.Split(':')
 	if ($user -ne $null -and $auth -ne $null) {
 		YuzuEA_install $tokenValue
