@@ -91,6 +91,8 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 		$exclusionList = $exclusionList + 'ares/'
   	}else{
 		$exclusionList = $exclusionList + 'atari_2600-ra-stella.json'
+		$exclusionList = $exclusionList + 'amiga_1200-ra-puae.json';
+		$exclusionList = $exclusionList + 'amiga_cd-ra-puae.json';
 		$exclusionList = $exclusionList + 'bandai_wonderswan_color-ra-mednafen_swan.json'
 		$exclusionList = $exclusionList + 'bandai_wonderswan-ra-mednafen_swan.json'
 		$exclusionList = $exclusionList + 'nec_pc_engine_turbografx_16_cd-ra-beetle_pce.json'
@@ -230,6 +232,10 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 	# }
 	if ( $doInstallYuzu -ne "true"){
 	  $exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
+	}
+	if ( $doInstallCemu -ne "true"){
+  	  $exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
+	  $exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
 	}
 	if ( $doInstallRyujinx -ne "true"){
 	  $exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
