@@ -181,60 +181,60 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   #Exclusion based on install status.
 
 
-  if { $doInstallPrimeHack -ne "true"){
+  	if ( $doInstallPrimeHack -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_primehack.json"
 	}
-	if { $doInstallRPCS3 -ne "true"){
+	if ( $doInstallRPCS3 -ne "true"){
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
 	}
-	if { $doInstallCitra -ne "true"){
+	if ( $doInstallCitra -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_3ds-citra-mGBA.json"
 	}
-	if { $doInstallDolphin -ne "true"){
+	if ( $doInstallDolphin -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
 		$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
 	}
-	if { $doInstallDuck -ne "true"){
+	if ( $doInstallDuck -ne "true"){
 		$exclusionList=$exclusionList+"sony_psx-duckstation.json"
 	}
-	if { $doInstallPPSSPP -ne "true"){
+	if ( $doInstallPPSSPP -ne "true"){
 		$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
 	}
-	# if { $doInstallXemu -ne "true"){
+	# if ( $doInstallXemu -ne "true"){
 	# 	$exclusionList=$exclusionList+"microsoft_xbox-xemu.json"
 	# }
-	# if { $doInstallXenia -ne "true"){
+	# if ( $doInstallXenia -ne "true"){
 	#    $exclusionList=$exclusionList+"microsoft_xbox_360-xenia-xbla.json"
 	#    $exclusionList=$exclusionList+"microsoft_xbox_360-xenia.json"
 	# }
-	# if { $doInstallScummVM -ne "true"){
+	# if ( $doInstallScummVM -ne "true"){
 	# 	$exclusionList=$exclusionList+"scumm_scummvm.json"
 	# }
-	if { $doInstallRMG -ne "true"){
+	if ( $doInstallRMG -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_64-rmg.json"
 	}
-	if { $doInstallmelonDS -ne "true"){
+	if ( $doInstallmelonDS -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_ds-melonds.json"
 	}
-	# if { $doInstallVita3K -ne "true"){
+	# if ( $doInstallVita3K -ne "true"){
 	# 	$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
 	# }
-	# if { $doInstallMGBA -ne "true"){
+	# if ( $doInstallMGBA -ne "true"){
 	#   $exclusionList=$exclusionList+"nintendo_gb-mGBA.json"
 	#   $exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 	#   $exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
 	# }
-	# if { $doInstallMAME -ne "true"){
+	# if ( $doInstallMAME -ne "true"){
 	#   $exclusionList=$exclusionList+"arcade-mame.json"
 	# }
-	if { $doInstallYuzu -ne "true"){
+	if ( $doInstallYuzu -ne "true"){
 	  $exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
 	}
-	if { $doInstallRyujinx -ne "true"){
+	if ( $doInstallRyujinx -ne "true"){
 	  $exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
 	}
-	if { "$doInstallPCSX2QT" -ne "true"){
+	if ( "$doInstallPCSX2QT" -ne "true"){
 	  $exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
 	}
 
