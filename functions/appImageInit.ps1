@@ -1,6 +1,6 @@
 function appImageInit(){
 
-	setScreenDimensionsScale
+#	setScreenDimensionsScale
 
 # 	$sourceFolder = "$savesPath/RetroArch/saves"
 # 	$destinationFolder = "$sourceFolder"
