@@ -30,4 +30,6 @@ function appImageInit(){
 # 		setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
 # 	}
 
+	echo "true"
+
 }
