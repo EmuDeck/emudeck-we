@@ -27,7 +27,67 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 
   # Multiemulator?
   if ( "$emuMULTI" -ne "both" ){
-  	if ( "$emuMULTI" -eq "ra" ){
+
+	  if ( "$emuMULTI" -eq "undefined" ){
+	  	$exclusionList = $exclusionList + 'ares/'
+		$exclusionList=$exclusionList"+amiga_600-ra-puae.json";
+		$exclusionList=$exclusionList"+amiga_1200-ra-puae.json";
+		$exclusionList=$exclusionList"+amiga_cd-ra-puae.json";
+		$exclusionList=$exclusionList"+amiga-ra-puae.json";
+		$exclusionList=$exclusionList"+amstrad_cpc-ra-cap32.json";
+		$exclusionList=$exclusionList"+arcade_naomi-ra-flycast.json";
+		$exclusionList=$exclusionList"+arcade-ra-fbneo.json";
+		$exclusionList=$exclusionList"+arcade-ra-mame_2003_plus.json";
+		$exclusionList=$exclusionList"+arcade-ra-mame_2010.json";
+		$exclusionList=$exclusionList"+arcade-ra-mame.json";
+		$exclusionList=$exclusionList"+atari_2600-ra-stella.json";
+		$exclusionList=$exclusionList"+atari_jaguar-ra-virtualjaguar.json";
+		$exclusionList=$exclusionList"+atari_lynx-ra-mednafen.json";
+		$exclusionList=$exclusionList"+bandai_wonderswan_color-ra-mednafen_swan.json";
+		$exclusionList=$exclusionList"+bandai_wonderswan-ra-mednafen_swan.json";
+		$exclusionList=$exclusionList"+commodore_16-ra-vice_xplus4.json";
+		$exclusionList=$exclusionList"+commodore_64-ra-vice_x64.json";
+		$exclusionList=$exclusionList"+commodore_vic_20-ra-vice_xvic.json";
+		$exclusionList=$exclusionList"+doom-ra-prboom.json";
+		$exclusionList=$exclusionList"+dos-ra-dosbox_pure.json";
+		$exclusionList=$exclusionList"+nec_pc_98-ra-np2kai.json";
+		$exclusionList=$exclusionList"+nec_pc_engine_turbografx_16_cd-ra-beetle_pce.json";
+		$exclusionList=$exclusionList"+nec_pc_engine_turbografx_16-ra-beetle_pce.json";
+		$exclusionList=$exclusionList"+nintendo_3ds-citra.json";
+		$exclusionList=$exclusionList"+nintendo_64-ra-mupen64plus_next.json";
+		$exclusionList=$exclusionList"+nintendo_ds-melonds.json";
+		$exclusionList=$exclusionList"+nintendo_ds-ra-melonds.json";
+		$exclusionList=$exclusionList"+nintendo_gb-ra-gambatte.json";
+		$exclusionList=$exclusionList"+nintendo_gb-ra-sameboy.json";
+		$exclusionList=$exclusionList"+nintendo_gba-ra-mgba.json";
+		$exclusionList=$exclusionList"+nintendo_gbc-ra-gambatte.json";
+		$exclusionList=$exclusionList"+nintendo_gbc-ra-sameboy.json";
+		$exclusionList=$exclusionList"+nintendo_nes-ra-mesen.json";
+		$exclusionList=$exclusionList"+nintendo_sgb-ra-mesen-s.json";
+		$exclusionList=$exclusionList"+nintendo_snes-ra-bsnes_hd.json";
+		$exclusionList=$exclusionList"+nintendo_snes-ra-snes9x.json";
+		$exclusionList=$exclusionList"+panasonic_3do-ra-opera.json";
+		$exclusionList=$exclusionList"+philips_cd_i-ra-same_cdi.json";
+		$exclusionList=$exclusionList"+pico_8-ra-retro8.json";
+		$exclusionList=$exclusionList"+rpg_maker-ra-easyrpg.json";
+		$exclusionList=$exclusionList"+sega_32X-ra-picodrive.json";
+		$exclusionList=$exclusionList"+sega_CD_Mega_CD-ra-genesis_plus_gx.json";
+		$exclusionList=$exclusionList"+sega_dreamcast-ra-flycast.json";
+		$exclusionList=$exclusionList"+sega_game_gear-ra-genesis_plus_gx.json";
+		$exclusionList=$exclusionList"+sega_genesis-ra-genesis_plus_gx_wide.json";
+		$exclusionList=$exclusionList"+sega_genesis-ra-genesis_plus_gx.json";
+		$exclusionList=$exclusionList"+sega_mastersystem-ra-genesis-plus-gx.json";
+		$exclusionList=$exclusionList"+sega_saturn-ra-mednafen.json";
+		$exclusionList=$exclusionList"+sega_saturn-ra-yabause.json";
+		$exclusionList=$exclusionList"+sharp-x68000-ra-px68k.json";
+		$exclusionList=$exclusionList"+sinclair_zx-spectrum-ra-fuse.json";
+		$exclusionList=$exclusionList"+snk_neo_geo_pocket_color-ra-beetle_neopop.json";
+		$exclusionList=$exclusionList"+snk_neo_geo_pocket-ra-beetle_neopop.json";
+		$exclusionList=$exclusionList"+sony_psp-ra-ppsspp.json";
+		$exclusionList=$exclusionList"+sony_psx-ra-beetle_psx_hw.json";
+		$exclusionList=$exclusionList"+sony_psx-ra-swanstation.json";
+		$exclusionList=$exclusionList"+tic-80-ra-tic80.json";
+	  }elseif ( "$emuMULTI" -eq "ra" ){
 		$exclusionList = $exclusionList + 'ares/'
   	}else{
 		$exclusionList = $exclusionList + 'atari_2600-ra-stella.json'
@@ -57,6 +117,26 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
   	}
   }
 
+  #N64?
+	# if ( "$emuN64" -ne "both" ); then
+  	# if ( "$emuN64" -eq "rgm" ); then
+	# 	$exclusionList=$exclusionList+"nintendo_64-ra-mupen64plus_next.json"
+	# 	$exclusionList=$exclusionList+"nintendo_64-ares.json"
+	# 	$exclusionList=$exclusionList+"nintendo_64dd-ares.json"
+  	# else
+	# 	$exclusionList=$exclusionList"+nintendo_64-rmg.json"
+  	# fi
+	# fi
+  #psx
+	  if ( "$emuPSX" -ne "both" ){
+		  if ( "$emuPSX" -eq "duckstation" ){
+			$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
+			$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
+		  }else{
+			$exclusionList = $exclusionList + 'sony_psx-duckstation.json'
+		  }
+	  }
+
   #gba
   if ( "$emuGBA" -ne "both" ){
   	if ( "$emuGBA" -eq "mgba" ){
@@ -74,15 +154,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'
   	}
   }
-  #psx
-  if ( "$emuPSX" -ne "both" ){
-  	if ( "$emuPSX" -eq "duckstation" ){
-		$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
-		$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
-  	}else{
-		$exclusionList = $exclusionList + 'sony_psx-duckstation.json'
-  	}
-  }
+
   #melonDS
   if ( "$emuNDS" -ne "both" ){
   	if ( "$emuNDS" -eq "melonDS" ){
@@ -105,6 +177,66 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 		$exclusionList = $exclusionList + 'philips_cd_i-mame.json'
   	}
   }
+
+  #Exclusion based on install status.
+
+
+  if { $doInstallPrimeHack -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_primehack.json"
+	}
+	if { $doInstallRPCS3 -ne "true"){
+		$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
+		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
+	}
+	if { $doInstallCitra -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_3ds-citra-mGBA.json"
+	}
+	if { $doInstallDolphin -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
+		$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
+	}
+	if { $doInstallDuck -ne "true"){
+		$exclusionList=$exclusionList+"sony_psx-duckstation.json"
+	}
+	if { $doInstallPPSSPP -ne "true"){
+		$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
+	}
+	# if { $doInstallXemu -ne "true"){
+	# 	$exclusionList=$exclusionList+"microsoft_xbox-xemu.json"
+	# }
+	# if { $doInstallXenia -ne "true"){
+	#    $exclusionList=$exclusionList+"microsoft_xbox_360-xenia-xbla.json"
+	#    $exclusionList=$exclusionList+"microsoft_xbox_360-xenia.json"
+	# }
+	# if { $doInstallScummVM -ne "true"){
+	# 	$exclusionList=$exclusionList+"scumm_scummvm.json"
+	# }
+	if { $doInstallRMG -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_64-rmg.json"
+	}
+	if { $doInstallmelonDS -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_ds-melonds.json"
+	}
+	# if { $doInstallVita3K -ne "true"){
+	# 	$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
+	# }
+	# if { $doInstallMGBA -ne "true"){
+	#   $exclusionList=$exclusionList+"nintendo_gb-mGBA.json"
+	#   $exclusionList=$exclusionList+"nintendo_gba-mgba.json"
+	#   $exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
+	# }
+	# if { $doInstallMAME -ne "true"){
+	#   $exclusionList=$exclusionList+"arcade-mame.json"
+	# }
+	if { $doInstallYuzu -ne "true"){
+	  $exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
+	}
+	if { $doInstallRyujinx -ne "true"){
+	  $exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
+	}
+	if { "$doInstallPCSX2QT" -ne "true"){
+	  $exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
+	}
 
   Start-Sleep -Seconds 1
 
