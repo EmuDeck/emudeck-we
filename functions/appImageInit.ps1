@@ -1,5 +1,5 @@
 function appImageInit(){
-
+        rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
 	setScreenDimensionsScale
 
 	$sourceFolder = "$savesPath/RetroArch/saves"
