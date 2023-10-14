@@ -750,7 +750,7 @@ function cloud_sync_init($emulator){
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
-                                  echo "all" > $savesPath/.emulator
+                                  echo "\" > $savesPath/.emulator
 				  cloud_sync_downloadEmuAll
                                }else{
                                   echo "$emulator" > $savesPath/.emulator
