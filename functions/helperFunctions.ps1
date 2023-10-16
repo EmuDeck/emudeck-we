@@ -78,6 +78,32 @@ function setSettingNoQuotes($file, $old, $new) {
 
 }
 
+function getLocations(){
+
+	$drives = Get-WmiObject -Class Win32_DiskDrive
+
+	$driveInfo = @()
+
+	foreach ($drive in $drives) {
+		$driveType = "Unknown"
+
+		if ($drive.MediaType -eq "Fixed hard disk media") {
+			$driveType = "Internal"
+		}
+		elseif ($drive.MediaType -eq "Removable media") {
+			$driveType = "External"
+		}
+
+		$driveInfo += @{
+			Nombre = $drive.Model
+			Capacidad = [math]::Round($drive.Size / 1GB, 2)
+			Tipo = $driveType
+		}
+	}
+
+	$driveInfo | ConvertTo-Json
+
+}
 
 function customLocation(){
 
