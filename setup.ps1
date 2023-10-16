@@ -51,7 +51,7 @@ Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyC
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
-copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "roms"
+copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "$romsPath"
 
 #old Files cleanup
 #$testN3ds

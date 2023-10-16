@@ -189,7 +189,7 @@ try
 		$dialog = steamToast  -MessageText "Uploading... don't turn off your device"
 		Add-Type -AssemblyName System.speech
 		$speak = New-Object System.Speech.Synthesis.SpeechSynthesizer
-		$speak.Speak('Uploading... don't turn off your device')
+		$speak.Speak("Uploading... don't turn off your device")
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
 			$dialog.Close()
