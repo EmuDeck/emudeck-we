@@ -95,9 +95,9 @@ function getLocations(){
 		}
 
 		$driveInfo += @{
-			Nombre = $drive.Model
-			Capacidad = [math]::Round($drive.Size / 1GB, 2)
-			Tipo = $driveType
+			name = $drive.Model
+			size = [math]::Round($drive.Size / 1GB, 2)
+			type = $driveType
 		}
 	}
 
