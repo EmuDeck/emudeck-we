@@ -79,14 +79,12 @@ function setSettingNoQuotes($file, $old, $new) {
 }
 
 function getLocations(){
-
 	$drives = Get-WmiObject -Class Win32_DiskDrive
 
 	$driveInfo = @()
 
 	foreach ($drive in $drives) {
 		$driveType = "Unknown"
-
 		if ($drive.MediaType -eq "Fixed hard disk media") {
 			$driveType = "Internal"
 		}
@@ -94,16 +92,24 @@ function getLocations(){
 			$driveType = "External"
 		}
 
+		$driveLetter = $null
+		$logicalDisks = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='$($drive.DeviceID)'} WHERE AssocClass=Win32_DiskDriveToDiskPartition"
+		foreach ($logicalDisk in $logicalDisks) {
+			$partitions = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='$($logicalDisk.DeviceID)'} WHERE AssocClass=Win32_LogicalDiskToPartition"
+			foreach ($partition in $partitions) {
+				$driveLetter = $partition.DeviceID
+			}
+		}
+
 		$driveInfo += @{
-			letter = $drive.DeviceID
 			name = $drive.Model
 			size = [math]::Round($drive.Size / 1GB, 2)
 			type = $driveType
+			letter = $driveLetter
 		}
 	}
 
 	$driveInfo | ConvertTo-Json
-
 }
 
 function customLocation(){
