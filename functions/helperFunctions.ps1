@@ -78,7 +78,7 @@ function setSettingNoQuotes($file, $old, $new) {
 
 }
 
-function getLocations(){
+function getLocations() {
 	$drives = Get-WmiObject -Class Win32_DiskDrive
 
 	$driveInfo = @()
@@ -87,8 +87,7 @@ function getLocations(){
 		$driveType = "Unknown"
 		if ($drive.MediaType -eq "Fixed hard disk media") {
 			$driveType = "Internal"
-		}
-		elseif ($drive.MediaType -eq "Removable media") {
+		} elseif ($drive.MediaType -eq "Removable media") {
 			$driveType = "External"
 		}
 
@@ -109,6 +108,10 @@ function getLocations(){
 		}
 	}
 
+	# Ordenar el resultado por la propiedad 'letter'
+	$driveInfo = $driveInfo | Sort-Object letter
+
+	# Convertir el resultado en formato JSON
 	$driveInfo | ConvertTo-Json
 }
 
