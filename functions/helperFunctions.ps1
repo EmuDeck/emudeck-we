@@ -697,6 +697,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		}
 	}else{
 		createSymlink $simLinkPath $emuSavePath
+		cloud_sync_save_hash "$emuSavePath"
 	}
 
 }

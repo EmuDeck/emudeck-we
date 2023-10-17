@@ -65,7 +65,7 @@ function Dolphin_setupSaves(){
 	$emuSavePath = -join($emulationPath,"\saves\dolphin\states")
 	createSaveLink $simLinkPath $emuSavePath
 
-	cloud_sync_save_hash "$savesPath\dolphin"
+	#cloud_sync_save_hash "$savesPath\dolphin"
 }
 
 function Dolphin_setResolution($resolution){

@@ -40,7 +40,7 @@ function PPSSPP_setupSaves(){
 	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
 	$emuSavePath = -join($emulationPath,"\saves\ppsspp\saves")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\ppsspp"
+	#cloud_sync_save_hash "$savesPath\ppsspp"
 	
 }
 function PPSSPP_setResolution($resolution){

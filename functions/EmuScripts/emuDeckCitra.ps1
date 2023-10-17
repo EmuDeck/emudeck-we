@@ -38,7 +38,7 @@ function Citra_setupSaves(){
 	$simLinkPath = "$emusPath\citra\user\states"
 	$emuSavePath = -join($emulationPath,"\saves\citra\states")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\citra"
+	#cloud_sync_save_hash "$savesPath\citra"
 }
 function Citra_setupStorage(){
 	Write-Output "NYI"
