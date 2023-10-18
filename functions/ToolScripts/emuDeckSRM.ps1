@@ -270,6 +270,7 @@ function SRM_init(){
   "[`n" + ((Get-Content $mainParserFolder\*.json -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
+  $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
   "[`n" + ((Get-Content $mainParserFolder\*.json -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
