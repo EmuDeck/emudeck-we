@@ -39,6 +39,7 @@ function Yuzu_setupSaves(){
 
 	setMSG "Yuzu - Creating Keys & Firmware Links"
 	#Firmware
+	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered"
 	$emuSavePath = -join($emulationPath,"\bios\yuzu\firmware")
 	createSaveLink $simLinkPath $emuSavePath

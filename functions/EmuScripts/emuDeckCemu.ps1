@@ -36,7 +36,7 @@ function Cemu_setEmulationFolder(){
 
 function Cemu_setupSaves(){
 	setMSG "Cemu - Saves Links"
-	mkdir "$emusPath\cemu\mlc01\usr\"
+	mkdir "$emusPath\cemu\mlc01\usr\" -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\cemu\mlc01\usr\save"
 	$emuSavePath = -join($emulationPath,"\saves\Cemu\saves")
 	createSaveLink $simLinkPath $emuSavePath

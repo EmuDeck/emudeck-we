@@ -59,6 +59,7 @@ function RPCS3_setResolution($resolution){
 
 function RPCS3_setupSaves(){
 	setMSG "RPCS3 - Saves Links"
+	mkdir "$emulationPath\storage\rpcs3\dev_hdd0\home\00000001\"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emulationPath\storage\rpcs3\dev_hdd0\home\00000001\savedata"
 	$emuSavePath = "$savesPath\rpcs3\saves"
 	createSaveLink $simLinkPath $emuSavePath
