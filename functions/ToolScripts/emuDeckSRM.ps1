@@ -1,6 +1,6 @@
 function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
-	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-managerr' 'exe' 'portable'
+	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "srm.exe"
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
 }
@@ -10,8 +10,8 @@ function SRM_init(){
   Start-Sleep -Seconds 1
   mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
   mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
-  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-managerr\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
-Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-managerr\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
 
 
 
@@ -246,7 +246,7 @@ Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-
 
   Start-Sleep -Seconds 1
 
-  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-managerr\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 	if ($_ -notin $exclusionList) {
 	  Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
 	}
