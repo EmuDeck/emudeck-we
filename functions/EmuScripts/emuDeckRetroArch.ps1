@@ -192,10 +192,12 @@ function RetroArch_init(){
 
 	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
+	mkdir "$biosPath/neocd" -ErrorAction SilentlyContinue
 
 
 	Set-Content -Path "$biosPath/mame/bios/readme.txt" -Value "Put your Mame bios here"
 	Set-Content -Path "$biosPath/dc/readme.txt" -Value "Put your Dreamcast bios here"
+	Set-Content -Path "$biosPath/neocd/readme.txt" -Value "Put your Neo Geo CD bios here"
 	Set-Content -Path "$biosPath/readme.txt" -Value "Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!"
 
 	#Ally
