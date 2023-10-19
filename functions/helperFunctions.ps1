@@ -712,16 +712,12 @@ function toastNotification {
 
 function setScreenDimensionsScale(){
     Add-Type -Assembly System.Windows.Forms;
-    # $Scale may no longer be necessary since Windows.Forms.Screen outputs pre-scaled resolutions.
-    # Consider removing it if it is not used anymore.
-    $Scale = getScreenScale;
     # No need to check orientation of screen, again Windows.Forms handles this.
-    $ScreenHeight = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Height)*$Scale;
-    $ScreenWidth = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Width)*$Scale;
+    $ScreenHeightScaled = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Height);
+    $ScreenWidthScaled = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Width);
     # Storing the raw resolution (IE, unscaled) 
-    setSetting "ScreenWidth" "$ScreenWidth"
-    setSetting "ScreenHeight" "$ScreenHeight"
-    setSetting "Scale" "$Scale"
+    setSetting "ScreenWidthScaled" "$ScreenWidthScaled"
+    setSetting "ScreenHeightScaled" "$ScreenHeightScaled"
     . "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
@@ -740,8 +736,8 @@ function steamToast {
   $WindowHeight = 80
   $Margin = 25
 
-  $WindowLeft = $ScreenWidth/$Scale - $WindowWidth - $Margin
-  $WindowTop = $ScreenHeight/$Scale  - $WindowHeight - $Margin
+  $WindowLeft = $ScreenWidthScaled - $WindowWidth - $Margin
+  $WindowTop = $ScreenHeightScaled  - $WindowHeight - $Margin
 
   $WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
