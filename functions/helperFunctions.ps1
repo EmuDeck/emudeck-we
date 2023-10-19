@@ -108,12 +108,15 @@ function getLocations() {
 		}
 	}
 
+	$driveInfo += @{
+
+	}
 
 	# Ordenar el resultado por la propiedad 'letter'
 	$driveInfo = $driveInfo | Sort-Object letter
 
 	# Convertir el resultado en formato JSON
-	@($driveInfo) | ConvertTo-Json
+	$driveInfo | ConvertTo-Json
 }
 
 function customLocation(){
