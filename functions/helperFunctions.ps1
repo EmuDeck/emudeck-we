@@ -109,10 +109,7 @@ function getLocations() {
 	}
 
 	$driveInfo += @{
-		name = "null"
-		size = 0
-		type = "null"
-		letter = "null"
+
 	}
 
 	# Ordenar el resultado por la propiedad 'letter'
