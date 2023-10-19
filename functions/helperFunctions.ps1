@@ -108,8 +108,10 @@ function getLocations() {
 		}
 	}
 
-	$driveInfo += @{
+	if ($driveInfo.Count -eq 1) {
+		$driveInfo += @{
 
+		}
 	}
 
 	# Ordenar el resultado por la propiedad 'letter'
