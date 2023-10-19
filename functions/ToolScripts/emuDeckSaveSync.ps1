@@ -625,11 +625,16 @@ function cloud_sync_downloadEmu($emuName, $mode){
 }
 
 function cloud_sync_createBackup($emuName){
- $date = Get-Date -Format "MM_dd_yyyy"
- Copy-Item -Path "$savesPath\$emuName" -Destination "$toolsPath\save-backups\$emuName" -Recurse
- #We delete backups older than one month
- $oldDate = (Get-Date).AddDays(-30)
- Get-ChildItem -Path "$toolsPath\save-backups" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
+  $date = Get-Date -Format "MM_dd_yyyy"
+  #Check if folder exists first
+  If(!(test-path -PathType container "$toolsPath\save-backups\$emuName"))
+    {
+      New-Item -ItemType Directory -Path "$toolsPath\save-backups\$emuName"
+    }
+  Copy-Item -Path "$savesPath\$emuName\*" -Destination "$toolsPath\save-backups\$emuName" -Recurse
+  #We delete backups older than one month
+  $oldDate = (Get-Date).AddDays(-30)
+  Get-ChildItem -Path "$toolsPath\save-backups" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
 }
 
 function cloud_sync_uploadEmu{
@@ -749,8 +754,8 @@ function cloud_sync_init($emulator){
 			if ( $cloud_sync_status -eq "true"){
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
-				echo "$emulator" > $savesPath/.emulator
-				cloud_sync_downloadEmu $emulator
+                                  echo "$emulator" > $savesPath/.emulator
+cloud_sync_downloadEmu $emulator
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
