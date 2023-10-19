@@ -711,26 +711,18 @@ function toastNotification {
 }
 
 function setScreenDimensionsScale(){
-      Add-Type -Assembly System.Windows.Forms;
-
-	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
-
-	  if ($ScreenOrientation -ne "Angle0") {
-		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-
-	  }else{
-		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-	  }
-	  $Scale = getScreenScale
-
-	  setSetting "ScreenWidth" "$ScreenWidth"
-	  setSetting "ScreenHeight" "$ScreenHeight"
-	  setSetting "Scale" "$Scale"
-
-	  . "$env:USERPROFILE\EmuDeck\settings.ps1"
-
+    Add-Type -Assembly System.Windows.Forms;
+    # $Scale may no longer be necessary since Windows.Forms.Screen outputs pre-scaled resolutions.
+    # Consider removing it if it is not used anymore.
+    $Scale = getScreenScale;
+    # No need to check orientation of screen, again Windows.Forms handles this.
+    $ScreenHeight = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Height)*$Scale;
+    $ScreenWidth = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Width)*$Scale;
+    # Storing the raw resolution (IE, unscaled) 
+    setSetting "ScreenWidth" "$ScreenWidth"
+    setSetting "ScreenHeight" "$ScreenHeight"
+    setSetting "Scale" "$Scale"
+    . "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
 function steamToast {
