@@ -108,17 +108,20 @@ function getLocations() {
 		}
 	}
 
-	if ($driveInfo.Count -eq 1) {
-		$driveInfo += @{
 
-		}
-	}
-
-	# Ordenar el resultado por la propiedad 'letter'
 	$driveInfo = $driveInfo | Sort-Object letter
 
-	# Convertir el resultado en formato JSON
-	$driveInfo | ConvertTo-Json
+
+	$jsonArray = @()
+	foreach ($info in $driveInfo) {
+		$jsonArray += $info | ConvertTo-Json
+	}
+
+
+	$json = "[" + ($jsonArray -join ",") + "]"
+
+
+	Write-Host $json
 }
 
 function customLocation(){
