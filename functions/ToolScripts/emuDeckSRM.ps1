@@ -246,7 +246,7 @@ function SRM_init(){
 	if ( $doInstallRyujinx -ne "true"){
 	  $exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
 	}
-	if ( "$doInstallPCSX2QT" -ne "true"){
+	if ( "$doInstallPCSX2" -ne "true"){
 	  $exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
 	}
 
