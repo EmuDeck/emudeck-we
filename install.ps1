@@ -102,8 +102,9 @@ if (Test-Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe")
 		$url_git = getLatestReleaseURLGH 'microsoft/winget-cli' 'msixbundle'
 		download $url_git "winget.msixbundle"
 		$temp = Join-Path "$env:USERPROFILE" "Downloads"
+		Start-Job -Name WinGetInstall -ScriptBlock { Add-AppxPackage -Path "$temp/winget.msixbundle" }
+		Wait-Job -Name WinGetInstall
 
-		Start-Process "$temp/winget.msixbundle" -Wait
 	}
 
 	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
