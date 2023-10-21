@@ -1,0 +1,4 @@
+collection: Sony PlayStation Vita
+shortname: psvita
+extensions: eboot.bin
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File   "/run/media/mmcblk0p1/Emulation/tools/launchers/vita3k.ps1" -Fr {file.path}

@@ -1,0 +1,6 @@
+collection: FinalBurn Neo
+shortname: fbneo
+extensions: ccd, CCD, cue, CUE, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/fbneo_libretro.dll {file.path}
+
+

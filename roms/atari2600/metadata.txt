@@ -1,0 +1,7 @@
+collection: Atari 2600
+shortname: atari2600
+extensions: a26, A26, bin, BIN, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/stella_libretro.dll {file.path}
+
+
+

@@ -169,8 +169,9 @@ function changeLine($keyword, $replace, $file) {
 
 function setMSG($message){
 	$progressBarValue = Get-Content -Path "$userFolder\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
-	$progressBarUpdate=[int]$progressBarValue+5
-
+	if ($progressBarValue -match '^\d+$') {
+		$progressBarUpdate = [int]$progressBarValue + 5
+	}
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90

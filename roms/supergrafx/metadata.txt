@@ -1,0 +1,7 @@
+collection: NEC SuperGrafx
+shortname: supergrafx
+extensions: pce, PCE, sgx, SGX, cue, CUE, ccd, CCD, chd, CHD, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/mednafen_supergrafx_libretro.dll {file.path}
+
+
+

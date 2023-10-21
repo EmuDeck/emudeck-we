@@ -1,0 +1,6 @@
+collection: TIC-80 Game Engine
+shortname: tic80
+extensions: tic, TIC
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/tic80_libretro.dll {file.path}
+
+

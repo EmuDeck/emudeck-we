@@ -1,0 +1,7 @@
+collection: Desktop Applications
+shortname: desktop
+extensions: desktop, sh
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  PLACEHOLDER {file.path}
+
+
+

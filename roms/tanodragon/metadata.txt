@@ -1,0 +1,6 @@
+collection: Tano Dragon
+shortname: tanodragon
+extensions: cas, CAS, ccc, CCC, dsk, DSK, rom, ROM
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  PLACEHOLDER {file.path}
+
+

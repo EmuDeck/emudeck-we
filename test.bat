@@ -1,1 +1,1 @@
-powershell -ExecutionPolicy Bypass . .\test.ps1
+powershell -ExecutionPolicy Bypass -NoExit . .\test.ps1

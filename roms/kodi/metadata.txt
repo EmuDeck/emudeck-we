@@ -1,0 +1,6 @@
+collection: Kodi Home Theatre Software
+shortname: kodi
+extensions: desktop, sh
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  %RUNINBACKGROUND% %ENABLESHORTCUTS% %EMULATOR_OS-SHELL% {file.path}
+
+

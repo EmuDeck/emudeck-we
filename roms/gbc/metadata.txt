@@ -1,0 +1,4 @@
+collection: Nintendo Game Boy Color
+shortname: gbc
+extensions: bs, BS, cgb, CGB, dmg, DMG, gb, GB, gbc, GBC, sgb, SGB, sfc, SFC, smc, SMC, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/gambatte_libretro.dll {file.path}

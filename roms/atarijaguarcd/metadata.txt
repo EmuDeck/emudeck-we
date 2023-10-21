@@ -1,0 +1,6 @@
+collection: Atari Jaguar CD
+shortname: atarijaguarcd
+extensions: j64, J64, jag, JAG, rom, ROM, abs, ABS, cof, COF, bin, BIN, prg, PRG, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/virtualjaguar_libretro.dll {file.path}
+
+

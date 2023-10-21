@@ -1,0 +1,6 @@
+collection: Magnavox Odyssey2
+shortname: odyssey2
+extensions: bin, BIN, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/o2em_libretro.dll {file.path}
+
+

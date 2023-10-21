@@ -1,0 +1,4 @@
+collection: Doom
+shortname: doom
+extensions: desktop, iwad, IWAD, pk4, PK4, pwad, PWAD, sh, wad, WAD
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/prboom_libretro.dll {file.path}
