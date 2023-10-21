@@ -52,7 +52,7 @@ function DuckStation_setupSaves(){
 	$simLinkPath = "$emusPath\duckstation\savestates"
 	$emuSavePath = -join($emulationPath,"\saves\duckstation\states")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\duckstation"
+	#cloud_sync_save_hash "$savesPath\duckstation"
 }
 
 function DuckStation_setResolution($resolution){

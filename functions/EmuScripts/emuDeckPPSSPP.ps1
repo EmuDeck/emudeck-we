@@ -13,15 +13,15 @@ function PPSSPP_init(){
 	if($test){
 		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
-	
+
 	$destination="$emusPath\PPSSPP\memstick\PSP\SYSTEM"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
 
-	
+
 	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"
 	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" ":\Emulation" ":/Emulation"
-	
+
 #	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution
 }
@@ -31,17 +31,18 @@ function PPSSPP_update(){
 function PPSSPP_setEmulationFolder(){
 	Write-Output "NYI"
 }
-function PPSSPP_setupSaves(){	
+function PPSSPP_setupSaves(){
 	setMSG "PPSSPP - Saves Links"
-	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"	
-	$emuSavePath = -join($emulationPath,"\saves\ppsspp\states")	
+	mkdir "$emusPath\PPSSPP\memstick\PSP" -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"
+	$emuSavePath = -join($emulationPath,"\saves\ppsspp\states")
 	createSaveLink $simLinkPath $emuSavePath
-	
-	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"	
+
+	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"
 	$emuSavePath = -join($emulationPath,"\saves\ppsspp\saves")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\ppsspp"
-	
+	#cloud_sync_save_hash "$savesPath\ppsspp"
+
 }
 function PPSSPP_setResolution($resolution){
 	Write-Output $resolution

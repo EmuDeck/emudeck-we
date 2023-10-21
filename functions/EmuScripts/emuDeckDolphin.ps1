@@ -50,6 +50,7 @@ function Dolphin_setEmulationFolder(){
 function Dolphin_setupSaves(){
 	setMSG "Dolphin - Creating Saves Links"
 	#Saves GC
+	mkdir "$emusPath\Dolphin-x64\User\"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\Dolphin-x64\User\GC"
 	$emuSavePath = -join($emulationPath,"\saves\dolphin\GC")
 	createSaveLink $simLinkPath $emuSavePath
@@ -65,7 +66,7 @@ function Dolphin_setupSaves(){
 	$emuSavePath = -join($emulationPath,"\saves\dolphin\states")
 	createSaveLink $simLinkPath $emuSavePath
 
-	cloud_sync_save_hash "$savesPath\dolphin"
+	#cloud_sync_save_hash "$savesPath\dolphin"
 }
 
 function Dolphin_setResolution($resolution){

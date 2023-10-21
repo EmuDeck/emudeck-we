@@ -3,24 +3,24 @@ function Citra_install(){
 	$url_citra = getLatestReleaseURLGH "citra-emu/citra-nightly" "7z" "windows-msvc"
 	download $url_citra "citra.7z"
 	moveFromTo "$temp/citra/nightly" "$emusPath\citra"
-	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue	
-	mkdir "$emusPath\citra\user" -ErrorAction SilentlyContinue	
+	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue
+	mkdir "$emusPath\citra\user" -ErrorAction SilentlyContinue
 	createLauncher "citra"
-	
+
 }
 function Citra_init(){
 
 	setMSG "Citra - Configuration"
 	$destination="$emusPath\citra\user"
 	mkdir $destination -ErrorAction SilentlyContinue
-	
-	$destination="$emusPath\citra\user\config"	
+
+	$destination="$emusPath\citra\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config" "$destination"
-	
+
 	sedFile "$emusPath\citra\user\config\qt-config.ini" "C:/Emulation" "$emulationPath"
 	sedFile "$emusPath\citra\user\config\qt-config.ini" ":\Emulation" ":/Emulation"
-	
+
 #	Citra_setupSaves
 }
 function Citra_update(){
@@ -31,14 +31,15 @@ function Citra_setEmulationFolder(){
 }
 function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
+	mkdir "$emusPath\citra\user"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\citra\user\sdmc"
 	$emuSavePath = -join($emulationPath,"\saves\citra\saves")
 	createSaveLink $simLinkPath $emuSavePath
-	
+
 	$simLinkPath = "$emusPath\citra\user\states"
 	$emuSavePath = -join($emulationPath,"\saves\citra\states")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\citra"
+	#cloud_sync_save_hash "$savesPath\citra"
 }
 function Citra_setupStorage(){
 	Write-Output "NYI"
@@ -51,9 +52,9 @@ function Citra_setResolution($resolution){
 		"1080P" { $multiplier = 5 }
 		"1440P" { $multiplier = 6 }
 		"4K" { $multiplier = 9 }
-	}	
+	}
 	$destination="$emusPath\citra\user"
-	
+
 	setConfig "resolution_factor" $multiplier $destination\config\qt-config.ini
 }
 

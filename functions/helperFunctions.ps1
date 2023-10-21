@@ -78,6 +78,51 @@ function setSettingNoQuotes($file, $old, $new) {
 
 }
 
+function getLocations() {
+	$drives = Get-WmiObject -Class Win32_DiskDrive
+
+	$driveInfo = @()
+
+	foreach ($drive in $drives) {
+		$driveType = "Unknown"
+		if ($drive.MediaType -eq "Fixed hard disk media") {
+			$driveType = "Internal"
+		} elseif ($drive.MediaType -eq "Removable media") {
+			$driveType = "External"
+		}
+
+		$driveLetter = $null
+		$logicalDisks = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='$($drive.DeviceID)'} WHERE AssocClass=Win32_DiskDriveToDiskPartition"
+		foreach ($logicalDisk in $logicalDisks) {
+			$partitions = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='$($logicalDisk.DeviceID)'} WHERE AssocClass=Win32_LogicalDiskToPartition"
+			foreach ($partition in $partitions) {
+				$driveLetter = $partition.DeviceID
+			}
+		}
+
+		$driveInfo += @{
+			name = $drive.Model
+			size = [math]::Round($drive.Size / 1GB, 2)
+			type = $driveType
+			letter = $driveLetter
+		}
+	}
+
+
+	$driveInfo = $driveInfo | Sort-Object letter
+
+
+	$jsonArray = @()
+	foreach ($info in $driveInfo) {
+		$jsonArray += $info | ConvertTo-Json
+	}
+
+
+	$json = "[" + ($jsonArray -join ",") + "]"
+
+
+	Write-Host $json
+}
 
 function customLocation(){
 
@@ -661,6 +706,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		}
 	}else{
 		createSymlink $simLinkPath $emuSavePath
+		#cloud_sync_save_hash "$emuSavePath"
 	}
 
 }
@@ -711,26 +757,18 @@ function toastNotification {
 }
 
 function setScreenDimensionsScale(){
-      Add-Type -Assembly System.Windows.Forms;
-
-	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
-
-	  if ($ScreenOrientation -ne "Angle0") {
-		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-
-	  }else{
-		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-	  }
-	  $Scale = getScreenScale
-
-	  setSetting "ScreenWidth" "$ScreenWidth"
-	  setSetting "ScreenHeight" "$ScreenHeight"
-	  setSetting "Scale" "$Scale"
-
-	  . "$env:USERPROFILE\EmuDeck\settings.ps1"
-
+	Add-Type -Assembly System.Windows.Forms;
+	# $Scale may no longer be necessary since Windows.Forms.Screen outputs pre-scaled resolutions.
+	# Consider removing it if it is not used anymore.
+	$Scale = getScreenScale;
+	# No need to check orientation of screen, again Windows.Forms handles this.
+	$ScreenHeight = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Height)*$Scale;
+	$ScreenWidth = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Width)*$Scale;
+	# Storing the raw resolution (IE, unscaled)
+	setSetting "ScreenWidth" "$ScreenWidth"
+	setSetting "ScreenHeight" "$ScreenHeight"
+	setSetting "Scale" "$Scale"
+	. "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
 function steamToast {

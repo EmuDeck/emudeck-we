@@ -1,9 +1,12 @@
-try
-{
-. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1"
-. "$env:USERPROFILE\EmuDeck\settings.ps1"
 
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1"
+. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+
+if (-not $emulationPath) {
+	$emulationPath = "C:\"
+}
 Set-Location $emulationPath
+
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\showNotification.ps1"
@@ -39,9 +42,3 @@ Set-Location $emulationPath
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckGameMode.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
-}
-catch
-{
-	Write-Error $_.Exception.ToString()
-	Read-Host -Prompt "The above error occurred. Press Enter to exit."
-}

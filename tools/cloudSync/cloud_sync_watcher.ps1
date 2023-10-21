@@ -112,7 +112,7 @@ try
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {
-		  	  Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+		  	  Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
@@ -122,7 +122,7 @@ try
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {
-		      Get-Date | Out-File -FilePath $savesPath/$emuName/.pending_upload
+		      Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }
@@ -189,7 +189,7 @@ try
 		$dialog = steamToast  -MessageText "Uploading... don't turn off your device"
 		Add-Type -AssemblyName System.speech
 		$speak = New-Object System.Speech.Synthesis.SpeechSynthesizer
-		$speak.Speak('Uploading... don't turn off your device')
+		$speak.Speak("Uploading... don't turn off your device")
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
 			$dialog.Close()

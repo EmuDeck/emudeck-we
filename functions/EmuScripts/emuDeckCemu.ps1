@@ -2,15 +2,15 @@ function Cemu_install(){
 	setMSG "Downloading Cemu"
 	$url_cemu = getReleaseURLGH 'cemu-project/Cemu' 'zip' 'windows-x64' "ubuntu"
 	download $url_cemu "cemu.zip"
-	
+
 	$folderPath = "$temp/cemu"
 	$subfolders = Get-ChildItem -Path $folderPath -Directory
-	
+
 	foreach ($subfolder in $subfolders) {
-		$subfolderName = $subfolder.Name		
+		$subfolderName = $subfolder.Name
 		moveFromTo "$temp/cemu/$subfolderName" "$emusPath\cemu"
 	}
-	
+
 	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
 	createLauncher "cemu"
 
@@ -19,13 +19,13 @@ function Cemu_init(){
 	setMSG "Cemu - Configuration"
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\cemu" "$emusPath\cemu"
 	sedFile "$emusPath\cemu\controllerProfiles\controller0.xml" "DSUController" "XInput"
-	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"	
+	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
 	sedFile "$emusPath\cemu\settings.xml" "C:\Emulation" "$emulationPath"
-	
+
 #	Cemu_setupSaves
-	
-	
-	
+
+
+
 }
 function Cemu_update(){
 	Write-Output "NYI"
@@ -36,10 +36,11 @@ function Cemu_setEmulationFolder(){
 
 function Cemu_setupSaves(){
 	setMSG "Cemu - Saves Links"
-	$simLinkPath = "$emusPath\cemu\mlc01\usr\saves"
+	mkdir "$emusPath\cemu\mlc01\usr\" -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\cemu\mlc01\usr\save"
 	$emuSavePath = -join($emulationPath,"\saves\Cemu\saves")
-	createSaveLink $simLinkPath $emuSavePath 	
-	cloud_sync_save_hash "$savesPath\Cemu"
+	createSaveLink $simLinkPath $emuSavePath
+	#cloud_sync_save_hash "$savesPath\Cemu"
 }
 
 function Cemu_setResolution($resolution){
