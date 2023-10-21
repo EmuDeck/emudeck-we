@@ -9,10 +9,10 @@ if ($steamRunning) {
 	RPCS3_renameFolders
 	cloud_sync_init($scriptFileName)
 	if($args){
-	Start-Process $emulatorFile -WindowStyle Maximized -Wait -Wait -Args ($args.Replace("-", "`-") -join " ")
-}else{
-	Start-Process $emulatorFile -WindowStyle Maximized -Wait
-}
+		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Wait -Args ($args -join " ")
+	}else{
+		Start-Process $emulatorFile -WindowStyle Maximized -Wait
+	}
 	rm -fo "$savesPath/.watching" -ErrorAction SilentlyContinue
 	rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
 } else {
