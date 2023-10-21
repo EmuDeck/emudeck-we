@@ -750,13 +750,13 @@ function cloud_sync_init($emulator){
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
-                                  echo "\" > $savesPath/.emulator
-				  cloud_sync_downloadEmuAll
-                               }else{
-                                  echo "$emulator" > $savesPath/.emulator
-				  cloud_sync_downloadEmu $emulator
-                               }
-cloud_sync_downloadEmu $emulator
+                	echo "\" > $savesPath/.emulator
+					cloud_sync_downloadEmuAll
+                }else{
+                    echo "$emulator" > $savesPath/.emulator
+					cloud_sync_downloadEmu $emulator
+                }
+				cloud_sync_downloadEmu $emulator
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
