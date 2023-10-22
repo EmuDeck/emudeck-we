@@ -292,7 +292,7 @@ function SRM_init(){
 
   Start-Sleep -Seconds 1
 
-  if($steamAsFrontend){
+  if($steamAsFrontend -ne "False"){
   	Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		if ($_ -notin $exclusionList) {
 	  	Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
