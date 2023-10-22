@@ -164,12 +164,12 @@ function ESDE_bezelOff(){
 function ESDE_finalize(){
 	Write-Output "NYI"
 }
+
 function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 
-	mkdir "$esdePath/themes/" -ErrorAction SilentlyContinue
-
-	cd "$esdePath/themes/"
-	git clone $esdeThemeUrl
+	mkdir -p "$esdePath\.emulationstationthemes" -ErrorAction SilentlyContinue
+	cd "$esdePath\.emulationstation\themes"
+	git clone $esdeThemeUrl "./$esdeThemeName"
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', "$esdeThemeName"
