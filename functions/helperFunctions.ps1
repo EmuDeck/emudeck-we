@@ -83,6 +83,18 @@ function getLocations() {
 
 	$driveInfo = @()
 
+	$networkDrives = Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=4"
+	foreach ($networkDrive in $networkDrives) {
+		$driveInfo += @{
+			name = $networkDrive.VolumeName
+			size = [math]::Round($networkDrive.Size / 1GB, 2)
+			type = "Network"
+			letter = $networkDrive.DeviceID
+		}
+	}
+
+	$driveInfo = $driveInfo | Sort-Object -Property letter
+
 	foreach ($drive in $drives) {
 		$driveType = "Unknown"
 		if ($drive.MediaType -eq "Fixed hard disk media") {
@@ -108,17 +120,9 @@ function getLocations() {
 		}
 	}
 
-	$networkDrives = Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=4"
-	foreach ($networkDrive in $networkDrives) {
-		$driveInfo += @{
-			name = $networkDrive.VolumeName
-			size = [math]::Round($networkDrive.Size / 1GB, 2)
-			type = "Network"
-			letter = $networkDrive.DeviceID
-		}
-	}
 
-	$driveInfo = $driveInfo | Sort-Object letter
+
+	$driveInfo = $driveInfo | Sort-Object -Property letter
 
 	$jsonArray = @()
 	foreach ($info in $driveInfo) {
