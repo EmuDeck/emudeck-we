@@ -3,6 +3,7 @@ function SRM_install(){
 	$url_srm = getLatestReleaseURLGH 'dragoonDorise/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "srm.exe"
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
+	echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
 }
 function SRM_init(){
 
@@ -11,6 +12,7 @@ function SRM_init(){
   if($test){
   	echo "already migrated"
   }else{
+	  confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
 	  #Steam installation Path
 		$steamRegPath = "HKCU:\Software\Valve\Steam"
 		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
@@ -26,7 +28,7 @@ function SRM_init(){
 				$shorcutsContent = Get-Content -Path $filePath
 			}
 		}
-
+		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
 		sedFile "$shorcutsPath" '"-L' '-L'
 		sedFile "$shorcutsPath" 'cores' "'cores"
 		sedFile "$shorcutsPath" '.dll"' ".dll'"
