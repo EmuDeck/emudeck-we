@@ -79,7 +79,7 @@ function ESDE_init(){
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
 	createLauncher "esde/EmulationStationDE"
 
-	ESDE_applyTheme $esdeTheme
+	ESDE_applyTheme "$esdeThemeUrl" "$esdeThemeName"
 
 	ESDE_setDefaultEmulators
 
@@ -164,24 +164,15 @@ function ESDE_bezelOff(){
 function ESDE_finalize(){
 	Write-Output "NYI"
 }
-function ESDE_applyTheme($theme){
+function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 
 	mkdir "$esdePath/themes/" -ErrorAction SilentlyContinue
 
-	git clone https://github.com/anthonycaccese/epic-noir-revisited-es-de "$esdePath/themes/epic-noir-revisited" --depth=1
-	cd "$esdePath/themes/epic-noir-revisited" ; git reset --hard HEAD ; git clean -f -d ; git pull
-
+	cd "$esdePath/themes/"
+	git clone $esdeThemeUrl
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
-	if($theme -eq "EPICNOIR"){
-		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'epic-noir-revisited'
-	}
-	if($theme -eq "MODERN-DE"){
-		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'modern-es-de'
-	}
-	if($theme -eq "RBSIMPLE-DE"){
-		$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', 'slate-es-de'
-	}
+	$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', "$esdeThemeName"
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 
 }

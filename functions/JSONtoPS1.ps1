@@ -113,8 +113,15 @@ function JSONtoPS1(){
 	setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
 
 	#Default ESDE Theme
-	$esdeTheme=$myJson.theme
-	setSettinginFile("`$esdeTheme=`"$esdeTheme`"")
+	$esdeThemeUrl=$myJson.themeESDE[0]
+	$esdeThemeName=$myJson..themeESDE[1]
+	setSettinginFile("`$esdeThemeUrl=`"$esdeThemeUrl`"")
+	setSettinginFile("`$esdeThemeName=`"$esdeThemeName`"")
+
+	$pegasusThemeUrl=$myJson.themePegasus[0]
+	$pegasusThemeName=$myJson..themePegasus[1]
+	setSettinginFile("`$pegasusThemeUrl=`"$pegasusThemeUrl`"")
+	setSettinginFile("`$pegasusThemeName=`"$pegasusThemeName`"")
 
 
 	#Advanced settings
