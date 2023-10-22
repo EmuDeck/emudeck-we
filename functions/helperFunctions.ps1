@@ -108,18 +108,24 @@ function getLocations() {
 		}
 	}
 
+	$networkDrives = Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=4"
+	foreach ($networkDrive in $networkDrives) {
+		$driveInfo += @{
+			name = $networkDrive.VolumeName
+			size = [math]::Round($networkDrive.Size / 1GB, 2)
+			type = "Network"
+			letter = $networkDrive.DeviceID
+		}
+	}
 
 	$driveInfo = $driveInfo | Sort-Object letter
-
 
 	$jsonArray = @()
 	foreach ($info in $driveInfo) {
 		$jsonArray += $info | ConvertTo-Json
 	}
 
-
 	$json = "[" + ($jsonArray -join ",") + "]"
-
 
 	Write-Host $json
 }
