@@ -5,6 +5,44 @@ function SRM_install(){
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
 }
 function SRM_init(){
+
+  #Fix for games with - in it's path
+  $test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+  if($test){
+  	echo "already migrated"
+  }else{
+	  #Steam installation Path
+		$steamRegPath = "HKCU:\Software\Valve\Steam"
+		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+		$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+
+		$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
+
+		# Busca el archivo shortcuts.vdf en cada carpeta de userdata
+		foreach ($folder in $folders) {
+			$filePath = Join-Path $folder.FullName "shortcuts.vdf"
+			if (Test-Path -Path $filePath) {
+				$shorcutsPath = $filePath
+				$shorcutsContent = Get-Content -Path $filePath
+			}
+		}
+
+		sedFile "$shorcutsPath" '"-L' '-L'
+		sedFile "$shorcutsPath" 'cores' "'cores"
+		sedFile "$shorcutsPath" '.dll"' ".dll'"
+		sedFile "$shorcutsPath" '"""' "'"
+		sedFile "$shorcutsPath" ' && exit " && exit' '}" && exit " && exit'
+		sedFile "$shorcutsPath" '"-b"' '-b'
+		sedFile "$shorcutsPath" '"-e"' '-e'
+		sedFile "$shorcutsPath" '"-f"' '-f'
+		sedFile "$shorcutsPath" '"-g"' '-g'
+		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
+		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
+
+		echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+  }
+
+
   setMSG 'Steam Rom Manager - Configuration'
   rm -fo "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
   Start-Sleep -Seconds 1
