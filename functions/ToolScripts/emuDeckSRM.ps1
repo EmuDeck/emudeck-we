@@ -306,7 +306,7 @@ function SRM_init(){
    	}
   }else{
 	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
-	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
+	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
   }
 
   $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
