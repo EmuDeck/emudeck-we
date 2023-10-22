@@ -114,12 +114,12 @@ function JSONtoPS1(){
 
 	#Default ESDE Theme
 	$esdeThemeUrl=$myJson.themeESDE[0]
-	$esdeThemeName=$myJson..themeESDE[1]
+	$esdeThemeName=$myJson.themeESDE[1]
 	setSettinginFile("`$esdeThemeUrl=`"$esdeThemeUrl`"")
 	setSettinginFile("`$esdeThemeName=`"$esdeThemeName`"")
 
 	$pegasusThemeUrl=$myJson.themePegasus[0]
-	$pegasusThemeName=$myJson..themePegasus[1]
+	$pegasusThemeName=$myJson.themePegasus[1]
 	setSettinginFile("`$pegasusThemeUrl=`"$pegasusThemeUrl`"")
 	setSettinginFile("`$pegasusThemeName=`"$pegasusThemeName`"")
 
