@@ -1,0 +1,6 @@
+collection: Epic Games Store
+shortname: epic
+extensions: desktop, sh
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  PLACEHOLDER {file.path}
+
+

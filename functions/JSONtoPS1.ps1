@@ -31,6 +31,7 @@ function JSONtoPS1(){
 	$SetupPPSSPP= $myJson.overwriteConfigEmus.ppsspp.status
 	$SetupXemu= $myJson.overwriteConfigEmus.xemu.status
 	$SetupESDE= $myJson.overwriteConfigEmus.esde.status
+	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
 	$SetupSRM= $myJson.overwriteConfigEmus.srm.status
 	$SetupmelonDS= $myJson.overwriteConfigEmus.melonDS.status
 
@@ -48,10 +49,10 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupPrimeHacks=`"$SetupPrimeHacks`"")
 	setSettinginFile("`$doSetupPPSSPP=`"$SetupPPSSPP`"")
 	setSettinginFile("`$doSetupXemu=`"$SetupXemu`"")
-	setSettinginFile("`$doSetupESDE=`"$SetupESDE`"")
 	setSettinginFile("`$doSetupSRM=`"$SetupSRM`"")
 	setSettinginFile("`$doSetupmelonDS=`"$SetupmelonDS`"")
 
+	setSettinginFile("`$doSetupPegasus=`"$SetupPegasus`"")
 
 	#Install all systems by default
 	$InstallRA = $myJson.installEmus.ra.status
@@ -68,9 +69,13 @@ function JSONtoPS1(){
 	$InstallPrimeHacks= $myJson.installEmus.primehacks.status
 	$InstallPPSSPP= $myJson.installEmus.ppsspp.status
 	$InstallXemu= $myJson.installEmus.xemu.status
-	$InstallESDE= $myJson.installEmus.esde.status
 	$InstallSRM= $myJson.installEmus.srm.status
 	$InstallmelonDS= $myJson.installEmus.melonDS.status
+
+	#Frontends
+	$InstallESDE= $myJson.installFrontends.esde.status
+	$InstallPegasus= $myJson.installFrontends.pegasus.status
+	$steamAsFrontend= $myJson.installFrontends.steam.status
 
 	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
@@ -86,9 +91,13 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallPrimeHacks=`"$InstallPrimeHacks`"")
 	setSettinginFile("`$doInstallPPSSPP=`"$InstallPPSSPP`"")
 	setSettinginFile("`$doInstallXemu=`"$InstallXemu`"")
-	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
 	setSettinginFile("`$doInstallSRM=`"$InstallSRM`"")
 	setSettinginFile("`$doInstallmelonDS=`"$InstallmelonDS`"")
+
+	#Frontends
+	setSettinginFile("`$doInstallPegasus=`"$doInstallPegasus`"")
+	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
+	setSettinginFile("`$steamAsFrontend=`"$steamAsFrontend`"")
 
 
 	$RABezels=$myJson.bezels
@@ -113,9 +122,16 @@ function JSONtoPS1(){
 	setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
 
 	#Default ESDE Theme
-	$esdeTheme=$myJson.theme
-	setSettinginFile("`$esdeTheme=`"$esdeTheme`"")
+	$esdeThemeUrl=$myJson.themeESDE[0]
+	$esdeThemeName=$myJson.themeESDE[1]
+	setSettinginFile("`$esdeThemeUrl=`"$esdeThemeUrl`"")
+	setSettinginFile("`$esdeThemeName=`"$esdeThemeName`"")
 
+	#Default Pegasus Theme
+	$pegasusThemeUrl=$myJson.themePegasus[0]
+	$pegasusThemeName=$myJson.themePegasus[1]
+	setSettinginFile("`$pegasusThemeUrl=`"$pegasusThemeUrl`"")
+	setSettinginFile("`$pegasusThemeName=`"$pegasusThemeName`"")
 
 	#Advanced settings
 	setSettinginFile("`$doRASignIn=`"true`"")

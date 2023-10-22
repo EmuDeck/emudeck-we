@@ -74,6 +74,10 @@ if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
 
+$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
+if(-not($test) -and $doInstallPegasus -eq "true" ){
+	Pegasus_install
+}
 
 #SRM
 $test=Test-Path -Path "$toolsPath\srm.exe"
@@ -174,6 +178,10 @@ if ( "$doSetupESDE" -eq "true" ){
 	#$setupSaves+="ESDE_setupSaves;"
 }
 
+if ( "$doSetupPegasus" -eq "true" ){
+	Pegasus_init
+}
+
 if ( "$doSetupSRM" -eq "true" ){
 	SRM_init
 }
@@ -259,6 +267,7 @@ if ( "$doSetupmelonDS" -eq "true" ){
 
 
 setMSG 'Configuring Save folders - Waiting for user confirmatiom'
+confirmDialog -TitleText "Administrator Privileges needed" -MessageText "After this message you'll get a window asking for elevated permissions. This is so we can create symlinks for all your emulators saves and states folders."
 
 $scriptContent = @"
 	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves

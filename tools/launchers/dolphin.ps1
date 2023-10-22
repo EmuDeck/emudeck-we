@@ -7,7 +7,8 @@ if ($steamRunning) {
 	. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 	cloud_sync_init($scriptFileName)
 	if($args){
-		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args ($args -join " ")
+		$formattedArgs = $args | ForEach-Object { '"' + $_ + '"' }
+		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args ($formattedArgs -join ' ')
 	}else{
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait
 	}

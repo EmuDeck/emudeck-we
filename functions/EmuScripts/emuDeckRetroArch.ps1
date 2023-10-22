@@ -190,6 +190,16 @@ function RetroArch_init(){
 	$line="`rsystem_directory = `"$biosPath`""
 	$line | Add-Content $RetroArch_configFile
 
+	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
+	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
+	mkdir "$biosPath/neocd" -ErrorAction SilentlyContinue
+
+
+	Set-Content -Path "$biosPath/mame/bios/readme.txt" -Value "Put your Mame bios here"
+	Set-Content -Path "$biosPath/dc/readme.txt" -Value "Put your Dreamcast bios here"
+	Set-Content -Path "$biosPath/neocd/readme.txt" -Value "Put your Neo Geo CD bios here"
+	Set-Content -Path "$biosPath/readme.txt" -Value "Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!"
+
 	#Ally
 	if($device -eq "Asus Rog Ally"){
 		$line="`raudio_driver = `"wasapi`""
@@ -214,7 +224,7 @@ function RetroArch_setupSaves(){
 	$simLinkPath = "$emusPath\RetroArch\states"
 	$emuSavePath = -join($emulationPath,"\saves\retroarch\states")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\retroarch"
+	#cloud_sync_save_hash "$savesPath\retroarch"
 }
 
 function RetroArch_setOverride($fileToCheck, $name, $key, $value){

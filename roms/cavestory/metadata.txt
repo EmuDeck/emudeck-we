@@ -1,0 +1,6 @@
+collection: Cave Story (NXEngine)
+shortname: cavestory
+extensions: exe, EXE, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/nxengine_libretro.dll {file.path}
+
+

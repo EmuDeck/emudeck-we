@@ -1,0 +1,6 @@
+collection: OpenBOR Game Engine
+shortname: openbor
+extensions: AppImage
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  PLACEHOLDER {file.path}
+
+

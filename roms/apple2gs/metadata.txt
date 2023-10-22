@@ -1,0 +1,6 @@
+collection: Apple IIGS
+shortname: apple2gs
+extensions: 2mg, 2MG
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  PLACEHOLDER {file.path}
+
+

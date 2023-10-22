@@ -10,14 +10,14 @@ function Ryujinx_init(){
 	$destination="$emusPath\Ryujinx"
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
 	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json"
-	Ryujinx_setEmulationFolder	
+	Ryujinx_setEmulationFolder
 #	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
-	
-	
+
+
 	sedFile "$destination\portable\Config.json" "C:\\Emulation" "$emulationPath"
 	sedFile "$destination\portable\Config.json" ":\Emulation" ":\\Emulation"
-	
+
 }
 
 function Ryujinx_update(){
@@ -31,22 +31,23 @@ function Ryujinx_setupSaves(){
 
 	setMSG "Ryujinx - Creating Keys  Links"
 	#Firmware
+	mkdir "$emusPath\Ryujinx\portable" -ErrorAction SilentlyContinue
+	mkdir "$biosPath\ryujinx" -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\Ryujinx\portable\system"
 	$emuSavePath = -join($emulationPath,"\bios\ryujinx\keys")
-	mkdir "bios\ryujinx" -ErrorAction SilentlyContinue
-	mkdir $simLinkPath -ErrorAction SilentlyContinue
-	createSaveLink $simLinkPath $emuSavePath	
+	createSaveLink $simLinkPath $emuSavePath
 
 	setMSG "Ryujinx - Saves Links"
-	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"  
+	mkdir "$emusPath\Ryujinx\portable\bis\user" -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"
 	$emuSavePath = -join($emulationPath,"\saves\ryujinx\saves")
 	createSaveLink $simLinkPath $emuSavePath
-	
-	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"  
+
+	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"
 	$emuSavePath = -join($emulationPath,"\saves\ryujinx\saveMeta")
 	createSaveLink $simLinkPath $emuSavePath
-	cloud_sync_save_hash "$savesPath\ryjuinx"
-	
+	#cloud_sync_save_hash "$savesPath\ryujinx"
+
 }
 
 function Ryujinx_setResolution($resolution){
@@ -56,8 +57,8 @@ function Ryujinx_setResolution($resolution){
 		"1080P" { $multiplier = 1; $docked="true"   }
 		"1440P" { $multiplier = 2;  $docked="false" }
 		"4K" { $multiplier = 2; $docked="true" }
-	}	
-	
+	}
+
 	$jsonConfig = Get-Content -Path "$emusPath\Ryujinx\portable\Config.json" | ConvertFrom-Json
 	$jsonConfig.docked_mode = $docked
 	$jsonConfig.res_scale = $multiplier

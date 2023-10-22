@@ -1,0 +1,6 @@
+collection: Java 2 Micro Edition (J2ME)
+shortname: j2me
+extensions: jar, JAR, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/squirreljme_libretro.dll {file.path}
+
+

@@ -1,0 +1,6 @@
+collection: Daphne Arcade LaserDisc Emulator
+shortname: daphne
+extensions: daphne, singe
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  PLACEHOLDER {file.path}
+
+

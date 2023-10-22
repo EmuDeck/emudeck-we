@@ -2,7 +2,7 @@
   "parserType": "Glob",
   "configTitle": "Sega Genesis/Mega Drive WideScreen - RetroArch Genesis Plus GX",
   "steamCategory": "${Sega Genesis/Mega Drive WideScreen}",
-  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\retroarch.ps1 \"-L ${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}genesis_plus_gx_wide_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}\" \"\"\"${filePath}\"\"\" && exit \" && exit --emudeck",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\retroarch.ps1 -L '${os:win|cores|${os:mac|${racores}|${os:linux|${racores}}}}${/}genesis_plus_gx_wide_libretro.${os:win|dll|${os:mac|dylib|${os:linux|so}}}' '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}/genesiswide",
   "steamDirectory": "${steamdirglobal}",

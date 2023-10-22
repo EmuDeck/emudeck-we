@@ -78,6 +78,61 @@ function setSettingNoQuotes($file, $old, $new) {
 
 }
 
+function getLocations() {
+	$drives = Get-WmiObject -Class Win32_DiskDrive
+
+	$driveInfo = @()
+
+	$networkDrives = Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=4"
+	foreach ($networkDrive in $networkDrives) {
+		$driveInfo += @{
+			name = $networkDrive.VolumeName
+			size = [math]::Round($networkDrive.Size / 1GB, 2)
+			type = "Network"
+			letter = $networkDrive.DeviceID
+		}
+	}
+
+	$driveInfo = $driveInfo | Sort-Object -Property letter
+
+	foreach ($drive in $drives) {
+		$driveType = "Unknown"
+		if ($drive.MediaType -eq "Fixed hard disk media") {
+			$driveType = "Internal"
+		} elseif ($drive.MediaType -eq "Removable media") {
+			$driveType = "External"
+		}
+
+		$driveLetter = $null
+		$logicalDisks = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='$($drive.DeviceID)'} WHERE AssocClass=Win32_DiskDriveToDiskPartition"
+		foreach ($logicalDisk in $logicalDisks) {
+			$partitions = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='$($logicalDisk.DeviceID)'} WHERE AssocClass=Win32_LogicalDiskToPartition"
+			foreach ($partition in $partitions) {
+				$driveLetter = $partition.DeviceID
+			}
+		}
+
+		$driveInfo += @{
+			name = $drive.Model
+			size = [math]::Round($drive.Size / 1GB, 2)
+			type = $driveType
+			letter = $driveLetter
+		}
+	}
+
+
+
+	$driveInfo = $driveInfo | Sort-Object -Property letter
+
+	$jsonArray = @()
+	foreach ($info in $driveInfo) {
+		$jsonArray += $info | ConvertTo-Json
+	}
+
+	$json = "[" + ($jsonArray -join ",") + "]"
+
+	Write-Host $json
+}
 
 function customLocation(){
 
@@ -124,8 +179,9 @@ function changeLine($keyword, $replace, $file) {
 
 function setMSG($message){
 	$progressBarValue = Get-Content -Path "$userFolder\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
-	$progressBarUpdate=[int]$progressBarValue+5
-
+	if ($progressBarValue -match '^\d+$') {
+		$progressBarUpdate = [int]$progressBarValue + 5
+	}
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
@@ -362,6 +418,13 @@ function confirmDialog {
 	$WPFGui.Message.Text = $MessageText
 
 	$WPFGui.OKButton.Content = $OKButtonText
+
+	# Create a script block to handle the button click event
+	$buttonClickEvent = {
+		param($sender, $e)
+		$global:Result = $sender.Name
+		$WPFGui.UI.Close()
+	}
 
 	# Add the script block to the button's Click event
 	$WPFGui.OKButton.Add_Click($buttonClickEvent)
@@ -654,6 +717,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		}
 	}else{
 		createSymlink $simLinkPath $emuSavePath
+		#cloud_sync_save_hash "$emuSavePath"
 	}
 
 }
@@ -704,26 +768,18 @@ function toastNotification {
 }
 
 function setScreenDimensionsScale(){
-      Add-Type -Assembly System.Windows.Forms;
-
-	  $ScreenOrientation = [Windows.Forms.SystemInformation]::ScreenOrientation;
-
-	  if ($ScreenOrientation -ne "Angle0") {
-		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-
-	  }else{
-		$ScreenWidth = (Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution;
-		$ScreenHeight = (Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution;
-	  }
-	  $Scale = getScreenScale
-
-	  setSetting "ScreenWidth" "$ScreenWidth"
-	  setSetting "ScreenHeight" "$ScreenHeight"
-	  setSetting "Scale" "$Scale"
-
-	  . "$env:USERPROFILE\EmuDeck\settings.ps1"
-
+	Add-Type -Assembly System.Windows.Forms;
+	# $Scale may no longer be necessary since Windows.Forms.Screen outputs pre-scaled resolutions.
+	# Consider removing it if it is not used anymore.
+	$Scale = getScreenScale;
+	# No need to check orientation of screen, again Windows.Forms handles this.
+	$ScreenHeight = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Height)*$Scale;
+	$ScreenWidth = ([System.Windows.Forms.Screen]::PrimaryScreen.bounds.Width)*$Scale;
+	# Storing the raw resolution (IE, unscaled)
+	setSetting "ScreenWidth" "$ScreenWidth"
+	setSetting "ScreenHeight" "$ScreenHeight"
+	setSetting "Scale" "$Scale"
+	. "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
 function steamToast {

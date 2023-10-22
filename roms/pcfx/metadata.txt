@@ -1,0 +1,7 @@
+collection: NEC PC-FX
+shortname: pcfx
+extensions: cue CUE, ccd, CCD, toc, TOC, chd, CHD, 7z, 7Z, zip, ZIP
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/mednafen_pcfx_libretro.dll {file.path}
+
+
+
