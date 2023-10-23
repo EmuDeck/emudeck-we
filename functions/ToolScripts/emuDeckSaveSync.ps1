@@ -794,7 +794,6 @@ function cloud_sync_init($emulator){
                     echo "$emulator" > $savesPath/.emulator
 					cloud_sync_downloadEmu $emulator
                 }
-				cloud_sync_downloadEmu $emulator
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
