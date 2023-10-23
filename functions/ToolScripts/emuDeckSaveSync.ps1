@@ -4,7 +4,10 @@ $cloud_sync_config_file_symlink="$cloud_sync_path/rclone.conf"
 $cloud_sync_config_file="$env:USERPROFILE\AppData\Roaming\EmuDeck\rclone.conf"
 
 
-function Get-Custom-Credentials($provider) {
+function Get-Custom-Credentials($provider){
+	startLog($MyInvocation.MyCommand.Name)
+
+
 	Add-Type -AssemblyName System.Windows.Forms
 	$form = New-Object System.Windows.Forms.Form
 	$form.Text = "Cloud Login"
@@ -139,12 +142,13 @@ $scriptContent = @"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Start-Sleep -Seconds 2
-
+	stopLog
 }
 
 
 
 function cloud_sync_install($cloud_sync_provider){
+	startLog($MyInvocation.MyCommand.Name)
 
  confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
 
@@ -172,13 +176,17 @@ function cloud_sync_install($cloud_sync_provider){
 	 moveFromTo "$temp/rclone" "$toolsPath"
 	}
  }
+ stopLog
 }
 
 function cloud_sync_toggle($status){
- setSetting "cloud_sync_status" $status
+	startLog($MyInvocation.MyCommand.Name)
+    setSetting "cloud_sync_status" $status
+	stopLog
 }
 
 function cloud_sync_config($cloud_sync_provider){
+	startLog($MyInvocation.MyCommand.Name)
 	taskkill /F /IM rclone.exe > NUL 2>NUL
 	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path"
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
@@ -274,10 +282,11 @@ function cloud_sync_config($cloud_sync_provider){
 	#$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType #"application/x-www-form-urlencoded"
 	#Add-Type -AssemblyName PresentationFramework
 	#[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this #code:`n$response", "Success!")
-
+	stopLog
 }
 
 function cloud_sync_config_with_code($code){
+	startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "true"
 
 	$headers = @{
@@ -315,14 +324,18 @@ function cloud_sync_config_with_code($code){
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
+	stopLog
 }
 
 function cloud_sync_install_and_config($cloud_sync_provider){
+	startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config($cloud_sync_provider)
+	stopLog
 }
 
 function cloud_sync_install_and_config_with_code($cloud_sync_provider){
+	startLog($MyInvocation.MyCommand.Name)
 	Add-Type -AssemblyName System.Windows.Forms
 	Add-Type -AssemblyName System.Drawing
 
@@ -369,14 +382,18 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config_with_code($code)
+	stopLog
 }
 
 function cloud_sync_uninstall(){
+	startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "false"
 	rm -fo "$cloud_sync_path" -Recurse
+	stopLog
 }
 
 function cloud_sync_download($emuName){
+	startLog($MyInvocation.MyCommand.Name)
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We wait for any upload in progress
 		cloud_sync_check_lock
@@ -479,10 +496,11 @@ function cloud_sync_download($emuName){
 		$dialog.Close()
 	}
 
-
+stopLog
 }
 
 function cloud_sync_save_hash($target){
+	startLog($MyInvocation.MyCommand.Name)
 	# Calculate the total size of the folder (including subfolders)
 	$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
 	# Convert the size to a string
@@ -495,9 +513,11 @@ function cloud_sync_save_hash($target){
 	$filePath = "$target\.hash"
 	# Save the hash to a file
 	$hash | Out-File -FilePath $filePath
+	stopLog
 }
 
 function cloud_sync_upload{
+	startLog($MyInvocation.MyCommand.Name)
 	param(
 		[string]$emuName,
 		[string]$mode
@@ -559,10 +579,12 @@ function cloud_sync_upload{
 		#We unlock cloudsync
 		cloud_sync_unlock "$userFolder"
 	}
+	stopLog
 }
 
 
 function cloud_sync_downloadEmu($emuName, $mode){
+	startLog($MyInvocation.MyCommand.Name)
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
@@ -621,15 +643,17 @@ function cloud_sync_downloadEmu($emuName, $mode){
 		}
 	}
 
-
+stopLog
 }
 
 function cloud_sync_createBackup($emuName){
+	startLog($MyInvocation.MyCommand.Name)
  $date = Get-Date -Format "MM_dd_yyyy"
  Copy-Item -Path "$savesPath\$emuName\*" -Destination "$toolsPath\save-backups\$emuName" -Recurse
  #We delete backups older than one month
  $oldDate = (Get-Date).AddDays(-30)
  Get-ChildItem -Path "$toolsPath\save-backups" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
+ stopLog
 }
 
 function cloud_sync_uploadEmu{
@@ -637,6 +661,7 @@ function cloud_sync_uploadEmu{
 		[string]$emuName,
 		[string]$mode
 	)
+	startLog($MyInvocation.MyCommand.Name)
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
@@ -673,21 +698,23 @@ function cloud_sync_uploadEmu{
 			Get-Date | Out-File -FilePath $savesPath/$emuName/.fail_upload
 		}
 	}
+	stopLog
 }
 
 
 function cloud_sync_downloadEmuAll(){
-
+	startLog($MyInvocation.MyCommand.Name)
 	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
 		$simLinkPath = $_.FullName
 		$emuName = (Get-Item $simLinkPath).Name
 		cloud_sync_downloadEmu $emuName 'check-conflicts'
 	}
 	cloud_sync_download 'all'
+	stopLog
 }
 
 function cloud_sync_uploadEmuAll(){
-
+	startLog($MyInvocation.MyCommand.Name)
 	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
 		$simLinkPath = $_.FullName
 		$emuName = (Get-Item $simLinkPath).Name
@@ -695,11 +722,12 @@ function cloud_sync_uploadEmuAll(){
 
 	}
 	cloud_sync_upload 'all'
-
+	stopLog
 }
 
 
 function cloud_sync_lock($userPath){
+	startLog($MyInvocation.MyCommand.Name)
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = "$userPath"
 	}
@@ -708,9 +736,11 @@ function cloud_sync_lock($userPath){
 	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Seconds 2
 	$toast.Close()
+	stopLog
 }
 
 function cloud_sync_unlock($userPath){
+	startLog($MyInvocation.MyCommand.Name)
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = "$userPath"
 	}
@@ -718,9 +748,11 @@ function cloud_sync_unlock($userPath){
 	$toast = steamToast -MessageText "Uploads completed!"
 	Start-Sleep -Seconds 2
 	$toast.Close()
+	stopLog
 }
 
 function cloud_sync_check_lock(){
+	startLog($MyInvocation.MyCommand.Name)
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
 		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games, please wait..."
@@ -729,8 +761,10 @@ function cloud_sync_check_lock(){
 		}
 		$toast.Close()
 	}
+	stopLog
 }
 function cloud_sync_notification($text){
+	startLog($MyInvocation.MyCommand.Name)
 
 	[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 	$objNotifyIcon = New-Object System.Windows.Forms.NotifyIcon
@@ -740,10 +774,11 @@ function cloud_sync_notification($text){
 	$objNotifyIcon.BalloonTipText = "$text"
 	$objNotifyIcon.Visible = $True
 	$objNotifyIcon.ShowBalloonTip(10000)
-
+	stopLog
 }
 
 function cloud_sync_init($emulator){
+	startLog($MyInvocation.MyCommand.Name)
 	if ( check_internet_connection -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
@@ -770,4 +805,5 @@ function cloud_sync_init($emulator){
 		Start-Sleep -Seconds 1
 		$toast.Close()
 	}
+	stopLog
 }
