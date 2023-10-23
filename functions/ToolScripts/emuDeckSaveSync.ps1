@@ -673,8 +673,6 @@ function cloud_sync_uploadEmu{
 		startLogBG($MyInvocation.MyCommand.Name, $userFolder)
 	}
 
-	startLog($MyInvocation.MyCommand.Name)
-
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
