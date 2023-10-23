@@ -168,19 +168,8 @@ function YuzuEA_install($tokenValue) {
 
 }
 
-function YuzuEA_addToken($tokenValueRaw){
-	$tokenValue = "$tokenValueRaw===="
-	$tokenParts = $tokenValue -split '(.{4})' | Where-Object { $_ -ne '' }
-	if ($tokenParts[-1].Length -lt 4) {
-		$tokenParts = $tokenParts[0..($tokenParts.Count - 2)]
-	}
-	$tokenValue = $tokenParts -join ''
-
-	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
-	$user, $auth = $decodedData.Split(':')
-	if ($user -ne $null -and $auth -ne $null) {
-		YuzuEA_install $tokenValue
-	}
+function YuzuEA_addToken($tokenValue){
+	YuzuEA_install $tokenValue
 }
 
 function YuzuEA_IsInstalled() {
