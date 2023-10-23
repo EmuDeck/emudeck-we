@@ -322,6 +322,12 @@ function startLog($funcName){
 
 }
 
+function startLogNG($funcName, $folder){
+
+	Start-Transcript "$folder/EmuDeck/logs/$funcName.log"
+
+}
+
 function stopLog(){
 
     Stop-Transcript
