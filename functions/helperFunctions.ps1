@@ -93,8 +93,6 @@ function getLocations() {
 		}
 	}
 
-	$driveInfo = $driveInfo | Sort-Object -Property letter
-
 	foreach ($drive in $drives) {
 		$driveType = "Unknown"
 		if ($drive.MediaType -eq "Fixed hard disk media") {
@@ -119,8 +117,6 @@ function getLocations() {
 			letter = $driveLetter
 		}
 	}
-
-
 
 	$driveInfo = $driveInfo | Sort-Object -Property letter
 
