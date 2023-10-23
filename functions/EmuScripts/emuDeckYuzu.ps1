@@ -160,6 +160,10 @@ function YuzuEA_install($tokenValue) {
 		xcopy "$temp\yuzuEA\yuzu-windows-msvc-early-access\" "$emusPath\yuzu\yuzu-windows-msvc\" /H /E /Y > $null
 		rm -r -fo "$temp/yuzuEA" -ErrorAction SilentlyContinue > $null
 		#createLauncher "yuzu"
+
+		#SDL fix
+		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
+
 		Write-Host "true"
 
 	} else {
