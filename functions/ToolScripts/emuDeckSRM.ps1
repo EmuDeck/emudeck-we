@@ -588,6 +588,8 @@ $scriptContent = @"
 
 	Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
 
+	Get-ChildItem -Path "$emusPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+
 	Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
 	if ($doInstallPegasus -eq "true"){
 		createLauncher "pegasus\pegasus-frontend"
