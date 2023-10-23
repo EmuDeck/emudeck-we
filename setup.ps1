@@ -13,11 +13,11 @@ function setMSGTemp($message){
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:USERPROFILE/EmuDeck/EmuDeck.log"
+Write-Output "" > "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:USERPROFILE/EmuDeck/EmuDeck.log"
+Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
 
 #We install 7zip - Now its on the appimage
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements

@@ -1,4 +1,4 @@
-function setSetting($old, $new) {
+function setSetting($old, $new){
 	$fileToCheck = "$userFolder\EmuDeck\settings.ps1"
 
 	$fileContents = Get-Content $fileToCheck
@@ -19,7 +19,7 @@ function setSetting($old, $new) {
 	}
 }
 
-function setSettingNoQuotes($file, $old, $new) {
+function setSettingNoQuotes($file, $old, $new){
 	$fileToCheck = $file
 
 	$fileContents = Get-Content $fileToCheck
@@ -169,7 +169,7 @@ function escapeSedValue($input){
 	Write-Output $input
 }
 
-function changeLine($keyword, $replace, $file) {
+function changeLine($keyword, $replace, $file){
 	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
 }
 
@@ -314,6 +314,23 @@ function showListDialog($title, $subtitle, $options){
 	}else{
 		exit
 	}
+}
+
+function startLog($funcName){
+
+	Start-Transcript "$env:USERPROFILE/EmuDeck/logs/$funcName.log"
+
+}
+
+function startLogBG($funcName, $folder){
+
+	Start-Transcript "$folder/EmuDeck/logs/$funcName.log"
+
+}
+
+function stopLog(){
+
+    Stop-Transcript
 }
 
 Function NewWPFDialog() {
@@ -653,7 +670,7 @@ function startScriptWithAdmin {
 	Remove-Item $tempScriptPath -Force
 }
 
-function createSymlink($source, $target) {
+function createSymlink($source, $target){
 #target is the real folder, source is the simlink because...windows
 mkdir "$target" -ErrorAction SilentlyContinue
 if(testAdministrator -eq $true){
