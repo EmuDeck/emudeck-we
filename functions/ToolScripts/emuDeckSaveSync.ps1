@@ -527,7 +527,6 @@ function cloud_sync_upload{
 		echo "running as user"
 		startLog($MyInvocation.MyCommand.Name)
 	}else{
-
 		echo "running as service"
 		$userFolder = $mode
 		startLogBG($MyInvocation.MyCommand.Name, $userFolder)
@@ -664,7 +663,18 @@ function cloud_sync_uploadEmu{
 		[string]$emuName,
 		[string]$mode
 	)
+
+	if ($userFolder) {
+		echo "running as user"
+		startLog($MyInvocation.MyCommand.Name)
+	}else{
+		echo "running as service"
+		$userFolder = $mode
+		startLogBG($MyInvocation.MyCommand.Name, $userFolder)
+	}
+
 	startLog($MyInvocation.MyCommand.Name)
+
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
