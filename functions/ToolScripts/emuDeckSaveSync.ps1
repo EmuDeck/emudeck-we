@@ -525,11 +525,10 @@ function cloud_sync_upload{
 
 	if ($userFolder) {
 		echo "running as user"
-		startLog($MyInvocation.MyCommand.Name)
+
 	}else{
 		echo "running as service"
 		$userFolder = $mode
-		startLogBG($MyInvocation.MyCommand.Name, $userFolder)
 	}
 
 	Write-Host "upload"
@@ -664,11 +663,9 @@ function cloud_sync_uploadEmu{
 
 	if ($userFolder) {
 		echo "running as user"
-		startLog($MyInvocation.MyCommand.Name)
 	}else{
 		echo "running as service"
 		$userFolder = $mode
-		startLogBG($MyInvocation.MyCommand.Name, $userFolder)
 	}
 
 	if (Test-Path "$cloud_sync_bin") {
@@ -723,7 +720,7 @@ function cloud_sync_downloadEmuAll(){
 }
 
 function cloud_sync_uploadEmuAll(){
-	startLog($MyInvocation.MyCommand.Name)
+
 	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
 		$simLinkPath = $_.FullName
 		$emuName = (Get-Item $simLinkPath).Name
