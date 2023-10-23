@@ -75,9 +75,9 @@ function RPCS3_setupStorage(){
 	#We move HDD to the Emulation storage folder
 	$test=Test-Path -Path "$emusPath\RPCS3\dev_hdd0"
 	if($test){
-		$userDrive="$emulationPath[0]"
+		$userDrive=(Get-Item $emulationPath).PSDrive.Name
 
-		$destinationFree = (Get-PSDrive -Name $userDrive).Free
+		$destinationFree = (Get-PSDrive -Name "$userDrive").Free
 		$sizeInGB = [Math]::Round($destinationFree / 1GB)
 
 		$originSize = (Get-ChildItem -Path $SourceFilePath -Recurse | Measure-Object -Property Length -Sum).Sum
