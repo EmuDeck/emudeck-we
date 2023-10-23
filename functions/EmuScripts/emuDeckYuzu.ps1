@@ -124,12 +124,16 @@ function Yuzu_resetConfig(){
 
 
 ### Yuzu EA
-
 function YuzuEA_install($tokenValue) {
 	$jwtHost = "https://api.yuzu-emu.org/jwt/installer/"
 	$yuzuEaHost = "https://api.yuzu-emu.org/downloads/earlyaccess/"
 	$user = $null
 	$auth = $null
+
+	$length = $tokenValue.Length
+	$padding = 4 - ($length % 4)
+	$tokenValue += '=' * $padding
+
 	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
 	$user, $auth = $decodedData.Split(':')
 
