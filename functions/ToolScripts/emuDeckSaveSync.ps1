@@ -742,7 +742,7 @@ function cloud_sync_lock($userPath){
 	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Seconds 2
 	$toast.Close()
-
+	stopLog
 }
 
 function cloud_sync_unlock($userPath){
@@ -754,7 +754,7 @@ function cloud_sync_unlock($userPath){
 	$toast = steamToast -MessageText "Uploads completed!"
 	Start-Sleep -Seconds 2
 	$toast.Close()
-
+	stopLog
 }
 
 function cloud_sync_check_lock(){
@@ -767,7 +767,7 @@ function cloud_sync_check_lock(){
 		}
 		$toast.Close()
 	}
-
+	stopLog
 }
 function cloud_sync_notification($text){
 	[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
