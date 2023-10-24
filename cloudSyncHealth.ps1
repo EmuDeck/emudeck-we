@@ -361,3 +361,5 @@ if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No
 }else{
 	Write-Host "Everything seems to be in proper order, at least on Windows" -ForegroundColor Yellow
 }
+
+waitForUser
