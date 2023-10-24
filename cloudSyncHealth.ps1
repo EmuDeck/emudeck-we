@@ -37,6 +37,7 @@ $ppssppSL="No"
 $ryujinxSL="No"
 $yuzuSL="No"
 
+
 if ($resultadosSL.Count -gt 0) {
 	$resultadosSL | ForEach-Object {
 
@@ -153,6 +154,16 @@ if ($archivosLinksVDF.Count -gt 0) {
 			$parsersUpdated="No"
 		}
 	}
+}
+
+###
+###
+### are the functions loaded??
+###
+###
+$cloudFunc="No"
+if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1" -like "*AppData*"){
+	$cloudFunc="Yes"
 }
 
 ###
@@ -289,6 +300,15 @@ Write-Host "ryujinx: $ryujinxSL"  -ForegroundColor $color
 Write-Host "yuzu: $yuzuSL"  -ForegroundColor $color
 Write-Host ""
 
+Write-Host  "are CloudSync functions instaled?" -ForegroundColor DarkYellow
+if ($cloudFunc -eq "Yes"){
+	$color ="Green"
+}else{
+	$color = "Red"
+}
+Write-Host "$cloudFunc"  -ForegroundColor $color
+Write-Host ""
+
 Write-Host  "Has a cloudSync config file?" -ForegroundColor DarkYellow
 if ($rcloneConf -eq "Yes"){
 	$color ="Green"
@@ -326,12 +346,18 @@ Write-Host ""
 
 Write-Host "Recomendations..." -ForegroundColor DarkCyan
 
-if ( $lnkFiles -eq "Yes" -or$lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No"){
+
+
+
+
+if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No" -or $duckstationSL -eq "No" -or $pcsx2SL -eq "No" -or $retroarchSL -eq "No" -or $cemuSL -eq "No" -or $citraSL -eq "No" -or $dolphinSL -eq "No" -or $ppssppSL -eq "No" -or $ryujinxSL -eq "No" -or $yuzuSL -eq "No") {
 	Write-Host "Do a Custom Reset" -ForegroundColor Yellow
 }elseif($download -eq "No" -or $upload -eq "No" ){
 	Write-Host "Reinstall CloudSync" -ForegroundColor Yellow
 }elseif($parsersUpdated -eq "No"){
 	Write-Host "Open EmuDeck, go to Manage Emulators and reset SteamRomManager Configuration. Then open Steam Rom Managar and parse all your games again to get the proper launchers" -ForegroundColor Yellow
+}elseif($cloudFunc -eq "No"){
+	Write-Host "Open EmuDeck, check that in the top right you have a yellow triangle that says EARLY" -ForegroundColor Yellow
 }else{
 	Write-Host "Everything seems to be in proper order, at least on Windows" -ForegroundColor Yellow
 }
