@@ -874,3 +874,23 @@ Add-Type @'
 
 return [Math]::round([DPI]::scaling(), 2)
 }
+
+
+function zipLogs(){
+
+	# Ruta de la carpeta y archivo a comprimir
+	$logsFolder = Join-Path $env:USERPROFILE "emudeck\logs"
+	$settingsFile = Join-Path $env:USERPROFILE "emudeck\settings.ps1"
+
+	# Ruta del archivo .7z de destino
+	$zipOutput = "$env:USERPROFILE\Desktop\emudeck_logs.7z"
+
+	# Comprimir los archivos y la carpeta en un archivo .7z
+	& $7z a -t7z $zipOutput $logsFolder $settingsFile -bso0
+	if ($LastExitCode -eq 0) {
+		Write-Host "true"
+	} else {
+		Write-Host "false"
+	}
+
+}
