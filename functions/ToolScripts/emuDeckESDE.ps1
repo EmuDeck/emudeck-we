@@ -141,7 +141,7 @@ function ESDE_wipe(){
 	Write-Output "NYI"
 }
 function ESDE_uninstall(){
-	Get-ChildItem -Path "$emusPath\EmulationStation-DE" | Where-Object { $_.Name -ne "Emulators" } | Remove-Item -Recurse -Force
+	Get-ChildItem -Path "$esdePath" | Where-Object { $_.Name -ne "Emulators" } | Remove-Item -Recurse -Force
 }
 function ESDE_migrate(){
 	Write-Output "NYI"
@@ -178,7 +178,7 @@ function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 }
 
 function ESDE_IsInstalled(){
-	$test=Test-Path -Path "$esdePath"
+	$test=Test-Path -Path "$esdePath\emulationstation.exe"
 	$testold=Test-Path -Path "$toolsPath/EmulationStation-DE"
 	if ($test -or $testold) {
 		Write-Output "true"
