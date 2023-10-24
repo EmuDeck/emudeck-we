@@ -1,5 +1,6 @@
 function appImageInit(){
-        rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+    rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+	SRM_init
 	setScreenDimensionsScale
 
 	$sourceFolder = "$savesPath/RetroArch/saves"
