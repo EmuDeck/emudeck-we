@@ -1,5 +1,58 @@
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 cls
+$upload="Yes"
+$download="Yes"
+function cloud_sync_download_test($emuName){
+	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
+
+		$target = "$emulationPath\saves\$emuName\"
+		if ( Test-Path "$target" ){
+			echo "test" > "$target\.temp" -ErrorAction SilentlyContinue
+			$fileHash = "$target\.temp"
+			Write-Host "Testing $emuName download..."
+			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
+			if ($?) {
+				Write-Host "success" -ForegroundColor Green
+			}else{
+				Write-Host "failure" -ForegroundColor Red
+				$download="No"
+			}
+			rm -fo "$target\.temp" -ErrorAction SilentlyContinue
+		}else{
+			Write-Host "$emuName not installed" -ForegroundColor Yellow
+		}
+
+	}
+}
+
+function cloud_sync_upload_test($emuNAme){
+	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
+
+		$target = "$emulationPath\saves\$emuName\"
+		if ( Test-Path "$target" ){
+			echo "test" > "$target\.temp" -ErrorAction SilentlyContinue
+			$fileHash = "$target\.temp"
+
+			Write-Host "Testing $emuName upload..."
+
+			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp"
+			if ($?) {
+				Write-Host "success" -ForegroundColor Green
+			}else{
+				Write-Host "failure" -ForegroundColor Red
+				$upload="No"
+			}
+			rm -fo "$target\.temp" -ErrorAction SilentlyContinue
+		}else{
+			Write-Host "$emuName not installed" -ForegroundColor Yellow
+		}
+
+
+	}
+
+}
+
+
 Write-Host "Generaring CloudSync Status Report..." -ForegroundColor DarkCyan
 Write-Host ""
 
@@ -166,48 +219,6 @@ if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1" -
 	$cloudFunc="Yes"
 }
 
-###
-###
-### Can upload?
-###
-###
-
-$target = $savesPath
-	# Calculate the total size of the folder (including subfolders)
-$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
-# Convert the size to a string
-$targetSizeString = $targetSize.ToString()
-# Calculate the SHA256 hash of the size string
-$sha256 = New-Object System.Security.Cryptography.SHA256Managed
-$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
-$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
-# Path to the file where you want to save the hash
-$fileHash = "$env:USERPROFILE\emudeck\.test"
-# Save the hash to a file
-$hash | Out-File -FilePath $fileHash
-
-$upload="No"
-& $cloud_sync_bin copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\.test"
-if($?){
-	$upload="Yes"
-}
-###
-###
-### Can download?
-###
-###
-
-$download="No"
-rm -fo "$fileHash" -ErrorAction SilentlyContinue
-& $cloud_sync_bin copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\.test" "$fileHash"
-if($?){
-	$download="Yes"
-}
-rm -fo "$fileHash" -ErrorAction SilentlyContinue
-#####
-#Report
-####
-
 cls
 Write-Host "CloudSync Status Report" -ForegroundColor white
 Write-Host ""
@@ -300,7 +311,7 @@ Write-Host "ryujinx: $ryujinxSL"  -ForegroundColor $color
 Write-Host "yuzu: $yuzuSL"  -ForegroundColor $color
 Write-Host ""
 
-Write-Host  "are CloudSync functions instaled?" -ForegroundColor DarkYellow
+Write-Host  "Are CloudSync functions instaled?" -ForegroundColor DarkYellow
 if ($cloudFunc -eq "Yes"){
 	$color ="Green"
 }else{
@@ -326,28 +337,27 @@ if ($parsersUpdated -eq "Yes"){
 Write-Host "$parsersUpdated"  -ForegroundColor $color
 Write-Host ""
 
-Write-Host  "Is uploading working?" -ForegroundColor DarkYellow
-if ($upload -eq "Yes"){
-	$color ="Green"
-}else{
-	$color = "Red"
-}
-Write-Host "$upload"  -ForegroundColor $color
-Write-Host ""
+$miArreglo = @("yuzu","Cemu","citra","dolphin","duckstation","es-de","melonds","pcsx2","ppsspp","retroarch","rpcs3","ryujinx")
 
-Write-Host  "Is dowloading working?" -ForegroundColor DarkYellow
-if ($download -eq "Yes"){
-	$color ="Green"
-}else{
-	$color = "Red"
-}
-Write-Host "$download"  -ForegroundColor $color
-Write-Host ""
+Write-Host  "Testing uploading" -ForegroundColor DarkYellow
 
+foreach ($elemento in $miArreglo) {
+	cloud_sync_upload_test $elemento
+}
+
+Write-Host ""
+Write-Host  "Testing downloading" -ForegroundColor DarkYellow
+
+foreach ($elemento in $miArreglo) {
+	cloud_sync_download_test $elemento
+}
+
+
+
+
+Write-Host ""
+Write-Host ""
 Write-Host "Recomendations..." -ForegroundColor DarkCyan
-
-
-
 
 
 if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No" -or $duckstationSL -eq "No" -or $pcsx2SL -eq "No" -or $retroarchSL -eq "No" -or $cemuSL -eq "No" -or $citraSL -eq "No" -or $dolphinSL -eq "No" -or $ppssppSL -eq "No" -or $ryujinxSL -eq "No" -or $yuzuSL -eq "No") {
