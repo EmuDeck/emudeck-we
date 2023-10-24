@@ -147,7 +147,7 @@ $archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "short
 
 if ($archivosLinksVDF.Count -gt 0) {
 	$archivosLinksVDF | ForEach-Object {
-    	$filePath =  $_.FullName
+		$filePath =  $_.FullName
 		$shorcutsContent = Get-Content -Path $filePath
 		if ($shorcutsContent -like "*.bat*"){
 			$parsersUpdated="No"
@@ -324,5 +324,14 @@ if ($download -eq "Yes"){
 Write-Host "$download"  -ForegroundColor $color
 Write-Host ""
 
+Write-Host "Recomendations..." -ForegroundColor DarkCyan
 
-waitForUser
+if ( $lnkFiles -eq "Yes" -or$lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No"){
+	Write-Host "Do a Custom Reset" -ForegroundColor Yellow
+}elseif($download -eq "No" -or $upload -eq "No" ){
+	Write-Host "Reinstall CloudSync" -ForegroundColor Yellow
+}elseif($parsersUpdated -eq "No"){
+	Write-Host "Open EmuDeck, go to Manage Emulators and reset SteamRomManager Configuration. Then open Steam Rom Managar and parse all your games again to get the proper launchers" -ForegroundColor Yellow
+}else{
+	Write-Host "Everything seems to be in proper order, at least on Windows" -ForegroundColor Yellow
+}
