@@ -91,6 +91,9 @@ function Dolphin_wipe(){
 }
 function Dolphin_uninstall(){
 	Remove-Item –path "$emusPath\Dolphin" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function Dolphin_migrate(){
 	Write-Output "NYI"

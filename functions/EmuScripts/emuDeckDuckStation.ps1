@@ -75,6 +75,9 @@ function DuckStation_wipe(){
 }
 function DuckStation_uninstall(){
 	Remove-Item –path "$emusPath\duckstation" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function DuckStation_migrate(){
 	Write-Output "NYI"
