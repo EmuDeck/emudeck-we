@@ -5,7 +5,7 @@ $download="Yes"
 
 Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
 
-if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "*$NYI*"){
+if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "$NYI*"){
 	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a while"
 	cls
 	Write-Host "Downloading EmuDeck..." -ForegroundColor Cyan
@@ -392,7 +392,7 @@ Write-Host ""
 Write-Host ""
 Write-Host "Recomendations..." -ForegroundColor DarkCyan
 
-if($lnkFiles) -eq "Yes){
+if($lnkFiles -eq "Yes"){
 	Write-Host "We've cleaned up your old .lnk files but make sure you don't have .lnk files in your cloud provider, delete them if you do" -ForegroundColor Yellow
 }
 if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No" -or $duckstationSL -eq "No" -or $pcsx2SL -eq "No" -or $retroarchSL -eq "No" -or $cemuSL -eq "No" -or $citraSL -eq "No" -or $dolphinSL -eq "No" -or $ppssppSL -eq "No" -or $ryujinxSL -eq "No" -or $yuzuSL -eq "No") {
