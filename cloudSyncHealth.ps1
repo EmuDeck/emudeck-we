@@ -5,7 +5,7 @@ $download="Yes"
 
 Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
 
-if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "$NYI*"){
+if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "NYI*"){
 	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a while"
 	cls
 	Write-Host "Downloading EmuDeck..." -ForegroundColor Cyan
