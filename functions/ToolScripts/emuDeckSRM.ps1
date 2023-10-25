@@ -292,6 +292,8 @@ function SRM_init(){
 
   Start-Sleep -Seconds 1
 
+  echo $exclusionList > $env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log
+
   if($steamAsFrontend -ne "False"){
   	Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		if ($_ -notin $exclusionList) {
