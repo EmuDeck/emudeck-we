@@ -108,6 +108,16 @@ $ppssppSL="No"
 $ryujinxSL="No"
 $yuzuSL="No"
 
+## rpcs3 special case
+
+$subcarpetas = Get-ChildItem "$storagePath/rpcs3" -Directory -Recurse
+$rpcs3SL = "No"
+foreach ($subcarpeta in $subcarpetas) {
+	$symlinks = Get-ChildItem -Path $subcarpeta.FullName -Attributes ReparsePoint
+	if ($symlinks.Count -gt 0) {
+		$rpcs3SL = "Yes"
+	}
+}
 
 if ($resultadosSL.Count -gt 0) {
 	$resultadosSL | ForEach-Object {
@@ -285,62 +295,229 @@ if ($carpetasNoDirectorio.Count -gt 0) {
 }
 Write-Host ""
 Write-Host  "Is using the new symlinks for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
+$setupSaves=''
 if ($duckstationSL -eq "Yes"){
-	$color ="Green"
+	$color1 ="Green"
 }else{
-	$color = "Red"
+	$color1 = "Red"
+	$setupSaves+="DuckStation_setupSaves;"
 }
 if ($pcsx2SL -eq "Yes"){
-	$color ="Green"
+	$color2 ="Green"
 }else{
-	$color = "Red"
+	$color2 = "Red"
+	$setupSaves+="PCSX2QT_setupSaves;"
+}
+if ($rpcs3SL -eq "Yes"){
+	$color3 ="Green"
+}else{
+	$color3 = "Red"
+	$setupSaves+="RPCS3_setupSaves;"
 }
 if ($retroarchSL -eq "Yes"){
-	$color ="Green"
+	$color4 ="Green"
 }else{
-	$color = "Red"
+	$color4 = "Red"
+	RetroArch_init > $null 2>&1
+	$setupSaves+="RetroArch_setupSaves;"
 }
 if ($cemuSL -eq "Yes"){
-	$color ="Green"
+	$color5 ="Green"
 }else{
-	$color = "Red"
+	$color5 = "Red"
+	$setupSaves+="Cemu_setupSaves;"
 }
 if ($citraSL -eq "Yes"){
-	$color ="Green"
+	$color6 ="Green"
 }else{
-	$color = "Red"
+	$color6 = "Red"
+	$setupSaves+="Citra_setupSaves;"
 }
 if ($dolphinSL -eq "Yes"){
-	$color ="Green"
+	$color7 ="Green"
 }else{
-	$color = "Red"
+	$color7 = "Red"
+	$setupSaves+="Dolphin_setupSaves;"
 }
 if ($ppssppSL -eq "Yes"){
-	$color ="Green"
+	$color8 ="Green"
 }else{
-	$color = "Red"
+	$color8 = "Red"
+	$setupSaves+="PPSSPP_setupSaves;"
 }
 if ($ryujinxSL -eq "Yes"){
-	$color ="Green"
+	$color9 ="Green"
 }else{
-	$color = "Red"
+	$color9 = "Red"
+	$setupSaves+="Ryujinx_setupSaves;"
 }
 if ($yuzuSL -eq "Yes"){
-	$color ="Green"
+	$color10 ="Green"
 }else{
-	$color = "Red"
+	$color10 = "Red"
+	$setupSaves+="Yuzu_setupSaves;"
 }
-Write-Host "duckstation: $duckstationSL"  -ForegroundColor $color
-Write-Host "pcsx2: $pcsx2SL"  -ForegroundColor $color
-Write-Host "retroarch: $retroarchSL"  -ForegroundColor $color
-Write-Host "cemu: $cemuSL"  -ForegroundColor $color
-Write-Host "citra: $citraSL"  -ForegroundColor $color
-Write-Host "dolphin: $dolphinSL"  -ForegroundColor $color
-Write-Host "ppsspp: $ppssppSL"  -ForegroundColor $color
-Write-Host "ryujinx: $ryujinxSL"  -ForegroundColor $color
-Write-Host "yuzu: $yuzuSL"  -ForegroundColor $color
+Write-Host "duckstation: $duckstationSL"  -ForegroundColor $color1
+Write-Host "pcsx2: $pcsx2SL"  -ForegroundColor $color2
+Write-Host "rpcs3: $rpcs3SL"  -ForegroundColor $color3
+Write-Host "retroarch: $retroarchSL"  -ForegroundColor $color4
+Write-Host "cemu: $cemuSL"  -ForegroundColor $color5
+Write-Host "citra: $citraSL"  -ForegroundColor $color6
+Write-Host "dolphin: $dolphinSL"  -ForegroundColor $color7
+Write-Host "ppsspp: $ppssppSL"  -ForegroundColor $color8
+Write-Host "ryujinx: $ryujinxSL"  -ForegroundColor $color9
+Write-Host "yuzu: $yuzuSL"  -ForegroundColor $color10
 Write-Host ""
+echo $setupSaves;
+if( $setupSaves -ne '' ){
+	Write-Host  "Trying to fix Symlinks..." -ForegroundColor DarkYellow
 
+	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "After this message you'll get several windows asking for elevated permissions. This is so we can fix the symlinks for all your emulators saves and states folders."
+
+$scriptContent = @"
+	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
+"@
+	Write-Host "Done"
+	Write-Host ""
+
+	Write-Host  "Testing Again..." -ForegroundColor DarkYellow
+	startScriptWithAdmin -ScriptContent $scriptContent
+
+	$textoABuscarduckstation="duckstation"
+	$textoABuscarPCSX2="PCSX2-Qt"
+	$textoABuscarRetroArch="RetroArch"
+	$textoABuscarcemu="cemu\mlc01\usr"
+	$textoABuscarcitra="citra\user"
+	$textoABuscarDolphin="Dolphin-x64\User"
+	$textoABuscarPPSSPP="PPSSPP\memstick\PSP"
+	$textoABuscarRyujinx="Ryujinx\portable\bis\user"
+	$textoABuscaryuzu="yuzu\yuzu-windows-msvc\user"
+
+	$duckstationSL="No"
+	$pcsx2SL="No"
+	$retroarchSL="No"
+	$cemuSL="No"
+	$citraSL="No"
+	$dolphinSL="No"
+	$ppssppSL="No"
+	$ryujinxSL="No"
+	$yuzuSL="No"
+
+	$subcarpetas = Get-ChildItem "$storagePath/rpcs3" -Directory -Recurse
+	$rpcs3SL = "No"
+	foreach ($subcarpeta in $subcarpetas) {
+		$symlinks = Get-ChildItem -Path $subcarpeta.FullName -Attributes ReparsePoint
+		if ($symlinks.Count -gt 0) {
+			$rpcs3SL = "Yes"
+		}
+	}
+
+	if ($resultadosSL.Count -gt 0) {
+		$resultadosSL | ForEach-Object {
+			if ($_  -like "*$textoABuscarduckstation*"){
+				$duckstationSL="Yes"
+			}
+			if ($_  -like "*$textoABuscarPCSX2*"){
+				$pcsx2SL="Yes"
+			}
+			if ($_  -like "*$textoABuscarRetroArch*"){
+				$retroarchSL="Yes"
+			}
+			if ($_  -like "*$textoABuscarcemu*"){
+				$cemuSL="Yes"
+			}
+			if ($_  -like "*$textoABuscarcitra*"){
+				$citraSL="Yes"
+			}
+			if ($_  -like "*$textoABuscarDolphin*"){
+				$dolphinSL="Yes"
+			}
+			if ($_  -like "*$textoABuscarPPSSPP*"){
+				$ppssppSL="Yes"
+			}
+			if ($_  -like "*$textoABuscarRyujinx*"){
+				$ryujinxSL="Yes"
+			}
+			if ($_  -like "*$textoABuscaryuzu*"){
+				$yuzuSL="Yes"
+			}
+
+		}
+	}
+
+if ($duckstationSL -eq "Yes"){
+		$color1 ="Green"
+	}else{
+		$color1 = "Red"
+		$setupSaves+="DuckStation_setupSaves;"
+	}
+	if ($pcsx2SL -eq "Yes"){
+		$color2 ="Green"
+	}else{
+		$color2 = "Red"
+		$setupSaves+="PCSX2QT_setupSaves;"
+	}
+	if ($rpcs3SL -eq "Yes"){
+		$color3 ="Green"
+	}else{
+		$color3 = "Red"
+		$setupSaves+="RPCS3_setupSaves;"
+	}
+	if ($retroarchSL -eq "Yes"){
+		$color4 ="Green"
+	}else{
+		$color4 = "Red"
+		RetroArch_init > $null 2>&1
+		$setupSaves+="RetroArch_setupSaves;"
+	}
+	if ($cemuSL -eq "Yes"){
+		$color5 ="Green"
+	}else{
+		$color5 = "Red"
+		$setupSaves+="Cemu_setupSaves;"
+	}
+	if ($citraSL -eq "Yes"){
+		$color6 ="Green"
+	}else{
+		$color6 = "Red"
+		$setupSaves+="Citra_setupSaves;"
+	}
+	if ($dolphinSL -eq "Yes"){
+		$color7 ="Green"
+	}else{
+		$color7 = "Red"
+		$setupSaves+="Dolphin_setupSaves;"
+	}
+	if ($ppssppSL -eq "Yes"){
+		$color8 ="Green"
+	}else{
+		$color8 = "Red"
+		$setupSaves+="PPSSPP_setupSaves;"
+	}
+	if ($ryujinxSL -eq "Yes"){
+		$color9 ="Green"
+	}else{
+		$color9 = "Red"
+		$setupSaves+="Ryujinx_setupSaves;"
+	}
+	if ($yuzuSL -eq "Yes"){
+		$color10 ="Green"
+	}else{
+		$color10 = "Red"
+		$setupSaves+="Yuzu_setupSaves;"
+	}
+	Write-Host "duckstation: $duckstationSL"  -ForegroundColor $color1
+	Write-Host "pcsx2: $pcsx2SL"  -ForegroundColor $color2
+	Write-Host "rpcs3: $rpcs3SL"  -ForegroundColor $color3
+	Write-Host "retroarch: $retroarchSL"  -ForegroundColor $color4
+	Write-Host "cemu: $cemuSL"  -ForegroundColor $color5
+	Write-Host "citra: $citraSL"  -ForegroundColor $color6
+	Write-Host "dolphin: $dolphinSL"  -ForegroundColor $color7
+	Write-Host "ppsspp: $ppssppSL"  -ForegroundColor $color8
+	Write-Host "ryujinx: $ryujinxSL"  -ForegroundColor $color9
+	Write-Host "yuzu: $yuzuSL"  -ForegroundColor $color10
+	Write-Host ""
+}
 Write-Host  "Are CloudSync functions installed?" -ForegroundColor DarkYellow
 if ($cloudFunc -eq "Yes"){
 	$color ="Green"
