@@ -80,7 +80,7 @@ if(-not($test) -and $doInstallPegasus -eq "true" ){
 }
 
 #SRM
-$test=Test-Path -Path "$toolsPath\srm.exe"
+
 if(-not($test)){
 	SRM_install
 }

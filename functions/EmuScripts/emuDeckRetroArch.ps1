@@ -266,6 +266,9 @@ function RetroArch_wipe(){
 }
 function RetroArch_uninstall(){
 	Remove-Item –path "$emusPath\Retroarch" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function RetroArch_migrate(){
 	Write-Output "NYI"

@@ -21,6 +21,9 @@ function Primehack_wipe(){
 }
 function Primehack_uninstall(){
 	Remove-Item –path "$emusPath\primehack" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function Primehack_migrate(){
 	Write-Output "true"

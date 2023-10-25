@@ -874,3 +874,21 @@ Add-Type @'
 
 return [Math]::round([DPI]::scaling(), 2)
 }
+
+
+function zipLogs(){
+
+	$logsFolder = Join-Path $env:USERPROFILE "emudeck\logs"
+	$settingsFile = Join-Path $env:USERPROFILE "emudeck\settings.ps1"
+
+
+	$zipOutput = "$env:USERPROFILE\Desktop\emudeck_logs.7z"
+
+	& $7z a -t7z $zipOutput $logsFolder $settingsFile -bso0
+	if ($LastExitCode -eq 0) {
+		Write-Host "true"
+	} else {
+		Write-Host "false"
+	}
+
+}

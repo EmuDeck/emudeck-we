@@ -21,6 +21,9 @@ function template_wipe(){
 }
 function template_uninstall(){
 	Remove-Item –path "$emusPath\Retroarch" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function template_migrate(){
 	Write-Output "NYI"

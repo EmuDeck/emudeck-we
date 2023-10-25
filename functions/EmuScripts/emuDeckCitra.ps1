@@ -63,6 +63,9 @@ function Citra_wipe(){
 }
 function Citra_uninstall(){
 	Remove-Item –path "$emusPath\citra" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function Citra_migrate(){
 	Write-Output "NYI"

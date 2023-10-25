@@ -3,7 +3,7 @@
   "configTitle": "Sega CD/Mega CD - RetroArch Genesis Plus GX",
   "steamCategory": "${Sega CD/Mega CD}",
   "executableModifier": "\"${exePath}\"",
-  "romDirectory": "${romsdirglobal}/segacd",
+  "romDirectory": "${romsdirglobal}",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "EMUSPATH\\RetroArch",
   "titleModifier": "${fuzzyTitle}",
@@ -16,7 +16,7 @@
     "specifiedAccounts": ""
   },
   "parserInputs": {
-    "glob": "**/${title}@(.7z|.7Z|.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)"
+    "glob": "@(segacd|megacd)/**/${title}@(.m3u|.M3U|.7z|.7Z|.iso|.ISO|.cue|.CUE|.chd|.CHD|.zip|.ZIP)"
   },
   "titleFromVariable": {
     "limitToGroups": "",

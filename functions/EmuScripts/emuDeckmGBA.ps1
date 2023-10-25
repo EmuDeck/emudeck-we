@@ -21,6 +21,9 @@ function mGBA_wipe(){
 }
 function mGBA_uninstall(){
 	Remove-Item –path "$emusPath\mGBA" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function mGBA_migrate(){
 	Write-Output "true"

@@ -395,6 +395,9 @@ function SRM_uninstall(){
 	Remove-Item –path "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData" –recurse -force
 	Remove-Item –path "$toolsPath\userData" –recurse -force
 	Remove-Item –path "$toolsPath\srm.exe" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function SRM_migrate(){
 	Write-Output "NYI"

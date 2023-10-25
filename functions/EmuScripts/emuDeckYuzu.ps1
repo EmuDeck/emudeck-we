@@ -87,6 +87,9 @@ function Yuzu_wipe(){
 }
 function Yuzu_uninstall(){
 	Remove-Item –path "$emusPath\yuzu" –recurse -force
+	if($?){
+		Write-Output "true"
+	}
 }
 function Yuzu_migrate(){
 	Write-Output "NYI"
