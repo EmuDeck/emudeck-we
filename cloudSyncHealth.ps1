@@ -73,7 +73,8 @@ cls
 Write-Host "Generaring CloudSync Status Report..." -ForegroundColor DarkCyan
 Write-Host ""
 
-$subcarpetas = Get-ChildItem $EmusPath -Directory -Recurse
+
+$subcarpetas = Get-ChildItem $emusPath -Directory -Recurse
 $resultadosSL = @()
 ###
 ###
@@ -251,7 +252,9 @@ Write-Host "CloudSync Status Report" -ForegroundColor white
 Write-Host ""
 
 #### Shorcuts
-Write-Host "Is using old Shorcuts (.lnk) for the save folders inside $emusPath?" -ForegroundColor DarkYellow
+
+
+Write-Host "Is using old Shorcuts (.lnk) for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 if ( $lnkFiles -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -259,7 +262,7 @@ if ( $lnkFiles -eq "Yes" ){
 }
 Write-Host $lnkFiles  -ForegroundColor $color
 Write-Host ""
-Write-Host "Is using old Shorcuts (.lnk) for the save folders inside $savesPath?" -ForegroundColor DarkYellow
+Write-Host "Is using old Shorcuts (.lnk) for the save folders inside ${savesPath}?" -ForegroundColor DarkYellow
 if ( $lnkFilesSaves -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -267,7 +270,7 @@ if ( $lnkFilesSaves -eq "Yes" ){
 }
 Write-Host $lnkFilesSaves  -ForegroundColor $color
 Write-Host ""
-Write-Host "Are there proper folders inside $savesPath?" -ForegroundColor DarkYellow
+Write-Host "Are there proper folders inside ${savesPath}?" -ForegroundColor DarkYellow
 if ( $lnkFilesSaves2 -eq "Yes" ){
 	$color = "Green"
 }else{
@@ -281,7 +284,7 @@ if ($carpetasNoDirectorio.Count -gt 0) {
 	}
 }
 Write-Host ""
-Write-Host  "Is using the new symlinks for the save folders inside $emusPath?" -ForegroundColor DarkYellow
+Write-Host  "Is using the new symlinks for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 if ($duckstationSL -eq "Yes"){
 	$color ="Green"
 }else{
