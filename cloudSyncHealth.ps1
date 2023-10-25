@@ -356,7 +356,7 @@ if ($rcloneConf -eq "Yes"){
 Write-Host "$rcloneConf"  -ForegroundColor $color
 Write-Host ""
 Write-Host  "Is cloudSync installed?" -ForegroundColor DarkYellow
-if ((Test-Path "$cloud_sync_bin"){
+if (Test-Path "$cloud_sync_bin"){
 	Write-Host "$cloudFunc"  -ForegroundColor "Green"
 }else{
 	Write-Host "$cloudFunc"  -ForegroundColor "Red"
