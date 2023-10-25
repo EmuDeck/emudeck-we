@@ -385,11 +385,21 @@ if( $setupSaves -ne '' ){
 $scriptContent = @"
 	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
 "@
-	Write-Host "Done"
-	Write-Host ""
-
-	Write-Host  "Testing Again..." -ForegroundColor DarkYellow
 	startScriptWithAdmin -ScriptContent $scriptContent
+	Write-Host ""
+	$resultadosSL = @()
+	###
+	###
+	### Do we have symlinks in the emulators?
+	###
+	###
+	foreach ($subcarpeta in $subcarpetas) {
+		$symlinks = Get-ChildItem -Path $subcarpeta.FullName -Attributes ReparsePoint
+		if ($symlinks.Count -gt 0) {
+			$resultadosSL += $subcarpeta.FullName
+		}
+	}
+	Write-Host  "Testing Again..." -ForegroundColor DarkYellow
 
 	$textoABuscarduckstation="duckstation"
 	$textoABuscarPCSX2="PCSX2-Qt"
