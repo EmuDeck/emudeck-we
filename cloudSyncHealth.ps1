@@ -272,7 +272,7 @@ Write-Host ""
 #### shortcuts
 
 
-Write-Host "Is using old shortcuts (.lnk) for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
+Write-Host "Is EmuDeck using old shortcuts (.lnk) for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 if ( $lnkFiles -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -280,7 +280,7 @@ if ( $lnkFiles -eq "Yes" ){
 }
 Write-Host $lnkFiles  -ForegroundColor $color
 Write-Host ""
-Write-Host "Is using old shortcuts (.lnk) for the save folders inside ${savesPath}?" -ForegroundColor DarkYellow
+Write-Host "Is EmuDeck using old shortcuts (.lnk) for the save folders inside ${savesPath}?" -ForegroundColor DarkYellow
 if ( $lnkFilesSaves -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -302,7 +302,7 @@ if ($carpetasNoDirectorio.Count -gt 0) {
 	}
 }
 Write-Host ""
-Write-Host  "Is using the new symlinks for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
+Write-Host  "Is EmuDeck using the new symlinks for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 $setupSaves=''
 if ($duckstationSL -eq "Yes"){
 	$color1 ="Green"
