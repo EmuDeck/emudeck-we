@@ -387,6 +387,7 @@ $scriptContent = @"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Write-Host ""
+	$subcarpetas = Get-ChildItem $emusPath -Directory -Recurse
 	$resultadosSL = @()
 	###
 	###
