@@ -678,7 +678,7 @@ if(testAdministrator -eq $true){
 }else{
 	$scriptContent = @"
 		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
-		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target"
+		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 "@
 
 	startScriptWithAdmin -ScriptContent $scriptContent

@@ -96,8 +96,8 @@ $textoABuscarcitra="citra\user"
 $textoABuscarDolphin="Dolphin-x64\User"
 $textoABuscarPPSSPP="PPSSPP\memstick\PSP"
 $textoABuscarRyujinx="Ryujinx\portable\bis\user"
-$textoABuscaryuzu="yuzu\yuzu-windows-msvc\user"
-
+$textoABuscaryuzu="yuzu\yuzu-windows-msvc\user\nand\user"
+$textoABuscaryuzu2="yuzu-windows-msvc\user\nand\system\save\8000000000000010\su"
 $duckstationSL="No"
 $pcsx2SL="No"
 $retroarchSL="No"
@@ -118,6 +118,7 @@ foreach ($subcarpeta in $subcarpetas) {
 		$rpcs3SL = "Yes"
 	}
 }
+
 
 if ($resultadosSL.Count -gt 0) {
 	$resultadosSL | ForEach-Object {
@@ -148,6 +149,13 @@ if ($resultadosSL.Count -gt 0) {
 		}
 		if ($_  -like "*$textoABuscaryuzu*"){
 			$yuzuSL="Yes"
+		}else{
+			$yuzuSL="No"
+		}
+		if ($_  -like "*$textoABuscaryuzu2*"){
+			$yuzuSL="Yes"
+		}else{
+			$yuzuSL="No"
 		}
 
 	}
@@ -391,7 +399,8 @@ $scriptContent = @"
 	$textoABuscarDolphin="Dolphin-x64\User"
 	$textoABuscarPPSSPP="PPSSPP\memstick\PSP"
 	$textoABuscarRyujinx="Ryujinx\portable\bis\user"
-	$textoABuscaryuzu="yuzu\yuzu-windows-msvc\user"
+	$textoABuscaryuzu="yuzu\yuzu-windows-msvc\user\nand\user"
+	$textoABuscaryuzu2="yuzu-windows-msvc\user\nand\system\save\8000000000000010\su"
 
 	$duckstationSL="No"
 	$pcsx2SL="No"
@@ -440,6 +449,13 @@ $scriptContent = @"
 			}
 			if ($_  -like "*$textoABuscaryuzu*"){
 				$yuzuSL="Yes"
+			}else{
+				$yuzuSL="No"
+			}
+			if ($_  -like "*$textoABuscaryuzu2*"){
+				$yuzuSL="Yes"
+			}else{
+				$yuzuSL="No"
 			}
 
 		}

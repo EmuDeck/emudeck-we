@@ -50,10 +50,12 @@ function Yuzu_setupSaves(){
 	createSaveLink $simLinkPath $emuSavePath
 
 	setMSG "Yuzu - Saves Links"
+	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save"
 	$emuSavePath = -join($emulationPath,"\saves\yuzu\saves")
 	createSaveLink $simLinkPath $emuSavePath
 
+	mkdir $emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators"
 	$emuSavePath = -join($emulationPath,"\saves\yuzu\profiles")
 	createSaveLink $simLinkPath $emuSavePath
