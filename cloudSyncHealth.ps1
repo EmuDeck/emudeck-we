@@ -70,7 +70,7 @@ function cloud_sync_upload_test($emuNAme){
 }
 
 cls
-Write-Host "Generaring CloudSync Status Report..." -ForegroundColor DarkCyan
+Write-Host "Generating CloudSync Status Report..." -ForegroundColor DarkCyan
 Write-Host ""
 
 
