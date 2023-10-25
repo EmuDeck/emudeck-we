@@ -240,8 +240,8 @@ $archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "short
 if ($archivosLinksVDF.Count -gt 0) {
 	$archivosLinksVDF | ForEach-Object {
 		$filePath =  $_.FullName
-		$shorcutsContent = Get-Content -Path $filePath
-		if ($shorcutsContent -like "*.bat*"){
+		$shortcutsContent = Get-Content -Path $filePath
+		if ($shortcutsContent -like "*.bat*"){
 			$parsersUpdated="No"
 		}
 	}
@@ -261,10 +261,10 @@ cls
 Write-Host "CloudSync Status Report" -ForegroundColor white
 Write-Host ""
 
-#### Shorcuts
+#### shortcuts
 
 
-Write-Host "Is using old Shorcuts (.lnk) for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
+Write-Host "Is using old shortcuts (.lnk) for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 if ( $lnkFiles -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -272,7 +272,7 @@ if ( $lnkFiles -eq "Yes" ){
 }
 Write-Host $lnkFiles  -ForegroundColor $color
 Write-Host ""
-Write-Host "Is using old Shorcuts (.lnk) for the save folders inside ${savesPath}?" -ForegroundColor DarkYellow
+Write-Host "Is using old shortcuts (.lnk) for the save folders inside ${savesPath}?" -ForegroundColor DarkYellow
 if ( $lnkFilesSaves -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -532,6 +532,9 @@ if ($rcloneConf -eq "Yes"){
 	$color ="Green"
 }else{
 	$color = "Red"
+	confirmDialog -TitleText "CloudSync not installed" -MessageText "Please Open EmuDeck and install it"
+	break
+	exit
 }
 Write-Host "$rcloneConf"  -ForegroundColor $color
 Write-Host ""
@@ -540,6 +543,9 @@ if (Test-Path "$cloud_sync_bin"){
 	Write-Host "$cloudFunc"  -ForegroundColor "Green"
 }else{
 	Write-Host "$cloudFunc"  -ForegroundColor "Red"
+	confirmDialog -TitleText "CloudSync not installed" -MessageText "Please Open EmuDeck and install it"
+	break
+	exit
 }
 Write-Host ""
 
@@ -572,7 +578,7 @@ Write-Host ""
 Write-Host ""
 Write-Host "Recomendations..." -ForegroundColor DarkCyan
 
-if($lnkFiles -eq "Yes"){
+if($lnkFiles -eq "Yes" -or $lnkFiles2 -eq "Yes"){
 	Write-Host "We've cleaned up your old .lnk files but make sure you don't have .lnk files in your cloud provider, delete them if you do" -ForegroundColor Yellow
 }
 if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No" -or $duckstationSL -eq "No" -or $pcsx2SL -eq "No" -or $retroarchSL -eq "No" -or $cemuSL -eq "No" -or $citraSL -eq "No" -or $dolphinSL -eq "No" -or $ppssppSL -eq "No" -or $ryujinxSL -eq "No" -or $yuzuSL -eq "No") {
@@ -580,7 +586,7 @@ if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No
 }elseif($download -eq "No" -or $upload -eq "No" ){
 	Write-Host "Reinstall CloudSync" -ForegroundColor Yellow
 }elseif($parsersUpdated -eq "No"){
-	Write-Host "Open EmuDeck, go to Manage Emulators and reset SteamRomManager Configuration. Then open Steam Rom Managar and parse all your games again to get the proper launchers" -ForegroundColor Yellow
+	Write-Host "Open EmuDeck, go to Manage Emulators and reset Steam Rom Manager Configuration. Then open Steam Rom Manager and parse all your games again to get the proper launchers" -ForegroundColor Yellow
 }elseif($cloudFunc -eq "No"){
 	Write-Host "Open EmuDeck, check that in the top right you have a yellow triangle that says EARLY" -ForegroundColor Yellow
 }else{
