@@ -136,8 +136,14 @@ function YuzuEA_install($tokenValue) {
 	$auth = $null
 
 	$length = $tokenValue.Length
-	$padding = 4 - ($length % 4)
-	$tokenValue += '=' * $padding
+	$remainder = $length % 4
+	if ($remainder -eq 1) {
+		$tokenValue += "==="
+	} elseif ($remainder -eq 2) {
+		$tokenValue += "=="
+	} elseif ($remainder -eq 3) {
+		$tokenValue += "="
+	}
 
 	$decodedData = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("$tokenValue"))
 	$user, $auth = $decodedData.Split(':')
