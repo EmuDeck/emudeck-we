@@ -47,6 +47,7 @@
   },
   "parserId": "165182011334544893",
   "version": 10,
+  "disabled": false,
   "imageProviderAPIs": {
     "SteamGridDB": {
       "nsfw": false,
