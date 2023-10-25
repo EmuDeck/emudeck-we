@@ -2,6 +2,23 @@
 cls
 $upload="Yes"
 $download="Yes"
+echo "" > "$userFolder/EmuDeck/logs/rclone.log"
+Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
+
+if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "NYI*"){
+	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a while"
+	cls
+	Write-Host "Downloading EmuDeck..." -ForegroundColor Cyan
+	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+	download $url_emudeck "emudeck_install.exe"
+	&"$temp/emudeck_install.exe"
+	cls
+	Write-Host "Please open CloudSyncHealth again after the reinstallation of EmuDeck has finished" -ForegroundColor Cyan
+	break
+	exit
+}
+
+
 function cloud_sync_download_test($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 
@@ -52,11 +69,12 @@ function cloud_sync_upload_test($emuNAme){
 
 }
 
-
-Write-Host "Generaring CloudSync Status Report..." -ForegroundColor DarkCyan
+cls
+Write-Host "Generating CloudSync Status Report..." -ForegroundColor DarkCyan
 Write-Host ""
 
-$subcarpetas = Get-ChildItem $EmusPath -Directory -Recurse
+
+$subcarpetas = Get-ChildItem $emusPath -Directory -Recurse
 $resultadosSL = @()
 ###
 ###
@@ -133,6 +151,11 @@ $lnkFiles="No"
 foreach ($subcarpeta in $subcarpetas) {
 	$archivoslnk = Get-ChildItem -Path $subcarpeta.FullName -Filter *.lnk
 	if ($archivoslnk.Count -gt 0) {
+
+		foreach ($archivo in $archivoslnk) {
+			Remove-Item $archivo.FullName
+		}
+
 		$lnkFiles="Yes"
 
 		break
@@ -146,6 +169,11 @@ $lnkFilesSaves="No"
 foreach ($subcarpeta in $subcarpetasSaves) {
 	$archivoslnk = Get-ChildItem -Path $subcarpeta.FullName -Filter *.lnk
 	if ($archivoslnk.Count -gt 0) {
+
+		foreach ($archivo in $archivoslnk) {
+			Remove-Item $archivo.FullName
+		}
+
 		$lnkFilesSaves="Yes"
 
 		break
@@ -224,7 +252,9 @@ Write-Host "CloudSync Status Report" -ForegroundColor white
 Write-Host ""
 
 #### Shorcuts
-Write-Host "Has old Shorcuts inside the Emulators?" -ForegroundColor DarkYellow
+
+
+Write-Host "Is using old Shorcuts (.lnk) for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 if ( $lnkFiles -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -232,7 +262,7 @@ if ( $lnkFiles -eq "Yes" ){
 }
 Write-Host $lnkFiles  -ForegroundColor $color
 Write-Host ""
-Write-Host "Has old Shorcuts inside Emulation\Saves\?" -ForegroundColor DarkYellow
+Write-Host "Is using old Shorcuts (.lnk) for the save folders inside ${savesPath}?" -ForegroundColor DarkYellow
 if ( $lnkFilesSaves -eq "Yes" ){
 	$color = "Red"
 }else{
@@ -240,7 +270,7 @@ if ( $lnkFilesSaves -eq "Yes" ){
 }
 Write-Host $lnkFilesSaves  -ForegroundColor $color
 Write-Host ""
-Write-Host "Are there proper folders inside Emulation\Saves\?" -ForegroundColor DarkYellow
+Write-Host "Are there proper folders inside ${savesPath}?" -ForegroundColor DarkYellow
 if ( $lnkFilesSaves2 -eq "Yes" ){
 	$color = "Green"
 }else{
@@ -254,7 +284,7 @@ if ($carpetasNoDirectorio.Count -gt 0) {
 	}
 }
 Write-Host ""
-Write-Host  "Has new Symlinks in place?" -ForegroundColor DarkYellow
+Write-Host  "Is using the new symlinks for the save folders inside C:\Users\REDACTED\EmuDeck\EmulationStation-DE\Emulators?" -ForegroundColor DarkYellow
 if ($duckstationSL -eq "Yes"){
 	$color ="Green"
 }else{
@@ -311,7 +341,7 @@ Write-Host "ryujinx: $ryujinxSL"  -ForegroundColor $color
 Write-Host "yuzu: $yuzuSL"  -ForegroundColor $color
 Write-Host ""
 
-Write-Host  "Are CloudSync functions instaled?" -ForegroundColor DarkYellow
+Write-Host  "Are CloudSync functions installed?" -ForegroundColor DarkYellow
 if ($cloudFunc -eq "Yes"){
 	$color ="Green"
 }else{
@@ -328,6 +358,14 @@ if ($rcloneConf -eq "Yes"){
 }
 Write-Host "$rcloneConf"  -ForegroundColor $color
 Write-Host ""
+Write-Host  "Is cloudSync installed?" -ForegroundColor DarkYellow
+if (Test-Path "$cloud_sync_bin"){
+	Write-Host "$cloudFunc"  -ForegroundColor "Green"
+}else{
+	Write-Host "$cloudFunc"  -ForegroundColor "Red"
+}
+Write-Host ""
+
 Write-Host  "Are the SRM parsers updated?" -ForegroundColor DarkYellow
 if ($parsersUpdated -eq "Yes"){
 	$color ="Green"
@@ -353,13 +391,13 @@ foreach ($elemento in $miArreglo) {
 }
 
 
-
-
 Write-Host ""
 Write-Host ""
 Write-Host "Recomendations..." -ForegroundColor DarkCyan
 
-
+if($lnkFiles -eq "Yes"){
+	Write-Host "We've cleaned up your old .lnk files but make sure you don't have .lnk files in your cloud provider, delete them if you do" -ForegroundColor Yellow
+}
 if ($lnkFiles -eq "Yes" -or $lnkFilesSaves -eq "Yes" -or $lnkFilesSaves2 -eq "No" -or $rcloneConf -eq "No" -or $duckstationSL -eq "No" -or $pcsx2SL -eq "No" -or $retroarchSL -eq "No" -or $cemuSL -eq "No" -or $citraSL -eq "No" -or $dolphinSL -eq "No" -or $ppssppSL -eq "No" -or $ryujinxSL -eq "No" -or $yuzuSL -eq "No") {
 	Write-Host "Do a Custom Reset" -ForegroundColor Yellow
 }elseif($download -eq "No" -or $upload -eq "No" ){
