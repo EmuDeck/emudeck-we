@@ -2,7 +2,7 @@
 cls
 $upload="Yes"
 $download="Yes"
-
+echo "" > "$userFolder/EmuDeck/logs/rclone.log"
 Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
 
 if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "NYI*"){
