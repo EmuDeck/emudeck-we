@@ -91,7 +91,7 @@ function RPCS3_setupStorage(){
 
 		moveFromTo "$emusPath\RPCS3\dev_hdd0" "$emulationPath/storage/rpcs3/dev_hdd0"
 		$Output = $wshell.Popup("Migration complete!")
-
+		mkdir "$emulationPath/storage/rpcs3/dev_hdd0/game"  -ErrorAction SilentlyContinue
 	}else{
 		mkdir "$emulationPath/storage/rpcs3/dev_hdd0/home/00000001/savedata"  -ErrorAction SilentlyContinue
 	}
