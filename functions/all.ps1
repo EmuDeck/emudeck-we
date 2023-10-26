@@ -19,6 +19,7 @@ Set-Location $emulationPath
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\checkBIOS.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\appImageInit.ps1"
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\autofix.ps1"
 
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1"

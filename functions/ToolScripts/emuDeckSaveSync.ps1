@@ -648,12 +648,14 @@ stopLog
 }
 
 function cloud_sync_createBackup($emuName){
- $date = Get-Date -Format "MM_dd_yyyy"
- Copy-Item -Path "$savesPath\$emuName\*" -Destination "$toolsPath\save-backups\$emuName" -Recurse
- #We delete backups older than one month
- $oldDate = (Get-Date).AddDays(-30)
- Get-ChildItem -Path "$toolsPath\save-backups" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
-}
+	mkdir "$emulationPath\save-backups" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\save-backups\$emuName" -ErrorAction SilentlyContinue
+	$date = Get-Date -Format "MM_dd_yyyy"
+	#We delete backups older than one month
+	$oldDate = (Get-Date).AddDays(-30)
+	Get-ChildItem -Path "$emulationPath\save-backups\$emuName" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
+	Copy-Item -Path "$savesPath\$emuName\*" -Destination "$emulationPath\save-backups\$emuName" -Recurse -ErrorAction SilentlyContinue
+ }
 
 function cloud_sync_uploadEmu{
 	param(
