@@ -80,5 +80,10 @@ function autofix_ESDE(){
 			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
 			ESDE_Init
 		}
+
+		if (-not (Test--Path -Path $xmlFile)){
+			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
+			ESDE_Init
+		}
 	}
 }
