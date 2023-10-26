@@ -10,8 +10,11 @@ function autofix_betaCorruption(){
 	-ForegroundColor Cyan
 			break
 			exit
-		}
+	}else{
+		echo "early OK!"
+	}
 }
+
 
 function autofix_lnk(){
 	$sourceFolder = "$savesPath"
