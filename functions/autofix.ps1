@@ -12,6 +12,20 @@ function autofix_betaCorruption(){
 		}
 }
 
+function autofix_lnk(){
+	$sourceFolder = "$savesPath/saves"
+
+	if ( Get-ChildItem -Path "$sourceFolder" -Filter *.lnk ){
+		confirmDialog -TitleText "Old .lnk files found in Emulation/saves/" -MessageText "We will delete them since they are no longer neccesary and can cause problems. Make sure to delete them in your cloud provider in every subfolder"
+	}
+
+	Get-ChildItem -Path "$sourceFolder" -Filter *.lnk | ForEach-Object {
+		$filePath="$_.FullName"
+		Remove-Item –path "$filePath" -force
+	}
+	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
+}
+
 function autofix_cloudSyncLockfile(){
 	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a few seconds to download"
 	rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
