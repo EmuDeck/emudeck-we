@@ -387,7 +387,7 @@ $scriptContent = @"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Write-Host ""
-
+}
 Write-Host  "Are CloudSync functions installed?" -ForegroundColor DarkYellow
 if ($cloudFunc -eq "Yes"){
 	$color ="Green"
