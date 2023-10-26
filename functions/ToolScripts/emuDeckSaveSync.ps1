@@ -404,7 +404,7 @@ function cloud_sync_download($emuName){
 			$sh = New-Object -ComObject WScript.Shell
 
 			$target = "$emulationPath\saves\"
-
+			cloud_sync_save_hash($target)
 			$fileHash = "$target\.hash"
 
 			#We compare the hashes
@@ -464,7 +464,7 @@ function cloud_sync_download($emuName){
 			}
 		}else{
 			$target = "$emulationPath\saves\$emuName\"
-
+			cloud_sync_save_hash($target)
 			$fileHash = "$target\.hash"
 
 			#We compare the hashes
