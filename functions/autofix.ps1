@@ -1,7 +1,7 @@
 #Put here your autofix functions, they should be load when EmuDeck Starts
 
 function autofix_betaCorruption(){
-	if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "*NYI*"){
+	if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "*NYI*" -and -not Test-path "$toolsPath\cloudSync"){
 			confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a few seconds to download"
 			$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
 			download $url_emudeck "emudeck_install.exe"
@@ -13,7 +13,7 @@ function autofix_betaCorruption(){
 }
 
 function autofix_lnk(){
-	$sourceFolder = "$savesPath/saves"
+	$sourceFolder = "$savesPath"
 
 	if ( Get-ChildItem -Path "$sourceFolder" -Filter *.lnk ){
 		confirmDialog -TitleText "Old .lnk files found in Emulation/saves/" -MessageText "We will delete them since they are no longer neccesary and can cause problems. Make sure to delete them in your cloud provider in every subfolder"
@@ -23,7 +23,6 @@ function autofix_lnk(){
 		$filePath="$_.FullName"
 		Remove-Item –path "$filePath" -force
 	}
-	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
 }
 
 function autofix_cloudSyncLockfile(){
@@ -59,10 +58,10 @@ function autofix_raSavesFolders(){
 		}
 	}
 
-	setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_savestates_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
+	#setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
+	#setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
+	#setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
+	#setConfigRA "sort_savestates_enable" "false" $RetroArch_configFile
+	#setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
 
 }
