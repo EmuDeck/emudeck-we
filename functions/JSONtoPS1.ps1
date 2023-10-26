@@ -50,7 +50,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupPPSSPP=`"$SetupPPSSPP`"")
 	setSettinginFile("`$doSetupXemu=`"$SetupXemu`"")
 	setSettinginFile("`$doSetupSRM=`"$SetupSRM`"")
-	setSettinginFile("`$doSetupESDE=`"$doSetupESDE`"")
+	setSettinginFile("`$doSetupESDE=`"$SetupESDE`"")
 	setSettinginFile("`$doSetupmelonDS=`"$SetupmelonDS`"")
 
 	setSettinginFile("`$doSetupPegasus=`"$SetupPegasus`"")
