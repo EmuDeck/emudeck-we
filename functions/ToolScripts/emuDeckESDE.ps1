@@ -170,7 +170,7 @@ function ESDE_finalize(){
 
 function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 
-	mkdir -p "$esdePath\.emulationstationthemes" -ErrorAction SilentlyContinue
+	mkdir -p "$esdePath\.emulationstation\themes" -ErrorAction SilentlyContinue
 	cd "$esdePath\.emulationstation\themes"
 	git clone $esdeThemeUrl "./$esdeThemeName"
 

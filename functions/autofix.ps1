@@ -2,7 +2,7 @@
 
 function autofix_betaCorruption(){
 
-	if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1" -like "*NYI*" -and (-not (Test-Path "$toolsPath\cloudSync"))){
+	if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1" -like "*NYI*" -and (-not (Test-Path "$toolsPath\cloudSync\WinSW-x64.exe"))){
 			confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a few seconds to download"
 			$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
 			download $url_emudeck "emudeck_install.exe"
@@ -11,7 +11,7 @@ function autofix_betaCorruption(){
 			break
 			exit
 	}else{
-		echo "early OK!"
+		Write-Output "early OK!"
 	}
 }
 
@@ -23,15 +23,17 @@ function autofix_lnk(){
 		confirmDialog -TitleText "Old .lnk files found in Emulation/saves/" -MessageText "We will delete them since they are no longer neccesary and can cause problems. Make sure to delete them in your cloud provider in every subfolder"
 	}
 
-	Get-ChildItem -Path "$sourceFolder" -Filter *.lnk | ForEach-Object {
-		$filePath="$_.FullName"
-		Remove-Item –path "$filePath" -force
+	Get-ChildItem -Path "$sourceFolder" -Filter "*.lnk" | ForEach-Object {
+		$filePath=$_.FullName
+		Remove-Item -path $filePath -Force
 	}
 }
 
 function autofix_cloudSyncLockfile(){
-	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a few seconds to download"
-	rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+	if( Test-Path "$userFolder\cloud.lock" ){
+		confirmDialog -TitleText "CloudSync Lock file detected" -MessageText "EmuDeck will delete the cloud.lock fike. Maybe your upload failed?"
+		rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+	}
 }
 
 function autofix_raSavesFolders(){
@@ -61,11 +63,27 @@ function autofix_raSavesFolders(){
 			Remove-Item -Path $subfolderPath -Force -Recurse
 		}
 	}
-
+	$RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
 	setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_savestates_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
 
+}
+
+function autofix_ESDE(){
+	if ($doInstallESDE -eq "true"){
+
+		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\.emulationstation\es_settings.xml"
+		if (-not (Select-String -Pattern "Emulation\\roms" -Path $xmlFile)){
+			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
+			ESDE_Init
+		}
+
+		if (-not (Test--Path -Path $xmlFile)){
+			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
+			ESDE_Init
+		}
+	}
 }
