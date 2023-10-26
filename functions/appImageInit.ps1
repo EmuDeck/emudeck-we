@@ -5,6 +5,7 @@ function appImageInit(){
 	autofix_cloudSyncLockfile
 	autofix_raSavesFolders
 	autofix_lnk
+	autofix_ESDE
 	SRM_resetLaunchers
 
 

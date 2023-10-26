@@ -69,3 +69,14 @@ function autofix_raSavesFolders(){
 	setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
 
 }
+
+function autofix_ESDE(){
+	if ($doInstallESDE -eq "true"){
+
+		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\.emulationstation\es_settings.xml"
+		if (-not (Select-String -Pattern "Emulation\\roms" -Path $xmlFile)){
+			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
+			ESDE_Init
+		}
+	}
+}
