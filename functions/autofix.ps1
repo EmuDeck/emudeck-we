@@ -30,8 +30,10 @@ function autofix_lnk(){
 }
 
 function autofix_cloudSyncLockfile(){
-	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a few seconds to download"
-	rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+	if( Test-Path "$userFolder\cloud.lock" ){
+		confirmDialog -TitleText "CloudSync Lock file detected" -MessageText "EmuDeck will delete the cloud.lock fike. Maybe your upload failed?"
+		rm -fo "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+	}
 }
 
 function autofix_raSavesFolders(){
