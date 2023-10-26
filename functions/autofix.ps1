@@ -11,7 +11,7 @@ function autofix_betaCorruption(){
 			break
 			exit
 	}else{
-		echo "early OK!"
+		Write-Output "early OK!"
 	}
 }
 
@@ -23,9 +23,9 @@ function autofix_lnk(){
 		confirmDialog -TitleText "Old .lnk files found in Emulation/saves/" -MessageText "We will delete them since they are no longer neccesary and can cause problems. Make sure to delete them in your cloud provider in every subfolder"
 	}
 
-	Get-ChildItem -Path "$sourceFolder" -Filter *.lnk | ForEach-Object {
-		$filePath="$_.FullName"
-		Remove-Item –path "$filePath" -force
+	Get-ChildItem -Path "$sourceFolder" -Filter "*.lnk" | ForEach-Object {
+		$filePath=$_.FullName
+		Remove-Item -path $filePath -Force
 	}
 }
 
@@ -61,7 +61,7 @@ function autofix_raSavesFolders(){
 			Remove-Item -Path $subfolderPath -Force -Recurse
 		}
 	}
-
+	$RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
 	setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
