@@ -438,209 +438,140 @@ function SRM_resetConfig(){
 
 function SRM_resetLaunchers(){
 
+  $FIPSAlgorithmPolicy = Get-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
+  $EnabledValue = $FIPSAlgorithmPolicy.Enabled
 
-	$FIPSAlgorithmPolicy = Get-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
-	$EnabledValue = $FIPSAlgorithmPolicy.Enabled
+  if($EnabledValue -eq 1){
+	$result = yesNoDialog -TitleText "Windows FIPS detected" -MessageText "we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -OKButtonText "Fix and restart" -CancelButtonText ""
 
-	if($EnabledValue -eq 1){
-		$result = yesNoDialog -TitleText "Windows FIPS detected" -MessageText "we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -OKButtonText "Fix and restart" -CancelButtonText ""
-
-		if ($result -eq "OKButton") {
+	if ($result -eq "OKButton") {
 $scriptContent = @"
 Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
 "@
-			startScriptWithAdmin -ScriptContent $scriptContent
-		} else {
-			echo "nope"
-		}
+	  startScriptWithAdmin -ScriptContent $scriptContent
+	} else {
+	  echo "nope"
+	}
+  }
+
+  #We clean the saves folders from .lnk files
+  Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+  Get-ChildItem -Path "$emusPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+  Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
+
+  $setupSaves=''
+  if ($doInstallPegasus -eq "true"){
+	createLauncher "pegasus\pegasus-frontend"
+  }
+  if ($doInstallRA -eq "true"){
+	createLauncher retroarch
+	$setupSaves += SRM_testSaveFolder "$emusPath\retroarch\saves"
+  }
+  if ($doInstallDolphin -eq "true"){
+	createLauncher dolphin
+	$setupSaves += SRM_testSaveFolder "$emusPath\Dolphin-x64\User\GC"
+  }
+  if ($doInstallPCSX2 -eq "true"){
+	createLauncher pcsx2
+	$setupSaves += SRM_testSaveFolder "$emusPath\PCSX2-Qt\memcards"
+  }
+  if ($doInstallRPCS3 -eq "true"){
+	createLauncher rpcs3
+	$setupSaves += SRM_testSaveFolder "$storagePath\rpcs3\dev_hdd0\home\00000001\savedata"
+  }
+  if ($doInstallYuzu -eq "true"){
+	createLauncher yuzu
+	$setupSaves += SRM_testSaveFolder "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save"
+  }
+  if ($doInstallRyujinx -eq "true"){
+	createLauncher "Ryujinx"
+	$setupSaves += SRM_testSaveFolder "$emusPath\Ryujinx\portable\bis\user\save"
+  }
+  if ($doInstallCitra -eq "true"){
+	createLauncher citra
+	$setupSaves += SRM_testSaveFolder "$emusPath\citra\user\sdmc"
+  }
+  if ($doInstallDuck -eq "true"){
+	createLauncher duckstation
+	$setupSaves += SRM_testSaveFolder "$emusPath\duckstation\memcards"
+  }
+  if ($doInstallmelonDS -eq "true"){
+	createLauncher melonDS
+	$setupSaves += SRM_testMelonDSFolder "$savesPath\melonDS\saves"
+  }
+  if ($doInstallCemu -eq "true"){
+	createLauncher cemu
+	$setupSaves += SRM_testSaveFolder "$emusPath\cemu\mlc01\usr\save"
+  }
+
+  if ($doInstallPPSSPP -eq "true"){
+	createLauncher PPSSPP
+	$setupSaves += SRM_testSaveFolder "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"
+  }
+  if ($doInstallESDE -eq "true"){
+	  createLauncher "esde\EmulationStationDE"
 	}
 
-	#We reset the saves folders
-	$setupSaves=''
-	$path="$savesPath\retroarch\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="RetroArch_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="RetroArch_setupSaves;"
-	}
-
-    $path = "$savesPath\duckstation\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="DuckStation_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="DuckStation_setupSaves;"
-	}
-
-    $path = "$savesPath\dolphin\wii"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="Dolphin_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="Dolphin_setupSaves;"
-	}
-
-    $path = "$savesPath\yuzu\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="Yuzu_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="Yuzu_setupSaves;"
-	}
-
-    $path = "$savesPath\ryujinx\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="Ryujinx_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="Ryujinx_setupSaves;"
-	}
-
-    $path = "$savesPath\citra\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="Citra_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="Citra_setupSaves;"
-	}
-
-    $path = "$savesPath\Cemu\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="Cemu_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="Cemu_setupSaves;"
-	}
-
-    $path = "$savesPath\pcsx2\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="PCSX2QT_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="PCSX2QT_setupSaves;"
-	}
-
-    $path = "$savesPath\rpcs3\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="RPCS3_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="RPCS3_setupSaves;"
-	}
-
-    $path = "$savesPath\ppsspp\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="PPSSPP_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="PPSSPP_setupSaves;"
-	}
-
-    $path = "$savesPath\melonDS\saves"
-	if (Test-Path -Path $path) {
-		$element = Get-Item -Path $path
-	}
-	if (-not (Test-Path -Path $path)) {
-		$setupSaves+="melonDS_setupSaves;"
-	}elseif ( $element.Extension -eq ".lnk" ){
-		$setupSaves+="melonDS_setupSaves;"
-	}
-
-	#if ( "$doSetupXemu" -eq "true" ){
-		#$setupSaves+="#Xemu_setupSaves;"
-	#}
-
-	#if ( "$doSetupXenia" -eq "true" ){
-		#$setupSaves+="#Xenia_setupSaves;"
-	#}
+#if ($doInstallXemu -eq "true"){
+#	createLauncher xemu
+# $setupSaves += SRM_testSaveFolder "$savesPath\xemu\saves"
+#}
+#if ($doInstallXenia -eq "true"){
+#	createLauncher xenia
+# $setupSaves += SRM_testSaveFolder "$savesPath\xenia\saves"
+#}
+#if ($doInstallVita3k -eq "true"){
+#	createLauncher Vita3k
+# $setupSaves += SRM_testSaveFolder "$savesPath\Vita3k\saves"
+#}
+#if ($doInstallScummVM -eq "true"){
+#	createLauncher ScummVM
+# $setupSaves += SRM_testSaveFolder "$savesPath\ScummVM\saves"
+#}
 
 
-	#if ( "$doSetupVita3K" -eq "true" ){
-		#$setupSaves+="#Vita3K_setupSaves;"
-	#}
+if ( $setupSaves -ne '' ){
 
-	#if ( "$doSetupScummVM" -eq "true" ){
-		#$setupSaves+="#ScummVM_setupSaves;"
-	#}
 	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "After this message you'll get several windows asking for elevated permissions. This is so we can create symlinks for all your emulators saves and states folders."
 
 $scriptContent = @"
-	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
 "@
 
 	startScriptWithAdmin -ScriptContent $scriptContent
 
-	Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+}
 
-	Get-ChildItem -Path "$emusPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+}
 
-	Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
-	if ($doInstallPegasus -eq "true"){
-		createLauncher "pegasus\pegasus-frontend"
-	}
-	if ($doInstallRA -eq "true"){
-		createLauncher retroarch
-	}
-	if ($doInstallDolphin -eq "true"){
-		createLauncher dolphin
-	}
-	if ($doInstallPCSX2 -eq "true"){
-		createLauncher pcsx2
-	}
-	if ($doInstallRPCS3 -eq "true"){
-		createLauncher rpcs3
-	}
-	if ($doInstallYuzu -eq "true"){
-		createLauncher yuzu
-	}
-	if ($doInstallRyujinx -eq "true"){
-		createLauncher "Ryujinx"
-	}
-	if ($doInstallCitra -eq "true"){
-		createLauncher citra
-	}
-	if ($doInstallDuck -eq "true"){
-		createLauncher duckstation
-	}
-	if ($doInstallmelonDS -eq "true"){
-		createLauncher melonDS
-	}
-	if ($doInstallCemu -eq "true"){
-		createLauncher cemu
-	}
-	#if ($doInstallXenia -eq "true"){
-	#	createLauncher xenia
-	#}
-	if ($doInstallPPSSPP -eq "true"){
-		createLauncher PPSSPP
-	}
-	#if ($doInstallXemu -eq "true"){
-	#	createLauncher xemu
-	#}
 
-	if ($doInstallESDE -eq "true"){
-		createLauncher "esde\EmulationStationDE"
+function SRM_testSaveFolder($path) {
+  $splits = $path.Split("\")
+  $emu = $splits[6]
+  if (Test-Path -Path $path) {
+	$element = Get-Item -Path $path
+	if ($element.Extension -eq ".lnk") {
+	  return "$emu`_setupSaves;"
+	} elseif ((Get-Item "$element").LinkType -ne "SymbolicLink") {
+	  return "$emu`_setupSaves;"
 	}
+  } else {
+	return "$emu`_setupSaves;"
+  }
+}
 
+
+function SRM_testMelonDSFolder($path) {
+  $splits = $path.Split("\")
+  $emu = $splits[3]
+  if (Test-Path -Path $path) {
+  $element = Get-Item -Path $path
+  if ($element.Extension -eq ".lnk") {
+	return "$emu`_setupSaves;"
+  } elseif ((Get-Item "$element").LinkType -eq "SymbolicLink") {
+	return "$emu`_setupSaves;"
+  }
+  } else {
+  return "$emu`_setupSaves;"
+  }
 }

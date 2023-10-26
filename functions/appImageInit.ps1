@@ -1,14 +1,13 @@
 function appImageInit(){
 
-	#AutoFixes
-	autofix_betaCorruption
-	autofix_cloudSyncLockfile
-	autofix_raSavesFolders
+  #AutoFixes
+  autofix_betaCorruption
+  autofix_cloudSyncLockfile
+  SRM_resetLaunchers
+  autofix_raSavesFolders
+  # Init functions
+  setScreenDimensionsScale
 
-
-	# Init functions
-	setScreenDimensionsScale
-
-	echo "true"
+  echo "true"
 
 }
