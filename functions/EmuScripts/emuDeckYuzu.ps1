@@ -44,6 +44,12 @@ function Yuzu_setupSaves(){
 	$emuSavePath = -join($emulationPath,"\bios\yuzu\firmware")
 	createSaveLink $simLinkPath $emuSavePath
 
+	#DLCs
+	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\Contents"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\Contents\registered"
+	$emuSavePath = "$storagePath\yuzu\storage"
+	createSaveLink $simLinkPath $emuSavePath
+
 	#Keys
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\keys"
 	$emuSavePath = -join($emulationPath,"\bios\yuzu\keys")
