@@ -57,7 +57,7 @@ function Dolphin_setupSaves(){
 
 	#Saves Wii
 	$simLinkPath = "$emusPath\Dolphin-x64\User\Wii"
-	$emuSavePath = "$emulationPath\saves\dolphin\Wii""
+	$emuSavePath = "$emulationPath\saves\dolphin\Wii"
 	createSaveLink $simLinkPath $emuSavePath
 
 
