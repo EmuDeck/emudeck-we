@@ -796,35 +796,18 @@ function cloud_sync_init($emulator){
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
-                	echo "\" > $savesPath/.emulator
+					echo "\" > $savesPath/.emulator
 					cloud_sync_downloadEmuAll
-                }else{
-                    echo "$emulator" > $savesPath/.emulator
+				}else{
+					echo "$emulator" > $savesPath/.emulator
 					cloud_sync_downloadEmu $emulator
-                }
+				}
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
-				invoke-expression 'cmd /c start powershell -Command {
-					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
-					while($true){
-						echo "loop"
-						if(IsServiceRunning -eq "Running"){
-							cloud_sync_check_lock
-						}else{
-							echo "exit!"
-							$toast.Close()
-							$toast = steamToast -MessageText "Upload finished!"
-							Start-Sleep  -Milliseconds 500
-							$toast.Close()
-							break
-						}
-
-					}
-					exit
-				}'
-
+				Start-Sleep -Seconds 1
+				$toast.Close()
 			}
 		}
 	}else{
