@@ -74,7 +74,7 @@ Write-Host "Generating CloudSync Status Report..." -ForegroundColor DarkCyan
 Write-Host ""
 
 
-$subcarpetas = Get-ChildItem $emusPath -Directory -Recurse
+$subcarpetas = Get-ChildItem "$emusPath" -Directory -Recurse
 $resultadosSL = @()
 ###
 ###
