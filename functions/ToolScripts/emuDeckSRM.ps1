@@ -295,13 +295,13 @@ function SRM_init(){
   echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
 
   if($steamAsFrontend -ne "False"){
-	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json" | ForEach-Object {
+	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		if ($_ -notin $exclusionList) {
 		  Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
 		}
 	  }
 
-	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json" | ForEach-Object {
+	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		  if ($_ -notin $exclusionList) {
 			Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
 		  }
@@ -314,12 +314,12 @@ function SRM_init(){
   $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
 
   $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
-  "[`n" + ((Get-Content $mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
   $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  "[`n" + ((Get-Content $mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 
