@@ -742,7 +742,7 @@ function cloud_sync_lock($userPath){
 
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
 	$toast = steamToast -MessageText "Uploading..."
-	Start-Sleep -Seconds 2
+	Start-Sleep -Milliseconds 500
 	$toast.Close()
 	stopLog
 }
@@ -754,7 +754,7 @@ function cloud_sync_unlock($userPath){
 	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
 	$toast = steamToast -MessageText "Uploads completed!"
-	Start-Sleep -Seconds 2
+	Start-Sleep -Milliseconds 500
 	$toast.Close()
 	stopLog
 }
@@ -765,12 +765,18 @@ function cloud_sync_check_lock(){
 	if(Test-Path -Path $lockedFile){
 		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games, please wait..."
 		while (Test-Path -Path $lockedFile) {
-			Start-Sleep -Seconds 1
+			Start-Sleep -Milliseconds 200
 		}
 		$toast.Close()
 	}
 	stopLog
 }
+
+function IsServiceRunning {
+	$service = Get-Service -Name "CloudWatch"
+	return $service.Status -eq 'Running'
+}
+
 function cloud_sync_notification($text){
 	[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 	$objNotifyIcon = New-Object System.Windows.Forms.NotifyIcon
@@ -800,8 +806,25 @@ function cloud_sync_init($emulator){
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
-				Start-Sleep -Seconds 1
-				$toast.Close()
+				invoke-expression 'cmd /c start powershell -Command {
+					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+					while($true){
+						echo "loop"
+						if(IsServiceRunning -eq "Running"){
+							cloud_sync_check_lock
+						}else{
+							echo "exit!"
+							$toast.Close()
+							$toast = steamToast -MessageText "Upload finished!"
+							Start-Sleep  -Milliseconds 500
+							$toast.Close()
+							break
+						}
+
+					}
+					exit
+				}'
+
 			}
 		}
 	}else{
