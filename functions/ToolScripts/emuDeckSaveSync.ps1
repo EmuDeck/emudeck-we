@@ -806,7 +806,7 @@ function cloud_sync_init($emulator){
 				cls
 				invoke-expression 'cmd /c start /min powershell -Command {
 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
-					echo "CloudSync: Waiting for the game to close. Don't close this window!"
+					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
 					while($true){
 						if(IsServiceRunning -eq "Running"){
 							cloud_sync_check_lock
