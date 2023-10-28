@@ -41,7 +41,7 @@ function Yuzu_setupSaves(){
 	#Firmware
 	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\Contents\registered"
-	$emuSavePath = -join($emulationPath,"\bios\yuzu\firmware")
+	$emuSavePath = "$emulationPath\bios\yuzu\firmware"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#DLCs
@@ -52,18 +52,18 @@ function Yuzu_setupSaves(){
 
 	#Keys
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\keys"
-	$emuSavePath = -join($emulationPath,"\bios\yuzu\keys")
+	$emuSavePath = "$emulationPath\bios\yuzu\keys"
 	createSaveLink $simLinkPath $emuSavePath
 
 	setMSG "Yuzu - Saves Links"
 	mkdir "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save"
-	$emuSavePath = -join($emulationPath,"\saves\yuzu\saves")
+	$emuSavePath = "$emulationPath\saves\yuzu\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	mkdir $emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\yuzu\yuzu-windows-msvc\user\nand\system\save\8000000000000010\su\avators"
-	$emuSavePath = -join($emulationPath,"\saves\yuzu\profiles")
+	$emuSavePath = "$emulationPath\saves\yuzu\profiles"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\yuzu"
 
@@ -83,12 +83,12 @@ function Yuzu_setResolution($resolution){
 
 }
 function Yuzu_setupStorage(){
-	mkdir $emulationPath\storage\yuzu\screenshots -ErrorAction SilentlyContinue
-	mkdir $emulationPath\storage\yuzu\dump -ErrorAction SilentlyContinue
-	mkdir $emulationPath\storage\yuzu\load -ErrorAction SilentlyContinue
-	mkdir $emulationPath\storage\yuzu\nand -ErrorAction SilentlyContinue
-	mkdir $emulationPath\storage\yuzu\sdmc -ErrorAction SilentlyContinue
-	mkdir $emulationPath\storage\yuzu\tas -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\storage\yuzu\screenshots" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\storage\yuzu\dump" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\storage\yuzu\load" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\storage\yuzu\nand" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\storage\yuzu\sdmc" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\storage\yuzu\tas" -ErrorAction SilentlyContinue
 }
 function Yuzu_wipe(){
 	Write-Output "NYI"

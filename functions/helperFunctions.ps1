@@ -704,7 +704,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		} else {
 			#Check if we have space
 
-			$userDrive=(Get-Item $emulationPath).PSDrive.Name
+			$userDrive=(Get-Item "$emulationPath").PSDrive.Name
 			$destinationFree = (Get-PSDrive -Name $userDrive).Free
 			$sizeInGB = [Math]::Round($destinationFree / 1GB)
 

@@ -52,18 +52,18 @@ function Dolphin_setupSaves(){
 	#Saves GC
 	mkdir "$emusPath\Dolphin-x64\User\"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\Dolphin-x64\User\GC"
-	$emuSavePath = -join($emulationPath,"\saves\dolphin\GC")
+	$emuSavePath = "$emulationPath\saves\dolphin\GC"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#Saves Wii
 	$simLinkPath = "$emusPath\Dolphin-x64\User\Wii"
-	$emuSavePath = -join($emulationPath,"\saves\dolphin\Wii")
+	$emuSavePath = "$emulationPath\saves\dolphin\Wii""
 	createSaveLink $simLinkPath $emuSavePath
 
 
 	#States
 	$simLinkPath = "$emusPath\Dolphin-x64\User\StateSaves"
-	$emuSavePath = -join($emulationPath,"\saves\dolphin\states")
+	$emuSavePath = "$emulationPath\saves\dolphin\states"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#cloud_sync_save_hash "$savesPath\dolphin"

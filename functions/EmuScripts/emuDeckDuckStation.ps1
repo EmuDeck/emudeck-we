@@ -45,12 +45,12 @@ function DuckStation_setupSaves(){
 	setMSG "DuckStation - Creating Saves Links"
 	#Saves
 	$simLinkPath = "$emusPath\duckstation\memcards"
-	$emuSavePath = -join($emulationPath,"\saves\duckstation\saves")
+	$emuSavePath = "$emulationPath\saves\duckstation\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#States
 	$simLinkPath = "$emusPath\duckstation\savestates"
-	$emuSavePath = -join($emulationPath,"\saves\duckstation\states")
+	$emuSavePath = "$emulationPath\saves\duckstation\states"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\duckstation"
 }
