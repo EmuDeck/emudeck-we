@@ -7,7 +7,7 @@ function downloadCore($url, $core) {
 	foreach ($line in $destination) {
 		$extn = [IO.Path]::GetExtension($line)
 		if ($extn -eq ".zip" ){
-			$7z x -o"$emusPath/RetroArch/cores/" -aoa $destination
+			& $7z x -o"$emusPath/RetroArch/cores/" -aoa $destination
 			Start-Sleep -Seconds 0.5
 			Remove-Item $destination
 		}
