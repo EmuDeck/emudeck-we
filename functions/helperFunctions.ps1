@@ -795,6 +795,51 @@ function setScreenDimensionsScale(){
 	. "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
+function fullScreenToast {
+  param (
+	[string]$TitleText = "CloudSync",
+	[string]$MessageText = ""
+  )
+  $Screen = [System.Windows.Forms.Screen]::PrimaryScreen
+  $WindowWidth = $Screen.Bounds.Width
+  $WindowHeight = $Screen.Bounds.Height
+
+  $WindowLeft = 0
+  $WindowTop = 0
+
+  $WPFXaml = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
+	  Width="$WindowWidth" Height="$WindowHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
+	<Grid Name="grid">
+	  <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+		<StackPanel>
+		  <Border Margin="10,10,10,10" Background="#000000">
+			<StackPanel Orientation="Horizontal">
+			  <Image Source="$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/steamdecklogo.png" Width="50" Height="50" VerticalAlignment="Center" Margin="0,0,10,0" />
+			  <StackPanel Orientation="Vertical">
+				<TextBlock Name="Title" Margin="0,0,0,0" Text="_TITLE_" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left"/>
+				<TextBlock Name="Message" Margin="0,0,0,0" TextWrapping="Wrap"  HorizontalAlignment="Left" Text="_CONTENT_" FontSize="12"/>
+			  </StackPanel>
+			</StackPanel>
+		  </Border>
+		</StackPanel>
+	  </ScrollViewer>
+	</Grid>
+  </Window>
+"@
+
+
+  $WPFGui = NewWPFDialog -XamlData $WPFXaml
+  $WPFGui.Title.Text = $TitleText
+  $WPFGui.Message.Text = $MessageText
+
+  $null = $WPFGui.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.Show() }.Wait()
+
+  return $WPFGui.UI
+}
+
 function steamToast {
   param (
 	[string]$TitleText = "CloudSync",
