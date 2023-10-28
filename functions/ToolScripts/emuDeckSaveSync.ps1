@@ -804,6 +804,7 @@ function cloud_sync_init($emulator){
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
+				$toast.Close()
 				invoke-expression 'cmd /c start /min powershell -Command {
 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
