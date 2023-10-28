@@ -55,7 +55,7 @@ function ESDE_init(){
 		}
 		$Output = $wshell.Popup("We are going to move EmulationStation scrape data to $emulationPath/storage in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
 
-		mkdir $emulationPath/storage/downloaded_media  -ErrorAction SilentlyContinue
+		mkdir "$emulationPath/storage/downloaded_media"  -ErrorAction SilentlyContinue
 		moveFromTo "$esdePath/.emulationstation/downloaded_media" "$emulationPath/storage/downloaded_media"
 
 		$Output = $wshell.Popup("Migration complete!")
@@ -70,7 +70,7 @@ function ESDE_init(){
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
 
-	mkdir $emulationPath/storage/downloaded_media -ErrorAction SilentlyContinue
+	mkdir "$emulationPath/storage/downloaded_media" -ErrorAction SilentlyContinue
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"

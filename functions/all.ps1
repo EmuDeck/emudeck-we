@@ -2,10 +2,10 @@
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\vars.ps1"
 . "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
 
-if (-not $emulationPath) {
+if (-not "$emulationPath") {
 	$emulationPath = "C:\"
 }
-Set-Location $emulationPath
+Set-Location "$emulationPath"
 
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1"

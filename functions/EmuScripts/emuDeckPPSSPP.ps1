@@ -35,11 +35,11 @@ function PPSSPP_setupSaves(){
 	setMSG "PPSSPP - Saves Links"
 	mkdir "$emusPath\PPSSPP\memstick\PSP" -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"
-	$emuSavePath = -join($emulationPath,"\saves\ppsspp\states")
+	$emuSavePath = "$emulationPath\saves\ppsspp\states"
 	createSaveLink $simLinkPath $emuSavePath
 
 	$simLinkPath = "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"
-	$emuSavePath = -join($emulationPath,"\saves\ppsspp\saves")
+	$emuSavePath = "$emulationPath\saves\ppsspp\saves"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\ppsspp"
 
