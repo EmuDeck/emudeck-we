@@ -20,7 +20,7 @@ function template_wipe(){
 	Write-Output "NYI"
 }
 function template_uninstall(){
-	Remove-Item –path "$emusPath\Retroarch" –recurse -force
+	Remove-Item –path "$emusPath\template" –recurse -force
 	if($?){
 		Write-Output "true"
 	}
@@ -47,7 +47,10 @@ function template_finalize(){
 	Write-Output "NYI"
 }
 function template_IsInstalled(){
-	Write-Output "NYI"
+	$test=Test-Path -Path "$emusPath\template"
+	if($test){
+		Write-Output "true"
+	}
 }
 function template_resetConfig(){
 	Write-Output "NYI"

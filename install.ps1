@@ -238,7 +238,6 @@ if (Test-Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe")
 	}
 
 	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
-	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements"
 }
 
 if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
@@ -265,39 +264,6 @@ if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
 	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
 
 	if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
-		$Host.UI.RawUI.BackgroundColor = "Red"
-		Write-Host "GIT Download Failed" -ForegroundColor white
-		$Host.UI.RawUI.BackgroundColor = "Black"
-		Write-Host "Please visit this url to learn how to install all the dependencies manually by yourself:" -ForegroundColor white
-		Write-Host ""
-		Write-Host "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
-		Write-Host ""
-		$Host.UI.RawUI.BackgroundColor = "Black"
-		Read-Host -Prompt "Press any key to exit"
-	}
-
-} elseif (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe")) {
-
-	$Host.UI.RawUI.BackgroundColor = "Red"
-
-	#Clear-Host
-	Write-Host ""
-	Write-Host "There was an error trying to install 7-Zip using Winget."
-	Write-Host "We are gonna try to install it manually..."
-	Write-Host ""
-	$Host.UI.RawUI.BackgroundColor = "Black"
-
-	#Download 7zip
-	Write-Host "Downloading 7zip..."
-	$url_7zip = "https://github.com/EmuDeck/emudeck-we/raw/early/wintools/7z.exe"
-	download $url_7zip "7z.exe"
-	mkdir "$env:ProgramFiles\7-Zip" -ErrorAction SilentlyContinue
-	$downloadsFolder = Join-Path $env:USERPROFILE "Downloads"
-
-	Copy-Item "$downloadsFolder\7zip.exe" "$env:ProgramFiles\7-Zip" -Force
-
-
-	if (-not (Test-Path "$env:ProgramFiles\7-Zip\7z.exe")) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
 		Write-Host "GIT Download Failed" -ForegroundColor white
 		$Host.UI.RawUI.BackgroundColor = "Black"
