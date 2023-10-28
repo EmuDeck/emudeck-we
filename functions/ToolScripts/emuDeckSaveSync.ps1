@@ -760,7 +760,6 @@ function cloud_sync_unlock($userPath){
 }
 
 function cloud_sync_check_lock(){
-	startLog($MyInvocation.MyCommand.Name)
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
 		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games, please wait..."
@@ -769,7 +768,6 @@ function cloud_sync_check_lock(){
 		}
 		$toast.Close()
 	}
-	stopLog
 }
 
 function IsServiceRunning {
@@ -806,17 +804,17 @@ function cloud_sync_init($emulator){
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
-				invoke-expression 'cmd /c start powershell -Command {
+				invoke-expression 'cmd /c start /min powershell -Command {
 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+					echo "CloudSync: Waiting for the game to close. Don't close this window!"
 					while($true){
-						echo "loop"
 						if(IsServiceRunning -eq "Running"){
 							cloud_sync_check_lock
 						}else{
 							echo "exit!"
 							$toast.Close()
 							$toast = steamToast -MessageText "Upload finished!"
-							Start-Sleep  -Milliseconds 500
+							Start-Sleep  -Milliseconds 800
 							$toast.Close()
 							break
 						}
