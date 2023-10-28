@@ -36,11 +36,11 @@ JSONtoPS1
 
 setScreenDimensionsScale
 
-mkdir $emulationPath -ErrorAction SilentlyContinue
-mkdir $biosPath -ErrorAction SilentlyContinue
-mkdir $toolsPath -ErrorAction SilentlyContinue
-mkdir $toolsPath\launchers -ErrorAction SilentlyContinue
-mkdir $savesPath -ErrorAction SilentlyContinue
+mkdir "$emulationPath" -ErrorAction SilentlyContinue
+mkdir "$biosPath" -ErrorAction SilentlyContinue
+mkdir "$toolsPath" -ErrorAction SilentlyContinue
+mkdir "$toolsPath\launchers" -ErrorAction SilentlyContinue
+mkdir "$savesPath" -ErrorAction SilentlyContinue
 
 #
 # Installation
@@ -52,20 +52,6 @@ Write-Output "Installing, please stand by..."
 Write-Output ""
 
 copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "$romsPath"
-
-#old Files cleanup
-#$testN3ds
-#if ( Test-Path $emulationPath\roms\n3ds -PathType Leaf -eq "true" ){
-#	#Delete the file
-#	Remove-Item $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
-#	Rename-Item $emulationPath\roms\3ds $emulationPath\roms\n3ds -ErrorAction SilentlyContinue
-#}
-#
-#if ( Test-Path $emulationPath\roms\gc -PathType Leaf -eq "true" ){
-#	#Delete the file
-#	Remove-Item $emulationPath\roms\gc -ErrorAction SilentlyContinue
-#	Rename-Item $emulationPath\roms\gamecube $emulationPath\roms\gc -ErrorAction SilentlyContinue
-#}
 
 
 #Dowloading..ESDE

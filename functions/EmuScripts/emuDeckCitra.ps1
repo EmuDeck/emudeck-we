@@ -33,11 +33,11 @@ function Citra_setupSaves(){
 	setMSG "Citra - Saves Links"
 	mkdir "$emusPath\citra\user"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\citra\user\sdmc"
-	$emuSavePath = -join($emulationPath,"\saves\citra\saves")
+	$emuSavePath = "$emulationPath\saves\citra\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	$simLinkPath = "$emusPath\citra\user\states"
-	$emuSavePath = -join($emulationPath,"\saves\citra\states")
+	$emuSavePath = "$emulationPath\saves\citra\states"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\citra"
 }

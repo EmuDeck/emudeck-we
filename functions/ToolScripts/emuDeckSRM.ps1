@@ -295,13 +295,13 @@ function SRM_init(){
   echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
 
   if($steamAsFrontend -ne "False"){
-	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json" | ForEach-Object {
 		if ($_ -notin $exclusionList) {
 		  Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
 		}
 	  }
 
-	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json" | ForEach-Object {
 		  if ($_ -notin $exclusionList) {
 			Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
 		  }
@@ -314,12 +314,12 @@ function SRM_init(){
   $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
 
   $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
-  "[`n" + ((Get-Content $mainParserFolder\*.json -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  "[`n" + ((Get-Content $mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
   $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  "[`n" + ((Get-Content $mainParserFolder\*.json -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  "[`n" + ((Get-Content $mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 
@@ -329,40 +329,40 @@ function SRM_init(){
   $steamInstallPath = $steamInstallPath.Replace("/", "\\")
 
   #Paths
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json "C:\\Emulation" $emulationPath
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json "EMUSPATH" $emusPathSRM
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json "USERPATH" "$userFolder"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json "Users\" "Users\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json ":\" ":\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json "\\\" "\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json "C:\\Emulation" $emulationPath
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json "EMUSPATH" $emusPathSRM
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json "STEAMPATH" $steamInstallPath
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json "Users\" "Users\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json ":\" ":\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json "\\\" "\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json "STEAMPATH" $steamInstallPath
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json "Users\" "Users\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json ":\" ":\\"
-  sedFile $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json "\\\" "\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "USERPATH" "$userFolder"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "Users\" "Users\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" ":\" ":\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "\\\" "\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "Users\" "Users\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" ":\" ":\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "\\\" "\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "Users\" "Users\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" ":\" ":\\"
+  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "\\\" "\\"
 
 
-	sedFile $toolsPath\userData\userConfigurations.json "C:\\Emulation" $emulationPath
-	sedFile $toolsPath\userData\userConfigurations.json "EMUSPATH" $emusPathSRM
-	sedFile $toolsPath\userData\userConfigurations.json "USERPATH" "$userFolder"
-	sedFile $toolsPath\userData\userConfigurations.json "Users\" "Users\\"
-	sedFile $toolsPath\userData\userConfigurations.json ":\" ":\\"
-	sedFile $toolsPath\userData\userConfigurations.json "\\\" "\\"
-	sedFile $toolsPath\userData\userSettings.json "C:\\Emulation" $emulationPath
-	sedFile $toolsPath\userData\userSettings.json "EMUSPATH" $emusPathSRM
-	sedFile $toolsPath\userData\userSettings.json "STEAMPATH" $steamInstallPath
-	sedFile $toolsPath\userData\userSettings.json "Users\" "Users\\"
-	sedFile $toolsPath\userData\userSettings.json ":\" ":\\"
-	sedFile $toolsPath\userData\userSettings.json "\\\" "\\"
-	sedFile $toolsPath\userData\controllerTemplates.json "STEAMPATH" $steamInstallPath
-	sedFile $toolsPath\userData\controllerTemplates.json "Users\" "Users\\"
-	sedFile $toolsPath\userData\controllerTemplates.json ":\" ":\\"
-	sedFile $toolsPath\userData\controllerTemplates.json "\\\" "\\"
+	sedFile "$toolsPath\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$toolsPath\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
+	sedFile "$toolsPath\userData\userConfigurations.json" "USERPATH" "$userFolder"
+	sedFile "$toolsPath\userData\userConfigurations.json" "Users\" "Users\\"
+	sedFile "$toolsPath\userData\userConfigurations.json" ":\" ":\\"
+	sedFile "$toolsPath\userData\userConfigurations.json" "\\\" "\\"
+	sedFile "$toolsPath\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$toolsPath\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
+	sedFile "$toolsPath\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$toolsPath\userData\userSettings.json" "Users\" "Users\\"
+	sedFile "$toolsPath\userData\userSettings.json" ":\" ":\\"
+	sedFile "$toolsPath\userData\userSettings.json" "\\\" "\\"
+	sedFile "$toolsPath\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$toolsPath\userData\controllerTemplates.json" "Users\" "Users\\"
+	sedFile "$toolsPath\userData\controllerTemplates.json" ":\" ":\\"
+	sedFile "$toolsPath\userData\controllerTemplates.json" "\\\" "\\"
 
 
   #Desktop Icon

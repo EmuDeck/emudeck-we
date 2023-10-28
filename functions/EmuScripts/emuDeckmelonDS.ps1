@@ -12,7 +12,7 @@ function melonDS_init(){
 
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\melonDS" "$destination"
 
-	sedFile $destination\melonDS.ini "/run/media/mmcblk0p1/Emulation" $emulationPath
+	sedFile $destination\melonDS.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile $destination\melonDS.ini "\" "/"
 
 	#melonDS_setupSaves
