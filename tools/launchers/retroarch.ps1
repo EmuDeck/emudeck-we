@@ -1,8 +1,13 @@
+. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
+hideMe
+fullScreenToast
+. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
+hideMe
+fullScreenToast
 $emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/RetroArch/retroarch.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
-$NewTitle = "EmuDeck Launcher - $scriptFileName"
-[Console]::Title = $NewTitle
-. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
+#$NewTitle = "EmuDeck Launcher - $scriptFileName"
+#[Console]::Title = $NewTitle
 cloud_sync_init($scriptFileName)
 if($args){
 	$formattedArgs = $args | ForEach-Object { '"' + $_ + '"' }
