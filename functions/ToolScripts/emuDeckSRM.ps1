@@ -6,6 +6,20 @@ function SRM_install(){
 	echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
 }
 function SRM_init(){
+	#Steam installation Path
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+
+	$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
+
+	# Busca el archivo shortcuts.vdf en cada carpeta de userdata
+	foreach ($folder in $folders) {
+		$filePath = Join-Path $folder.FullName "shortcuts.vdf"
+		if (Test-Path -Path $filePath) {
+			$shorcutsPath = $filePath
+		}
+	}
   sedFile "$shorcutsPath" '/max' '/min'
   #Fix for games with - in it's path
   $test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
@@ -13,21 +27,7 @@ function SRM_init(){
 	  echo "already migrated"
   }else{
 	  confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
-	  #Steam installation Path
-		$steamRegPath = "HKCU:\Software\Valve\Steam"
-		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-		$steamInstallPath = $steamInstallPath.Replace("/", "\\")
 
-		$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
-
-		# Busca el archivo shortcuts.vdf en cada carpeta de userdata
-		foreach ($folder in $folders) {
-			$filePath = Join-Path $folder.FullName "shortcuts.vdf"
-			if (Test-Path -Path $filePath) {
-				$shorcutsPath = $filePath
-				$shorcutsContent = Get-Content -Path $filePath
-			}
-		}
 		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
 		sedFile "$shorcutsPath" '"-L' '-L'
 		sedFile "$shorcutsPath" 'cores' "'cores"
