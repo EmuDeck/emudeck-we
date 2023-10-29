@@ -850,25 +850,25 @@ namespace CloseButtonToggle {
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
 				$toast.Close()
-				invoke-expression 'cmd /c start /min powershell -Command {
-					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
-					hideMe
-					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
-					while($true){
-						if(IsServiceRunning -eq "Running"){
-							cloud_sync_check_lock
-						}else{
-							echo "exit!"
-							$toast.Close()
-							$toast = steamToast -MessageText "Upload finished!"
-							Start-Sleep  -Milliseconds 1000
-							$toast.Close()
-							break
-						}
-
-					}
-					exit
-				}'
+# 				invoke-expression 'cmd /c start /min powershell -Command {
+# 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+# 					hideMe
+# 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
+# 					while($true){
+# 						if(IsServiceRunning -eq "Running"){
+# 							cloud_sync_check_lock
+# 						}else{
+# 							echo "exit!"
+# 							$toast.Close()
+# 							$toast = steamToast -MessageText "Upload finished!"
+# 							Start-Sleep  -Milliseconds 1000
+# 							$toast.Close()
+# 							break
+# 						}
+#
+# 					}
+# 					exit
+# 				}'
 
 			}
 		}
