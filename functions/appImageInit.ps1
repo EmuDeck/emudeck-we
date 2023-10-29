@@ -6,7 +6,7 @@ function appImageInit(){
 	autofix_raSavesFolders
 	autofix_lnk
 	autofix_ESDE
-	SRM_resetLaunchers
+	autofix_MAXMIN
 
 
 	# Init functions

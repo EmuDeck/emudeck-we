@@ -93,3 +93,43 @@ function autofix_ESDE(){
 		}
 	}
 }
+
+
+function autofix_MAXMIN(){
+
+	$maxminMigrated="true"
+	Get-ChildItem -Path "$toolsPath/launchers" -Filter "*.ps1" | ForEach-Object {
+		$filePath=$_.FullName
+		$fileContent=Get-Content "$filePath" -Raw
+		if ( -not ($fileContent -like "*hideMe*") ){
+			$maxminMigrated="false"
+		}
+
+	}
+	if( $maxminMigrated -eq "false"){
+
+		confirmDialog -TitleText "We need to update your SRM shortcuts and for that we will close Steam. When completed you'll be able to use the new CloudSync visual notifications instead of the audio notifications"
+
+		taskkill /IM steam.exe /F
+		SRM_resetLaunchers
+
+		$steamRegPath = "HKCU:\Software\Valve\Steam"
+		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+		$steamInstallPath = $steamInstallPath.Replace("/", "\")
+
+		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
+
+		foreach ($folder in $folders) {
+
+			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+			if (Test-Path -Path "$filePath") {
+				$shorcutsPath = "$filePath"
+			}
+		}
+
+		sedFile "$shorcutsPath" '/max' '/min'
+	}else{
+		echo "nothing to do"
+	}
+
+}
