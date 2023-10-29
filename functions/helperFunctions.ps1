@@ -798,29 +798,18 @@ function setScreenDimensionsScale(){
 function fullScreenToast {
 
 	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-
-
 	$form = New-Object Windows.Forms.Form
 	$form.Text = "Popup"
 	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
 	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
 	$form.BackColor = [System.Drawing.Color]::Black
-
-
 	$pictureBox = New-Object Windows.Forms.PictureBox
-	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\img\deck-startup.gif")
+	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/Deck-startup.gif")  # Reemplaza "RutaDelGif.gif" con la ruta a tu GIF animado
 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill  # Para que el PictureBox ocupe todo el formulario
-
-
 	$form.Controls.Add($pictureBox)
-
-
 	$form.Show()
-
-
-	[Windows.Forms.Application]::Run($form)
-
+	return $form
 }
 
 function steamToast {
