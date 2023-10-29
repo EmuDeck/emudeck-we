@@ -802,7 +802,7 @@ function fullScreenToast {
 	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
 	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
 	$form.BackColor = [System.Drawing.Color]::Black
-	$form.ShowDialog()
+	$form.Show()
 	return $form
 }
 
