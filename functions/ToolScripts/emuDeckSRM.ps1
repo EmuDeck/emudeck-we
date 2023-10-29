@@ -6,7 +6,7 @@ function SRM_install(){
 	echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
 }
 function SRM_init(){
-
+  sedFile "$shorcutsPath" '/max' '/min'
   #Fix for games with - in it's path
   $test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
   if($test){
