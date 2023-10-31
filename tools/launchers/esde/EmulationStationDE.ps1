@@ -3,7 +3,7 @@ if ($steamRunning) {
 	. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 hideMe
 fullScreenToast
-$emulatorFile = ""
+$emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/EmulationStation.exe"
 	$scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 	#$NewTitle = "EmuDeck Launcher - $scriptFileName"
 	#[Console]::Title = $NewTitle
