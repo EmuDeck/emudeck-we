@@ -6,8 +6,8 @@ function appImageInit(){
 	autofix_raSavesFolders
 	autofix_lnk
 	autofix_ESDE
-	autofix_MAXMIN
-
+	SRM_resetLaunchers
+	autofix_oldParsers
 
 	# Init functions
 	setScreenDimensionsScale
