@@ -82,12 +82,12 @@ function Get-Custom-Credentials($provider){
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
 		$form.Controls.Add($textBoxUrl)
 
-		$labelPort = New-Object System.Windows.Forms.Label
-		$labelPort.Text = "You need to create an emudeck folder in the root of your storage before setting up CloudSync"
-		$labelPort.Location = New-Object System.Drawing.Point(40, 200)
-		$labelPort.Width = 300
-		$labelPort.Height = 40
-		$form.Controls.Add($labelPort)
+		#$labelPort = New-Object System.Windows.Forms.Label
+		#$labelPort.Text = "You need to create an emudeck folder in the root of your storage before #setting up CloudSync"
+		#$labelPort.Location = New-Object System.Drawing.Point(40, 200)
+		#$labelPort.Width = 300
+		#$labelPort.Height = 40
+		#$form.Controls.Add($labelPort)
 
 	}
 	if( $provider -eq "Emudeck-SFTP" ){
@@ -233,7 +233,7 @@ function cloud_sync_config($cloud_sync_provider){
 		}
 	}
 
-	if( $cloud_sync_provider -eq "Emudeck-SMB" -or  $cloud_sync_provider -eq "Emudeck-SFTP"  ){
+	if( $cloud_sync_provider -eq "Emudeck-SMB" -or  $cloud_sync_provider -eq "Emudeck-SFTP"  -or  $cloud_sync_provider -eq "Emudeck-OneDrive" ){
 
 		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
 			createCloudFile $_.FullName
