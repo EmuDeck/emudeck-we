@@ -15,6 +15,30 @@ function autofix_betaCorruption(){
 	}
 }
 
+function autofix_oldParsers(){
+
+	#Steam installation Path
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+
+	$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
+
+	# Busca el archivo shortcuts.vdf en cada carpeta de userdata
+	foreach ($folder in $folders) {
+		$filePath = Join-Path $folder.FullName "shortcuts.vdf"
+		if (Test-Path -Path $filePath) {
+			$shorcutsPath = $filePath
+			$shorcutsContent = Get-Content -Path $filePath
+		}
+	}
+
+	if ($shorcutsContent -lie "*.bat*" ){
+		confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using the old .bat launchers, please open Steam Rom Manager and parse all your games so they get updated to the new .ps1 launchers"
+	}
+
+
+}
 
 function autofix_lnk(){
 	$sourceFolder = "$savesPath"

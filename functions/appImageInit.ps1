@@ -7,7 +7,7 @@ function appImageInit(){
 	autofix_lnk
 	autofix_ESDE
 	SRM_resetLaunchers
-
+	autofix_oldParsers
 
 	# Init functions
 	setScreenDimensionsScale
