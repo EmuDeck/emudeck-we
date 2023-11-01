@@ -9,7 +9,10 @@ function appImageInit(){
 	autofix_ESDE
 	SRM_resetLaunchers
 	autofix_dynamicParsers
-	autofix_oldParsers
+	autofix_oldParsersBAT
+	autofix_hideMeLaunchers
+	autofix_MAXMIN
+
 
 	# Init functions
 	setScreenDimensionsScale
