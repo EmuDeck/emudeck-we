@@ -326,7 +326,7 @@ if ($retroarchSL -eq "Yes"){
 	$color4 ="Green"
 }else{
 	$color4 = "Red"
-	RetroArch_init > $null 2>&1
+	RetroArch_init
 	$setupSaves+="RetroArch_setupSaves;"
 }
 if ($cemuSL -eq "Yes"){

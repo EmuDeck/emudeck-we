@@ -84,6 +84,8 @@ function PPSSPP_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\PPSSPP\PPSSPPWindows64.exe"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function PPSSPP_resetConfig(){

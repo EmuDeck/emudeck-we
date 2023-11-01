@@ -760,16 +760,14 @@ function cloud_sync_unlock($userPath){
 }
 
 function cloud_sync_check_lock(){
-	startLog($MyInvocation.MyCommand.Name)
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
-		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games, please wait..."
+		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games..."
 		while (Test-Path -Path $lockedFile) {
 			Start-Sleep -Milliseconds 200
 		}
 		$toast.Close()
 	}
-	stopLog
 }
 
 function IsServiceRunning {
@@ -789,10 +787,55 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
+$code = @'
+using System;
+using System.Runtime.InteropServices;
+
+namespace CloseButtonToggle {
+
+ internal static class WinAPI {
+   [DllImport("kernel32.dll")]
+   internal static extern IntPtr GetConsoleWindow();
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DeleteMenu(IntPtr hMenu,
+						  uint uPosition, uint uFlags);
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DrawMenuBar(IntPtr hWnd);
+
+   [DllImport("user32.dll")]
+   internal static extern IntPtr GetSystemMenu(IntPtr hWnd,
+			  [MarshalAs(UnmanagedType.Bool)]bool bRevert);
+
+   const uint SC_CLOSE     = 0xf060;
+   const uint MF_BYCOMMAND = 0;
+
+   internal static void ChangeCurrentState(bool state) {
+	 IntPtr hMenu = GetSystemMenu(GetConsoleWindow(), state);
+	 DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+	 DrawMenuBar(GetConsoleWindow());
+   }
+ }
+
+ public static class Status {
+   public static void Disable() {
+	 WinAPI.ChangeCurrentState(false); //its 'true' if need to enable
+   }
+ }
+}
+'@
+
+	Add-Type $code
+	[CloseButtonToggle.Status]::Disable()
+
 	startLog($MyInvocation.MyCommand.Name)
 	if ( check_internet_connection -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
+				echo "" > $savesPath/.watching
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
@@ -806,8 +849,45 @@ function cloud_sync_init($emulator){
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
-				Start-Sleep -Seconds 1
 				$toast.Close()
+				cmd /c start /min powershell -Command {
+					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+					hideMe
+					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
+					while($true){
+						if(IsServiceRunning -eq "Running"){
+							cloud_sync_check_lock
+						}else{
+							echo "exit!"
+							$toast = steamToast -MessageText "Upload finished!"
+							Start-Sleep  -Milliseconds 1000
+							$toast.Close()
+							break
+						}
+
+					}
+					exit
+				}
+# 				invoke-expression 'cmd /c start /min powershell -Command {
+# 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+# 					hideMe
+# 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
+# 					while($true){
+# 						if(IsServiceRunning -eq "Running"){
+# 							cloud_sync_check_lock
+# 						}else{
+# 							echo "exit!"
+# 							$toast.Close()
+# 							$toast = steamToast -MessageText "Upload finished!"
+# 							Start-Sleep  -Milliseconds 1000
+# 							$toast.Close()
+# 							break
+# 						}
+#
+# 					}
+# 					exit
+# 				}'
+
 			}
 		}
 	}else{

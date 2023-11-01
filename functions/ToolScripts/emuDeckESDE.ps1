@@ -185,6 +185,8 @@ function ESDE_IsInstalled(){
 	$testold=Test-Path -Path "$toolsPath/EmulationStation-DE"
 	if ($test -or $testold) {
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 
 }
