@@ -81,6 +81,8 @@ function Pegasus_IsInstalled(){
 	$test=Test-Path -Path "$Pegasus_path\pegasus-fe.exe"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 

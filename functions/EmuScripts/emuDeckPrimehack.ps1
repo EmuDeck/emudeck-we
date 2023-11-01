@@ -48,6 +48,8 @@ function Primehack_finalize(){
 }
 function Primehack_IsInstalled(){
 	Write-Output "true"
+}else{
+	Write-Output "false"
 }
 function Primehack_resetConfig(){
 	Write-Output "true"

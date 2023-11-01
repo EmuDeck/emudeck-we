@@ -48,6 +48,8 @@ function mGBA_finalize(){
 }
 function mGBA_IsInstalled(){
 	Write-Output "true"
+}else{
+	Write-Output "false"
 }
 function mGBA_resetConfig(){
 	Write-Output "true"

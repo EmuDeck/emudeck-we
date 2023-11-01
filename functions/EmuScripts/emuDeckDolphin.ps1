@@ -137,6 +137,8 @@ function Dolphin_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\Dolphin-x64"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Dolphin_resetConfig(){

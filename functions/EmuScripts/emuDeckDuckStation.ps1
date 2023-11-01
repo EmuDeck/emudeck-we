@@ -104,6 +104,8 @@ function DuckStation_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\duckstation"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function DuckStation_resetConfig(){
