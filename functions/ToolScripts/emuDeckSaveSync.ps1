@@ -5,9 +5,6 @@ $cloud_sync_config_file="$env:USERPROFILE\AppData\Roaming\EmuDeck\rclone.conf"
 
 
 function Get-Custom-Credentials($provider){
-	startLog($MyInvocation.MyCommand.Name)
-
-
 	Add-Type -AssemblyName System.Windows.Forms
 	$form = New-Object System.Windows.Forms.Form
 	$form.Text = "Cloud Login"
@@ -85,6 +82,13 @@ function Get-Custom-Credentials($provider){
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
 		$form.Controls.Add($textBoxUrl)
 
+		#$labelPort = New-Object System.Windows.Forms.Label
+		#$labelPort.Text = "You need to create an emudeck folder in the root of your storage before #setting up CloudSync"
+		#$labelPort.Location = New-Object System.Drawing.Point(40, 200)
+		#$labelPort.Width = 300
+		#$labelPort.Height = 40
+		#$form.Controls.Add($labelPort)
+
 	}
 	if( $provider -eq "Emudeck-SFTP" ){
 		$buttonHeight=200
@@ -95,13 +99,13 @@ function Get-Custom-Credentials($provider){
 	$buttonOK = New-Object System.Windows.Forms.Button
 	$buttonOK.Text = "OK"
 	$buttonOK.DialogResult = [System.Windows.Forms.DialogResult]::OK
-	$buttonOK.Location = New-Object System.Drawing.Point(80, $buttonHeight)
+	$buttonOK.Location = New-Object System.Drawing.Point(100, $buttonHeight)
 	$form.Controls.Add($buttonOK)
 
 	$buttonCancel = New-Object System.Windows.Forms.Button
 	$buttonCancel.Text = "Cancel"
 	$buttonCancel.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
-	$buttonCancel.Location = New-Object System.Drawing.Point(160, $buttonHeight)
+	$buttonCancel.Location = New-Object System.Drawing.Point(180, $buttonHeight)
 	$form.Controls.Add($buttonCancel)
 
 	$form.AcceptButton = $buttonOK
@@ -122,9 +126,9 @@ function Get-Custom-Credentials($provider){
 			Port = $port
 		}
 	}
-	stopLog
 	return $null
 }
+
 
 function cloud_sync_install_service(){
 	startLog($MyInvocation.MyCommand.Name)
@@ -195,6 +199,10 @@ function cloud_sync_config($cloud_sync_provider){
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
 
+
+
+
+
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
 		$pass=$credentials.Password
@@ -202,19 +210,59 @@ function cloud_sync_config($cloud_sync_provider){
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 		& $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 		Write-Output 'true'
+	} elseif ($cloud_sync_provider -eq "Emudeck-OneDrive") {
+		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		}
+		Start-Process $cloud_sync_bin -ArgumentList @"
+		config update $cloud_sync_provider
+"@ -WindowStyle Maximized -Wait
+		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+		#Cleaning up
+		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+			Remove-Item $_.FullName
+		}
+		Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
 		$pass=$credentials.Password
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-		& $cloud_sync_bin config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		}
+		Start-Process $cloud_sync_bin -ArgumentList @"
+		config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+"@ -WindowStyle Maximized -Wait
+		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+		#Cleaning up
+		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+			Remove-Item $_.FullName
+		}
 		Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 		$credentials = Get-Custom-Credentials "Emudeck-SMB"
 		$pass=$credentials.Password
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-		& $cloud_sync_bin config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+
+		Start-Process $cloud_sync_bin -ArgumentList @"
+		config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+"@  -WindowStyle Maximized -Wait
+
+		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		}
+
+		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+		#Cleaning up
+		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+			Remove-Item $_.FullName
+		}
+
 		Write-Output 'true'
 	} else {
 		& $cloud_sync_bin config update "$cloud_sync_provider"
@@ -222,6 +270,12 @@ function cloud_sync_config($cloud_sync_provider){
 	}
 
 	#we create the folders to avoid errors in some providers
+	function createCloudFile($folder) {
+		$cloudFilePath = Join-Path $folder ".cloud"
+		if (-not (Test-Path $cloudFilePath)) {
+			New-Item -Path $cloudFilePath -ItemType File
+		}
+	}
 
 	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\Cemu\saves";
 	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\citra\saves" ;
@@ -426,7 +480,7 @@ function cloud_sync_download($emuName){
 					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = steamToast  -MessageText "Downloading saves for all installed system, please wait..."
-					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
+					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
 					if ($?) {
 						$baseFolder = "$target"
 						$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -445,7 +499,7 @@ function cloud_sync_download($emuName){
 				}
 			}else{
 				$dialog = steamToast  -MessageText "Downloading saves for all installed system, please wait..."
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.emulator --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
 				if ($?) {
 					$baseFolder = "$target"
 					$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -486,11 +540,11 @@ function cloud_sync_download($emuName){
 					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = steamToast  -MessageText "Downloading saves for $emuName, please wait..."
-					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
+					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
 				}
 			}else{
 				$dialog = steamToast  -MessageText "Downloading saves for $emuName, please wait..."
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log"  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
+				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log"  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
 			}
 
 		}
@@ -545,7 +599,7 @@ function cloud_sync_upload{
 
 			cloud_sync_save_hash($target)
 
-			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.emulator --exclude=/.user -q --log-file "$userFolder/EmuDeck/logs/rclone.log" "$target" "$cloud_sync_provider`:Emudeck\saves\"
+			& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user -q --log-file "$userFolder/EmuDeck/logs/rclone.log" "$target" "$cloud_sync_provider`:Emudeck\saves\"
 			if ($?) {
 				$baseFolder = "$target"
 				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -566,7 +620,7 @@ function cloud_sync_upload{
 			$target = "$emulationPath\saves\$emuName"
 			cloud_sync_save_hash($target)
 
-			& $cloud_sync_bin copy -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.emulator --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+			& $cloud_sync_bin copy -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
@@ -760,16 +814,14 @@ function cloud_sync_unlock($userPath){
 }
 
 function cloud_sync_check_lock(){
-	startLog($MyInvocation.MyCommand.Name)
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
-		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games, please wait..."
+		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games..."
 		while (Test-Path -Path $lockedFile) {
 			Start-Sleep -Milliseconds 200
 		}
 		$toast.Close()
 	}
-	stopLog
 }
 
 function IsServiceRunning {
@@ -789,10 +841,55 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
+$code = @'
+using System;
+using System.Runtime.InteropServices;
+
+namespace CloseButtonToggle {
+
+ internal static class WinAPI {
+   [DllImport("kernel32.dll")]
+   internal static extern IntPtr GetConsoleWindow();
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DeleteMenu(IntPtr hMenu,
+						  uint uPosition, uint uFlags);
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DrawMenuBar(IntPtr hWnd);
+
+   [DllImport("user32.dll")]
+   internal static extern IntPtr GetSystemMenu(IntPtr hWnd,
+			  [MarshalAs(UnmanagedType.Bool)]bool bRevert);
+
+   const uint SC_CLOSE     = 0xf060;
+   const uint MF_BYCOMMAND = 0;
+
+   internal static void ChangeCurrentState(bool state) {
+	 IntPtr hMenu = GetSystemMenu(GetConsoleWindow(), state);
+	 DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+	 DrawMenuBar(GetConsoleWindow());
+   }
+ }
+
+ public static class Status {
+   public static void Disable() {
+	 WinAPI.ChangeCurrentState(false); //its 'true' if need to enable
+   }
+ }
+}
+'@
+
+	Add-Type $code
+	[CloseButtonToggle.Status]::Disable()
+
 	startLog($MyInvocation.MyCommand.Name)
 	if ( check_internet_connection -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
+				echo "" > $savesPath/.watching
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
@@ -806,8 +903,45 @@ function cloud_sync_init($emulator){
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
-				Start-Sleep -Seconds 1
 				$toast.Close()
+				cmd /c start /min powershell -Command {
+					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+					hideMe
+					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
+					while($true){
+						if(IsServiceRunning -eq "Running"){
+							cloud_sync_check_lock
+						}else{
+							echo "exit!"
+							$toast = steamToast -MessageText "Upload finished!"
+							Start-Sleep  -Milliseconds 1000
+							$toast.Close()
+							break
+						}
+
+					}
+					exit
+				}
+# 				invoke-expression 'cmd /c start /min powershell -Command {
+# 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+# 					hideMe
+# 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
+# 					while($true){
+# 						if(IsServiceRunning -eq "Running"){
+# 							cloud_sync_check_lock
+# 						}else{
+# 							echo "exit!"
+# 							$toast.Close()
+# 							$toast = steamToast -MessageText "Upload finished!"
+# 							Start-Sleep  -Milliseconds 1000
+# 							$toast.Close()
+# 							break
+# 						}
+#
+# 					}
+# 					exit
+# 				}'
+
 			}
 		}
 	}else{

@@ -16,16 +16,15 @@ function SRM_init(){
 	  #Steam installation Path
 		$steamRegPath = "HKCU:\Software\Valve\Steam"
 		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-		$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+		$steamInstallPath = $steamInstallPath.Replace("/", "\")
 
-		$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
+		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
 
-		# Busca el archivo shortcuts.vdf en cada carpeta de userdata
 		foreach ($folder in $folders) {
-			$filePath = Join-Path $folder.FullName "shortcuts.vdf"
-			if (Test-Path -Path $filePath) {
-				$shorcutsPath = $filePath
-				$shorcutsContent = Get-Content -Path $filePath
+
+			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+			if (Test-Path -Path "$filePath") {
+				$shorcutsPath = "$filePath"
 			}
 		}
 		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
@@ -195,16 +194,16 @@ function SRM_init(){
 	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
   }
 
-  $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
-
-  $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
-
-  $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
+  $mainParserFolder = "$toolsPath\userData\parsers"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
- (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
+  $parserList = @()
+
+  Get-ChildItem -Path $mainParserFolder -Filter *.json -File -Recurse | ForEach-Object {
+	$parserList += Get-Content $_.FullName -Raw
+  }
+
+  "[`n" + ($parserList -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 
   #Steam installation Path

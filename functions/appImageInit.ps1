@@ -10,6 +10,8 @@ function appImageInit(){
 	SRM_resetLaunchers
 	autofix_dynamicParsers
 	autofix_oldParsersBAT
+	autofix_hideMeLaunchers
+	autofix_MAXMIN
 
 
 	# Init functions
