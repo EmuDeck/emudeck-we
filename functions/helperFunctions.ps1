@@ -804,7 +804,7 @@ function fullScreenToast {
 	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
 	$form.BackColor = [System.Drawing.Color]::Black
 	$pictureBox = New-Object Windows.Forms.PictureBox
-	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/Deck-startup.gif")  # Reemplaza "RutaDelGif.gif" con la ruta a tu GIF animado
+	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")  # Reemplaza "RutaDelGif.gif" con la ruta a tu GIF animado
 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill  # Para que el PictureBox ocupe todo el formulario
 	$form.Controls.Add($pictureBox)
