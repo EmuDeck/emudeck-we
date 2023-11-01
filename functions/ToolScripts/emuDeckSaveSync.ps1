@@ -199,6 +199,10 @@ function cloud_sync_config($cloud_sync_provider){
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
 
+
+
+
+
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
 		$pass=$credentials.Password
@@ -206,19 +210,59 @@ function cloud_sync_config($cloud_sync_provider){
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 		& $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 		Write-Output 'true'
+	} elseif ($cloud_sync_provider -eq "Emudeck-OneDrive") {
+		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		}
+		Start-Process $cloud_sync_bin -ArgumentList @"
+		config update $cloud_sync_provider
+"@ -WindowStyle Maximized -Wait
+		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+		#Cleaning up
+		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+			Remove-Item $_.FullName
+		}
+		Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
 		$pass=$credentials.Password
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-		& $cloud_sync_bin config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		}
+		Start-Process $cloud_sync_bin -ArgumentList @"
+		config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+"@ -WindowStyle Maximized -Wait
+		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+		#Cleaning up
+		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+			Remove-Item $_.FullName
+		}
 		Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 		$credentials = Get-Custom-Credentials "Emudeck-SMB"
 		$pass=$credentials.Password
 		$params="obscure $pass"
 		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-		& $cloud_sync_bin config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+
+		Start-Process $cloud_sync_bin -ArgumentList @"
+		config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+"@  -WindowStyle Maximized -Wait
+
+		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		}
+
+		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+		#Cleaning up
+		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+			Remove-Item $_.FullName
+		}
+
 		Write-Output 'true'
 	} else {
 		& $cloud_sync_bin config update "$cloud_sync_provider"
@@ -230,20 +274,6 @@ function cloud_sync_config($cloud_sync_provider){
 		$cloudFilePath = Join-Path $folder ".cloud"
 		if (-not (Test-Path $cloudFilePath)) {
 			New-Item -Path $cloudFilePath -ItemType File
-		}
-	}
-
-	if( $cloud_sync_provider -eq "Emudeck-SMB" -or  $cloud_sync_provider -eq "Emudeck-SFTP"  -or  $cloud_sync_provider -eq "Emudeck-OneDrive" ){
-
-		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-			createCloudFile $_.FullName
-		}
-
-		& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
-		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
-		#Cleaning up
-		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
-			Remove-Item $_.FullName
 		}
 	}
 
