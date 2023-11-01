@@ -85,7 +85,7 @@ function autofix_raSavesFolders(){
 		$subSubfolders = Get-ChildItem -Path $subfolders -Directory
 		foreach ($subfolder in $subfolders) {
 			$subSubfolders = Get-ChildItem -Path $subfolders -Directory
-			if ($subfolders.Count -lt 2) {
+			if ($subSubfolders.Count -lt 2) {
 				cloud_sync_createBackup "retroarch"
 				confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
 				$subfolderPath = $subfolder.FullName
