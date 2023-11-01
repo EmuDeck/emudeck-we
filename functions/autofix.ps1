@@ -158,7 +158,7 @@ function autofix_MAXMIN(){
 		$archivosLinksVDF | ForEach-Object {
 			$filePath =  $_.FullName
 			$shortcutsContent = Get-Content -Path $filePath
-			if ($shortcutsContent -like "*/min*"){
+			if ($shortcutsContent -like "*/max*"){
 				confirmDialog -TitleText "We need to update your SRM shortcuts" -MessageText "We will close Steam now. When the update is completed you'll be able to use the new CloudSync visual notifications instead of the audio notifications"
 				taskkill /IM steam.exe /F
 				sedFile "$shorcutsPath" '/max' '/min'
