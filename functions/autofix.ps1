@@ -33,7 +33,7 @@ function autofix_oldParsers(){
 		}
 	}
 
-	if ($shorcutsContent -lie "*.bat*" ){
+	if ($shorcutsContent -like "*.bat*" ){
 		confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using the old .bat launchers, please open Steam Rom Manager and parse all your games so they get updated to the new .ps1 launchers"
 	}
 
