@@ -41,7 +41,7 @@ function autofix_oldParsers(){
 }
 
 function autofix_dynamicParsers(){
-	if( -not $emuMULTI ){
+	if( -not $emuMULTI -or -not $emuGBA -or -not $emuMAME-or -not $emuN64 -or -not $emuNDS -or -not $emuPSP -or -not $emuPSX ){
 		setSetting emuMULTI "ra"
 		setSetting emuGBA "multiemulator"
 		setSetting emuMAME "multiemulator"
@@ -49,6 +49,7 @@ function autofix_dynamicParsers(){
 		setSetting emuNDS "melonDS"
 		setSetting emuPSP "ppsspp"
 		setSetting emuPSX "duckstation"
+		SRM_init
 	}
 }
 
