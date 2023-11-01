@@ -5,9 +5,6 @@ $cloud_sync_config_file="$env:USERPROFILE\AppData\Roaming\EmuDeck\rclone.conf"
 
 
 function Get-Custom-Credentials($provider){
-	startLog($MyInvocation.MyCommand.Name)
-
-
 	Add-Type -AssemblyName System.Windows.Forms
 	$form = New-Object System.Windows.Forms.Form
 	$form.Text = "Cloud Login"
@@ -85,6 +82,13 @@ function Get-Custom-Credentials($provider){
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
 		$form.Controls.Add($textBoxUrl)
 
+		$labelPort = New-Object System.Windows.Forms.Label
+		$labelPort.Text = "You need to create an emudeck folder in the root of your storage before setting up CloudSync"
+		$labelPort.Location = New-Object System.Drawing.Point(40, 200)
+		$labelPort.Width = 300
+		$labelPort.Height = 40
+		$form.Controls.Add($labelPort)
+
 	}
 	if( $provider -eq "Emudeck-SFTP" ){
 		$buttonHeight=200
@@ -95,13 +99,13 @@ function Get-Custom-Credentials($provider){
 	$buttonOK = New-Object System.Windows.Forms.Button
 	$buttonOK.Text = "OK"
 	$buttonOK.DialogResult = [System.Windows.Forms.DialogResult]::OK
-	$buttonOK.Location = New-Object System.Drawing.Point(80, $buttonHeight)
+	$buttonOK.Location = New-Object System.Drawing.Point(100, $buttonHeight)
 	$form.Controls.Add($buttonOK)
 
 	$buttonCancel = New-Object System.Windows.Forms.Button
 	$buttonCancel.Text = "Cancel"
 	$buttonCancel.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
-	$buttonCancel.Location = New-Object System.Drawing.Point(160, $buttonHeight)
+	$buttonCancel.Location = New-Object System.Drawing.Point(180, $buttonHeight)
 	$form.Controls.Add($buttonCancel)
 
 	$form.AcceptButton = $buttonOK
@@ -122,9 +126,9 @@ function Get-Custom-Credentials($provider){
 			Port = $port
 		}
 	}
-	stopLog
 	return $null
 }
+
 
 function cloud_sync_install_service(){
 	startLog($MyInvocation.MyCommand.Name)
