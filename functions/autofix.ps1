@@ -15,28 +15,27 @@ function autofix_betaCorruption(){
 	}
 }
 
-function autofix_oldParsers(){
+function autofix_oldParsersBAT(){
 
-	#Steam installation Path
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
 	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
 
-	$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
-
+	$steamPath = "$steamInstallPath\userdata"
 	# Busca el archivo shortcuts.vdf en cada carpeta de userdata
-	foreach ($folder in $folders) {
-		$filePath = Join-Path $folder.FullName "shortcuts.vdf"
-		if (Test-Path -Path $filePath) {
-			$shorcutsPath = $filePath
-			$shorcutsContent = Get-Content -Path $filePath
+	$parsersUpdated="Yes"
+
+	$archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "shortcuts.vdf"
+
+	if ($archivosLinksVDF.Count -gt 0) {
+		$archivosLinksVDF | ForEach-Object {
+			$filePath =  $_.FullName
+			$shortcutsContent = Get-Content -Path $filePath
+			if ($shortcutsContent -like "*.bat*"){
+				confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using the old .bat launchers, please open Steam Rom Manager and parse all your games so they get updated to the new .ps1 launchers"
+			}
 		}
 	}
-
-	if ($shorcutsContent -like "*.bat*" ){
-		confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using the old .bat launchers, please open Steam Rom Manager and parse all your games so they get updated to the new .ps1 launchers"
-	}
-
 
 }
 
@@ -129,5 +128,43 @@ function autofix_ESDE(){
 			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
 			ESDE_Init
 		}
+	}
+}
+
+
+function autofix_hideMeLaunchers(){
+
+		Get-ChildItem -Path "$toolsPath/launchers" -Filter "*.ps1" | ForEach-Object {
+			$filePath=$_.FullName
+			$fileContent=Get-Content "$filePath" -Raw
+			if ( -not ($fileContent -like "*hideMe*") ){
+				SRM_resetLaunchers
+			}
+		}
+}
+
+function autofix_MAXMIN(){
+
+	#Steam installation Path
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+
+	$steamPath = "$steamInstallPath\userdata"
+
+	$archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "shortcuts.vdf"
+
+	if ($archivosLinksVDF.Count -gt 0) {
+		$archivosLinksVDF | ForEach-Object {
+			$filePath =  $_.FullName
+			$shortcutsContent = Get-Content -Path $filePath
+			if ($shortcutsContent -like "*/max*"){
+				confirmDialog -TitleText "We need to update your SRM shortcuts" -MessageText "We will close Steam now. When the update is completed you'll be able to use the new CloudSync visual notifications instead of the audio notifications"
+				taskkill /IM steam.exe /F
+				sedFile "$shorcutsPath" '/max' '/min'
+			}
+		}
+	}else{
+		echo "No /max detected"
 	}
 }
