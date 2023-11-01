@@ -33,7 +33,7 @@ function autofix_oldParsers(){
 		}
 	}
 
-	if ($shorcutsContent -lie "*.bat*" ){
+	if ($shorcutsContent -like "*.bat*" ){
 		confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using the old .bat launchers, please open Steam Rom Manager and parse all your games so they get updated to the new .ps1 launchers"
 	}
 
@@ -41,7 +41,7 @@ function autofix_oldParsers(){
 }
 
 function autofix_dynamicParsers(){
-	if( -not $emuMULTI ){
+	if( -not $emuMULTI -or -not $emuGBA -or -not $emuMAME-or -not $emuN64 -or -not $emuNDS -or -not $emuPSP -or -not $emuPSX ){
 		setSetting emuMULTI "ra"
 		setSetting emuGBA "multiemulator"
 		setSetting emuMAME "multiemulator"
