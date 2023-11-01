@@ -47,9 +47,12 @@ function mGBA_finalize(){
 	Write-Output "true"
 }
 function mGBA_IsInstalled(){
-	Write-Output "true"
-}else{
-	Write-Output "false"
+	$test=Test-Path -Path "$emusPath\xemu"
+	if($test){
+		Write-Output "true"
+	}else{
+		Write-Output "false"
+	}
 }
 function mGBA_resetConfig(){
 	Write-Output "true"

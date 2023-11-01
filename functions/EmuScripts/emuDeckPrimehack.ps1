@@ -47,9 +47,12 @@ function Primehack_finalize(){
 	Write-Output "true"
 }
 function Primehack_IsInstalled(){
-	Write-Output "true"
-}else{
-	Write-Output "false"
+	$test=Test-Path -Path "$emusPath\xemu"
+	if($test){
+		Write-Output "true"
+	}else{
+		Write-Output "false"
+	}
 }
 function Primehack_resetConfig(){
 	Write-Output "true"
