@@ -194,16 +194,16 @@ function SRM_init(){
 	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
   }
 
-  $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
-
-  $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
-
-  $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
+  $mainParserFolder = "$toolsPath\userData\parsers"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
- (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
+  $parserList = @()
+
+  Get-ChildItem -Path $mainParserFolder -Filter *.json -File -Recurse | ForEach-Object {
+	$parserList += Get-Content $_.FullName -Raw
+  }
+
+  "[`n" + ($parserList -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 
   #Steam installation Path
