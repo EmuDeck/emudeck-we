@@ -144,16 +144,17 @@ function autofix_raSavesFolders(){
 }
 
 function autofix_ESDE(){
-	if ($doInstallESDE -eq "true"){
+	if (ESDE_isInstalled -like "*true*"){
 
 		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\.emulationstation\es_settings.xml"
-		if (-not (Select-String -Pattern "Emulation\\roms" -Path $xmlFile)){
+
+		if (-not (Select-String -Pattern "Emulation\\" -Path "$xmlFile")){
 			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
 			ESDE_Init
 		}
 
-		if (-not (Test--Path -Path $xmlFile)){
-			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
+		if (-not (Test-Path -Path $xmlFile)){
+			confirmDialog -TitleText "ESDE settings not found" -MessageText "EmuDeck will create its settings now."
 			ESDE_Init
 		}
 	}
