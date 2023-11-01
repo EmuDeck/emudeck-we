@@ -40,6 +40,19 @@ function autofix_oldParsers(){
 
 }
 
+function autofix_dynamicParsers(){
+	if( -not $emuMULTI ){
+		setSetting emuMULTI "ra"
+		setSetting emuGBA "multiemulator"
+		setSetting emuMAME "multiemulator"
+		setSetting emuN64 "multiemulator"
+		setSetting emuNDS "melonDS"
+		setSetting emuPSP "ppsspp"
+		setSetting emuPSX "duckstation"
+	}
+}
+
+
 function autofix_lnk(){
 	$sourceFolder = "$savesPath"
 
