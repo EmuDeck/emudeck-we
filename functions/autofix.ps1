@@ -41,6 +41,7 @@ function autofix_oldParsersBAT(){
 
 function autofix_dynamicParsers(){
 	if( -not $emuMULTI -or -not $emuGBA -or -not $emuMAME-or -not $emuN64 -or -not $emuNDS -or -not $emuPSP -or -not $emuPSX ){
+		confirmDialog -TitleText "SRM Parsers issue detected" -MessageText "We've detected issues with the Dynamic Parsers, if you were missing some parsers this action will fix it. If you are still facing SRM issues do a Custom Reset"
 		setSetting emuMULTI "ra"
 		setSetting emuGBA "multiemulator"
 		setSetting emuMAME "multiemulator"
