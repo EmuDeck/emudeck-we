@@ -79,34 +79,61 @@ function autofix_raSavesFolders(){
 	$sourceFolder = "$savesPath/RetroArch/saves"
 	$destinationFolder = "$sourceFolder"
 	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
-
+	$doFixSaves="false"
 	if ($subfolders.Count -gt 0) {
-
-		$subSubfolders = Get-ChildItem -Path $subfolders -Directory
 		foreach ($subfolder in $subfolders) {
-			$subSubfolders = Get-ChildItem -Path $subfolders -Directory
-			if ($subfolders.Count -lt 2) {
-				cloud_sync_createBackup "retroarch"
-				confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
-				$subfolderPath = $subfolder.FullName
+			$subfolderPath = $subfolder.FullName
+			$subSubFolders = Get-ChildItem -Path $subfolderPath -Directory
+
+			if ($subSubFolders.Count -gt 0) {
+				echo "More than one subdirectory, skip"
+			}else{
+				$doFixSaves="true"
+			}
+
+		}
+	}
+
+
+
+	if ( $doFixSaves -eq "true" ){
+		confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
+		cloud_sync_createBackup "retroarch"
+		foreach ($subfolder in $subfolders) {
+			$subfolderPath = $subfolder.FullName
+			$subSubFolders = Get-ChildItem -Path $subfolderPath -Directory
+
+			if ($subSubFolders.Count -gt 0) {
+				echo "More than one subdirectory, skip"
+			}else{
 				robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
 				Remove-Item -Path $subfolderPath -Force -Recurse
 			}
 		}
-
 	}
+
 
 	$sourceFolder = "$savesPath/RetroArch/states"
 	$destinationFolder = "$sourceFolder"
 	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
-
+	$doFixStates="false"
 	if ($subfolders.Count -gt 0) {
 		foreach ($subfolder in $subfolders) {
 			$subfolderPath = $subfolder.FullName
-			robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
-			Remove-Item -Path $subfolderPath -Force -Recurse
+			$doFixStates="true"
+
 		}
 	}
+
+	if ( $doFixStates -eq "true" ){
+		if ( $doFixSaves -eq "false" ){
+			confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
+		}
+		robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
+		Remove-Item -Path $subfolderPath -Force -Recurse
+	}
+
+
 	$RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
 	setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
 	setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
@@ -117,16 +144,17 @@ function autofix_raSavesFolders(){
 }
 
 function autofix_ESDE(){
-	if ($doInstallESDE -eq "true"){
+	if (ESDE_isInstalled -like "*true*"){
 
 		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\.emulationstation\es_settings.xml"
-		if (-not (Select-String -Pattern "Emulation\\roms" -Path $xmlFile)){
+
+		if (-not (Select-String -Pattern "Emulation\\" -Path "$xmlFile")){
 			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
 			ESDE_Init
 		}
 
-		if (-not (Test--Path -Path $xmlFile)){
-			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
+		if (-not (Test-Path -Path $xmlFile)){
+			confirmDialog -TitleText "ESDE settings not found" -MessageText "EmuDeck will create its settings now."
 			ESDE_Init
 		}
 	}
