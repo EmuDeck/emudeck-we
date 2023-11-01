@@ -295,6 +295,8 @@ function RetroArch_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\RetroArch"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function RetroArch_resetConfig{

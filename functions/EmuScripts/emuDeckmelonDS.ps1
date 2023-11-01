@@ -85,6 +85,8 @@ function melonDS_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\melonDS"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function melonDS_resetConfig(){

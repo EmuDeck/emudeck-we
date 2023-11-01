@@ -50,6 +50,8 @@ function template_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\template"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function template_resetConfig(){

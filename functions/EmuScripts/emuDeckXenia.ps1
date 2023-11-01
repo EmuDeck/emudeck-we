@@ -58,6 +58,8 @@ function Xenia_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\xenia"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Xenia_resetConfig(){

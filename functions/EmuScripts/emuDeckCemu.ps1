@@ -84,6 +84,8 @@ function Cemu_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\cemu"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Cemu_resetConfig(){

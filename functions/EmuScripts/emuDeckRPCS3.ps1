@@ -130,6 +130,8 @@ function RPCS3_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\RPCS3"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function RPCS3_resetConfig(){
