@@ -92,6 +92,8 @@ function Citra_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\citra"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Citra_resetConfig(){

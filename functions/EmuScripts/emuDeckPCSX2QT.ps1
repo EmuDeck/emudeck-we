@@ -93,6 +93,8 @@ function PCSX2QT_finalize(){
 function PCSX2QT_IsInstalled(){
 	if(Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64.exe"){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function PCSX2QT_resetConfig(){

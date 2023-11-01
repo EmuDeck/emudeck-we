@@ -100,6 +100,8 @@ function Ryujinx_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\Ryujinx"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Ryujinx_resetConfig(){

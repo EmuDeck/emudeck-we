@@ -58,6 +58,8 @@ function Xemu_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\xemu"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Xemu_resetConfig(){

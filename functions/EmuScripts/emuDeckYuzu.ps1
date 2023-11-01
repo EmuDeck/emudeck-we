@@ -124,6 +124,8 @@ function Yuzu_IsInstalled(){
 	$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 function Yuzu_resetConfig(){
@@ -197,6 +199,8 @@ function YuzuEA_IsInstalled() {
 	$test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc"
 	if($test){
 		Write-Output "true"
+	}else{
+		Write-Output "false"
 	}
 }
 
