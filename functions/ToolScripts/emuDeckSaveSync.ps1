@@ -52,7 +52,7 @@ function Get-Custom-Credentials($provider){
 
 	if( $provider -eq "Emudeck-SFTP" ){
 		$labelUrl = New-Object System.Windows.Forms.Label
-		$labelUrl.Text = "Url:"
+		$labelUrl.Text = "IP/Host:"
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 
@@ -77,7 +77,7 @@ function Get-Custom-Credentials($provider){
 
 	if( $provider -eq "Emudeck-SMB" ){
 		$labelUrl = New-Object System.Windows.Forms.Label
-		$labelUrl.Text = "Url:"
+		$labelUrl.Text = "IP/Host:"
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
