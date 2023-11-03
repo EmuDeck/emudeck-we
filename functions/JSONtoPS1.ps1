@@ -114,13 +114,41 @@ function JSONtoPS1(){
 	$globPath=$globPath.replace('\','')
 	$globPath= $globPath -replace "`n","" -replace "`r",""
 
-	setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
-	setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
-	setSettinginFile("`$toolsPath=`"$globPath\Emulation\tools`"")
-	setSettinginFile("`$biosPath=`"$globPath\Emulation\bios`"")
-	setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
-	setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
-	setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
+	$driveInfo = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='$globPath'"
+
+	if ($driveInfo) {
+		if ($driveInfo.DriveType -eq 4) {
+			$VolumenName=$driveInfo.ProviderName
+			setSettinginFile("`$VolName=`"$VolumenName`"")
+			setSettinginFile('$testdrive=New-PSDrive -Name "'+$globPath[0]+'" -PSProvider FileSystem -Root "$VolName"')
+			setSettinginFile('$emulationPath=$testdrive.ToString() + ":\Emulation"')
+			setSettinginFile('$romsPath=$testdrive.ToString() + ":\Emulation\roms"')
+			setSettinginFile('$toolsPath=$testdrive.ToString() + ":\Emulation\tools"')
+			setSettinginFile('$biosPath=$testdrive.ToString() + ":\Emulation\bios"')
+			setSettinginFile('$savesPath=$testdrive.ToString() + ":\Emulation\saves"')
+			setSettinginFile('$storagePath=$testdrive.ToString() + ":\Emulation\storage"')
+			setSettinginFile('$ESDEscrapData=$testdrive.ToString() + ":\Emulation\tools\downloaded_media"')
+		} else {
+			setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
+			setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
+			setSettinginFile("`$toolsPath=`"$globPath\Emulation\tools`"")
+			setSettinginFile("`$biosPath=`"$globPath\Emulation\bios`"")
+			setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
+			setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
+			setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
+		}
+	} else {
+		setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
+		setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
+		setSettinginFile("`$toolsPath=`"$globPath\Emulation\tools`"")
+		setSettinginFile("`$biosPath=`"$globPath\Emulation\bios`"")
+		setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
+		setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
+		setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
+	}
+
+
+
 
 	#Default ESDE Theme
 	$esdeThemeUrl=$myJson.themeESDE[0]

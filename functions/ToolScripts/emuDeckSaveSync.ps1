@@ -49,7 +49,7 @@ function Get-Custom-Credentials($provider){
 
 	if( $provider -eq "Emudeck-SFTP" ){
 		$labelUrl = New-Object System.Windows.Forms.Label
-		$labelUrl.Text = "Url:"
+		$labelUrl.Text = "IP/Host:"
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 
@@ -74,7 +74,7 @@ function Get-Custom-Credentials($provider){
 
 	if( $provider -eq "Emudeck-SMB" ){
 		$labelUrl = New-Object System.Windows.Forms.Label
-		$labelUrl.Text = "Url:"
+		$labelUrl.Text = "IP/Host:"
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
@@ -491,7 +491,7 @@ function cloud_sync_download($emuName){
 							$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 							if (Test-Path -PathType Container $folder) {
-								Set-Content -Path "$lastUploadFile" -Value $timestamp
+								echo $timestamp > "$lastUploadFile" 
 								Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 							}
 						}
@@ -510,7 +510,7 @@ function cloud_sync_download($emuName){
 						$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 						if (Test-Path -PathType Container $folder) {
-							Set-Content -Path "$lastUploadFile" -Value $timestamp
+							echo $timestamp > "$lastUploadFile" 
 							Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 						}
 					}
@@ -610,7 +610,7 @@ function cloud_sync_upload{
 					$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 					if (Test-Path -PathType Container $folder) {
-						Set-Content -Path "$lastUploadFile" -Value $timestamp
+						echo $timestamp > "$lastUploadFile" 
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
 				}
