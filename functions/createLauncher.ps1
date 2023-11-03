@@ -1,20 +1,19 @@
 function createLauncher($ps1) {
   $SourceFilePath = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\$ps1.ps1"
   $ShortcutPathPs1 = "$toolsPath\launchers\$ps1.ps1"
-  echo $SourceFilePath
-  echo $ShortcutPathPs1
-
-  Copy-Item -Path $SourceFilePath -Destination $ShortcutPathPs1
+  Copy-Item -Path $SourceFilePath -Destination $ShortcutPathPs1 -ErrorAction SilentlyContinue
 
   $cultureInfo = [System.Globalization.CultureInfo]::CurrentCulture
   $textInfo = $cultureInfo.TextInfo
   $name = $textInfo.ToTitleCase($ps1)
 
   if ($name -like "*EmulationStationDE*") {
-  $name = "EmulationStationDE"
+    $name = "EmulationStationDE"
+    mkdir "$toolsPath\launchers\esde"
   }
   if ($name -like "*steamrommanager*") {
-  $name = "SteamRomManager"
+    $name = "SteamRomManager"
+    mkdir "$toolsPath\launchers\srm"
   }
 
   mkdir "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\" -ErrorAction SilentlyContinue
@@ -28,11 +27,11 @@ function createLauncher($ps1) {
   $Shortcut.WindowStyle = 7
 
   if ($name -eq "EmulationStationDE") {
-    $Shortcut.IconLocation = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\icons\$name.ico"
+  $Shortcut.IconLocation = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\icons\$name.ico"
   } elseif ($name -eq "steamrommanager") {
-    $Shortcut.IconLocation = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\icons\$name.ico"
+  $Shortcut.IconLocation = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\icons\$name.ico"
   }else{
-    $Shortcut.IconLocation = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\icons\$ps1.ico"
+  $Shortcut.IconLocation = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\tools\launchers\icons\$ps1.ico"
   }
 
   $Shortcut.Save()

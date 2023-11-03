@@ -39,6 +39,10 @@ function autofix_oldParsersBAT(){
 
 }
 
+function autofix_SRM(){
+	createLauncher "srm\steamrommanager"
+}
+
 function autofix_dynamicParsers(){
 	echo $MyInvocation.MyCommand.Name
 	if( -not $emuMULTI -or -not $emuGBA -or -not $emuMAME -or -not $emuN64 -or -not $emuNDS -or -not $emuPSP -or -not $emuPSX ){

@@ -1,5 +1,4 @@
-. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/EmuScripts/emuDeckRPCS3.ps1"
-. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/ToolScripts/emuDeckSRM.ps1"
+. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/all.ps1"
 $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 if ($steamRunning) {
 	taskkill /IM steam.exe /F
