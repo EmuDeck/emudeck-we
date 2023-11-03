@@ -11,3 +11,8 @@ $pegasusPath = "$env:USERPROFILE/EmuDeck/Pegasus"
 $temp = "$env:USERPROFILE\EmuDeck\temp"
 $nssm = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe"
 $7z = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\7z.exe"
+#Steam installation Path
+$steamRegPath = "HKCU:\Software\Valve\Steam"
+$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+$steamInstallPath = $steamInstallPath.Replace("/", "\")
+$steamInstallExe = "$steamInstallPath/Steam.exe"
