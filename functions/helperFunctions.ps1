@@ -910,7 +910,6 @@ function zipLogs(){
 
 }
 
-<<<<<<< Updated upstream
 function hideMe(){
 $ShowWindowAsyncCode = '[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);'
   $ShowWindowAsync = Add-Type -MemberDefinition $ShowWindowAsyncCode -name Win32ShowWindowAsync -namespace Win32Functions -PassThru
