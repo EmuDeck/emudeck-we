@@ -1,7 +1,7 @@
 #Put here your autofix functions, they should be load when EmuDeck Starts
 
 function autofix_betaCorruption(){
-
+	echo $MyInvocation.MyCommand.Name
 	if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1" -like "*NYI*" -and (-not (Test-Path "$toolsPath\cloudSync\WinSW-x64.exe"))){
 			confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a few seconds to download"
 			$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
@@ -16,7 +16,7 @@ function autofix_betaCorruption(){
 }
 
 function autofix_oldParsersBAT(){
-
+	echo $MyInvocation.MyCommand.Name
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
 	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
@@ -40,6 +40,7 @@ function autofix_oldParsersBAT(){
 }
 
 function autofix_dynamicParsers(){
+	echo $MyInvocation.MyCommand.Name
 	if( -not $emuMULTI -or -not $emuGBA -or -not $emuMAME -or -not $emuN64 -or -not $emuNDS -or -not $emuPSP -or -not $emuPSX ){
 		confirmDialog -TitleText "SRM Parsers issue detected" -MessageText "We've detected issues with the Dynamic Parsers, if you were missing some parsers this action will fix it. If you are still facing SRM issues do a Custom Reset"
 		setSetting emuMULTI "ra"
@@ -55,6 +56,7 @@ function autofix_dynamicParsers(){
 
 
 function autofix_lnk(){
+	echo $MyInvocation.MyCommand.Name
 	$sourceFolder = "$savesPath"
 
 	if ( Get-ChildItem -Path "$sourceFolder" -Filter *.lnk ){
@@ -75,7 +77,7 @@ function autofix_cloudSyncLockfile(){
 }
 
 function autofix_raSavesFolders(){
-
+	echo $MyInvocation.MyCommand.Name
 	$sourceFolder = "$savesPath/RetroArch/saves"
 	$destinationFolder = "$sourceFolder"
 	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
@@ -144,6 +146,7 @@ function autofix_raSavesFolders(){
 }
 
 function autofix_ESDE(){
+	echo $MyInvocation.MyCommand.Name
 	if (ESDE_isInstalled -like "*true*"){
 
 		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\.emulationstation\es_settings.xml"
@@ -162,7 +165,7 @@ function autofix_ESDE(){
 
 
 function autofix_hideMeLaunchers(){
-
+		echo $MyInvocation.MyCommand.Name
 		Get-ChildItem -Path "$toolsPath/launchers" -Filter "*.ps1" | ForEach-Object {
 			$filePath=$_.FullName
 			$fileContent=Get-Content "$filePath" -Raw
@@ -173,7 +176,7 @@ function autofix_hideMeLaunchers(){
 }
 
 function autofix_MAXMIN(){
-
+	echo $MyInvocation.MyCommand.Name
 	#Steam installation Path
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
