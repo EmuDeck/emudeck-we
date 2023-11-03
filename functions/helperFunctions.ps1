@@ -947,10 +947,14 @@ $ShowWindowAsyncCode = '[DllImport("user32.dll")] public static extern bool Show
 function checkAndStartSteam(){
 	$steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 	if (!$steamRunning) {
-		$steamRegPath = "HKCU:\Software\Valve\Steam"
-		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-		$steamInstallPath = $steamInstallPath.Replace("/", "\\")
-		$steamArguments = "-silent"
-		Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
+		startSteam "-silent"
 	}
+}
+
+function startSteam($silent){
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	$steamArguments = "$silent"
+	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }

@@ -393,7 +393,9 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
   }
   if ($doInstallESDE -eq "true"){
 	  createLauncher "esde\EmulationStationDE"
-	}
+  }
+
+  createLauncher "srm\steamrommanager"
 
 #if ($doInstallXemu -eq "true"){
 #	createLauncher xemu
