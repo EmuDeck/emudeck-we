@@ -7,7 +7,7 @@ function setSetting($old, $new){
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
 
-		echo $modifiedContents > $fileToCheck 
+		echo $modifiedContents > $fileToCheck
 
 		Write-Host "Line '$line' changed to '$newLine'"
 	} else {
@@ -28,7 +28,7 @@ function setSettingNoQuotes($file, $old, $new){
 		$newLine = -join($old, '=', $new)
 		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
 
-		echo $modifiedContents > $fileToCheck 
+		echo $modifiedContents > $fileToCheck
 
 		Write-Host "Line '$line' changed to '$newLine'"
 	} else {
@@ -48,7 +48,7 @@ function setSettingNoQuotes($file, $old, $new){
 		$newLine=-join($old,'=',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
-		echo $modifiedContents > $fileToCheck 
+		echo $modifiedContents > $fileToCheck
 		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,'=',$new)
@@ -66,7 +66,7 @@ function setSettingNoQuotes($file, $old, $new){
 		$newLine=-join($old,' = ',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
-		echo $modifiedContents > $fileToCheck 
+		echo $modifiedContents > $fileToCheck
 
 		Write-Output "Line $line changed to $newLine"
 	}else{
@@ -910,6 +910,7 @@ function zipLogs(){
 
 }
 
+<<<<<<< Updated upstream
 function hideMe(){
 $ShowWindowAsyncCode = '[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);'
   $ShowWindowAsync = Add-Type -MemberDefinition $ShowWindowAsyncCode -name Win32ShowWindowAsync -namespace Win32Functions -PassThru
@@ -943,3 +944,14 @@ $ShowWindowAsyncCode = '[DllImport("user32.dll")] public static extern bool Show
 	}
   }
  }
+
+function checkAndStartSteam(){
+	$steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
+	if (!$steamRunning) {
+		$steamRegPath = "HKCU:\Software\Valve\Steam"
+		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+		$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+		$steamArguments = "-silent"
+		Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
+	}
+}

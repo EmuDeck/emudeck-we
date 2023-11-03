@@ -4,3 +4,4 @@
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
+. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\emulatorInit.ps1"
