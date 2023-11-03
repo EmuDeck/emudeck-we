@@ -164,12 +164,12 @@ function autofix_ESDE(){
 }
 
 
-function autofix_hideMeLaunchers(){
+function autofix_emulatorInitLaunchers(){
 		echo $MyInvocation.MyCommand.Name
 		Get-ChildItem -Path "$toolsPath/launchers" -Filter "*.ps1" | ForEach-Object {
 			$filePath=$_.FullName
 			$fileContent=Get-Content "$filePath" -Raw
-			if ( -not ($fileContent -like "*hideMe*") ){
+			if ( -not ($fileContent -like "*emulatorInit*") ){
 				SRM_resetLaunchers
 			}
 		}

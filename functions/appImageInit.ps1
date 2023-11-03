@@ -9,7 +9,7 @@ function appImageInit(){
 	autofix_ESDE
 	autofix_dynamicParsers
 	autofix_oldParsersBAT
-	autofix_hideMeLaunchers
+	autofix_emulatorInitLaunchers ##
 	autofix_MAXMIN
 
 
