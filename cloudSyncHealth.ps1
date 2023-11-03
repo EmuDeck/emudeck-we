@@ -1,9 +1,19 @@
 . $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+
+
 cls
 $upload="Yes"
 $download="Yes"
 echo "" > "$userFolder/EmuDeck/logs/rclone.log"
 Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
+
+if ( ! $userFolder ){
+	cls
+	Write-Host "We can't find your installation"  -ForegroundColor Red
+	Write-Host "Open an Issue in our discord and upload this file: $env:USERPROFILE\settings.ps1"  -ForegroundColor Red
+	Read-Host -Prompt "Press any key to continue or CTRL+C to quit"
+	exit
+}
 
 if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "NYI*"){
 	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a while"
