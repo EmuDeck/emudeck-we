@@ -4,8 +4,8 @@ $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 if ($steamRunning) {
 	taskkill /IM steam.exe /F
 }
-
-SRM_resetLaunchers
+SRM_createParsers
+SRM_addSteamInputProfiles
 RPCS3_renameFolders
 
 $emulatorFile = "$toolsPath/srm.exe"

@@ -5,78 +5,35 @@ function SRM_install(){
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
 	echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
 }
-function SRM_init(){
 
-  #Fix for games with - in it's path
-  $test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
-  if($test){
-	  echo "already migrated"
-  }else{
-	  confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
-	  #Steam installation Path
-		$steamRegPath = "HKCU:\Software\Valve\Steam"
-		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-		$steamInstallPath = $steamInstallPath.Replace("/", "\")
+function SRM_createParsers(){
 
-		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
-
-		foreach ($folder in $folders) {
-
-			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
-			if (Test-Path -Path "$filePath") {
-				$shorcutsPath = "$filePath"
-			}
-		}
-		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
-		sedFile "$shorcutsPath" '"-L' '-L'
-		sedFile "$shorcutsPath" 'cores' "'cores"
-		sedFile "$shorcutsPath" '.dll"' ".dll'"
-		sedFile "$shorcutsPath" '"""' "'"
-		sedFile "$shorcutsPath" ' && exit " && exit' '}" && exit " && exit'
-		sedFile "$shorcutsPath" '"-b"' '-b'
-		sedFile "$shorcutsPath" '"-e"' '-e'
-		sedFile "$shorcutsPath" '"-f"' '-f'
-		sedFile "$shorcutsPath" '"-g"' '-g'
-		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
-		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
-
-		echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
-  }
-
-
-  setMSG 'Steam Rom Manager - Configuration'
-  rm -fo "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
-  Start-Sleep -Seconds 1
-  mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
-  mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
-  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
-  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+	rm -fo "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+	Start-Sleep -Seconds 1
+	mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
+	mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
 
 	rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
 	Start-Sleep -Seconds 1
 	mkdir $toolsPath\userData\parsers\emudeck -ErrorAction SilentlyContinue
 	mkdir $toolsPath\userData\parsers\custom -ErrorAction SilentlyContinue
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\"
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\"
 
+	$exclusionList = @(
+	'nintendo_gbc-ra-sameboy.json',
+	'nintendo_gb-ra-sameboy.json',
+	'sega_saturn-ra-yabause.json',
+	'sony_psx-ra-swanstation.json',
+	'nintendo_gbc-mgba.json',
+	'nintendo_gb-mGBA.json'
+	)
 
-  $exclusionList = @(
-  'nintendo_gbc-ra-sameboy.json',
-  'nintendo_gb-ra-sameboy.json',
-  'sega_saturn-ra-yabause.json',
-  'sony_psx-ra-swanstation.json',
-  'nintendo_gbc-mgba.json',
-  'nintendo_gb-mGBA.json'
-  )
-
-
-  # Multiemulator?
-  if ( "$emuMULTI" -ne "both" ){
-	  if ( "$emuMULTI" -eq "undefined" ){
+	# Multiemulator?
+	if ( "$emuMULTI" -ne "both" ){
+  	if ( "$emuMULTI" -eq "undefined" ){
 		echo "none"
-	  }elseif ( "$emuMULTI" -eq "ra" ){
+  	}elseif ( "$emuMULTI" -eq "ra" ){
 		$exclusionList = $exclusionList + 'ares/'
-	  }else{
+  	}else{
 		$exclusionList = $exclusionList + 'atari_2600-ra-stella.json'
 		$exclusionList = $exclusionList + 'amiga_1200-ra-puae.json';
 		$exclusionList = $exclusionList + 'amiga_cd-ra-puae.json';
@@ -103,132 +60,172 @@ function SRM_init(){
 		$exclusionList = $exclusionList + 'sinclair_zx-spectrum-ra-fuse.json'
 		$exclusionList = $exclusionList + 'snk_neo_geo_pocket_color-ra-beetle_neopop.json'
 		$exclusionList = $exclusionList + 'snk_neo_geo_pocket-ra-beetle_neopop.json'
-	  }
-  }
+  	}
+	}
 
 
-  #psx
-	  if ( "$emuPSX" -ne "both" ){
-		  if ( "$emuPSX" -eq "duckstation" ){
+	#psx
+  	if ( "$emuPSX" -ne "both" ){
+	  	if ( "$emuPSX" -eq "duckstation" ){
 			$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
 			$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
-		  }else{
+	  	}else{
 			$exclusionList = $exclusionList + 'sony_psx-duckstation.json'
-		  }
-	  }
+	  	}
+  	}
 
-  #psp
-  if ( "$emuPSP" -ne "both" ){
-	  if ( "$emuPSP" -eq "ppsspp" ){
+	#psp
+	if ( "$emuPSP" -ne "both" ){
+  	if ( "$emuPSP" -eq "ppsspp" ){
 		$exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
-	  }else{
+  	}else{
 		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'
-	  }
-  }
+  	}
+	}
 
-  #melonDS
-  if ( "$emuNDS" -ne "both" ){
-	  if ( "$emuNDS" -eq "melonDS" ){
+	#melonDS
+	if ( "$emuNDS" -ne "both" ){
+  	if ( "$emuNDS" -eq "melonDS" ){
 		$exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
-	  }else{
+  	}else{
 		$exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
-	  }
-  }
+  	}
+	}
 
 
-  #Exclusion based on install status.
-  if ( $doInstallPrimeHack -ne "true" -or -not (PrimeHack_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"nintendo_primehack.json"
-  }
-  if ( $doInstallRPCS3 -ne "true" -or -not (RPCS3_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
-	  $exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
-  }
+	#Exclusion based on install status.
+	if ( $doInstallPrimeHack -ne "true" -or -not (PrimeHack_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"nintendo_primehack.json"
+	}
+	if ( $doInstallRPCS3 -ne "true" -or -not (RPCS3_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
+  	$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
+	}
 
-  if ( $doInstallCitra -ne "true" -or -not (Citra_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"nintendo_3ds-citra.json"
-  }
-  if ( $doInstallDolphin -ne "true" -or -not (Dolphin_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
-	  $exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
-  }
-  if ( $doInstallDuck -ne "true" -or -not (Duckstation_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"sony_psx-duckstation.json"
-  }
-  if ( $doInstallPPSSPP -ne "true" -or -not (PPSSPP_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"sony_psp-ppsspp.json"
-  }
-  if ( $doInstallYuzu -ne "true" -or -not (Yuzu_isInstalled -like "*true*")){
+	if ( $doInstallCitra -ne "true" -or -not (Citra_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"nintendo_3ds-citra.json"
+	}
+	if ( $doInstallDolphin -ne "true" -or -not (Dolphin_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
+  	$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
+	}
+	if ( $doInstallDuck -ne "true" -or -not (Duckstation_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"sony_psx-duckstation.json"
+	}
+	if ( $doInstallPPSSPP -ne "true" -or -not (PPSSPP_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
+	}
+	if ( $doInstallYuzu -ne "true" -or -not (Yuzu_isInstalled -like "*true*")){
 	$exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
-  }
-  if ( $doInstallCemu -ne "true" -or -not (Cemu_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
+	}
+	if ( $doInstallCemu -ne "true" -or -not (Cemu_isInstalled -like "*true*")){
+  	$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
 	$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
-  }
-  if ( $doInstallRyujinx -ne "true" -or -not (Ryujinx_isInstalled -like "*true*")){
+	}
+	if ( $doInstallRyujinx -ne "true" -or -not (Ryujinx_isInstalled -like "*true*")){
 	$exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
-  }
-  if ( "$doInstallPCSX2" -ne "true" -or -not (PCSX2QT_isInstalled -like "*true*")){
+	}
+	if ( "$doInstallPCSX2" -ne "true" -or -not (PCSX2QT_isInstalled -like "*true*")){
 	$exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
-  }
+	}
 
 
-  Start-Sleep -Seconds 1
+	Start-Sleep -Seconds 1
 
-  echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
+	echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
 
-  if($steamAsFrontend -ne "False"){
-	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+	if($steamAsFrontend -ne "False"){
+  	Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		if ($_ -notin $exclusionList) {
-		  Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
+	  	Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
 		}
-	  }
+  	}
 
-	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
-		  if ($_ -notin $exclusionList) {
+  	Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+	  	if ($_ -notin $exclusionList) {
 			Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
-		  }
-	   }
-  }else{
-	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
-	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
-  }
+	  	}
+   	}
+	}else{
+  	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
+  	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
+	}
 
-  $mainParserFolder = "$toolsPath\userData\parsers"
-  $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  $parserList = @()
+	$mainParserFolder = "$toolsPath\userData\parsers"
+	$mainParserFile = "$toolsPath\userData\userConfigurations.json"
+	$parserList = @()
 
-  Get-ChildItem -Path $mainParserFolder -Filter *.json -File -Recurse | ForEach-Object {
+	Get-ChildItem -Path $mainParserFolder -Filter *.json -File -Recurse | ForEach-Object {
 	$parserList += Get-Content $_.FullName -Raw
-  }
+	}
 
-  "[`n" + ($parserList -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
+	"[`n" + ($parserList -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+	(get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
+}
 
-  #Steam installation Path
-  $steamRegPath = "HKCU:\Software\Valve\Steam"
-  $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-  $steamInstallPath = $steamInstallPath.Replace("/", "\\")
+function SRM_addSteamInputProfiles(){
+   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\"
+   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+   $PFPath="$steamInstallPath\controller_base\templates\"
+   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
+}
 
-  #Paths
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "USERPATH" "$userFolder"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "Users\" "Users\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" ":\" ":\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "\\\" "\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "Users\" "Users\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" ":\" ":\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "\\\" "\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "Users\" "Users\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" ":\" ":\\"
-  sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "\\\" "\\"
+function SRM_init(){
 
+	#Fix for games with - in it's path
+	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+	if($test){
+  		echo "already migrated"
+	}else{
+  		confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
+
+		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
+
+		foreach ($folder in $folders) {
+
+			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+			if (Test-Path -Path "$filePath") {
+				$shorcutsPath = "$filePath"
+			}
+		}
+		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
+		sedFile "$shorcutsPath" '"-L' '-L'
+		sedFile "$shorcutsPath" 'cores' "'cores"
+		sedFile "$shorcutsPath" '.dll"' ".dll'"
+		sedFile "$shorcutsPath" '"""' "'"
+		sedFile "$shorcutsPath" ' && exit " && exit' '}" && exit " && exit'
+		sedFile "$shorcutsPath" '"-b"' '-b'
+		sedFile "$shorcutsPath" '"-e"' '-e'
+		sedFile "$shorcutsPath" '"-f"' '-f'
+		sedFile "$shorcutsPath" '"-g"' '-g'
+		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
+		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
+		echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+	}
+
+	setMSG 'Steam Rom Manager - Configuration'
+
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\"
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+
+	#Paths
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "USERPATH" "$userFolder"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "Users\" "Users\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" ":\" ":\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "\\\" "\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "Users\" "Users\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" ":\" ":\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "\\\" "\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "Users\" "Users\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" ":\" ":\\"
+	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "\\\" "\\"
 
 	sedFile "$toolsPath\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
 	sedFile "$toolsPath\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
@@ -247,17 +244,9 @@ function SRM_init(){
 	sedFile "$toolsPath\userData\controllerTemplates.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\controllerTemplates.json" "\\\" "\\"
 
-
-  #Desktop Icon
-  #createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"
-  #Start Menu
-  #mkdir "$EmuDeckStartFolder" -ErrorAction SilentlyContinue
-  #createLink "$toolsPath\srm.exe" "$EmuDeckStartFolder\EmuDeck - Steam Rom Manager.lnk"
-
-  #SteamInput
-  $PFPath="$steamInstallPath\controller_base\templates\"
-  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
-
+	setMSG 'Steam Rom Manager - Creating Parsers & Steam Input profiles'
+	SRM_createParsers
+	SRM_addSteamInputProfiles
 
 }
 
