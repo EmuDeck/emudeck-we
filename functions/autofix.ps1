@@ -135,14 +135,14 @@ function autofix_raSavesFolders(){
 		Remove-Item -Path $subfolderPath -Force -Recurse
 	}
 
-
-	$RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
-	setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_savestates_enable" "false" $RetroArch_configFile
-	setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
-
+	if ( $doFixStates -eq "true" -or $doFixSaves -eq "true" ){
+		$RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
+		setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
+		setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
+		setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
+		setConfigRA "sort_savestates_enable" "false" $RetroArch_configFile
+		setConfigRA "sort_screenshots_by_content_enable" "false" $RetroArch_configFile
+	}
 }
 
 function autofix_ESDE(){
