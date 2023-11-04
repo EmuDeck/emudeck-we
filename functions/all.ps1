@@ -5,7 +5,6 @@
 if (-not "$emulationPath") {
 	$emulationPath = "C:\"
 }
-Set-Location "$emulationPath"
 
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\download.ps1"
 . "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\downloadCore.ps1"
