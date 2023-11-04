@@ -5,4 +5,4 @@ if($args){
 $emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/cemu/Cemu.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 
-emulatorInit $emulatorFile $scriptFileName ($formattedArgs -join ' ')
+emulatorInit $scriptFileName $emulatorFile ($formattedArgs -join ' ')

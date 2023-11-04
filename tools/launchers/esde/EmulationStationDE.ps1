@@ -7,4 +7,4 @@ RPCS3_renameFolders
 if($args){
 	$formattedArgs = $args | ForEach-Object { '"' + $_ + '"' }
 }
-emulatorInit $emulatorFile $scriptFileName ($formattedArgs -join ' ')
+emulatorInit $scriptFileName $emulatorFile ($formattedArgs -join ' ')
