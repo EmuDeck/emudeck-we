@@ -9,11 +9,11 @@ function createLauncher($ps1) {
 
   if ($name -like "*EmulationStationDE*") {
     $name = "EmulationStationDE"
-    mkdir "$toolsPath\launchers\esde"
+    mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
   }
   if ($name -like "*steamrommanager*") {
     $name = "SteamRomManager"
-    mkdir "$toolsPath\launchers\srm"
+    mkdir "$toolsPath\launchers\srm" -ErrorAction SilentlyContinue
   }
 
   mkdir "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\" -ErrorAction SilentlyContinue
