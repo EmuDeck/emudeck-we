@@ -169,8 +169,22 @@ function escapeSedValue($input){
 	Write-Output $input
 }
 
-function changeLine($keyword, $replace, $file){
-	(Get-Content $file).replace($keyword, $replace) | Set-Content $file
+function changeLine($Keyword,$Replace,$File) {
+
+	Write-Host "Updating: $File - $Keyword to $Replace"
+
+	$Content = Get-Content $File
+	$NewContent = @()
+
+	foreach ($line in $Content) {
+		if ($line -match "^$Keyword") {
+			$NewContent += $Replace
+		} else {
+			$NewContent += $line
+		}
+	}
+
+	$NewContent | Set-Content $File
 }
 
 function setMSG($message){
