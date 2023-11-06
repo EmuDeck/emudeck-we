@@ -156,7 +156,7 @@ function SRM_createParsers(){
 	if ( $doInstallVita3K -ne "true" -or -not (Vita3K_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
 	}
-	if ( $doInstallmGBA -ne "true" -or -not (mGBA_isInstalled -like "*true*")){
+	if ( $doInstallMGBA -ne "true" -or -not (mGBA_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 	}
 
@@ -435,9 +435,9 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 		createLauncher supermodel
 		$setupSaves+="SuperModel_setupSaves;"
 	}
-	if ($doInstallVita3k -eq "true" -or (Vita3k_isInstalled -like "*true*")){
-		createLauncher Vita3k
-		$setupSaves+="Vita3k_setupSaves;"
+	if ($doInstallVita3K -eq "true" -or (Vita3K_isInstalled -like "*true*")){
+		createLauncher Vita3K
+		$setupSaves+="Vita3K_setupSaves;"
 	}
 	if ($doInstallScummVM -eq "true" -or (ScummVM_isInstalled -like "*true*")){
 		createLauncher ScummVM
