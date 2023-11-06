@@ -25,7 +25,7 @@ function RetroArch_init(){
 	Remove-Item $RetroArch_configFile  -ErrorAction SilentlyContinue
 
 	setMSG "RetroArch - Bezels & Filters"
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RetroArch" "$emusPath\RetroArch"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RetroArch" "$emusPath\RetroArch"
 	$path="$emusPath\RetroArch\config"
 	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {

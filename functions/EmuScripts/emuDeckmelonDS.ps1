@@ -10,7 +10,7 @@ function melonDS_init(){
 	setMSG "melonDS - Configuration"
 	$destination="$emusPath/melonDS"
 
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\melonDS" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\melonDS" "$destination"
 
 	sedFile $destination\melonDS.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile $destination\melonDS.ini "\" "/"

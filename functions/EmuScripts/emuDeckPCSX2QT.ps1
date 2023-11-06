@@ -14,7 +14,7 @@ function PCSX2QT_init(){
 	$destination="$emusPath\PCSX2-Qt"
 	New-Item "$emusPath\PCSX2-Qt\portable.ini" -ErrorAction SilentlyContinue
 
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\PCSX2" $destination
 
 	PCSX2QT_setEmulationFolder
 #	PCSX2QT_setupSaves

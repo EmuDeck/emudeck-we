@@ -1,4 +1,4 @@
-. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1
+. $env:APPDATA\EmuDeck\backend\functions\all.ps1
 
 
 cls
@@ -15,7 +15,7 @@ if ( ! $userFolder ){
 	exit
 }
 
-if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1"  -like "NYI*"){
+if ( "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"  -like "NYI*"){
 	confirmDialog -TitleText "Corrupted installation" -MessageText "EmuDeck will reinstall after clicking OK, nothing will be deleted. This could take a while"
 	cls
 	Write-Host "Downloading EmuDeck..." -ForegroundColor Cyan
@@ -271,7 +271,7 @@ if ($archivosLinksVDF.Count -gt 0) {
 ###
 ###
 $cloudFunc="No"
-if ( "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1" -like "*AppData*"){
+if ( "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1" -like "*AppData*"){
 	$cloudFunc="Yes"
 }
 

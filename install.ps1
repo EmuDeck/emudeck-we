@@ -143,7 +143,7 @@ function startScriptWithAdmin {
 	)
 
 	#$scriptContent = @"
-	#. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1";
+	#. "$env:APPDATA\EmuDeck\backend\functions\all.ps1";
 	#Write-Host "I'm Admin"
 	#"@
 

@@ -13,7 +13,7 @@ function MAME_install(){
 function MAME_init(){
 	setMSG "MAME - Configuration"
 	$destination="$emusPath\mame"
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\mame" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\mame" "$destination"
 
 	MAME_setupStorage
 	MAME_setEmulationFolder

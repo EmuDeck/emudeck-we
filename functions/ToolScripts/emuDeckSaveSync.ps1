@@ -1,7 +1,7 @@
 $cloud_sync_path="$toolsPath/rclone"
 $cloud_sync_bin="$cloud_sync_path/rclone.exe"
 $cloud_sync_config_file_symlink="$cloud_sync_path/rclone.conf"
-$cloud_sync_config_file="$env:USERPROFILE\AppData\Roaming\EmuDeck\rclone.conf"
+$cloud_sync_config_file="$env:APPDATA\EmuDeck\rclone.conf"
 
 
 function Get-Custom-Credentials($provider){
@@ -172,7 +172,7 @@ function cloud_sync_install($cloud_sync_provider){
 		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 		download $cloud_sync_releaseURL "rclone.zip"
 		setSetting "cloud_sync_provider" "$cloud_sync_provider"
-		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
+		. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 		$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 
 		if ($cloud_sync_releaseURL -match $regex) {
@@ -194,7 +194,7 @@ function cloud_sync_toggle($status){
 function cloud_sync_config($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
 	taskkill /F /IM rclone.exe > NUL 2>NUL
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
+	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
@@ -359,7 +359,7 @@ function cloud_sync_config_with_code($code){
 	#cleanup
 	$token = $token.Replace("'", '"')
 
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Force
+	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:APPDATA\EmuDeck" -Force
 
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 
@@ -905,7 +905,7 @@ namespace CloseButtonToggle {
 				cls
 				$toast.Close()
 				cmd /c start /min powershell -Command {
-					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+					. $env:APPDATA\EmuDeck\backend\functions\allCloud.ps1
 					hideMe
 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
 					while($true){
@@ -923,7 +923,7 @@ namespace CloseButtonToggle {
 					exit
 				}
 # 				invoke-expression 'cmd /c start /min powershell -Command {
-# 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+# 					. $env:APPDATA\EmuDeck\backend\functions\allCloud.ps1
 # 					hideMe
 # 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
 # 					while($true){

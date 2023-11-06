@@ -16,7 +16,7 @@ function PPSSPP_init(){
 
 	$destination="$emusPath\PPSSPP\memstick\PSP\SYSTEM"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
 
 
 	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"

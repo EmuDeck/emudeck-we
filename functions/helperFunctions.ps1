@@ -162,7 +162,7 @@ function testLocationValid($mode, $path){
 		Write-Host "Valid"
 	}else{
 		rm -fo "$globPath\test" -Recurse
-		$null = New-Item -ItemType Junction -Path "$globPath\test" -Target "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend" -Force
+		$null = New-Item -ItemType Junction -Path "$globPath\test" -Target "$env:APPDATA\EmuDeck\backend" -Force
 		if($?){
 			rm -fo "$globPath\test" -Recurse
 			Write-Output "Valid"
@@ -217,7 +217,7 @@ function setMSG($message){
 
 #Used in the appimage only
 function checkForFile($fileName){
-	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
+	(Get-ChildItem -Path "$env:APPDATA\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
 }
 
 
@@ -708,7 +708,7 @@ if(testAdministrator -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
 	$scriptContent = @"
-		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
+		. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 "@
 

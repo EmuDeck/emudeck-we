@@ -1,14 +1,14 @@
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarValue = Get-Content -Path "$env:APPDATA\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
 	$progressBarUpdate=[int]$progressBarValue+1
 
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log"
+	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\msg.log"
 	Write-Output $message
-	Add-Content "$env:USERPROFILE\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline
+	Add-Content "$env:APPDATA\EmuDeck\msg.log" "# $message" -NoNewline
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
@@ -24,7 +24,7 @@ Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
 
 # JSON Parsing to ps1 file
 
-. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\JSONtoPS1.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\JSONtoPS1.ps1"
 JSONtoPS1
 
 
@@ -32,7 +32,7 @@ JSONtoPS1
 # Functions, settings and vars
 #
 
-. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
 setScreenDimensionsScale
 
@@ -51,7 +51,7 @@ Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyC
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
-copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "$romsPath"
+copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
 
 #Dowloading..ESDE

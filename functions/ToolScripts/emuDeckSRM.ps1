@@ -8,10 +8,10 @@ function SRM_install(){
 
 function SRM_createParsers(){
 	Write-Output "Genearting Dynamic Parsers..."
-	rm -fo "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+	rm -fo "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
 	Start-Sleep -Seconds 1
-	mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
-	mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
+	mkdir $env:APPDATA\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
+	mkdir $env:APPDATA\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
 
 	rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
 	Start-Sleep -Seconds 1
@@ -166,20 +166,20 @@ function SRM_createParsers(){
 	echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
 
 	if($steamAsFrontend -ne "False"){
-		Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+		Get-ChildItem -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		if ($_ -notin $exclusionList) {
-			Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
+			Copy-Item -Path $_.FullName -Destination "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -Force
 		}
 		}
 
-		Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+		Get-ChildItem -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 			if ($_ -notin $exclusionList) {
 			Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
 			}
 	 	}
 	}else{
-		Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
-		Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
+		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
+		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
 	}
 
 	$mainParserFolder = "$toolsPath\userData\parsers"
@@ -197,10 +197,10 @@ function SRM_createParsers(){
 
 function SRM_addSteamInputProfiles(){
 	Write-Output "Checking and updating Steam Input profiles..."
-	 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\" -Force
-	 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"	-Force
+	 Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\" -Force
+	 Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:APPDATA\steam-rom-manager\userData\"	-Force
 	 $PFPath="$steamInstallPath\controller_base\templates\"
-	 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse	-Force
+	 Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse	-Force
 }
 
 function SRM_init(){
@@ -238,26 +238,26 @@ function SRM_init(){
 
 	setMSG 'Steam Rom Manager - Configuration'
 
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\" -Force
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\" -Force
+	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\" -Force
+	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:APPDATA\steam-rom-manager\userData\" -Force
 
 	#Paths
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "USERPATH" "$userFolder"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "Users\" "Users\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" ":\" ":\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "\\\" "\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "Users\" "Users\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" ":\" ":\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userSettings.json" "\\\" "\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "Users\" "Users\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" ":\" ":\\"
-	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\controllerTemplates.json" "\\\" "\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userConfigurations.json" "USERPATH" "$userFolder"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userConfigurations.json" "Users\" "Users\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userConfigurations.json" ":\" ":\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userConfigurations.json" "\\\" "\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userSettings.json" "Users\" "Users\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userSettings.json" ":\" ":\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\userSettings.json" "\\\" "\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\controllerTemplates.json" "Users\" "Users\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\controllerTemplates.json" ":\" ":\\"
+	sedFile "$env:APPDATA\steam-rom-manager\userData\controllerTemplates.json" "\\\" "\\"
 
 	sedFile "$toolsPath\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
 	sedFile "$toolsPath\userData\userConfigurations.json" "EMUSPATH" "$emusPathSRM"
@@ -299,7 +299,7 @@ function SRM_wipe(){
 	Write-Output "NYI"
 }
 function SRM_uninstall(){
-	Remove-Item –path "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData" –recurse -force
+	Remove-Item –path "$env:APPDATA\steam-rom-manager\userData" –recurse -force
 	Remove-Item –path "$toolsPath\userData" –recurse -force
 	Remove-Item –path "$toolsPath\srm.exe" –recurse -force
 	if($?){
