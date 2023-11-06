@@ -236,7 +236,7 @@ function ESDE_setEmu($emu, $system){
 
 		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
 
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
+		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue -Force
 	}
 
 }

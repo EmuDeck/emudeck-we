@@ -19,7 +19,7 @@ function Yuzu_init(){
 	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config" "$destination"
 
 	#SDL fix
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
 	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath
 
@@ -181,7 +181,7 @@ function YuzuEA_install($tokenValue) {
 		#createLauncher "yuzu"
 
 		#SDL fix
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
+		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
 		Write-Host "true"
 

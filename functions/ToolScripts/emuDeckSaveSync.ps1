@@ -194,7 +194,7 @@ function cloud_sync_toggle($status){
 function cloud_sync_config($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
 	taskkill /F /IM rclone.exe > NUL 2>NUL
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path"
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
@@ -359,7 +359,7 @@ function cloud_sync_config_with_code($code){
 	#cleanup
 	$token = $token.Replace("'", '"')
 
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:USERPROFILE\AppData\Roaming\EmuDeck"
+	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Force
 
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 
@@ -708,7 +708,7 @@ function cloud_sync_createBackup($emuName){
 	#We delete backups older than one month
 	$oldDate = (Get-Date).AddDays(-30)
 	Get-ChildItem -Path "$emulationPath\save-backups\$emuName" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
-	Copy-Item -Path "$savesPath\$emuName\*" -Destination "$emulationPath\save-backups\$emuName" -Recurse -ErrorAction SilentlyContinue
+	Copy-Item -Path "$savesPath\$emuName\*" -Destination "$emulationPath\save-backups\$emuName" -Recurse -ErrorAction SilentlyContinue -Force
  }
 
 function cloud_sync_uploadEmu{

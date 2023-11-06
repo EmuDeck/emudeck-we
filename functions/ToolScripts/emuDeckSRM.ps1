@@ -165,10 +165,10 @@ function SRM_createParsers(){
 }
 
 function SRM_addSteamInputProfiles(){
-   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\"
-   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\" -Force
+   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"  -Force
    $PFPath="$steamInstallPath\controller_base\templates\"
-   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse
+   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse  -Force
 }
 
 function SRM_init(){
@@ -206,8 +206,8 @@ function SRM_init(){
 
 	setMSG 'Steam Rom Manager - Configuration'
 
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\"
-	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\" -Force
+	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\" -Force
 
 	#Paths
 	sedFile "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json" "C:\\Emulation" "$emulationPath"
