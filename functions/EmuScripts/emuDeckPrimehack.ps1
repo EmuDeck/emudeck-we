@@ -4,7 +4,7 @@ function Primehack_install(){
 	setMSG "Downloading PrimeHack"
 	$url_primehack = getLatestReleaseURLGH "shiiion/dolphin" "zip" "PrimeHackRelease.zip"
 	download $url_primehack "PrimeHack.zip"
-	moveFromTo "$temp\PrimeHack" "$emusPath"
+	moveFromTo "$temp\PrimeHack" "$emusPath\PrimeHack"
 	createLauncher "PrimeHack"
 }
 function Primehack_init(){
