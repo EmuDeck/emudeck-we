@@ -1,39 +1,34 @@
 {
   "parserType": "Glob",
-  "configTitle": "Microsoft Xbox - Xemu",
-  "steamCategory": "${Microsoft Xbox}",
-  "executableArgs": " -full-screen -dvd_path \"${filePath}\"",
+  "configTitle": "Nintendo Game Boy Advance - mGBA (Standalone)",
+  "steamCategory": "${Nintendo Game Boy Advance - mGBA (Standalone)}",
   "executableModifier": "\"${exePath}\"",
-  "romDirectory": "${romsdirglobal}/xbox",
+  "romDirectory": "${romsdirglobal}",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
-  "imageProviders": ["SteamGridDB"],
   "titleModifier": "${fuzzyTitle}",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\mgba.ps1 -f '${filePath}' ${\\}}\" && exit \" && exit --emudeck",
   "onlineImageQueries": "${${fuzzyTitle}}",
   "imagePool": "${fuzzyTitle}",
+  "imageProviders": ["SteamGridDB"],
   "defaultImage": "",
   "defaultTallImage": "",
   "defaultHeroImage": "",
   "defaultLogoImage": "",
-  "defaultIcon": "/home/deck/.config/EmuDeck/backend/configs/steam-rom-manager/userData/img/default/icon.png",
+  "defaultIcon": "",
   "localImages": "",
   "localTallImages": "",
   "localHeroImages": "",
   "localLogoImages": "",
   "localIcons": "",
-  "disabled": false,
-  "executable": {
-    "path": "/run/media/mmcblk0p1/Emulation/tools/launchers/xemu.sh",
-    "shortcutPassthrough": false,
-    "appendArgsToExecutable": true
-  },
+  "disabled": true,
   "userAccounts": {
     "specifiedAccounts": "",
     "skipWithMissingDataDir": true,
     "useCredentials": true
   },
   "parserInputs": {
-    "glob": "**/${title}@(.iso|.ISO)"
+    "glob": "{gba/**/!(homebrew),gba}/${title}@(.7z|.7Z|.gba|.GBA|.zip|.ZIP)"
   },
   "titleFromVariable": {
     "limitToGroups": "",
@@ -46,8 +41,23 @@
     "removeCharacters": true,
     "removeBrackets": true
   },
-  "parserId": "165103607715056732",
-  "version": 10,
+  "executable": {
+    "path": "${retroarchpath}",
+    "shortcutPassthrough": false,
+    "appendArgsToExecutable": true
+  },
+  "parserId": "164785621855061652",
+  "version": 13,
+  "controllers": {
+    "ps4": null,
+    "ps5": null,
+    "xbox360": null,
+    "xboxone": null,
+    "switch_joycon_left": null,
+    "switch_joycon_right": null,
+    "switch_pro": null,
+    "neptune": null
+  },
   "imageProviderAPIs": {
     "SteamGridDB": {
       "nsfw": false,

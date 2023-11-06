@@ -1,39 +1,39 @@
 {
   "parserType": "Glob",
-  "configTitle": "Microsoft Xbox 360 - Xbox Live Arcade - Xenia",
-  "steamCategory": "${Microsoft Xbox 360 - Xbox Live Arcade}",
-  "steamDirectory": "${steamdirglobal}",
-  "romDirectory": "${romsdirglobal}/xbox360/roms/",
-  "executableArgs": "\"Z:${filePath}\"",
+  "configTitle": "Microsoft Xbox 360 - Xenia",
+  "steamCategory": "${Microsoft Xbox 360}",
+  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\xenia.ps1 '${filePath}' ${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
+  "romDirectory": "${romsdirglobal}/xbox360/",
+  "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
-  "titleModifier": "${fuzzyTitle}",
-  "fetchControllersButton": null,
   "imageProviders": ["SteamGridDB"],
+  "titleModifier": "${fuzzyTitle}",
   "onlineImageQueries": "${${fuzzyTitle}}",
   "imagePool": "${fuzzyTitle}",
   "defaultImage": "",
   "defaultTallImage": "",
   "defaultHeroImage": "",
   "defaultLogoImage": "",
-  "defaultIcon": "/home/deck/.config/EmuDeck/backend/configs/steam-rom-manager/userData/img/default/icon.png",
+  "defaultIcon": "",
   "localImages": "",
   "localTallImages": "",
   "localHeroImages": "",
   "localLogoImages": "",
   "localIcons": "",
+  "disabled": true,
+  "executable": {
+    "path": "${retroarchpath}",
+    "shortcutPassthrough": false,
+    "appendArgsToExecutable": true
+  },
   "userAccounts": {
     "specifiedAccounts": "",
     "skipWithMissingDataDir": true,
     "useCredentials": true
   },
-  "executable": {
-    "path": "/run/media/mmcblk0p1/Emulation/tools/launchers/xenia.sh",
-    "shortcutPassthrough": false,
-    "appendArgsToExecutable": true
-  },
   "parserInputs": {
-    "glob": "xbla/**/${title}"
+    "glob": "{roms/**/!(xbla),roms}/**/${title}@(.iso|.ISO|.xex|.XEX)"
   },
   "titleFromVariable": {
     "limitToGroups": "",
@@ -46,26 +46,17 @@
     "removeCharacters": true,
     "removeBrackets": true
   },
-  "controllers": {
-    "ps4": null,
-    "ps5": null,
-    "xbox360": null,
-    "xboxone": null,
-    "switch_joycon": null,
-    "switch_pro": null,
-    "neptune": null
-  },
+  "parserId": "135113607715086732",
+  "version": 10,
   "imageProviderAPIs": {
     "SteamGridDB": {
       "nsfw": false,
       "humor": false,
+      "imageMotionTypes": ["static"],
       "styles": [],
       "stylesHero": [],
       "stylesLogo": [],
-      "stylesIcon": [],
-      "imageMotionTypes": ["static"]
+      "stylesIcon": []
     }
-  },
-  "parserId": "167851246183635366",
-  "version": 11
+  }
 }
