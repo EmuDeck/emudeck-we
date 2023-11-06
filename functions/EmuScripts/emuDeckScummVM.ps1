@@ -1,17 +1,25 @@
+$ScummVM_configFile="$env:APPDATA\ScummVM\scummvm.ini"
+
 function ScummVM_install(){
-	Write-Output "NYI"
+	setMSG "Downloading ScummVM"
+	download $url_ScummVM "ScummVM.zip"
+	moveFromTo "$temp\ScummVM" "$emusPath\ScummVM"
+	createLauncher "ScummVM"
 }
 function ScummVM_init(){
-	Write-Output "NYI"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\scummvm" "$env:APPDATA\ScummVM"
+	ScummVM_setEmulationFolder
+	ScummVM_setupSaves
 }
 function ScummVM_update(){
 	Write-Output "NYI"
 }
 function ScummVM_setEmulationFolder(){
-	Write-Output "NYI"
+	sedFile $ScummVM_configFile "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 }
 function ScummVM_setupSaves(){
-	Write-Output "NYI"
+	setMSG "ScummVM - Saves Links"
+	mkdir "$savespath\scummvm\saves" -ErrorAction SilentlyContinue
 }
 function ScummVM_setupStorage(){
 	Write-Output "NYI"
@@ -47,7 +55,7 @@ function ScummVM_finalize(){
 	Write-Output "NYI"
 }
 function ScummVM_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\ScummVM"
+	$test=Test-Path -Path "$emusPath\ScummVM\scummvm.exe"
 	if($test){
 		Write-Output "true"
 	}else{

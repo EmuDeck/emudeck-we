@@ -169,10 +169,16 @@ $test=Test-Path -Path "$emusPath\ppsspp_win\PPSSPPWindows64.exe"
 if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 	PPSSPP_install
 }
-mGBA
+#mGBA
 $test=Test-Path -Path "$emusPath\mgba\mgba.exe"
-if(-not($test) -and $doInstallmGBA -eq "true" ){
+if(-not($test) -and $doInstallMGBA -eq "true" ){
 	mGBA_install
+}
+
+#Scumm
+$test=Test-Path -Path "$emusPath\scummvm\scummvm.exe"
+if(-not($test) -and $doInstallScummVM -eq "true" ){
+	ScummVM_install
 }
 
 #
@@ -272,7 +278,7 @@ if ( "$doSetupScummVM" -eq "true" ){
 	$setupSaves+="ScummVM_setupSaves;"
 }
 
-if ( "$doSetupmGBA" -eq "true" ){
+if ( "$doSetupMGBA" -eq "true" ){
 	mGBA_init
 	$setupSaves+="mGBA_setupSaves;"
 }
