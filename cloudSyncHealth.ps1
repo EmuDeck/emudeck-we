@@ -389,6 +389,7 @@ Write-Host ""
 echo $setupSaves;
 if( $setupSaves -ne '' ){
 	Write-Host  "Trying to fix Symlinks..." -ForegroundColor DarkYellow
+	$setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
 	& $setupSaves
 	Write-Host ""
 }
