@@ -406,10 +406,10 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 #  $setupSaves+="ScummVM_setupSaves;"
 #}
 
-if ( $setupSaves -ne '' ){
-	$setupSaves
+	if ( $setupSaves -ne '' ){
+		$setupSaves
+	}
 }
-
 
 
 
