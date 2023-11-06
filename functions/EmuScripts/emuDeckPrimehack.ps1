@@ -97,7 +97,7 @@ function Primehack_finalize(){
 	Write-Output "true"
 }
 function Primehack_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\xemu"
+	$test=Test-Path -Path "$emusPath\primehack"
 	if($test){
 		Write-Output "true"
 	}else{
