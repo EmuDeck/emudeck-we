@@ -157,13 +157,20 @@ function testLocationValid($mode, $path){
 
 	$globPath = $path[0] +":"
 
-	$disk = Get-WmiObject -Class Win32_Volume -Filter "DriveLetter='$globPath'"
-	if ($disk.FileSystem -eq "NTFS") {
+	$driveInfo = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='$globPath'"
+	if ($driveInfo.DriveType -eq 4) {
 		Write-Host "Valid"
-	} else {
-		Write-Host "Wrong"
-	}
+	}else{
+		rm -fo "$globPath\test" -Recurse
+		$null = New-Item -ItemType Junction -Path "$globPath\test" -Target "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend" -Force
+		if($?){
+			rm -fo "$globPath\test" -Recurse
+			Write-Output "Valid"
+		} else {
+			Write-Output "Wrong"
+		}
 
+	}
 }
 
 function escapeSedKeyword($input){
