@@ -119,6 +119,7 @@ function JSONtoPS1(){
 	if ($driveInfo) {
 		if ($driveInfo.DriveType -eq 4) {
 			$VolumenName=$driveInfo.ProviderName
+			setSettinginFile('$networkInstallation="true"')
 			setSettinginFile("`$VolName=`"$VolumenName`"")
 			setSettinginFile('$testdrive=New-PSDrive -Name "'+$globPath[0]+'" -PSProvider FileSystem -Root "$VolName"')
 			setSettinginFile('$emulationPath=$testdrive.ToString() + ":\Emulation"')
@@ -129,6 +130,7 @@ function JSONtoPS1(){
 			setSettinginFile('$storagePath=$testdrive.ToString() + ":\Emulation\storage"')
 			setSettinginFile('$ESDEscrapData=$testdrive.ToString() + ":\Emulation\tools\downloaded_media"')
 		} else {
+			setSettinginFile('$networkInstallation="false"')
 			setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
 			setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
 			setSettinginFile("`$toolsPath=`"$globPath\Emulation\tools`"")

@@ -204,3 +204,7 @@ function autofix_MAXMIN(){
 		echo "No /max detected"
 	}
 }
+
+function autofix_junctions(){
+	SRM_resetLaunchers
+}

@@ -9,8 +9,9 @@ function appImageInit(){
 	autofix_ESDE
 	autofix_dynamicParsers
 	autofix_oldParsersBAT
-	autofix_emulatorInitLaunchers ##
+	autofix_emulatorInitLaunchers
 	autofix_MAXMIN
+	autofix_junctions
 
 
 	# Init functions

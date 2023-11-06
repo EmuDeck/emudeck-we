@@ -687,6 +687,11 @@ function startScriptWithAdmin {
 function createSymlink($source, $target){
 #target is the real folder, source is the simlink because...windows
 mkdir "$target" -ErrorAction SilentlyContinue
+#
+if ($networkInstallation -eq "false"){
+	New-Item -ItemType Junction -Path "$source"  -Target "$target" -ErrorAction SilentlyContinue
+} else {
+
 if(testAdministrator -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
@@ -696,6 +701,7 @@ if(testAdministrator -eq $true){
 "@
 
 	startScriptWithAdmin -ScriptContent $scriptContent
+}
 }
 }
 
@@ -714,7 +720,13 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		$folderInfo = Get-Item -Path $simLinkPath
 
 		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-			echo "Symlink already exists, we do nothing"
+			if ($networkInstallation -eq "false"){
+				echo "Symlink already exists, we delete it and make it a junction"
+				rm -fo $simLinkPath -Recurse
+				New-Item -ItemType Junction -Path "$simLinkPath"  -Target "$emuSavePath"
+			}else{
+				echo "Symlink already exists, we do nothing since this is a network installation"
+			}
 		} else {
 			#Check if we have space
 
