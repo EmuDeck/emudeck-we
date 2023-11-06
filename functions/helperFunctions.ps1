@@ -154,11 +154,16 @@ function customLocation(){
 }
 
 function testLocationValid($mode, $path){
-	if (!$path){
-		Write-Output "Wrong"
-	}else{
-		Write-Output "Valid"
+
+	$globPath = $path[0] +":"
+
+	$disk = Get-WmiObject -Class Win32_Volume -Filter "DriveLetter='$globPath'"
+	if ($disk.FileSystem -eq "NTFS") {
+		Write-Host "Valid"
+	} else {
+		Write-Host "Wrong"
 	}
+
 }
 
 function escapeSedKeyword($input){
