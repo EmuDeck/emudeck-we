@@ -214,9 +214,9 @@ function autofix_junctions(){
 	if ($driveInfo) {
 		if ($driveInfo.DriveType -eq 4) {
 			$VolumenName=$driveInfo.ProviderName
-			setSettinginFile('$networkInstallation="true"')
+			setSetting networkInstallation "true"
 		}else{
-			setSettinginFile('$networkInstallation="false"')
+			setSetting networkInstallation "false"
 			SRM_resetLaunchers
 		}
 	}
