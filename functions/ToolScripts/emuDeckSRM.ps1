@@ -340,48 +340,48 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
   }
   if ($doInstallRA -eq "true" -or (RA_isInstalled -like "*true*")){
 	createLauncher retroarch
-	$setupSaves += SRM_testSaveFolder "$emusPath\retroarch\saves"
+	$setupSaves+="RetroArch_setupSaves;"
   }
   if ($doInstallDolphin -eq "true" -or (Dolphin_isInstalled -like "*true*")){
 	createLauncher dolphin
-	$setupSaves += SRM_testSaveFolder "$emusPath\Dolphin-x64\User\GC"
+	$setupSaves+="Dolphin_setupSaves;"
   }
   if ($doInstallPCSX2 -eq "true" -or (PCSX2_isInstalled -like "*true*")){
 	createLauncher pcsx2
-	$setupSaves += SRM_testSaveFolder "$emusPath\PCSX2-Qt\memcards"
+	$setupSaves+="PCSX2_setupSaves;"
   }
   if ($doInstallRPCS3 -eq "true" -or (RPCS3_isInstalled -like "*true*")){
 	createLauncher rpcs3
-	$setupSaves += SRM_testSaveFolder "$storagePath\rpcs3\dev_hdd0\home\00000001\savedata"
+	$setupSaves+="RPCS3_setupSaves;"
   }
   if ($doInstallYuzu -eq "true" -or (Yuzu_isInstalled -like "*true*")){
 	createLauncher yuzu
-	$setupSaves += SRM_testSaveFolder "$emusPath\yuzu\yuzu-windows-msvc\user\nand\user\save"
+	$setupSaves+="Yuzu_setupSaves;"
   }
   if ($doInstallRyujinx -eq "true" -or (Ryujinx_isInstalled -like "*true*")){
 	createLauncher "Ryujinx"
-	$setupSaves += SRM_testSaveFolder "$emusPath\Ryujinx\portable\bis\user\save"
+	$setupSaves+="Ryujinx_setupSaves;"
   }
   if ($doInstallCitra -eq "true" -or (Citra_isInstalled -like "*true*")){
-	createLauncher citra
-	$setupSaves += SRM_testSaveFolder "$emusPath\citra\user\sdmc"
+	createLauncher Citra
+	$setupSaves+="Citra_setupSaves;"
   }
-  if ($doInstallDuck -eq "true" -or (Duck_isInstalled -like "*true*")){
+  if ($doInstallDuck -eq "true" -or (DuckStation_isInstalled -like "*true*")){
 	createLauncher duckstation
-	$setupSaves += SRM_testSaveFolder "$emusPath\duckstation\memcards"
+	$setupSaves+="DuckStation_setupSaves;"
   }
   if ($doInstallmelonDS -eq "true" -or (melonDS_isInstalled -like "*true*")){
 	createLauncher melonDS
-	$setupSaves += SRM_testMelonDSFolder "$savesPath\melonDS\saves"
+	$setupSaves+="melonDS_setupSaves;"
   }
   if ($doInstallCemu -eq "true" -or (Cemu_isInstalled -like "*true*")){
 	createLauncher cemu
-	$setupSaves += SRM_testSaveFolder "$emusPath\cemu\mlc01\usr\save"
+	$setupSaves+="Cemu_setupSaves;"
   }
 
   if ($doInstallPPSSPP -eq "true" -or (PPSSPP_isInstalled -like "*true*")){
 	createLauncher PPSSPP
-	$setupSaves += SRM_testSaveFolder "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE"
+	$setupSaves+="PPSSPP_setupSaves;"
   }
   if ($doInstallESDE -eq "true" -or (ESDE_isInstalled -like "*true*")){
 	  createLauncher "esde\EmulationStationDE"
@@ -391,68 +391,24 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 #if ($doInstallXemu -eq "true" -or (Xemu_isInstalled -like "*true*")){
 #	createLauncher xemu
-# $setupSaves += SRM_testSaveFolder "$savesPath\xemu\saves"
+# $setupSaves+="Xemu_setupSaves;"
 #}
 #if ($doInstallXenia -eq "true" -or (Xenia_isInstalled -like "*true*")){
 #	createLauncher xenia
-# $setupSaves += SRM_testSaveFolder "$savesPath\xenia\saves"
+# $setupSaves+="Xenia_setupSaves;"
 #}
 #if ($doInstallVita3k -eq "true" -or (Vita3k_isInstalled -like "*true*")){
 #	createLauncher Vita3k
-# $setupSaves += SRM_testSaveFolder "$savesPath\Vita3k\saves"
+# $setupSaves+="Vita3k_setupSaves;"
 #}
 #if ($doInstallScummVM -eq "true" -or (ScummVM_isInstalled -like "*true*")){
 #	createLauncher ScummVM
-# $setupSaves += SRM_testSaveFolder "$savesPath\ScummVM\saves"
+#  $setupSaves+="ScummVM_setupSaves;"
 #}
 
-
 if ( $setupSaves -ne '' ){
-
-	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "After this message you'll get several windows asking for elevated permissions. This is so we can create symlinks for all your emulators saves and states folders."
-
-$scriptContent = @"
-. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
-"@
-
-	startScriptWithAdmin -ScriptContent $scriptContent
-
+	$setupSaves
 }
-
-}
-
-
-function SRM_testSaveFolder($path) {
-  $splits = $path.Split("\")
-  $emu = $splits[6]
-  if (Test-Path -Path $path) {
-	$element = Get-Item -Path $path
-	if ($element.Extension -eq ".lnk") {
-	  return "$emu`_setupSaves;"
-	} elseif ((Get-Item "$element").LinkType -ne "SymbolicLink") {
-	  return "$emu`_setupSaves;"
-	}
-  } else {
-	return "$emu`_setupSaves;"
-  }
-}
-
-
-function SRM_testMelonDSFolder($path) {
-  $splits = $path.Split("\")
-  $emu = $splits[3]
-  if (Test-Path -Path $path) {
-  $element = Get-Item -Path $path
-  if ($element.Extension -eq ".lnk") {
-	return "$emu`_setupSaves;"
-  } elseif ((Get-Item "$element").LinkType -eq "SymbolicLink") {
-	return "$emu`_setupSaves;"
-  }
-  } else {
-  return "$emu`_setupSaves;"
-  }
-}
-
 
 
 

@@ -206,5 +206,19 @@ function autofix_MAXMIN(){
 }
 
 function autofix_junctions(){
-	SRM_resetLaunchers
+
+	$globPath = $emulationPath[0] +":"
+
+	$driveInfo = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='$globPath'"
+
+	if ($driveInfo) {
+		if ($driveInfo.DriveType -eq 4) {
+			$VolumenName=$driveInfo.ProviderName
+			setSettinginFile('$networkInstallation="true"')
+		}else{
+			setSettinginFile('$networkInstallation="false"')
+			SRM_resetLaunchers
+		}
+	}
+
 }
