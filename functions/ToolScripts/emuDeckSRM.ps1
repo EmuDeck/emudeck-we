@@ -167,14 +167,14 @@ function SRM_createParsers(){
 
 	if($steamAsFrontend -ne "False"){
 		Get-ChildItem -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
-		if ($_ -notin $exclusionList) {
-			Copy-Item -Path $_.FullName -Destination "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -Force
-		}
+			if ($_ -notin $exclusionList) {
+				Copy-Item -Path $_.FullName -Destination "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -Force
+			}
 		}
 
 		Get-ChildItem -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 			if ($_ -notin $exclusionList) {
-			Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
+				Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
 			}
 	 	}
 	}else{
