@@ -1,4 +1,4 @@
-Flycast_configFile=""
+$Flycast_configFile="$EmusPath\flycast\emu.cfg"
 
 function Flycast_install(){
 	Write-Output "NYI"
