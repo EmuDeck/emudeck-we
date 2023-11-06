@@ -100,10 +100,10 @@ if(-not($test) -and $doInstallRPCS3 -eq "true" ){
 }
 
 #Xemu
-#$test=Test-Path -Path "$emusPath\xemu\xemu.exe"
-#if(-not($test) -and $doInstallXemu -eq "true" ){
-#	Xemu_install
-#}
+$test=Test-Path -Path "$emusPath\xemu\xemu.exe"
+if(-not($test) -and $doInstallXemu -eq "true" ){
+	Xemu_install
+}
 
 #Yuzu
 $test=Test-Path -Path "$emusPath\yuzu\yuzu-windows-msvc\yuzu.exe"
@@ -141,17 +141,39 @@ if(-not($test) -and $doInstallCemu -eq "true" ){
 }
 
 #Xenia
-#$test=Test-Path -Path "$emusPath\xenia\xenia.exe"
-#if(-not($test) -and $doInstallXenia -eq "true" ){
-#	Xenia_install
-#}
+$test=Test-Path -Path "$emusPath\xenia\xenia.exe"
+if(-not($test) -and $doInstallXenia -eq "true" ){
+	Xenia_install
+}
+
+#Vita3K
+$test=Test-Path -Path "$emusPath\Vita3K\Vita3K.exe"
+if(-not($test) -and $doInstallVita3K -eq "true" ){
+	Vita3K_install
+}
+
+#MAME
+$test=Test-Path -Path "$emusPath\mame\mame.exe"
+if(-not($test) -and $doInstallMAME -eq "true" ){
+	MAME_install
+}
+
+#Primehack
+$test=Test-Path -Path "$emusPath\Primehack\Primehack.exe"
+if(-not($test) -and $doInstallPrimehack -eq "true" ){
+	Primehack_install
+}
 
 #PPSSPP
 $test=Test-Path -Path "$emusPath\ppsspp_win\PPSSPPWindows64.exe"
 if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 	PPSSPP_install
 }
-
+mGBA
+$test=Test-Path -Path "$emusPath\mgba\mgba.exe"
+if(-not($test) -and $doInstallmGBA -eq "true" ){
+	mGBA_install
+}
 
 #
 # Emus Configuration
@@ -230,27 +252,30 @@ if ( "$doSetupmelonDS" -eq "true" ){
 	$setupSaves+="melonDS_setupSaves;"
 }
 
-#if ( "$doSetupXemu" -eq "true" ){
-	#Xemu_init
-	#$setupSaves+="#Xemu_setupSaves;"
-#}
+if ( "$doSetupXemu" -eq "true" ){
+	Xemu_init
+	$setupSaves+="Xemu_setupSaves;"
+}
 
-#if ( "$doSetupXenia" -eq "true" ){
-	#Xenia_init
-	#$setupSaves+="#Xenia_setupSaves;"
-#}
+if ( "$doSetupXenia" -eq "true" ){
+	Xenia_init
+	$setupSaves+="Xenia_setupSaves;"
+}
 
+if ( "$doSetupVita3K" -eq "true" ){
+	Vita3K_init
+	$setupSaves+="Vita3K_setupSaves;"
+}
 
-#if ( "$doSetupVita3K" -eq "true" ){
-	#Vita3K_init
-	#$setupSaves+="#Vita3K_setupSaves;"
-#}
+if ( "$doSetupScummVM" -eq "true" ){
+	ScummVM_init
+	$setupSaves+="ScummVM_setupSaves;"
+}
 
-#if ( "$doSetupScummVM" -eq "true" ){
-	#ScummVM_init
-	#$setupSaves+="#ScummVM_setupSaves;"
-#}
-
+if ( "$doSetupmGBA" -eq "true" ){
+	mGBA_init
+	$setupSaves+="mGBA_setupSaves;"
+}
 
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)

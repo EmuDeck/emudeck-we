@@ -29,11 +29,11 @@ function SRM_createParsers(){
 
 	# Multiemulator?
 	if ( "$emuMULTI" -ne "both" ){
-  	if ( "$emuMULTI" -eq "undefined" ){
+		if ( "$emuMULTI" -eq "undefined" ){
 		echo "none"
-  	}elseif ( "$emuMULTI" -eq "ra" ){
+		}elseif ( "$emuMULTI" -eq "ra" ){
 		$exclusionList = $exclusionList + 'ares/'
-  	}else{
+		}else{
 		$exclusionList = $exclusionList + 'atari_2600-ra-stella.json'
 		$exclusionList = $exclusionList + 'amiga_1200-ra-puae.json';
 		$exclusionList = $exclusionList + 'amiga_cd-ra-puae.json';
@@ -60,73 +60,104 @@ function SRM_createParsers(){
 		$exclusionList = $exclusionList + 'sinclair_zx-spectrum-ra-fuse.json'
 		$exclusionList = $exclusionList + 'snk_neo_geo_pocket_color-ra-beetle_neopop.json'
 		$exclusionList = $exclusionList + 'snk_neo_geo_pocket-ra-beetle_neopop.json'
-  	}
+		}
 	}
 
 
 	#psx
-  	if ( "$emuPSX" -ne "both" ){
-	  	if ( "$emuPSX" -eq "duckstation" ){
+		if ( "$emuPSX" -ne "both" ){
+			if ( "$emuPSX" -eq "duckstation" ){
 			$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
 			$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
-	  	}else{
+			}else{
 			$exclusionList = $exclusionList + 'sony_psx-duckstation.json'
-	  	}
-  	}
+			}
+		}
 
 	#psp
 	if ( "$emuPSP" -ne "both" ){
-  	if ( "$emuPSP" -eq "ppsspp" ){
+		if ( "$emuPSP" -eq "ppsspp" ){
 		$exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
-  	}else{
+		}else{
 		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'
-  	}
+		}
 	}
 
 	#melonDS
 	if ( "$emuNDS" -ne "both" ){
-  	if ( "$emuNDS" -eq "melonDS" ){
+		if ( "$emuNDS" -eq "melonDS" ){
 		$exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
-  	}else{
+		}else{
 		$exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
-  	}
+		}
+	}
+
+	#FlyCast
+	if ( "$emuDream" -ne "both" ){
+		if ( "$emuDream" -eq "flycast" ){
+		$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
+		$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
+		}else{
+		$exclusionList = $exclusionList + 'sega-dreamcast-flycast.json'
+		}
+	}
+	#gba
+	if ( "$emuGBA" -ne "both" ){
+		if ( "$emuGBA" -eq "mgba" ){
+			$exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
+			$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
+		}else{
+			$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
+		}
 	}
 
 
 	#Exclusion based on install status.
 	if ( $doInstallPrimeHack -ne "true" -or -not (PrimeHack_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"nintendo_primehack.json"
+		$exclusionList=$exclusionList+"nintendo_primehack.json"
 	}
 	if ( $doInstallRPCS3 -ne "true" -or -not (RPCS3_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
-  	$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
+		$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
+		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
 	}
 
 	if ( $doInstallCitra -ne "true" -or -not (Citra_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"nintendo_3ds-citra.json"
+		$exclusionList=$exclusionList+"nintendo_3ds-citra.json"
 	}
 	if ( $doInstallDolphin -ne "true" -or -not (Dolphin_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
-  	$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
+		$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
+		$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
 	}
 	if ( $doInstallDuck -ne "true" -or -not (Duckstation_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"sony_psx-duckstation.json"
+		$exclusionList=$exclusionList+"sony_psx-duckstation.json"
 	}
 	if ( $doInstallPPSSPP -ne "true" -or -not (PPSSPP_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
+		$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
 	}
 	if ( $doInstallYuzu -ne "true" -or -not (Yuzu_isInstalled -like "*true*")){
-	$exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
+		$exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
 	}
 	if ( $doInstallCemu -ne "true" -or -not (Cemu_isInstalled -like "*true*")){
-  	$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
-	$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
+		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
+		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
 	}
 	if ( $doInstallRyujinx -ne "true" -or -not (Ryujinx_isInstalled -like "*true*")){
-	$exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
+		$exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
 	}
 	if ( "$doInstallPCSX2" -ne "true" -or -not (PCSX2QT_isInstalled -like "*true*")){
-	$exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
+		$exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
+	}
+	if ( "$doInstallSuperModel" -ne "true" -or -not (SuperModel_isInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"sega_arcade-supermodel.json"
+	}
+	if ( $doInstallScummVM -ne "true" -or -not (ScummVM_isInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"scumm_scummvm.json"
+	}
+	if ( $doInstallVita3K -ne "true" -or -not (Vita3K_isInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
+	}
+	if ( $doInstallmGBA -ne "true" -or -not (mGBA_isInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 	}
 
 
@@ -135,20 +166,20 @@ function SRM_createParsers(){
 	echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
 
 	if($steamAsFrontend -ne "False"){
-  	Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+		Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
 		if ($_ -notin $exclusionList) {
-	  	Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
+			Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -Force
 		}
-  	}
+		}
 
-  	Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
-	  	if ($_ -notin $exclusionList) {
+		Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
+			if ($_ -notin $exclusionList) {
 			Copy-Item -Path $_.FullName -Destination "$toolsPath\userData\parsers\emudeck" -Force
-	  	}
-   	}
+			}
+	 	}
 	}else{
-  	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
-  	Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
+		Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\0_emulationstationde.json" -Destination "$toolsPath\userData\parsers\emudeck\0_emulationstationde.json" -Force
+		Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
 	}
 
 	$mainParserFolder = "$toolsPath\userData\parsers"
@@ -159,17 +190,17 @@ function SRM_createParsers(){
 	$parserList += Get-Content $_.FullName -Raw
 	}
 
-	"[`n" + ($parserList -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+	"[`n" + ($parserList -join ","	) + "`n]" | Out-File $mainParserFile -Encoding UTF8
 	(get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 }
 
 function SRM_addSteamInputProfiles(){
 	Write-Output "Checking and updating Steam Input profiles..."
-   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\" -Force
-   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"  -Force
-   $PFPath="$steamInstallPath\controller_base\templates\"
-   Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse  -Force
+	 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\" -Force
+	 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"	-Force
+	 $PFPath="$steamInstallPath\controller_base\templates\"
+	 Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse	-Force
 }
 
 function SRM_init(){
@@ -177,9 +208,9 @@ function SRM_init(){
 	#Fix for games with - in it's path
 	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
 	if($test){
-  		echo "already migrated"
+			echo "already migrated"
 	}else{
-  		confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
+			confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
 
 		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
 
@@ -312,99 +343,106 @@ function SRM_resetConfig(){
 
 function SRM_resetLaunchers(){
 
-  $FIPSAlgorithmPolicy = Get-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
-  $EnabledValue = $FIPSAlgorithmPolicy.Enabled
+	$FIPSAlgorithmPolicy = Get-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy
+	$EnabledValue = $FIPSAlgorithmPolicy.Enabled
 
-  if($EnabledValue -eq 1){
+	if($EnabledValue -eq 1){
 	$result = yesNoDialog -TitleText "Windows FIPS detected" -MessageText "we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -OKButtonText "Fix and restart" -CancelButtonText ""
 
 	if ($result -eq "OKButton") {
 $scriptContent = @"
 Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
 "@
-	  startScriptWithAdmin -ScriptContent $scriptContent
+		startScriptWithAdmin -ScriptContent $scriptContent
 	} else {
-	  echo "nope"
+		echo "nope"
 	}
-  }
+	}
 
-  #We clean the saves folders from .lnk files
-  Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
-  Get-ChildItem -Path "$emusPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
-  Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
+	#We clean the saves folders from .lnk files
+	Get-ChildItem -Path "$savesPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+	Get-ChildItem -Path "$emusPath" -File -Recurse | Where-Object { $_.Extension -eq ".lnk" } | Remove-Item -Force
+	Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
 
-  $setupSaves=''
+	createLauncher "srm\steamrommanager"
+	$setupSaves=''
 
-  #if ($doInstallPegasus -eq "true" -or (Pegasus_isInstalled -like "*true*")){
-#	createLauncher "pegasus\pegasus-frontend"
- # }
-  if ($doInstallRA -eq "true" -or (RA_isInstalled -like "*true*")){
-	createLauncher retroarch
-	$setupSaves+="RetroArch_setupSaves;"
-  }
-  if ($doInstallDolphin -eq "true" -or (Dolphin_isInstalled -like "*true*")){
-	createLauncher dolphin
-	$setupSaves+="Dolphin_setupSaves;"
-  }
-  if ($doInstallPCSX2 -eq "true" -or (PCSX2_isInstalled -like "*true*")){
-	createLauncher pcsx2
-	$setupSaves+="PCSX2_setupSaves;"
-  }
-  if ($doInstallRPCS3 -eq "true" -or (RPCS3_isInstalled -like "*true*")){
-	createLauncher rpcs3
-	$setupSaves+="RPCS3_setupSaves;"
-  }
-  if ($doInstallYuzu -eq "true" -or (Yuzu_isInstalled -like "*true*")){
-	createLauncher yuzu
-	$setupSaves+="Yuzu_setupSaves;"
-  }
-  if ($doInstallRyujinx -eq "true" -or (Ryujinx_isInstalled -like "*true*")){
-	createLauncher "Ryujinx"
-	$setupSaves+="Ryujinx_setupSaves;"
-  }
-  if ($doInstallCitra -eq "true" -or (Citra_isInstalled -like "*true*")){
-	createLauncher Citra
-	$setupSaves+="Citra_setupSaves;"
-  }
-  if ($doInstallDuck -eq "true" -or (DuckStation_isInstalled -like "*true*")){
-	createLauncher duckstation
-	$setupSaves+="DuckStation_setupSaves;"
-  }
-  if ($doInstallmelonDS -eq "true" -or (melonDS_isInstalled -like "*true*")){
-	createLauncher melonDS
-	$setupSaves+="melonDS_setupSaves;"
-  }
-  if ($doInstallCemu -eq "true" -or (Cemu_isInstalled -like "*true*")){
-	createLauncher cemu
-	$setupSaves+="Cemu_setupSaves;"
-  }
+	if ($doInstallPegasus -eq "true" -or (Pegasus_isInstalled -like "*true*")){
+		createLauncher "pegasus\pegasus-frontend"
+	}
+	if ($doInstallRA -eq "true" -or (RA_isInstalled -like "*true*")){
+		createLauncher retroarch
+		$setupSaves+="RetroArch_setupSaves;"
+	}
+	if ($doInstallDolphin -eq "true" -or (Dolphin_isInstalled -like "*true*")){
+		createLauncher dolphin
+		$setupSaves+="Dolphin_setupSaves;"
+	}
+	if ($doInstallPCSX2 -eq "true" -or (PCSX2_isInstalled -like "*true*")){
+		createLauncher pcsx2
+		$setupSaves+="PCSX2_setupSaves;"
+	}
+	if ($doInstallRPCS3 -eq "true" -or (RPCS3_isInstalled -like "*true*")){
+		createLauncher rpcs3
+		$setupSaves+="RPCS3_setupSaves;"
+	}
+	if ($doInstallYuzu -eq "true" -or (Yuzu_isInstalled -like "*true*")){
+		createLauncher yuzu
+		$setupSaves+="Yuzu_setupSaves;"
+	}
+	if ($doInstallRyujinx -eq "true" -or (Ryujinx_isInstalled -like "*true*")){
+		createLauncher "Ryujinx"
+		$setupSaves+="Ryujinx_setupSaves;"
+	}
+	if ($doInstallCitra -eq "true" -or (Citra_isInstalled -like "*true*")){
+		createLauncher Citra
+		$setupSaves+="Citra_setupSaves;"
+	}
+	if ($doInstallDuck -eq "true" -or (DuckStation_isInstalled -like "*true*")){
+		createLauncher duckstation
+		$setupSaves+="DuckStation_setupSaves;"
+	}
+	if ($doInstallmelonDS -eq "true" -or (melonDS_isInstalled -like "*true*")){
+		createLauncher melonDS
+		$setupSaves+="melonDS_setupSaves;"
+	}
+	if ($doInstallCemu -eq "true" -or (Cemu_isInstalled -like "*true*")){
+		createLauncher cemu
+		$setupSaves+="Cemu_setupSaves;"
+	}
 
-  if ($doInstallPPSSPP -eq "true" -or (PPSSPP_isInstalled -like "*true*")){
-	createLauncher PPSSPP
-	$setupSaves+="PPSSPP_setupSaves;"
-  }
-  if ($doInstallESDE -eq "true" -or (ESDE_isInstalled -like "*true*")){
-	  createLauncher "esde\EmulationStationDE"
-  }
+	if ($doInstallPPSSPP -eq "true" -or (PPSSPP_isInstalled -like "*true*")){
+		createLauncher PPSSPP
+		$setupSaves+="PPSSPP_setupSaves;"
+	}
+	if ($doInstallESDE -eq "true" -or (ESDE_isInstalled -like "*true*")){
+		createLauncher "esde\EmulationStationDE"
+	}
 
-  createLauncher "srm\steamrommanager"
-
-#if ($doInstallXemu -eq "true" -or (Xemu_isInstalled -like "*true*")){
-#	createLauncher xemu
-# $setupSaves+="Xemu_setupSaves;"
-#}
-#if ($doInstallXenia -eq "true" -or (Xenia_isInstalled -like "*true*")){
-#	createLauncher xenia
-# $setupSaves+="Xenia_setupSaves;"
-#}
-#if ($doInstallVita3k -eq "true" -or (Vita3k_isInstalled -like "*true*")){
-#	createLauncher Vita3k
-# $setupSaves+="Vita3k_setupSaves;"
-#}
-#if ($doInstallScummVM -eq "true" -or (ScummVM_isInstalled -like "*true*")){
-#	createLauncher ScummVM
-#  $setupSaves+="ScummVM_setupSaves;"
-#}
+	if ($doInstallXemu -eq "true" -or (Xemu_isInstalled -like "*true*")){
+		createLauncher xemu
+		$setupSaves+="Xemu_setupSaves;"
+	}
+	if ($doInstallXenia -eq "true" -or (Xenia_isInstalled -like "*true*")){
+		createLauncher xenia
+		$setupSaves+="Xenia_setupSaves;"
+	}
+	if ($doInstallFlycast -eq "true" -or (Flycast_isInstalled -like "*true*")){
+		createLauncher flycast
+		$setupSaves+="Flycast_setupSaves;"
+	}
+	if ($doInstallSuperModel -eq "true" -or (SuperModel_isInstalled -like "*true*")){
+		createLauncher supermodel
+		$setupSaves+="SuperModel_setupSaves;"
+	}
+	if ($doInstallVita3k -eq "true" -or (Vita3k_isInstalled -like "*true*")){
+		createLauncher Vita3k
+		$setupSaves+="Vita3k_setupSaves;"
+	}
+	if ($doInstallScummVM -eq "true" -or (ScummVM_isInstalled -like "*true*")){
+		createLauncher ScummVM
+		$setupSaves+="ScummVM_setupSaves;"
+	}
 
 	if ( $setupSaves -ne '' ){
 		$setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
@@ -415,60 +453,31 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 
 
-  # if ( $doInstallXemu -ne "true" -or -not (Xemu_isInstalled -like "*true*")){
-  # 	$exclusionList=$exclusionList+"microsoft_xbox-xemu.json"
-  # }
-  # if ( $doInstallXenia -ne "true" -or -not (Xenia_isInstalled -like "*true*")){
-  #    $exclusionList=$exclusionList+"microsoft_xbox_360-xenia-xbla.json"
-  #    $exclusionList=$exclusionList+"microsoft_xbox_360-xenia.json"
-  # }
-  # if ( $doInstallScummVM -ne "true" -or -not (ScummVM_isInstalled -like "*true*")){
-  # 	$exclusionList=$exclusionList+"scumm_scummvm.json"
-  # }
-  if ( $doInstallmelonDS -ne "true" -or -not (melonDS_isInstalled -like "*true*")){
-	  $exclusionList=$exclusionList+"nintendo_ds-melonds.json"
-  }
-  # if ( $doInstallVita3K -ne "true" -or -not (Vita3K_isInstalled -eq "true" -like "*true*")){
-  # 	$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
-  # }
-  # if ( $doInstallMGBA -ne "true" -or -not (MGBA_isInstalled -eq "true" -like "*true*")){
-  #   $exclusionList=$exclusionList+"nintendo_gb-mGBA.json"
-  #   $exclusionList=$exclusionList+"nintendo_gba-mgba.json"
-  #   $exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
-  # }
-  # if ( $doInstallMAME -ne "true" -or -not (MAME_isInstalled -eq "true" -like "*true*")){
-  #   $exclusionList=$exclusionList+"arcade-mame.json"
-  # }
-  #N64?
-		  # if ( "$emuN64" -ne "both" ); then
-			# if ( "$emuN64" -eq "rgm" ); then
-		  # 	$exclusionList=$exclusionList+"nintendo_64-ra-mupen64plus_next.json"
-		  # 	$exclusionList=$exclusionList+"nintendo_64-ares.json"
-		  # 	$exclusionList=$exclusionList+"nintendo_64dd-ares.json"
-			# else
-		  # 	$exclusionList=$exclusionList"+nintendo_64-rmg.json"
-			# fi
-		  # fi
-	  #gba
-	  # if ( "$emuGBA" -ne "both" ){
-		#   if ( "$emuGBA" -eq "mgba" ){
-		# 	$exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
-		# 	$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
-		#   }else{
-		# 	$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
-		#   }
-	  # }
-	#mame
-	# if ( "$emuMAME" -ne "both" ){
-	  #   if ( "$emuMAME" -eq "mame" ){
-	  # 	$exclusionList = $exclusionList + 'arcade-ra-mame_2010.json'
-	  # 	$exclusionList = $exclusionList + 'arcade-ra-mame.json'
-	  # 	$exclusionList = $exclusionList + 'arcade-ra-mame_2003_plus.json'
-	  #   }else{
-	  # 	$exclusionList = $exclusionList + 'arcade-mame.json'
-	  # 	$exclusionList = $exclusionList + 'tiger_electronics_gamecom-mame.json'
-	  # 	$exclusionList = $exclusionList + 'vtech_vsmile-mame.json'
-	  # 	$exclusionList = $exclusionList + 'snk_neo_geo_cd-mame.json'
-	  # 	$exclusionList = $exclusionList + 'philips_cd_i-mame.json'
-	  #   }
-	# }
+
+
+
+	 #gba
+		 # if ( "$emuGBA" -ne "both" ){
+		 #	 if ( "$emuGBA" -eq "mgba" ){
+		 # 	$exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
+		 # 	$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
+		 #	 }else{
+		 # 	$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
+		 #	 }
+		 # }
+
+ #N64?
+		 # if ( "$emuN64" -ne "both" ); then
+			 # if ( "$emuN64" -eq "rgm" ); then
+		 # 	$exclusionList=$exclusionList+"nintendo_64-ra-mupen64plus_next.json"
+		 # 	$exclusionList=$exclusionList+"nintendo_64-ares.json"
+		 # 	$exclusionList=$exclusionList+"nintendo_64dd-ares.json"
+			 # else
+		 # 	$exclusionList=$exclusionList"+nintendo_64-rmg.json"
+			 # fi
+		 # fi
+	 #if ( $doInstallMGBA -ne "true" -or -not (MGBA_isInstalled -eq "true" -like "*true*")){
+			#	$exclusionList=$exclusionList+"nintendo_gb-mGBA.json"
+			#	$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
+			#	$exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
+			#}
