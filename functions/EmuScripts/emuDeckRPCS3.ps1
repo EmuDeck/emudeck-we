@@ -28,6 +28,7 @@ function RPCS3_setEmulationFolder(){
 
 }
 function RPCS3_renameFolders(){
+	Write-Output "Renaming PS3 folders for ESDE compatibility..."
 	$basePath = "$romsPath/ps3"
 	$directories = Get-ChildItem -Path $basePath -Directory
 

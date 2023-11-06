@@ -15,4 +15,5 @@ $7z = "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\wintools\7z.exe"
 $steamRegPath = "HKCU:\Software\Valve\Steam"
 $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
 $steamInstallPath = $steamInstallPath.Replace("/", "\")
+$steamInstallPathSRM = $steamInstallPath.Replace("\", '\\')
 $steamInstallExe = "$steamInstallPath/Steam.exe"

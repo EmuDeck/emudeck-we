@@ -7,7 +7,7 @@ function SRM_install(){
 }
 
 function SRM_createParsers(){
-
+	Write-Output "Genearting Dynamic Parsers..."
 	rm -fo "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
 	Start-Sleep -Seconds 1
 	mkdir $env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
@@ -165,6 +165,7 @@ function SRM_createParsers(){
 }
 
 function SRM_addSteamInputProfiles(){
+	Write-Output "Checking and updating Steam Input profiles..."
    Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$toolsPath\userData\" -Force
    Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\controllerTemplates.json" -Destination "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\"  -Force
    $PFPath="$steamInstallPath\controller_base\templates\"
@@ -233,17 +234,18 @@ function SRM_init(){
 	sedFile "$toolsPath\userData\userConfigurations.json" "Users\" "Users\\"
 	sedFile "$toolsPath\userData\userConfigurations.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\userConfigurations.json" "\\\" "\\"
+
 	sedFile "$toolsPath\userData\userSettings.json" "C:\\Emulation" "$emulationPath"
 	sedFile "$toolsPath\userData\userSettings.json" "EMUSPATH" "$emusPathSRM"
-	sedFile "$toolsPath\userData\userSettings.json" "STEAMPATH" "$steamInstallPath"
+	sedFile "$toolsPath\userData\userSettings.json" "STEAMPATH" "$steamInstallPathSRM"
 	sedFile "$toolsPath\userData\userSettings.json" "Users\" "Users\\"
 	sedFile "$toolsPath\userData\userSettings.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\userSettings.json" "\\\" "\\"
-	sedFile "$toolsPath\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPath"
+
+	sedFile "$toolsPath\userData\controllerTemplates.json" "STEAMPATH" "$steamInstallPathSRM"
 	sedFile "$toolsPath\userData\controllerTemplates.json" "Users\" "Users\\"
 	sedFile "$toolsPath\userData\controllerTemplates.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\controllerTemplates.json" "\\\" "\\"
-
 	setMSG 'Steam Rom Manager - Creating Parsers & Steam Input profiles'
 	SRM_createParsers
 	SRM_addSteamInputProfiles

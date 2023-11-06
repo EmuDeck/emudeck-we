@@ -6,7 +6,7 @@ if ($steamRunning) {
 SRM_createParsers
 SRM_addSteamInputProfiles
 RPCS3_renameFolders
-
+Write-Host "Launching Steam Rom Manager, please stand by..." -ForegroundColor white
 $emulatorFile = "$toolsPath/srm.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 Start-Process $emulatorFile -WindowStyle Maximized -Wait
