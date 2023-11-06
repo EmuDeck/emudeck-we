@@ -1,14 +1,30 @@
+Flycast_configFile=""
+
 function Flycast_install(){
 	Write-Output "NYI"
+	setMSG "Downloading Flycast"
+	$url_flycast = getLatestReleaseURLGH "flyinghead/flycast" "zip" "win64"
+	download $url_flycast "flycast.zip"
+	mkdir "$emusPath\flycast" -ErrorAction SilentlyContinue
+	Move-Item -Path "$temp\flycast.exe" -Destination "$EmusPath\flycast"
+	createLauncher "Flycast"
 }
 function Flycast_init(){
-	Write-Output "NYI"
+	Flycast_setupStorage
+	Flycast_setEmulationFolder
+	#Flycast_setupSaves
 }
 function Flycast_update(){
 	Write-Output "NYI"
 }
 function Flycast_setEmulationFolder(){
-	Write-Output "NYI"
+	$ContentPathSetting='Dreamcast.ContentPath = '
+	changeLine "$ContentPathSetting" "$ContentPathSetting""$romsPath/dreamcast" "$Flycast_configFile"
+
+	#Setup symlink for bios
+	mkdir "${biosPath}/flycast/" -ErrorAction SilentlyContinue
+	#createSymlink "${biosPath}/flycast/"
+
 }
 function Flycast_setupSaves(){
 	Write-Output "NYI"
