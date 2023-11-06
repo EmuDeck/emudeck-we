@@ -254,6 +254,6 @@ if ( "$doSetupmelonDS" -eq "true" ){
 
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
-& $setupSaves
+Invoke-Expression $setupSaves
 
 Stop-Transcript
