@@ -389,13 +389,7 @@ Write-Host ""
 echo $setupSaves;
 if( $setupSaves -ne '' ){
 	Write-Host  "Trying to fix Symlinks..." -ForegroundColor DarkYellow
-
-	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "After this message you'll get several windows asking for elevated permissions. This is so we can fix the symlinks for all your emulators saves and states folders."
-
-$scriptContent = @"
-	. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"; $setupSaves
-"@
-	startScriptWithAdmin -ScriptContent $scriptContent
+	& $setupSaves
 	Write-Host ""
 }
 Write-Host  "Are CloudSync functions installed?" -ForegroundColor DarkYellow

@@ -253,6 +253,6 @@ if ( "$doSetupmelonDS" -eq "true" ){
 
 
 setMSG 'Configuring Save folders'
-$setupSaves
+& $setupSaves
 
 Stop-Transcript

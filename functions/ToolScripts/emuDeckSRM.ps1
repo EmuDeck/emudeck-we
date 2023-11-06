@@ -407,7 +407,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 #}
 
 	if ( $setupSaves -ne '' ){
-		$setupSaves
+		& $setupSaves
 	}
 }
 
