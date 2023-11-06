@@ -79,7 +79,7 @@ function Xemu_resetConfig(){
 		Write-Output "true"
 	}
 }
-Xemu_setCustomizations(){
+function Xemu_setCustomizations(){
 	if ( "$arClassic3D" -eq "169"){
 	  Xemu_wideScreenOn
 	}else{
