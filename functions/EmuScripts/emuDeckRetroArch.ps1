@@ -88,12 +88,12 @@ function RetroArch_init(){
 	#RA Bezels
 # 	RetroArch_setBezels #needs to change
 #
-# 	#RA AutoSave
-# 	if ( "$RAautoSave" -eq "true" ){
-# 		RetroArch_autoSaveOn
-# 	}else{
-# 		RetroArch_autoSaveOff
-# 	}
+ 	#RA AutoSave
+ 	if ( "$RAautoSave" -eq "true" ){
+ 		RetroArch_autoSaveOn
+ 	}else{
+ 		RetroArch_autoSaveOff
+ 	}
 
 
 	#
@@ -1870,7 +1870,6 @@ function RetroArch_psx_3DCRTshaderOff(){
 function RetroArch_psx_setConfig(){
 	RetroArch_psx_3DCRTshaderOff
 }
-
 
 function RetroArch_autoSaveOn(){
 	setConfigRA "savestate_auto_load" '"true"' $RetroArch_configFile
