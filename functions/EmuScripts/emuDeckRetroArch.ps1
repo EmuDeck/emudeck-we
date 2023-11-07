@@ -69,31 +69,31 @@ function RetroArch_init(){
 #	RetroArch_setupSaves
 
 	#retroAchievements
-	RetroArch_retroAchievementsSetLogin
-	if  ("$doRASignIn" -eq "true" ){
-		RetroArch_retroAchievementsOn
-	}
-
-	if ( "$doRAEnable" -eq "true" ){
-		RetroArch_retroAchievementsOn
-	}
-
-	if ( "$achievementsHardcore" -eq "true" ){
-		RetroArch_retroAchievementsHardCoreOn
-	}else{
-		RetroArch_retroAchievementsHardCoreOff
-	}
+# 	RetroArch_retroAchievementsSetLogin
+# 	if  ("$doRASignIn" -eq "true" ){
+# 		RetroArch_retroAchievementsOn
+# 	}
+#
+# 	if ( "$doRAEnable" -eq "true" ){
+# 		RetroArch_retroAchievementsOn
+# 	}
+#
+# 	if ( "$achievementsHardcore" -eq "true" ){
+# 		RetroArch_retroAchievementsHardCoreOn
+# 	}else{
+# 		RetroArch_retroAchievementsHardCoreOff
+# 	}
 
 
 	#RA Bezels
-	RetroArch_setBezels #needs to change
-
-	#RA AutoSave
-	if ( "$RAautoSave" -eq "true" ){
-		RetroArch_autoSaveOn
-	}else{
-		RetroArch_autoSaveOff
-	}
+# 	RetroArch_setBezels #needs to change
+#
+# 	#RA AutoSave
+# 	if ( "$RAautoSave" -eq "true" ){
+# 		RetroArch_autoSaveOn
+# 	}else{
+# 		RetroArch_autoSaveOff
+# 	}
 
 
 	#
