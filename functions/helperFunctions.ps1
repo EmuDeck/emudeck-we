@@ -58,25 +58,24 @@ function setSettingNoQuotes($file, $old, $new){
 
 }
 
- function setConfigRA($old, $new, $fileToCheck){
-
-	$fileContents = Get-Content $fileToCheck
+function setConfigRA($old, $new, $fileToCheck){
+	$fileContents = Get-Content $fileToCheck -Encoding UTF8
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
-	if ($line){
-		$newLine=-join($old,' = ',$new)
-		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
-		echo $modifiedContents > $fileToCheck
+	if ($line){
+		$newLine = -join($old, ' = ', $new)
+		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line, $newLine)} -ErrorAction SilentlyContinue
+
+		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
 
 		Write-Output "Line $line changed to $newLine"
-	}else{
-		$newLine=-join($old,' = ',$new)
+	} else {
+		$newLine = -join($old, ' = ', $new)
 		Add-Content -Path $fileToCheck -Value $newLine -Encoding UTF8
 		Write-Output "Line created on $fileToCheck"
 	}
-
-
 }
+
 
 function getLocations() {
 	$drives = Get-WmiObject -Class Win32_DiskDrive
