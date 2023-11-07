@@ -1882,13 +1882,13 @@ function RetroArch_autoSaveOff(){
 }
 
 function RetroArch_retroAchievementsOn(){
-	setConfigRA 'cheevos_enable' ""true"" "$RetroArch_configFile"
+	setConfigRA 'cheevos_enable' 'true' "$RetroArch_configFile"
 	#Mame fix
 	#RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'cheevos_enable' '"false"'
 	#RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
 }
 function RetroArch_retroAchievementsOff(){
-	setConfigRA 'cheevos_enable' ""false"" "$RetroArch_configFile"
+	setConfigRA 'cheevos_enable' 'false' "$RetroArch_configFile"
 	#Mame fix
 	#RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'cheevos_enable' '"false"'
 	#RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
@@ -1904,8 +1904,8 @@ function RetroArch_retroAchievementsHardCoreOff(){
 function RetroArch_retroAchievementsSetLogin(){
 	$rat=(Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw) -replace "`r`n", ""
 	$rau=(Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rau" -Raw) -replace "`r`n", ""
-	setConfigRA 'cheevos_token' ""$rat" "$RetroArch_configFile"
-	setConfigRA 'cheevos_username' ""$rau"" "$RetroArch_configFile"
+	setConfigRA 'cheevos_token' "$rat" "$RetroArch_configFile"
+	setConfigRA 'cheevos_username' "$rau" "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 
