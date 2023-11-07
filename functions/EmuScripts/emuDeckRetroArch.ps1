@@ -187,23 +187,21 @@ function RetroArch_init(){
 	}
 
 	#Bios
-	$line="`rsystem_directory = `"$biosPath`""
-	$line | Add-Content $RetroArch_configFile
+	setConfigRA "system_directory" "$biosPath" $RetroArch_configFile
 
 	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/neocd" -ErrorAction SilentlyContinue
 
 
-	echo "Put your Mame bios here" > "$biosPath/mame/bios/readme.txt" 
-	echo "Put your Dreamcast bios here" > "$biosPath/dc/readme.txt" 
-	echo "Put your Neo Geo CD bios here" > "$biosPath/neocd/readme.txt" 
-	echo "Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!" > "$biosPath/readme.txt" 
+	echo "Put your Mame bios here" > "$biosPath/mame/bios/readme.txt"
+	echo "Put your Dreamcast bios here" > "$biosPath/dc/readme.txt"
+	echo "Put your Neo Geo CD bios here" > "$biosPath/neocd/readme.txt"
+	echo "Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!" > "$biosPath/readme.txt"
 
 	#Ally
 	if($device -eq "Asus Rog Ally"){
-		$line="`raudio_driver = `"wasapi`""
-		$line | Add-Content $RetroArch_configFile
+		setConfigRA "raudio_driver" "wasapi" $RetroArch_configFile
 	}
 
 }
