@@ -112,8 +112,9 @@ function autofix_raSavesFolders(){
 			if ($subSubFolders.Count -gt 0) {
 				echo "More than one subdirectory, skip"
 			}else{
-				robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
-				Remove-Item -Path $subfolderPath -Force -Recurse
+				#robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
+				#Remove-Item -Path $subfolderPath -Force -Recurse
+				moveFromTo "$subfolderPath" "$destinationFolder"
 			}
 		}
 	}
@@ -135,8 +136,9 @@ function autofix_raSavesFolders(){
 		if ( $doFixSaves -eq "false" ){
 			confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
 		}
-		robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
-		Remove-Item -Path $subfolderPath -Force -Recurse
+		#robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
+		#Remove-Item -Path $subfolderPath -Force -Recurse
+		moveFromTo "$subfolderPath" "$destinationFolder"
 	}
 
 	if ( $doFixStates -eq "true" -or $doFixSaves -eq "true" ){
