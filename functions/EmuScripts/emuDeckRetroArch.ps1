@@ -187,7 +187,7 @@ function RetroArch_init(){
 	}
 
 	#Bios
-	setConfigRA "system_directory" '"$biosPath"' $RetroArch_configFile
+	setConfigRA "system_directory" ""$biosPath"" $RetroArch_configFile
 
 	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
@@ -742,7 +742,7 @@ function RetroArch_atari2600_CRTshaderOff(){
 function RetroArch_mame_setConfig(){
 	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'mame.cfg' 'MAME'  'input_player1_analog_dpad_mode' '"1"'
-	RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable = "false"'
+	RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable = '"false"'
 }
 
 function RetroArch_mame_bezelOn(){
@@ -1895,17 +1895,17 @@ function RetroArch_retroAchievementsOff(){
 }
 
 function RetroArch_retroAchievementsHardCoreOn(){
-	setConfigRA 'cheevos_hardcore_mode_enable' 'true' $RetroArch_configFile
+	setConfigRA 'cheevos_hardcore_mode_enable' '"true"' $RetroArch_configFile
 }
 function RetroArch_retroAchievementsHardCoreOff(){
-	setConfigRA 'cheevos_hardcore_mode_enable' 'false' $RetroArch_configFile
+	setConfigRA 'cheevos_hardcore_mode_enable' '"false"' $RetroArch_configFile
 }
 
 function RetroArch_retroAchievementsSetLogin(){
 	$rat=(Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw) -replace "`r`n", ""
 	$rau=(Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rau" -Raw) -replace "`r`n", ""
-	setConfigRA 'cheevos_token' $rat "$RetroArch_configFile"
-	setConfigRA 'cheevos_username' $rau "$RetroArch_configFile"
+	setConfigRA 'cheevos_token' "$rat" "$RetroArch_configFile"
+	setConfigRA 'cheevos_username' "$rau" "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 
