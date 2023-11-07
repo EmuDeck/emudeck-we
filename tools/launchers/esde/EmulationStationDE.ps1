@@ -17,7 +17,7 @@ if ($steamRunning) {
 	rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
 } else {
 	. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
-	toast = steamToast -MessageText "Steam is not running, closing..."
+	showNotification -ToastTitle "Steam error" -ToastText "Steam is not running in the background, closing..."
 	Start-Sleep -Seconds 2
 	$toast.Close()
 }
