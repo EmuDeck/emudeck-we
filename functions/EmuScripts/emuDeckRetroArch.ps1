@@ -187,7 +187,7 @@ function RetroArch_init(){
 	}
 
 	#Bios
-	setConfigRA "system_directory" "$biosPath" $RetroArch_configFile
+	setConfigRA "system_directory" '"$biosPath"' $RetroArch_configFile
 
 	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
