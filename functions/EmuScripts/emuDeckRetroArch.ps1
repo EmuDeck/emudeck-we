@@ -307,151 +307,151 @@ function RetroArch_resetConfig{
 
 
 function RetroArch_wswanc_setConfig(){
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" ""1""
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" ""1""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" "1"
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" "1"
 }
 function RetroArch_wswanc_bezelOn(){
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" ""false""
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" ""false""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 function RetroArch_wswanc_bezelOff(){
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" ""false""
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" ""false""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 function RetroArch_wswanc_MATshaderOn(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_filter" "ED_RM_LINE"
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" ""false""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" "false"
 
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_filter" "ED_RM_LINE"
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" ""false""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" "false"
 }
 
 function RetroArch_wswanc_MATshaderOff(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" ""true""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" "true"
 
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" ""true""
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" "true"
 }
 
 function RetroArch_wswan_setConfig(){
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" ""1""
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" ""1""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" "1"
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" "1"
 }
 function RetroArch_wswan_bezelOn(){
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_overlay_enable" ""false""
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_overlay_enable" ""false""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 
 function RetroArch_wswan_bezelOff(){
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_overlay_enable" ""false""
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_overlay_enable" ""false""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 
 function RetroArch_wswan_MATshaderOn(){
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_filter" "ED_RM_LINE"
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" ""false""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" "false"
 
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_filter" "ED_RM_LINE"
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" ""false""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" "false"
 }
 
 function RetroArch_wswan_MATshaderOff(){
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" ""true""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" "true"
 
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" ""true""
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" "true"
 }
 
 function RetroArch_dolphin_emu_setConfig(){
-	RetroArch_setOverride "dolphin_emu.cfg" "dolphin_emu"  "video_driver" ""gl""
-	RetroArch_setOverride "dolphin_emu.cfg" "dolphin_emu"  "video_driver" ""gl""
+	RetroArch_setOverride "dolphin_emu.cfg" "dolphin_emu"  "video_driver" "gl"
+	RetroArch_setOverride "dolphin_emu.cfg" "dolphin_emu"  "video_driver" "gl"
 }
 
 function RetroArch_PPSSPP_setConfig(){
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_auto_frameskip" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_block_transfer_gpu" ""enabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_button_preference" ""Cross""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_cheats" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_cpu_core" ""JIT""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_disable_slow_framebuffer_effects" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_fast_memory" ""enabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_force_lag_sync" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_frameskip" ""Off""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_frameskiptype" ""Number"
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_gpu_hardware_transform" ""enabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_ignore_bad_memory_access" ""enabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_inflight_frames" ""Up"
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_internal_resolution" ""1440x816""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_io_timing_method" ""Fast""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_language" ""Automatic""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_lazy_texture_caching" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_locked_cpu_speed" ""off""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_lower_resolution_for_effects" ""Off""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_rendering_mode" ""Buffered""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_retain_changed_textures" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_software_skinning" ""enabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_spline_quality" ""Low""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_anisotropic_filtering" ""off""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_deposterize" ""disabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_filtering" ""Auto""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_replacement" ""enabled""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_scaling_level" ""Off""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_scaling_type" ""xbrz""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_shader" ""Off""
-	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_vertex_cache" ""disabled""
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_auto_frameskip" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_block_transfer_gpu" "enabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_button_preference" "Cross"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_cheats" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_cpu_core" "JIT"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_disable_slow_framebuffer_effects" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_fast_memory" "enabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_force_lag_sync" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_frameskip" "Off"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_frameskiptype" "Number"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_gpu_hardware_transform" "enabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_ignore_bad_memory_access" "enabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_inflight_frames" "Up"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_internal_resolution" "1440x816"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_io_timing_method" "Fast"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_language" "Automatic"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_lazy_texture_caching" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_locked_cpu_speed" "off"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_lower_resolution_for_effects" "Off"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_rendering_mode" "Buffered"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_retain_changed_textures" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_software_skinning" "enabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_spline_quality" "Low"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_anisotropic_filtering" "off"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_deposterize" "disabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_filtering" "Auto"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_replacement" "enabled"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_scaling_level" "Off"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_scaling_type" "xbrz"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_shader" "Off"
+	RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_vertex_cache" "disabled"
 }
 
 function RetroArch_pcengine_setConfig(){
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_player1_analog_dpad_mode" ""1""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_player1_analog_dpad_mode" ""1""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_player1_analog_dpad_mode" "1"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_player1_analog_dpad_mode" "1"
 }
 function RetroArch_pcengine_bezelOn(){
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "aspect_ratio_index" ""21""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "custom_viewport_height" ""1200""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "custom_viewport_x" ""0""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "aspect_ratio_index" "21"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "custom_viewport_height" "1200"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "custom_viewport_x" "0"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay" "$emusPath\RetroArch\overlays\pegasus\pcengine.cfg"
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_aspect_adjust_landscape" ""-0.150000""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_enable" ""true""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_scale_landscape" ""1.075000""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_aspect_adjust_landscape" "-0.150000"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_enable" "true"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_scale_landscape" "1.075000"
 
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "aspect_ratio_index" ""21""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "custom_viewport_height" ""1200""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "custom_viewport_x" ""0""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "aspect_ratio_index" "21"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "custom_viewport_height" "1200"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "custom_viewport_x" "0"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay" "$emusPath\RetroArch\overlays\pegasus\pcengine.cfg"
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_aspect_adjust_landscape" ""-0.150000""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_enable" ""true""
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_scale_landscape" ""1.075000""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_aspect_adjust_landscape" "-0.150000"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_enable" "true"
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_scale_landscape" "1.075000"
 
 }
 
 function RetroArch_pcengine_bezelOff(){
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_enable" ""false""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_enable" "false"
 
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_enable" ""false""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_enable" "false"
 }
 
 function RetroArch_pcengine_CRTshaderOn(){
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" ""true""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" "true"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_filter" "ED_RM_LINE"
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_smooth" ""false""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_smooth" "false"
 
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "video_shader_enable" ""true""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "video_shader_enable" "true"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"	"video_filter" "ED_RM_LINE"
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"	"video_smooth" ""false""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE"	"video_smooth" "false"
 }
 
 function RetroArch_pcengine_CRTshaderOff(){
-	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" ""false""
+	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" "false"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_smooth" '"true"'
 
