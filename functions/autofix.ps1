@@ -85,64 +85,117 @@ function autofix_raSavesFolders(){
 	$sourceFolder = "$savesPath/RetroArch/saves"
 	$destinationFolder = "$sourceFolder"
 	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
-	$doFixSaves="false"
+	$doFixSaves = "false"
 	if ($subfolders.Count -gt 0) {
-		foreach ($subfolder in $subfolders) {
-			$subfolderPath = $subfolder.FullName
-			$subSubFolders = Get-ChildItem -Path $subfolderPath -Directory
-
-			if ($subSubFolders.Count -gt 0) {
-				echo "More than one subdirectory, skip"
-			}else{
-				$doFixSaves="true"
-			}
-
-		}
-	}
-
-
-
-	if ( $doFixSaves -eq "true" ){
-		confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
 		cloud_sync_createBackup "retroarch"
 		foreach ($subfolder in $subfolders) {
-			$subfolderPath = $subfolder.FullName
-			$subSubFolders = Get-ChildItem -Path $subfolderPath -Directory
-
-			if ($subSubFolders.Count -gt 0) {
-				echo "More than one subdirectory, skip"
-			}else{
-				#robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
-				#Remove-Item -Path $subfolderPath -Force -Recurse
-				moveFromTo "$subfolderPath" "$destinationFolder"
-			}
+			if ($subfolder -like "*Beetle Cygne*" -or $subfolder -like
+				"*Beetle Lynx*" -or $subfolder -like
+				"*Beetle NeoPop*" -or $subfolder -like
+				"*Beetle PCE*" -or $subfolder -like
+				"*Beetle PCE Fast*" -or $subfolder -like
+				"*Beetle PSX*" -or $subfolder -like
+				"*Beetle PSX HW*" -or $subfolder -like
+				"*Beetle Saturn*" -or $subfolder -like
+				"*Beetle WonderSwan*" -or $subfolder -like
+				"*bsnes-hd beta*" -or $subfolder -like
+				"*dolphin_emu*" -or $subfolder -like
+				"*FinalBurn Neo*" -or $subfolder -like
+				"*Flycast*" -or $subfolder -like
+				"*Gambatte*" -or $subfolder -like
+				"*Gearsystem*" -or $subfolder -like
+				"*Genesis Plus GX*" -or $subfolder -like
+				"*Handy*" -or $subfolder -like
+				"*Kronos*" -or $subfolder -like
+				"*MAME*" -or $subfolder -like
+				"*MAME 2003-Plus*" -or $subfolder -like
+				"*MAME 2010*" -or $subfolder -like
+				"*melonDS*" -or $subfolder -like
+				"*Mesen*" -or $subfolder -like
+				"*mGBA*" -or $subfolder -like
+				"*Mupen64Plus-Next*" -or $subfolder -like
+				"*Nestopia*" -or $subfolder -like
+				"*PAUE*" -or $subfolder -like
+				"*PicoDrive*" -or $subfolder -like
+				"*PPSSPP*" -or $subfolder -like
+				"*PrBoom*" -or $subfolder -like
+				"*PUAE*" -or $subfolder -like
+				"*remaps*" -or $subfolder -like
+				"*SameBoy*" -or $subfolder -like
+				"*scummvm*" -or $subfolder -like
+				"*Snes9x*" -or $subfolder -like
+				"*Stella*" -or $subfolder -like
+				"*SwanStation*" -or $subfolder -like
+				"*YabaSanshiro*" -or $subfolder -like
+				"*Yabause*"){
+					$doFixSaves = "true"
+					$subfolderPath = $subfolder.FullName
+					moveFromTo "$subfolderPath" "$destinationFolder"
+				}else{
+					echo "More than one subdirectory, skip"
+				}
 		}
 	}
 
 
-	$sourceFolder = "$savesPath/RetroArch/states"
+
+	$sourceFolder = "$savesPath/RetroArch/saves"
 	$destinationFolder = "$sourceFolder"
 	$subfolders = Get-ChildItem -Path $sourceFolder -Directory
-	$doFixStates="false"
+	$doFixStates= "false"
 	if ($subfolders.Count -gt 0) {
+		cloud_sync_createBackup "retroarch"
 		foreach ($subfolder in $subfolders) {
-			$subfolderPath = $subfolder.FullName
-			$doFixStates="true"
-
+			if ($subfolder -like "*Beetle Cygne*" -or $subfolder -like
+				"*Beetle Lynx*" -or $subfolder -like
+				"*Beetle NeoPop*" -or $subfolder -like
+				"*Beetle PCE*" -or $subfolder -like
+				"*Beetle PCE Fast*" -or $subfolder -like
+				"*Beetle PSX*" -or $subfolder -like
+				"*Beetle PSX HW*" -or $subfolder -like
+				"*Beetle Saturn*" -or $subfolder -like
+				"*Beetle WonderSwan*" -or $subfolder -like
+				"*bsnes-hd beta*" -or $subfolder -like
+				"*dolphin_emu*" -or $subfolder -like
+				"*FinalBurn Neo*" -or $subfolder -like
+				"*Flycast*" -or $subfolder -like
+				"*Gambatte*" -or $subfolder -like
+				"*Gearsystem*" -or $subfolder -like
+				"*Genesis Plus GX*" -or $subfolder -like
+				"*Handy*" -or $subfolder -like
+				"*Kronos*" -or $subfolder -like
+				"*MAME*" -or $subfolder -like
+				"*MAME 2003-Plus*" -or $subfolder -like
+				"*MAME 2010*" -or $subfolder -like
+				"*melonDS*" -or $subfolder -like
+				"*Mesen*" -or $subfolder -like
+				"*mGBA*" -or $subfolder -like
+				"*Mupen64Plus-Next*" -or $subfolder -like
+				"*Nestopia*" -or $subfolder -like
+				"*PAUE*" -or $subfolder -like
+				"*PicoDrive*" -or $subfolder -like
+				"*PPSSPP*" -or $subfolder -like
+				"*PrBoom*" -or $subfolder -like
+				"*PUAE*" -or $subfolder -like
+				"*remaps*" -or $subfolder -like
+				"*SameBoy*" -or $subfolder -like
+				"*scummvm*" -or $subfolder -like
+				"*Snes9x*" -or $subfolder -like
+				"*Stella*" -or $subfolder -like
+				"*SwanStation*" -or $subfolder -like
+				"*YabaSanshiro*" -or $subfolder -like
+				"*Yabause*"){
+					$doFixStates = "true"
+					$subfolderPath = $subfolder.FullName
+					moveFromTo "$subfolderPath" "$destinationFolder"
+				}else{
+					echo "More than one subdirectory, skip"
+				}
 		}
-	}
-
-	if ( $doFixStates -eq "true" ){
-		if ( $doFixSaves -eq "false" ){
-			confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
-		}
-		#robocopy "$subfolderPath" "$destinationFolder" /E /XC /XN /XO
-		#Remove-Item -Path $subfolderPath -Force -Recurse
-		moveFromTo "$subfolderPath" "$destinationFolder"
 	}
 
 	if ( $doFixStates -eq "true" -or $doFixSaves -eq "true" ){
-		$RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
+		confirmDialog -TitleText "Old RetroArch saves folders found" -MessageText "EmuDeck will create a backup of them in Emulation\saves-backup just in case, after that it will reorganize and delete the old subfolder. Please manually delete all subfolders you might have in your cloud provider ( EmuDeck/saves/retroarch/saves/* and EmuDeck/saves/retroarch/states/*)"
 		setConfigRA "sort_savefiles_by_content_enable" "false" $RetroArch_configFile
 		setConfigRA "sort_savefiles_enable" "false" $RetroArch_configFile
 		setConfigRA "sort_savestates_by_content_enable" "false" $RetroArch_configFile
