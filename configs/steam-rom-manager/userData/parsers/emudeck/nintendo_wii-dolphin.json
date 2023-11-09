@@ -50,7 +50,6 @@
     },
     "neptune": null
   },
-
   "imageProviderAPIs": {
     "SteamGridDB": {
       "nsfw": false,
