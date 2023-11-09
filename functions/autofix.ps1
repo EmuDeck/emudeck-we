@@ -132,7 +132,7 @@ function autofix_raSavesFolders(){
 					$subfolderPath = $subfolder.FullName
 					moveFromTo "$subfolderPath" "$destinationFolder"
 				}else{
-					echo "More than one subdirectory, skip"
+					echo "Core directory not found, skip"
 				}
 		}
 	}
@@ -189,7 +189,7 @@ function autofix_raSavesFolders(){
 					$subfolderPath = $subfolder.FullName
 					moveFromTo "$subfolderPath" "$destinationFolder"
 				}else{
-					echo "More than one subdirectory, skip"
+					echo "Core directory not found, skip"
 				}
 		}
 	}
@@ -252,7 +252,7 @@ function autofix_MAXMIN(){
 			if ($shortcutsContent -like "*/max*"){
 				confirmDialog -TitleText "We need to update your SRM shortcuts" -MessageText "We will close Steam now. When the update is completed you'll be able to use the new CloudSync visual notifications instead of the audio notifications"
 				taskkill /IM steam.exe /F
-				sedFile "$shorcutsPath" '/max' '/min'
+				sedFile "$filePath" '/max' '/min'
 			}
 		}
 	}else{
