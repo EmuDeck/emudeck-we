@@ -22,7 +22,7 @@ function PCSX2QT_init(){
 #	PCSX2QT_setupSaves
 	PCSX2QT_setResolution $pcsx2Resolution
 
-	if ("$doRASignIn" -eq "true" ){
+	if ("$achievementsUserToken" -ne "" ){
 		PCSX2QT_retroAchievementsSetLogin
 	}
 
@@ -106,8 +106,8 @@ function PCSX2QT_resetConfig(){
 	}
 }
 
-
-function PCSX2QT_retroAchievementsSetLogin(){
-	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
-	#setConfig "Token" $rat "$PCSX2QT_configFile"
+function PCSX2QT_retroAchievementsSetLogin() {
+	$content = Get-Content -Path $PCSX2QT_configFile -Raw
+	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $achievementsUser`nToken = $achievementsUserToken`nChallengeMode = $achievementsHardcore"
+	$content | Set-Content -Path $PCSX2QT_configFile -Encoding UTF8
 }

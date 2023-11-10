@@ -69,21 +69,14 @@ function RetroArch_init(){
 #	RetroArch_setupSaves
 
 	#retroAchievements
-	RetroArch_retroAchievementsSetLogin
-	if  ("$doRASignIn" -eq "true" ){
-		RetroArch_retroAchievementsOn
+	if ("$achievementsUserToken" -ne "" ){
+		RetroArch_retroAchievementsSetLogin
+		if ( "$achievementsHardcore" -eq "true" ){
+			RetroArch_retroAchievementsHardCoreOn
+		}else{
+			RetroArch_retroAchievementsHardCoreOff
+		}
 	}
-
-	if ( "$doRAEnable" -eq "true" ){
-		RetroArch_retroAchievementsOn
-	}
-
-	if ( "$achievementsHardcore" -eq "true" ){
-		RetroArch_retroAchievementsHardCoreOn
-	}else{
-		RetroArch_retroAchievementsHardCoreOff
-	}
-
 
 	#RA Bezels
 	RetroArch_setBezels #needs to change
@@ -1903,10 +1896,8 @@ function RetroArch_retroAchievementsHardCoreOff(){
 }
 
 function RetroArch_retroAchievementsSetLogin(){
-	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
-	$rau=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rau" -Raw
-	setConfigRA 'cheevos_token' $rat "$RetroArch_configFile"
-	setConfigRA 'cheevos_username' $rau "$RetroArch_configFile"
+	setConfigRA 'cheevos_token' $achievementsUserToken "$RetroArch_configFile"
+	setConfigRA 'cheevos_username' $achievementsUser "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 

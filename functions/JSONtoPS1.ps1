@@ -180,9 +180,13 @@ function JSONtoPS1(){
 	setSettinginFile("`$pegasusThemeUrl=`"$pegasusThemeUrl`"")
 	setSettinginFile("`$pegasusThemeName=`"$pegasusThemeName`"")
 
-	#Advanced settings
-	setSettinginFile("`$doRASignIn=`"true`"")
-	setSettinginFile("`$doRAEnable=`"true`"")
+	#RetroAchiviements
+	$achievementsUser=$myJson.achievements.user
+	$achievementsUserToken=$myJson.achievements.token
+	$achievementsHardcore=$myJson.achievements.hardcore
+	setSettinginFile("`$achievementsUser=`"$achievementsUser`"")
+	setSettinginFile("`$achievementsUserToken=`"$achievementsUserToken`"")
+	setSettinginFile("`$achievementsHardcore=`"$achievementsHardcore`"")
 
 	$arClassic3D = $myJson.ar.classic3d
 	$arDolphin = $myJson.ar.dolphin

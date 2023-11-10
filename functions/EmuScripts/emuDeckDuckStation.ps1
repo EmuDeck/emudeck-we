@@ -20,7 +20,7 @@ function DuckStation_init(){
 #	DuckStation_setupSaves
 	DuckStation_setResolution $duckstationResolution
 
-	if  ("$doRASignIn" -eq "true" ){
+	if ("$achievementsUserToken" -ne "" ){
 		DuckStation_retroAchievementsSetLogin
 	}
 
@@ -126,6 +126,7 @@ function DuckStation_wideScreenOff(){
 	setConfig "AspectRatio" "4:3" "$DuckStation_configFile"
 }
 function DuckStation_retroAchievementsSetLogin(){
-	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
-	setConfig "Token" $rat "$DuckStation_configFile"
+	$content = Get-Content -Path $DuckStation_configFile -Raw
+	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $achievementsUser`nToken = $achievementsUserToken`nChallengeMode = $achievementsHardcore"
+	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
 }
