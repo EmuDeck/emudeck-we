@@ -1,3 +1,5 @@
+$Ryujinx_configFile="$emusPath\RPCS3\config.yml"
+
 function RPCS3_install(){
 	setMSG "Downloading RPCS3"
 	$url_rpcs3 = getLatestReleaseURLGH "RPCS3/rpcs3-binaries-win" "7z"

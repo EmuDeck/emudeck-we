@@ -1,3 +1,5 @@
+$PPSSP_configFile="$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini"
+
 function PPSSPP_install(){
 	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
@@ -18,9 +20,8 @@ function PPSSPP_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
 
-
-	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"
-	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" ":\Emulation" ":/Emulation"
+	sedFile "$PPSSP_configFile" "C:/Emulation" "$emulationPath"
+	sedFile "$PPSSP_configFile" ":\Emulation" ":/Emulation"
 
 #	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution

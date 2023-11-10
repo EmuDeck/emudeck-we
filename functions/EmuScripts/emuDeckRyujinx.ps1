@@ -1,3 +1,5 @@
+$Ryujinx_configFile="$emusPath\Ryujinx\portable\Config.json"
+
 function Ryujinx_install(){
 	setMSG "Downloading Ryujinx"
 	$url_ryu = getLatestReleaseURLGH "Ryujinx/release-channel-master" "zip"

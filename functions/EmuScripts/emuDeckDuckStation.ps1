@@ -1,3 +1,5 @@
+$DuckStation_configFile="$emusPath\duckstation\settings.ini"
+
 function DuckStation_install(){
 	setMSG "Downloading DuckStation"
 	$url_duck = getLatestReleaseURLGH "stenzek/duckstation" "zip" "windows-x64" "symbols"
@@ -10,7 +12,7 @@ function DuckStation_init(){
 	New-Item -Path "$emusPath\duckstation\portable.txt" -ErrorAction SilentlyContinue
 	$destination="$emusPath\duckstation"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\DuckStation" $destination
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\DuckStation" $DuckStation_configFile
 
 	#Paths
 	sedFile $destination\settings.ini "C:\Emulation" "$emulationPath"
@@ -64,7 +66,7 @@ function DuckStation_setResolution($resolution){
 		"4K" { $multiplier = 9 }
 	}
 
-	setConfig "ResolutionScale" $multiplier "$emusPath\duckstation\settings.ini"
+	setConfig "ResolutionScale" $multiplier $DuckStation_configFile
 }
 
 function DuckStation_setupStorage(){
@@ -101,7 +103,7 @@ function DuckStation_finalize(){
 	Write-Output "NYI"
 }
 function DuckStation_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\duckstation"
+	$test=Test-Path -Path "$emusPath\duckstation\duckstation-qt-x64-ReleaseLTCG.exe"
 	if($test){
 		Write-Output "true"
 	}else{
@@ -116,14 +118,14 @@ function DuckStation_resetConfig(){
 }
 
 function DuckStation_wideScreenOn(){
-	setConfig "WidescreenHack" "true" "$emusPath\duckstation\settings.ini"
-	setConfig "AspectRatio" "16:9" "$emusPath\duckstation\settings.ini"
+	setConfig "WidescreenHack" "true" "$DuckStation_configFile"
+	setConfig "AspectRatio" "16:9" "$DuckStation_configFile"
 }
 function DuckStation_wideScreenOff(){
-	setConfig "WidescreenHack" "false" "$emusPath\duckstation\settings.ini"
-	setConfig "AspectRatio" "4:3" "$emusPath\duckstation\settings.ini"
+	setConfig "WidescreenHack" "false" "$DuckStation_configFile"
+	setConfig "AspectRatio" "4:3" "$DuckStation_configFile"
 }
 function DuckStation_retroAchievementsSetLogin(){
 	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
-	setConfig "Token" $rat "$emusPath\duckstation\settings.ini"
+	setConfig "Token" $rat "$DuckStation_configFile"
 }

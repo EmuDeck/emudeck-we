@@ -12,7 +12,7 @@ function appImageInit(){
 	autofix_emulatorInitLaunchers
 	autofix_MAXMIN
 	autofix_junctions
-
+	autofix_controllerSettings
 
 	# Init functions
 	setScreenDimensionsScale

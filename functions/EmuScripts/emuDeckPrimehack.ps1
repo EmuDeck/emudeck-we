@@ -1,4 +1,4 @@
-$Primehack_Settings="$emusPath\primehack\User\Config\Dolphin.ini"
+$Primehack_configFile="$emusPath\primehack\User\Config\Dolphin.ini"
 
 function Primehack_install(){
 	setMSG "Downloading PrimeHack"
@@ -30,7 +30,7 @@ function Primehack_update(){
 #	gameDirOpt='ISOPath0 = '
 #	newGameDirOpt='ISOPath0 = '"${romsPath}/primehack"
 #	mkdir newGameDirOpt -ErrorAction SilentlyContinue
-#	sedFile "$Primehack_Settings" "$gameDirOpt" $newGameDirOpt"
+#	sedFile "$Primehack_configFile" "$gameDirOpt" $newGameDirOpt"
 #}
 
 function Primehack_setupSaves(){

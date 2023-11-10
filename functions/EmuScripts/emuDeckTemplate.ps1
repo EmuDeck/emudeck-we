@@ -1,3 +1,5 @@
+$template_configFile=""
+
 function template_install(){
 	Write-Output "NYI"
 }

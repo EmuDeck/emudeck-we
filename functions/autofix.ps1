@@ -277,3 +277,45 @@ function autofix_junctions(){
 	}
 
 }
+
+function autofix_showDialogController($emuName){
+
+	$configVariable = $emuName + "_configFile"
+	$configFile = (Get-Variable -Name $configVariable -ValueOnly)
+
+
+	$initFunction = $emuName + "_init"
+	switch($emuName){
+		"Yuzu"{
+			$string='*player_0_button_a="engine:sdl,port:0,guid:03000000de280000ff11000000007801,button:1"*'
+		break
+		}
+		"Citra"{
+			$string='*profiles\1\button_a="button:1,engine:sdl,guid:0300b969de280000ff11000000007200,port:0"*'
+		break
+		}
+	}
+
+
+	$configContent = Get-Content -Path "$configFile"
+	if( $configContent -like "$string"){
+		echo "$emuName controller config ok"
+	}else{
+		$result = yesNoDialog -TitleText "$emuName's controls misconfigured" -MessageText "We've detected that your $emuName controls are not our defaults, this will prevent Yuzu's hotkeys to work since Steam Input won't work" -OKButtonText "Fix it" -CancelButtonText "Don't"
+
+			if ($result -eq "OKButton") {
+				& $initFunction
+			} else {
+				echo "nope"
+			}
+	}
+
+}
+
+function autofix_controllerSettings(){
+		echo $MyInvocation.MyCommand.Name
+
+		autofix_showDialogController "Citra"
+		autofix_showDialogController "Yuzu"
+
+}

@@ -1,3 +1,5 @@
+$melonD_configFile="$emusPath\melonDS\melonDS.ini"
+
 function melonDS_install(){
 	setMSG "Downloading melonDS"
 	$url_melonDS = getLatestReleaseURLGH "melonDS-emu/melonDS" "zip" "win_x64"
@@ -12,8 +14,8 @@ function melonDS_init(){
 
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\melonDS" "$destination"
 
-	sedFile $destination\melonDS.ini "/run/media/mmcblk0p1/Emulation" "$emulationPath"
-	sedFile $destination\melonDS.ini "\" "/"
+	sedFile "$melonD_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile "$melonD_configFile" "\" "/"
 
 	#melonDS_setupSaves
 	melonDS_setResolution $melondsResolution
@@ -42,8 +44,8 @@ function melonDS_setResolution($resolution){
 	}
 	$destination="$emusPath/melonDS"
 
-	setConfig "WindowWidth" $WindowWidth $destination\melonDS.ini
-	setConfig "WindowHeight" $WindowHeight $destination\melonDS.ini
+	setConfig "WindowWidth" $WindowWidth "$melonD_configFile"
+	setConfig "WindowHeight" $WindowHeight "$melonD_configFile"
 }
 
 
@@ -82,7 +84,7 @@ function melonDS_finalize(){
 	Write-Output "true"
 }
 function melonDS_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\melonDS"
+	$test=Test-Path -Path "$emusPath\melonDS\melonDS.exe"
 	if($test){
 		Write-Output "true"
 	}else{

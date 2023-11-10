@@ -1,3 +1,5 @@
+$PCSX2QT_configFile="$emusPath\PCSX2-Qt\inis\PCSX2.ini"
+
 function PCSX2QT_install(){
 	#$test=Test-Path -Path "$toolsPath\vc_redist.x86.exe"
 	winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
@@ -30,7 +32,7 @@ function PCSX2QT_update(){
 	Write-Outpute-Output "NYI"
 }
 function PCSX2QT_setEmulationFolder(){
-	sedFile $destination\inis\PCSX2.ini "C:\Emulation" "$emulationPath"
+	sedFile $PCSX2QT_configFile "C:\Emulation" "$emulationPath"
 }
 function PCSX2QT_setupSaves(){
 	#Saves
@@ -55,7 +57,7 @@ function PCSX2QT_setResolution($resolution){
 		"4K" { $multiplier = 6 }
 	}
 
-	setConfig "upscale_multiplier" $multiplier "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
+	setConfig "upscale_multiplier" $multiplier "$PCSX2QT_configFile"
 }
 function PCSX2QT_setupStorage(){
 	Write-Output "NYI"
@@ -107,5 +109,5 @@ function PCSX2QT_resetConfig(){
 
 function PCSX2QT_retroAchievementsSetLogin(){
 	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
-	#setConfig "Token" $rat "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
+	#setConfig "Token" $rat "$PCSX2QT_configFile"
 }

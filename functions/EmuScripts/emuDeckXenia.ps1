@@ -1,4 +1,4 @@
-$Xenia_Settings="${emusPath}\xenia\xenia-canary.config.toml"
+$Xenia_configFile="${emusPath}\xenia\xenia-canary.config.toml"
 
 function Xenia_install(){
 	setMSG "Downloading Xenia"

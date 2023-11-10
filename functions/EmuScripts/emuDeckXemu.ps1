@@ -1,4 +1,4 @@
-$Xemu_Settings="${emusPath}\xemu\xemu.toml"
+$Xemu_configFile="${emusPath}\xemu\xemu.toml"
 
 function Xemu_install(){
 	setMSG "Downloading Xemu"
@@ -10,8 +10,8 @@ function Xemu_install(){
 function Xemu_init(){
 	$destination="$emusPath\xemu"
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\xemu" "$destination"
-	sedFile $Xemu_Settings "/run/media/mmcblk0p1/Emulation" "$emulationPath"
-	sedFile $Xemu_Settings "/" '\'
+	sedFile $Xemu_configFile "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile $Xemu_configFile "/" '\'
 	Xemu_setupStorage
 	Xemu_setCustomizations
 	#Xemu_setResolution $xemuResolution
@@ -49,12 +49,12 @@ function Xemu_setABXYstyle(){
 function Xemu_wideScreenOn(){
 	$fit='fit = '
 	$fitSetting="$fit'scale_16_9'"
-	changeLine "$fit" "$fitSetting" "$Xemu_Settings"
+	changeLine "$fit" "$fitSetting" "$Xemu_configFile"
 }
 function Xemu_wideScreenOff(){
 	$fit='fit = '
 	$fitSetting="$fit'scale_4_3'"
-	changeLine "$fit" "$fitSetting" "$Xemu_Settings"
+	changeLine "$fit" "$fitSetting" "$Xemu_configFile"
 }
 function Xemu_bezelOn(){
 	Write-Output "NYI"

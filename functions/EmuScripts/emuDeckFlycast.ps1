@@ -63,7 +63,7 @@ function Flycast_finalize(){
 	Write-Output "NYI"
 }
 function Flycast_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\Flycast"
+	$test=Test-Path -Path "$emusPath\Flycast\flycast.exe"
 	if($test){
 		Write-Output "true"
 	}else{

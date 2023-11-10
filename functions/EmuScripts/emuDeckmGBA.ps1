@@ -61,7 +61,7 @@ function mGBA_finalize(){
 	Write-Output "true"
 }
 function mGBA_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\xemu"
+	$test=Test-Path -Path "$emusPath\mgba\mgba.exe"
 	if($test){
 		Write-Output "true"
 	}else{

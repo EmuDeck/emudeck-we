@@ -1,3 +1,5 @@
+$Yuzu_configFile="${emusPath}\yuzu\yuzu-windows-msvc\user\config\qt-config.ini"
+
 function Yuzu_install(){
 	setMSG "Downloading Yuzu"
 	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
