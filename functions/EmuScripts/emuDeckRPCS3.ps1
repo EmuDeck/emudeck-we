@@ -1,4 +1,4 @@
-$Ryujinx_configFile="$emusPath\RPCS3\config.yml"
+$RPCS3_configFile="$emusPath\RPCS3\config.yml"
 
 function RPCS3_install(){
 	setMSG "Downloading RPCS3"
