@@ -994,3 +994,28 @@ function startSteam($silent){
 	$steamArguments = "$silent"
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
+
+
+function setResolutions(){
+	Cemu_setResolution
+	Citra_setResolution
+	Dolphin_setResolution
+	DuckStation_setResolution
+	Flycast_setResolution
+	MAME_setResolution
+	melonDS_setResolution
+	mGBA_setResolution
+	PCSX2QT_setResolution
+	PPSSPP_setResolution
+	Primehack_setResolution
+	RetroArch_setResolution
+	RPCS3_setResolution
+	Ryujinx_setResolution
+	ScummVM_setResolution
+	SuperModel_setResolution
+	Template_setResolution
+	Vita3K_setResolution
+	Xemu_setResolution
+	Xenia_setResolution
+	Yuzu_setResolution
+}
