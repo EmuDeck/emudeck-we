@@ -39,7 +39,7 @@ function PCSX2QT_setupSaves(){
 	setMSG "PCSX2 - Saves Links"
 	#memcards
 	$simLinkPath = "$emusPath\PCSX2-Qt\memcards"
-	$emuSavePath = "$emulationPat\saves\pcsx2\saves"
+	$emuSavePath = "$emulationPath\saves\pcsx2\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#States
