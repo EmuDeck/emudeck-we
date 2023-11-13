@@ -6,7 +6,7 @@ function Flycast_install(){
 	$url_flycast = getLatestReleaseURLGH "flyinghead/flycast" "zip" "win64"
 	download $url_flycast "flycast.zip"
 	mkdir "$emusPath\flycast" -ErrorAction SilentlyContinue
-	Move-Item -Path "$temp\flycast.exe" -Destination "$EmusPath\flycast"
+	Move-Item -Path "$temp\flycaast\flycast.exe" -Destination "$EmusPath\flycast"
 	createLauncher "Flycast"
 }
 function Flycast_init(){

@@ -62,7 +62,12 @@ function Vita3K_finalize(){
 	Write-Output "NYI"
 }
 function Vita3K_IsInstalled(){
-	Write-Output "NYI"
+	$test=Test-Path -Path "$emusPath\vita3k\vita3k.exe"
+	if($test){
+		Write-Output "true"
+	}else{
+		Write-Output "false"
+	}
 }
 function Vita3K_resetConfig(){
 	Write-Output "NYI"
