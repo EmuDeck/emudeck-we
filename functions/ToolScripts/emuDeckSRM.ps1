@@ -378,9 +378,9 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 		createLauncher dolphin
 		$setupSaves+="Dolphin_setupSaves;"
 	}
-	if ($doInstallPCSX2 -eq "true" -or (PCSX2_isInstalled -like "*true*")){
+	if ($doInstallPCSX2 -eq "true" -or (PCSX2QT_isInstalled -like "*true*")){
 		createLauncher pcsx2
-		$setupSaves+="PCSX2_setupSaves;"
+		$setupSaves+="PCSX2QT_setupSaves;"
 	}
 	if ($doInstallRPCS3 -eq "true" -or (RPCS3_isInstalled -like "*true*")){
 		createLauncher rpcs3
