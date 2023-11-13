@@ -68,13 +68,13 @@ function ESDE_init(){
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
+	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
 
 	mkdir "$emulationPath/storage/downloaded_media" -ErrorAction SilentlyContinue
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
+	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
 
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
 	createLauncher "esde/EmulationStationDE"
@@ -176,7 +176,7 @@ function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', "$esdeThemeName"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml"
+	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
 
 }
 

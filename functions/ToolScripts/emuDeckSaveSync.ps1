@@ -322,7 +322,7 @@ function cloud_sync_config_with_code($code){
 
 	}
 
-	$content | Set-Content $cloud_sync_config_file_symlink
+	$content | Set-Content $cloud_sync_config_file_symlink -Encoding UTF8
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
@@ -437,7 +437,7 @@ function cloud_sync_download($emuName){
 							$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 							if (Test-Path -PathType Container $folder) {
-								echo $timestamp > "$lastUploadFile" 
+								echo $timestamp > "$lastUploadFile"
 								Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 							}
 						}
@@ -456,7 +456,7 @@ function cloud_sync_download($emuName){
 						$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 						if (Test-Path -PathType Container $folder) {
-							echo $timestamp > "$lastUploadFile" 
+							echo $timestamp > "$lastUploadFile"
 							Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 						}
 					}
@@ -556,7 +556,7 @@ function cloud_sync_upload{
 					$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 					if (Test-Path -PathType Container $folder) {
-						echo $timestamp > "$lastUploadFile" 
+						echo $timestamp > "$lastUploadFile"
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
 				}
@@ -740,7 +740,7 @@ function cloud_sync_lock($userPath){
 		$userFolder = "$userPath"
 	}
 
-	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
+	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline -Encoding UTF8
 	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Milliseconds 500
 	$toast.Close()

@@ -33,13 +33,13 @@ function Pegasus_init(){
 	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
 		(Get-Content $_.FullName) | ForEach-Object {
 			$_ -replace "CORESPATH/", "$emusPath\RetroArch\cores\"
-		} | Set-Content $_.FullName
+		} | Set-Content $_.FullName -Encoding UTF8
 	}
 
 	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
 		(Get-Content $_.FullName) | ForEach-Object {
 			$_ -replace "/run/media/mmcblk0p1/Emulation/tools/launchers/", "$toolsPath\launchers\"
-		} | Set-Content $_.FullName
+		} | Set-Content $_.FullName -Encoding UTF8
 	}
 
 	sedFile "$Pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
