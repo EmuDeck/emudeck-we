@@ -3,7 +3,7 @@ function SRM_install(){
 	$url_srm = getLatestReleaseURLGH 'dragoonDorise/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "srm.exe"
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
-	echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+	"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
 }
 function SRM_init(){
 
@@ -16,15 +16,16 @@ function SRM_init(){
 	  #Steam installation Path
 		$steamRegPath = "HKCU:\Software\Valve\Steam"
 		$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-		$steamInstallPath = $steamInstallPath.Replace("/", "\")
+		$steamInstallPath = $steamInstallPath.Replace("/", "\\")
 
-		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
+		$folders = Get-ChildItem -Path (Join-Path $steamInstallPath "userdata") -Directory
 
+		# Busca el archivo shortcuts.vdf en cada carpeta de userdata
 		foreach ($folder in $folders) {
-
-			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
-			if (Test-Path -Path "$filePath") {
-				$shorcutsPath = "$filePath"
+			$filePath = Join-Path $folder.FullName "shortcuts.vdf"
+			if (Test-Path -Path $filePath) {
+				$shorcutsPath = $filePath
+				$shorcutsContent = Get-Content -Path $filePath
 			}
 		}
 		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
@@ -40,7 +41,7 @@ function SRM_init(){
 		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
 		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
 
-		echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+		"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
   }
 
 
@@ -175,7 +176,7 @@ function SRM_init(){
 
   Start-Sleep -Seconds 1
 
-  echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
+  $exclusionList | Set-Content "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log" -Encoding UTF8
 
   if($steamAsFrontend -ne "False"){
 	  Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
@@ -194,16 +195,16 @@ function SRM_init(){
 	  Copy-Item -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\1_emulators.json" -Destination "$toolsPath\userData\parsers\emudeck\1_emulators.json" -Force
   }
 
-  $mainParserFolder = "$toolsPath\userData\parsers"
+  $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
+
+  $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile -Encoding UTF8
+
+  $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  $parserList = @()
-
-  Get-ChildItem -Path $mainParserFolder -Filter *.json -File -Recurse | ForEach-Object {
-	$parserList += Get-Content $_.FullName -Raw
-  }
-
-  "[`n" + ($parserList -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
+ (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile -Encoding UTF8
 
 
   #Steam installation Path
