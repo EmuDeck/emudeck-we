@@ -3,7 +3,7 @@ function SRM_install(){
 	$url_srm = getLatestReleaseURLGH 'dragoonDorise/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "srm.exe"
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
-	echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+	"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
 }
 
 function SRM_createParsers(){
@@ -163,7 +163,7 @@ function SRM_createParsers(){
 
 	Start-Sleep -Seconds 1
 
-	echo $exclusionList > "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log"
+	$exclusionList | Set-Content "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log" -Encoding UTF8
 
 	if($steamAsFrontend -ne "False"){
 		Get-ChildItem -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
@@ -233,7 +233,7 @@ function SRM_init(){
 		sedFile "$shorcutsPath" '"-g"' '-g'
 		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
 		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
-		echo "" > "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+		"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
 	}
 
 	setMSG 'Steam Rom Manager - Configuration'

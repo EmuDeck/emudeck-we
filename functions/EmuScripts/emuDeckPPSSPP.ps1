@@ -105,5 +105,5 @@ function PPSSPP_retroAchievementsSetLogin(){
 	$content = Get-Content -Path $PPSSP_configFile -Raw
 	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $achievementsUser`nAchievementsChallengeMode = $achievementsHardcore"
 	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
-	echo $achievementsUserToken > $PPSSP_cheevosTokenFile
+	$achievementsUserToken | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
 }

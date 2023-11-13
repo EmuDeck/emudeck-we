@@ -4,7 +4,7 @@
 cls
 $upload="Yes"
 $download="Yes"
-echo "" > "$userFolder/EmuDeck/logs/rclone.log"
+"" | Set-Content "$userFolder/EmuDeck/logs/rclone.log" -Encoding UTF8
 Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
 
 if ( ! $userFolder ){
@@ -34,7 +34,7 @@ function cloud_sync_download_test($emuName){
 
 		$target = "$emulationPath\saves\$emuName\"
 		if ( Test-Path "$target" ){
-			echo "test" > "$target\.temp" -ErrorAction SilentlyContinue
+			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
 			Write-Host "Testing $emuName download..."
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
@@ -57,7 +57,7 @@ function cloud_sync_upload_test($emuNAme){
 
 		$target = "$emulationPath\saves\$emuName\"
 		if ( Test-Path "$target" ){
-			echo "test" > "$target\.temp" -ErrorAction SilentlyContinue
+			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
 
 			Write-Host "Testing $emuName upload..."
