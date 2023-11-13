@@ -13,7 +13,7 @@ function setSetting($old, $new){
 	} else {
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$newLine += "`r`n"  # Agregar nueva línea al final del contenido
-		Add-Content $fileToCheck $newLine
+		Add-Content $fileToCheck $newLine -Encoding UTF8
 
 		Write-Host "New line '$newLine' created in $fileToCheck"
 	}
@@ -34,7 +34,7 @@ function setSettingNoQuotes($file, $old, $new){
 	} else {
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$newLine += "`r`n"  # Agregar nueva línea al final del contenido
-		Add-Content $fileToCheck $newLine
+		Add-Content $fileToCheck $newLine -Encoding UTF8
 
 		Write-Host "New line '$newLine' created in $fileToCheck"
 	}
@@ -52,7 +52,7 @@ function setSettingNoQuotes($file, $old, $new){
 		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,'=',$new)
-		Add-Content $fileToCheck $newLine
+		Add-Content $fileToCheck $newLine -Encoding UTF8
 		Write-Output "Line created on $fileToCheck"
 	}
 
@@ -194,7 +194,7 @@ function changeLine($Keyword,$Replace,$File) {
 		}
 	}
 
-	$NewContent | Set-Content $File
+	$NewContent | Set-Content $File -Encoding UTF8
 }
 
 function setMSG($message){
@@ -208,7 +208,7 @@ function setMSG($message){
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii "$userFolder\AppData\Roaming\EmuDeck\msg.log"
 	Write-Output $message
-	Add-Content "$userFolder\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline
+	Add-Content "$userFolder\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }
 

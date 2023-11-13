@@ -794,7 +794,7 @@ function cloud_sync_lock($userPath){
 		$userFolder = "$userPath"
 	}
 
-	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline
+	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline -Encoding UTF8
 	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Milliseconds 500
 	$toast.Close()

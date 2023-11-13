@@ -259,10 +259,10 @@ function JSONtoPS1(){
 	setSettinginFile("`$device=`"$device`"")
 
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1"
+	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
 
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1"
+	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
 
 	$mutex.ReleaseMutex()
 
