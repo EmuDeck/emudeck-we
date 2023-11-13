@@ -194,10 +194,10 @@ function RetroArch_init(){
 	mkdir "$biosPath/neocd" -ErrorAction SilentlyContinue
 
 
-	echo "Put your Mame bios here" > "$biosPath/mame/bios/readme.txt"
-	echo "Put your Dreamcast bios here" > "$biosPath/dc/readme.txt"
-	echo "Put your Neo Geo CD bios here" > "$biosPath/neocd/readme.txt"
-	echo "Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!" > "$biosPath/readme.txt"
+	"Put your Mame bios here" | Set-Content "$biosPath/mame/bios/readme.txt" -Encoding UTF8
+	"Put your Dreamcast bios here" | Set-Content "$biosPath/dc/readme.txt" -Encoding UTF8
+	"Put your Neo Geo CD bios here" | Set-Content "$biosPath/neocd/readme.txt" -Encoding UTF8
+	"Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!" | Set-Content "$biosPath/readme.txt" -Encoding UTF8
 
 	#Ally
 	if($device -eq "Asus Rog Ally"){

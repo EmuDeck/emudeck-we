@@ -7,7 +7,7 @@ function setSetting($old, $new){
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
 
-		echo $modifiedContents > $fileToCheck
+		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
 
 		Write-Host "Line '$line' changed to '$newLine'"
 	} else {
@@ -28,7 +28,7 @@ function setSettingNoQuotes($file, $old, $new){
 		$newLine = -join($old, '=', $new)
 		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
 
-		echo $modifiedContents > $fileToCheck
+		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
 
 		Write-Host "Line '$line' changed to '$newLine'"
 	} else {
@@ -48,7 +48,7 @@ function setSettingNoQuotes($file, $old, $new){
 		$newLine=-join($old,'=',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
-		echo $modifiedContents > $fileToCheck
+		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
 		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,'=',$new)

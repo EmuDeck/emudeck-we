@@ -437,7 +437,7 @@ function cloud_sync_download($emuName){
 							$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 							if (Test-Path -PathType Container $folder) {
-								echo $timestamp > "$lastUploadFile"
+								$timestamp | Set-Content "$lastUploadFile" -Encoding UTF8
 								Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 							}
 						}
@@ -456,7 +456,7 @@ function cloud_sync_download($emuName){
 						$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 						if (Test-Path -PathType Container $folder) {
-							echo $timestamp > "$lastUploadFile"
+							$timestamp | Set-Content "$lastUploadFile" -Encoding UTF8
 							Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 						}
 					}
@@ -556,7 +556,7 @@ function cloud_sync_upload{
 					$failUploadFile = "$savesPath/$emuName/.fail_upload"
 
 					if (Test-Path -PathType Container $folder) {
-						echo $timestamp > "$lastUploadFile"
+						$timestamp | Set-Content "$lastUploadFile" -Encoding UTF8
 						Remove-Item -Path "$failUploadFile" -Force -Recurse -ErrorAction SilentlyContinue
 					}
 				}
@@ -796,10 +796,10 @@ function cloud_sync_init($emulator){
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
-					echo "\" > $savesPath/.emulator
+					"\" | Set-Content $savesPath/.emulator -Encoding UTF8
 					cloud_sync_downloadEmuAll
 				}else{
-					echo "$emulator" > $savesPath/.emulator
+					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 					cloud_sync_downloadEmu $emulator
 				}
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
