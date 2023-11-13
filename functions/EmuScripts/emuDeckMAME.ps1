@@ -7,7 +7,8 @@ function MAME_install(){
 	download $url_MAME "mame.exe"
 	mkdir "$emusPath\mame" -ErrorAction SilentlyContinue
 	$installDir="$emusPath\mame"
-	Start-Process "$temp\mame.exe" -Wait -Args "-o\"$emusPath\mame\""
+	Start-Process -FilePath "$temp\mame.exe" -ArgumentList "x", "$temp\mame.7z", "-o$emusPath\mame", "-y", "-b" -Wait
+
 	createLauncher "MAME"
 }
 function MAME_init(){
