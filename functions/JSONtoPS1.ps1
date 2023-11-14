@@ -244,6 +244,8 @@ function JSONtoPS1(){
 	$emuNDS = $myJson.emulatorAlternative.nds
 	$emuPSP = $myJson.emulatorAlternative.psp
 	$emuPSX = $myJson.emulatorAlternative.psx
+	$emuDreamcast = $myJson.emulatorAlternative.dreamcast
+	$emuSCUMMVM= $myJson.emulatorAlternative.scummvm
 
 	setSettinginFile("`$emuGBA=`"$emuGBA`"")
 	setSettinginFile("`$emuMAME=`"$emuMAME`"")
@@ -252,7 +254,8 @@ function JSONtoPS1(){
 	setSettinginFile("`$emuNDS=`"$emuNDS`"")
 	setSettinginFile("`$emuPSP=`"$emuPSP`"")
 	setSettinginFile("`$emuPSX=`"$emuPSX`"")
-
+	setSettinginFile("`$emuDreamcast=`"$emuDreamcast`"")
+	setSettinginFile("`$emuSCUMMVM=`"$emuSCUMMVM`"")
 
 
 	$device = $myJson.device

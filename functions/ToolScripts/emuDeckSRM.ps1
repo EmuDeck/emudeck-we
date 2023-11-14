@@ -65,40 +65,41 @@ function SRM_createParsers(){
 
 
 	#psx
-		if ( "$emuPSX" -ne "both" ){
-			if ( "$emuPSX" -eq "duckstation" ){
+	if ( "$emuPSX" -ne "both" ){
+		if ( "$emuPSX" -eq "duckstation" ){
 			$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
 			$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
-			}else{
+		}else{
 			$exclusionList = $exclusionList + 'sony_psx-duckstation.json'
-			}
 		}
+	}
 
 	#psp
 	if ( "$emuPSP" -ne "both" ){
 		if ( "$emuPSP" -eq "ppsspp" ){
-		$exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
+			$exclusionList = $exclusionList + 'sony_psp-ra-ppsspp.json'
 		}else{
-		$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'
+			$exclusionList = $exclusionList + 'sony_psp-ppsspp.json'
 		}
 	}
 
 	#melonDS
 	if ( "$emuNDS" -ne "both" ){
 		if ( "$emuNDS" -eq "melonDS" ){
-		$exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
+			$exclusionList = $exclusionList + 'nintendo_ds-ra-melonds.json'
 		}else{
-		$exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
+			$exclusionList = $exclusionList + 'nintendo_ds-melonds.json'
 		}
 	}
 
 	#FlyCast
-	if ( "$emuDream" -ne "both" ){
-		if ( "$emuDream" -eq "flycast" ){
-		$exclusionList = $exclusionList + 'sony_psx-ra-swanstation.json'
-		$exclusionList = $exclusionList + 'sony_psx-ra-beetle_psx_hw.json'
+	if ( "$emuDreamcast" -ne "both" ){
+		if ( "$emuDreamcast" -eq "flycast" ){
+			$exclusionList = $exclusionList + 'sega_dreamcast-ra-flycast.json'
+			$exclusionList = $exclusionList + 'arcade_naomi-ra-flycast.json'
 		}else{
-		$exclusionList = $exclusionList + 'sega-dreamcast-flycast.json'
+			$exclusionList = $exclusionList + 'sega_dreamcast-flycast.json'
+			$exclusionList = $exclusionList + 'arcade_naomi-flycast.json'
 		}
 	}
 	#gba
