@@ -198,7 +198,7 @@ function SRM_init(){
   $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
 
   $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding utf8NoBOM
   (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
   $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
@@ -248,6 +248,16 @@ function SRM_init(){
 	sedFile "$toolsPath\userData\controllerTemplates.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\controllerTemplates.json" "\\\" "\\"
 
+
+	#Remove BOM
+	$userConfigsFile="$toolsPath\userData\userConfigurations.json"
+	$content = Get-Content -Path $userConfigsFile -Raw
+
+	# Crear un codificador para UTF-8 sin BOM
+	$killBOM = New-Object System.Text.UTF8Encoding $false
+
+	# Escribe el contenido de nuevo al archivo sin el BOM
+	[System.IO.File]::WriteAllText($userConfigsFile, $content, $killBOM)
 
   #Desktop Icon
   #createLink "$toolsPath\srm.exe" "$env:USERPROFILE\Desktop\EmuDeck - Steam Rom Manager.lnk"
