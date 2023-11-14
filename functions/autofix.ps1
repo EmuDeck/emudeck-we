@@ -56,6 +56,10 @@ function autofix_dynamicParsers(){
 		setSetting emuPSX "duckstation"
 		SRM_init
 	}
+	if( -not $emuDreamcast -or -not $emuSCUMMVM ){
+		setSetting emuDreamcast "multiemulator"
+		setSetting emuSCUMMVM "scummvm"
+	}
 }
 
 
