@@ -191,8 +191,8 @@ function SRM_createParsers(){
 	$parserList += Get-Content $_.FullName -Raw
 	}
 
-	"[`n" + ($parserList -join ","	) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-	(get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile -Encoding UTF8
+	"[`n" + ($parserList -join ","	) + "`n]" | Out-File $mainParserFile
+	(get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 }
 
