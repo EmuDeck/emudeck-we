@@ -57,5 +57,8 @@ function template_IsInstalled(){
 	}
 }
 function template_resetConfig(){
-	Write-Output "NYI"
+	template_init
+	if($?){
+		Write-Output "true"
+	}
 }

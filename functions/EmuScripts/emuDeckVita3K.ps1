@@ -70,5 +70,8 @@ function Vita3K_IsInstalled(){
 	}
 }
 function Vita3K_resetConfig(){
-	Write-Output "NYI"
+	Vita3K_init
+	if($?){
+		Write-Output "true"
+	}
 }

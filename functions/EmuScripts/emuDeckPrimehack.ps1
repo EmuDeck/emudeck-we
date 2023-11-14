@@ -105,5 +105,8 @@ function Primehack_IsInstalled(){
 	}
 }
 function Primehack_resetConfig(){
-	Write-Output "true"
+	Primehack_init
+	if($?){
+		Write-Output "true"
+	}
 }

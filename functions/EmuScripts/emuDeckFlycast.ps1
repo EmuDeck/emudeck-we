@@ -79,5 +79,8 @@ function Flycast_IsInstalled(){
 	}
 }
 function Flycast_resetConfig(){
-	Write-Output "NYI"
+	Flycast_init
+	if($?){
+		Write-Output "true"
+	}
 }

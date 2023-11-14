@@ -113,4 +113,7 @@ function MAME_IsInstalled(){
 }
 function MAME_resetConfig(){
 	MAME_init
+	if($?){
+		Write-Output "true"
+	}
 }

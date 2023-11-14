@@ -63,5 +63,8 @@ function ScummVM_IsInstalled(){
 	}
 }
 function ScummVM_resetConfig(){
-	Write-Output "NYI"
+	ScummVM_init
+	if($?){
+		Write-Output "true"
+	}
 }

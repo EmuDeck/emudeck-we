@@ -69,5 +69,8 @@ function mGBA_IsInstalled(){
 	}
 }
 function mGBA_resetConfig(){
-	Write-Output "true"
+	mGBA_init
+	if($?){
+		Write-Output "true"
+	}
 }
