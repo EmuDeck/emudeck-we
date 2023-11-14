@@ -19,13 +19,13 @@ function Vita3K_update(){
 	Write-Output "NYI"
 }
 function Vita3K_setEmulationFolder(){
-	$prefpath_directoryOpt='pref-path: '
-	$newprefpath_directoryOpt="$prefpath_directoryOpt""$storagePath\Vita3K\"
-	changeLine "$prefpath_directoryOpt" "$newprefpath_directoryOpt" "$Vita3K_configFile"
+	sedFile "$Vita3K_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 }
 function Vita3K_setupSaves(){
 	setMSG "Vita3K - Saves Links"
 	mkdir "$storagePath\Vita3K\ux0\user\00\savedata" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath\saves\Vita3K\saves" -ErrorAction SilentlyContinue
+	createSymlink "$emulationPath\storage\Vita3K\ux0\user\00\savedata" "$emulationPath\saves\Vita3K\saves"
 }
 function Vita3K_setupStorage(){
 	mkdir "$storagePath\Vita3K\ux0\app" -ErrorAction SilentlyContinue
