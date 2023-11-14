@@ -10,7 +10,9 @@ function Flycast_install(){
 	createLauncher "Flycast"
 }
 function Flycast_init(){
-	Flycast_setupStorage
+	$destination="$emusPath\flycast"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\flycast" "$destination"
+	#Flycast_setupStorage
 	Flycast_setEmulationFolder
 	#Flycast_setupSaves
 }
@@ -18,16 +20,22 @@ function Flycast_update(){
 	Write-Output "NYI"
 }
 function Flycast_setEmulationFolder(){
-	$ContentPathSetting='Dreamcast.ContentPath = '
-	changeLine "$ContentPathSetting" "$ContentPathSetting""$romsPath/dreamcast" "$Flycast_configFile"
-
-	#Setup symlink for bios
-	mkdir "${biosPath}/flycast/" -ErrorAction SilentlyContinue
-	#createSymlink "${biosPath}/flycast/"
+	sedFile "$PPSSP_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	#Setup bios folder
+	#mkdir "$biosPath}/flycast/" -ErrorAction SilentlyContinue
 
 }
 function Flycast_setupSaves(){
-	Write-Output "NYI"
+
+	#Saves
+	setMSG "Flycast - Saves Links"
+
+	#Saves
+	$simLinkPath = "$emusPath\flycast\data"
+	$emuSavePath = "$emulationPath\saves\flycast\saves"
+	createSaveLink $simLinkPath $emuSavePath
+
+
 }
 function Flycast_setupStorage(){
 	Write-Output "NYI"
