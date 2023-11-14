@@ -201,6 +201,12 @@ function SRM_createParsers(){
 	sedFile "$toolsPath\userData\userConfigurations.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\userConfigurations.json" "\\\" "\\"
 
+	#Remove BOM
+	$userConfigsFile="$toolsPath\userData\userConfigurations.json"
+	$content = Get-Content -Path $userConfigsFile -Raw
+	$killBOM = New-Object System.Text.UTF8Encoding $false
+	[System.IO.File]::WriteAllText($userConfigsFile, $content, $killBOM)
+
 }
 
 function SRM_addSteamInputProfiles(){
