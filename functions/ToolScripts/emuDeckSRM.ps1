@@ -198,13 +198,13 @@ function SRM_init(){
   $mainParserFolder = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\parsers\emudeck"
 
   $mainParserFile = "$env:USERPROFILE\AppData\Roaming\steam-rom-manager\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
-  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile -Encoding UTF8
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile
+  (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
   $mainParserFolder = "$toolsPath\userData\parsers\emudeck"
   $mainParserFile = "$toolsPath\userData\userConfigurations.json"
-  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile -Encoding UTF8
- (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile -Encoding UTF8
+  "[`n" + ((Get-Content "$mainParserFolder\*.json" -raw) -join ","  ) + "`n]" | Out-File $mainParserFile
+ (get-content $mainParserFile) -replace '\x00','' | set-content $mainParserFile
 
 
   #Steam installation Path
