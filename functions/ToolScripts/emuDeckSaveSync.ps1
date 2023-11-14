@@ -118,7 +118,7 @@ function Get-Custom-Credentials($provider){
 		$password = $textBoxPassword.Text
 		$url = $textBoxUrl.Text
 		$port = $textBoxPort.Text
-		#stopLog
+		stopLog
 		return [PSCustomObject]@{
 			Username = $username
 			Password = $password
@@ -147,7 +147,7 @@ $scriptContent = @"
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Start-Sleep -Seconds 2
 
-	#stopLog
+	stopLog
 
 }
 
@@ -182,21 +182,13 @@ function cloud_sync_install($cloud_sync_provider){
 	 	moveFromTo "$temp/rclone" "$toolsPath"
 		}
  	}
- 	#stopLog
+ 	stopLog
 }
 
 function cloud_sync_toggle($status){
 	startLog($MyInvocation.MyCommand.Name)
     setSetting "cloud_sync_status" $status
-	#stopLog
-}
-
-#we create the folders to avoid errors in some providers
-function createCloudFile($folder) {
-	$cloudFilePath = Join-Path $folder ".cloud"
-	if (-not (Test-Path $cloudFilePath)) {
-		New-Item -Path $cloudFilePath -ItemType File
-	}
+	stopLog
 }
 
 function cloud_sync_config($cloud_sync_provider){
@@ -206,6 +198,10 @@ function cloud_sync_config($cloud_sync_provider){
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
+
+
+
+
 
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
@@ -273,7 +269,76 @@ function cloud_sync_config($cloud_sync_provider){
 		Write-Output 'true'
 	}
 
+	#we create the folders to avoid errors in some providers
+	function createCloudFile($folder) {
+		$cloudFilePath = Join-Path $folder ".cloud"
+		if (-not (Test-Path $cloudFilePath)) {
+			New-Item -Path $cloudFilePath -ItemType File
+		}
+	}
 
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\Cemu\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\citra\saves" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\citra\states";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\dolphin\GC";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\dolphin\StateSaves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\dolphin\Wii";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\duckstation\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\duckstation\states";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\MAME\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\MAME\states";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\melonds\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\melonds\states";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\primehack\GC" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\primehack\StateSaves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\primehack\Wii" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\mgba\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\mgba\states" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\pcsx2\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\pcsx2\states" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\ppsspp\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\ppsspp\states" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\retroarch\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\retroarch\states" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\rpcs3\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\scummvm\saves" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\Vita3K\saves";
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\yuzu\saves" ;
+	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\yuzu\profiles";
+
+
+	#Add-Type -AssemblyName PresentationFramework
+	#[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
+	#
+	#foreach($_ in Get-Content $cloud_sync_config_file_symlink) {
+	#	if ($_ -like "*Emudeck*") {
+	#		$section = $_
+	#	}elseif ($_ -match "^token\s*=\s*(\S.*)$") {
+	#		$token = $_
+	#		$stop = $true
+	#		break
+	#	}
+	#}
+	#
+	##Cleanup
+	#$section = $section.Replace("[", "")
+	#$section = $section.Replace("]", "")
+	#
+	#$token = $token.Replace("token =", "")
+	#$token = $token.Replace("token =", "")
+	#$token = $token.Replace('"', "'")
+	#
+	#$json = '{ "section": "' + $section + '", "token": "' + $token + '" }'
+	#
+	#$headers = @{
+	#	"content-type"="application/x-www-form-urlencoded"
+	#	"Content-Encoding"="utf-8"
+	#}
+	#
+	#$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType #"application/x-www-form-urlencoded"
+	#Add-Type -AssemblyName PresentationFramework
+	#[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this #code:`n$response", "Success!")
+	stopLog
 }
 
 function cloud_sync_config_with_code($code){
@@ -315,14 +380,14 @@ function cloud_sync_config_with_code($code){
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_install_and_config($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config($cloud_sync_provider)
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_install_and_config_with_code($cloud_sync_provider){
@@ -373,14 +438,14 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config_with_code($code)
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_uninstall(){
 	startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "false"
 	rm -fo "$cloud_sync_path" -Recurse
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_download($emuName){
@@ -487,7 +552,7 @@ function cloud_sync_download($emuName){
 		$dialog.Close()
 	}
 
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_save_hash($target){
@@ -633,7 +698,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 		}
 	}
 
-#stopLog
+stopLog
 }
 
 function cloud_sync_createBackup($emuName){
@@ -707,7 +772,7 @@ function cloud_sync_downloadEmuAll(){
 		cloud_sync_downloadEmu $emuName 'check-conflicts'
 	}
 	cloud_sync_download 'all'
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_uploadEmuAll(){
@@ -733,7 +798,7 @@ function cloud_sync_lock($userPath){
 	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Milliseconds 500
 	$toast.Close()
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_unlock($userPath){
@@ -745,7 +810,7 @@ function cloud_sync_unlock($userPath){
 	$toast = steamToast -MessageText "Uploads completed!"
 	Start-Sleep -Milliseconds 500
 	$toast.Close()
-	#stopLog
+	stopLog
 }
 
 function cloud_sync_check_lock(){
@@ -884,5 +949,5 @@ namespace CloseButtonToggle {
 		Start-Sleep -Seconds 1
 		$toast.Close()
 	}
-	#stopLog
+	stopLog
 }
