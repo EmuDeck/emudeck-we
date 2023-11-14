@@ -201,6 +201,9 @@ function SRM_createParsers(){
 	sedFile "$toolsPath\userData\userConfigurations.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\userConfigurations.json" "\\\" "\\"
 
+	#Vita3K
+	sedFile "$toolsPath\userData\userConfigurations.json"  '${/.*[/\\\]([^/\\\]+)[/\\\]/|${filePath}}' '${/.*[/\\\\]([^/\\\\]+)[/\\\\]/|${filePath}}'
+
 }
 
 function SRM_addSteamInputProfiles(){
