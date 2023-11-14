@@ -201,6 +201,9 @@ function SRM_createParsers(){
 	sedFile "$toolsPath\userData\userConfigurations.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\userConfigurations.json" "\\\" "\\"
 
+	#Vita3K
+	sedFile "$toolsPath\userData\userConfigurations.json"  '${/.*[/\\\]([^/\\\]+)[/\\\]/|${filePath}}' '${/.*[/\\\\]([^/\\\\]+)[/\\\\]/|${filePath}}'
+
 	#Remove BOM
 	$userConfigsFile="$toolsPath\userData\userConfigurations.json"
 	$content = Get-Content -Path $userConfigsFile -Raw
