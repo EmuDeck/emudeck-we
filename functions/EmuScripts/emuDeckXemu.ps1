@@ -14,13 +14,18 @@ function Xemu_init(){
 	sedFile $Xemu_configFile "/" '\'
 	Xemu_setupStorage
 	Xemu_setCustomizations
+	Xemu_setupSaves
 	#Xemu_setResolution $xemuResolution
 }
 function Xemu_update(){
 	Write-Output "NYI"
 }
 function Xemu_setupSaves(){
-	Write-Output "NYI"
+	mkdir "$savesPath\xemu" -ErrorAction SilentlyContinue
+	"$storagePath\xemu"
+	$simLinkPath = "$storagePath\xemu"
+	$emuSavePath = "$savesPath\xemu\saves"
+	createSaveLink $simLinkPath $emuSavePath
 }
 function Xemu_setResolution($resolution){
 	Write-Output $resolution
