@@ -76,7 +76,6 @@ function setConfigRA($old, $new, $fileToCheck){
 	}
 }
 
-
 function getLocations() {
 	$drives = Get-WmiObject -Class Win32_DiskDrive
 
@@ -153,10 +152,22 @@ function customLocation(){
 }
 
 function testLocationValid($mode, $path){
-	if (!$path){
-		Write-Output "Wrong"
+
+	$globPath = $path[0] +":"
+
+	$driveInfo = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='$globPath'"
+	if ($driveInfo.DriveType -eq 4) {
+		Write-Host "Valid"
 	}else{
-		Write-Output "Valid"
+		rm -fo "$globPath\test" -Recurse
+		$null = New-Item -ItemType Junction -Path "$globPath\test" -Target "$env:APPDATA\EmuDeck\backend" -Force
+		if($?){
+			rm -fo "$globPath\test" -Recurse
+			Write-Output "Valid"
+		} else {
+			Write-Output "Wrong"
+		}
+
 	}
 }
 
@@ -168,8 +179,22 @@ function escapeSedValue($input){
 	Write-Output $input
 }
 
-function changeLine($keyword, $replace, $file){
-	(Get-Content $file).replace($keyword, $replace) | Set-Content $file -Encoding UTF8
+function changeLine($Keyword,$Replace,$File) {
+
+	Write-Host "Updating: $File - $Keyword to $Replace"
+
+	$Content = Get-Content $File
+	$NewContent = @()
+
+	foreach ($line in $Content) {
+		if ($line -match "^$Keyword") {
+			$NewContent += $Replace
+		} else {
+			$NewContent += $line
+		}
+	}
+
+	$NewContent | Set-Content $File -Encoding UTF8
 }
 
 function setMSG($message){
@@ -190,7 +215,7 @@ function setMSG($message){
 
 #Used in the appimage only
 function checkForFile($fileName){
-	(Get-ChildItem -Path "$env:USERPROFILE\AppData\Roaming\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
+	(Get-ChildItem -Path "$env:APPDATA\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
 }
 
 
@@ -395,31 +420,55 @@ function confirmDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 	# This is the XAML that defines the GUI.
 	$WPFXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
- <Grid Name="grid">
-			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-				<StackPanel>
-					<Border Margin="20,20,0,20" Background="Transparent">
-						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-					</Border>
-					<Border Margin="20,0,20,0" Background="Transparent">
-						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-					</Border>
-					<Border Margin="20,0,20,20" Background="Transparent">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+		Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+ 	   	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		 	<Grid Name="grid">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+					<StackPanel>
+						<Border Margin="20,10,0,20" Background="Transparent">
+							<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+						</Border>
+						<Border Margin="20,0,20,0" Background="Transparent">
+							<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+						</Border>
+						<Border Margin="20,0,20,20" Background="Transparent">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,0" >
+								<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" MaxWidth="175" Background="Transparent" FontSize="16" Foreground="White">
+									<Button.Style>
+										<Style TargetType="Button">
+											<Setter Property="Background" Value="#5bf" />
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="Button">
+														<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+															<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+														</Border>
+														<ControlTemplate.Triggers>
+															<Trigger Property="IsMouseOver" Value="True">
+																<Setter Property="Background" Value="#fff" />
+															</Trigger>
+														</ControlTemplate.Triggers>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</Button.Style>
+								</Button>
+							</Border>
+						</StackPanel>
+						</Border>
 					</StackPanel>
-					</Border>
-				</StackPanel>
-			</ScrollViewer>
-		</Grid>
+				</ScrollViewer>
+			</Grid>
+		</Border>
 </Window>
 '@
 
@@ -456,20 +505,22 @@ function yesNoDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel",
 		[bool]$ShowCancelButton = $true
 
 	)
 	# This is the XAML that defines the GUI.
+
 	$WPFXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+		Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
  <Grid Name="grid">
 			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 				<StackPanel>
-					<Border Margin="20,20,0,20" Background="Transparent">
+					<Border Margin="20,10,0,20" Background="Transparent">
 						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
 					</Border>
 					<Border Margin="20,0,20,0" Background="Transparent">
@@ -477,13 +528,58 @@ function yesNoDialog {
 					</Border>
 					<Border Margin="20,0,20,20" Background="Transparent">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
-						<Button Name="CancelButton" Content="_CANCELBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+						<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,0" >
+							<Button Name="OKButton" BorderBrush="Transparent" Content="_OKBUTTONTEXT_" Background="Transparent" FontSize="16" Foreground="White">
+								<Button.Style>
+									<Style TargetType="Button">
+										<Setter Property="Background" Value="#5bf" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="Button">
+													<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+														<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsMouseOver" Value="True">
+															<Setter Property="Background" Value="#fff" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+						</Border>
+						<Border CornerRadius="20" BorderBrush="#666" BorderThickness="1" Background="#666">
+							<Button Name="CancelButton" Content="_CANCELBUTTONTEXT_" Margin="0"  Background="Transparent" BorderBrush="Transparent" FontSize="16" Foreground="White">
+								<Button.Style>
+									<Style TargetType="Button">
+										<Setter Property="Background" Value="#666" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="Button">
+													<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+														<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsMouseOver" Value="True">
+															<Setter Property="Background" Value="#fff" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+						</Border>
 					</StackPanel>
 					</Border>
 				</StackPanel>
 			</ScrollViewer>
 		</Grid>
+</Border>
 </Window>
 '@
 
@@ -530,7 +626,7 @@ function cleanDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 
@@ -538,19 +634,21 @@ function cleanDialog {
 	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
-	<Grid Name="grid">
-		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-			<StackPanel>
-				<Border Margin="20,20,0,20" Background="Transparent">
-					<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-				</Border>
-				<Border Margin="20,0,20,20" Background="Transparent">
-					<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-				</Border>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+		Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,10,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Border>
 </Window>
 "@
 
@@ -570,7 +668,7 @@ function cleanDialogBottomRight {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 
@@ -578,19 +676,21 @@ function cleanDialogBottomRight {
 	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
-	<Grid Name="grid">
-		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-			<StackPanel>
-				<Border Margin="20,20,0,20" Background="Transparent">
-					<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-				</Border>
-				<Border Margin="20,0,20,20" Background="Transparent">
-					<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-				</Border>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+		Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,10,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Border>
 </Window>
 "@
 
@@ -611,7 +711,7 @@ function cloudDialog {
 		[string]$TitleText = "",
 		[string]$MessageText = "",
 		[string]$Img = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 
@@ -628,14 +728,16 @@ function cloudDialog {
 	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="Transparent" Foreground="#00FFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual" Width="50" Height="50" Top="$top" Left="$left" WindowStyle="None" MaxWidth="50" Padding="0" Margin="0" Topmost="True" AllowsTransparency="True">
-	<Grid Name="grid">
-		<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-			<StackPanel>
-				<Image Name="Picture" Width="50"  Height="50"/>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+		Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#00FFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual" Width="50" Height="50" Top="$top" Left="$left" WindowStyle="None" MaxWidth="50" Padding="0" Margin="0" Topmost="True" AllowsTransparency="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Image Name="Picture" Width="50"  Height="50"/>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Border>
 </Window>
 "@
 
@@ -672,15 +774,21 @@ function startScriptWithAdmin {
 function createSymlink($source, $target){
 #target is the real folder, source is the simlink because...windows
 mkdir "$target" -ErrorAction SilentlyContinue
+#
+if ($networkInstallation -eq "false"){
+	New-Item -ItemType Junction -Path "$source"  -Target "$target" -ErrorAction SilentlyContinue
+} else {
+
 if(testAdministrator -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
 	$scriptContent = @"
-		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
+		. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 "@
 
 	startScriptWithAdmin -ScriptContent $scriptContent
+}
 }
 }
 
@@ -699,7 +807,13 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		$folderInfo = Get-Item -Path $simLinkPath
 
 		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-			echo "Symlink already exists, we do nothing"
+			if ($networkInstallation -eq "false"){
+				echo "Symlink already exists, we delete it and make it a junction"
+				rm -fo $simLinkPath -Recurse
+				New-Item -ItemType Junction -Path "$simLinkPath"  -Target "$emuSavePath"
+			}else{
+				echo "Symlink already exists, we do nothing since this is a network installation"
+			}
 		} else {
 			#Check if we have space
 
@@ -718,7 +832,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			# We copy the saves to the Emulation/saves Folder and we create a backup
 			echo "Creating saves symlink"
 			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force
-			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse
+			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
 
 			if ($?) {
 				$backupSuffix = "_bak"
@@ -794,6 +908,34 @@ function setScreenDimensionsScale(){
 	. "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
+function fullScreenToast {
+
+	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+
+	$form = New-Object Windows.Forms.Form
+	$form.Text = "Popup"
+	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
+	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
+	$form.BackColor = [System.Drawing.Color]::Black
+
+	# Obtener el tamaño de la pantalla
+	$screenWidth = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
+	$screenHeight = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+
+	$form.Width = $screenWidth
+	$form.Height = $screenHeight
+
+	$pictureBox = New-Object Windows.Forms.PictureBox
+	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
+	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
+	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
+
+	$form.Controls.Add($pictureBox)
+	$form.Show()
+
+	return $form
+}
+
 function steamToast {
   param (
 	[string]$TitleText = "CloudSync",
@@ -815,8 +957,9 @@ function steamToast {
   $WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	  Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
+	  Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
 	  Width="$WindowWidth" Height="$WindowHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#000000">
 	<Grid Name="grid">
 	  <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
 		<StackPanel>
@@ -832,6 +975,7 @@ function steamToast {
 		</StackPanel>
 	  </ScrollViewer>
 	</Grid>
+	</Border>
   </Window>
 "@
 
@@ -890,4 +1034,84 @@ function zipLogs(){
 		Write-Host "false"
 	}
 
+}
+
+function hideMe(){
+$ShowWindowAsyncCode = '[DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);'
+  $ShowWindowAsync = Add-Type -MemberDefinition $ShowWindowAsyncCode -name Win32ShowWindowAsync -namespace Win32Functions -PassThru
+
+  $hwnd = (Get-Process -PID $pid).MainWindowHandle
+  if ($hwnd -ne [System.IntPtr]::Zero) {
+	# When you got HWND of the console window:
+	# (It would appear that Windows Console Host is the default terminal application)
+	$ShowWindowAsync::ShowWindowAsync($hwnd, 0)
+  } else {
+	# When you failed to get HWND of the console window:
+	# (It would appear that Windows Terminal is the default terminal application)
+
+	# Mark the current console window with a unique string.
+	$UniqueWindowTitle = New-Guid
+	$Host.UI.RawUI.WindowTitle = $UniqueWindowTitle
+	$StringBuilder = New-Object System.Text.StringBuilder 1024
+
+	# Search the process that has the window title generated above.
+	$TerminalProcess = (Get-Process | Where-Object { $_.MainWindowTitle -eq $UniqueWindowTitle })
+	# Get the window handle of the terminal process.
+	# Note that GetConsoleWindow() in Win32 API returns the HWND of
+	# powershell.exe itself rather than the terminal process.
+	# When you call ShowWindowAsync(HWND, 0) with the HWND from GetConsoleWindow(),
+	# the Windows Terminal window will be just minimized rather than hidden.
+	$hwnd = $TerminalProcess.MainWindowHandle
+	if ($hwnd -ne [System.IntPtr]::Zero) {
+	  $ShowWindowAsync::ShowWindowAsync($hwnd, 0)
+	} else {
+	  Write-Host "Failed to hide the console window."
+	}
+  }
+ }
+
+function checkAndStartSteam(){
+	$steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
+	if (!$steamRunning) {
+		startSteam "-silent"
+	}
+}
+
+function startSteam($silent){
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	$steamArguments = "$silent"
+	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
+}
+
+function killBOM($file){
+	$content = Get-Content -Path $file -Raw
+	$killBOM = New-Object System.Text.UTF8Encoding $false
+	[System.IO.File]::WriteAllText($file, $content, $killBOM)
+}
+
+
+function setResolutions(){
+	Cemu_setResolution
+	Citra_setResolution
+	Dolphin_setResolution
+	DuckStation_setResolution
+	Flycast_setResolution
+	MAME_setResolution
+	melonDS_setResolution
+	mGBA_setResolution
+	PCSX2QT_setResolution
+	PPSSPP_setResolution
+	Primehack_setResolution
+	RetroArch_setResolution
+	RPCS3_setResolution
+	Ryujinx_setResolution
+	ScummVM_setResolution
+	SuperModel_setResolution
+	Template_setResolution
+	Vita3K_setResolution
+	Xemu_setResolution
+	Xenia_setResolution
+	Yuzu_setResolution
 }

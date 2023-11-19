@@ -15,10 +15,10 @@ $f5 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\fu
 . $f4
 . $f5
 
-"" | Set-Content $savesPath/.watching -Encoding UTF8
-
 $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
 $emuName = Get-Content "$savesPath/.emulator"
+$lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
+rm -fo $lockFile
 
 # specify the path to the folder you want to watch:
 

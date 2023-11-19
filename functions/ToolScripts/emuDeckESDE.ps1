@@ -64,7 +64,7 @@ function ESDE_init(){
 
 	$destination="$esdePath\.emulationstation"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination"
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
@@ -234,9 +234,9 @@ function ESDE_setEmu($emu, $system){
 
 		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
 
-		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
+		"$env:APPDATA\EmuDeck\backend\configs\emulationstation"
 
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue -Force
 	}
 
 }

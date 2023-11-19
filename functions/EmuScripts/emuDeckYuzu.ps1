@@ -1,3 +1,5 @@
+$Yuzu_configFile="${emusPath}\yuzu\yuzu-windows-msvc\user\config\qt-config.ini"
+
 function Yuzu_install(){
 	setMSG "Downloading Yuzu"
 	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
@@ -16,10 +18,10 @@ function Yuzu_init(){
 
 	$destination="$emusPath\yuzu\yuzu-windows-msvc\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\config" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\yuzu\config" "$destination"
 
 	#SDL fix
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
+	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
 	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath
 
@@ -181,7 +183,7 @@ function YuzuEA_install($tokenValue) {
 		#createLauncher "yuzu"
 
 		#SDL fix
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
 		Write-Host "true"
 

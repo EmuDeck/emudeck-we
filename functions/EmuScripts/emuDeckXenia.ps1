@@ -1,12 +1,18 @@
+$Xenia_configFile="${emusPath}\xenia\xenia-canary.config.toml"
+
 function Xenia_install(){
 	setMSG "Downloading Xenia"
 	$url_xenia = getLatestReleaseURLGH "xenia-canary/xenia-canary" "zip"
 	download $url_xenia "xenia.zip"
 	moveFromTo "$temp/xenia" "$emusPath\xenia"
 	createLauncher "xenia"
+	Xenia_getPatches
 }
 function Xenia_init(){
-	Write-Output "NYI"
+	$destination="$emusPath\xenia"
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\xenia" "$destination"
+	mkdir "$romsPath\xbox360\xbla" -ErrorAction SilentlyContinue
 	#Xenia_setResolution $xeniaResolution
 }
 function Xenia_update(){
@@ -20,6 +26,16 @@ function Xenia_setupSaves(){
 }
 function Xenia_setResolution($resolution){
 	Write-Output $resolution
+}
+function Xenia_getPatches(){
+  $patches_dir="$emusPath/xenia/patches"
+  $patches_url="https://github.com/xenia-canary/game-patches/releases/latest/download/game-patches.zip"
+  $patches_branch="main"
+  download $patches_url "patches.zip"
+  mkdir $patches_dir -ErrorAction SilentlyContinue
+  moveFromTo "$temp\patches" "$emusPath\xenia"
+
+
 }
 function Xenia_setupStorage(){
 	Write-Output "NYI"

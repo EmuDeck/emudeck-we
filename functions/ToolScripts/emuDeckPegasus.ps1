@@ -25,10 +25,10 @@ function Pegasus_init(){
 	setMSG "Setting up $Pegasus_toolName"
 	$destination="$Pegasus_path/"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\pegasus" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\pegasus" "$destination"
 
 	#metadata and cores paths
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\roms" "$romsPath"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
 	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
 		(Get-Content $_.FullName) | ForEach-Object {

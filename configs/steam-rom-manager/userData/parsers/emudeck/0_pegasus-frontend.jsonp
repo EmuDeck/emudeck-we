@@ -2,7 +2,7 @@
   "parserType": "Glob",
   "configTitle": "Pegasus - Pegasus Frontend",
   "steamCategory": "${Emulation}",
-  "executableArgs": "/k start /max \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\pegasus\\pegasus-frontend.ps1 && exit \" && exit --emudeck",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Emulation\\tools\\launchers\\pegasus\\pegasus-frontend.ps1 && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "C:\\Emulation\\tools\\launchers\\pegasus\\",
   "steamDirectory": "${steamdirglobal}",

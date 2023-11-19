@@ -27,13 +27,17 @@ function JSONtoPS1(){
 	$SetupXenia= $myJson.overwriteConfigEmus.xenia.status
 	$SetupRyujinx= $myJson.overwriteConfigEmus.ryujinx.status
 	$SetupMAME= $myJson.overwriteConfigEmus.mame.status
-	$SetupPrimeHacks= $myJson.overwriteConfigEmus.primehacks.status
+	$SetupPrimeHack= $myJson.overwriteConfigEmus.primehack.status
 	$SetupPPSSPP= $myJson.overwriteConfigEmus.ppsspp.status
 	$SetupXemu= $myJson.overwriteConfigEmus.xemu.status
 	$SetupESDE= $myJson.overwriteConfigEmus.esde.status
-	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
 	$SetupSRM= $myJson.overwriteConfigEmus.srm.status
-	$SetupmelonDS= $myJson.overwriteConfigEmus.melonDS.status
+	$SetupmelonDS= $myJson.overwriteConfigEmus.melonds.status
+	$SetupScummVM= $myJson.overwriteConfigEmus.scummvm.status
+	$SetupFlycast= $myJson.overwriteConfigEmus.flycast.status
+	$SetupVita3K= $myJson.overwriteConfigEmus.vita3k.status
+	$SetupMGBA= $myJson.overwriteConfigEmus.mgba.status
+	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
 
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
@@ -46,13 +50,16 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupXenia=`"$SetupXenia`"")
 	setSettinginFile("`$doSetupRyujinx=`"$SetupRyujinx`"")
 	setSettinginFile("`$doSetupMAME=`"$SetupMAME`"")
-	setSettinginFile("`$doSetupPrimeHacks=`"$SetupPrimeHacks`"")
+	setSettinginFile("`$doSetupPrimeHack=`"$SetupPrimeHack`"")
 	setSettinginFile("`$doSetupPPSSPP=`"$SetupPPSSPP`"")
 	setSettinginFile("`$doSetupXemu=`"$SetupXemu`"")
 	setSettinginFile("`$doSetupSRM=`"$SetupSRM`"")
 	setSettinginFile("`$doSetupESDE=`"$SetupESDE`"")
 	setSettinginFile("`$doSetupmelonDS=`"$SetupmelonDS`"")
-
+	setSettinginFile("`$doSetupScummVM=`"$SetupScummVM`"")
+	setSettinginFile("`$doSetupFlycast=`"$SetupFlycast`"")
+	setSettinginFile("`$doSetupVita3K=`"$SetupVita3K`"")
+	setSettinginFile("`$doSetupMGBA=`"$SetupMGBA`"")
 	setSettinginFile("`$doSetupPegasus=`"$SetupPegasus`"")
 
 	#Install all systems by default
@@ -67,11 +74,15 @@ function JSONtoPS1(){
 	$InstallXenia= $myJson.installEmus.xenia.status
 	$InstallRyujinx= $myJson.installEmus.ryujinx.status
 	$InstallMAME= $myJson.installEmus.mame.status
-	$InstallPrimeHacks= $myJson.installEmus.primehacks.status
+	$InstallPrimeHack= $myJson.installEmus.primehack.status
 	$InstallPPSSPP= $myJson.installEmus.ppsspp.status
 	$InstallXemu= $myJson.installEmus.xemu.status
 	$InstallSRM= $myJson.installEmus.srm.status
 	$InstallmelonDS= $myJson.installEmus.melonDS.status
+	$InstallScummVM= $myJson.installEmus.scummvm.status
+	$InstallFlycast= $myJson.installEmus.flycast.status
+	$InstallVita3K= $myJson.installEmus.vita3k.status
+	$InstallMGBA= $myJson.installEmus.mgba.status
 
 	#Frontends
 	$InstallESDE= $myJson.installFrontends.esde.status
@@ -89,11 +100,16 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallXenia=`"$InstallXenia`"")
 	setSettinginFile("`$doInstallRyujinx=`"$InstallRyujinx`"")
 	setSettinginFile("`$doInstallMAME=`"$InstallMAME`"")
-	setSettinginFile("`$doInstallPrimeHacks=`"$InstallPrimeHacks`"")
+	setSettinginFile("`$doInstallPrimeHack=`"$InstallPrimeHack`"")
 	setSettinginFile("`$doInstallPPSSPP=`"$InstallPPSSPP`"")
 	setSettinginFile("`$doInstallXemu=`"$InstallXemu`"")
 	setSettinginFile("`$doInstallSRM=`"$InstallSRM`"")
 	setSettinginFile("`$doInstallmelonDS=`"$InstallmelonDS`"")
+	setSettinginFile("`$doInstallScummVM=`"$InstallScummVM`"")
+	setSettinginFile("`$doInstallFlycast=`"$InstallFlycast`"")
+	setSettinginFile("`$doInstallVita3K=`"$InstallVita3K`"")
+	setSettinginFile("`$doInstallMGBA=`"$InstallMGBA`"")
+
 
 	#Frontends
 	setSettinginFile("`$doInstallPegasus=`"$doInstallPegasus`"")
@@ -119,6 +135,7 @@ function JSONtoPS1(){
 	if ($driveInfo) {
 		if ($driveInfo.DriveType -eq 4) {
 			$VolumenName=$driveInfo.ProviderName
+			setSettinginFile('$networkInstallation="true"')
 			setSettinginFile("`$VolName=`"$VolumenName`"")
 			setSettinginFile('$testdrive=New-PSDrive -Name "'+$globPath[0]+'" -PSProvider FileSystem -Root "$VolName"')
 			setSettinginFile('$emulationPath=$testdrive.ToString() + ":\Emulation"')
@@ -129,6 +146,7 @@ function JSONtoPS1(){
 			setSettinginFile('$storagePath=$testdrive.ToString() + ":\Emulation\storage"')
 			setSettinginFile('$ESDEscrapData=$testdrive.ToString() + ":\Emulation\tools\downloaded_media"')
 		} else {
+			setSettinginFile('$networkInstallation="false"')
 			setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
 			setSettinginFile("`$romsPath=`"$globPath\Emulation\roms`"")
 			setSettinginFile("`$toolsPath=`"$globPath\Emulation\tools`"")
@@ -162,9 +180,13 @@ function JSONtoPS1(){
 	setSettinginFile("`$pegasusThemeUrl=`"$pegasusThemeUrl`"")
 	setSettinginFile("`$pegasusThemeName=`"$pegasusThemeName`"")
 
-	#Advanced settings
-	setSettinginFile("`$doRASignIn=`"true`"")
-	setSettinginFile("`$doRAEnable=`"true`"")
+	#RetroAchiviements
+	$achievementsUser=$myJson.achievements.user
+	$achievementsUserToken=$myJson.achievements.token
+	$achievementsHardcore=$myJson.achievements.hardcore
+	setSettinginFile("`$achievementsUser=`"$achievementsUser`"")
+	setSettinginFile("`$achievementsUserToken=`"$achievementsUserToken`"")
+	setSettinginFile("`$achievementsHardcore=`"$achievementsHardcore`"")
 
 	$arClassic3D = $myJson.ar.classic3d
 	$arDolphin = $myJson.ar.dolphin
@@ -222,6 +244,8 @@ function JSONtoPS1(){
 	$emuNDS = $myJson.emulatorAlternative.nds
 	$emuPSP = $myJson.emulatorAlternative.psp
 	$emuPSX = $myJson.emulatorAlternative.psx
+	$emuDreamcast = $myJson.emulatorAlternative.dreamcast
+	$emuSCUMMVM= $myJson.emulatorAlternative.scummvm
 
 	setSettinginFile("`$emuGBA=`"$emuGBA`"")
 	setSettinginFile("`$emuMAME=`"$emuMAME`"")
@@ -230,7 +254,8 @@ function JSONtoPS1(){
 	setSettinginFile("`$emuNDS=`"$emuNDS`"")
 	setSettinginFile("`$emuPSP=`"$emuPSP`"")
 	setSettinginFile("`$emuPSX=`"$emuPSX`"")
-
+	setSettinginFile("`$emuDreamcast=`"$emuDreamcast`"")
+	setSettinginFile("`$emuSCUMMVM=`"$emuSCUMMVM`"")
 
 
 	$device = $myJson.device

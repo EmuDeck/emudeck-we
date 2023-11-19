@@ -1,3 +1,5 @@
+$RPCS3_configFile="$emusPath\RPCS3\config.yml"
+
 function RPCS3_install(){
 	setMSG "Downloading RPCS3"
 	$url_rpcs3 = getLatestReleaseURLGH "RPCS3/rpcs3-binaries-win" "7z"
@@ -13,7 +15,7 @@ function RPCS3_install(){
 function RPCS3_init(){
 	setMSG "RPCS3 - Configuration"
 	$destination="$emusPath\RPCS3"
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RPCS3" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RPCS3" "$destination"
 	#RPCS3_setResolution $rpcs3Resolution
 	RPCS3_setupStorage
 	#RPCS3_setupSaves
@@ -28,6 +30,7 @@ function RPCS3_setEmulationFolder(){
 
 }
 function RPCS3_renameFolders(){
+	Write-Output "Renaming PS3 folders for ESDE compatibility..."
 	$basePath = "$romsPath/ps3"
 	$directories = Get-ChildItem -Path $basePath -Directory
 

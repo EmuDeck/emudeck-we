@@ -2,7 +2,7 @@ $Dolphin_emuName="Dolphin"
 $Dolphin_emuType="FlatPak"
 $Dolphin_emuPath="org.DolphinEmu.dolphin-emu"
 $Dolphin_releaseURL=""
-
+$Dolphin_configFile="$emusPath\Dolphin-x64\User\Config\Dolphin.ini"
 
 function Dolphin_install(){
 	setMSG "Downloading Dolphin"
@@ -19,15 +19,15 @@ function Dolphin_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 
 	$destination="$emusPath\Dolphin-x64"
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\Dolphin" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\Dolphin" "$destination"
 	#Bios Path
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$emulationPath\roms\gamecube"
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/wii" "$emulationPath\roms\wii"
+	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
+	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$emulationPath\roms\gamecube"
+	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/roms/wii" "$emulationPath\roms\wii"
 
-	sedFile $destination\User\Config\Dolphin.ini "Emulation" "Emulation\"
+	sedFile "$Dolphin_configFile" "Emulation" "Emulation\"
 
-	sedFile $destination\User\Config\Dolphin.ini "/" "\"
+	sedFile "$Dolphin_configFile" "/" "\"
 
 #	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
@@ -134,7 +134,7 @@ function Dolphin_finalize(){
 	Write-Output "NYI"
 }
 function Dolphin_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\Dolphin-x64"
+	$test=Test-Path -Path "$emusPath\Dolphin-x64\Dolphin.exe"
 	if($test){
 		Write-Output "true"
 	}else{
