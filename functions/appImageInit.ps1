@@ -13,7 +13,7 @@ function appImageInit(){
 	autofix_MAXMIN
 	autofix_junctions
 	autofix_controllerSettings
-
+	autofix_gamecubeFolder
 	# Init functions
 	setScreenDimensionsScale
 
