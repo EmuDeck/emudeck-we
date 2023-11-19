@@ -220,6 +220,12 @@ function SRM_addSteamInputProfiles(){
 	 Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-input\*" -Destination $PFPath -Recurse	-Force
 }
 
+function SRM_removeSteamInputProfiles(){
+	Write-Output "Removing Steam Input profiles..."
+	$PFPath="$steamInstallPath\controller_base\templates\"
+	rm -fo "$env:APPDATA\EmuDeck\backend\configs\steam-input\emudeck*"
+}
+
 function SRM_init(){
 
 	#Fix for games with - in it's path
