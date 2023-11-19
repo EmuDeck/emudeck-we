@@ -1,7 +1,7 @@
 {
   "parserType": "Glob",
-  "configTitle": "Nintendo DS - melonDS (Standalone)",
-  "steamCategory": "${Nintendo DS - melonDS (Standalone)}",
+  "configTitle": "Nintendo DS - melonDS",
+  "steamCategory": "${Nintendo DS - melonDS}",
   "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\melonds.ps1 '-f' '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}/nds",
