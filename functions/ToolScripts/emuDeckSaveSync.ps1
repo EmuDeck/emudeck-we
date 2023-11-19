@@ -151,7 +151,12 @@ $scriptContent = @"
 
 }
 
-
+function cloud_sync_uninstall_service(){
+$scriptContent = @"
+& "$toolsPath/cloudSync/WinSW-x64.exe" uninstall
+"@
+	startScriptWithAdmin -ScriptContent $scriptContent
+}
 
 function cloud_sync_install($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
