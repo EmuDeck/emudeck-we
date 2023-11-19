@@ -1074,6 +1074,12 @@ function startSteam($silent){
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
 
+function killBOM($file){
+	$content = Get-Content -Path $file -Raw
+	$killBOM = New-Object System.Text.UTF8Encoding $false
+	[System.IO.File]::WriteAllText($file, $content, $killBOM)
+}
+
 
 function setResolutions(){
 	Cemu_setResolution
