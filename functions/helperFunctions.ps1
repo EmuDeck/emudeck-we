@@ -420,7 +420,7 @@ function confirmDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 	# This is the XAML that defines the GUI.
@@ -505,7 +505,7 @@ function yesNoDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel",
 		[bool]$ShowCancelButton = $true
 
@@ -626,7 +626,7 @@ function cleanDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 
@@ -668,7 +668,7 @@ function cleanDialogBottomRight {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 
@@ -711,7 +711,7 @@ function cloudDialog {
 		[string]$TitleText = "",
 		[string]$MessageText = "",
 		[string]$Img = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 
