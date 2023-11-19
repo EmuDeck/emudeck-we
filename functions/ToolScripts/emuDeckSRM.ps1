@@ -204,12 +204,6 @@ function SRM_createParsers(){
 	#Vita3K
 	sedFile "$toolsPath\userData\userConfigurations.json"  '${/.*[/\\\]([^/\\\]+)[/\\\]/|${filePath}}' '${/.*[/\\\\]([^/\\\\]+)[/\\\\]/|${filePath}}'
 
-	#Remove BOM
-	$userConfigsFile="$toolsPath\userData\userConfigurations.json"
-	$content = Get-Content -Path $userConfigsFile -Raw
-	$killBOM = New-Object System.Text.UTF8Encoding $false
-	[System.IO.File]::WriteAllText($userConfigsFile, $content, $killBOM)
-
 }
 
 function SRM_addSteamInputProfiles(){
