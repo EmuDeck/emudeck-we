@@ -427,24 +427,48 @@ function confirmDialog {
 	$WPFXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
- <Grid Name="grid">
-			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-				<StackPanel>
-					<Border Margin="20,20,0,20" Background="Transparent">
-						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-					</Border>
-					<Border Margin="20,0,20,0" Background="Transparent">
-						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-					</Border>
-					<Border Margin="20,0,20,20" Background="Transparent">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+		Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+ 	   	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		 	<Grid Name="grid">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+					<StackPanel>
+						<Border Margin="20,10,0,20" Background="Transparent">
+							<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+						</Border>
+						<Border Margin="20,0,20,0" Background="Transparent">
+							<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+						</Border>
+						<Border Margin="20,0,20,20" Background="Transparent">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,0" >
+								<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" MaxWidth="175" Background="Transparent" FontSize="16" Foreground="White">
+									<Button.Style>
+										<Style TargetType="Button">
+											<Setter Property="Background" Value="#5bf" />
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="Button">
+														<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+															<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+														</Border>
+														<ControlTemplate.Triggers>
+															<Trigger Property="IsMouseOver" Value="True">
+																<Setter Property="Background" Value="#fff" />
+															</Trigger>
+														</ControlTemplate.Triggers>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</Button.Style>
+								</Button>
+							</Border>
+						</StackPanel>
+						</Border>
 					</StackPanel>
-					</Border>
-				</StackPanel>
-			</ScrollViewer>
-		</Grid>
+				</ScrollViewer>
+			</Grid>
+		</Border>
 </Window>
 '@
 
@@ -488,28 +512,75 @@ function yesNoDialog {
 	)
 	# This is the XAML that defines the GUI.
 	$WPFXaml = @'
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
- <Grid Name="grid">
-			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-				<StackPanel>
-					<Border Margin="20,20,0,20" Background="Transparent">
-						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-					</Border>
-					<Border Margin="20,0,20,0" Background="Transparent">
-						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-					</Border>
-					<Border Margin="20,0,20,20" Background="Transparent">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
-						<Button Name="CancelButton" Content="_CANCELBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+	<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		 <Grid Name="grid">
+				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+					<StackPanel>
+						<Border Margin="20,10,0,20" Background="Transparent">
+							<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+						</Border>
+						<Border Margin="20,0,20,0" Background="Transparent">
+							<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+						</Border>
+						<Border Margin="20,0,20,20" Background="Transparent">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,0" >
+								<Button Name="OKButton" BorderBrush="Transparent" Content="_OKBUTTONTEXT_" MaxWidth="175" Background="Transparent" FontSize="16" Foreground="White">
+									<Button.Style>
+										<Style TargetType="Button">
+											<Setter Property="Background" Value="#666" />
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="Button">
+														<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+															<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+														</Border>
+														<ControlTemplate.Triggers>
+															<Trigger Property="IsMouseOver" Value="True">
+																<Setter Property="Background" Value="#fff" />
+															</Trigger>
+														</ControlTemplate.Triggers>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</Button.Style>
+								</Button>
+							</Border>
+							<Border CornerRadius="20" BorderBrush="#666" BorderThickness="1" Background="#666">
+							<Button Name="CancelButton" Content="_CANCELBUTTONTEXT_" Margin="0" Width="75" Background="Transparent" BorderBrush="Transparent" FontSize="16" Foreground="White">
+								<Button.Style>
+									<Style TargetType="Button">
+										<Setter Property="Background" Value="#666" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="Button">
+													<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+														<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsMouseOver" Value="True">
+															<Setter Property="Background" Value="#fff" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+							</Border>
+						</StackPanel>
+						</Border>
 					</StackPanel>
-					</Border>
-				</StackPanel>
-			</ScrollViewer>
-		</Grid>
-</Window>
+				</ScrollViewer>
+			</Grid>
+		</Border>
+	</Border>
+	</Window>
 '@
 
 	# Build Dialog
@@ -563,19 +634,21 @@ function cleanDialog {
 	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
-	<Grid Name="grid">
-		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-			<StackPanel>
-				<Border Margin="20,20,0,20" Background="Transparent">
-					<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-				</Border>
-				<Border Margin="20,0,20,20" Background="Transparent">
-					<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-				</Border>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+		Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,10,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Border>
 </Window>
 "@
 
@@ -603,19 +676,21 @@ function cleanDialogBottomRight {
 	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
-	<Grid Name="grid">
-		<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-			<StackPanel>
-				<Border Margin="20,20,0,20" Background="Transparent">
-					<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
-				</Border>
-				<Border Margin="20,0,20,20" Background="Transparent">
-					<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
-				</Border>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+		Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,10,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Border>
 </Window>
 "@
 
@@ -653,14 +728,16 @@ function cloudDialog {
 	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="Transparent" Foreground="#00FFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual" Width="50" Height="50" Top="$top" Left="$left" WindowStyle="None" MaxWidth="50" Padding="0" Margin="0" Topmost="True" AllowsTransparency="True">
-	<Grid Name="grid">
-		<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-			<StackPanel>
-				<Image Name="Picture" Width="50"  Height="50"/>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+		Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#00FFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual" Width="50" Height="50" Top="$top" Left="$left" WindowStyle="None" MaxWidth="50" Padding="0" Margin="0" Topmost="True" AllowsTransparency="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+		<Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Image Name="Picture" Width="50"  Height="50"/>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Border>
 </Window>
 "@
 
@@ -869,8 +946,9 @@ function steamToast {
   $WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	  Title="Popup" Background="#000000" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
+	  Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="Manual"
 	  Width="$WindowWidth" Height="$WindowHeight" Left="$WindowLeft" Top="$WindowTop" WindowStyle="None" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#000000">
 	<Grid Name="grid">
 	  <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
 		<StackPanel>
@@ -886,6 +964,7 @@ function steamToast {
 		</StackPanel>
 	  </ScrollViewer>
 	</Grid>
+	</Border>
   </Window>
 "@
 
