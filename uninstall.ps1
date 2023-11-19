@@ -7,13 +7,15 @@ $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you s
 		SRM_removeSteamInputProfiles
 		#Cloud service
 		cloud_sync_uninstall_service
+		#Emulation folder.
+		rm -fo "$toolsPath"
 		#Launchers
 		rm -fo "$env:APPDATA\Roaming\Microsoft\Windows\Start Menu\Programs\EmuDeck"
 		#Backend
 		rm -fo "$env:APPDATA\EmuDeck"
+		rm -fo "$env:USERPROFILE\EmuDeck"
 		#App
 		& "$env:APPDATA\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
 	} else {
-		echo "nope"
+		echo "Nope"
 	}
-
