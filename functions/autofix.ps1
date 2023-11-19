@@ -323,3 +323,19 @@ function autofix_controllerSettings(){
 		autofix_showDialogController "Yuzu"
 
 }
+
+function autofix_gamecubeFolder(){
+	$test=Test-Path "$romsPath\gc\metadata.txt"
+	if ( -not $test ){
+
+		mkdir "$romsPath\gc_temp"
+
+		moveFromTo "$romsPath\gc" "$romsPath\gc_temp"
+		moveFromTo "$romsPath\gamecube" "$romsPath\gc_temp"
+		Rename-Item "$romsPath\gc_temp" "$romsPath\gc"
+
+		$simLinkPath = "$romsPath\gamecube"
+		$emuSavePath = "$romsPath\gc"
+		createSaveLink "$simLinkPath" "$emuSavePath"
+	}
+}
