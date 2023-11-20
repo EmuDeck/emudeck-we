@@ -1,9 +1,21 @@
 function ESDE_install(){
+
 	setMSG 'Downloading EmulationStation DE'
 	rm -r -fo "$temp/esde" -ErrorAction SilentlyContinue
 	download $url_esde "esde.zip"
 	mkdir $esdePath -ErrorAction SilentlyContinue
+
+	#Fixes for ESDE warning message
+	if ( ESDE_IsInstalled -like "*true*" ){
+		ESDE_uninstall
+		$doInit="true"
+	}
 	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"
+
+	if($doInit -eq "true" ){
+		ESDE_init
+	}
+
 }
 function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
