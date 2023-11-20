@@ -8,12 +8,12 @@ function SRM_install(){
 
 function SRM_createParsers(){
 	Write-Output "Genearting Dynamic Parsers..."
-	rm -fo "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+	rm -fo -r "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue
 	Start-Sleep -Seconds 1
 	mkdir $env:APPDATA\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
 	mkdir $env:APPDATA\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
 
-	rm -fo "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+	rm -fo -r "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue
 	Start-Sleep -Seconds 1
 	mkdir $toolsPath\userData\parsers\emudeck -ErrorAction SilentlyContinue
 	mkdir $toolsPath\userData\parsers\custom -ErrorAction SilentlyContinue
@@ -217,7 +217,7 @@ function SRM_addSteamInputProfiles(){
 function SRM_removeSteamInputProfiles(){
 	Write-Output "Removing Steam Input profiles..."
 	$PFPath="$steamInstallPath\controller_base\templates\"
-	rm -fo "$env:APPDATA\EmuDeck\backend\configs\steam-input\emudeck*"
+	rm -fo -r "$env:APPDATA\EmuDeck\backend\configs\steam-input\emudeck*"
 }
 
 function SRM_init(){
@@ -292,8 +292,8 @@ function SRM_wipe(){
 	Write-Output "NYI"
 }
 function SRM_uninstall(){
-	Remove-Item –path "$toolsPath\userData" –recurse -force
-	Remove-Item –path "$toolsPath\srm.exe" –recurse -force
+	rm -fo -r "$toolsPath\userData"
+	rm -fo -r "$toolsPath\srm.exe"
 	if($?){
 		Write-Output "true"
 	}

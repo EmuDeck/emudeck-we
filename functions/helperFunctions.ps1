@@ -159,10 +159,10 @@ function testLocationValid($mode, $path){
 	if ($driveInfo.DriveType -eq 4) {
 		Write-Host "Valid"
 	}else{
-		rm -fo "$globPath\test" -Recurse
+		rm -fo -r "$globPath\test"
 		$null = New-Item -ItemType Junction -Path "$globPath\test" -Target "$env:APPDATA\EmuDeck\backend" -Force
 		if($?){
-			rm -fo "$globPath\test" -Recurse
+			rm -fo -r "$globPath\test"
 			Write-Output "Valid"
 		} else {
 			Write-Output "Wrong"
@@ -215,7 +215,7 @@ function setMSG($message){
 
 #Used in the appimage only
 function checkForFile($fileName){
-	(Get-ChildItem -Path "$env:APPDATA\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo $dir/$fileName
+	(Get-ChildItem -Path "$env:APPDATA\EmuDeck" -Filter ".ui-finished" -Recurse -ErrorAction SilentlyContinue -Force) -and (Write-Output "true") ; rm -fo -r $dir/$fileName
 }
 
 
@@ -809,7 +809,7 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
 			if ($networkInstallation -eq "false"){
 				echo "Symlink already exists, we delete it and make it a junction"
-				rm -fo $simLinkPath -Recurse
+				rm -fo -r $simLinkPath
 				New-Item -ItemType Junction -Path "$simLinkPath"  -Target "$emuSavePath"
 			}else{
 				echo "Symlink already exists, we do nothing since this is a network installation"

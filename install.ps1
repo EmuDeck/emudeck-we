@@ -211,7 +211,7 @@ if ( $PSversion -lt 51 ){
 	download "https://go.microsoft.com/fwlink/?linkid=2088631" "dotNet.exe"
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	&"$temp/dotNet.exe"
-	rm -fo "$temp/dotNet.exe"
+	rm -fo -r "$temp/dotNet.exe"
 
 	Write-Host ""
 	Write-Host " Downloading WMF 5.1..."
@@ -219,7 +219,7 @@ if ( $PSversion -lt 51 ){
 
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	&"$temp/wmf51.msu"
-	rm -fo "$temp/wmf51.msu"
+	rm -fo -r "$temp/wmf51.msu"
 
 	Write-Host ""
 	Write-Host " If the WMF installation fails please restart Windows and run the installer again"  -ForegroundColor white
