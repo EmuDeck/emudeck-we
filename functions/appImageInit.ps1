@@ -35,6 +35,10 @@ function appImageInit(){
 		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\launchers\srm\steamrommanager.ps1" -Destination "$toolsPath\launchers\srm\" -Force
 	}
 
+
+	mkdir "$emulationPath\roms\genesiswide" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath/storage/rpcs3/dev_hdd0/game"  -ErrorAction SilentlyContinue
+
 	echo "true"
 
 
