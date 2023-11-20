@@ -11,8 +11,8 @@ function emuDeckInstallHomebrewGame($system, $gameName, $game){
 }
 function emuDeckUnInstallHomebrewGame($system, $gameName, $game){
 
-	rm -fo "$romsPath/$system/homebrew/$gameName.zip" ;
-	rm -fo  "$toolsPath/downloaded_media/$system/screenshots/homebrew/$gameName.png" ;
-	rm -fo  "$toolsPath/downloaded_media/$system/titlescreens/homebrew/$gameName.png" ; Write-Output 'true'
+	rm -fo -r "$romsPath/$system/homebrew/$gameName.zip" ;
+	rm -fo -r  "$toolsPath/downloaded_media/$system/screenshots/homebrew/$gameName.png" ;
+	rm -fo -r  "$toolsPath/downloaded_media/$system/titlescreens/homebrew/$gameName.png" ; Write-Output 'true'
 
 }

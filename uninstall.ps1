@@ -8,12 +8,12 @@ $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you s
 		#Cloud service
 		cloud_sync_uninstall_service
 		#Emulation folder.
-		rm -fo "$toolsPath"
+		rm -fo -r "$toolsPath"
 		#Launchers
-		rm -fo "$env:APPDATA\Roaming\Microsoft\Windows\Start Menu\Programs\EmuDeck"
+		rm -fo -r "$env:APPDATA\Roaming\Microsoft\Windows\Start Menu\Programs\EmuDeck"
 		#Backend
-		rm -fo "$env:APPDATA\EmuDeck"
-		rm -fo "$env:USERPROFILE\EmuDeck"
+		rm -fo -r "$env:APPDATA\EmuDeck"
+		rm -fo -r "$env:USERPROFILE\EmuDeck"
 		#App
 		& "$env:APPDATA\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
 	} else {
