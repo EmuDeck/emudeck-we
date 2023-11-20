@@ -8,6 +8,6 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	}else{
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait
 	}
-	rm -fo "$savesPath/.watching" -ErrorAction SilentlyContinue
-	rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
+	rm -fo -r "$savesPath/.watching" -ErrorAction SilentlyContinue
+	rm -fo -r "$savesPath/.emulator" -ErrorAction SilentlyContinue
 }

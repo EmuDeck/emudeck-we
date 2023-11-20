@@ -18,7 +18,7 @@ $f5 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\fu
 $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
 $emuName = Get-Content "$savesPath/.emulator"
 $lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
-rm -fo $lockFile
+rm -fo -r $lockFile
 
 # specify the path to the folder you want to watch:
 
@@ -115,7 +115,7 @@ try
 		  	  Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 
-			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+			  rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }
 	  }
 	  'Created'  {
@@ -124,7 +124,7 @@ try
 		  } else {
 		      Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
-			  rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+			  rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }
 
 	  }

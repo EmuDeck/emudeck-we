@@ -21,7 +21,7 @@ function game_mode_enable(){
 }
 
 function game_mode_disable(){
-	 rm -fo "$env:USERPROFILE\Desktop\Return to Gaming Mode.lnk" -ErrorAction SilentlyContinue
+	 rm -fo -r "$env:USERPROFILE\Desktop\Return to Gaming Mode.lnk" -ErrorAction SilentlyContinue
 	& "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\disablegamemode.bat"
 	if($?){
 		Write-Output "true"

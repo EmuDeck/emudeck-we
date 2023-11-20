@@ -384,7 +384,7 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 function cloud_sync_uninstall(){
 	startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "false"
-	rm -fo "$cloud_sync_path" -Recurse
+	rm -fo -r "$cloud_sync_path" -Recurse
 	#stopLog
 }
 
@@ -564,7 +564,7 @@ function cloud_sync_upload{
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
-				#rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				#rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 
 			}else{
 				Write-Host "upload KO"
@@ -592,13 +592,13 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a pending upload, make sure you always close the Emulator pressing SELECT + START, do you want us to upload your saves to the cloud now?`n`nThis upload should have happened on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 
 				if ($result -eq "OKButton") {
-					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_upload -emuName $emuName
 				} else {
-					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					#cloud_sync_download($emuName) No need to download, since we are going to do it later on this same script
 				}
@@ -614,13 +614,13 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a previously failed download, do you want us to download your saves and overwrite your local saves?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 
 				if ($result -eq "OKButton") {
-					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_download($emuName)
 				} else {
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_upload -emuName $emuName
 				}
@@ -675,20 +675,20 @@ function cloud_sync_uploadEmu{
 				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud" -OKButtonText "Upload" -CancelButtonText "Download"
 
 				if ($result -eq "OKButton") {
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_upload -emuName $emuName
-					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				} else {
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_download($emuName)
-					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				}
 
 			}else{
-				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
-				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				rm -fo -r "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+				rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 
 				#We use $mode for also check conflicts and to pass the username where using the background service
 				if($mode -ne 'check-conflicts'){

@@ -34,7 +34,7 @@ function mGBA_wipe(){
 	Write-Output "true"
 }
 function mGBA_uninstall(){
-	rm -fo "$emusPath\mGBA"
+	rm -fo -r "$emusPath\mGBA"
 	if($?){
 		Write-Output "true"
 	}

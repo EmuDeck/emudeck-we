@@ -44,7 +44,7 @@ function cloud_sync_download_test($emuName){
 				Write-Host "failure" -ForegroundColor Red
 				$download="No"
 			}
-			rm -fo "$target\.temp" -ErrorAction SilentlyContinue
+			rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 		}else{
 			Write-Host "$emuName not installed" -ForegroundColor Yellow
 		}
@@ -69,7 +69,7 @@ function cloud_sync_upload_test($emuNAme){
 				Write-Host "failure" -ForegroundColor Red
 				$upload="No"
 			}
-			rm -fo "$target\.temp" -ErrorAction SilentlyContinue
+			rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 		}else{
 			Write-Host "$emuName not installed" -ForegroundColor Yellow
 		}
