@@ -10,12 +10,12 @@ $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you s
 		#Emulation folder.
 		rm -fo -r "$toolsPath"
 		#Launchers
-		rm -fo -r "$env:APPDATA\Roaming\Microsoft\Windows\Start Menu\Programs\EmuDeck"
+		rm -fo -r "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck"
 		#Backend
 		rm -fo -r "$env:APPDATA\EmuDeck"
 		rm -fo -r "$env:USERPROFILE\EmuDeck"
 		#App
-		& "$env:APPDATA\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
+		& "$env:USERPROFILE\AppData\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
 	} else {
 		echo "Nope"
 	}
