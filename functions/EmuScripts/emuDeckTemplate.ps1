@@ -1,3 +1,5 @@
+$template_configFile=""
+
 function template_install(){
 	Write-Output "NYI"
 }
@@ -55,5 +57,8 @@ function template_IsInstalled(){
 	}
 }
 function template_resetConfig(){
-	Write-Output "NYI"
+	template_init
+	if($?){
+		Write-Output "true"
+	}
 }

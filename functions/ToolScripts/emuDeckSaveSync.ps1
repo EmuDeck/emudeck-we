@@ -1,7 +1,7 @@
 $cloud_sync_path="$toolsPath/rclone"
 $cloud_sync_bin="$cloud_sync_path/rclone.exe"
 $cloud_sync_config_file_symlink="$cloud_sync_path/rclone.conf"
-$cloud_sync_config_file="$env:USERPROFILE\AppData\Roaming\EmuDeck\rclone.conf"
+$cloud_sync_config_file="$env:APPDATA\EmuDeck\rclone.conf"
 
 
 function Get-Custom-Credentials($provider){
@@ -118,7 +118,7 @@ function Get-Custom-Credentials($provider){
 		$password = $textBoxPassword.Text
 		$url = $textBoxUrl.Text
 		$port = $textBoxPort.Text
-		stopLog
+		#stopLog
 		return [PSCustomObject]@{
 			Username = $username
 			Password = $password
@@ -147,11 +147,16 @@ $scriptContent = @"
 	startScriptWithAdmin -ScriptContent $scriptContent
 	Start-Sleep -Seconds 2
 
-	stopLog
+	#stopLog
 
 }
 
-
+function cloud_sync_uninstall_service(){
+$scriptContent = @"
+& "$toolsPath/cloudSync/WinSW-x64.exe" uninstall
+"@
+	startScriptWithAdmin -ScriptContent $scriptContent
+}
 
 function cloud_sync_install($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
@@ -172,7 +177,7 @@ function cloud_sync_install($cloud_sync_provider){
 		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 		download $cloud_sync_releaseURL "rclone.zip"
 		setSetting "cloud_sync_provider" "$cloud_sync_provider"
-		. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
+		. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 		$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 
 		if ($cloud_sync_releaseURL -match $regex) {
@@ -182,26 +187,30 @@ function cloud_sync_install($cloud_sync_provider){
 	 	moveFromTo "$temp/rclone" "$toolsPath"
 		}
  	}
- 	stopLog
+ 	#stopLog
 }
 
 function cloud_sync_toggle($status){
 	startLog($MyInvocation.MyCommand.Name)
     setSetting "cloud_sync_status" $status
-	stopLog
+	#stopLog
+}
+
+#we create the folders to avoid errors in some providers
+function createCloudFile($folder) {
+	$cloudFilePath = Join-Path $folder ".cloud"
+	if (-not (Test-Path $cloudFilePath)) {
+		New-Item -Path $cloudFilePath -ItemType File
+	}
 }
 
 function cloud_sync_config($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
 	taskkill /F /IM rclone.exe > NUL 2>NUL
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path"
+	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 	setSetting "cloud_sync_status" "true"
 	setSetting "cloud_sync_provider" "$cloud_sync_provider"
-
-
-
-
 
 	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
@@ -269,76 +278,7 @@ function cloud_sync_config($cloud_sync_provider){
 		Write-Output 'true'
 	}
 
-	#we create the folders to avoid errors in some providers
-	function createCloudFile($folder) {
-		$cloudFilePath = Join-Path $folder ".cloud"
-		if (-not (Test-Path $cloudFilePath)) {
-			New-Item -Path $cloudFilePath -ItemType File
-		}
-	}
 
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\Cemu\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\citra\saves" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\citra\states";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\dolphin\GC";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\dolphin\StateSaves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\dolphin\Wii";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\duckstation\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\duckstation\states";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\MAME\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\MAME\states";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\melonds\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\melonds\states";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\primehack\GC" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\primehack\StateSaves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\primehack\Wii" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\mgba\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\mgba\states" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\pcsx2\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\pcsx2\states" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\ppsspp\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\ppsspp\states" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\retroarch\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\retroarch\states" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\rpcs3\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\scummvm\saves" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\Vita3K\saves";
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\yuzu\saves" ;
-	#& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves\yuzu\profiles";
-
-
-	#Add-Type -AssemblyName PresentationFramework
-	#[System.Windows.MessageBox]::Show("Press OK when you are logged into your Cloud Provider", "EmuDeck")
-	#
-	#foreach($_ in Get-Content $cloud_sync_config_file_symlink) {
-	#	if ($_ -like "*Emudeck*") {
-	#		$section = $_
-	#	}elseif ($_ -match "^token\s*=\s*(\S.*)$") {
-	#		$token = $_
-	#		$stop = $true
-	#		break
-	#	}
-	#}
-	#
-	##Cleanup
-	#$section = $section.Replace("[", "")
-	#$section = $section.Replace("]", "")
-	#
-	#$token = $token.Replace("token =", "")
-	#$token = $token.Replace("token =", "")
-	#$token = $token.Replace('"', "'")
-	#
-	#$json = '{ "section": "' + $section + '", "token": "' + $token + '" }'
-	#
-	#$headers = @{
-	#	"content-type"="application/x-www-form-urlencoded"
-	#	"Content-Encoding"="utf-8"
-	#}
-	#
-	#$response = Invoke-RestMethod -Method POST -Uri "https://patreon.emudeck.com/hastebin.php" -Headers $headers -Body @{data="$json"} -ContentType #"application/x-www-form-urlencoded"
-	#Add-Type -AssemblyName PresentationFramework
-	#[System.Windows.MessageBox]::Show("CloudSync Configured!`n`nIf you want to set CloudSync on another EmuDeck installation you need to use this #code:`n$response", "Success!")
-	stopLog
 }
 
 function cloud_sync_config_with_code($code){
@@ -359,7 +299,7 @@ function cloud_sync_config_with_code($code){
 	#cleanup
 	$token = $token.Replace("'", '"')
 
-	Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:USERPROFILE\AppData\Roaming\EmuDeck"
+	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:APPDATA\EmuDeck" -Force
 
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
 
@@ -380,14 +320,14 @@ function cloud_sync_config_with_code($code){
 
 	Add-Type -AssemblyName PresentationFramework
 	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_install_and_config($cloud_sync_provider){
 	startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config($cloud_sync_provider)
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_install_and_config_with_code($cloud_sync_provider){
@@ -438,14 +378,14 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config_with_code($code)
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_uninstall(){
 	startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "false"
-	rm -fo "$cloud_sync_path" -Recurse
-	stopLog
+	rm -fo -r "$cloud_sync_path"
+	#stopLog
 }
 
 function cloud_sync_download($emuName){
@@ -552,7 +492,7 @@ function cloud_sync_download($emuName){
 		$dialog.Close()
 	}
 
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_save_hash($target){
@@ -624,7 +564,7 @@ function cloud_sync_upload{
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
-				#rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				#rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 
 			}else{
 				Write-Host "upload KO"
@@ -652,13 +592,13 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a pending upload, make sure you always close the Emulator pressing SELECT + START, do you want us to upload your saves to the cloud now?`n`nThis upload should have happened on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 
 				if ($result -eq "OKButton") {
-					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_upload -emuName $emuName
 				} else {
-					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					#cloud_sync_download($emuName) No need to download, since we are going to do it later on this same script
 				}
@@ -674,13 +614,13 @@ function cloud_sync_downloadEmu($emuName, $mode){
 				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a previously failed download, do you want us to download your saves and overwrite your local saves?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud " -OKButtonText "Upload" -CancelButtonText "Download"
 
 				if ($result -eq "OKButton") {
-					rm -fo "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_download($emuName)
 				} else {
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
-					rm -fo "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_upload -emuName $emuName
 				}
@@ -698,7 +638,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 		}
 	}
 
-stopLog
+#stopLog
 }
 
 function cloud_sync_createBackup($emuName){
@@ -708,7 +648,7 @@ function cloud_sync_createBackup($emuName){
 	#We delete backups older than one month
 	$oldDate = (Get-Date).AddDays(-30)
 	Get-ChildItem -Path "$emulationPath\save-backups\$emuName" -Directory | Where-Object { $_.CreationTime -lt $oldDate } | Remove-Item -Force -Recurse
-	Copy-Item -Path "$savesPath\$emuName\*" -Destination "$emulationPath\save-backups\$emuName" -Recurse -ErrorAction SilentlyContinue
+	Copy-Item -Path "$savesPath\$emuName\*" -Destination "$emulationPath\save-backups\$emuName" -Recurse -ErrorAction SilentlyContinue -Force
  }
 
 function cloud_sync_uploadEmu{
@@ -735,20 +675,20 @@ function cloud_sync_uploadEmu{
 				$result = yesNoDialog -TitleText "CloudSync conflict - $emuName" -MessageText "We've detected a previously failed upload, do you want us to upload your saves and overwrite your saves in the cloud?`n`nYour latest upload was on $date.`n`n Select Upload if your more recent save is in this device, select Download if the more recent save is in the cloud" -OKButtonText "Upload" -CancelButtonText "Download"
 
 				if ($result -eq "OKButton") {
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_upload -emuName $emuName
-					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				} else {
-					rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
 					cloud_sync_download($emuName)
-					rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+					rm -fo -r "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
 				}
 
 			}else{
-				rm -fo "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
-				rm -fo "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
+				rm -fo -r "$savesPath/$emuName/.fail_upload" -ErrorAction SilentlyContinue
+				rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 
 				#We use $mode for also check conflicts and to pass the username where using the background service
 				if($mode -ne 'check-conflicts'){
@@ -772,7 +712,7 @@ function cloud_sync_downloadEmuAll(){
 		cloud_sync_downloadEmu $emuName 'check-conflicts'
 	}
 	cloud_sync_download 'all'
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_uploadEmuAll(){
@@ -798,7 +738,7 @@ function cloud_sync_lock($userPath){
 	$toast = steamToast -MessageText "Uploading..."
 	Start-Sleep -Milliseconds 500
 	$toast.Close()
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_unlock($userPath){
@@ -810,17 +750,17 @@ function cloud_sync_unlock($userPath){
 	$toast = steamToast -MessageText "Uploads completed!"
 	Start-Sleep -Milliseconds 500
 	$toast.Close()
-	stopLog
+	#stopLog
 }
 
 function cloud_sync_check_lock(){
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
-		$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games..."
+		#$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games..."
 		while (Test-Path -Path $lockedFile) {
 			Start-Sleep -Milliseconds 200
 		}
-		$toast.Close()
+		#$toast.Close()
 	}
 }
 
@@ -841,55 +781,11 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
-$code = @'
-using System;
-using System.Runtime.InteropServices;
-
-namespace CloseButtonToggle {
-
- internal static class WinAPI {
-   [DllImport("kernel32.dll")]
-   internal static extern IntPtr GetConsoleWindow();
-
-   [DllImport("user32.dll")]
-   [return: MarshalAs(UnmanagedType.Bool)]
-   internal static extern bool DeleteMenu(IntPtr hMenu,
-						  uint uPosition, uint uFlags);
-
-   [DllImport("user32.dll")]
-   [return: MarshalAs(UnmanagedType.Bool)]
-   internal static extern bool DrawMenuBar(IntPtr hWnd);
-
-   [DllImport("user32.dll")]
-   internal static extern IntPtr GetSystemMenu(IntPtr hWnd,
-			  [MarshalAs(UnmanagedType.Bool)]bool bRevert);
-
-   const uint SC_CLOSE     = 0xf060;
-   const uint MF_BYCOMMAND = 0;
-
-   internal static void ChangeCurrentState(bool state) {
-	 IntPtr hMenu = GetSystemMenu(GetConsoleWindow(), state);
-	 DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
-	 DrawMenuBar(GetConsoleWindow());
-   }
- }
-
- public static class Status {
-   public static void Disable() {
-	 WinAPI.ChangeCurrentState(false); //its 'true' if need to enable
-   }
- }
-}
-'@
-
-	Add-Type $code
-	[CloseButtonToggle.Status]::Disable()
-
 	startLog($MyInvocation.MyCommand.Name)
 	if ( check_internet_connection -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
-				echo "" > $savesPath/.watching
+				"" | Set-Content $savesPath/.watching -Encoding UTF8
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				if($emulator -eq "EmulationStationDE"){
@@ -904,26 +800,26 @@ namespace CloseButtonToggle {
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
 				$toast.Close()
-				cmd /c start /min powershell -Command {
-					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
-					hideMe
-					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
-					while($true){
-						if(IsServiceRunning -eq "Running"){
-							cloud_sync_check_lock
-						}else{
-							echo "exit!"
-							$toast = steamToast -MessageText "Upload finished!"
-							Start-Sleep  -Milliseconds 1000
-							$toast.Close()
-							break
-						}
-
-					}
-					exit
-				}
+# 				cmd /c start /min powershell -Command {
+# 					. $env:APPDATA\EmuDeck\backend\functions\allCloud.ps1
+# 					hideMe
+# 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
+# 					while($true){
+# 						if(IsServiceRunning -eq "Running"){
+# 							cloud_sync_check_lock
+# 						}else{
+# 							echo "exit!"
+# 							$toast = steamToast -MessageText "Upload finished!"
+# 							Start-Sleep  -Milliseconds 1000
+# 							$toast.Close()
+# 							break
+# 						}
+#
+# 					}
+# 					exit
+# 				}
 # 				invoke-expression 'cmd /c start /min powershell -Command {
-# 					. $env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\allCloud.ps1
+# 					. $env:APPDATA\EmuDeck\backend\functions\allCloud.ps1
 # 					hideMe
 # 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
 # 					while($true){
@@ -949,5 +845,5 @@ namespace CloseButtonToggle {
 		Start-Sleep -Seconds 1
 		$toast.Close()
 	}
-	stopLog
+	#stopLog
 }

@@ -1,9 +1,21 @@
 function ESDE_install(){
+
 	setMSG 'Downloading EmulationStation DE'
 	rm -r -fo "$temp/esde" -ErrorAction SilentlyContinue
 	download $url_esde "esde.zip"
 	mkdir $esdePath -ErrorAction SilentlyContinue
+
+	#Fixes for ESDE warning message
+	if ( ESDE_IsInstalled -like "*true*" ){
+		ESDE_uninstall
+		$doInit="true"
+	}
 	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"
+
+	if($doInit -eq "true" ){
+		ESDE_init
+	}
+
 }
 function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
@@ -64,7 +76,7 @@ function ESDE_init(){
 
 	$destination="$esdePath\.emulationstation"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination"
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
@@ -85,6 +97,9 @@ function ESDE_init(){
 
 	#Citra fixes
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\Emulators\citra\citra-qt.exe</entry>'
+
+	#Xenia fixes
+	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>'
 
 }
 
@@ -234,9 +249,9 @@ function ESDE_setEmu($emu, $system){
 
 		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
 
-		"$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation"
+		"$env:APPDATA\EmuDeck\backend\configs\emulationstation"
 
-		Copy-Item "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue -Force
 	}
 
 }

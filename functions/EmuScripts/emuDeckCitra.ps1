@@ -1,3 +1,5 @@
+$Citra_configFile="$emusPath\citra\user\config\qt-config.ini"
+
 function Citra_install(){
 	setMSG "Downloading Citra"
 	$url_citra = getLatestReleaseURLGH "citra-emu/citra-nightly" "7z" "windows-msvc"
@@ -16,10 +18,10 @@ function Citra_init(){
 
 	$destination="$emusPath\citra\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\citra\config" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\citra\config" "$destination"
 
-	sedFile "$emusPath\citra\user\config\qt-config.ini" "C:/Emulation" "$emulationPath"
-	sedFile "$emusPath\citra\user\config\qt-config.ini" ":\Emulation" ":/Emulation"
+	sedFile "$Citra_configFile" "C:/Emulation" "$emulationPath"
+	sedFile "$Citra_configFile" ":\Emulation" ":/Emulation"
 
 #	Citra_setupSaves
 }
@@ -53,9 +55,8 @@ function Citra_setResolution($resolution){
 		"1440P" { $multiplier = 6 }
 		"4K" { $multiplier = 9 }
 	}
-	$destination="$emusPath\citra\user"
 
-	setConfig "resolution_factor" $multiplier $destination\config\qt-config.ini
+	setConfig "resolution_factor" $multiplier "$Citra_configFile"
 }
 
 function Citra_wipe(){
@@ -89,7 +90,7 @@ function Citra_finalize(){
 	Write-Output "NYI"
 }
 function Citra_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\citra"
+	$test=Test-Path -Path "$emusPath\citra\citra.exe"
 	if($test){
 		Write-Output "true"
 	}else{

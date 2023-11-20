@@ -25,7 +25,7 @@ function RetroArch_init(){
 	Remove-Item $RetroArch_configFile  -ErrorAction SilentlyContinue
 
 	setMSG "RetroArch - Bezels & Filters"
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\RetroArch" "$emusPath\RetroArch"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RetroArch" "$emusPath\RetroArch"
 	$path="$emusPath\RetroArch\config"
 	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
@@ -69,31 +69,24 @@ function RetroArch_init(){
 #	RetroArch_setupSaves
 
 	#retroAchievements
-# 	RetroArch_retroAchievementsSetLogin
-# 	if  ("$doRASignIn" -eq "true" ){
-# 		RetroArch_retroAchievementsOn
-# 	}
-#
-# 	if ( "$doRAEnable" -eq "true" ){
-# 		RetroArch_retroAchievementsOn
-# 	}
-#
-# 	if ( "$achievementsHardcore" -eq "true" ){
-# 		RetroArch_retroAchievementsHardCoreOn
-# 	}else{
-# 		RetroArch_retroAchievementsHardCoreOff
-# 	}
-
+	if ("$achievementsUserToken" -ne "" ){
+		RetroArch_retroAchievementsSetLogin
+		if ( "$achievementsHardcore" -eq "true" ){
+			RetroArch_retroAchievementsHardCoreOn
+		}else{
+			RetroArch_retroAchievementsHardCoreOff
+		}
+	}
 
 	#RA Bezels
-# 	RetroArch_setBezels #needs to change
-#
- 	#RA AutoSave
- 	if ( "$RAautoSave" -eq "true" ){
- 		RetroArch_autoSaveOn
- 	}else{
- 		RetroArch_autoSaveOff
- 	}
+	RetroArch_setBezels #needs to change
+
+	#RA AutoSave
+	if ( "$RAautoSave" -eq "true" ){
+		RetroArch_autoSaveOn
+	}else{
+		RetroArch_autoSaveOff
+	}
 
 
 	#
@@ -189,6 +182,7 @@ function RetroArch_init(){
 	#Bios
 	setConfigRA "system_directory" "$biosPath" $RetroArch_configFile
 
+
 	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
 	mkdir "$biosPath/neocd" -ErrorAction SilentlyContinue
@@ -201,7 +195,7 @@ function RetroArch_init(){
 
 	#Ally
 	if($device -eq "Asus Rog Ally"){
-		setConfigRA "raudio_driver" "wasapi" $RetroArch_configFile
+		setConfigRA "audio_driver" '"wasapi"' $RetroArch_configFile
 	}
 
 }
@@ -239,7 +233,7 @@ function RetroArch_bezelOnAll(){
 	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
 		$originFile = $_.FullName
-		setConfigRA "input_overlay_enable" '"true"' $originFile
+		setConfigRA "input_overlay_enable" "true" $originFile
 	}
 }
 
@@ -248,7 +242,7 @@ function RetroArch_bezelOffAll(){
 	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
 		$originFile = $_.FullName
-		setConfigRA "input_overlay_enable" '"false"' $originFile
+		setConfigRA "input_overlay_enable" "false" $originFile
 	}
 }
 
@@ -318,21 +312,21 @@ function RetroArch_wswanc_bezelOff(){
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 function RetroArch_wswanc_MATshaderOn(){
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" '"true"'
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_filter" "ED_RM_LINE"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" "false"
 
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" '"true"'
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_filter" "ED_RM_LINE"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" "false"
 }
 
 function RetroArch_wswanc_MATshaderOff(){
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" '"false"'
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" "true"
 
-	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" '"false"'
+	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" "true"
 }
@@ -352,21 +346,21 @@ function RetroArch_wswan_bezelOff(){
 }
 
 function RetroArch_wswan_MATshaderOn(){
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" '"true"'
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_filter" "ED_RM_LINE"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" "false"
 
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" '"true"'
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" "true"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_filter" "ED_RM_LINE"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" "false"
 }
 
 function RetroArch_wswan_MATshaderOff(){
-	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" '"false"'
+	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" "true"
 
-	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" '"false"'
+	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" "false"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" "true"
 }
@@ -742,7 +736,7 @@ function RetroArch_atari2600_CRTshaderOff(){
 function RetroArch_mame_setConfig(){
 	RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'mame.cfg' 'MAME'  'input_player1_analog_dpad_mode' '"1"'
-	RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
+	RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable = "false"'
 }
 
 function RetroArch_mame_bezelOn(){
@@ -1871,13 +1865,14 @@ function RetroArch_psx_setConfig(){
 	RetroArch_psx_3DCRTshaderOff
 }
 
+
 function RetroArch_autoSaveOn(){
-	setConfigRA "savestate_auto_load" '"true"' $RetroArch_configFile
-	setConfigRA "savestate_auto_save" '"true"' $RetroArch_configFile
+	setConfigRA "savestate_auto_load" "true" $RetroArch_configFile
+	setConfigRA "savestate_auto_save" "true" $RetroArch_configFile
 }
 function RetroArch_autoSaveOff(){
-	setConfigRA "savestate_auto_load" '"false"' $RetroArch_configFile
-	setConfigRA "savestate_auto_save" '"false"' $RetroArch_configFile
+	setConfigRA "savestate_auto_load" "false" $RetroArch_configFile
+	setConfigRA "savestate_auto_save" "false" $RetroArch_configFile
 }
 
 function RetroArch_retroAchievementsOn(){
@@ -1894,17 +1889,15 @@ function RetroArch_retroAchievementsOff(){
 }
 
 function RetroArch_retroAchievementsHardCoreOn(){
-	setConfigRA 'cheevos_hardcore_mode_enable' '"true"' $RetroArch_configFile
+	setConfigRA 'cheevos_hardcore_mode_enable' 'true' $RetroArch_configFile
 }
 function RetroArch_retroAchievementsHardCoreOff(){
-	setConfigRA 'cheevos_hardcore_mode_enable' '"false"' $RetroArch_configFile
+	setConfigRA 'cheevos_hardcore_mode_enable' 'false' $RetroArch_configFile
 }
 
 function RetroArch_retroAchievementsSetLogin(){
-	$rat=(Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw) -replace "`r`n", ""
-	$rau=(Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rau" -Raw) -replace "`r`n", ""
-	setConfigRA 'cheevos_token' "$rat" "$RetroArch_configFile"
-	setConfigRA 'cheevos_username' "$rau" "$RetroArch_configFile"
+	setConfigRA 'cheevos_token' $achievementsUserToken "$RetroArch_configFile"
+	setConfigRA 'cheevos_username' $achievementsUser "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 

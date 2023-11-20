@@ -9,10 +9,11 @@ function appImageInit(){
 	autofix_ESDE
 	autofix_dynamicParsers
 	autofix_oldParsersBAT
-	autofix_hideMeLaunchers
+	autofix_emulatorInitLaunchers
 	autofix_MAXMIN
-
-
+	autofix_junctions
+	autofix_controllerSettings
+	autofix_gamecubeFolder
 	# Init functions
 	setScreenDimensionsScale
 

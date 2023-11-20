@@ -1,8 +1,8 @@
 "controller_mappings"
 {
-	"version"		"3"	
+	"version"		"3"
 	"title"		"EmuDeck WE - Xbox One"
-	"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for Citra screen swap / Layout"
+	"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for DS and 3DS screen swap / Layout"
 	"controller_type"		"controller_xboxone"
 	"export_type"		"template"
 	"localization"
@@ -10,7 +10,7 @@
 			"english"
 			{
 				"title"		"EmuDeck WE - Xbox One"
-				"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for Citra screen swap / Layout"
+				"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for DS and 3DS screen swap / Layout"
 			}
 		}
 		"group"

@@ -13,8 +13,8 @@ if ($steamRunning) {
 }else{
 	Start-Process $emulatorFile -WindowStyle Maximized -Wait
 }
-	rm -fo "$savesPath/.watching" -ErrorAction SilentlyContinue
-	rm -fo "$savesPath/.emulator" -ErrorAction SilentlyContinue
+	rm -fo -r "$savesPath/.watching" -ErrorAction SilentlyContinue
+	rm -fo -r "$savesPath/.emulator" -ErrorAction SilentlyContinue
 } else {
 	. "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 	showNotification -ToastTitle "Steam error" -ToastText "Steam is not running in the background, closing..."

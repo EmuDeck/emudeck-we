@@ -1,15 +1,15 @@
 "controller_mappings"
 {
-	"version"		"3"	
+	"version"		"3"
 	"title"		"EmuDeck WE - Steam Deck"
-	"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for Citra screen swap / Layout"
+	"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for DS and 3DS screen swap / Layout"
 	"controller_type"		"controller_neptune"
 	"localization"
 		{
 			"english"
 			{
 				"title"		"EmuDeck WE - Steam Deck"
-				"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for Citra screen swap / Layout"
+				"description"		"Press START + SELECT to Exit Emulator. SELECT + R1 / R2 for DS and 3DS screen swap / Layout"
 			}
 		}
 		"group"

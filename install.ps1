@@ -69,31 +69,53 @@ function confirmDialog {
 	param (
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
-		[string]$OKButtonText = "OK",
+		[string]$OKButtonText = "Continue",
 		[string]$CancelButtonText = "Cancel"
 	)
 	# This is the XAML that defines the GUI.
 	$WPFXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" Background="#FF0066CC" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+		Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
  <Grid Name="grid">
 			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 				<StackPanel>
-					<Border Margin="20,20,0,20" Background="Transparent">
+					<Border Margin="20,10,0,20" Background="Transparent">
 						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
 					</Border>
 					<Border Margin="20,0,20,0" Background="Transparent">
 						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
 					</Border>
-					<Border Margin="20,0,20,20" Background="Transparent">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" Width="75" Background="#FF0066CC" BorderBrush="White" Foreground="White" Padding="8,4"/>
+						<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,20" >
+							<Button Name="OKButton" BorderBrush="Transparent" Content="_OKBUTTONTEXT_" Background="Transparent" FontSize="16" Foreground="White">
+								<Button.Style>
+									<Style TargetType="Button">
+										<Setter Property="Background" Value="#5bf" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="Button">
+													<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+														<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsMouseOver" Value="True">
+															<Setter Property="Background" Value="#fff" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+						</Border>
 					</StackPanel>
-					</Border>
 				</StackPanel>
 			</ScrollViewer>
 		</Grid>
+</Border>
 </Window>
 '@
 
@@ -143,7 +165,7 @@ function startScriptWithAdmin {
 	)
 
 	#$scriptContent = @"
-	#. "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\functions\all.ps1";
+	#. "$env:APPDATA\EmuDeck\backend\functions\all.ps1";
 	#Write-Host "I'm Admin"
 	#"@
 
@@ -189,7 +211,7 @@ if ( $PSversion -lt 51 ){
 	download "https://go.microsoft.com/fwlink/?linkid=2088631" "dotNet.exe"
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	&"$temp/dotNet.exe"
-	rm -fo "$temp/dotNet.exe"
+	rm -fo -r "$temp/dotNet.exe"
 
 	Write-Host ""
 	Write-Host " Downloading WMF 5.1..."
@@ -197,7 +219,7 @@ if ( $PSversion -lt 51 ){
 
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	&"$temp/wmf51.msu"
-	rm -fo "$temp/wmf51.msu"
+	rm -fo -r "$temp/wmf51.msu"
 
 	Write-Host ""
 	Write-Host " If the WMF installation fails please restart Windows and run the installer again"  -ForegroundColor white

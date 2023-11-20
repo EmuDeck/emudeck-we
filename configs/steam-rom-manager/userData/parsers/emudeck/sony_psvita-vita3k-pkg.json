@@ -4,7 +4,7 @@
   "steamCategory": "${Sony PlayStation Vita}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "${romsdirglobal}${/}psvita",
-  "executableArgs": "-Fr \"${/.*[/\\\\]([^/\\\\]+)[/\\\\]/|${filePath}}\"",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\vita3k.ps1 '-Fr' '${/.*[/\\\\]([^/\\\\]+)[/\\\\]/|${filePath}}'${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
@@ -26,8 +26,42 @@
     "skipWithMissingDataDir": true,
     "useCredentials": true
   },
+  "controllers": {
+    "switch_pro": {
+      "title": "EmuDeck WE - Switch Pro",
+      "mappingId": "emudeck_controller_switch_pro.vdf",
+      "profileType": "template"
+    },
+    "neptune": {
+      "title": "EmuDeck WE - Steam Deck",
+      "mappingId": "emudeck_controller_steamdeck.vdf",
+      "profileType": "template"
+    },
+    "ps4": {
+      "title": "EmuDeck WE - Dual Shock 4",
+      "mappingId": "emudeck_controller_ps4.vdf",
+      "profileType": "template"
+    },
+    "ps5": {
+      "title": "EmuDeck WE - Dual Sense",
+      "mappingId": "emudeck_controller_ps5.vdf",
+      "profileType": "template"
+    },
+    "xbox360": {
+      "title": "EmuDeck WE - Xbox 360",
+      "mappingId": "emudeck_controller_xbox360.vdf",
+      "profileType": "template"
+    },
+    "xboxone": {
+      "title": "EmuDeck WE - Xbox One",
+      "mappingId": "emudeck_controller_xboxone.vdf",
+      "profileType": "template"
+    },
+    "switch_joycon_left": null,
+    "switch_joycon_right": null
+  },
   "executable": {
-    "path": "/home/deck/Applications/Vita3K/Vita3K",
+    "path": "${retroarchpath}",
     "shortcutPassthrough": false,
     "appendArgsToExecutable": true
   },

@@ -1,3 +1,5 @@
+$PPSSP_configFile="$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini"
+$PPSSP_cheevosTokenFile="$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp_retroachievements.dat"
 function PPSSPP_install(){
 	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
@@ -16,11 +18,14 @@ function PPSSPP_init(){
 
 	$destination="$emusPath\PPSSPP\memstick\PSP\SYSTEM"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs/PPSSPP/memstick/PSP/SYSTEM" "$destination"
 
+	sedFile "$PPSSP_configFile" "C:/Emulation" "$emulationPath"
+	sedFile "$PPSSP_configFile" ":\Emulation" ":/Emulation"
 
-	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" "C:/Emulation" "$emulationPath"
-	sedFile "$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini" ":\Emulation" ":/Emulation"
+	if ("$achievementsUserToken" -ne "" ){
+		PPSSPP_retroAchievementsSetLogin
+	}
 
 #	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution
@@ -93,4 +98,12 @@ function PPSSPP_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+
+function PPSSPP_retroAchievementsSetLogin(){
+	$content = Get-Content -Path $PPSSP_configFile -Raw
+	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $achievementsUser`nAchievementsChallengeMode = $achievementsHardcore"
+	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
+	$achievementsUserToken | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
 }

@@ -1,3 +1,5 @@
+$PCSX2QT_configFile="$emusPath\PCSX2-Qt\inis\PCSX2.ini"
+
 function PCSX2QT_install(){
 	#$test=Test-Path -Path "$toolsPath\vc_redist.x86.exe"
 	winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
@@ -6,7 +8,7 @@ function PCSX2QT_install(){
 	download $url_pcsx2 "pcsx2.7z"
 	moveFromTo "$temp\pcsx2" "$emusPath\PCSX2-Qt"
 	Remove-Item -Recurse -Force $temp\pcsx2 -ErrorAction SilentlyContinue
-	Rename-Item -Path "$emusPath\PCSX2-Qt\pcsx2-qt.exe" -NewName "pcsx2-qtx64.exe"
+	Rename-Item -Path "$emusPath\PCSX2-Qt\pcsx2-qt.exe" -NewName "pcsx2-qtx64.exe" -ErrorAction SilentlyContinue
 	createLauncher "pcsx2"
 }
 function PCSX2QT_init(){
@@ -14,13 +16,13 @@ function PCSX2QT_init(){
 	$destination="$emusPath\PCSX2-Qt"
 	New-Item "$emusPath\PCSX2-Qt\portable.ini" -ErrorAction SilentlyContinue
 
-	copyFromTo "$env:USERPROFILE\AppData\Roaming\EmuDeck\backend\configs\PCSX2" $destination
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\PCSX2" $destination
 
 	PCSX2QT_setEmulationFolder
 #	PCSX2QT_setupSaves
 	PCSX2QT_setResolution $pcsx2Resolution
 
-	if ("$doRASignIn" -eq "true" ){
+	if ("$achievementsUserToken" -ne "" ){
 		PCSX2QT_retroAchievementsSetLogin
 	}
 
@@ -30,14 +32,14 @@ function PCSX2QT_update(){
 	Write-Outpute-Output "NYI"
 }
 function PCSX2QT_setEmulationFolder(){
-	sedFile $destination\inis\PCSX2.ini "C:\Emulation" "$emulationPath"
+	sedFile $PCSX2QT_configFile "C:\Emulation" "$emulationPath"
 }
 function PCSX2QT_setupSaves(){
 	#Saves
 	setMSG "PCSX2 - Saves Links"
 	#memcards
 	$simLinkPath = "$emusPath\PCSX2-Qt\memcards"
-	$emuSavePath = "$emulationPat\saves\pcsx2\saves"
+	$emuSavePath = "$emulationPath\saves\pcsx2\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#States
@@ -55,7 +57,7 @@ function PCSX2QT_setResolution($resolution){
 		"4K" { $multiplier = 6 }
 	}
 
-	setConfig "upscale_multiplier" $multiplier "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
+	setConfig "upscale_multiplier" $multiplier "$PCSX2QT_configFile"
 }
 function PCSX2QT_setupStorage(){
 	Write-Output "NYI"
@@ -104,8 +106,8 @@ function PCSX2QT_resetConfig(){
 	}
 }
 
-
-function PCSX2QT_retroAchievementsSetLogin(){
-	$rat=Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/.rat" -Raw
-	#setConfig "Token" $rat "$emusPath\PCSX2-Qt\inis\PCSX2.ini"
+function PCSX2QT_retroAchievementsSetLogin() {
+	$content = Get-Content -Path $PCSX2QT_configFile -Raw
+	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $achievementsUser`nToken = $achievementsUserToken`nChallengeMode = $achievementsHardcore"
+	$content | Set-Content -Path $PCSX2QT_configFile -Encoding UTF8
 }
