@@ -28,6 +28,14 @@ function appImageInit(){
 	# Init functions
 	setScreenDimensionsScale
 
+	$test=Test-Path "$toolsPath\launchers\srm\steamrommanager.ps1"
+	if ( -not $test ){
+		mkdir "$toolsPath\userData\" -ErrorAction SilentlyContinue
+		mkdir "$toolsPath\launchers\srm\" -ErrorAction SilentlyContinue
+		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\launchers\srm\steamrommanager.ps1" -Destination "$toolsPath\launchers\srm\" -Force
+	}
+
 	echo "true"
+
 
 }
