@@ -384,7 +384,7 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 function cloud_sync_uninstall(){
 	startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "false"
-	rm -fo -r "$cloud_sync_path" -Recurse
+	rm -fo -r "$cloud_sync_path"
 	#stopLog
 }
 

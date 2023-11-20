@@ -8,12 +8,12 @@ function SRM_install(){
 
 function SRM_createParsers(){
 	Write-Output "Genearting Dynamic Parsers..."
-	rm -fo -r "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+	rm -fo -r "$env:APPDATA\steam-rom-manager\userData\parsers\emudeck" -ErrorAction SilentlyContinue
 	Start-Sleep -Seconds 1
 	mkdir $env:APPDATA\steam-rom-manager\userData\parsers\emudeck -ErrorAction SilentlyContinue
 	mkdir $env:APPDATA\steam-rom-manager\userData\parsers\custom -ErrorAction SilentlyContinue
 
-	rm -fo -r "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue -Recurse
+	rm -fo -r "$toolsPath\userData\parsers\emudeck" -ErrorAction SilentlyContinue
 	Start-Sleep -Seconds 1
 	mkdir $toolsPath\userData\parsers\emudeck -ErrorAction SilentlyContinue
 	mkdir $toolsPath\userData\parsers\custom -ErrorAction SilentlyContinue
