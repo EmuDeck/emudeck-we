@@ -292,8 +292,8 @@ function SRM_wipe(){
 	Write-Output "NYI"
 }
 function SRM_uninstall(){
-	Remove-Item –path "$toolsPath\userData" –recurse -force
-	Remove-Item –path "$toolsPath\srm.exe" –recurse -force
+	rm -fo -r "$toolsPath\userData"
+	rm -fo -r "$toolsPath\srm.exe"
 	if($?){
 		Write-Output "true"
 	}
