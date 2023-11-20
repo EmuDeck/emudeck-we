@@ -86,6 +86,9 @@ function ESDE_init(){
 	#Citra fixes
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\Emulators\citra\citra-qt.exe</entry>'
 
+	#Xenia fixes
+	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>'
+
 }
 
 function ESDE_addLauncher($emucode, $launcher){
