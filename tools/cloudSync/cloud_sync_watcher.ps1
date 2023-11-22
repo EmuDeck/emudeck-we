@@ -18,7 +18,7 @@ $f5 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\fu
 $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
 $emuName = Get-Content "$savesPath/.emulator"
 $lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
-rm -fo -r $lockFile
+rm -fo -r $lockFile  -ErrorAction SilentlyContinue
 
 # specify the path to the folder you want to watch:
 

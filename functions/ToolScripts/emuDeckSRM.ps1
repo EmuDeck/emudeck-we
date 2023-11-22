@@ -221,7 +221,7 @@ function SRM_removeSteamInputProfiles(){
 }
 
 function SRM_init(){
-
+	mkdir "$toolsPath\userData\" -ErrorAction SilentlyContinue
 	#Fix for games with - in it's path
 	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
 	if($test){
