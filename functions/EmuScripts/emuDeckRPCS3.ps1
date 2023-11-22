@@ -103,7 +103,7 @@ function RPCS3_wipe(){
 	Write-Output "NYI"
 }
 function RPCS3_uninstall(){
-	Remove-Item –path "$emusPath\RPCS3" –recurse -force
+	Remove-Item -path "$emusPath\RPCS3"-recurse -force
 	if($?){
 		Write-Output "true"
 	}

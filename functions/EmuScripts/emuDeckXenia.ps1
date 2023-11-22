@@ -44,7 +44,7 @@ function Xenia_wipe(){
 	Write-Output "NYI"
 }
 function Xenia_uninstall(){
-	Remove-Item –path "$emusPath\Xenia" –recurse -force
+	Remove-Item -path "$emusPath\Xenia"-recurse -force
 	if($?){
 		Write-Output "true"
 	}

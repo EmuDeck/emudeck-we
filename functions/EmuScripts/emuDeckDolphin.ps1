@@ -90,7 +90,7 @@ function Dolphin_wipe(){
 	Write-Output "NYI"
 }
 function Dolphin_uninstall(){
-	Remove-Item –path "$emusPath\Dolphin" –recurse -force
+	Remove-Item -path "$emusPath\Dolphin"-recurse -force
 	if($?){
 		Write-Output "true"
 	}
