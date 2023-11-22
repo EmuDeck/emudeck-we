@@ -54,7 +54,7 @@ function Cemu_wipe(){
 	Write-Output "NYI"
 }
 function Cemu_uninstall(){
-	Remove-Item –path "$emusPath\Cemu" –recurse -force
+	Remove-Item -path "$emusPath\Cemu"-recurse -force
 	if($?){
 		Write-Output "true"
 	}

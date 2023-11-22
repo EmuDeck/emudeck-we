@@ -1,25 +1,29 @@
 function ESDE_install(){
-
 	setMSG 'Downloading EmulationStation DE'
+
+	#Fixes for ESDE warning message
+	if ( ESDE_IsInstalled -like "*true*" ){
+		moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		ESDE_uninstall
+		$doInit="true"
+	}
+
 	rm -r -fo "$temp/esde" -ErrorAction SilentlyContinue
 	download $url_esde "esde.zip"
 	mkdir $esdePath -ErrorAction SilentlyContinue
 
-	#Fixes for ESDE warning message
-	if ( ESDE_IsInstalled -like "*true*" ){
-		ESDE_uninstall
-		$doInit="true"
-	}
 	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"
 
 	if($doInit -eq "true" ){
 		ESDE_init
 	}
-
 }
+
 function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
-
+	if(Test-Path "$esdePath\.emulationstation\gamelists"){
+		moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+	}
 	#We reset ESDE system files
 	#Copy-Item "$esdePath/resources/systems/windows/es_systems.xml.bak" -Destination "$esdePath/resources/systems/windows/es_systems.xml" -ErrorAction SilentlyContinue
 	#Copy-Item "$esdePath/resources/systems/windows/es_find_rules.xml.bak" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml" -ErrorAction SilentlyContinue
@@ -100,6 +104,13 @@ function ESDE_init(){
 
 	#Xenia fixes
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>'
+
+	if(Test-Path "$temp\gamelists"){
+		rm -r -fo "$esdePath\.emulationstation\gamelists"
+		mkdir "$esdePath\.emulationstation\gamelists" -ErrorAction SilentlyContinue
+		moveFromTo "$temp\gamelists" "$esdePath\.emulationstation\gamelists"
+		rm -r -fo "$temp\gamelists"
+	}
 
 }
 

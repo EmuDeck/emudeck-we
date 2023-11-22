@@ -40,7 +40,7 @@ function Xemu_wipe(){
 	Write-Output "NYI"
 }
 function Xemu_uninstall(){
-	Remove-Item –path "$emusPath\Xemu" –recurse -force
+	Remove-Item -path "$emusPath\Xemu"-recurse -force
 	if($?){
 		Write-Output "true"
 	}

@@ -96,7 +96,7 @@ function Yuzu_wipe(){
 	Write-Output "NYI"
 }
 function Yuzu_uninstall(){
-	Remove-Item –path "$emusPath\yuzu" –recurse -force
+	Remove-Item -path "$emusPath\yuzu"-recurse -force
 	if($?){
 		Write-Output "true"
 	}

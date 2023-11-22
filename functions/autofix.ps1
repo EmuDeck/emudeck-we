@@ -254,9 +254,8 @@ function autofix_MAXMIN(){
 			$filePath =  $_.FullName
 			$shortcutsContent = Get-Content -Path $filePath
 			if ($shortcutsContent -like "*/max*"){
-				confirmDialog -TitleText "We need to update your SRM shortcuts" -MessageText "We will close Steam now. When the update is completed you'll be able to use the new CloudSync visual notifications instead of the audio notifications"
-				taskkill /IM steam.exe /F
-				sedFile "$filePath" '/max' '/min'
+				echo "old parsers"
+				#confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using old launchers, please open Steam Rom Manager and parse all your games so they get updated to the new launchers"
 			}
 		}
 	}else{

@@ -240,10 +240,18 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 			startScriptWithAdmin -ScriptContent $scriptContent
 	}
 
+Write-Host "Updating Winget" -ForegroundColor white
+Write-Host ""
+
+$url = "https://cdn.winget.microsoft.com/cache/source.msix"
+$destination = "$env:TEMP\source.msix"
+Invoke-WebRequest -Uri $url -OutFile $destination
+Start-Process -FilePath $destination -Wait -ErrorAction SilentlyContinue
+cls
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
-if (Test-Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe") {
+
 
 	$wingetVersion = (winget -v) -replace '[^\d.]'
 	$minVersion = '1.6.2721'
@@ -260,9 +268,9 @@ if (Test-Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe")
 	}
 
 	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
-}
 
-if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
+
+if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 
 	$Host.UI.RawUI.BackgroundColor = "Red"
 
@@ -285,7 +293,7 @@ if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
 
 	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
 
-	if (-not (Test-Path "$env:ProgramFiles\Git\bin\git.exe")) {
+	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
 		Write-Host "GIT Download Failed" -ForegroundColor white
 		$Host.UI.RawUI.BackgroundColor = "Black"
