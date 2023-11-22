@@ -63,7 +63,7 @@ function Citra_wipe(){
 	Write-Output "NYI"
 }
 function Citra_uninstall(){
-	Remove-Item –path "$emusPath\citra" –recurse -force
+	Remove-Item -path "$emusPath\citra"-recurse -force
 	if($?){
 		Write-Output "true"
 	}
