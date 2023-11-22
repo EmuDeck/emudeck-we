@@ -254,7 +254,8 @@ function autofix_MAXMIN(){
 			$filePath =  $_.FullName
 			$shortcutsContent = Get-Content -Path $filePath
 			if ($shortcutsContent -like "*/max*"){
-				confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using old launchers, please open Steam Rom Manager and parse all your games so they get updated to the new launchers"
+				echo "old parsers"
+				#confirmDialog -TitleText "Old parsers detected" -MessageText "We've detected you are still using old launchers, please open Steam Rom Manager and parse all your games so they get updated to the new launchers"
 			}
 		}
 	}else{
