@@ -75,7 +75,7 @@ function MAME_wipe(){
 	Write-Output "NYI"
 }
 function MAME_uninstall(){
-	Remove-Item –path "$emusPath\mame" –recurse -force
+	Remove-Item -path "$emusPath\mame"-recurse -force
 	if($?){
 		Write-Output "true"
 	}else{

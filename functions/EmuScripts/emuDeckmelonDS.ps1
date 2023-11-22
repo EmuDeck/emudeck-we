@@ -57,7 +57,7 @@ function melonDS_wipe(){
 	Write-Output "true"
 }
 function melonDS_uninstall(){
-	Remove-Item –path "$emusPath\melonDS" –recurse -force
+	Remove-Item -path "$emusPath\melonDS"-recurse -force
 	if($?){
 		Write-Output "true"
 	}

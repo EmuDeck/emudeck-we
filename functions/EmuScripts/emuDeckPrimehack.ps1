@@ -70,7 +70,7 @@ function Primehack_wipe(){
 	Write-Output "true"
 }
 function Primehack_uninstall(){
-	Remove-Item –path "$emusPath\primehack" –recurse -force
+	Remove-Item -path "$emusPath\primehack"-recurse -force
 	if($?){
 		Write-Output "true"
 	}
