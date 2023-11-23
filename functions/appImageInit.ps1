@@ -6,6 +6,8 @@ function appImageInit(){
 	$userConfigsFile="$toolsPath\userData\userConfigurations.json"
 	$content = Get-Content -Path $userConfigsFile -Raw
 
+	mkdir "$env:USERPROFILE/feeds" -ErrorAction SilentlyContinue
+
 	# Crear un codificador para UTF-8 sin BOM
 	$killBOM = New-Object System.Text.UTF8Encoding $false
 
