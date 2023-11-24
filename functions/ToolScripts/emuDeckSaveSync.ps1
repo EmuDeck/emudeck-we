@@ -131,7 +131,7 @@ function Get-Custom-Credentials($provider){
 
 
 function cloud_sync_install_service(){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	mkdir "$toolsPath/cloudSync" -ErrorAction SilentlyContinue
 	cp "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.xml" "$toolsPath/cloudSync"
 	cp "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/WinSW-x64.exe" "$toolsPath/cloudSync"
@@ -159,7 +159,7 @@ $scriptContent = @"
 }
 
 function cloud_sync_install($cloud_sync_provider){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 
  	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
 
@@ -191,7 +191,7 @@ function cloud_sync_install($cloud_sync_provider){
 }
 
 function cloud_sync_toggle($status){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
     setSetting "cloud_sync_status" $status
 	#stopLog
 }
@@ -205,7 +205,7 @@ function createCloudFile($folder) {
 }
 
 function cloud_sync_config($cloud_sync_provider){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	taskkill /F /IM rclone.exe > NUL 2>NUL
 	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
 	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
@@ -282,7 +282,7 @@ function cloud_sync_config($cloud_sync_provider){
 }
 
 function cloud_sync_config_with_code($code){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "true"
 
 	$headers = @{
@@ -324,14 +324,14 @@ function cloud_sync_config_with_code($code){
 }
 
 function cloud_sync_install_and_config($cloud_sync_provider){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config($cloud_sync_provider)
 	#stopLog
 }
 
 function cloud_sync_install_and_config_with_code($cloud_sync_provider){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	Add-Type -AssemblyName System.Windows.Forms
 	Add-Type -AssemblyName System.Drawing
 
@@ -382,14 +382,14 @@ function cloud_sync_install_and_config_with_code($cloud_sync_provider){
 }
 
 function cloud_sync_uninstall(){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	setSetting "cloud_sync_status" "false"
 	rm -fo -r "$cloud_sync_path"
 	#stopLog
 }
 
 function cloud_sync_download($emuName){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 		#We wait for any upload in progress
 		cloud_sync_check_lock
@@ -579,7 +579,7 @@ function cloud_sync_upload{
 
 
 function cloud_sync_downloadEmu($emuName, $mode){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
@@ -705,7 +705,7 @@ function cloud_sync_uploadEmu{
 
 
 function cloud_sync_downloadEmuAll(){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	Get-ChildItem -Directory $savesPath/ | ForEach-Object {
 		$simLinkPath = $_.FullName
 		$emuName = (Get-Item $simLinkPath).Name
@@ -729,7 +729,7 @@ function cloud_sync_uploadEmuAll(){
 
 
 function cloud_sync_lock($userPath){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = "$userPath"
 	}
@@ -742,7 +742,7 @@ function cloud_sync_lock($userPath){
 }
 
 function cloud_sync_unlock($userPath){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	if (-not [string]::IsNullOrEmpty($userPath)) {
 		$userFolder = "$userPath"
 	}
@@ -781,7 +781,7 @@ function cloud_sync_notification($text){
 }
 
 function cloud_sync_init($emulator){
-	startLog($MyInvocation.MyCommand.Name)
+	#startLog($MyInvocation.MyCommand.Name)
 	if ( check_internet_connection -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
