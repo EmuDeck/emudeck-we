@@ -1,8 +1,6 @@
 $user=$args[0]
 $userPath = ( Get-CimInstance Win32_UserProfile -Filter "SID = '$((Get-LocalUser $user).Sid)'" ).LocalPath
 
-Start-Transcript $userPath\emudeck\logs\cloudwatcher.log
-echo $userPath
 $f1 = Join-Path -Path "$userPath" -ChildPath 'EmuDeck\settings.ps1'
 $f2 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
 $f3 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1'
@@ -216,4 +214,3 @@ finally
   # event handlers are technically implemented as a special kind
   # of background job, so remove the jobs now
 }
-Stop-Transcript
