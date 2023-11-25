@@ -359,9 +359,9 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 	createLauncher "srm\steamrommanager"
 	$setupSaves=''
 
-	if ($doInstallPegasus -eq "true" -or (Pegasus_isInstalled -like "*true*")){
-		createLauncher "pegasus\pegasus-frontend"
-	}
+	# if ($doInstallPegasus -eq "true" -or (Pegasus_isInstalled -like "*true*")){
+	# 	createLauncher "pegasus\pegasus-frontend"
+	# }
 	if ($doInstallRA -eq "true" -or (RA_isInstalled -like "*true*")){
 		createLauncher retroarch
 		$setupSaves+="RetroArch_setupSaves;"
