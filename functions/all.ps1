@@ -41,7 +41,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckScummVM.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckVita3K.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckESDE.ps1"
-. "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckPegasus.ps1"
+#. "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckPegasus.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSRM.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckGameMode.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1"
