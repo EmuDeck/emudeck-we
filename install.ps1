@@ -16,7 +16,7 @@ if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsC
 		$dnsServers = "8.8.8.8", "1.1.1.1"
 		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
 "@
-
+	}
 
 }
 
