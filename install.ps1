@@ -5,6 +5,20 @@ $PSversionMinor = $PSVersionTable.PSVersion.Minor
 $PSversion = "$PSversionMajor$PSversionMinor"
 $osInfo = (systeminfo | findstr /B /C:"OS Name") | ForEach-Object { $_ -replace 'OS Name:', '' }
 
+if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
+
+
+	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
+
+	if ($result -eq "OKButton") {
+		startScriptWithAdmin -ScriptContent $scriptContent
+	$scriptContent = @"
+		$dnsServers = "8.8.8.8", "1.1.1.1"
+		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
+"@
+
+
+}
 
 
 Function NewWPFDialog() {
@@ -63,6 +77,127 @@ Function NewWPFDialog() {
 	}
 
 	return $XaMLReader
+}
+
+function yesNoDialog {
+	param (
+		[string]$TitleText = "Do you want to continue?",
+		[string]$MessageText = "",
+		[string]$OKButtonText = "Continue",
+		[string]$CancelButtonText = "Cancel",
+		[bool]$ShowCancelButton = $true
+
+	)
+	# This is the XAML that defines the GUI.
+
+	$WPFXaml = @'
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="Popup" AllowsTransparency="True" Background="Transparent" Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+ <Grid Name="grid">
+			<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+				<StackPanel>
+					<Border Margin="20,10,0,20" Background="Transparent">
+						<TextBlock Name="Title" Margin="0,10,0,10" TextWrapping="Wrap" Text="_TITLE_" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"/>
+					</Border>
+					<Border Margin="20,0,20,0" Background="Transparent">
+						<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
+					</Border>
+					<Border Margin="20,0,20,20" Background="Transparent">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+						<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,0" >
+							<Button Name="OKButton" BorderBrush="Transparent" Content="_OKBUTTONTEXT_" Background="Transparent" FontSize="16" Foreground="White">
+								<Button.Style>
+									<Style TargetType="Button">
+										<Setter Property="Background" Value="#5bf" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="Button">
+													<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+														<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsMouseOver" Value="True">
+															<Setter Property="Background" Value="#fff" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+						</Border>
+						<Border CornerRadius="20" BorderBrush="#666" BorderThickness="1" Background="#666">
+							<Button Name="CancelButton" Content="_CANCELBUTTONTEXT_" Margin="0"  Background="Transparent" BorderBrush="Transparent" FontSize="16" Foreground="White">
+								<Button.Style>
+									<Style TargetType="Button">
+										<Setter Property="Background" Value="#666" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="Button">
+													<Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1" Margin="16,8,16,8">
+														<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsMouseOver" Value="True">
+															<Setter Property="Background" Value="#fff" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Style>
+							</Button>
+						</Border>
+					</StackPanel>
+					</Border>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+</Border>
+</Window>
+'@
+
+	# Build Dialog
+	$WPFGui = NewWPFDialog -XamlData $WPFXaml
+	$WPFGui.Message.Text = $MessageText
+	$WPFGui.Title.Text = $TitleText
+	$WPFGui.Message.Text = $MessageText
+
+	$WPFGui.OKButton.Content = $OKButtonText
+	$WPFGui.CancelButton.Content = $CancelButtonText
+
+	# Create a script block to handle the button click event
+	$buttonClickEvent = {
+		param($sender, $e)
+		$global:Result = $sender.Name
+		$WPFGui.UI.Close()
+	}
+
+	# Add the script block to the button's Click event
+	$WPFGui.OKButton.Add_Click($buttonClickEvent)
+
+	# Create a script block to handle the button click event for "Cancel" button
+	$cancelButtonClickEvent = {
+		param($sender, $e)
+		$global:Result = $sender.Name  # Set the Result to the name of the clicked button ("CancelButton")
+		$WPFGui.UI.Close()
+	}
+
+	# Add the script block to the "Cancel" button's Click event
+	$WPFGui.CancelButton.Add_Click($cancelButtonClickEvent)
+
+	# Create a variable to hold the result
+	$global:Result = $null
+
+	# Show the dialog
+	$null = $WPFGUI.UI.Dispatcher.InvokeAsync{ $WPFGui.UI.ShowDialog() }.Wait()
+
+	# Return the result
+	return $global:Result
 }
 
 function confirmDialog {
