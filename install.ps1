@@ -13,7 +13,7 @@ if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsC
 	if ($result -eq "OKButton") {
 		startScriptWithAdmin -ScriptContent $scriptContent
 	$scriptContent = @"
-		$dnsServers = "8.8.8.8", "1.1.1.1"
+		$dnsServers = "1.1.1.1", "8.8.8.8"
 		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
 "@
 	}
