@@ -247,8 +247,10 @@ $url = "https://cdn.winget.microsoft.com/cache/source.msix"
 $destination = "$env:TEMP\source.msix"
 Invoke-WebRequest -Uri $url -OutFile $destination
 Start-Process -FilePath $destination -Wait -ErrorAction SilentlyContinue
-cls
 
+cls
+Read-Host -Prompt "Press any key to continue once Winget has been updated"
+cls
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
 
