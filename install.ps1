@@ -424,32 +424,39 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 	download $url_git "git_install.exe"
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 
-	Write-Host " Launching GIT Installer, please wait..."
+	Write-Host "Installing GIT in the background, please wait a few minutes..."
 
 	$installDir="$env:ProgramFiles\Git\"
 
 	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
+	$file = "$env:USERPROFILE\roms\$system\media\$type\$romName.png"
 
-	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+	if (-not (Test-Path $installDir)) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
 		Write-Host "GIT Download Failed" -ForegroundColor white
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		Write-Host "Please visit this url to learn how to install all the dependencies manually by yourself:" -ForegroundColor white
 		Write-Host ""
-		Write-Host "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host "https://emudeck.github.io/known-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host ""
 		Write-Host ""
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		Read-Host -Prompt "Press any key to exit"
 	}
 
 }else{
-	Write-Host "All dependencies are installed" -ForegroundColor white
-	Write-Host ""
-	Write-Host "Downloading EmuDeck..." -ForegroundColor white
-	Write-Host ""
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
-	download $url_emudeck "emudeck_install.exe"
-	$temp = Join-Path "$env:USERPROFILE" "Downloads"
-	Write-Host " Launching EmuDeck Installer, please wait..."
-	&"$temp/emudeck_install.exe"
+	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+		Write-Host "Please restart this installer to continue"
+		Read-Host -Prompt "Press any key to exit"
+	}else{
+		Write-Host "All dependencies are installed" -ForegroundColor white
+		Write-Host ""
+		Write-Host "Downloading EmuDeck..." -ForegroundColor white
+		Write-Host ""
+		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+		download $url_emudeck "emudeck_install.exe"
+		$temp = Join-Path "$env:USERPROFILE" "Downloads"
+		Write-Host " Launching EmuDeck Installer, please wait..."
+		&"$temp/emudeck_install.exe"
+	}
 }
