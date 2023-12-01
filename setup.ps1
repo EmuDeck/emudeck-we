@@ -62,7 +62,7 @@ if(-not($test) -and $doInstallESDE -eq "true" ){
 
 $test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
 if(-not($test) -and $doInstallPegasus -eq "true" ){
-	Pegasus_install
+	pegasus_install
 }
 
 #SRM
@@ -193,7 +193,7 @@ if ( "$doSetupESDE" -eq "true" ){
 }
 
 if ( "$doSetupPegasus" -eq "true" ){
-	Pegasus_init
+	pegasus_init
 }
 
 if ( "$doSetupSRM" -eq "true" ){
