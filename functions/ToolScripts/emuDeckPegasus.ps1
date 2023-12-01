@@ -111,7 +111,7 @@ function pegasus_setEmu(){
 }
 
 function pegasus_IsInstalled(){
-	$test=Test-Path -Path "$pegasus_path\pegasus-fe.exe"
+	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
 	if($test){
 		Write-Output "true"
 	}else{
