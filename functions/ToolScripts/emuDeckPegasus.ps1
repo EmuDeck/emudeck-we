@@ -17,7 +17,6 @@ function pegasus_install(){
 	download $url_pegasus "Pegasus.zip"
 	moveFromTo "$temp/Pegasus/" "$pegasusPath/"
 	Remove-Item -Recurse -Force $temp/Pegasus -ErrorAction SilentlyContinue
-	createLauncher "pegasus\pegasus-frontend"
 	pegasus_init
 }
 
@@ -27,6 +26,8 @@ function pegasus_init(){
 	$destination="$pegasus_path/"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\pegasus" "$destination"
+
+	createLauncher "pegasus/pegasus-frontend"
 
 	#metadata and cores paths
 	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
