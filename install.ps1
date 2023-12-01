@@ -358,7 +358,7 @@ if ( $PSversion -lt 51 ){
 
 	Write-Host ""
 	Write-Host " If the WMF installation fails please restart Windows and run the installer again"  -ForegroundColor white
-	Read-Host -Prompt "Press any key to continue or CTRL+C to quit"
+	Read-Host -Prompt "Press ENTER to continue or CTRL+C to quit"
 	clear
 	Write-Host "PowerShell updated to 5.1" -ForegroundColor white
 }
@@ -368,7 +368,7 @@ if ( $PSversion -lt 51 ){
 
 	if($EnabledValue -eq 1){
 		Write-Host "Windows FIPS detected, we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -ForegroundColor white
-		Read-Host -Prompt "Press any key to apply the fix and restart"
+		Read-Host -Prompt "Press ENTER to apply the fix and restart"
 $scriptContent = @"
 Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
 "@
@@ -384,7 +384,7 @@ Invoke-WebRequest -Uri $url -OutFile $destination
 Start-Process -FilePath $destination -Wait -ErrorAction SilentlyContinue
 
 cls
-Read-Host -Prompt "Press any key to continue once Winget has been updated"
+Read-Host -Prompt "Press ENTER to continue once Winget has been updated"
 cls
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
@@ -441,13 +441,13 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 		Write-Host ""
 		Write-Host ""
 		$Host.UI.RawUI.BackgroundColor = "Black"
-		Read-Host -Prompt "Press any key to exit"
+		Read-Host -Prompt "Press ENTER to exit"
 	}
 
 }else{
 	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 		Write-Host "Please restart this installer to continue"
-		Read-Host -Prompt "Press any key to exit"
+		Read-Host -Prompt "Press ENTER to exit"
 	}else{
 		Write-Host "All dependencies are installed" -ForegroundColor white
 		Write-Host ""
