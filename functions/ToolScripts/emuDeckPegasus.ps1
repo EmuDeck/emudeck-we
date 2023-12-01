@@ -18,6 +18,7 @@ function pegasus_install(){
 	moveFromTo "$temp/Pegasus/" "$pegasusPath/"
 	Remove-Item -Recurse -Force $temp/Pegasus -ErrorAction SilentlyContinue
 	createLauncher "pegasus\pegasus-frontend"
+	pegasus_init
 }
 
 #ApplyInitialSettings
@@ -43,6 +44,37 @@ function pegasus_init(){
 	}
 
 	sedFile "$pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+
+	Get-ChildItem -Path $romsPath | ForEach-Object {
+		$systemPath = $_.FullName
+		Remove-Item -Path "$systemPath\media" -Recurse -Force -ErrorAction SilentlyContinue
+	}
+
+	Get-ChildItem -Path $romsPath | ForEach-Object {
+		$systemPath = $_.FullName
+		$system = ($systemPath -split '\\')[-1]
+		$coversPath = Join-Path $toolsPath "downloaded_media\$system\covers"
+		$box2dfrontPath = Join-Path $toolsPath "downloaded_media\$system\box2dfront"
+		$marqueesPath = Join-Path $toolsPath "downloaded_media\$system\marquees"
+		$wheelPath = Join-Path $toolsPath "downloaded_media\$system\wheel"
+
+		mkdir $coversPath -ErrorAction SilentlyContinue
+		mkdir $box2dfrontPath -ErrorAction SilentlyContinue
+		mkdir $marqueesPath -ErrorAction SilentlyContinue
+		mkdir $wheelPath -ErrorAction SilentlyContinue
+	}
+
+	Get-ChildItem -Path $romsPath | ForEach-Object {
+		$systemPath = $_.FullName
+		$system = ($systemPath -split '\\')[-1]
+		$targetPath = Join-Path $toolsPath "downloaded_media\$system"
+
+		createSaveLink "$systemPath\media" $targetPath
+		createSaveLink "$toolsPath\downloaded_media\$system\covers"  "$toolsPath\downloaded_media\$system\box2dfront"
+		createSaveLink "$toolsPath\downloaded_media\$system\marquees"  "$toolsPath\downloaded_media\$system\wheel"
+	}
+
+
 
 }
 
