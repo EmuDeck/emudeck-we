@@ -54,10 +54,10 @@ function pegasus_init(){
 	Get-ChildItem -Path $romsPath | ForEach-Object {
 		$systemPath = $_.FullName
 		$system = ($systemPath -split '\\')[-1]
-		$coversPath = Join-Path $toolsPath "downloaded_media\$system\covers"
-		$box2dfrontPath = Join-Path $toolsPath "downloaded_media\$system\box2dfront"
-		$marqueesPath = Join-Path $toolsPath "downloaded_media\$system\marquees"
-		$wheelPath = Join-Path $toolsPath "downloaded_media\$system\wheel"
+		$coversPath = Join-Path $storagePath "downloaded_media\$system\covers"
+		$box2dfrontPath = Join-Path $storagePath "downloaded_media\$system\box2dfront"
+		$marqueesPath = Join-Path $storagePath "downloaded_media\$system\marquees"
+		$wheelPath = Join-Path $storagePath "downloaded_media\$system\wheel"
 
 		mkdir $coversPath -ErrorAction SilentlyContinue
 		mkdir $box2dfrontPath -ErrorAction SilentlyContinue
@@ -68,11 +68,11 @@ function pegasus_init(){
 	Get-ChildItem -Path $romsPath | ForEach-Object {
 		$systemPath = $_.FullName
 		$system = ($systemPath -split '\\')[-1]
-		$targetPath = Join-Path $toolsPath "downloaded_media\$system"
+		$targetPath = Join-Path $storagePath "downloaded_media\$system"
 
 		createSaveLink "$systemPath\media" $targetPath
-		createSaveLink "$toolsPath\downloaded_media\$system\covers"  "$toolsPath\downloaded_media\$system\box2dfront"
-		createSaveLink "$toolsPath\downloaded_media\$system\marquees"  "$toolsPath\downloaded_media\$system\wheel"
+		createSaveLink "$storagePath\downloaded_media\$system\covers"  "$storagePath\downloaded_media\$system\box2dfront"
+		createSaveLink "$storagePath\downloaded_media\$system\marquees"  "$storagePath\downloaded_media\$system\wheel"
 	}
 
 
