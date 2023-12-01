@@ -14,7 +14,7 @@ function pegasus_install(){
 	setMSG "Installing $pegasus_toolName"
 	mkdir $pegasusPath -ErrorAction SilentlyContinue
 	$url_pegasus = getLatestReleaseURLGH 'mmatyas/pegasus-frontend' 'zip' 'win'
-	download $url_pegasus "Pegasus.7z"
+	download $url_pegasus "Pegasus.zip"
 	moveFromTo "$temp/Pegasus/" "$pegasusPath/"
 	Remove-Item -Recurse -Force $temp/Pegasus -ErrorAction SilentlyContinue
 	createLauncher "pegasus\pegasus-frontend"
