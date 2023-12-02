@@ -5,7 +5,7 @@
 if (-not "$emulationPath") {
 	$emulationPath = "C:\"
 }
-
+. "$env:APPDATA\EmuDeck\backend\api.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\downloadCore.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\showNotification.ps1"
