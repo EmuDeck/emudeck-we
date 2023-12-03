@@ -1,6 +1,6 @@
 function API_pull($branchGIT){
-	cd "$env:APPDATA\EmuDeck\backend\";
 	Start-Transcript "$env:USERPROFILE/EmuDeck/logs/git.log";
+		cd "$env:APPDATA\EmuDeck\backend\";
 		git reset --hard;
 		git clean -fd;
 		git checkout $branchGIT;
