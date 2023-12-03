@@ -11,11 +11,11 @@ if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsC
 	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
 
 	if ($result -eq "OKButton") {
-		startScriptWithAdmin -ScriptContent $scriptContent
 	$scriptContent = @"
 		$dnsServers = "1.1.1.1", "8.8.8.8"
 		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
 "@
+		startScriptWithAdmin -ScriptContent $scriptContent
 	}
 
 }

@@ -1,5 +1,5 @@
 function game_mode_enable(){
-	$source = "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\gamemode.bat"
+	$source = "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\start_game_mode.exe"
 	$test=Test-Path -Path "$userFolder\OneDrive\Desktop"
 	if(-not($test)){
 		$target =  "$userFolder\Desktop\Return to Gaming Mode.lnk"
@@ -12,9 +12,9 @@ function game_mode_enable(){
 	$shortcut.TargetPath = $source
 	$shortcut.WindowStyle = 7
 	$shortcut.IconLocation = "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\icon.ico"
-	$shortcut.Save()
+	$shortcut.Save() -ErrorAction SilentlyContinue
 
-	& "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\enablegamemode.bat"
+	& "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\enable.exe"
 	if($?){
 		Write-Output "true"
 	}
@@ -22,7 +22,7 @@ function game_mode_enable(){
 
 function game_mode_disable(){
 	 rm -fo -r "$env:USERPROFILE\Desktop\Return to Gaming Mode.lnk" -ErrorAction SilentlyContinue
-	& "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\disablegamemode.bat"
+	& "$userFolder\AppData\Roaming\EmuDeck\backend\tools\gamemode\disable.exe"
 	if($?){
 		Write-Output "true"
 	}
