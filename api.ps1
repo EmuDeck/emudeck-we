@@ -8,3 +8,7 @@ function API_pull($branchGIT){
 		appImageInit;
 	Stop-Transcript;
 }
+
+function API_optional_parsers(){
+	echo "true"
+}
