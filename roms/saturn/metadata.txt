@@ -1,4 +1,4 @@
-collection: Sega Saturn
+collection: Saturn
 shortname: saturn
 extensions: bin, BIN, ccd, CCD, chd, CHD, cue, CUE, iso, ISO, mds, MDS, toc, TOC, m3u, M3U, 7z, 7Z, zip, ZIP
 launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/mednafen_saturn_libretro.dll {file.path}
