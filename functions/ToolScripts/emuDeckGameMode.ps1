@@ -6,7 +6,7 @@ function game_mode_enable(){
 	$shortcut.TargetPath = $source
 	$shortcut.WindowStyle = 7
 	$shortcut.IconLocation = "$env:APPDATA\EmuDeck\backend\tools\gamemode\icon.ico"
-	$shortcut.Save()
+	#$shortcut.Save()
 
 	& "$env:APPDATA\EmuDeck\backend\tools\gamemode\enable.exe"
 	if($?){
@@ -15,7 +15,7 @@ function game_mode_enable(){
 }
 
 function game_mode_disable(){
-	rm -fo -r "$env:USERPROFILE\Desktop\Return to Gaming Mode.lnk" -ErrorAction SilentlyContinue
+	#rm -fo -r "$env:USERPROFILE\Desktop\Return to Gaming Mode.lnk" -ErrorAction SilentlyContinue
 	& "$env:APPDATA\EmuDeck\backend\tools\gamemode\disable.exe"
 	if($?){
 		Write-Output "true"

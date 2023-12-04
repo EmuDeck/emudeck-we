@@ -338,6 +338,14 @@ if ($osInfo -contains "Windows 10 Home") {
 	}
 }
 
+
+#
+confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Updatell all text in the top right."
+
+Start ms-windows-store:
+
+confirmDialog -TitleText "Windows Store" -MessageText "Press continue when everything is up to date."
+
 if ( $PSversion -lt 51 ){
 	clear
 	Write-Host "Updating PowerShell to 5.1" -ForegroundColor white
