@@ -1,31 +1,33 @@
 
 #variables
-$Pegasus_toolName="Pegasus Frontend"
-$Pegasus_path="$env:USERPROFILE\AppData\Local\pegasus-frontend"
-$Pegasus_dir_file="$Pegasus_path\game_dirs.txt"
-$Pegasus_config_file="$Pegasus_path\settings.txt"
+$pegasus_toolName="Pegasus Frontend"
+$pegasus_path="$env:USERPROFILE\AppData\Local\pegasus-frontend"
+$pegasus_dir_file="$pegasus_path\game_dirs.txt"
+$pegasus_config_file="$pegasus_path\settings.txt"
 
-function Pegasus_cleanup(){
+function pegasus_cleanup(){
 	echo "NYI"
 }
 
 #Install
-function Pegasus_install(){
-	setMSG "Installing $Pegasus_toolName"
+function pegasus_install(){
+	setMSG "Installing $pegasus_toolName"
 	mkdir $pegasusPath -ErrorAction SilentlyContinue
 	$url_pegasus = getLatestReleaseURLGH 'mmatyas/pegasus-frontend' 'zip' 'win'
-	download $url_pegasus "Pegasus.7z"
+	download $url_pegasus "Pegasus.zip"
 	moveFromTo "$temp/Pegasus/" "$pegasusPath/"
 	Remove-Item -Recurse -Force $temp/Pegasus -ErrorAction SilentlyContinue
-	createLauncher "pegasus\pegasus-frontend"
+	pegasus_init
 }
 
 #ApplyInitialSettings
-function Pegasus_init(){
-	setMSG "Setting up $Pegasus_toolName"
-	$destination="$Pegasus_path/"
+function pegasus_init(){
+	setMSG "Setting up $pegasus_toolName"
+	$destination="$pegasus_path/"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\pegasus" "$destination"
+
+	createLauncher "pegasus/pegasus-frontend"
 
 	#metadata and cores paths
 	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
@@ -42,43 +44,74 @@ function Pegasus_init(){
 		} | Set-Content $_.FullName -Encoding UTF8
 	}
 
-	sedFile "$Pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile "$pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+
+	Get-ChildItem -Path $romsPath | ForEach-Object {
+		$systemPath = $_.FullName
+		Remove-Item -Path "$systemPath\media" -Recurse -Force -ErrorAction SilentlyContinue
+	}
+
+	Get-ChildItem -Path $romsPath | ForEach-Object {
+		$systemPath = $_.FullName
+		$system = ($systemPath -split '\\')[-1]
+		$coversPath = Join-Path $storagePath "downloaded_media\$system\covers"
+		$box2dfrontPath = Join-Path $storagePath "downloaded_media\$system\box2dfront"
+		$marqueesPath = Join-Path $storagePath "downloaded_media\$system\marquees"
+		$wheelPath = Join-Path $storagePath "downloaded_media\$system\wheel"
+
+		mkdir $coversPath -ErrorAction SilentlyContinue
+		mkdir $box2dfrontPath -ErrorAction SilentlyContinue
+		mkdir $marqueesPath -ErrorAction SilentlyContinue
+		mkdir $wheelPath -ErrorAction SilentlyContinue
+	}
+
+	Get-ChildItem -Path $romsPath | ForEach-Object {
+		$systemPath = $_.FullName
+		$system = ($systemPath -split '\\')[-1]
+		$targetPath = Join-Path $storagePath "downloaded_media\$system"
+
+		createSaveLink "$systemPath\media" $targetPath
+		createSaveLink "$storagePath\downloaded_media\$system\covers"  "$storagePath\downloaded_media\$system\box2dfront"
+		createSaveLink "$storagePath\downloaded_media\$system\marquees"  "$storagePath\downloaded_media\$system\wheel"
+	}
+
+
 
 }
 
 
-function Pegasus_resetConfig(){
-	Pegasus_init
+function pegasus_resetConfig(){
+	pegasus_init
 	if($?){
 		Write-Output "true"
 	}
 }
 
-function Pegasus_update(){
-	Pegasus_init
+function pegasus_update(){
+	pegasus_init
 	if($?){
 		Write-Output "true"
 	}
 }
 
-function Pegasus_addCustomSystems(){
+function pegasus_addCustomSystems(){
 	echo "NYI"
 }
 
-function Pegasus_applyTheme(){
+function pegasus_applyTheme(){
 	echo "NYI"
 }
 
-function Pegasus_setDefaultEmulators(){
+function pegasus_setDefaultEmulators(){
 	echo "NYI"
 }
 
-function Pegasus_setEmu(){
+function pegasus_setEmu(){
 	echo "NYI"
 }
 
-function Pegasus_IsInstalled(){
-	$test=Test-Path -Path "$Pegasus_path\pegasus-fe.exe"
+function pegasus_IsInstalled(){
+	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
 	if($test){
 		Write-Output "true"
 	}else{
@@ -86,6 +119,6 @@ function Pegasus_IsInstalled(){
 	}
 }
 
-function Pegasus_uninstall(){
+function pegasus_uninstall(){
 	echo "NYI"
 }

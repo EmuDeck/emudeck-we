@@ -11,11 +11,11 @@ if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsC
 	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
 
 	if ($result -eq "OKButton") {
-		startScriptWithAdmin -ScriptContent $scriptContent
 	$scriptContent = @"
 		$dnsServers = "1.1.1.1", "8.8.8.8"
 		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
 "@
+		startScriptWithAdmin -ScriptContent $scriptContent
 	}
 
 }
@@ -338,6 +338,14 @@ if ($osInfo -contains "Windows 10 Home") {
 	}
 }
 
+
+#
+confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Updatell all text in the top right."
+
+Start ms-windows-store:
+
+confirmDialog -TitleText "Windows Store" -MessageText "Press continue when everything is up to date."
+
 if ( $PSversion -lt 51 ){
 	clear
 	Write-Host "Updating PowerShell to 5.1" -ForegroundColor white
@@ -358,7 +366,7 @@ if ( $PSversion -lt 51 ){
 
 	Write-Host ""
 	Write-Host " If the WMF installation fails please restart Windows and run the installer again"  -ForegroundColor white
-	Read-Host -Prompt "Press any key to continue or CTRL+C to quit"
+	Read-Host -Prompt "Press ENTER to continue or CTRL+C to quit"
 	clear
 	Write-Host "PowerShell updated to 5.1" -ForegroundColor white
 }
@@ -368,7 +376,7 @@ if ( $PSversion -lt 51 ){
 
 	if($EnabledValue -eq 1){
 		Write-Host "Windows FIPS detected, we need to turn it off so cloudSync can be used, after that the computer will restart. Once back in the desktop just run this installer again. You can read about FIPS here and why is better to disable it: https://techcommunity.microsoft.com/t5/microsoft-security-baselines/why-we-re-not-recommending-fips-mode-anymore/ba-p/701037" -ForegroundColor white
-		Read-Host -Prompt "Press any key to apply the fix and restart"
+		Read-Host -Prompt "Press ENTER to apply the fix and restart"
 $scriptContent = @"
 Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmPolicy -name Enabled -value 0; Restart-Computer -Force
 "@
@@ -384,7 +392,7 @@ Invoke-WebRequest -Uri $url -OutFile $destination
 Start-Process -FilePath $destination -Wait -ErrorAction SilentlyContinue
 
 cls
-Read-Host -Prompt "Press any key to continue once Winget has been updated"
+Read-Host -Prompt "Press ENTER to continue once Winget has been updated"
 cls
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
@@ -424,32 +432,39 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 	download $url_git "git_install.exe"
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 
-	Write-Host " Launching GIT Installer, please wait..."
+	Write-Host "Installing GIT in the background, please wait a few minutes..."
 
 	$installDir="$env:ProgramFiles\Git\"
 
 	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
+	$file = "$env:USERPROFILE\roms\$system\media\$type\$romName.png"
 
-	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+	if (-not (Test-Path $installDir)) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
 		Write-Host "GIT Download Failed" -ForegroundColor white
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		Write-Host "Please visit this url to learn how to install all the dependencies manually by yourself:" -ForegroundColor white
 		Write-Host ""
-		Write-Host "https://emudeck.github.io/common-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host "https://emudeck.github.io/known-issues/windows/#dependencies" -ForegroundColor white
+		Write-Host ""
 		Write-Host ""
 		$Host.UI.RawUI.BackgroundColor = "Black"
-		Read-Host -Prompt "Press any key to exit"
+		Read-Host -Prompt "Press ENTER to exit"
 	}
 
 }else{
-	Write-Host "All dependencies are installed" -ForegroundColor white
-	Write-Host ""
-	Write-Host "Downloading EmuDeck..." -ForegroundColor white
-	Write-Host ""
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-beta' 'exe' 'emudeck'
-	download $url_emudeck "emudeck_install.exe"
-	$temp = Join-Path "$env:USERPROFILE" "Downloads"
-	Write-Host " Launching EmuDeck Installer, please wait..."
-	&"$temp/emudeck_install.exe"
+	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+		Write-Host "Please restart this installer to continue"
+		Read-Host -Prompt "Press ENTER to exit"
+	}else{
+		Write-Host "All dependencies are installed" -ForegroundColor white
+		Write-Host ""
+		Write-Host "Downloading EmuDeck..." -ForegroundColor white
+		Write-Host ""
+		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+		download $url_emudeck "emudeck_install.exe"
+		$temp = Join-Path "$env:USERPROFILE" "Downloads"
+		Write-Host " Launching EmuDeck Installer, please wait..."
+		&"$temp/emudeck_install.exe"
+	}
 }
