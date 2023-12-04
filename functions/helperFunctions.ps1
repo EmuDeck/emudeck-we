@@ -84,9 +84,9 @@ function getLocations() {
 	$networkDrives = Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=4"
 	foreach ($networkDrive in $networkDrives) {
 		$driveInfo += @{
-			name = $networkDrive.VolumeName
-			size = [math]::Round($networkDrive.Size / 1GB, 2)
-			type = "Network"
+			name   = $networkDrive.VolumeName
+			size   = [math]::Round($networkDrive.Size / 1GB, 2)
+			type   = "Network"
 			letter = $networkDrive.DeviceID
 		}
 	}
@@ -99,20 +99,17 @@ function getLocations() {
 			$driveType = "External"
 		}
 
-		$driveLetter = $null
 		$logicalDisks = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='$($drive.DeviceID)'} WHERE AssocClass=Win32_DiskDriveToDiskPartition"
 		foreach ($logicalDisk in $logicalDisks) {
 			$partitions = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='$($logicalDisk.DeviceID)'} WHERE AssocClass=Win32_LogicalDiskToPartition"
 			foreach ($partition in $partitions) {
-				$driveLetter = $partition.DeviceID
+				$driveInfo += @{
+					name   = $drive.Model
+					size   = [math]::Round($drive.Size / 1GB, 2)
+					type   = $driveType
+					letter = $partition.DeviceID
+				}
 			}
-		}
-
-		$driveInfo += @{
-			name = $drive.Model
-			size = [math]::Round($drive.Size / 1GB, 2)
-			type = $driveType
-			letter = $driveLetter
 		}
 	}
 
