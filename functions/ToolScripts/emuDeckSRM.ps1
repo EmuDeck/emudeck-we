@@ -362,7 +362,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 	# if ($doInstallPegasus -eq "true" -or (pegasus_isInstalled -like "*true*")){
 	# 	createLauncher "pegasus\pegasus-frontend"
 	# }
-	if ($doInstallRA -eq "true" -or (RA_isInstalled -like "*true*")){
+	if ($doInstallRA -eq "true" -or (RetroArch_isInstalled -like "*true*")){
 		createLauncher retroarch
 		$setupSaves+="RetroArch_setupSaves;"
 	}
