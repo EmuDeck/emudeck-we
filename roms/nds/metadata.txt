@@ -1,4 +1,4 @@
 collection: Nintendo DS
 shortname: nds
 extensions: bin, BIN, nds, NDS, 7z, 7Z, zip, ZIP
-launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/melonds.ps1" {file.path} -f
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/melonds.ps1"  -f {file.path}
