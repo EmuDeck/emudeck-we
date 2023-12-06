@@ -23,7 +23,7 @@ function Yuzu_init(){
 	#SDL fix
 	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\yuzu\SDL2.dll" -Destination "$emusPath\yuzu\yuzu-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
-	sedFile $destination\qt-config.ini "C:\Emulation" $emulationPath
+	sedFile $destination\qt-config.ini "C:/Emulation" $emulationPath
 
 	Yuzu_setupStorage
 #	Yuzu_setupSaves
