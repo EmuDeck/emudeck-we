@@ -340,7 +340,7 @@ if ($osInfo -contains "Windows 10 Home") {
 
 
 #
-confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Updatell all text in the top right."
+confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Update all text in the top right."
 
 Start ms-windows-store:
 
