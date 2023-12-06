@@ -14,6 +14,7 @@
   "cemu": { "id": "cemu", "code": "Cemu", "version": 5 },
   "srm": { "id": "srm", "code": "SRM", "version": 17 },
   "esde": { "id": "esde", "code": "ESDE", "version": 5 },
+  "pegasus": { "id": "pegasus", "code": "Pegasus", "version": 1 },
   "mame": { "id": "mame", "code": "MAME", "version": 0 },
   "vita3k": { "id": "vita3k", "code": "Vita3k", "version": 1 },
   "scummvm": { "id": "scummvm", "code": "ScummVM", "version": 0 },
