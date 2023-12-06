@@ -8,7 +8,7 @@
   "citra": { "id": "citra", "code": "Citra", "version": 3 },
   "pcsx2": { "id": "pcsx2", "code": "PCSX2QT", "version": 5 },
   "rpcs3": { "id": "rpcs3", "code": "RPCS3", "version": 3 },
-  "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 5 },
+  "yuzu": { "id": "yuzu", "code": "Yuzu", "version": 6 },
   "ryujinx": { "id": "ryujinx", "code": "Ryujinx", "version": 4 },
   "xemu": { "id": "xemu", "code": "Xemu", "version": 0 },
   "cemu": { "id": "cemu", "code": "Cemu", "version": 5 },
