@@ -344,7 +344,7 @@ confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pen
 
 Start ms-windows-store:
 
-confirmDialog -TitleText "Windows Store" -MessageText "Press continue when everything is up to date."
+Write-Host "Press ENTER when everything is up to date."
 
 if ( $PSversion -lt 51 ){
 	clear
