@@ -123,7 +123,7 @@
 /run/media/mmcblk0p1/Emulation\roms\pico8
 /run/media/mmcblk0p1/Emulation\roms\pokemini
 /run/media/mmcblk0p1/Emulation\roms\ports
-/run/media/mmcblk0p1/Emulation\roms\primehacks
+/run/media/mmcblk0p1/Emulation\roms\primehack
 /run/media/mmcblk0p1/Emulation\roms\ps2
 /run/media/mmcblk0p1/Emulation\roms\ps3
 /run/media/mmcblk0p1/Emulation\roms\ps4
