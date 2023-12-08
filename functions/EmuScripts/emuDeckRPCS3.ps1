@@ -36,10 +36,15 @@ function RPCS3_renameFolders(){
 
 	foreach ($directory in $directories) {
 		$name = $directory.Name
-
 		if ($name -ne "shortcuts") {
-			if (-not $name.EndsWith(".ps3")) {
-				$newName = $name + ".ps3"
+			if ($name -ne "media") {
+				if (-not $name.EndsWith(".ps3")) {
+					$newName = $name + ".ps3"
+					$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
+					Rename-Item -Path $directory.FullName -NewName $newName
+				}
+			}else{
+				$newName = "media"
 				$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
 				Rename-Item -Path $directory.FullName -NewName $newName
 			}
