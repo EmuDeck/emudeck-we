@@ -120,5 +120,8 @@ function pegasus_IsInstalled(){
 }
 
 function pegasus_uninstall(){
-	echo "NYI"
+	rm -r -fo "$env:USERPROFILE\EmuDeck\Pegasus" -ErrorAction SilentlyContinue
+	if($?){
+		Write-Output "true"
+	}
 }
