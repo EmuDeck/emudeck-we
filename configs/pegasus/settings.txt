@@ -1,4 +1,4 @@
-general.theme: themes/atari-50-menu-pegasus/
+general.theme: themes/gameOS/
 general.verify-files: false
 general.input-mouse-support: true
 general.fullscreen: true

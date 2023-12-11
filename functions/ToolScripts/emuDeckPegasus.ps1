@@ -99,7 +99,17 @@ function pegasus_addCustomSystems(){
 }
 
 function pegasus_applyTheme(){
-	echo "NYI"
+	$themeFolderTemp = $pegasusThemeUrl -split '/' | Select-Object -Last 1
+	$themeFolder = $themeFolderTemp -replace "\.git$"
+	mkdir "$pegasus_path\themes" -ErrorAction SilentlyContinue
+	cd "$pegasus_path\themes"
+	git clone $pegasusThemeUrl ".\$themeFolder"
+	if($?){
+		cd "$pegasus_path\themes\$themeFolder"
+		git pull
+	}
+	changeLine "general.theme:" "general.theme: themes/$themeFolder" "$pegasus_config_file"
+
 }
 
 function pegasus_setDefaultEmulators(){
@@ -120,6 +130,7 @@ function pegasus_IsInstalled(){
 }
 
 function pegasus_uninstall(){
+	rm -r -fo $pegasus_path -ErrorAction SilentlyContinue
 	rm -r -fo "$env:USERPROFILE\EmuDeck\Pegasus" -ErrorAction SilentlyContinue
 	if($?){
 		Write-Output "true"
