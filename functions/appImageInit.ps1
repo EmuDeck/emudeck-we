@@ -12,6 +12,7 @@ function appImageInit(){
 
 	#autofix_betaCorruption
 	autofix_cloudSyncLockfile
+	autofix_areInstalled
 	#autofix_raSavesFolders
 	#autofix_lnk
 	#autofix_ESDE
