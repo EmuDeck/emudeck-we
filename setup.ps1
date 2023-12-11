@@ -66,10 +66,8 @@ if(-not($test) -and $doInstallPegasus -eq "true" ){
 }
 
 #SRM
+SRM_install
 
-if(-not($test)){
-	SRM_install
-}
 
 #
 # Emulators Download
