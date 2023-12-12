@@ -397,19 +397,19 @@ Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
 
 
-	$wingetVersion = (winget -v) -replace '[^\d.]'
-	$minVersion = '1.6.2721'
-	# Compara las versiones
-	if ([version]$wingetVersion -lt [version]$minVersion) {
-		Write-Host "Updating Winget..."
-
-		$url_git = getLatestReleaseURLGH 'microsoft/winget-cli' 'msixbundle'
-		download $url_git "winget.msixbundle"
-		$temp = Join-Path "$env:USERPROFILE" "Downloads"
-		Start-Job -Name WinGetInstall -ScriptBlock { Add-AppxPackage -Path "$temp/winget.msixbundle" }
-		Wait-Job -Name WinGetInstall
-
-	}
+	#$wingetVersion = (winget -v) -replace '[^\d.]'
+	#$minVersion = '1.6.2721'
+	## Compara las versiones
+	#if ([version]$wingetVersion -lt [version]$minVersion) {
+	#	Write-Host "Updating Winget..."
+#
+	#	$url_git = getLatestReleaseURLGH 'microsoft/winget-cli' 'msixbundle'
+	#	download $url_git "winget.msixbundle"
+	#	$temp = Join-Path "$env:USERPROFILE" "Downloads"
+	#	Start-Job -Name WinGetInstall -ScriptBlock { Add-AppxPackage -Path "$temp/winget.msixbundle" }
+	#	Wait-Job -Name WinGetInstall
+#
+	#}
 
 	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
 
