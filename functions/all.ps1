@@ -45,3 +45,4 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSRM.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckGameMode.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
