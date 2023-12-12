@@ -324,15 +324,14 @@ if ($osInfo -contains "Windows 10 Home") {
 
 
 
-if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -or (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
+if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
 
 
 	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
 
 	if ($result -eq "OKButton") {
 	$scriptContent = @"
-		$dnsServers = "1.1.1.1", "8.8.8.8"
-		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
+		Set-DnsClientServerAddress -ServerAddresses "8.8.8.8", "1.1.1.1"  -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
 "@
 		startScriptWithAdmin -ScriptContent $scriptContent
 	}
