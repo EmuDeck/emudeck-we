@@ -75,7 +75,7 @@ function pegasus_init(){
 		createSaveLink "$storagePath\downloaded_media\$system\marquees"  "$storagePath\downloaded_media\$system\wheel"
 	}
 
-
+	pegasus_applyTheme $pegasusThemeUrl
 
 }
 
@@ -98,7 +98,7 @@ function pegasus_addCustomSystems(){
 	echo "NYI"
 }
 
-function pegasus_applyTheme(){
+function pegasus_applyTheme($pegasusThemeUrl){
 	$themeFolderTemp = $pegasusThemeUrl -split '/' | Select-Object -Last 1
 	$themeFolder = $themeFolderTemp -replace "\.git$"
 	mkdir "$pegasus_path\themes" -ErrorAction SilentlyContinue

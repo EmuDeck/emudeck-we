@@ -450,6 +450,9 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 		Write-Host ""
 		$Host.UI.RawUI.BackgroundColor = "Black"
 		Read-Host -Prompt "Press ENTER to exit"
+	}else{
+		Write-Host "Please restart this installer to continue"
+		Read-Host -Prompt "Press ENTER to exit"
 	}
 
 }else{
