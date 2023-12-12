@@ -5,22 +5,6 @@ $PSversionMinor = $PSVersionTable.PSVersion.Minor
 $PSversion = "$PSversionMajor$PSversionMinor"
 $osInfo = (systeminfo | findstr /B /C:"OS Name") | ForEach-Object { $_ -replace 'OS Name:', '' }
 
-if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
-
-
-	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
-
-	if ($result -eq "OKButton") {
-	$scriptContent = @"
-		$dnsServers = "1.1.1.1", "8.8.8.8"
-		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
-"@
-		startScriptWithAdmin -ScriptContent $scriptContent
-	}
-
-}
-
-
 Function NewWPFDialog() {
 	<#
 	.SYNOPSIS
@@ -339,12 +323,28 @@ if ($osInfo -contains "Windows 10 Home") {
 }
 
 
-#
-confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Updatell all text in the top right."
+
+if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -or (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
+
+
+	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
+
+	if ($result -eq "OKButton") {
+	$scriptContent = @"
+		$dnsServers = "1.1.1.1", "8.8.8.8"
+		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
+"@
+		startScriptWithAdmin -ScriptContent $scriptContent
+	}
+
+}
+
+
+confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Update all text in the top right."
 
 Start ms-windows-store:
 
-confirmDialog -TitleText "Windows Store" -MessageText "Press continue when everything is up to date."
+Read-Host -Prompt "Press ENTER when everything is up to date."
 
 if ( $PSversion -lt 51 ){
 	clear
@@ -449,6 +449,9 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 		Write-Host ""
 		Write-Host ""
 		$Host.UI.RawUI.BackgroundColor = "Black"
+		Read-Host -Prompt "Press ENTER to exit"
+	}else{
+		Write-Host "Please restart this installer to continue"
 		Read-Host -Prompt "Press ENTER to exit"
 	}
 

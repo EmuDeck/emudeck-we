@@ -66,10 +66,8 @@ if(-not($test) -and $doInstallPegasus -eq "true" ){
 }
 
 #SRM
+SRM_install
 
-if(-not($test)){
-	SRM_install
-}
 
 #
 # Emulators Download
@@ -286,5 +284,7 @@ if ( "$doSetupMGBA" -eq "true" ){
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
 Invoke-Expression $setupSaves
+
+autofix_areInstalled
 
 Stop-Transcript
