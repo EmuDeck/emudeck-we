@@ -1,4 +1,10 @@
 function createLauncher($ps1) {
+
+  mkdir "$toolsPath\launchers\srm" -ErrorAction SilentlyContinue
+  mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
+  mkdir "$toolsPath\launchers\pegasus" -ErrorAction SilentlyContinue
+
+
   $SourceFilePath = "$env:APPDATA\EmuDeck\backend\tools\launchers\$ps1.ps1"
   $ShortcutPathPs1 = "$toolsPath\launchers\$ps1.ps1"
   Copy-Item -Path $SourceFilePath -Destination $ShortcutPathPs1 -Force -ErrorAction SilentlyContinue
@@ -9,16 +15,13 @@ function createLauncher($ps1) {
 
   if ($name -like "*EmulationStationDE*") {
     $name = "EmulationStationDE"
-    mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
   }
   if ($name -like "*steamrommanager*") {
     $name = "SteamRomManager"
-    mkdir "$toolsPath\launchers\srm" -ErrorAction SilentlyContinue
   }
 
   if ($name -like "*pegasus-frontend*") {
 	  $name = "Pegasus"
-	  mkdir "$toolsPath\launchers\pegasus" -ErrorAction SilentlyContinue
 	}
 
   mkdir "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\" -ErrorAction SilentlyContinue

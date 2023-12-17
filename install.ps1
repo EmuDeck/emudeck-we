@@ -1,9 +1,26 @@
 clear
 
+#
+##
+###
+#### Vars
+###
+##
+#
+
 $PSversionMajor = $PSVersionTable.PSVersion.Major
 $PSversionMinor = $PSVersionTable.PSVersion.Minor
 $PSversion = "$PSversionMajor$PSversionMinor"
 $osInfo = (systeminfo | findstr /B /C:"OS Name") | ForEach-Object { $_ -replace 'OS Name:', '' }
+
+
+#
+##
+###
+#### Functions
+###
+##
+#
 
 Function NewWPFDialog() {
 	<#
@@ -324,15 +341,14 @@ if ($osInfo -contains "Windows 10 Home") {
 
 
 
-if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -or (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
+if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -and (Get-DnsClientServerAddress).ServerAddresses[0] -ne '8.8.8.8' ){
 
 
 	$result = yesNoDialog -TitleText "Slow DNS Detected" -MessageText "We've detected slow DNS, this might make EmuDeck to get stuck on install. Do you want us to change them for faster ones? 1.1.1.1 (CloudFlare) and 8.8.8.8 (Google)" -OKButtonText "Yes" -CancelButtonText "No"
 
 	if ($result -eq "OKButton") {
 	$scriptContent = @"
-		$dnsServers = "1.1.1.1", "8.8.8.8"
-		Set-DnsClientServerAddress -ServerAddresses $dnsServers -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
+		Set-DnsClientServerAddress -ServerAddresses "8.8.8.8", "1.1.1.1"  -InterfaceIndex (Get-NetAdapter | Where-Object { $_.Status -eq 'Up' }).InterfaceIndex
 "@
 		startScriptWithAdmin -ScriptContent $scriptContent
 	}
@@ -340,11 +356,6 @@ if( (Get-DnsClientServerAddress).ServerAddresses[0] -ne '1.1.1.1' -or (Get-DnsCl
 }
 
 
-confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have no pending updates in your Windows Store, even if you don't use it or the EmuDeck installation might fail. Press Continue to open the Microsoft store, go to Library and there press the Update all text in the top right."
-
-Start ms-windows-store:
-
-Read-Host -Prompt "Press ENTER when everything is up to date."
 
 if ( $PSversion -lt 51 ){
 	clear
@@ -382,40 +393,48 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 "@
 			startScriptWithAdmin -ScriptContent $scriptContent
 	}
+#
+##
+###
+#### Start the party
+###
+##
+#
 
+Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
+Write-Host ""
+
+
+confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have the 'App Installer' app up to date in the Windows Store, or the EmuDeck installation. Press Continue to open the App Instaler page in the Microsoft Store and then click update."
+
+Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1"
+
+Write-Host "Waiting for user, please update App Installer, close the Microsoft Store after that..."
+
+$storeProcess = Get-Process -Name "WinStore.App"
+
+$storeProcess.WaitForExit()
+cls
 Write-Host "Updating Winget" -ForegroundColor white
 Write-Host ""
 
 $url = "https://cdn.winget.microsoft.com/cache/source.msix"
 $destination = "$env:TEMP\source.msix"
 Invoke-WebRequest -Uri $url -OutFile $destination
-Start-Process -FilePath $destination -Wait -ErrorAction SilentlyContinue
+Start-Process -FilePath $destination
 
-cls
-Read-Host -Prompt "Press ENTER to continue once Winget has been updated"
-cls
-Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
-Write-Host ""
+Write-Host "Waiting for user, please update / Reinstall Winget..."
 
+$storeProcess = Get-Process -Name "AppInstaller"
 
-	$wingetVersion = (winget -v) -replace '[^\d.]'
-	$minVersion = '1.6.2721'
-	# Compara las versiones
-	if ([version]$wingetVersion -lt [version]$minVersion) {
-		Write-Host "Updating Winget..."
+$storeProcess.WaitForExit()
 
-		$url_git = getLatestReleaseURLGH 'microsoft/winget-cli' 'msixbundle'
-		download $url_git "winget.msixbundle"
-		$temp = Join-Path "$env:USERPROFILE" "Downloads"
-		Start-Job -Name WinGetInstall -ScriptBlock { Add-AppxPackage -Path "$temp/winget.msixbundle" }
-		Wait-Job -Name WinGetInstall
-
-	}
-
-	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
+Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
 
 
-if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+$installDir="$env:ProgramFiles\Git\"
+if (-not (Test-Path $installDir)) {
+
 
 	$Host.UI.RawUI.BackgroundColor = "Red"
 
@@ -439,6 +458,7 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
 	$file = "$env:USERPROFILE\roms\$system\media\$type\$romName.png"
 
+
 	if (-not (Test-Path $installDir)) {
 		$Host.UI.RawUI.BackgroundColor = "Red"
 		Write-Host "GIT Download Failed" -ForegroundColor white
@@ -456,18 +476,13 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 	}
 
 }else{
-	if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-		Write-Host "Please restart this installer to continue"
-		Read-Host -Prompt "Press ENTER to exit"
-	}else{
-		Write-Host "All dependencies are installed" -ForegroundColor white
-		Write-Host ""
-		Write-Host "Downloading EmuDeck..." -ForegroundColor white
-		Write-Host ""
-		$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
-		download $url_emudeck "emudeck_install.exe"
-		$temp = Join-Path "$env:USERPROFILE" "Downloads"
-		Write-Host " Launching EmuDeck Installer, please wait..."
-		&"$temp/emudeck_install.exe"
-	}
+	Write-Host "All dependencies are installed" -ForegroundColor white
+	Write-Host ""
+	Write-Host "Downloading EmuDeck..." -ForegroundColor white
+	Write-Host ""
+	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+	download $url_emudeck "emudeck_install.exe"
+	$temp = Join-Path "$env:USERPROFILE" "Downloads"
+	Write-Host " Launching EmuDeck Installer, please wait..."
+	&"$temp/emudeck_install.exe"
 }
