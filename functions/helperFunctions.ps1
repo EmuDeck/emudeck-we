@@ -76,16 +76,18 @@ function setConfigRA($old, $new, $fileToCheck){
 	}
 }
 
-function getLocations() {
+function getLocations {
 	$drives = Get-WmiObject -Class Win32_DiskDrive
 
 	$driveInfo = @()
 
 	$networkDrives = Get-WmiObject -Class Win32_LogicalDisk -Filter "DriveType=4"
 	foreach ($networkDrive in $networkDrives) {
+		$name = $networkDrive.VolumeName
+		$size = if ($networkDrive.Size) { [math]::Round($networkDrive.Size / 1GB, 2) } else { $null }
 		$driveInfo += @{
-			name   = $networkDrive.VolumeName
-			size   = [math]::Round($networkDrive.Size / 1GB, 2)
+			name   = $name
+			size   = $size
 			type   = "Network"
 			letter = $networkDrive.DeviceID
 		}
@@ -103,9 +105,11 @@ function getLocations() {
 		foreach ($logicalDisk in $logicalDisks) {
 			$partitions = Get-WmiObject -Query "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='$($logicalDisk.DeviceID)'} WHERE AssocClass=Win32_LogicalDiskToPartition"
 			foreach ($partition in $partitions) {
+				$name = $drive.Model
+				$size = if ($drive.Size) { [math]::Round($drive.Size / 1GB, 2) } else { $null }
 				$driveInfo += @{
-					name   = $drive.Model
-					size   = [math]::Round($drive.Size / 1GB, 2)
+					name   = $name
+					size   = $size
 					type   = $driveType
 					letter = $partition.DeviceID
 				}
@@ -124,6 +128,7 @@ function getLocations() {
 
 	Write-Host $json
 }
+
 
 function customLocation(){
 
