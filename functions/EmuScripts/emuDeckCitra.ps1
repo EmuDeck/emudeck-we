@@ -24,7 +24,7 @@ function Citra_init(){
 	sedFile "$Citra_configFile" ":\Emulation" ":/Emulation"
 
 	mkdir "$emusPath\citra\user\sysdata"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\citra\user\sdmc"
+	$simLinkPath = "$emusPath\citra\user\sysdata"
 	$emuSavePath = "$biosPath\citra"
 	createSaveLink $simLinkPath $emuSavePath
 
