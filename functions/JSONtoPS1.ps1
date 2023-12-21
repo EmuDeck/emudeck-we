@@ -230,11 +230,11 @@ function JSONtoPS1(){
 	setSettinginFile("`$pcsx2Resolution=`"$pcsx2Resolution`"")
 	setSettinginFile("`$yuzuResolution=`"$yuzuResolution`"")
 	setSettinginFile("`$ppssppResolution=`"$ppssppResolution`"")
-	setSettinginFile("`$rpcs3Resolution=`"$rpcs3Resolution `"")
-	setSettinginFile("`$citraResolution=`"$citraResolution `"")
-	setSettinginFile("`$xemuResolution=`"$xemuResolution `"")
-	setSettinginFile("`$xeniaResolution=`"$xeniaResolution `"")
-	setSettinginFile("`$melondsResolution=`"$melondsResolution `"")
+	setSettinginFile("`$rpcs3Resolution=`"$rpcs3Resolution`"")
+	setSettinginFile("`$citraResolution=`"$citraResolution`"")
+	setSettinginFile("`$xemuResolution=`"$xemuResolution`"")
+	setSettinginFile("`$xeniaResolution=`"$xeniaResolution`"")
+	setSettinginFile("`$melondsResolution=`"$melondsResolution`"")
 
 	#Emus Parsers
 	$emuGBA = $myJson.emulatorAlternative.gba
