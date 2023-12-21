@@ -16,7 +16,7 @@ function RPCS3_init(){
 	setMSG "RPCS3 - Configuration"
 	$destination="$emusPath\RPCS3"
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RPCS3" "$destination"
-	#RPCS3_setResolution $rpcs3Resolution
+	RPCS3_setResolution $rpcs3Resolution
 	RPCS3_setupStorage
 	#RPCS3_setupSaves
 	RPCS3_setEmulationFolder
