@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -NoExit . %AppData%\EmuDeck\tools\gamemode\login.ps1
