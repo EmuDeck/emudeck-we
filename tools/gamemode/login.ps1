@@ -22,7 +22,7 @@ $scriptContent = @"
 	Wait-Event -Timeout 5
 	& "C:\Windows\System32\sihost.exe"
 	#We set the next restart to be on game mode.
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.bat"
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.exe"
 "@
 	startScriptWithAdmin -ScriptContent $scriptContent
 	#We don't restart sihost since we don't want to go to game mode now.
