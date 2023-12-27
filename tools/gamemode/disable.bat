@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -NoExit . .\disable.ps1

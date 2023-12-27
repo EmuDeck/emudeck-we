@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -NoExit . .\start_game_mode.ps1
