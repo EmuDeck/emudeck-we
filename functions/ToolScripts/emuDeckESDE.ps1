@@ -167,10 +167,17 @@ function ESDE_wipe(){
 	Write-Output "NYI"
 }
 function ESDE_uninstall(){
-	Get-ChildItem -Path "$esdePath" | Where-Object { $_.Name -ne "Emulators" } | Remove-Item -Recurse -Force
-	if($?){
+	$testpath = Test-Path -Path "$esdepath"
+	if ($testpath -eq True){
+		Get-ChildItem -Path "$esdePath" | Where-Object { $_.Name -ne "Emulators" } | Remove-Item -Recurse -Force
+		if($?){
 		Write-Output "true"
+		}
 	}
+	else{
+		
+	}
+	
 }
 function ESDE_migrate(){
 	Write-Output "NYI"
