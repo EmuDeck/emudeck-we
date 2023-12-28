@@ -171,11 +171,11 @@ function ESDE_uninstall(){
 	if ($testpath -eq $True){
 		Get-ChildItem -Path "$esdePath" | Where-Object { $_.Name -ne "Emulators" } | Remove-Item -Recurse -Force
 		if($?){
-		Write-Output "true"
-			}
+			Write-Output "True"
+		}
 	}
 	else{
-		
+		Write-Output "False"
 	}
 	
 }
