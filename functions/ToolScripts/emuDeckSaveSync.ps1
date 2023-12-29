@@ -788,7 +788,7 @@ function cloud_sync_init($emulator){
 				"" | Set-Content $savesPath/.watching -Encoding UTF8
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
-				if($emulator -eq "EmulationStationDE"){
+				if($emulator -eq "EmulationStationDE" -or $emulator -eq "pegasus-frontend"){
 					"\" | Set-Content $savesPath/.emulator -Encoding UTF8
 					cloud_sync_downloadEmuAll
 				}else{
