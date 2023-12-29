@@ -1,7 +1,4 @@
 collection: Sony PlayStation Portable
 shortname: psp
 extensions: elf, ELF, iso, ISO, cso, CSO, prx, PRX, pbp, PBP, 7z, 7Z, zip, ZIP
-launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/retroarch.ps1" -L CORESPATH/ppsspp_libretro.dll {file.path}
-
-
-
+launch: powershell -ExecutionPolicy Bypass -NoProfile -File  "/run/media/mmcblk0p1/Emulation/tools/launchers/ppsspp.ps1" {file.path}
