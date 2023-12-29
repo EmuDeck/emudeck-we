@@ -1,6 +1,6 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
-	fullScreenToast
+	fullScreenToast($emuName)
 	checkAndStartSteam
 	cloud_sync_init($emuName)
 	if($formattedArgs){
