@@ -819,17 +819,17 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		} else {
 			#Check if we have space
 
-			$userDrive=(Get-Item "$emulationPath").PSDrive.Name
-			$destinationFree = (Get-PSDrive -Name $userDrive).Free
-			$sizeInGB = [Math]::Round($destinationFree / 1GB)
+			#$userDrive=(Get-Item "$emulationPath").PSDrive.Name
+			#$destinationFree = (Get-PSDrive -Name $userDrive).Free
+			#$sizeInGB = [Math]::Round($destinationFree / 1GB)
 
-			$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
-			$wshell = New-Object -ComObject Wscript.Shell
+			#$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
+			#$wshell = New-Object -ComObject Wscript.Shell
 
-			if ( $originSize -gt $destinationFree ){
-				$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
-				exit
-			}
+			#if ( $originSize -gt $destinationFree ){
+			#	$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
+			#	exit
+			#}
 
 			# We copy the saves to the Emulation/saves Folder and we create a backup
 			echo "Creating saves symlink"
