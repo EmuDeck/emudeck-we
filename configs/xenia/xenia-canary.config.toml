@@ -56,7 +56,7 @@ defaults_date = 2020123113                        	# Do not modify - internal ve
 
 
 [Content]
-license_mask = 0                                  	# Set license mask for activated content.
+license_mask = 1                                  	# Set license mask for activated content.
                                                   	#  0 = No licenses enabled.
                                                   	#  1 = First license enabled. Generally the full version license in
                                                   	#      Xbox Live Arcade titles.
