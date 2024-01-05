@@ -1171,110 +1171,112 @@ function getLatestVersionGH($repository){
 
 
 function saveLatestVersionGH($emuName){
+	if ( check_internet_connection -eq 'true' ){
+		$repo = getEmuRepo $emuName
 
-
-	$repo = getEmuRepo $emuName
-
-	if( $repo -eq "none" ){
-		echo "no autoupdate"
-	}else{
-		$emuVersion = getLatestVersionGH $repo
-		# JSON file path
-		$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
-
-		$test=Test-Path -Path $jsonFilePath
-		if($test){
-			echo "file found"
+		if( $repo -eq "none" ){
+			echo "no autoupdate"
 		}else{
-			"{}" | Set-Content -Path $rutaArchivo
+			$emuVersion = getLatestVersionGH $repo
+			# JSON file path
+			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+
+			$test=Test-Path -Path $jsonFilePath
+			if($test){
+				echo "file found"
+			}else{
+				"{}" | Set-Content -Path $rutaArchivo
+			}
+
+			# Read the content of the JSON file
+			$jsonContent = Get-Content -Path $jsonFilePath | ConvertFrom-Json
+
+			# Check if the key exists
+			if ($jsonContent.PSObject.Properties[$emuName]) {
+				# The key exists, change its value
+				$jsonContent.$emuName = $emuVersion
+			} else {
+				# The key doesn't exist, create it with a new value
+				$jsonContent | Add-Member -MemberType NoteProperty -Name $emuName -Value $emuVersion
+			}
+
+			# Convert the modified JSON object back to JSON format
+			$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
+
+			# Save the modified JSON back to the file
+			$modifiedJson | Set-Content -Path $jsonFilePath
 		}
-
-		# Read the content of the JSON file
-		$jsonContent = Get-Content -Path $jsonFilePath | ConvertFrom-Json
-
-		# Check if the key exists
-		if ($jsonContent.PSObject.Properties[$emuName]) {
-			# The key exists, change its value
-			$jsonContent.$emuName = $emuVersion
-		} else {
-			# The key doesn't exist, create it with a new value
-			$jsonContent | Add-Member -MemberType NoteProperty -Name $emuName -Value $emuVersion
-		}
-
-		# Convert the modified JSON object back to JSON format
-		$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
-
-		# Save the modified JSON back to the file
-		$modifiedJson | Set-Content -Path $jsonFilePath
 	}
-
 }
 
 
 function isLatestVersionGH($emuName){
 
-	$repo = getEmuRepo $emuName
+	if ( check_internet_connection -eq 'true' ){
+		$repo = getEmuRepo $emuName
 
-	if( $repo -eq "none" ){
-		echo "no autoupdate"
-	}else{
-		$emuVersion = getLatestVersionGH $repo
-
-		# JSON file path
-		$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
-
-		$test=Test-Path -Path $jsonFilePath
-		if($test){
-			echo "file found"
+		if( $repo -eq "none" ){
+			echo "no autoupdate"
 		}else{
-			"{}" | Set-Content -Path $rutaArchivo
-		}
+			$emuVersion = getLatestVersionGH $repo
 
-		# Read the content of the JSON file
-		$jsonContent = Get-Content -Path $jsonFilePath | ConvertFrom-Json
+			# JSON file path
+			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
 
-		# Check if the key exists
-		if ($jsonContent.PSObject.Properties[$emuName]) {
-
-			# The key exists, check if it's the same value
-			if( $jsonContent.$emuName -ne $emuVersion ){
-				$jsonContent.$emuName = $emuVersion
-				$latest="false"
+			$test=Test-Path -Path $jsonFilePath
+			if($test){
+				echo "file found"
 			}else{
+				"{}" | Set-Content -Path $rutaArchivo
+			}
+
+			# Read the content of the JSON file
+			$jsonContent = Get-Content -Path $jsonFilePath | ConvertFrom-Json
+
+			# Check if the key exists
+			if ($jsonContent.PSObject.Properties[$emuName]) {
+
+				# The key exists, check if it's the same value
+				if( $jsonContent.$emuName -ne $emuVersion ){
+					$jsonContent.$emuName = $emuVersion
+					$latest="false"
+				}else{
+					$latest="true"
+				}
+			} else {
+				# The key doesn't exist, create it with a new value
+				$jsonContent | Add-Member -MemberType NoteProperty -Name $emuName -Value "$emuVersion"
 				$latest="true"
 			}
-		} else {
-			# The key doesn't exist, create it with a new value
-			$jsonContent | Add-Member -MemberType NoteProperty -Name $emuName -Value "$emuVersion"
-			$latest="true"
-		}
-		if ($latest -eq "false"){
+			if ($latest -eq "false"){
 
-			#Ask the user to update
+				#Ask the user to update
 
-			$capitalizedEmuName= $emuName.Substring(0,1).ToUpper() + $emuName.Substring(1).ToLower()
+				$capitalizedEmuName= $emuName.Substring(0,1).ToUpper() + $emuName.Substring(1).ToLower()
 
-			$result = yesNoDialog -TitleText "New Update" -MessageText "We've detected an update for $capitalizedEmuName. Do you want to update?" -OKButtonText "Yes" -CancelButtonText "No"
+				$result = yesNoDialog -TitleText "New Update" -MessageText "We've detected an update for $capitalizedEmuName. Do you want to update?" -OKButtonText "Yes" -CancelButtonText "No"
 
-			if ($result -eq "OKButton") {
-				# Convert the modified JSON object back to JSON format
+				if ($result -eq "OKButton") {
+					# Convert the modified JSON object back to JSON format
+					$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
+
+					# Save the modified JSON back to the file
+					$modifiedJson | Set-Content -Path $jsonFilePath
+
+					& "${emuName}_Install"
+				}
+
+			}else{
 				$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
 
 				# Save the modified JSON back to the file
 				$modifiedJson | Set-Content -Path $jsonFilePath
 
-				& "${emuName}_Install"
 			}
 
-		}else{
-			$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
-
-			# Save the modified JSON back to the file
-			$modifiedJson | Set-Content -Path $jsonFilePath
-
+			Write-Host "Latest version=$latest"
 		}
-
-		Write-Host "Latest version=$latest"
 	}
+
 
 }
