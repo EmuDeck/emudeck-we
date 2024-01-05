@@ -126,6 +126,10 @@ function getLocations {
 
 	$json = "[" + ($jsonArray -join ",") + "]"
 
+	if ($json -eq "[]"){
+		$json = "[{C,1,Internal,C}]"
+	}
+
 	Write-Host $json
 }
 
@@ -1082,7 +1086,7 @@ function checkAndStartSteam(){
 function startSteam($silent){
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	$steamInstallPath = $steamInstallPath.Replace("/", "\")
 	$steamArguments = "$silent"
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
