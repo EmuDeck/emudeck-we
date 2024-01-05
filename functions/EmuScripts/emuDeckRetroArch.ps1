@@ -21,21 +21,6 @@ function RetroArch_install(){
 }
 function RetroArch_init(){
 
-	setMSG "RetroArch - HD Texture Packs"
-	#Mesen NES
-	$simLinkPath = "$biosPath\HdPacks"
-	$emuSavePath = "$emulationPath\hdpacks\nes"
-	createSaveLink $simLinkPath $emuSavePath
-	echo "Put your Mesen HD Packs here. Remember to put the pack inside a folder here with the exact name of the rom" > "$emulationPath"/hdpacks/nes/readme.txt
-
-	#Mesen N64
-	mkdir "$biosPath\Mupen64plus"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$biosPath\Mupen64plus\cache"
-	$emuSavePath = "$emulationPath\hdpacks\n64"
-	createSaveLink $simLinkPath $emuSavePath
-	echo "Put your Nintendo64 HD Packs here in HTS format. You can download them from https://emulationking.com/nintendo64/" > "$emulationPath"/hdpacks/n64/readme.txt
-
-
 	#We just convert the SteamOS settings with our windows paths
 	Remove-Item $RetroArch_configFile  -ErrorAction SilentlyContinue
 

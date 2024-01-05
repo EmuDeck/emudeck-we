@@ -4,7 +4,7 @@ fullScreenToast
 function startSteam(){
 	 $steamRegPath = "HKCU:\Software\Valve\Steam"
 	 $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	 $steamInstallPath = $steamInstallPath.Replace("/", "\")
+	 $steamInstallPath = $steamInstallPath.Replace("/", "\\")
 	 $steamArguments = "-bigpicture"
 	 Start-Process -FilePath "$steamInstallPath\Steam.exe" -Wait -ArgumentList $steamArguments
  }
