@@ -126,6 +126,10 @@ function getLocations {
 
 	$json = "[" + ($jsonArray -join ",") + "]"
 
+	if ($json -eq "[]"){
+		$json = "[{C,1,Internal,C}]"
+	}
+
 	Write-Host $json
 }
 
@@ -910,7 +914,7 @@ function setScreenDimensionsScale(){
 	. "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
-function fullScreenToast {
+function fullScreenToast($emuName) {
 
 	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
@@ -928,7 +932,7 @@ function fullScreenToast {
 	$form.Height = $screenHeight
 
 	$pictureBox = New-Object Windows.Forms.PictureBox
-	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
+	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/launchers/icons/$emuName.png")
 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
 
@@ -1082,7 +1086,7 @@ function checkAndStartSteam(){
 function startSteam($silent){
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	$steamInstallPath = $steamInstallPath.Replace("/", "\")
 	$steamArguments = "$silent"
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
