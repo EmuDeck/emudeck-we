@@ -3,7 +3,7 @@
 function startSteam(){
 	 $steamRegPath = "HKCU:\Software\Valve\Steam"
 	 $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	 $steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	 $steamInstallPath = $steamInstallPath.Replace("/", "\")
 	 $steamArguments = "-bigpicture"
 	 Start-Process -FilePath "$steamInstallPath\Steam.exe" -Wait -ArgumentList $steamArguments
  }
@@ -12,6 +12,7 @@ hideMe
 fullScreenToast
 startSteam
 if($?){
+	confirmDialog -TitleText "Game Mode" -MessageText "There was an error running Steam. Please press CTRL ALT DEL, open task manager, then New Task and run explorer.exe, navigate to EmuDeck, enable Desktop Mode and restart your device"
 	#Back to desktop
 	#We set the good old explorer.exe as shell
 $scriptContent = @"
