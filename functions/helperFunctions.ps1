@@ -943,12 +943,12 @@ function fullScreenToast {
 	$form.Width = $screenWidth
 	$form.Height = $screenHeight
 
-	$pictureBox = New-Object Windows.Forms.PictureBox
-	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
-	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
-	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
-
-	$form.Controls.Add($pictureBox)
+# 	$pictureBox = New-Object Windows.Forms.PictureBox
+# 	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
+# 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
+# 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
+#
+# 	$form.Controls.Add($pictureBox)
 	$form.Show()
 
 	return $form

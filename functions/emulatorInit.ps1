@@ -1,5 +1,6 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
+	fullScreenToast
 	isLatestVersionGH($emuName)
 	checkAndStartSteam
 	cloud_sync_init($emuName)
