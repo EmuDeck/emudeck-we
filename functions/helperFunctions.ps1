@@ -124,7 +124,7 @@ function getLocations {
 		$jsonArray += $info | ConvertTo-Json
 	}
 
-	$jsonArray = @()
+
 
 	$json = "[" + ($jsonArray -join ",") + "]"
 
