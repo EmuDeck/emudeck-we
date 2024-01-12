@@ -128,9 +128,9 @@ function getLocations {
 
 	$json = "[" + ($jsonArray -join ",") + "]"
 
-	if ($json -eq "[]"){
-		$json = '[{ "type":  "Internal", "letter":  "C:", "name":  "harddisk SSD", "size": 999 }]'
-	}
+	#if ($json -eq "[]"){
+	#	$json = '[{ "type":  "Internal", "letter":  "C:", "name":  "harddisk SSD", "size": 999 }]'
+	#}
 
 	Write-Host $json
 }
@@ -926,7 +926,7 @@ function setScreenDimensionsScale(){
 	. "$env:USERPROFILE\EmuDeck\settings.ps1"
 }
 
-function fullScreenToast($emuName) {
+function fullScreenToast {
 
 	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
@@ -944,7 +944,7 @@ function fullScreenToast($emuName) {
 	$form.Height = $screenHeight
 
 	$pictureBox = New-Object Windows.Forms.PictureBox
-	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/launchers/icons/$emuName.png")
+	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
 
