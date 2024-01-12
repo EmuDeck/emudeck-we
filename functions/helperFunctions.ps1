@@ -124,13 +124,13 @@ function getLocations {
 		$jsonArray += $info | ConvertTo-Json
 	}
 
-	$jsonArray = @()
+
 
 	$json = "[" + ($jsonArray -join ",") + "]"
 
-	#if ($json -eq "[]"){
-	#	$json = '[{ "type":  "Internal", "letter":  "C:", "name":  "harddisk SSD", "size": 999 }]'
-	#}
+	if ($json -eq "[]"){
+		$json = '[{ "type":  "Internal", "letter":  "C:", "name":  "harddisk SSD", "size": 999 }]'
+	}
 
 	Write-Host $json
 }
