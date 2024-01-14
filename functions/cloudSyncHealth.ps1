@@ -1,3 +1,5 @@
+. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
+
 function cloud_sync_download_test($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 
@@ -48,11 +50,11 @@ function cloud_sync_upload_test($emuNAme){
 
 function cloudSyncHealth(){
 
-	if ( ! Test-Path "$toolsPath\rclone\rclone.exe") {
+	if ( !Test-Path "$toolsPath\rclone\rclone.exe") {
 		echo "Error: No executable found. Please reinstall"
 		exit
 	}
-	if ( ! Test-Path "$toolsPath\rclone\rclone.conf") {
+	if ( !Test-Path "$toolsPath\rclone\rclone.conf") {
 		echo "Error: No config file found. Please reinstall"
 		exit
 	}
@@ -73,3 +75,5 @@ function cloudSyncHealth(){
 
 
 }
+
+cloudSyncHealth
