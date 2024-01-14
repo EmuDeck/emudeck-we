@@ -5,7 +5,7 @@ function cloud_sync_download_test($emuName){
 		if ( Test-Path "$target" ){
 			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
-			Write-Host "Testing $emuName download..."
+			#Write-Host "Testing $emuName download..."
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
 				Write-Host ""
@@ -49,15 +49,15 @@ function cloud_sync_upload_test($emuNAme){
 function cloudSyncHealth(){
 
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.exe")) {
-		echo "Error: No executable found. Please reinstall"
+		Write-Host "Error: No executable found. Please reinstall"
 		exit
 	}
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.conf")) {
-		echo "Error: No config file found. Please reinstall"
+		Write-Host "Error: No config file found. Please reinstall"
 		exit
 	}
 	if ( $cloud_sync_provider -eq '') {
-		echo "Error: No provider found. Please reinstall"
+		Write-Host "Error: No provider found. Please reinstall"
 		exit
 	}
 
@@ -71,5 +71,6 @@ function cloudSyncHealth(){
 		cloud_sync_download_test $elemento
 	}
 
+	Write-Host "true"
 
 }
