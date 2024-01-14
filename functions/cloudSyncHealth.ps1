@@ -49,15 +49,15 @@ function cloud_sync_upload_test($emuNAme){
 function cloudSyncHealth(){
 
 	if ( ! Test-Path "$toolsPath\rclone\rclone.exe") {
-		Write-Host "nobinary"
+		echo "Error: No executable found. Please reinstall"
 		exit
 	}
 	if ( ! Test-Path "$toolsPath\rclone\rclone.conf") {
-		Write-Host "noconfig"
+		echo "Error: No config file found. Please reinstall"
 		exit
 	}
 	if ( $cloud_sync_provider -eq '') {
-		Write-Host "noprovider"
+		echo "Error: No provider found. Please reinstall"
 		exit
 	}
 
