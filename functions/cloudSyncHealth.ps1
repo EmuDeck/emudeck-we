@@ -8,9 +8,9 @@ function cloud_sync_download_test($emuName){
 			#Write-Host "Testing $emuName download..."
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
-				echo "<td>$elemento download Status: <td  class='alert--success'><strong>Success</strong></td>"
+				echo "<tr><td>$elemento download Status: <td  class='alert--success'><strong>Success</strong></td></tr>"
 			}else{
-				echo "<td>$elemento download Status: </td><td class='alert--danger'><strong>Failure</strong></td>"
+				echo "<tr><td>$elemento download Status: </td><td class='alert--danger'><strong>Failure</strong></td></tr>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 				exit
 			}
@@ -32,9 +32,9 @@ function cloud_sync_upload_test($emuNAme){
 
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp"
 			if ($?) {
-				echo "<td>$elemento upload Status: </td><td class='alert--success'><strong>Success</strong></td>"
+				echo "<tr><td>$elemento upload Status: </td><td class='alert--success'><strong>Success</strong></td></tr>"
 			}else{
-				echo "<td>$elemento upload Status: </td><td class='alert--danger'><strong>Failure</strong></td>"
+				echo "<tr><td>$elemento upload Status: </td><td class='alert--danger'><strong>Failure</strong></td></tr>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 				exit
 			}
