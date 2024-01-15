@@ -8,9 +8,9 @@ function cloud_sync_download_test($emuName){
 			#Write-Host "Testing $emuName download..."
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
-				Write-Host ""
+				echo "$elemento download Status: <strong class='alert--success'>Success</strong>"
 			}else{
-				Write-Host "Error: Testing $emuName download"
+				echo "$elemento download Status: <strong class='alert--danger'>Failure</strong>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 				exit
 			}
@@ -32,9 +32,9 @@ function cloud_sync_upload_test($emuNAme){
 
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp"
 			if ($?) {
-				Write-Host ""
+				echo "$elemento upload Status: <strong class='alert--success'>Success</strong>"
 			}else{
-				Write-Host "Error: Testing $emuName upload"
+				echo "$elemento upload Status: <strong class='alert--danger'>Failure</strong>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 				exit
 			}
@@ -49,16 +49,22 @@ function cloud_sync_upload_test($emuNAme){
 function cloudSyncHealth(){
 
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.exe")) {
-		Write-Host "Error: No executable found. Please reinstall"
+		echo "Executable Status: <strong class='alert--danger'>Failure, please reinstall</strong>"
 		exit
+	}else{
+		echo "Executable Status: <strong class='alert--success'>Success</strong>"
 	}
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.conf")) {
-		Write-Host "Error: No config file found. Please reinstall"
+		echo "Config file Status: <strong class='alert--danger'>Failure, please reinstall</strong>"
 		exit
+	}else{
+		echo "Config file Status: <strong class='alert--success'>Success</strong>"
 	}
 	if ( $cloud_sync_provider -eq '') {
-		Write-Host "Error: No provider found. Please reinstall"
+		echo "Provider Status: <strong class='alert--danger'>Failure, please reinstall</strong>"
 		exit
+	}else{
+		echo "Provider Status: <strong class='alert--success'>Success</strong>"
 	}
 
 	$miArreglo = @("Cemu","citra","dolphin","duckstation","MAME","melonds","mgba","pcsx2","ppsspp","primehack","retroarch","rpcs3","scummvm","Vita3K","yuzu","ryujinx")
