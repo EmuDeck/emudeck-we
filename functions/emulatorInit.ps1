@@ -1,10 +1,9 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
 	fullScreenToast
+	isLatestVersionGH($emuName)
 	checkAndStartSteam
-	if ( $emuName -ne "pegasus-frontend"  ){
-		cloud_sync_init($emuName)
-	}
+	cloud_sync_init($emuName)
 	if($formattedArgs){
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args $formattedArgs
 	}else{
