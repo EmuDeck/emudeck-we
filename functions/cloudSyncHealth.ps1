@@ -5,10 +5,11 @@ function cloud_sync_download_test($emuName){
 		if ( Test-Path "$target" ){
 			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
-			#Write-Host "Testing $emuName download..."
+
+
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
-				echo "<tr><td>$elemento download Status: <td  class='alert--success'><strong>Success</strong></td></tr>"
+				echo "<tr><td>$elemento download Status: </td><td class='alert--success'><strong>Success</strong></td></tr>"
 			}else{
 				echo "<tr><td>$elemento download Status: </td><td class='alert--danger'><strong>Failure</strong></td></tr>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
@@ -28,8 +29,6 @@ function cloud_sync_upload_test($emuNAme){
 			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
 
-			Write-Host "Testing $emuName upload..."
-
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp"
 			if ($?) {
 				echo "<tr><td>$elemento upload Status: </td><td class='alert--success'><strong>Success</strong></td></tr>"
@@ -47,8 +46,8 @@ function cloud_sync_upload_test($emuNAme){
 }
 
 function cloudSyncHealth(){
-	echo "<td><table class='table'>"
-		echo "<td><tr>"
+	echo "<table class='table'>"
+		echo "<tr>"
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.exe")) {
 		echo "<td>Executable Status: </td><td class='alert--danger'><strong>Failure, please reinstall</strong></td>"
 		exit
@@ -88,6 +87,6 @@ function cloudSyncHealth(){
 		cloud_sync_download_test $elemento
 	}
 	echo "<td></table>"
-	Write-Host "true"
+	Write-Host "<span class='is-hidden'>true</span>"
 
 }
