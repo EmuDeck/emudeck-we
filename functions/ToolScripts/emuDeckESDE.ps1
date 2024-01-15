@@ -69,10 +69,10 @@ function ESDE_init(){
 			$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB")
 			exit
 		}
-		$Output = $wshell.Popup("We are going to move EmulationStation scrape data to $emulationPath/storage in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
+		$Output = $wshell.Popup("We are going to move EmulationStation scrape data to $emulationPath/tools in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
 
-		mkdir "$emulationPath/storage/downloaded_media"  -ErrorAction SilentlyContinue
-		moveFromTo "$esdePath/.emulationstation/downloaded_media" "$emulationPath/storage/downloaded_media"
+		mkdir "$emulationPath/tools/downloaded_media"  -ErrorAction SilentlyContinue
+		moveFromTo "$esdePath/.emulationstation/downloaded_media" "$emulationPath/tools/downloaded_media"
 
 		$Output = $wshell.Popup("Migration complete!")
 
@@ -86,10 +86,10 @@ function ESDE_init(){
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
 
-	mkdir "$emulationPath/storage/downloaded_media" -ErrorAction SilentlyContinue
+	mkdir "$emulationPath/tools/downloaded_media" -ErrorAction SilentlyContinue
 
 	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
-	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"
+	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/tools/downloaded_media"
 	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
 
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue

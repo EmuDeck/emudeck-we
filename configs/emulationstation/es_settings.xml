@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <string name="ROMDirectory" value="/run/media/mmcblk0p1/Emulation/roms/" />
-<string name="MediaDirectory" value="/run/media/mmcblk0p1/Emulation/storage/downloaded_media" />
+<string name="MediaDirectory" value="/run/media/mmcblk0p1/Emulation/tools/downloaded_media" />
 <string name="ThemeSet" value="es-epicnoir" />
