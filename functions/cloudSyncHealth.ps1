@@ -8,9 +8,9 @@ function cloud_sync_download_test($emuName){
 			#Write-Host "Testing $emuName download..."
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
-				echo "$elemento download Status: <strong class='alert--success'>Success</strong>"
+				echo "<td>$elemento download Status: <td  class='alert--success'><strong>Success</strong></td>"
 			}else{
-				echo "$elemento download Status: <strong class='alert--danger'>Failure</strong>"
+				echo "<td>$elemento download Status: </td><td class='alert--danger'><strong>Failure</strong></td>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 				exit
 			}
@@ -32,9 +32,9 @@ function cloud_sync_upload_test($emuNAme){
 
 			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp"
 			if ($?) {
-				echo "$elemento upload Status: <strong class='alert--success'>Success</strong>"
+				echo "<td>$elemento upload Status: </td><td class='alert--success'><strong>Success</strong></td>"
 			}else{
-				echo "$elemento upload Status: <strong class='alert--danger'>Failure</strong>"
+				echo "<td>$elemento upload Status: </td><td class='alert--danger'><strong>Failure</strong></td>"
 				rm -fo -r "$target\.temp" -ErrorAction SilentlyContinue
 				exit
 			}
@@ -47,26 +47,37 @@ function cloud_sync_upload_test($emuNAme){
 }
 
 function cloudSyncHealth(){
-
+	echo "<td><table class='table'>"
+		echo "<td><tr>"
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.exe")) {
-		echo "Executable Status: <strong class='alert--danger'>Failure, please reinstall</strong>"
+		echo "<td>Executable Status: </td><td class='alert--danger'><strong>Failure, please reinstall</strong></td>"
 		exit
 	}else{
-		echo "Executable Status: <strong class='alert--success'>Success</strong>"
+		echo "<td>Executable Status: </td><td class='alert--success'><strong>Success</strong></td>"
 	}
+	echo "</tr><tr>"
 	if ( -not (Test-Path "$toolsPath\rclone\rclone.conf")) {
-		echo "Config file Status: <strong class='alert--danger'>Failure, please reinstall</strong>"
+		echo "<td>Config file Status: </td><td class='alert--danger'><strong>Failure, please reinstall</strong></td>"
 		exit
 	}else{
-		echo "Config file Status: <strong class='alert--success'>Success</strong>"
+		echo "<td>Config file Status: </td><td class='alert--success'><strong>Success</strong></td>"
 	}
+	echo "</tr><tr>"
 	if ( $cloud_sync_provider -eq '') {
-		echo "Provider Status: <strong class='alert--danger'>Failure, please reinstall</strong>"
+		echo "<td>Provider Status: </td><td class='alert--danger'><strong>Failure, please reinstall</strong></td>"
 		exit
 	}else{
-		echo "Provider Status: <strong class='alert--success'>Success</strong>"
+		echo "<td>Provider Status: </td><td class='alert--success'><strong>Success</strong></td>"
 	}
+	echo "</tr><tr>"
 
+	if (Get-Service -Name "CloudWatch" -ErrorAction SilentlyContinue) {
+		echo "<td>Watcher Status: </td><td class='alert--success'><strong>Success</strong></td>"
+	}else{
+		echo "<td>Watcher Status: </td><td class='alert--danger'><strong>Failure, please reinstall</strong></td>"
+		exit
+	}
+	echo "</tr>"
 	$miArreglo = @("Cemu","citra","dolphin","duckstation","MAME","melonds","mgba","pcsx2","ppsspp","primehack","retroarch","rpcs3","scummvm","Vita3K","yuzu","ryujinx")
 
 	foreach ($elemento in $miArreglo) {
@@ -76,7 +87,7 @@ function cloudSyncHealth(){
 	foreach ($elemento in $miArreglo) {
 		cloud_sync_download_test $elemento
 	}
-
+	echo "<td></table>"
 	Write-Host "true"
 
 }
