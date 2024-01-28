@@ -99,7 +99,7 @@ function Android_ADB_init {
 		SDCardName = Android_ADB_getSDCard
 	} | ConvertTo-Json -Compress
 
-	$jsonResult = $jsonResult.Trim()
+	$jsonResult = $jsonResult.TrimEnd("`r", "`n")
 
 	Write-Output $jsonResult
 }
