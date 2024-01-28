@@ -94,10 +94,12 @@ function Android_ADB_getSDCard {
 
 function Android_ADB_init {
 
-	$jsonResultado = @{
+	$jsonResult = @{
 		isConnected = Android_ADB_connected
 		SDCardName = Android_ADB_getSDCard
 	} | ConvertTo-Json -Compress
 
-	Write-Output $jsonResultado
+	$jsonResult = $jsonResult.Trim()
+
+	Write-Output $jsonResult
 }
