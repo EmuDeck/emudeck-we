@@ -97,7 +97,7 @@ function Android_ADB_init {
 	$jsonResultado = @{
 		isConnected = Android_ADB_connected
 		SDCardName = Android_ADB_getSDCard
-	} | ConvertTo-Json
+	} | ConvertTo-Json -Compress
 
 	Write-Output $jsonResultado
 }
