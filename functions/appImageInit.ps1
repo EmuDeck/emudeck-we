@@ -24,6 +24,11 @@ function appImageInit(){
 	#autofix_controllerSettings
 	#autofix_gamecubeFolder
 
+	#ADB
+	if [ $(Android_ADB_isInstalled) == "false" ]; then
+		Android_ADB_install
+	fi
+
 	# Init functions
 	setScreenDimensionsScale
 
