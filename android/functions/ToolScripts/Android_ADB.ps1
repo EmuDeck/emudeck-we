@@ -18,12 +18,12 @@ function Android_ADB_connected {
 		$devices = $adbOutput -split "`n" | Select-String "device"
 
 		if ($devices.Count -gt 1) {
-			Write-Host "true"
+			Write-Output "true"
 		} else {
-			Write-Host "false"
+			Write-Output "false"
 		}
 	} else {
-		Write-Host "false"
+		Write-Output "false"
 	}
 }
 
