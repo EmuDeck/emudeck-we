@@ -8,6 +8,7 @@ function Android_RetroArch_install(){
 	$temp_emu="ra"
 	Android_ADB_dl_installAPK $temp_emu $temp_url
 
+	mkdir $env:USERPROFILE\Desktop\EmuDeckAndroid\RetroArch\cores
 
 	setMSG "Downloading RetroArch Cores"
 	mkdir "$emusPath\RetroArch\cores" -ErrorAction SilentlyContinue
