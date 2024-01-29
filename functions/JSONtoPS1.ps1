@@ -258,8 +258,8 @@ function JSONtoPS1(){
 	setSettinginFile("`$emuSCUMMVM=`"$emuSCUMMVM`"")
 
 	#Android
-	$androidStorage = $myJson.android.androidStorage
-	$androidStoragePath = $myJson.android.androidStoragePath
+	$androidStorage = $myJson.android.Storage
+	$androidStoragePath = $myJson.android.StoragePath
 
 	setSettinginFile("`$androidStorage=`"$androidStorage`"")
 	setSettinginFile("`$androidStoragePath=`"$androidStoragePath`"")
