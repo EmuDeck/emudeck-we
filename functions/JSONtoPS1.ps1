@@ -257,6 +257,13 @@ function JSONtoPS1(){
 	setSettinginFile("`$emuDreamcast=`"$emuDreamcast`"")
 	setSettinginFile("`$emuSCUMMVM=`"$emuSCUMMVM`"")
 
+	#Android
+	$androidStorage = $myJson.android.androidStorage
+	$androidStoragePath = $myJson.android.androidStoragePath
+
+	setSettinginFile("`$androidStorage=`"$androidStorage`"")
+	setSettinginFile("`$androidStoragePath=`"$androidStoragePath`"")
+
 
 	$device = $myJson.device
 	setSettinginFile("`$device=`"$device`"")

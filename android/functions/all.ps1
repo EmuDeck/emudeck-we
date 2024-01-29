@@ -1,25 +1,16 @@
-#!/bin/bash
-
-SETTINGSFILEANDROID="$HOME/emudeck/android_settings.sh"
-if [ -f "$SETTINGSFILEANDROID" ]; then
-	# shellcheck source=./settings.sh
-	source "$SETTINGSFILEANDROID"
-else
-	cp "$EMUDECKGIT/android/android_settings.sh" "$SETTINGSFILEANDROID"
-	source "$HOME/emudeck/android_settings.sh"
-fi
+. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_RetroArch.ps1"
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Yuzu.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_AetherSX2.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Citra.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Dolphin.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_PPSSPP.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_ScummVM.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Vita3K.ps1
 
 
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_Yuzu.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_AetherSX2.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_Citra.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_Dolphin.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_RetroArch.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_PPSSPP.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_ScummVM.sh
-source "$EMUDECKGIT"/android/functions/EmuScripts/Android_Vita3K.sh
+. "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_ADB.ps1"
+#. "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_Daijisho.ps1
+#. "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_Pegasus.ps1
 
 
-source "$EMUDECKGIT"/android/functions/ToolScripts/Android_ADB.sh
-source "$EMUDECKGIT"/android/functions/ToolScripts/Android_Daijisho.sh
-source "$EMUDECKGIT"/android/functions/ToolScripts/Android_Pegasus.sh
+

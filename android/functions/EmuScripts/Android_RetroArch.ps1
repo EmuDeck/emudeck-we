@@ -1,473 +1,496 @@
-#!/bin/bash
-
-#variables
-Android_RetroArch_emuName="RetroArch"
-Android_RetroArch_emuType="$emuDeckEmuTypeFlatpak"
-Android_RetroArch_emuPath="org.libretro.RetroArch"
-Android_RetroArch_releaseURL=""
-Android_RetroArch_path="$HOME/Desktop/EmuDeckAndroid/RetroArch/config/"
-Android_RetroArch_configFile="$HOME/Desktop/EmuDeckAndroid/RetroArch/config/retroarch.cfg"
-Android_RetroArch_coreConfigFolders="$HOME/Desktop/EmuDeckAndroid/RetroArch/config"
-Android_RetroArch_cores="$HOME/Desktop/EmuDeckAndroid/RetroArch/downloads"
-Android_RetroArch_coresURL="https://buildbot.libretro.com/nightly/android/latest/arm64-v8a/"
-Android_RetroArch_coresExtension="_android.so.zip"
-
-#cleanupOlderThings
-Android_RetroArch_cleanup(){
-	echo "NYI"
-}
-
-Android_RetroArch_backupConfigs(){
-	cp -vp "$Android_RetroArch_configFile" "$Android_RetroArch_configFile.bak"
-	find "$Android_RetroArch_coreConfigFolders" -type f -name "*.cfg" -o -type f -name "*.opt" -o -type f -name "*.slangp" -o -type f -name "*.glslp"| while read -r backupfile
-	do
-		cp -vp "$backupfile" "$backupfile.bak"
-	done
-}
-
+$Android_RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
 
 function Android_RetroArch_install(){
-	setMSG "RetroArch - Installing"
+	setMSG "Downloading RetroArch"
 	temp_url="https://buildbot.libretro.com/stable/1.16.0/android/RetroArch_aarch64.apk"
 	temp_emu="ra"
 	Android_ADB_dl_installAPK $temp_emu $temp_url
+
+
+	setMSG "Downloading RetroArch Cores"
+	mkdir "$emusPath\RetroArch\cores" -ErrorAction SilentlyContinue
+	$RAcores = @("a5200_libretro.dll","81_libretro.dll","atari800_libretro.dll","bluemsx_libretro.dll","chailove_libretro.dll","fbneo_libretro.dll","freechaf_libretro.dll","freeintv_libretro.dll","fuse_libretro.dll","gearsystem_libretro.dll","gw_libretro.dll","hatari_libretro.dll","lutro_libretro.dll","mednafen_pcfx_libretro.dll","mednafen_vb_libretro.dll","mednafen_wswan_libretro.dll","mu_libretro.dll","neocd_libretro.dll","nestopia_libretro.dll","nxengine_libretro.dll","o2em_libretro.dll","picodrive_libretro.dll","pokemini_libretro.dll","prboom_libretro.dll","prosystem_libretro.dll","px68k_libretro.dll","quasi88_libretro.dll","scummvm_libretro.dll","squirreljme_libretro.dll","theodore_libretro.dll","uzem_libretro.dll","vecx_libretro.dll","vice_xvic_libretro.dll","virtualjaguar_libretro.dll","x1_libretro.dll","mednafen_lynx_libretro.dll","mednafen_ngp_libretro.dll","mednafen_pce_libretro.dll","mednafen_pce_fast_libretro.dll","mednafen_psx_libretro.dll","mednafen_psx_hw_libretro.dll","mednafen_saturn_libretro.dll","mednafen_supafaust_libretro.dll","mednafen_supergrafx_libretro.dll","blastem_libretro.dll","bluemsx_libretro.dll","bsnes_libretro.dll","bsnes_mercury_accuracy_libretro.dll","cap32_libretro.dll","citra2018_libretro.dll","citra_libretro.dll","crocods_libretro.dll","desmume2015_libretro.dll","desmume_libretro.dll","dolphin_libretro.dll","dosbox_core_libretro.dll","dosbox_pure_libretro.dll","dosbox_svn_libretro.dll","fbalpha2012_cps1_libretro.dll","fbalpha2012_cps2_libretro.dll","fbalpha2012_cps3_libretro.dll","fbalpha2012_libretro.dll","fbalpha2012_neogeo_libretro.dll","fceumm_libretro.dll","fbneo_libretro.dll","flycast_libretro.dll","fmsx_libretro.dll","frodo_libretro.dll","gambatte_libretro.dll","gearboy_libretro.dll","gearsystem_libretro.dll","genesis_plus_gx_libretro.dll","genesis_plus_gx_wide_libretro.dll","gpsp_libretro.dll","handy_libretro.dll","kronos_libretro.dll","mame2000_libretro.dll","mame2003_plus_libretro.dll","mame2010_libretro.dll","mame_libretro.dll","melonds_libretro.dll","mesen_libretro.dll","mesen-s_libretro.dll","mgba_libretro.dll","mupen64plus_next_libretro.dll","nekop2_libretro.dll","np2kai_libretro.dll","nestopia_libretro.dll","parallel_n64_libretro.dll","pcsx2_libretro.dll","pcsx_rearmed_libretro.dll","picodrive_libretro.dll","ppsspp_libretro.dll","puae_libretro.dll","quicknes_libretro.dll","race_libretro.dll","sameboy_libretro.dll","smsplus_libretro.dll","snes9x2010_libretro.dll","snes9x_libretro.dll","stella2014_libretro.dll","stella_libretro.dll","tgbdual_libretro.dll","vbam_libretro.dll","vba_next_libretro.dll","vice_x128_libretro.dll","vice_x64_libretro.dll","vice_x64sc_libretro.dll","vice_xscpu64_libretro.dll","yabasanshiro_libretro.dll","yabause_libretro.dll","bsnes_hd_beta_libretro.dll","swanstation_libretro.dll")
+	$RAcores.count
+
+	foreach ( $core in $RAcores )
+	{
+		$url= -join("http://buildbot.libretro.com/nightly/windows/x86_64/latest/",$core,".zip")
+		Write-Output "Downloading $url"
+		downloadCore $url $core
+	}
 }
+function Android_RetroArch_init(){
+
+	setMSG "RetroArch - HD Texture Packs"
+	#Mesen NES
+	$simLinkPath = "$biosPath\HdPacks"
+	$emuSavePath = "$emulationPath\hdpacks\nes"
+	createSaveLink $simLinkPath $emuSavePath
+	echo "Put your Mesen HD Packs here. Remember to put the pack inside a folder here with the exact name of the rom" > "$emulationPath"/hdpacks/nes/readme.txt
+
+	#Mesen N64
+	mkdir "$biosPath\Mupen64plus"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$biosPath\Mupen64plus\cache"
+	$emuSavePath = "$emulationPath\hdpacks\n64"
+	createSaveLink $simLinkPath $emuSavePath
+	echo "Put your Nintendo64 HD Packs here in HTS format. You can download them from https://emulationking.com/nintendo64/" > "$emulationPath"/hdpacks/n64/readme.txt
 
 
-#ApplyInitialSettings
-Android_RetroArch_init(){
-	Android_RetroArch_backupConfigs
-	Android_RetroArch_setEmulationFolder
-	Android_RetroArch_setupSaves
-	Android_RetroArch_setupStorage
-	Android_RetroArch_installCores
-	Android_RetroArch_setUpCoreOptAll
-	Android_RetroArch_setConfigAll
-	#Android_RetroArch_setupConfigurations
-	Android_RetroArch_setCustomizations
-	#Android_RetroArch_autoSave
-	#Android_RetroArch_setRetroAchievements
-	#Android_RetroArch_melonDSDSMigration
-	Android_ADB_push $HOME/EmuDeck/RetroArch /storage/emulated/0/
-}
+	#We just convert the SteamOS settings with our windows paths
+	Remove-Item $Android_RetroArch_configFile  -ErrorAction SilentlyContinue
+
+	setMSG "RetroArch - Bezels & Filters"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RetroArch" "$emusPath\RetroArch"
+	$path="$emusPath\RetroArch\config"
+	Get-ChildItem $path -Recurse -Filter *.cfg |
+	Foreach-Object {
+		$originFile = $_.FullName
+
+		$origin="~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/"
+		$target="$emusPath\RetroArch\overlays\pegasus\"
+
+		sedFile $originFile $origin $target
+
+		#Video Filters path
+		$origin="/app/lib/retroarch/filters/video/"
+		$target="$emusPath\RetroArch\filters\video\"
+
+		sedFile $originFile $origin $target
+	}
+
+	setMSG "RetroArch - Shaders"
+	$path="$emusPath\RetroArch\config"
+	Get-ChildItem $path -Recurse -Filter *.glslp |
+	Foreach-Object {
+		$originFile = $_.FullName
+
+		$origin="/app/share/libretro/shaders/"
+		$target=":/shaders/"
+		sedFile $originFile $origin $target
+	}
+	$path="$emusPath\RetroArch\config"
+	Get-ChildItem $path -Recurse -Filter *.slangp |
+	Foreach-Object {
+		$originFile = $_.FullName
+
+		$origin="/app/share/libretro/shaders/"
+		$target=":/shaders/"
+		sedFile $originFile $origin $target
+	}
 
 
+	#setMSG "RetroArch - Bios & Saves"
 
-Android_RetroArch_setCustomizations(){
-	# User customizations
+#	Android_RetroArch_setupSaves
+
+	#retroAchievements
+	if ("$achievementsUserToken" -ne "" ){
+		Android_RetroArch_retroAchievementsSetLogin
+		if ( "$achievementsHardcore" -eq "true" ){
+			Android_RetroArch_retroAchievementsHardCoreOn
+		}else{
+			Android_RetroArch_retroAchievementsHardCoreOff
+		}
+	}
+
+	#RA Bezels
+	Android_RetroArch_setBezels #needs to change
+
+	#RA AutoSave
+	if ( "$RAautoSave" -eq "true" ){
+		Android_RetroArch_autoSaveOn
+	}else{
+		Android_RetroArch_autoSaveOff
+	}
+
+
+	#
+	#New Shaders
+	#Moved before widescreen, so widescreen disabled if needed.
+	#
+
 	Android_RetroArch_setShadersCRT
 	Android_RetroArch_setShaders3DCRT
 	Android_RetroArch_setShadersMAT
-	Android_RetroArch_setBezels
+
 
 	#
 	#New Aspect Ratios
 	#
 
 	#Sega Games
-		#Master System
-		#Genesis
-		#Sega CD
-		#Sega 32X
+	#Master System
+	#Genesis
+	#Sega CD
+	#Sega 32X
 
-	case $arSega in
-	  "32")
-		Android_RetroArch_mastersystem_ar32
-		Android_RetroArch_genesis_ar32
+	switch ($arSega){
+	  32 {
+		Android_RetroArch_mastersystem_ar32;
+		Android_RetroArch_genesis_ar32;
 		Android_RetroArch_segacd_ar32
-		  Android_RetroArch_sega32x_ar32
-		;;
-	  *)
+		Android_RetroArch_sega32x_ar32
+	  }
+	  43 {
 		Android_RetroArch_mastersystem_ar43
 		Android_RetroArch_genesis_ar43
-		  Android_RetroArch_segacd_ar43
-		  Android_RetroArch_sega32x_ar43
-		  if [ "$RABezels" == true ] && [ "$doSetupRA" == "true" ]; then
+		Android_RetroArch_segacd_ar43
+		Android_RetroArch_sega32x_ar43
+		if ( "$RABezels" -eq "true"){
+			if ("$doSetupRA" -eq "true" ){
 			  Android_RetroArch_mastersystem_bezelOn
 			  Android_RetroArch_genesis_bezelOn
 			  Android_RetroArch_segacd_bezelOn
 			  Android_RetroArch_sega32x_bezelOn
-		fi
-	  ;;
-	esac
+			}
+		}
+	  }
+	}
 
 	#Snes and NES
-	case $arSnes in
-	  "87")
+	switch ($arSnes){
+	  87{
 		Android_RetroArch_snes_ar87
 		Android_RetroArch_nes_ar87
-	  ;;
-	  "32")
-			Android_RetroArch_snes_ar32
-		  Android_RetroArch_nes_ar32
-		;;
-	  *)
+	  }
+	  43{
 		Android_RetroArch_snes_ar43
 		Android_RetroArch_nes_ar43
-		if [ "$RABezels" == true ] && [ "$doSetupRA" == "true" ]; then
-			Android_RetroArch_snes_bezelOn
-		fi
-	  ;;
-	esac
+		if ( "$RABezels" -eq "true" ){
+			if( "$doSetupRA" -eq "true" ){
+				Android_RetroArch_snes_bezelOn
+			}
+		}
+	  }
+	}
+
 	# Classic 3D Games
 		#Dreamcast
 		#PSX
 		#Nintendo 64
 		#Saturn
 		#Xbox
-	if [ "$arClassic3D" == 169 ]; then
+	if ( "$arClassic3D" -eq 169 ){
 			Android_RetroArch_Beetle_PSX_HW_wideScreenOn
 			Android_RetroArch_Flycast_wideScreenOn
 			Android_RetroArch_dreamcast_bezelOff
 			Android_RetroArch_psx_bezelOff
 			Android_RetroArch_n64_wideScreenOn
 			Android_RetroArch_SwanStation_wideScreenOn
-	else
-			Android_RetroArch_Flycast_wideScreenOff
-			Android_RetroArch_n64_wideScreenOff
-			Android_RetroArch_Beetle_PSX_HW_wideScreenOff
-			Android_RetroArch_SwanStation_wideScreenOff
-		#"Bezels on"
-		if [ "$RABezels" == true ]; then
+	}else{
+		#"SET 4:3"
+		Android_RetroArch_Flycast_wideScreenOff
+		Android_RetroArch_n64_wideScreenOff
+		Android_RetroArch_Beetle_PSX_HW_wideScreenOff
+		Android_RetroArch_SwanStation_wideScreenOff
+
+
+		if ( "$RABezels" -eq "true" ){
+			if( "$doSetupRA" -eq "true" ){
 			Android_RetroArch_dreamcast_bezelOn
 			Android_RetroArch_n64_bezelOn
 			Android_RetroArch_psx_bezelOn
-		fi
-	fi
-}
+			}
+		}
+	}
 
-Android_RetroArch_setRetroAchievements(){
-	#RetroAchievments
-	Android_RetroArch_retroAchievementsSetLogin
-	if [ "$achievementsHardcore" == "true" ]; then
-		Android_RetroArch_retroAchievementsHardCoreOn
-	else
-		Android_RetroArch_retroAchievementsHardCoreOff
-	fi
-}
+	#Bios
+	setConfigRA "system_directory" "$biosPath" $Android_RetroArch_configFile
 
 
-#ConfigurePaths
-Android_RetroArch_setEmulationFolder(){
-	system_directory='system_directory = '
-	system_directorySetting="${system_directory}""\"${biosPath}\""
-	Android_RetroArch_setConfigOverride "$system_directory" "$system_directorySetting" "$Android_RetroArch_configFile"
+	mkdir "$biosPath/mame/bios" -ErrorAction SilentlyContinue
+	mkdir "$biosPath/dc" -ErrorAction SilentlyContinue
+	mkdir "$biosPath/neocd" -ErrorAction SilentlyContinue
 
-	rgui_browser_directory='rgui_browser_directory = '
-	rgui_browser_directorySetting="${rgui_browser_directory}""\"${romsPath}\""
-	Android_RetroArch_setConfigOverride "$rgui_browser_directory" "$rgui_browser_directorySetting" "$Android_RetroArch_configFile"
+
+	"Put your Mame bios here" | Set-Content "$biosPath/mame/bios/readme.txt" -Encoding UTF8
+	"Put your Dreamcast bios here" | Set-Content "$biosPath/dc/readme.txt" -Encoding UTF8
+	"Put your Neo Geo CD bios here" | Set-Content "$biosPath/neocd/readme.txt" -Encoding UTF8
+	"Put your RetroArch, DuckStation, RPCSX2 bios here in this directory, don't create subfolders!" | Set-Content "$biosPath/readme.txt" -Encoding UTF8
+
+	#Ally
+	if($device -eq "Asus Rog Ally"){
+		setConfigRA "audio_driver" '"wasapi"' $Android_RetroArch_configFile
+	}
 
 }
+function Android_RetroArch_update(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_setEmulationFolder(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_setupSaves(){
+	#Saves
+	setMSG "RetroArch - Creating Saves Links"
+	$simLinkPath = "$emusPath\RetroArch\saves"
+	$emuSavePath = "$emulationPath\saves\retroarch\saves"
+	createSaveLink "$simLinkPath" "$emuSavePath"
 
-#SetupSaves
-Android_RetroArch_setupSaves(){
-	Android_RetroArch_setConfigOverride 'savestate_directory' "$savesPath/retroarch/states" "$Android_RetroArch_configFile"
-	Android_RetroArch_setConfigOverride 'savefile_directory' "$savesPath/retroarch/saves" "$Android_RetroArch_configFile"
+	#States
+	$simLinkPath = "$emusPath\RetroArch\states"
+	$emuSavePath = "$emulationPath\saves\retroarch\states"
+	createSaveLink "$simLinkPath" "$emuSavePath"
+	#cloud_sync_save_hash "$savesPath\retroarch"
 }
 
-#SetupConfigurations
-Android_RetroArch_setupConfigurations(){
-
-	# Set input driver to SDL. X input driver does not seem to work ootb on some non-SteamOS distributions including ChimeraOS.
-	input_driver='input_driver = '
-	input_driverSetting="${input_driver}"\""sdl"\"
-	changeLine "$input_driver" "$input_driverSetting" "$Android_RetroArch_configFile"
-
-	# Set microphone driver to SDL. Potentially fixes RetroArch hanging when closing content.
-	microphone_driver='microphone_driver = '
-	microphone_driverSetting="${microphone_driver}"\""sdl"\"
-	changeLine "$microphone_driver" "$microphone_driverSetting" "$Android_RetroArch_configFile"
-
+function Android_RetroArch_setOverride($fileToCheck, $name, $key, $value){
+	$path="$emusPath\RetroArch\config"
+	Get-ChildItem $path -Recurse -Filter $fileToCheck |
+	Foreach-Object {
+		$originFile = $_.FullName
+		setConfigRA $key $value $originFile
+	}
 }
 
-#WipeSettings
-Android_RetroArch_wipe(){
-   rm -rf "$HOME/.var/app/$Android_RetroArch_emuPath"
-   # prob not cause roms are here
+function Android_RetroArch_bezelOnAll(){
+	$path="$emusPath\RetroArch\config"
+	Get-ChildItem $path -Recurse -Filter *.cfg |
+	Foreach-Object {
+		$originFile = $_.FullName
+		setConfigRA "input_overlay_enable" "true" $originFile
+	}
+}
+
+function Android_RetroArch_bezelOffAll(){
+	$path="$emusPath\RetroArch\config"
+	Get-ChildItem $path -Recurse -Filter *.cfg |
+	Foreach-Object {
+		$originFile = $_.FullName
+		setConfigRA "input_overlay_enable" "false" $originFile
+	}
+}
+
+function Android_RetroArch_setupStorage(){
+	Write-Output "NYI"
+}
+
+function Android_RetroArch_setupStorage(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_wipe(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_uninstall(){
+	Remove-Item -path "$emusPath\Retroarch"-recurse -force
+	if($?){
+		Write-Output "true"
+	}
+}
+function Android_RetroArch_migrate(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_setABXYstyle(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_wideScreenOn(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_wideScreenOff(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_bezelOn(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_bezelOff(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_finalize(){
+	Write-Output "NYI"
+}
+function Android_RetroArch_IsInstalled(){
+	$test=Test-Path -Path "$emusPath\RetroArch"
+	if($test){
+		Write-Output "true"
+	}else{
+		Write-Output "false"
+	}
+}
+function Android_RetroArch_resetConfig{
+	Android_RetroArch_init
+	if($?){
+		Write-Output "true"
+	}
 }
 
 
-#Uninstall
-Android_RetroArch_uninstall(){
-	flatpak uninstall "$Android_RetroArch_emuPath" --user -y
+function Android_RetroArch_wswanc_setConfig(){
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" "1"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" "1"
+}
+function Android_RetroArch_wswanc_bezelOn(){
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
+}
+function Android_RetroArch_wswanc_bezelOff(){
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
+}
+function Android_RetroArch_wswanc_MATshaderOn(){
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" "true"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_filter" "ED_RM_LINE"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" "false"
+
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" "true"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_filter" "ED_RM_LINE"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" "false"
 }
 
-#setABXYstyle
-Android_RetroArch_setABXYstyle(){
-	echo "NYI"
+function Android_RetroArch_wswanc_MATshaderOff(){
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"  "video_shader_enable" "false"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle Cygne"	"video_smooth" "true"
+
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"  "video_shader_enable" "false"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	Android_RetroArch_setOverride "wonderswancolor.cfg" "Beetle WonderSwan"	 "video_smooth" "true"
 }
 
-#Migrate
-Android_RetroArch_migrate(){
-	echo "NYI"
+function Android_RetroArch_wswan_setConfig(){
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_player1_analog_dpad_mode" "1"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_player1_analog_dpad_mode" "1"
+}
+function Android_RetroArch_wswan_bezelOn(){
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 
-#WideScreenOn
-Android_RetroArch_wideScreenOn(){
-echo "NYI"
+function Android_RetroArch_wswan_bezelOff(){
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "input_overlay_enable" "false"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "input_overlay_enable" "false"
 }
 
-#WideScreenOff
-Android_RetroArch_wideScreenOff(){
-echo "NYI"
+function Android_RetroArch_wswan_MATshaderOn(){
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" "true"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_filter" "ED_RM_LINE"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" "false"
+
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" "true"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_filter" "ED_RM_LINE"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" "false"
 }
 
-Android_RetroArch_setOverride(){
-	local fileName=$1
-	local coreName=$2
-	local option=$3
-	local value=$4
-	local settingLine="$option = $value"
-	local fullPath="$Android_RetroArch_coreConfigFolders/$coreName"
-	local configFile="$fullPath/$fileName"
+function Android_RetroArch_wswan_MATshaderOff(){
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"  "video_shader_enable" "false"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle Cygne"	"video_smooth" "true"
 
-	if [[ $value == 'ED_RM_LINE' ]]; then
-		echo "Deleting $option from $configFile"
-		sed -i '/^'"$option"'/d' "$configFile"
-	else
-		updateOrAppendConfigLine "$configFile" "$option =" "$settingLine"
-	fi
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"  "video_shader_enable" "false"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	Android_RetroArch_setOverride "wonderswan.cfg" "Beetle WonderSwan"	 "video_smooth" "true"
 }
 
-Android_RetroArch_setConfigOverride(){
-	local option=$1
-	local value=$2
-	local configFile=$3
-	local settingLine="$option = $value"
-
-	if [[ $value == 'ED_RM_LINE' ]]; then
-		echo "Deleting $option from $configFile"
-		sed -i '/^'"$option"'/d' "$configFile"
-	else
-		updateOrAppendConfigLine "$configFile" "$option =" "$settingLine"
-	fi
+function Android_RetroArch_dolphin_emu_setConfig(){
+	Android_RetroArch_setOverride "dolphin_emu.cfg" "dolphin_emu"  "video_driver" "gl"
+	Android_RetroArch_setOverride "dolphin_emu.cfg" "dolphin_emu"  "video_driver" "gl"
 }
 
-Android_RetroArch_vice_xvic_setConfig(){
-	Android_RetroArch_setOverride 'xvic.cfg' 'VICE xvic'  'video_driver' '"glcore"'
-}
-Android_RetroArch_vice_xscpu64_setConfig(){
-	Android_RetroArch_setOverride 'xscpu64.cfg' 'VICE xscpu64'  'video_driver' '"glcore"'
-}
-Android_RetroArch_vice_x64sc_setConfig(){
-	Android_RetroArch_setOverride 'x64sc.cfg' 'VICE x64sc'  'video_driver' '"glcore"'
-}
-Android_RetroArch_vice_x64_setConfig(){
-	Android_RetroArch_setOverride 'x64.cfg' 'VICE x64'  'video_driver' '"glcore"'
-}
-
-Android_RetroArch_wswanc_setConfig(){
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'input_player1_analog_dpad_mode' '"1"'
-}
-Android_RetroArch_wswanc_bezelOn(){
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'input_overlay_enable' '"false"'
-}
-Android_RetroArch_wswanc_bezelOff(){
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'input_overlay_enable' '"false"'
-}
-Android_RetroArch_wswanc_MATshaderOn(){
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'video_shader_enable' 'true'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_smooth' '"false"'
-
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'video_shader_enable' 'true'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_smooth' '"false"'
-}
-
-Android_RetroArch_wswanc_MATshaderOff(){
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle Cygne'	'video_smooth' '"true"'
-
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'wonderswancolor.cfg' 'Beetle WonderSwan'	 'video_smooth' '"true"'
+function Android_RetroArch_PPSSPP_setConfig(){
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_auto_frameskip" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_block_transfer_gpu" "enabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_button_preference" "Cross"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_cheats" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_cpu_core" "JIT"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_disable_slow_framebuffer_effects" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_fast_memory" "enabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_force_lag_sync" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_frameskip" "Off"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_frameskiptype" "Number"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_gpu_hardware_transform" "enabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_ignore_bad_memory_access" "enabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_inflight_frames" "Up"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_internal_resolution" "1440x816"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_io_timing_method" "Fast"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_language" "Automatic"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_lazy_texture_caching" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_locked_cpu_speed" "off"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_lower_resolution_for_effects" "Off"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_rendering_mode" "Buffered"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_retain_changed_textures" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_software_skinning" "enabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_spline_quality" "Low"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_anisotropic_filtering" "off"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_deposterize" "disabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_filtering" "Auto"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_replacement" "enabled"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_scaling_level" "Off"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_scaling_type" "xbrz"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_texture_shader" "Off"
+	Android_RetroArch_setOverride "psp.cfg" "PPSSPP"  "ppsspp_vertex_cache" "disabled"
 }
 
-Android_RetroArch_wswan_setConfig(){
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'input_player1_analog_dpad_mode' '"1"'
+function Android_RetroArch_pcengine_setConfig(){
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_player1_analog_dpad_mode" "1"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_player1_analog_dpad_mode" "1"
 }
-Android_RetroArch_wswan_bezelOn(){
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'input_overlay_enable' '"false"'
-}
+function Android_RetroArch_pcengine_bezelOn(){
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "aspect_ratio_index" "21"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "custom_viewport_height" "1200"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "custom_viewport_x" "0"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay" "$emusPath\RetroArch\overlays\pegasus\pcengine.cfg"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_aspect_adjust_landscape" "-0.150000"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_enable" "true"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_scale_landscape" "1.075000"
 
-Android_RetroArch_wswan_bezelOff(){
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'input_overlay_enable' '"false"'
-}
-
-Android_RetroArch_wswan_MATshaderOn(){
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'video_shader_enable' 'true'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_smooth' '"false"'
-
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'video_shader_enable' 'true'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_smooth' '"false"'
-}
-
-Android_RetroArch_wswan_MATshaderOff(){
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle Cygne'	'video_smooth' '"true"'
-
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'wonderswan.cfg' 'Beetle WonderSwan'	 'video_smooth' '"true"'
-}
-
-Android_RetroArch_dolphin_emu_setConfig(){
-	Android_RetroArch_setOverride 'dolphin_emu.cfg' 'dolphin_emu'  'video_driver' '"gl"'
-	Android_RetroArch_setOverride 'dolphin_emu.cfg' 'dolphin_emu'  'video_driver' '"gl"'
-}
-
-Android_RetroArch_PPSSPP_setConfig(){
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_auto_frameskip' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_block_transfer_gpu' '"enabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_button_preference' '"Cross"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_cheats' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_cpu_core' '"JIT"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_disable_slow_framebuffer_effects' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_fast_memory' '"enabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_force_lag_sync' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_frameskip' '"Off"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_frameskiptype' '"Number'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_gpu_hardware_transform' '"enabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_ignore_bad_memory_access' '"enabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_inflight_frames' '"Up'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_internal_resolution' '"1440x816"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_io_timing_method' '"Fast"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_language' '"Automatic"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_lazy_texture_caching' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_locked_cpu_speed' '"off"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_lower_resolution_for_effects' '"Off"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_rendering_mode' '"Buffered"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_retain_changed_textures' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_software_skinning' '"enabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_spline_quality' '"Low"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_anisotropic_filtering' '"off"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_deposterize' '"disabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_filtering' '"Auto"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_replacement' '"enabled"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_scaling_level' '"Off"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_scaling_type' '"xbrz"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_texture_shader' '"Off"'
-	Android_RetroArch_setOverride 'psp.cfg' 'PPSSPP'  'ppsspp_vertex_cache' '"disabled"'
-}
-
-Android_RetroArch_pcengine_setConfig(){
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'input_player1_analog_dpad_mode' '"1"'
-}
-Android_RetroArch_pcengine_bezelOn(){
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'custom_viewport_height' '"1200"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'custom_viewport_x' '"0"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/pcengine.cfg"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_aspect_adjust_landscape' '"-0.150000"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_enable' '"true"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_scale_landscape' '"1.075000"'
-
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'custom_viewport_height' '"1200"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'custom_viewport_x' '"0"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/pcengine.cfg"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_aspect_adjust_landscape' '"-0.150000"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_enable' '"true"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_scale_landscape' '"1.075000"'
-
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'custom_viewport_height' '"1200"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'custom_viewport_x' '"0"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/pcengine.cfg"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'input_overlay_aspect_adjust_landscape' '"-0.150000"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'input_overlay_enable' '"true"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'input_overlay_scale_landscape' '"1.075000"'
-
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'custom_viewport_height' '"1200"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'custom_viewport_x' '"0"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/pcengine.cfg"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'input_overlay_aspect_adjust_landscape' '"-0.150000"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'input_overlay_enable' '"true"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'input_overlay_scale_landscape' '"1.075000"'
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "aspect_ratio_index" "21"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "custom_viewport_height" "1200"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "custom_viewport_x" "0"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay" "$emusPath\RetroArch\overlays\pegasus\pcengine.cfg"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_aspect_adjust_landscape" "-0.150000"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_enable" "true"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_scale_landscape" "1.075000"
 
 }
 
-Android_RetroArch_pcengine_bezelOff(){
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'input_overlay_enable' '"false"'
+function Android_RetroArch_pcengine_bezelOff(){
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "input_overlay_enable" "false"
+
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "input_overlay_enable" "false"
 }
 
-Android_RetroArch_pcengine_CRTshaderOn(){
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'video_shader_enable' '"true"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_smooth' '"false"'
+function Android_RetroArch_pcengine_CRTshaderOn(){
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" "true"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_filter" "ED_RM_LINE"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_smooth" "false"
 
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'video_shader_enable' '"true"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_smooth' '"false"'
-
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'video_shader_enable' '"true"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'	'video_smooth' '"false"'
-
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'video_shader_enable' '"true"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'	'video_smooth' '"false"'
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"  "video_shader_enable" "true"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"	"video_filter" "ED_RM_LINE"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE"	"video_smooth" "false"
 }
 
-Android_RetroArch_pcengine_CRTshaderOff(){
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE Fast'	'video_smooth' '"true"'
+function Android_RetroArch_pcengine_CRTshaderOff(){
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"  "video_shader_enable" "false"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_filter" "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	Android_RetroArch_setOverride "pcengine.cfg" "Beetle PCE Fast"	"video_smooth" '"true"'
 
 	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'pcengine.cfg' 'Beetle PCE'	'video_smooth' '"true"'
-
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE Fast'	'video_smooth' '"true"'
-
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'tg16.cfg' 'Beetle PCE'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_amiga1200_CRTshaderOff(){
+function Android_RetroArch_amiga1200_CRTshaderOff(){
 	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_smooth' '"true"'
 }
 
-Android_RetroArch_amiga1200_CRTshaderOn(){
+function Android_RetroArch_amiga1200_CRTshaderOn(){
 	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'amiga1200.cfg' 'PUAE'  'video_smooth' '"false"'
 }
 
-Android_RetroArch_amiga1200_setUpCoreOpt(){
+function Android_RetroArch_amiga1200_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'amiga1200.opt' 'PUAE'  'puae_model' '"A1200"'
 }
 
-Android_RetroArch_nes_setConfig(){
+function Android_RetroArch_nes_setConfig(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_nes_bezelOn(){
-	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/nes.cfg"'
+function Android_RetroArch_nes_bezelOn(){
+	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\nes.cfg"
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_opacity' '"0.700000"'
@@ -475,10 +498,7 @@ Android_RetroArch_nes_bezelOn(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_scale_integer' '"false"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"0"'
-
-
-
-	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/nes.cfg"'
+	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\nes.cfg"
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_opacity' '"0.700000"'
@@ -486,28 +506,14 @@ Android_RetroArch_nes_bezelOn(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'video_scale_integer' '"false"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'aspect_ratio_index' '"0"'
-
-	case $arSnes in
-	  "87")
-		Android_RetroArch_nes_ar87
-	  ;;
-	  "32")
-		  Android_RetroArch_nes_ar32
-		;;
-	  *)
-		Android_RetroArch_nes_ar43
-	  ;;
-	esac
-
-
 }
 
-Android_RetroArch_nes_bezelOff(){
+function Android_RetroArch_nes_bezelOff(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_nes_CRTshaderOn(){
+function Android_RetroArch_nes_CRTshaderOn(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_smooth' '"false"'
@@ -517,23 +523,23 @@ Android_RetroArch_nes_CRTshaderOn(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_nes_CRTshaderOff(){
+function Android_RetroArch_nes_CRTshaderOff(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'	'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_nes_ar43(){
+function Android_RetroArch_nes_ar43(){
 	#Android_RetroArch_nes_bezelOn
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'aspect_ratio_index' '"0"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"0"'
 }
 
-Android_RetroArch_nes_ar87(){
+function Android_RetroArch_nes_ar87(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_scale_landscape' '"1.380000"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'aspect_ratio_index' '"15"'
@@ -542,13 +548,13 @@ Android_RetroArch_nes_ar87(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"15"'
 }
 
-Android_RetroArch_nes_ar32(){
+function Android_RetroArch_nes_ar32(){
 	Android_RetroArch_setOverride 'nes.cfg' 'Nestopia'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_setOverride 'nes.cfg' 'Mesen'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_nes_bezelOff
 }
 
-Android_RetroArch_Mupen64Plus_Next_setConfig(){
+function Android_RetroArch_Mupen64Plus_Next_setConfig(){
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_crop_overscan' '"false"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_smooth' 'ED_RM_LINE'
@@ -556,33 +562,30 @@ Android_RetroArch_Mupen64Plus_Next_setConfig(){
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_auto_scale'  '"false"'
 }
 
-
-
-
- Android_RetroArch_n64_3DCRTshaderOn(){
+function  Android_RetroArch_n64_3DCRTshaderOn(){
 	 Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_smooth' 'ED_RM_LINE'
  }
 
-Android_RetroArch_n64_3DCRTshaderOff(){
+function Android_RetroArch_n64_3DCRTshaderOff(){
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_shader_enable' '"false"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'video_smooth' 'ED_RM_LINE'
 }
 
-Android_RetroArch_n64_setConfig(){
+function Android_RetroArch_n64_setConfig(){
 	Android_RetroArch_n64_3DCRTshaderOff
 }
 
-Android_RetroArch_lynx_setConfig(){
+function Android_RetroArch_lynx_setConfig(){
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_lynx_bezelOn(){
+function Android_RetroArch_lynx_bezelOn(){
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/lynx.cfg"'
+	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\lynx.cfg"
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_opacity' '"0.700000"'
@@ -590,7 +593,7 @@ Android_RetroArch_lynx_bezelOn(){
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_scale_integer' '"false"'
 
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/lynx.cfg"'
+	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\lynx.cfg"
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_opacity' '"0.700000"'
@@ -598,12 +601,12 @@ Android_RetroArch_lynx_bezelOn(){
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'video_scale_integer' '"false"'
 }
 
-Android_RetroArch_lynx_bezelOff(){
+function Android_RetroArch_lynx_bezelOff(){
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_lynx_MATshaderOn(){
+function Android_RetroArch_lynx_MATshaderOn(){
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_smooth' '"false"'
@@ -613,18 +616,18 @@ Android_RetroArch_lynx_MATshaderOn(){
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_lynx_MATshaderOff(){
+function Android_RetroArch_lynx_MATshaderOff(){
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_smooth' '"true"'
 }
 
 
-Android_RetroArch_SameBoy_gb_setConfig(){
+function Android_RetroArch_SameBoy_gb_setConfig(){
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_dark_filter_level' '"0"'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_gb_bootloader' '"enabled"'
@@ -654,13 +657,13 @@ Android_RetroArch_SameBoy_gb_setConfig(){
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'gambatte_up_down_allowed' '"disabled"'
 }
 
-Android_RetroArch_ngp_setConfig(){
+function Android_RetroArch_ngp_setConfig(){
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_ngp_bezelOn(){
+function Android_RetroArch_ngp_bezelOn(){
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/ngpc.cfg"'
+	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\ngpc.cfg"
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_aspect_adjust_landscape' '"-0.310000"'
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_enable' '"true"'
@@ -670,29 +673,29 @@ Android_RetroArch_ngp_bezelOn(){
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_y_offset_landscape' '"-0.135000"'
 }
 
-Android_RetroArch_ngp_bezelOff(){
+function Android_RetroArch_ngp_bezelOff(){
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_ngp_MATshaderOn(){
+function Android_RetroArch_ngp_MATshaderOn(){
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_smooth' '"false"'
 }
 
-Android_RetroArch_ngp_MATshaderOff(){
+function Android_RetroArch_ngp_MATshaderOff(){
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'ngp.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
-Android_RetroArch_ngpc_setConfig(){
+function Android_RetroArch_ngpc_setConfig(){
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_ngpc_bezelOn(){
+function Android_RetroArch_ngpc_bezelOn(){
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/ngpc.cfg"'
+	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\ngpc.cfg"
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_enable' '"true"'
@@ -701,194 +704,194 @@ Android_RetroArch_ngpc_bezelOn(){
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_y_offset_landscape' '"-0.135000"'
 }
 
-Android_RetroArch_ngpc_bezelOff(){
+function Android_RetroArch_ngpc_bezelOff(){
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_ngpc_MATshaderOn(){
+function Android_RetroArch_ngpc_MATshaderOn(){
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_shader_enable' 'true'
-	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_smooth' '"false"'
+	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_filter' 'ED_RM_LINE'
+	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_smooth' '"false"'
 }
 
-Android_RetroArch_ngpc_MATshaderOff(){
+function Android_RetroArch_ngpc_MATshaderOff(){
 	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'  'video_smooth' '"true"'
+	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	Android_RetroArch_setOverride 'ngpc.cfg' 'Beetle NeoPop'	 'video_smooth' '"true"'
 }
 
-Android_RetroArch_atari2600_setConfig(){
+function Android_RetroArch_atari2600_setConfig(){
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_atari2600_bezelOn(){
-	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/atari2600.cfg"'
+function Android_RetroArch_atari2600_bezelOn(){
+	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\atari2600.cfg"
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'input_overlay_scale_landscape' '"1.070000"'
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'  'aspect_ratio_index' '"0"'
 }
 
-Android_RetroArch_atari2600_bezelOff(){
+function Android_RetroArch_atari2600_bezelOff(){
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella' 'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_atari2600_CRTshaderOn(){
+function Android_RetroArch_atari2600_CRTshaderOn(){
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella' 'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_atari2600_CRTshaderOff(){
+function Android_RetroArch_atari2600_CRTshaderOff(){
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella' 'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'atari2600.cfg' 'Stella'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_mame_setConfig(){
+function Android_RetroArch_mame_setConfig(){
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable = "false"'
 }
 
-Android_RetroArch_mame_bezelOn(){
+function Android_RetroArch_mame_bezelOn(){
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_mame_bezelOff(){
+function Android_RetroArch_mame_bezelOff(){
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_mame_CRTshaderOn(){
+function Android_RetroArch_mame_CRTshaderOn(){
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'   'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_smooth' '"false"'
 
-	Android_RetroArch_setOverride 'mame.cfg' 'MAME' 'video_shader_enable' 'true'
+	Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_mame_CRTshaderOff(){
+function Android_RetroArch_mame_CRTshaderOff(){
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'	'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'mame.cfg' 'MAME'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'mame.cfg' 'MAME'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'mame.cfg' 'MAME'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_neogeo_bezelOn(){
-	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay' "/storage/emulated/0/RetroArch/overlays/pegasus/neogeo.cfg"
+function Android_RetroArch_neogeo_bezelOn(){
+	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\neogeo.cfg"
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_hide_in_menu' '"false"'
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_scale_landscape' '"1.170000'
 }
 
-Android_RetroArch_neogeo_bezelOff(){
+function Android_RetroArch_neogeo_bezelOff(){
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_neogeo_CRTshaderOn(){
+function Android_RetroArch_neogeo_CRTshaderOn(){
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo' 'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_neogeo_CRTshaderOff(){
+function Android_RetroArch_neogeo_CRTshaderOff(){
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo' 'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_fbneo_bezelOn(){
-	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay' "/storage/emulated/0/RetroArch/overlays/pegasus/neogeo.cfg"
+function Android_RetroArch_fbneo_bezelOn(){
+	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\neogeo.cfg"
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_hide_in_menu' '"false"'
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_scale_landscape' '"1.170000'
 }
 
-Android_RetroArch_fbneo_bezelOff(){
+function Android_RetroArch_fbneo_bezelOff(){
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_fbneo_CRTshaderOn(){
+function Android_RetroArch_fbneo_CRTshaderOn(){
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo' 'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_fbneo_CRTshaderOff(){
+function Android_RetroArch_fbneo_CRTshaderOff(){
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo' 'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'	'video_smooth' '"true"'
 }
 
 
-Android_RetroArch_segacd_setConfig(){
+function Android_RetroArch_segacd_setConfig(){
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_segacd_bezelOn(){
-	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/segacd.cfg"'
+function Android_RetroArch_segacd_bezelOn(){
+	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\segacd.cfg"
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_hide_in_menu' '"false"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
-	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/segacd.cfg"'
+	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\segacd.cfg"
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_hide_in_menu' '"false"'
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000'
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 }
-Android_RetroArch_segacd_bezelOff(){
+function Android_RetroArch_segacd_bezelOff(){
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_segacd_CRTshaderOn(){
+function Android_RetroArch_segacd_CRTshaderOn(){
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'video_shader_enable' '"true"'
 }
 
-Android_RetroArch_segacd_CRTshaderOff(){
+function Android_RetroArch_segacd_CRTshaderOff(){
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
 }
 
 
-Android_RetroArch_segacd_ar32(){
+function Android_RetroArch_segacd_ar32(){
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_segacd_bezelOff
 }
-Android_RetroArch_segacd_ar43(){
+function Android_RetroArch_segacd_ar43(){
 	Android_RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 	Android_RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 }
 
-Android_RetroArch_genesis_setConfig(){
+function Android_RetroArch_genesis_setConfig(){
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_genesis_bezelOn(){
-	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/genesis.cfg"'
+function Android_RetroArch_genesis_bezelOn(){
+	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\genesis.cfg"
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
-	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/genesis.cfg"'
+	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\genesis.cfg"
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
@@ -896,23 +899,24 @@ Android_RetroArch_genesis_bezelOn(){
 
 }
 
-Android_RetroArch_genesis_bezelOff(){
+
+function Android_RetroArch_genesis_bezelOff(){
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_genesis_ar32(){
+function Android_RetroArch_genesis_ar32(){
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_genesis_bezelOff
 }
 
-Android_RetroArch_genesis_ar43(){
+function Android_RetroArch_genesis_ar43(){
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 }
 
-Android_RetroArch_genesis_CRTshaderOn(){
+function Android_RetroArch_genesis_CRTshaderOn(){
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_smooth' '"false"'
@@ -922,44 +926,44 @@ Android_RetroArch_genesis_CRTshaderOn(){
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_genesis_CRTshaderOff(){
+function Android_RetroArch_genesis_CRTshaderOff(){
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_gamegear_setConfig(){
+function Android_RetroArch_gamegear_setConfig(){
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_gamegear_bezelOn(){
+function Android_RetroArch_gamegear_bezelOn(){
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/gg.cfg"'
+	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\gg.cfg"
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_aspect_adjust_landscape' '"-0.115000"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.545000"'
 
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/gg.cfg"'
+	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\gg.cfg"
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_aspect_adjust_landscape' '"-0.115000"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_scale_landscape' '"1.545000"'
 }
 
-Android_RetroArch_gamegear_bezelOff(){
+function Android_RetroArch_gamegear_bezelOff(){
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"false"'
 
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_gamegear_MATshaderOn(){
+function Android_RetroArch_gamegear_MATshaderOn(){
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_smooth' '"false"'
@@ -969,156 +973,138 @@ Android_RetroArch_gamegear_MATshaderOn(){
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_gamegear_MATshaderOff(){
+function Android_RetroArch_gamegear_MATshaderOff(){
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gamegear.cfg' 'Gearsystem'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_mastersystem_setConfig(){
+function Android_RetroArch_mastersystem_setConfig(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_mastersystem_bezelOn(){
+function Android_RetroArch_mastersystem_bezelOn(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/mastersystem.cfg"'
+	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\mastersystem.cfg"
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
 }
 
-Android_RetroArch_mastersystem_bezelOff(){
+function Android_RetroArch_mastersystem_bezelOff(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_mastersystem_ar32(){
+function Android_RetroArch_mastersystem_ar32(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_mastersystem_bezelOff
 }
 
-Android_RetroArch_mastersystem_CRTshaderOn(){
+function Android_RetroArch_mastersystem_CRTshaderOn(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_mastersystem_CRTshaderOff(){
+function Android_RetroArch_mastersystem_CRTshaderOff(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_mastersystem_ar43(){
+function Android_RetroArch_mastersystem_ar43(){
 	Android_RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"21"'
 }
-Android_RetroArch_sega32x_setConfig(){
+function Android_RetroArch_sega32x_setConfig(){
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_player1_analog_dpad_mode' '"1"'
 }
-Android_RetroArch_sega32x_bezelOn(){
-	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/sega32x.cfg"'
+function Android_RetroArch_sega32x_bezelOn(){
+	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\sega32x.cfg"
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_hide_in_menu' '"false"'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_scale_landscape' '"1.070000"'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'aspect_ratio_index' '"0"'
-
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/sega32x.cfg"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay_auto_scale' '"false"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay_enable' '"true"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay_hide_in_menu' '"false"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay_scale_landscape' '"1.070000"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'aspect_ratio_index' '"0"'
 }
 
-Android_RetroArch_sega32x_bezelOff(){
+function Android_RetroArch_sega32x_bezelOff(){
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_sega32x_CRTshaderOn(){
+function Android_RetroArch_sega32x_CRTshaderOn(){
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_smooth' '"false"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'video_shader_enable' '"true"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'	 'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'	 'video_smooth' '"false"'
 }
 
-Android_RetroArch_sega32x_CRTshaderOff(){
+function Android_RetroArch_sega32x_CRTshaderOff(){
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'	 'video_smooth' '"true"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'	 'video_smooth' '"true"'
 }
 
-Android_RetroArch_sega32x_ar32(){
+function Android_RetroArch_sega32x_ar32(){
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'aspect_ratio_index' '"7"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_sega32x_bezelOff
 }
 
-Android_RetroArch_sega32x_ar43(){
+function Android_RetroArch_sega32x_ar43(){
 	Android_RetroArch_setOverride 'sega32x.cfg' 'PicoDrive'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'sega32xna.cfg' 'PicoDrive'  'aspect_ratio_index' '"21"'
 	Android_RetroArch_sega32x_bezelOff
 }
 
-#Android_RetroArch_gba_bezelOn(){
+#function Android_RetroArch_gba_bezelOn(){
 #	#missing stuff?
 #	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'  'aspect_ratio_index' '"21"'
 #}
-Android_RetroArch_gba_setConfig(){
+function Android_RetroArch_gba_setConfig(){
 	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'  'input_player1_analog_dpad_mode' '"1"'
 }
-Android_RetroArch_gba_MATshaderOn(){
+function Android_RetroArch_gba_MATshaderOn(){
 	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_smooth' '"false"'
 }
 
-Android_RetroArch_gba_MATshaderOff(){
+function Android_RetroArch_gba_MATshaderOff(){
 	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gba.cfg' 'mGBA'	 'video_smooth' '"true"'
 }
 
-Android_RetroArch_gb_bezelOn(){
+function Android_RetroArch_gb_bezelOn(){
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/gb.cfg"'
+	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\gb.cfg"
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_scale_landscape' '"1.860000"'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_y_offset_landscape' '"-0.150000"'
 
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/gb.cfg"'
+	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\gb.cfg"
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_scale_landscape' '"1.860000"'
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_y_offset_landscape' '"-0.150000"'
 }
 
-Android_RetroArch_gb_setConfig(){
+function Android_RetroArch_gb_setConfig(){
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_gb_bezelOff(){
+function Android_RetroArch_gb_bezelOff(){
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'input_overlay_enable' '"false"'
 
 
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_gb_MATshaderOn(){
+function Android_RetroArch_gb_MATshaderOn(){
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_smooth' '"false"'
@@ -1128,17 +1114,17 @@ Android_RetroArch_gb_MATshaderOn(){
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_smooth' '"false"'
 }
 
-Android_RetroArch_gb_MATshaderOff(){
+function Android_RetroArch_gb_MATshaderOff(){
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gb.cfg' 'SameBoy'	 'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gb.cfg' 'Gambatte'	 'video_smooth' '"true"'
 }
 
-Android_RetroArch_SameBoy_gbc_setConfig(){
+function Android_RetroArch_SameBoy_gbc_setConfig(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'gambatte_gbc_color_correction' '"GBC'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'gambatte_gbc_color_correction_mode' '"accurate"'
@@ -1146,34 +1132,34 @@ Android_RetroArch_SameBoy_gbc_setConfig(){
 }
 
 
-Android_RetroArch_gbc_setConfig(){
+function Android_RetroArch_gbc_setConfig(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_gbc_bezelOn(){
+function Android_RetroArch_gbc_bezelOn(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/gbc.cfg"'
+	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\gbc.cfg"
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_scale_landscape' '"1.870000"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_y_offset_landscape' '"-0.220000"'
 
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'aspect_ratio_index' '"21"'
-	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/gbc.cfg"'
+	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\gbc.cfg"
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_scale_landscape' '"1.870000"'
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_y_offset_landscape' '"-0.220000"'
 }
 
-Android_RetroArch_gbc_bezelOff(){
+function Android_RetroArch_gbc_bezelOff(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'input_overlay_enable' '"false"'
 
 
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_gbc_MATshaderOn(){
+function Android_RetroArch_gbc_MATshaderOn(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_smooth' '"false"'
@@ -1183,122 +1169,121 @@ Android_RetroArch_gbc_MATshaderOn(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_smooth' '"false"'
 }
 
-Android_RetroArch_gbc_MATshaderOff(){
+function Android_RetroArch_gbc_MATshaderOff(){
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gbc.cfg' 'SameBoy'	 'video_smooth' '"true"'
 
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'  'video_shader_enable' 'false'
-	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'gbc.cfg' 'Gambatte'	 'video_smooth' '"true"'
 }
 
-Android_RetroArch_n64_wideScreenOn(){
+function Android_RetroArch_n64_wideScreenOn(){
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"16:9 adjusted"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"1"'
 	Android_RetroArch_n64_bezelOff
 	Android_RetroArch_n64_3DCRTshaderOff
 }
 
-Android_RetroArch_n64_wideScreenOff(){
+function Android_RetroArch_n64_wideScreenOff(){
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"4:3"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
 	#Android_RetroArch_n64_bezelOn
 }
 
-Android_RetroArch_n64_bezelOn(){
+function Android_RetroArch_n64_bezelOn(){
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/N64.cfg"'
+	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\N64.cfg"
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_aspect_adjust_landscape' '"0.085000"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_scale_landscape' '"1.065000"'
 }
 
-Android_RetroArch_n64_bezelOff(){
+function Android_RetroArch_n64_bezelOff(){
 	Android_RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_atari800_setConfig(){
+function Android_RetroArch_atari800_setConfig(){
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_atari800_bezelOn(){
+function Android_RetroArch_atari800_bezelOn(){
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/atari800.cfg"'
+	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\atari800.cfg"
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_hide_in_menu' '"true"'
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_scale_landscape' '"1.175000"'
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_aspect_adjust_landscape' '"0.000000"'
 }
 
-Android_RetroArch_atari800_bezelOff(){
+function Android_RetroArch_atari800_bezelOff(){
 	Android_RetroArch_setOverride 'atari800.cfg' 'Stella'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_atari5200_setConfig(){
+function Android_RetroArch_atari5200_setConfig(){
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_atari5200_bezelOn(){
+function Android_RetroArch_atari5200_bezelOn(){
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/atari5200.cfg"'
+	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\atari5200.cfg"
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_hide_in_menu' '"true"'
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_scale_landscape' '"1.175000"'
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_aspect_adjust_landscape' '"0.000000"'
 }
 
-Android_RetroArch_atari5200_bezelOff(){
+function Android_RetroArch_atari5200_bezelOff(){
 	Android_RetroArch_setOverride 'atari5200.cfg' 'Stella'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_dreamcast_bezelOn(){
+function Android_RetroArch_dreamcast_bezelOn(){
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/Dreamcast.cfg"'
+	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\Dreamcast.cfg"
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_aspect_adjust_landscape' '"0.110000"'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_scale_landscape' '"1.054998"'
 }
 
-Android_RetroArch_dreamcast_bezelOff(){
+function Android_RetroArch_dreamcast_bezelOff(){
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'input_overlay_enable' '"false"'
 }
 
 #temporary
-Android_RetroArch_Flycast_bezelOff(){
+function Android_RetroArch_Flycast_bezelOff(){
 	Android_RetroArch_dreamcast_bezelOff
 }
 
-Android_RetroArch_Flycast_bezelOn(){
+function Android_RetroArch_Flycast_bezelOn(){
 	Android_RetroArch_dreamcast_bezelOn
 }
 
-Android_RetroArch_Beetle_PSX_HW_bezelOff(){
+function Android_RetroArch_Beetle_PSX_HW_bezelOff(){
 	Android_RetroArch_psx_bezelOff
 }
 
-Android_RetroArch_Beetle_PSX_HW_bezelOn(){
+function Android_RetroArch_Beetle_PSX_HW_bezelOn(){
 	Android_RetroArch_psx_bezelOn
 }
 
- Android_RetroArch_dreamcast_3DCRTshaderOn(){
-	 Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast' 'video_shader_enable' '"true"'
+function  Android_RetroArch_dreamcast_3DCRTshaderOn(){
+	 Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_smooth' 'ED_RM_LINE'
  }
 
-Android_RetroArch_dreamcast_setConfig(){
+function Android_RetroArch_dreamcast_setConfig(){
 	Android_RetroArch_dreamcast_3DCRTshaderOff
 }
 
-Android_RetroArch_dreamcast_3DCRTshaderOff(){
-	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast' 'video_shader_enable' '"false"'
+function Android_RetroArch_dreamcast_3DCRTshaderOff(){
+	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'video_shader_enable' '"false"'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'	'video_smooth' 'ED_RM_LINE'
 }
 
-Android_RetroArch_saturn_setConfig(){
-	mkdir -p "$biosPath/kronos"
+function Android_RetroArch_saturn_setConfig(){
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_player1_analog_dpad_mode' '"1"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_player1_analog_dpad_mode' '"1"'
@@ -1306,41 +1291,41 @@ Android_RetroArch_saturn_setConfig(){
 	Android_RetroArch_saturn_3DCRTshaderOff
 }
 
-Android_RetroArch_saturn_bezelOn(){
+function Android_RetroArch_saturn_bezelOn(){
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/saturn.cfg"'
+	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\saturn.cfg"
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_scale_landscape' '"1.070000"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/saturn.cfg"'
+	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\saturn.cfg"
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_scale_landscape' '"1.070000"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 
 
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/saturn.cfg"'
+	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\saturn.cfg"
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_scale_landscape' '"1.070000"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/saturn.cfg"'
+	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\saturn.cfg"
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_scale_landscape' '"1.070000"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_aspect_adjust_landscape' '"0.095000"'
 }
 
-Android_RetroArch_saturn_bezelOff(){
+function Android_RetroArch_saturn_bezelOff(){
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'  'input_overlay_enable' '"false"'
 }
 
- Android_RetroArch_saturn_3DCRTshaderOn(){
+function  Android_RetroArch_saturn_3DCRTshaderOn(){
 	 Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'	'video_smooth' 'ED_RM_LINE'
@@ -1358,7 +1343,7 @@ Android_RetroArch_saturn_bezelOff(){
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'	'video_smooth' 'ED_RM_LINE'
  }
 
-Android_RetroArch_saturn_3DCRTshaderOff(){
+function Android_RetroArch_saturn_3DCRTshaderOff(){
 	Android_RetroArch_setOverride 'saturn.cfg' 'Yabause'  'video_shader_enable' '"false"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'YabaSanshiro'  'video_shader_enable' '"false"'
 	Android_RetroArch_setOverride 'saturn.cfg' 'Kronos'  'video_shader_enable' '"false"'
@@ -1377,93 +1362,59 @@ Android_RetroArch_saturn_3DCRTshaderOff(){
 	Android_RetroArch_setOverride 'saturn.cfg' 'Beetle Saturn'	'video_smooth' 'ED_RM_LINE'
 }
 
-Android_RetroArch_snes_setConfig(){
+function Android_RetroArch_snes_setConfig(){
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_player1_analog_dpad_mode' '"1"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_player1_analog_dpad_mode' '"1"'
 }
 
-Android_RetroArch_snes_bezelOn(){
-	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/snes.cfg"'
+function Android_RetroArch_snes_bezelOn(){
+	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\snes.cfg"
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_auto_scale' '"false"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_opacity' '"0.700000"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'video_scale_integer' '"false"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/snes.cfg"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_auto_scale' '"false"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_enable' '"true"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_opacity' '"0.700000"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'video_scale_integer' '"false"'
-
-	case $arSnes in
-	  "87")
-		Android_RetroArch_snes_ar87
-	  ;;
-	  "32")
-			Android_RetroArch_snes_ar32
-		;;
-	  *)
-		Android_RetroArch_snes_ar43
-	  ;;
-	esac
 }
 
-Android_RetroArch_snes_bezelOff(){
+function Android_RetroArch_snes_bezelOff(){
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_enable' '"false"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_enable' '"false"'
 }
 
-Android_RetroArch_snes_CRTshaderOn(){
+function Android_RetroArch_snes_CRTshaderOn(){
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'video_shader_enable' '"true"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_smooth' '"false"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'video_shader_enable' '"true"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'	'video_filter' 'ED_RM_LINE'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'	'video_smooth' '"false"'
 }
 
-Android_RetroArch_snes_CRTshaderOff(){
+function Android_RetroArch_snes_CRTshaderOff(){
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
+	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'	'video_smooth' '"true"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'video_shader_enable' '"false"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'	'video_filter' '"/app/lib/retroarch/filters/video/Normal4x.filt"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'	'video_smooth' '"true"'
 }
 
-Android_RetroArch_snes_ar43(){
+function Android_RetroArch_snes_ar43(){
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'aspect_ratio_index' '"0"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.170000"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"0"'
-	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/snes.cfg"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.170000"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"0"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/snes.cfg"'
+	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\snes.cfg"
 }
 
-Android_RetroArch_snes_ar87(){
-	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/snes87.cfg"'
+function Android_RetroArch_snes_ar87(){
+	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\snes87.cfg"
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.380000"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'aspect_ratio_index' '"15"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/snes87.cfg"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.380000"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"-0.170000"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'aspect_ratio_index' '"15"'
 }
 
-Android_RetroArch_snes_ar32(){
+function Android_RetroArch_snes_ar32(){
 	Android_RetroArch_setOverride 'snes.cfg' 'Snes9x'  'aspect_ratio_index' '"7"'
-	Android_RetroArch_setOverride 'snesna.cfg' 'Snes9x'  'aspect_ratio_index' '"7"'
 	Android_RetroArch_snes_bezelOff
 }
 
 
-# Android_RetroArch_bsnes_hd_beta_bezelOn(){
+#function Android_RetroArch_bsnes_hd_beta_bezelOn(){
 # 	Android_RetroArch_setOverride 'sneshd.cfg' 'bsnes-hd beta'  'video_scale_integer' '"false"'
 # }
 
-Android_RetroArch_melonDS_setUpCoreOpt(){
+function Android_RetroArch_melonDS_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'melonDS.opt' 'melonDS'  'melonds_audio_bitrate' '"Automatic"'
 	Android_RetroArch_setOverride 'melonDS.opt' 'melonDS'  'melonds_audio_interpolation' '"None"'
 	Android_RetroArch_setOverride 'melonDS.opt' 'melonDS'  'melonds_boot_directly' '"enabled"'
@@ -1488,44 +1439,11 @@ Android_RetroArch_melonDS_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'melonDS.opt' 'melonDS'  'melonds_touch_mode' '"Touch"'
 }
 
-Android_RetroArch_melonDS_setConfig(){
+function Android_RetroArch_melonDS_setConfig(){
 	Android_RetroArch_setOverride 'nds.cfg' 'melonDS'  'rewind_enable' '"false"'
 }
 
-Android_RetroArch_melonDSDS_setUpCoreOpt(){
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_audio_bitdepth' '"auto"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_audio_interpolation' '"disabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_boot_mode' '"disabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS' 'melonds_console_mode' '"ds"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_dsi_sdcard' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_hybrid_ratio' '"2"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_hybrid_small_screen' '"both"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_jit_block_size' '"32"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_jit_branch_optimisations' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_jit_enable' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_jit_fast_memory' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_jit_literal_optimisations' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_opengl_better_polygons' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_opengl_filtering' '"nearest"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_render_mode' '"software"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_opengl_resolution' '"5"'
-#	Unsupported in melonDSDS at this time.
-#	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_randomize_mac_address' '"disabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_screen_gap' '"0"'
-#	No equivalent in melonDSDS at this time.
-#	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_screen_layout' '"Hybrid Bottom"'
-#	No equivalent in melonDSDS at this time.
-#	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_swapscreen_mode' '"Toggle"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_threaded_renderer' '"enabled"'
-	Android_RetroArch_setOverride 'melonDS DS.opt' 'melonDS DS'  'melonds_touch_mode' '"auto"'
-}
-
-Android_RetroArch_melonDSDS_setConfig(){
-	Android_RetroArch_setOverride 'melonDS DS.cfg' 'melonDS DS'  'rewind_enable' '"true"'
-	Android_RetroArch_setOverride 'melonDS DS.cfg' 'melonDS DS'  'rewind_granularity' '"6"'
-}
-
-Android_RetroArch_Mupen64Plus_Next_setUpCoreOpt(){
+function Android_RetroArch_Mupen64Plus_Next_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-169screensize' '"1920x1080"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-43screensize' '"1280x960"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-alt-map' '"False"'
@@ -1602,6 +1520,7 @@ Android_RetroArch_Mupen64Plus_Next_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-RDRAMImageDitheringMode' '"False"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-rsp-plugin' '"hle"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-ThreadedRenderer' '"True"'
+	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txCacheCompression' '"True"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txEnhancementMode' '"As Is"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txFilterIgnoreBG' '"True"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txFilterMode' '"None"'
@@ -1609,29 +1528,9 @@ Android_RetroArch_Mupen64Plus_Next_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txHiresFullAlphaChannel' '"False"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-u-cbutton' '"C4"'
 	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-virefresh' '"Auto"'
-
-	# hd pack settings
-	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txHiresEnable' '"True"'
-	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txHiresFullAlphaChannel' '"True"'
-	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-txCacheCompression' '"True"'
-	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-EnableEnhancedHighResStorage' '"True"'
-	Android_RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-EnableEnhancedTextureStorage' '"False"' # lazy loading
 }
 
-#  setupHdPacks()
-Android_RetroArch_Mupen64Plus_Next_setUpHdPacks(){
-  local texturePackPath="$HOME/.var/app/org.libretro.RetroArch/config/retroarch/system/Mupen64plus/hires_texture"
-	local textureCachePath="$HOME/.var/app/org.libretro.RetroArch/config/retroarch/system/Mupen64plus/cache"
-
-	mkdir -p "$texturePackPath"
-	mkdir -p "$textureCachePath"
-	mkdir -p "$emulationPath/hdpacks/retroarch/Mupen64plus"
-
-	ln -s "$emulationPath/hdpacks/retroarch/Mupen64plus/hires_texture" "$texturePackPath"
-	ln -s "$emulationPath/hdpacks/retroarch/Mupen64plus/cache" "$textureCachePath"
-}
-
-Android_RetroArch_Beetle_PSX_HW_setUpCoreOpt(){
+function Android_RetroArch_Beetle_PSX_HW_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Beetle PSX HW.opt' 'Beetle PSX HW'  'beetle_psx_hw_adaptive_smoothing' '"disabled"'
 	Android_RetroArch_setOverride 'Beetle PSX HW.opt' 'Beetle PSX HW'  'beetle_psx_hw_analog_calibration' '"disabled"'
 	Android_RetroArch_setOverride 'Beetle PSX HW.opt' 'Beetle PSX HW'  'beetle_psx_hw_analog_toggle' '"disabled"'
@@ -1699,7 +1598,7 @@ Android_RetroArch_Beetle_PSX_HW_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Beetle PSX HW.opt' 'Beetle PSX HW'  'beetle_psx_hw_wireframe' '"disabled"'
 }
 
-Android_RetroArch_Flycast_setUpCoreOpt(){
+function Android_RetroArch_Flycast_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_allow_service_buttons' '"disabled"'
 	Android_RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_alpha_sorting' '"per-triangle (normal)"'
 	Android_RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_analog_stick_deadzone' '"15%"'
@@ -1767,7 +1666,7 @@ Android_RetroArch_Flycast_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_widescreen_hack' '"disabled"'
 }
 
-Android_RetroArch_Gambatte_setUpCoreOpt(){
+function Android_RetroArch_Gambatte_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Gambatte.opt' 'Gambatte'  'gambatte_audio_resampler' '"sinc"'
 	Android_RetroArch_setOverride 'Gambatte.opt' 'Gambatte'  'gambatte_dark_filter_level' '"0"'
 	Android_RetroArch_setOverride 'Gambatte.opt' 'Gambatte'  'gambatte_gb_bootloader' '"enabled"'
@@ -1801,7 +1700,7 @@ Android_RetroArch_Gambatte_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Gambatte.opt' 'Gambatte'  'gambatte_up_down_allowed' '"disabled"'
 }
 
-Android_RetroArch_Nestopia_setUpCoreOpt(){
+function Android_RetroArch_Nestopia_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Nestopia.opt' 'Nestopia'  'nestopia_arkanoid_device' '"mouse"'
 	Android_RetroArch_setOverride 'Nestopia.opt' 'Nestopia'  'nestopia_aspect' '"auto"'
 	Android_RetroArch_setOverride 'Nestopia.opt' 'Nestopia'  'nestopia_audio_vol_dpcm' '"100"'
@@ -1832,7 +1731,7 @@ Android_RetroArch_Nestopia_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'Nestopia.opt' 'Nestopia'  'nestopia_turbo_pulse' '"2"'
 	Android_RetroArch_setOverride 'Nestopia.opt' 'Nestopia'  'nestopia_zapper_device' '"lightgun"'
 }
-Android_RetroArch_bsnes_hd_beta_setUpCoreOpt(){
+function Android_RetroArch_bsnes_hd_beta_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'bsnes-hd beta.opt' 'bsnes-hd beta'  'bsnes_blur_emulation' '"OFF"'
 	Android_RetroArch_setOverride 'bsnes-hd beta.opt' 'bsnes-hd beta'  'bsnes_coprocessor_delayed_sync' '"ON"'
 	Android_RetroArch_setOverride 'bsnes-hd beta.opt' 'bsnes-hd beta'  'bsnes_coprocessor_prefer_hle' '"ON"'
@@ -1878,25 +1777,7 @@ Android_RetroArch_bsnes_hd_beta_setUpCoreOpt(){
 	Android_RetroArch_setOverride 'bsnes-hd beta.opt' 'bsnes-hd beta'  'bsnes_video_saturation' '"100"'
 }
 
-Android_RetroArch_dos_box_setUpCoreOpt(){
-	Android_RetroArch_setOverride 'DOSBox-pure.opt' 'DOSBox-pure'  'dosbox_pure_conf' '"inside"'
-}
-
-Android_RetroArch_setUpCoreOptAll(){
-
-	for func in $(compgen -A 'function' | grep '\_setUpCoreOpt$')
-		do echo  "$func" && "$func"
-	done
-}
-
-Android_RetroArch_setConfigAll(){
-
-	for func in $(compgen -A 'function' | grep '\_setConfig$' | grep '^Android_RetroArch_' )
-		do echo  "$func" && "$func"
-	done
-}
-
-Android_RetroArch_Flycast_wideScreenOn(){
+function Android_RetroArch_Flycast_wideScreenOn(){
 	Android_RetroArch_setOverride 'Flycast.opt' 	'Flycast'  	'reicast_widescreen_cheats' 	'"enabled"'
 	Android_RetroArch_setOverride 'Flycast.opt' 	'Flycast'  	'reicast_widescreen_hack' 	'"enabled"'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 	'Flycast'  	'aspect_ratio_index' 		'"1"'
@@ -1904,70 +1785,70 @@ Android_RetroArch_Flycast_wideScreenOn(){
 	Android_RetroArch_dreamcast_3DCRTshaderOff
 }
 
-Android_RetroArch_Flycast_wideScreenOff(){
+function Android_RetroArch_Flycast_wideScreenOff(){
 	Android_RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_widescreen_cheats' '"disabled"'
 	Android_RetroArch_setOverride 'Flycast.opt' 'Flycast'  'reicast_widescreen_hack' '"disabled"'
 	Android_RetroArch_setOverride 'dreamcast.cfg' 'Flycast'  'aspect_ratio_index' '"0"'
 }
 
-Android_RetroArch_Beetle_PSX_HW_wideScreenOn(){
+function Android_RetroArch_Beetle_PSX_HW_wideScreenOn(){
 	Android_RetroArch_setOverride 'Beetle PSX HW.opt' 'Beetle PSX HW'  'beetle_psx_hw_widescreen_hack' '"enabled"'
 	Android_RetroArch_setOverride 'Beetle PSX.opt' 'Beetle PSX'  'beetle_psx_hw_widescreen_hack' '"enabled"'
 	Android_RetroArch_psx_bezelOff
 }
 
-Android_RetroArch_Beetle_PSX_HW_wideScreenOff(){
+function Android_RetroArch_Beetle_PSX_HW_wideScreenOff(){
 	Android_RetroArch_setOverride 'Beetle PSX HW.opt' 'Beetle PSX HW'  'beetle_psx_hw_widescreen_hack' '"disabled"'
 	Android_RetroArch_setOverride 'Beetle PSX.opt' 'Beetle PSX'  'beetle_psx_hw_widescreen_hack' '"disabled"'
 }
 
 
-Android_RetroArch_SwanStation_setConfig(){
+function Android_RetroArch_SwanStation_setConfig(){
 	Android_RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.ResolutionScale' '"3"'
 }
 
-Android_RetroArch_SwanStation_wideScreenOn(){
+function Android_RetroArch_SwanStation_wideScreenOn(){
 	Android_RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.WidescreenHack' '"true"'
 	Android_RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_Display.AspectRatio' '"16:9"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"1"'
 	Android_RetroArch_psx_bezelOff
 }
 
-Android_RetroArch_SwanStation_wideScreenOff(){
+function Android_RetroArch_SwanStation_wideScreenOff(){
 	Android_RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.WidescreenHack' '"false"'
 	Android_RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_Display.AspectRatio' '"auto"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"0"'
 }
 
-Android_RetroArch_psx_bezelOn(){
+function Android_RetroArch_psx_bezelOn(){
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/psx.cfg"'
+	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'input_overlay' '"~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/psx.cfg"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW' 'input_overlay_scale_landscape' '"1.060000"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/psx.cfg"'
+	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'input_overlay' '"~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/psx.cfg"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX' 'input_overlay_scale_landscape' '"1.060000"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'aspect_ratio_index' '"0"'
-	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'input_overlay' '"/storage/emulated/0/RetroArch/overlays/pegasus/psx.cfg"'
+	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'input_overlay' '"~/.var/app/org.libretro.RetroArch/config/retroarch/overlays/pegasus/psx.cfg"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'input_overlay_aspect_adjust_landscape' '"0.100000"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'input_overlay_enable' '"true"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation' 'input_overlay_scale_landscape' '"1.060000"'
 }
 
 
-Android_RetroArch_psx_bezelOff(){
+function Android_RetroArch_psx_bezelOff(){
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX'  'input_overlay_enable' '"false"'
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation'  'input_overlay_enable' '"false"'
 }
 
- Android_RetroArch_psx_3DCRTshaderOn(){
+function  Android_RetroArch_psx_3DCRTshaderOn(){
 	 Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'  'video_shader_enable' 'true'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'	'video_smooth' 'ED_RM_LINE'
@@ -1981,7 +1862,7 @@ Android_RetroArch_psx_bezelOff(){
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation'	'video_smooth' 'ED_RM_LINE'
  }
 
-Android_RetroArch_psx_3DCRTshaderOff(){
+function Android_RetroArch_psx_3DCRTshaderOff(){
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'  'video_shader_enable' '"false"'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'	'video_filter' 'ED_RM_LINE'
 	Android_RetroArch_setOverride 'psx.cfg' 'Beetle PSX HW'	'video_smooth' 'ED_RM_LINE'
@@ -1995,368 +1876,151 @@ Android_RetroArch_psx_3DCRTshaderOff(){
 	Android_RetroArch_setOverride 'psx.cfg' 'SwanStation'	'video_smooth' 'ED_RM_LINE'
 }
 
-Android_RetroArch_psx_setConfig(){
+function Android_RetroArch_psx_setConfig(){
 	Android_RetroArch_psx_3DCRTshaderOff
 }
 
-Android_RetroArch_cdi_setConfig(){
-	mkdir -p "${biosPath}/same_cdi/bios"
+
+function Android_RetroArch_autoSaveOn(){
+	setConfigRA "savestate_auto_load" "true" $Android_RetroArch_configFile
+	setConfigRA "savestate_auto_save" "true" $Android_RetroArch_configFile
+}
+function Android_RetroArch_autoSaveOff(){
+	setConfigRA "savestate_auto_load" "false" $Android_RetroArch_configFile
+	setConfigRA "savestate_auto_save" "false" $Android_RetroArch_configFile
 }
 
-#BezelOn
-Android_RetroArch_bezelOnAll(){
-	for func in $(compgen -A 'function' | grep '\_bezelOn$' | grep '^Android_RetroArch_' | grep -v "Android_RetroArch_bezelOn")
-		do echo  "$func" && "$func"
-	done
-}
-
-#BezelOff
-Android_RetroArch_bezelOffAll(){
-	for func in $(compgen -A 'function' | grep '\_bezelOff$' | grep '^Android_RetroArch_')
-		do echo  "$func" && "$func"
-	done
-}
-
-#shadersCRTOn
-Android_RetroArch_CRTshaderOnAll(){
-	for func in $(compgen -A 'function' | grep '\_CRTshaderOn$' | grep '^Android_RetroArch_' | grep -v "Android_RetroArch_bezelOn")
-		do echo  "$func" && "$func"
-	done
-}
-
-#shadersCRTOff
-Android_RetroArch_CRTshaderOffAll(){
-	for func in $(compgen -A 'function' | grep '\_CRTshaderOff$' | grep '^Android_RetroArch_')
-		do echo  "$func" && "$func"
-	done
-}
-
-#shaders3DCRTOn
-Android_RetroArch_3DCRTshaderOnAll(){
-	for func in $(compgen -A 'function' | grep '\_3DCRTshaderOn$' | grep '^Android_RetroArch_' | grep -v "Android_RetroArch_bezelOn")
-		do echo  "$func" && "$func"
-	done
-}
-
-#shaders3DCRTOff
-Android_RetroArch_3DCRTshaderOffAll(){
-	for func in $(compgen -A 'function' | grep '\_3DCRTshaderOff$' | grep '^Android_RetroArch_')
-		do echo  "$func" && "$func"
-	done
-}
-#shadersMATOn
-Android_RetroArch_MATshadersOnAll(){
-	for func in $(compgen -A 'function' | grep '\_MATshaderOn$' | grep '^Android_RetroArch_' | grep -v "Android_RetroArch_bezelOn")
-		do echo  "$func" && "$func"
-	done
-}
-
-#shadersMATOff
-Android_RetroArch_MATshadersOffAll(){
-	for func in $(compgen -A 'function' | grep '\_MATshaderOff$' | grep '^Android_RetroArch_')
-		do echo  "$func" && "$func"
-	done
-}
-
-
-#finalExec - Extra stuff
-Android_RetroArch_finalize(){
-	echo "NYI"
-}
-
-Android_RetroArch_installCores(){
-
-	#Requests for:
-	#GP32
-	#N-gage
-	#Game.com
-
-
-	mkdir -p "$Android_RetroArch_cores"
-
-	#This is all the cores combined, and dupes taken out.
-	RAcores=(
-				81_libretro \
-				a5200_libretro \
-				arduous_libretro \
-				atari800_libretro \
-				blastem_libretro \
-				bluemsx_libretro \
-				bsnes_hd_beta_libretro \
-				bsnes_libretro \
-				cap32_libretro \
-				chailove_libretro \
-				desmume_libretro \
-				dosbox_core_libretro \
-				dosbox_pure_libretro \
-				easyrpg_libretro \
-				fbalpha2012_libretro \
-				fbneo_libretro \
-				flycast_libretro \
-				freechaf_libretro \
-				freeintv_libretro \
-				fuse_libretro \
-				gambatte_libretro \
-				gearboy_libretro \
-				gearsystem_libretro \
-				genesis_plus_gx_libretro \
-				genesis_plus_gx_wide_libretro \
-				gw_libretro \
-				handy_libretro \
-				hatari_libretro \
-				kronos_libretro \
-				lutro_libretro \
-				mame2003_plus_libretro \
-				mame_libretro \
-				mednafen_lynx_libretro \
-				mednafen_ngp_libretro \
-				mednafen_pce_fast_libretro \
-				mednafen_pce_libretro \
-				mednafen_pcfx_libretro \
-				mednafen_psx_hw_libretro \
-				mednafen_saturn_libretro \
-				mednafen_supergrafx_libretro \
-				mednafen_vb_libretro \
-				mednafen_wswan_libretro \
-				melonds_libretro \
-				melondsds_libretro \
-				mesen_libretro \
-				mesen-s_libretro \
-				mgba_libretro \
-				minivmac_libretro \
-				mu_libretro \
-				mupen64plus_next_libretro \
-				neocd_libretro \
-				nestopia_libretro \
-				np2kai_libretro \
-				nxengine_libretro \
-				o2em_libretro \
-				opera_libretro \
-				picodrive_libretro \
-				pokemini_libretro \
-				potator_libretro \
-				ppsspp_libretro \
-				prboom_libretro \
-				prosystem_libretro \
-				puae_libretro \
-				px68k_libretro \
-				quasi88_libretro \
-				retro8_libretro \
-				same_cdi_libretro \
-				sameboy_libretro \
-				sameduck_libretro \
-				scummvm_libretro \
-				snes9x_libretro \
-				squirreljme_libretro \
-				stella_libretro \
-				swanstation_libretro \
-				theodore_libretro \
-				tic80_libretro \
-				tyrquake_libretro \
-				uzem_libretro \
-				vbam_libretro \
-				vecx_libretro \
-				vice_x128_libretro \
-				vice_x64sc_libretro \
-				vice_xscpu64_libretro \
-				vice_xvic_libretro \
-				virtualjaguar_libretro \
-				vitaquake2_libretro \
-				vitaquake2-rogue_libretro \
-				vitaquake2-xatrix_libretro \
-				vitaquake2-zaero_libretro \
-				vitaquake3_libretro \
-				wasm4_libretro \
-				x1_libretro \
-			)
-	setMSG "Downloading RetroArch Cores for EmuDeck"
-	for i in "${RAcores[@]}"
-	do
-		FILE="${Android_RetroArch_cores}/${i}.*"
-		if [ -f "$FILE" ]; then
-			echo "${i}...Already Downloaded"
-		else
-			curl "$Android_RetroArch_coresURL$i$Android_RetroArch_coresExtension" --output "$Android_RetroArch_cores/${i}.zip"
-
-			#rm ~/.var/app/org.libretro.RetroArch/config/retroarch/cores/${i}.zip
-			echo "${i}...Downloaded!"
-		fi
-	done
-
-
-	for entry in "$Android_RetroArch_cores"/*.zip
-	do
-		 unzip -o "$entry" -d "$Android_RetroArch_cores"
-	done
-
-	for entry in "$Android_RetroArch_cores"/*.zip
-
-	do
-		 rm -f "$entry"
-	done
-
-
-
-}
-
-#Android_RetroArch_dlAdditionalFiles
-
-function Android_RetroArch_dlAdditionalFiles(){
-	#EasyRPG
-	mkdir -p "$biosPath/rtp/2000"
-	mkdir -p "$biosPath/rtp/2003"
-
-	curl -L https://dl.degica.com/rpgmakerweb/run-time-packages/rpg2003_rtp_installer.zip --output "$biosPath/rtp/2003/rpg2003.zip.tmp" && mv "$biosPath/rtp/2003/rpg2003.zip.tmp" "$biosPath/rtp/2003/rpg2003.zip"
-	curl -L https://dl.degica.com/rpgmakerweb/run-time-packages/rpg2000_rtp_installer.exe --output "$biosPath/rtp/2000/rpg2000.zip.tmp" && mv "$biosPath/rtp/2000/rpg2000.zip.tmp" "$biosPath/rtp/2000/rpg2000.zip"
-
-	7z x "$biosPath/rtp/2003/rpg2003.zip" -o"$biosPath/rtp/2003" && rm "$biosPath/rtp/2003/rpg2003.zip"
-	7z x "$biosPath/rtp/2003/rpg2003_rtp_installer.exe" -o"$biosPath/rtp/2003" && rm "$biosPath/rtp/2003/rpg2003_rtp_installer.exe"
-	7z x "$biosPath/rtp/2000/rpg2000.zip" -o"$biosPath/rtp/2000" && rm "$biosPath/rtp/2000/rpg2000.zip"
-}
-
-
-function Android_RetroArch_resetCoreConfigs(){
-
-	find "$Android_RetroArch_coreConfigFolders" -type f -iname "*.cfg" -o -type f -iname "*.opt"| while read -r file
-		do
-			mv "$file"  "$file".bak
-		done
-	Android_RetroArch_init
-	echo "true"
-}
-
-Android_RetroArch_autoSaveOn(){
-	Android_RetroArch_setConfigOverride 'savestate_auto_load' '"true"' "$Android_RetroArch_configFile"
-	Android_RetroArch_setConfigOverride 'savestate_auto_save' '"true"' "$Android_RetroArch_configFile"
-}
-Android_RetroArch_autoSaveOff(){
-	Android_RetroArch_setConfigOverride 'savestate_auto_load' '"false"' "$Android_RetroArch_configFile"
-	Android_RetroArch_setConfigOverride 'savestate_auto_save' '"false"' "$Android_RetroArch_configFile"
-}
-Android_RetroArch_retroAchievementsOn(){
-	iniFieldUpdate "$Android_RetroArch_configFile" "" "cheevos_enable" "true"
+function Android_RetroArch_retroAchievementsOn(){
+	setConfigRA 'cheevos_enable' 'true' "$Android_RetroArch_configFile"
 	#Mame fix
 	#Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'cheevos_enable' '"false"'
 	#Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
 }
-Android_RetroArch_retroAchievementsOff(){
-	iniFieldUpdate "$Android_RetroArch_configFile" "" "cheevos_enable" "false"
+function Android_RetroArch_retroAchievementsOff(){
+	setConfigRA 'cheevos_enable' 'false' "$Android_RetroArch_configFile"
 	#Mame fix
 	#Android_RetroArch_setOverride 'mame.cfg' 'MAME 2003-Plus'  'cheevos_enable' '"false"'
 	#Android_RetroArch_setOverride 'mame.cfg' 'MAME'  'cheevos_enable' '"false"'
 }
 
-Android_RetroArch_retroAchievementsHardCoreOn(){
-	Android_RetroArch_setConfigOverride 'cheevos_hardcore_mode_enable' '"true"' "$Android_RetroArch_configFile"
+function Android_RetroArch_retroAchievementsHardCoreOn(){
+	setConfigRA 'cheevos_hardcore_mode_enable' 'true' $Android_RetroArch_configFile
 }
-Android_RetroArch_retroAchievementsHardCoreOff(){
-	Android_RetroArch_setConfigOverride 'cheevos_hardcore_mode_enable' '"false"' "$Android_RetroArch_configFile"
+function Android_RetroArch_retroAchievementsHardCoreOff(){
+	setConfigRA 'cheevos_hardcore_mode_enable' 'false' $Android_RetroArch_configFile
 }
 
-Android_RetroArch_retroAchievementsPromptLogin(){
-	text=$(printf "Do you want to use RetroAchievments on Retroarch?\n\n<b>You need to have an account on https://retroachievements.org</b>\n\nActivating RetroAchievments will disable save states unless you disable hardcore mode\n\n\n\nPress STEAM + X to get the onscreen Keyboard\n\n<b>Make sure your RetroAchievments account is validated on the website or RetroArch will crash</b>")
-	RAInput=$(zenity --forms \
-			--title="Retroachievements Sign in" \
-			--text="$text" \
-			--add-entry="Username: " \
-			--add-password="Password: " \
-			--separator="," 2>/dev/null)
-			ans=$?
-	if [ $ans -eq 0 ]; then
-		echo "RetroAchievment Login"
-		echo "$RAInput" | awk -F "," '{print $1}' > "$HOME/.config/EmuDeck/.rau"
-		echo "$RAInput" | awk -F "," '{print $2}' > "$HOME/.config/EmuDeck/.rap"
-	else
-		echo "Cancel RetroAchievment Login"
-	fi
+function Android_RetroArch_retroAchievementsSetLogin(){
+	setConfigRA 'cheevos_token' $achievementsUserToken "$Android_RetroArch_configFile"
+	setConfigRA 'cheevos_username' $achievementsUser "$Android_RetroArch_configFile"
+	Android_RetroArch_retroAchievementsOn
 }
-Android_RetroArch_retroAchievementsSetLogin(){
-	rm -rf "$HOME/.config/EmuDeck/.rap"
-	rau=$(cat "$HOME/.config/EmuDeck/.rau")
-	rat=$(cat "$HOME/.config/EmuDeck/.rat")
-	echo "Evaluate RetroAchievements Login."
-	if [ ${#rat} -lt 1 ]; then
-		echo "--No token."
-	elif [ ${#rau} -lt 1 ]; then
-		echo "--No username."
-	else
-		echo "Valid Retroachievements Username and Password length"
-		Android_RetroArch_setConfigOverride 'cheevos_username' '"'"${rau}"'"' "$Android_RetroArch_configFile" &>/dev/null && echo 'RetroAchievements Username set.' || echo 'RetroAchievements Username not set.'
-		Android_RetroArch_setConfigOverride 'cheevos_token' '"'"${rat}"'"' "$Android_RetroArch_configFile" &>/dev/null && echo 'RetroAchievements Token set.' || echo 'RetroAchievements Token not set.'
 
-		Android_RetroArch_retroAchievementsOn
-
-		iniFieldUpdate "$Android_RetroArch_configFile" "" "cheevos_username" "$rau"
-		iniFieldUpdate "$Android_RetroArch_configFile" "" "cheevos_token" "$rat"
-
-	fi
+function Android_RetroArch_setSNESAR(){
+	if ( "$SNESAR" -eq 87 ){
+		Android_RetroArch_snes_ar87
+	}else{
+		Android_RetroArch_snes_ar43
+	}
 }
-Android_RetroArch_setBezels(){
-	if [ "$RABezels" == true ]; then
+function Android_RetroArch_setBezels(){
+	if ( "$RABezels" -eq "true" ){
 		Android_RetroArch_bezelOnAll
-	else
+	}else{
 		Android_RetroArch_bezelOffAll
-	fi
+	}
 }
-Android_RetroArch_setShadersCRT(){
-	if [ "$RAHandClassic2D" == true ]; then
+function Android_RetroArch_setShadersCRT(){
+	if ( "$RAHandClassic2D" -eq "true" ){
 		Android_RetroArch_CRTshaderOnAll
-	else
+	}else{
 		Android_RetroArch_CRTshaderOffAll
-	fi
+	}
 }
-Android_RetroArch_setShaders3DCRT(){
-	if [ "$RAHandClassic3D" == true ]; then
+function Android_RetroArch_setShaders3DCRT(){
+	if ( "$RAHandClassic3D" -eq "true" ){
 		Android_RetroArch_3DCRTshaderOnAll
-	else
+	}else{
 		Android_RetroArch_3DCRTshaderOffAll
-	fi
+	}
 }
-Android_RetroArch_setShadersMAT(){
-	if [ "$RAHandHeldShader" == true ]; then
+function Android_RetroArch_setShadersMAT(){
+	if ( "$RAHandHeldShader" -eq "true" ){
 		Android_RetroArch_MATshadersOnAll
-	else
+	}else{
 		Android_RetroArch_MATshadersOffAll
-	fi
+	}
 }
 
-Android_RetroArch_autoSave(){
-	if [ "$RAautoSave" == true ]; then
-		Android_RetroArch_autoSaveOn
-	else
-		Android_RetroArch_autoSaveOff
-	fi
+function Android_RetroArch_MATshadersOnAll(){
+	Android_RetroArch_wswanc_MATshaderOn
+	Android_RetroArch_wswan_MATshaderOn
+	Android_RetroArch_lynx_MATshaderOn
+	Android_RetroArch_ngp_MATshaderOn
+	Android_RetroArch_ngpc_MATshaderOn
+	Android_RetroArch_gamegear_MATshaderOn
+	Android_RetroArch_gba_MATshaderOn
+	Android_RetroArch_gb_MATshaderOn
+	Android_RetroArch_gbc_MATshaderOn
 }
 
-Android_RetroArch_melonDSDSMigration(){
+function Android_RetroArch_MATshadersOffAll(){
+	Android_RetroArch_wswanc_MATshaderOff
+	Android_RetroArch_wswan_MATshaderOff
+	Android_RetroArch_lynx_MATshaderOff
+	Android_RetroArch_ngp_MATshaderOff
+	Android_RetroArch_ngpc_MATshaderOff
+	Android_RetroArch_gamegear_MATshaderOff
+	Android_RetroArch_gba_MATshaderOff
+	Android_RetroArch_gb_MATshaderOff
+	Android_RetroArch_gbc_MATshaderOff
+}
 
-local Android_RetroArch_saves="$Android_RetroArch_path/saves"
-local melonDS_remaps="$Android_RetroArch_path/config/remaps/melonDS"
-local melonDSDS_remaps="$Android_RetroArch_path/config/remaps/melonDS DS"
+function Android_RetroArch_3DCRTshaderOnAll{
+	Android_RetroArch_n64_3DCRTshaderOn
+	Android_RetroArch_dreamcast_3DCRTshaderOn
+	Android_RetroArch_saturn_3DCRTshaderOn
+	Android_RetroArch_psx_3DCRTshaderOn
+}
 
-# Copying melonDS saves to melonDSDS
-for file in $Android_RetroArch_saves/*.sav; do
+function Android_RetroArch_3DCRTshaderOffAll{
+	Android_RetroArch_n64_3DCRTshaderOff
+	Android_RetroArch_dreamcast_3DCRTshaderOff
+	Android_RetroArch_saturn_3DCRTshaderOff
+	Android_RetroArch_psx_3DCRTshaderOff
+}
 
-	cp -- "${file}" "${file/%sav/srm}";
-	echo "melonDS saves copied to melonDSDS"
-done
 
-# Copying melonDS remaps to melonDSDS
-if [ ! -d "$melonDSDS_remaps" ]; then
-	mkdir -p "$melonDSDS_remaps"
-fi
-
-if [ -d "$melonDS_remaps" ]; then
-	cp -r "$melonDS_remaps/." "$melonDSDS_remaps"
-	echo "melonDS remaps copied to melonDSDS"
-fi
+function Android_RetroArch_CRTshaderOnAll(){
+	Android_RetroArch_pcengine_CRTshaderOn
+	Android_RetroArch_amiga1200_CRTshaderOn
+	Android_RetroArch_nes_CRTshaderOn
+	Android_RetroArch_atari2600_CRTshaderOn
+	Android_RetroArch_mame_CRTshaderOn
+	Android_RetroArch_neogeo_CRTshaderOn
+	Android_RetroArch_fbneo_CRTshaderOn
+	Android_RetroArch_segacd_CRTshaderOn
+	Android_RetroArch_genesis_CRTshaderOn
+	Android_RetroArch_mastersystem_CRTshaderOn
+	Android_RetroArch_sega32x_CRTshaderOn
+	Android_RetroArch_snes_CRTshaderOn
 
 }
 
-Android_RetroArch_IsInstalled(){
-	isFpInstalled "$Android_RetroArch_emuPath"
+function Android_RetroArch_CRTshaderOffAll(){
+	Android_RetroArch_pcengine_CRTshaderOff
+	Android_RetroArch_amiga1200_CRTshaderOff
+	Android_RetroArch_nes_CRTshaderOff
+	Android_RetroArch_atari2600_CRTshaderOff
+	Android_RetroArch_mame_CRTshaderOff
+	Android_RetroArch_neogeo_CRTshaderOff
+	Android_RetroArch_fbneo_CRTshaderOff
+	Android_RetroArch_segacd_CRTshaderOff
+	Android_RetroArch_genesis_CRTshaderOff
+	Android_RetroArch_mastersystem_CRTshaderOff
+	Android_RetroArch_sega32x_CRTshaderOff
+	Android_RetroArch_snes_CRTshaderOff
+
 }
 
-Android_RetroArch_resetConfig(){
-	Android_RetroArch_resetCoreConfigs &>/dev/null && Android_RetroArch_init &>/dev/null && echo "true" || echo "false"
-}
+
