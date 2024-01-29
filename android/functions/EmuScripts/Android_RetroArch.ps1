@@ -2,8 +2,8 @@ $Android_RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
 
 function Android_RetroArch_install(){
 	setMSG "Downloading RetroArch"
-	temp_url="https://buildbot.libretro.com/stable/1.16.0/android/RetroArch_aarch64.apk"
-	temp_emu="ra"
+	$temp_url="https://buildbot.libretro.com/stable/1.16.0/android/RetroArch_aarch64.apk"
+	$temp_emu="ra"
 	Android_ADB_dl_installAPK $temp_emu $temp_url
 
 
