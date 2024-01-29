@@ -27,17 +27,6 @@ function Android_ADB_connected {
 	}
 }
 
-function Android_download {
-	param (
-		[string]$outFile,
-		[string]$url
-	)
-	$outDir = "$env:USERPROFILE\emudeck\android"
-	$wc = New-Object net.webclient
-	$wc.Downloadfile($url, "$outDir\$outFile")
-	Write-Output "true"
-
-}
 
 function Android_ADB_install {
 	$outFile = "adb.zip"
@@ -97,4 +86,38 @@ function Android_ADB_init {
 	$jsonResult = $jsonResult.TrimEnd("`r", "`n")
 
 	Write-Output $jsonResult
+}
+
+
+
+
+
+
+
+
+function Android_download {
+	param (
+		[string]$outFile,
+		[string]$url
+	)
+	$outDir = "$env:USERPROFILE\emudeck\android"
+	$wc = New-Object net.webclient
+	$wc.Downloadfile($url, "$outDir\$outFile")
+	Write-Output "true"
+
+}
+function Android_downloadCore($url, $core) {
+	$wc = New-Object net.webclient
+	$destination="$Android_RetroArch_temp/cores/$core.zip"
+	$wc.Downloadfile($url, $destination)
+
+	foreach ($line in $destination) {
+		$extn = [IO.Path]::GetExtension($line)
+		if ($extn -eq ".zip" ){
+			& $7z x -o"$Android_RetroArch_temp/cores/" -aoa $destination
+			Start-Sleep -Seconds 0.5
+			Remove-Item $destination
+		}
+	}
+	Write-Host "Done!" -ForegroundColor green -BackgroundColor black
 }
