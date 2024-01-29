@@ -32,14 +32,9 @@ function Android_download {
 		[string]$outFile,
 		[string]$url
 	)
-
 	$outDir = "$env:USERPROFILE\emudeck\android"
-	$tempFile = "$outDir\$outFile.temp"
-
-	New-Item -ItemType Directory -Force -Path $outDir | Out-Null
-
-	$webRequest = Invoke-WebRequest -Uri $url -OutFile $tempFile -UseBasicParsing -ErrorAction SilentlyContinue
-	Move-Item -Path $tempFile -Destination "$outDir\$outFile"
+	$wc = New-Object net.webclient
+	$wc.Downloadfile($url, "$outDir\$outFile")
 	Write-Output "true"
 
 }
