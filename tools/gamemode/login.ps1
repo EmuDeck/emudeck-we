@@ -12,7 +12,6 @@ hideMe
 fullScreenToast
 startSteam
 if($?){
-	confirmDialog -TitleText "Game Mode" -MessageText "There was an error running Steam. Please press CTRL ALT DEL, open task manager, then New Task and run explorer.exe, navigate to EmuDeck, enable Desktop Mode and restart your device"
 	#Back to desktop
 	#We set the good old explorer.exe as shell
 $scriptContent = @"
@@ -28,6 +27,8 @@ $scriptContent = @"
 	startScriptWithAdmin -ScriptContent $scriptContent
 	#We don't restart sihost since we don't want to go to game mode now.
 }else{
+	confirmDialog -TitleText "Game Mode" -MessageText "There was an error running Steam. Please press CTRL ALT DEL, open task manager, then New Task and run explorer.exe, navigate to EmuDeck, enable Desktop Mode and restart your device"
+
 	#Disable game mode in case of fail, we set explorer.exe and restart the desktop with sihost
 $scriptContent = @"
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
