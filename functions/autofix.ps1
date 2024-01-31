@@ -412,10 +412,10 @@ function autofix_areInstalled(){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Pegasus  was scheduled to install but was't properly installed, trying again now."
 		pegasus_install; pegasus_init
 	}
-	if ( $doInstallSRM -eq "true" -and -not (SRM_isInstalled -like "*true*")){
-		confirmDialog -TitleText "Error installing" -MessageText "We've detected Steam Rom Manager  was scheduled to install but was't properly installed, trying again now."
-		SRM_install; SRM_init
-	}
+	# if ( $doInstallSRM -eq "true" -and -not (SRM_isInstalled -like "*true*")){
+	# 	confirmDialog -TitleText "Error installing" -MessageText "We've detected Steam Rom Manager  was scheduled to install but was't properly installed, trying again now."
+	# 	SRM_install; SRM_init
+	# }
 	if ( $doInstallRA -eq "true" -and -not (RetroArch_isInstalled -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected RetroArch  was scheduled to install but was't properly installed, trying again now."
 		RetroArch_install; RetroArch_init
