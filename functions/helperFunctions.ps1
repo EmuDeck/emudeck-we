@@ -1116,28 +1116,30 @@ function killBOM($file){
 
 
 function setResolutions(){
-	Cemu_setResolution
-	Citra_setResolution
-	Dolphin_setResolution
-	DuckStation_setResolution
-	Flycast_setResolution
-	MAME_setResolution
-	melonDS_setResolution
-	mGBA_setResolution
-	PCSX2QT_setResolution
-	PPSSPP_setResolution
-	Primehack_setResolution
-	RetroArch_setResolution
-	RPCS3_setResolution
-	Ryujinx_setResolution
-	ScummVM_setResolution
-	SuperModel_setResolution
-	Template_setResolution
-	Vita3K_setResolution
-	Xemu_setResolution
-	Xenia_setResolution
-	Yuzu_setResolution
+	. "$userFolder\EmuDeck\settings.ps1"
+	#Cemu_setResolution
+	Citra_setResolution $citraResolution
+	Dolphin_setResolution $dolphinResolution
+	DuckStation_setResolution $duckstationResolution
+	#Flycast_setResolution
+	#MAME_setResolution
+	melonDS_setResolution $melondsResolution
+	#mGBA_setResolution
+	PCSX2QT_setResolution $pcsx2Resolution
+	#PPSSPP_setResolution
+	#Primehack_setResolution
+	#RetroArch_setResolution
+	RPCS3_setResolution $rpcs3Resolution
+	Ryujinx_setResolution $yuzuResolution
+	#ScummVM_setResolution
+	#SuperModel_setResolution
+	#Template_setResolution
+	#Vita3K_setResolution
+	#Xemu_setResolution $xemuResolution
+	#Xenia_setResolution $xeniaResolution
+	Yuzu_setResolution $yuzuResolution
 }
+
 
 
 function getEmuRepo($emuName){
