@@ -85,11 +85,14 @@ function getLocations {
 	foreach ($networkDrive in $networkDrives) {
 		$name = $networkDrive.VolumeName
 		$size = if ($networkDrive.Size) { [math]::Round($networkDrive.Size / 1GB, 2) } else { $null }
-		$driveInfo += @{
-			name   = $name
-			size   = $size
-			type   = "Network"
-			letter = $networkDrive.DeviceID
+		# Verificar si hay espacio disponible antes de agregar al array
+		if ($size -ne $null) {
+			$driveInfo += @{
+				name   = $name
+				size   = $size
+				type   = "Network"
+				letter = $networkDrive.DeviceID
+			}
 		}
 	}
 
@@ -107,11 +110,14 @@ function getLocations {
 			foreach ($partition in $partitions) {
 				$name = $drive.Model
 				$size = if ($drive.Size) { [math]::Round($drive.Size / 1GB, 2) } else { $null }
-				$driveInfo += @{
-					name   = $name
-					size   = $size
-					type   = $driveType
-					letter = $partition.DeviceID
+				# Verificar si hay espacio disponible antes de agregar al array
+				if ($size -ne $null) {
+					$driveInfo += @{
+						name   = $name
+						size   = $size
+						type   = $driveType
+						letter = $partition.DeviceID
+					}
 				}
 			}
 		}
@@ -124,8 +130,6 @@ function getLocations {
 		$jsonArray += $info | ConvertTo-Json
 	}
 
-
-
 	$json = "[" + ($jsonArray -join ",") + "]"
 
 	if ($json -eq "[]"){
@@ -134,6 +138,7 @@ function getLocations {
 
 	Write-Host $json
 }
+
 
 
 function customLocation(){
