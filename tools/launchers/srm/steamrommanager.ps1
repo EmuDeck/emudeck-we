@@ -3,8 +3,6 @@ $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 if ($steamRunning) {
 	taskkill /IM steam.exe /F
 }
-SRM_createParsers
-SRM_addSteamInputProfiles
 RPCS3_renameFolders
 Write-Host "Launching Steam Rom Manager, please stand by..." -ForegroundColor white
 $emulatorFile = "$toolsPath/srm.exe"
