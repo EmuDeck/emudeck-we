@@ -108,13 +108,13 @@ function Android_download {
 }
 function Android_downloadCore($url, $core) {
 	$wc = New-Object net.webclient
-	$destination="$Android_RetroArch_temp/cores/$core.zip"
+	$destination="$Android_RetroArch_temp/downloads/$core.zip"
 	$wc.Downloadfile($url, $destination)
 
 	foreach ($line in $destination) {
 		$extn = [IO.Path]::GetExtension($line)
 		if ($extn -eq ".zip" ){
-			& $7z x -o"$Android_RetroArch_temp/cores/" -aoa $destination
+			& $7z x -o"$Android_RetroArch_temp/downloads/" -aoa $destination
 			Start-Sleep -Seconds 0.5
 			Remove-Item $destination
 		}
