@@ -48,6 +48,15 @@ Write-Output ""
 Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
 
 
+Android_Pegasus_install
+Android_AetherSX2_install
+Android_Citra_install
+Android_Dolphin_install
 Android_RetroArch_install
+Android_PPSSPP_install
+Android_Yuzu_install
+Android_ScummVM_install
+Android_Vita3K_install
+
 
 Stop-Transcript
