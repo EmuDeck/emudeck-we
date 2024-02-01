@@ -30,6 +30,7 @@ function Android_RetroArch_init(){
 	setMSG "RetroArch - Bezels & Filters"
 
 	copyFromTo "$env:APPDATA/EmuDeck/backend/configs/RetroArch/" "$Android_RetroArch_temp/"
+	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/RetroArch/" "$Android_RetroArch_temp/"
 
 	$path="$Android_RetroArch_temp/config"
 	Get-ChildItem $path -Recurse -Filter *.cfg |
