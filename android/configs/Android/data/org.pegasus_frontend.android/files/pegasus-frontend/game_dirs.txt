@@ -152,4 +152,4 @@ XXXX/Emulation/roms/xbox
 XXXX/Emulation/roms/xbox360
 XXXX/Emulation/roms/zmachine
 XXXX/Emulation/roms/zx81
-/Volumes/Macintosh HD/Users/rsedano/Sites/EmuDeck-Android/roms/zxspectrum
+XXXX/Emulation/roms/zxspectrum

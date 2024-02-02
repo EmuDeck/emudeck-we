@@ -188,7 +188,7 @@ function Android_RetroArch_init(){
 		}
 	}
 
-	adb push $Android_RetroArch_temp /storage/emulated/0
+	Android_ADB_push $Android_RetroArch_temp /storage/emulated/0
 
 }
 function Android_RetroArch_update(){
