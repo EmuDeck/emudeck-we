@@ -1,4 +1,4 @@
-general.theme: :/themes/retromega-next/
+general.theme: themes/retromega-next/
 general.verify-files: false
 general.input-mouse-support: true
 general.fullscreen: true
