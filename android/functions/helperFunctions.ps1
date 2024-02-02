@@ -84,7 +84,7 @@ function Move-To-MTP
 				$targetFilePath = join-path -path $destinationFolderPath -childPath $fileName
 				$destinationFolderPath.Path
 
-				$destinationFolder.GetFolder.MoveHere($item)
+				$destinationFolder.GetFolder.MoveHere($item, 0x4)
 				if (test-path -path $targetFilePath)
 				{
 					# We do nothing
@@ -100,22 +100,23 @@ function Move-To-MTP
 
 }
 
-function Ask-SDCARD{
+function Ask-SDCARD {
 
 	Add-Type -AssemblyName System.Windows.Forms
 
 	$form = New-Object System.Windows.Forms.Form
 	$form.Text = "What's the name of your SD Card?"
-	$form.Size = New-Object System.Drawing.Size(400,140)
+	$form.Size = New-Object System.Drawing.Size(400, 140)
 	$form.StartPosition = "CenterScreen"
+	$form.TopMost = $true  # Configurar el formulario como siempre en la parte superior
 
 	$textBox = New-Object System.Windows.Forms.TextBox
-	$textBox.Location = New-Object System.Drawing.Point(20,20)
-	$textBox.Size = New-Object System.Drawing.Size(340,140)
+	$textBox.Location = New-Object System.Drawing.Point(20, 20)
+	$textBox.Size = New-Object System.Drawing.Size(340, 140)
 
 	$buttonOK = New-Object System.Windows.Forms.Button
-	$buttonOK.Location = New-Object System.Drawing.Point(20,60)
-	$buttonOK.Size = New-Object System.Drawing.Size(100,30)
+	$buttonOK.Location = New-Object System.Drawing.Point(20, 60)
+	$buttonOK.Size = New-Object System.Drawing.Size(100, 30)
 	$buttonOK.Text = "Continue"
 
 	$buttonOK.Add_Click({
@@ -131,5 +132,4 @@ function Ask-SDCARD{
 	$SDCardName = $form.Tag
 
 	return $SDCardName
-
 }

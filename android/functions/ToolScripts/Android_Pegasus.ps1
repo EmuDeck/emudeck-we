@@ -23,5 +23,5 @@ function Android_Pegasus_init(){
 	$target="$androidStoragePath"
 	sedFile $originFile $origin $target
 
-	Android_ADB_push $Android_Pegasus_temp /storage/emulated/0/Android/data/org.pegasus_frontend.android/files/pegasus-frontend/
+	Android_ADB_push $Android_Pegasus_temp/ /storage/emulated/0/Android/data/org.pegasus_frontend.android/files/pegasus-frontend/
 }
