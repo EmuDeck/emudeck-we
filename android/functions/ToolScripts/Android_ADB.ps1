@@ -1,5 +1,9 @@
 $Android_ADB_path = "$env:USERPROFILE\emudeck\android\platform-tools"
 $Android_ADB_url = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
+$Android_temp_internal="$env:USERPROFILE/EmuDeck/android/temp/CopyToInternal"
+$Android_temp_external="$env:USERPROFILE/EmuDeck/android/temp/CopyToSDCARD"
+$Android_emusPath="/storage/emulated/0"
+
 $env:PATH += ";$Android_ADB_path"
 
 function Android_ADB_isInstalled {
@@ -27,6 +31,17 @@ function Android_ADB_connected {
 	}
 }
 
+function Android_ADB_testWrite{
+	adb shell mkdir /storage/emulated/0/Emulation 2>$null
+	if($?){
+		setSetting "android_writable" "true"
+		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	}else{
+		setSetting "android_writable" "false"
+		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	}
+}
+
 
 function Android_ADB_install {
 	$outFile = "adb.zip"
@@ -47,9 +62,10 @@ function Android_ADB_push {
 		[string]$origin,
 		[string]$destination
 	)
-
-	$env:PATH += ";$Android_ADB_path"
-	adb push $origin $destination
+	if ( $android_writable -eq "true" ){
+		$env:PATH += ";$Android_ADB_path"
+		adb push $origin $destination
+	}
 }
 
 function Android_ADB_installAPK {

@@ -1,3 +1,5 @@
+. "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\helperFunctions.ps1"
+
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_RetroArch.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Yuzu.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_AetherSX2.ps1"

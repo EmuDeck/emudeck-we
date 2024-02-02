@@ -34,6 +34,10 @@ JSONtoPS1
 
 . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
+#We set  $android_writable to true or false to enable or disable adb push
+Android_ADB_testWrite
+
+
 #setScreenDimensionsScale
 
 #
@@ -45,18 +49,23 @@ Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyC
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
-Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
+#Roms folders
+if ( $android_writable -eq "true" ){
+	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
+}else{
+	copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_external/roms"
+}
 
 
-Android_Pegasus_install
-Android_AetherSX2_install
-Android_Citra_install
-Android_Dolphin_install
-Android_RetroArch_install
-Android_PPSSPP_install
-Android_Yuzu_install
-Android_ScummVM_install
-Android_Vita3K_install
+#Android_Pegasus_install
+#Android_AetherSX2_install
+#Android_Citra_install
+#Android_Dolphin_install
+#Android_RetroArch_install
+#Android_PPSSPP_install
+#Android_Yuzu_install
+#Android_ScummVM_install
+#Android_Vita3K_install
 
 
 Android_Pegasus_init
@@ -68,6 +77,17 @@ Android_PPSSPP_init
 Android_Yuzu_init
 Android_ScummVM_init
 Android_Vita3K_init
+
+exit
+
+if ( $android_writable -eq "false" ){
+
+	Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
+
+	if ( $androidStoragePath -like "*-*" ){
+		Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
+	}
+}
 
 
 Stop-Transcript
