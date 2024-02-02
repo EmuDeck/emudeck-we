@@ -51,6 +51,7 @@ Write-Output ""
 
 #Roms folders
 if ( $android_writable -eq "true" ){
+	setMSG "Creating rom folders in $androidStoragePath..."
 	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
 }else{
 	copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_external/Emulation/roms"
@@ -81,7 +82,7 @@ Android_Vita3K_init
 
 if ( $android_writable -eq "false" ){
 
-	setMSG "Moving settings ussing MTP, expect some pop ups"
+	setMSG "Moving settings and roms folder ussing MTP, expect some pop ups"
 
 	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
 	  if ( $androidStoragePath -like "*-*" ){
