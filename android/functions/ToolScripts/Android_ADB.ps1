@@ -24,8 +24,7 @@ function Android_ADB_connected {
 }
 
 function Android_ADB_testWrite{
-	$rand = Get-Random -Minimum 0 -Maximum 10000
-	adb shell mkdir /storage/emulated/0/EmuDeck/$rand 2>$null
+	adb shell ls /storage/emulated/0/
 	if($?){
 		setSetting "android_writable" "true"
 		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
