@@ -81,6 +81,9 @@ Android_Vita3K_init
 
 
 if ( $android_writable -eq "false" ){
+
+	setMSG "Moving settings ussing MTP, expect some pop ups"
+
 	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
 	  if ( $androidStoragePath -like "*-*" ){
 		  $SDCARDNAME=Ask-SDCARD

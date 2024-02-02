@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function Android_AetherSX2_install(){
+	setMSG "Installing AetherSX2"
 	$temp_url="https://www.aethersx2.com/archive/android/14026-v1.4-3064.apk"
 	$temp_emu="aethersx2"
 	Android_ADB_dl_installAPK $temp_emu $temp_url

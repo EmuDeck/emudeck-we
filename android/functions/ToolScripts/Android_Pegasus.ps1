@@ -1,12 +1,14 @@
 $Android_Pegasus_temp="$Android_temp_internal/Android/data/org.pegasus_frontend.android/files/pegasus-frontend"
 
 function Android_Pegasus_install(){
+	setMSG "Installing Pegasus"
 	$temp_url="https://github.com/mmatyas/pegasus-frontend/releases/download/continuous/pegasus-fe_alpha16-75-gc78a6851_android64.apk"
 	$temp_emu="yuzu"
 	Android_ADB_dl_installAPK $temp_emu $temp_url
 }
 
 function Android_Pegasus_init(){
+	setMSG "Setting up Pegasus"
 	#Download theme
 	mkdir "$Android_Pegasus_temp/themes/" -ErrorAction SilentlyContinue
 	$temp_url="$(getLatestReleaseURLGH "plaidman/retromega-next" ".zip")"
