@@ -1,3 +1,6 @@
+. "$env:APPDATA\EmuDeck\backend\android\vars.ps1"
+
+
 . "$env:APPDATA\EmuDeck\backend\android\functions\helperFunctions.ps1"
 
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_RetroArch.ps1"
