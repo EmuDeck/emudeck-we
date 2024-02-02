@@ -14,7 +14,7 @@ function Android_Pegasus_init(){
 	Android_download "$temp_emu.zip" $temp_url
 	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$env:USERPROFILE\emudeck\android\$temp_emu.zip"
 	#Change paths
-	copyFromTo "$env:APPDATA/EmuDeck/backend/configs/Android/data/org.pegasus_frontend.android/files/pegasus-frontend" "$Android_Pegasus_temp/"
+	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/Android/data/org.pegasus_frontend.android/files/pegasus-frontend" "$Android_Pegasus_temp/"
 	$originFile="$Android_Pegasus_temp/game_dirs.txt"
 	$origin="XXXX"
 	$target="$androidStoragePath"
