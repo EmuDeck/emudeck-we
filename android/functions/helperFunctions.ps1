@@ -99,3 +99,37 @@ function Move-To-MTP
 	}
 
 }
+
+function Ask-SDCARD{
+
+	Add-Type -AssemblyName System.Windows.Forms
+
+	$form = New-Object System.Windows.Forms.Form
+	$form.Text = "What's the name of your SD Card?"
+	$form.Size = New-Object System.Drawing.Size(400,140)
+	$form.StartPosition = "CenterScreen"
+
+	$textBox = New-Object System.Windows.Forms.TextBox
+	$textBox.Location = New-Object System.Drawing.Point(20,20)
+	$textBox.Size = New-Object System.Drawing.Size(340,140)
+
+	$buttonOK = New-Object System.Windows.Forms.Button
+	$buttonOK.Location = New-Object System.Drawing.Point(20,60)
+	$buttonOK.Size = New-Object System.Drawing.Size(100,30)
+	$buttonOK.Text = "Continue"
+
+	$buttonOK.Add_Click({
+		$form.Tag = $textBox.Text
+		$form.Close()
+	})
+
+	$form.Controls.Add($textBox)
+	$form.Controls.Add($buttonOK)
+
+	$form.ShowDialog()
+
+	$SDCardName = $form.Tag
+
+	return $SDCardName
+
+}
