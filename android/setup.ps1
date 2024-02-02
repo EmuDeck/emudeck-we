@@ -46,8 +46,7 @@ Start-Sleep 1
 #
 
 #Clear old installation msg log
-Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyContinue
-Write-Output "Installing, please stand by..."
+setMSG "Installing, please stand by..."
 Write-Output ""
 
 #Roms folders
