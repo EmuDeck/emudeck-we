@@ -91,8 +91,9 @@ if ( $android_writable -eq "false" ){
 	  }
 }
 
-
 #Cleaning up
 rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+
+echo 100
 
 Stop-Transcript

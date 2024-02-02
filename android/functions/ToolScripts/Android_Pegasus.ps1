@@ -14,7 +14,8 @@ function Android_Pegasus_init(){
 	$temp_url="$(getLatestReleaseURLGH "plaidman/retromega-next" ".zip")"
 	$temp_emu="retromega-next"
 	Android_download "$temp_emu.zip" $temp_url
-	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_Pegasus_temp\$temp_emu.zip"
+	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
+	rm -fo -r "$Android_folder\$temp_emu.zip"
 	#Change paths
 	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/Android/data/org.pegasus_frontend.android/files/pegasus-frontend" "$Android_Pegasus_temp/"
 	$originFile="$Android_Pegasus_temp/game_dirs.txt"
@@ -22,5 +23,5 @@ function Android_Pegasus_init(){
 	$target="$androidStoragePath"
 	sedFile $originFile $origin $target
 
-	Android_ADB_push $Android_Pegasus_temp /storage/emulated/0/Android/data/org.pegasus_frontend.android/files/pegasus-frontend/
+	#Android_ADB_push $Android_Pegasus_temp /storage/emulated/0/Android/data/org.pegasus_frontend.android/files/pegasus-frontend/
 }
