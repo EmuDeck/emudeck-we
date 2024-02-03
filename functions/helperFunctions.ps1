@@ -232,24 +232,16 @@ function checkForFile($fileName){
 }
 
 
-function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch = "", $IgnoreText = "pepe"){
+function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
 
-	# Fetch JSON content from the URL
-	$jsonString = Invoke-RestMethod -Uri $url
+	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets |
+		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
+		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
+		   return $url
 
-	# Find the first asset with .apk extension
-	$firstApkAsset = $jsonString.assets | Where-Object { $_.browser_download_url -like "*$FileType" -and $_.browser_download_url -like "*$FindToMatch" -and $_.browser_download_url -notlike "*$IgnoreText*" } | Select-Object -First 1
-
-	# Check if a matching asset was found
-	if ($firstApkAsset) {
-		$downloadUrl = $firstApkAsset.browser_download_url
-		Write-Output $downloadUrl
-	} else {
-		Write-Host "No matching asset found."
-	}
-
+	return $url
 }
 
 function getLatestReleaseVersion($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
