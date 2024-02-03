@@ -11,7 +11,7 @@ function Android_Pegasus_init(){
 	setMSG "Setting up Pegasus"
 	#Download theme
 	mkdir "$Android_Pegasus_temp/themes/" -ErrorAction SilentlyContinue
-	$temp_url="$(getLatestReleaseURLGH "plaidman/retromega-next" ".zip")"
+	$temp_url="$(Android_getLatestReleaseURLGH "plaidman/retromega-next" ".zip")"
 	$temp_emu="retromega-next"
 	Android_download "$temp_emu.zip" $temp_url
 	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
