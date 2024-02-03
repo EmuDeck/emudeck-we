@@ -51,6 +51,12 @@ Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyC
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
+
+#Android ADB
+if ( Android_ADB_isInstalled -eq "false" ){
+	Android_ADB_install
+}
+
 copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
 
@@ -281,9 +287,6 @@ if ( "$doSetupMGBA" -eq "true" ){
 	$setupSaves+="mGBA_setupSaves;"
 }
 
-if ( Android_ADB_isInstalled -eq "false" ){
-	Android_ADB_install
-}
 
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
