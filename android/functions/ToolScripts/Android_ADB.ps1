@@ -81,7 +81,13 @@ function Android_ADB_dl_installAPK {
 }
 
 function Android_ADB_getSDCard {
-	adb shell sm list-volumes public | ForEach-Object { $_.Split()[-1] }
+	$volumes = adb shell sm list-volumes public | ForEach-Object { $_.Split()[-1] }
+
+	if ($volumes -eq '{}' -or $volumes.Count -eq 0) {
+		return "false"
+	} else {
+		return $volumes
+	}
 }
 
 function Android_ADB_init {
