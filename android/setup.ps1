@@ -54,7 +54,11 @@ if ( $android_writable -eq "true" ){
 	setMSG "Creating rom folders in $androidStoragePath..."
 	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
 }else{
-	copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_external/Emulation/roms"
+	if ( $androidStoragePath -like "*-*" ){
+		copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_external/Emulation/roms"
+	}else{
+		copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_internal/Emulation/roms"
+	}
 }
 
 
@@ -87,14 +91,7 @@ if ( $android_writable -eq "false" ){
 		  $phone = Get-Phone
 		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
 		  $SDCARDNAME = $SDObject.Name
-		  if( $SDCARDNAME -ne '' ){
-			Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
-		  }else{
-			$SDObject = $phone.GetFolder.items()| where { $_.Name -eq "Internal shared storage" }
-			$INTERNAL = $SDObject.Name
-			Move-To-MTP -parent "CopyToSDCARD" -path "$INTERNAL"
-		  }
-
+		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
 }
 
