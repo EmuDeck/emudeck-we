@@ -151,3 +151,4 @@ if ($firstApkAsset) {
 } else {
 	Write-Host "No matching asset found."
 }
+}
