@@ -34,20 +34,70 @@ JSONtoPS1
 
 . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
-#setScreenDimensionsScale
+#We set  $android_writable to true or false to enable or disable adb push
+Android_ADB_testWrite
+Start-Sleep 1
+. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
+#
 #
 # Installation
 #
 #
+
 #Clear old installation msg log
-Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyContinue
-Write-Output "Installing, please stand by..."
+setMSG "Installing, please stand by..."
 Write-Output ""
 
-Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
+#Roms folders
+if ( $android_writable -eq "true" ){
+	setMSG "Creating rom folders in $androidStoragePath..."
+	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
+}else{
+	if ( $androidStoragePath -like "*-*" ){
+		copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_external/Emulation/roms"
+	}else{
+		copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_internal/Emulation/roms"
+	}
+}
 
 
+Android_Pegasus_install
+Android_AetherSX2_install
+Android_Citra_install
+Android_Dolphin_install
 Android_RetroArch_install
+Android_PPSSPP_install
+Android_Yuzu_install
+Android_ScummVM_install
+Android_Vita3K_install
+
+
+Android_Pegasus_init
+Android_AetherSX2_init
+Android_Citra_init
+Android_Dolphin_init
+Android_RetroArch_init
+Android_PPSSPP_init
+Android_Yuzu_init
+Android_ScummVM_init
+Android_Vita3K_init
+
+
+if ( $android_writable -eq "false" ){
+	  setMSG "Moving settings and roms folder ussing MTP, expect some pop ups behind this window"
+	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
+	  if ( $androidStoragePath -like "*-*" ){
+		  $phone = Get-Phone
+		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
+		  $SDCARDNAME = $SDObject.Name
+		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
+	  }
+}
+
+#Cleaning up
+rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+
+echo 100
 
 Stop-Transcript
