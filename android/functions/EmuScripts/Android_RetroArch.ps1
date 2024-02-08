@@ -1,4 +1,5 @@
 $Android_RetroArch_temp="$Android_temp_internal/RetroArch"
+$Android_RetroArch_temp_android_data="$Android_temp_android_data/com.retroarch.aarch64"
 $Android_RetroArch_configFile="$Android_RetroArch_temp/retroarch.cfg"
 
 
@@ -31,6 +32,9 @@ function Android_RetroArch_init(){
 	copyFromTo "$env:APPDATA/EmuDeck/backend/configs/RetroArch/" "$Android_RetroArch_temp/"
 	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/RetroArch/" "$Android_RetroArch_temp/"
 
+	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/Android/data/com.retroarch.aarch64/" "$Android_RetroArch_temp_android_data/"
+
+
 	$path="$Android_RetroArch_temp/config"
 	Get-ChildItem $path -Recurse -Filter *.cfg |
 	Foreach-Object {
@@ -47,14 +51,6 @@ function Android_RetroArch_init(){
 
 		sedFile $originFile $origin $target
 
-
-		setConfigRA "input_enable_hotkey_btn" 109 "$originFile"
-		setConfigRA "input_hold_fast_forward_btn" 105 "$originFile"
-		setConfigRA "input_load_state_btn" 102 "$originFile"
-		setConfigRA "input_menu_toggle_gamepad_combo" 2 "$originFile"
-		setConfigRA "input_quit_gamepad_combo" 4 "$originFile"
-		setConfigRA "input_save_state_btn" 103 "$originFile"
-		setConfigRA "input_exit_emulator_btn" 108 "$originFile"
 	}
 
 	setMSG "RetroArch - Shaders"
@@ -187,7 +183,17 @@ function Android_RetroArch_init(){
 		}
 	}
 
+	#Saves
+	Android_RetroArch_setupSaves
+
+	#Paths
+	sedFile "$Android_RetroArch_temp_android_data/files/retroarch.cfg" "/storage/emulated/0" "$androidStoragePath"
+
+	#Emu CFG
 	Android_ADB_push $Android_RetroArch_temp /storage/emulated/0
+
+	#Emu Android Data
+	Android_ADB_push $Android_RetroArch_temp_android_data  /storage/emulated/0/Android/data/com.retroarch.aarch64
 
 }
 function Android_RetroArch_update(){
@@ -197,7 +203,16 @@ function Android_RetroArch_setEmulationFolder(){
 	Write-Output "NYI"
 }
 function Android_RetroArch_setupSaves(){
-	Write-Output "NYI"
+	if ( $androidStoragePath -like "*-*" ){
+		mkdir "$Android_temp_external/Emulation/saves/RetroArch/saves" -ErrorAction SilentlyContinue
+		mkdir "$Android_temp_external/Emulation/saves/RetroArch/states" -ErrorAction SilentlyContinue
+	else{
+		mkdir "$Android_temp_internal/Emulation/saves/RetroArch/saves" -ErrorAction SilentlyContinue
+		mkdir "$Android_temp_internal/Emulation/saves/RetroArch/states"	 -ErrorAction SilentlyContinue
+	}
+
+
+
 }
 
 function Android_RetroArch_setOverride($fileToCheck, $name, $key, $value){
