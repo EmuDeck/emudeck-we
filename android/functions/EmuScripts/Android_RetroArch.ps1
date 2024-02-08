@@ -206,7 +206,7 @@ function Android_RetroArch_setupSaves(){
 	if ( $androidStoragePath -like "*-*" ){
 		mkdir "$Android_temp_external/Emulation/saves/RetroArch/saves" -ErrorAction SilentlyContinue
 		mkdir "$Android_temp_external/Emulation/saves/RetroArch/states" -ErrorAction SilentlyContinue
-	else{
+	}else{
 		mkdir "$Android_temp_internal/Emulation/saves/RetroArch/saves" -ErrorAction SilentlyContinue
 		mkdir "$Android_temp_internal/Emulation/saves/RetroArch/states"	 -ErrorAction SilentlyContinue
 	}
