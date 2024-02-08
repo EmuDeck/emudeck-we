@@ -63,25 +63,25 @@ if ( $android_writable -eq "true" ){
 
 
 Android_Pegasus_install
-Android_AetherSX2_install
-Android_Citra_install
-Android_Dolphin_install
+#Android_AetherSX2_install
+#Android_Citra_install
+#Android_Dolphin_install
 Android_RetroArch_install
-Android_PPSSPP_install
-Android_Yuzu_install
-Android_ScummVM_install
-Android_Vita3K_install
+# Android_PPSSPP_install
+# Android_Yuzu_install
+# Android_ScummVM_install
+# Android_Vita3K_install
 
 
 Android_Pegasus_init
-Android_AetherSX2_init
-Android_Citra_init
-Android_Dolphin_init
-Android_RetroArch_init
-Android_PPSSPP_init
-Android_Yuzu_init
-Android_ScummVM_init
-Android_Vita3K_init
+# Android_AetherSX2_init
+# Android_Citra_init
+# Android_Dolphin_init
+# Android_RetroArch_init
+# Android_PPSSPP_init
+# Android_Yuzu_init
+# Android_ScummVM_init
+# Android_Vita3K_init
 
 
 if ( $android_writable -eq "false" ){
