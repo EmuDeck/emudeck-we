@@ -90,9 +90,9 @@ if ( $android_writable -eq "false" ){
 		  $phone = Get-Phone
 		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
 		  $SDCARDNAME = $SDObject.Name
-		  $(Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME" 2>&1) | out-null
+		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
-	  $(Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage" -finish "true" 2>&1) | out-null
+	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage" -finish "true" 2>&1
 	  setMSG "Make sure all transfers are completed before closing EmuDeck"
 	  #Start-Sleep 15
 }

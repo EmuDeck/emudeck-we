@@ -85,7 +85,7 @@ function Move-To-MTP
 				$targetFilePath = join-path -path $destinationFolderPath -childPath $fileName
 				$destinationFolderPath.Path
 
-				$destinationFolder.GetFolder.MoveHere($item, 0x4)
+				$destinationFolder.GetFolder.MoveHere($item)
 			}
 
 		}
