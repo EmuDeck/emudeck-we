@@ -37,6 +37,7 @@ JSONtoPS1
 #We set  $android_writable to true or false to enable or disable adb push
 Android_ADB_testWrite
 Start-Sleep 1
+
 . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
 #
@@ -47,6 +48,7 @@ Start-Sleep 1
 
 #Clear old installation msg log
 setMSG "Installing, please stand by..."
+rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 Write-Output ""
 
 #Roms folders
@@ -77,7 +79,7 @@ Android_Pegasus_init
 # Android_AetherSX2_init
 # Android_Citra_init
 # Android_Dolphin_init
-# Android_RetroArch_init
+Android_RetroArch_init
 # Android_PPSSPP_init
 # Android_Yuzu_init
 # Android_ScummVM_init
@@ -95,9 +97,11 @@ if ( $android_writable -eq "false" ){
 	  }
 }
 
-#Cleaning up
-rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+setMSG "Please close EmuDeck when the transfers are completed"
+setMSG "100 #ANDROID"
 
-echo 100
+confirmDialog -TitleText "RetroArch Cores" -MessageText "We are downloadeding the needed RetroArch cores for you but you have to manually install them going to RetroArch, Load Core -> Install or Restore a core and then select the ones you want"
+
+Start-Sleep 1000
 
 Stop-Transcript

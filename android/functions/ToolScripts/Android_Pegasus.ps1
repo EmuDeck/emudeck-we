@@ -1,4 +1,4 @@
-$Android_Pegasus_temp="$Android_temp_internal/Android/data/org.pegasus_frontend.android/files/pegasus-frontend"
+$Android_Pegasus_temp="$Android_temp_android_data/org.pegasus_frontend.android/files/pegasus-frontend"
 
 function Android_Pegasus_install(){
 	setMSG "Installing Pegasus"
