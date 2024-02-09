@@ -50,8 +50,8 @@ setMSG "Installing, please stand by..."
 Write-Output ""
 
 #Roms folders
-setMSG "Creating rom folders in $androidStoragePath..."
 if ( $android_writable -eq "true" ){
+	setMSG "Creating rom folders in $androidStoragePath..."
 	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
 }else{
 	if ( $androidStoragePath -like "*-*" ){
@@ -77,7 +77,7 @@ Android_Pegasus_init
 # Android_AetherSX2_init
 # Android_Citra_init
 # Android_Dolphin_init
-#Android_RetroArch_init
+Android_RetroArch_init
 # Android_PPSSPP_init
 # Android_Yuzu_init
 # Android_ScummVM_init
@@ -86,19 +86,18 @@ Android_Pegasus_init
 
 if ( $android_writable -eq "false" ){
 	  setMSG "Moving settings and roms folder ussing MTP, expect some pop ups behind this window"
+	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
 	  if ( $androidStoragePath -like "*-*" ){
 		  $phone = Get-Phone
 		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
-	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage" -finish "true" 2>&1
-	  setMSG "Make sure all transfers are completed before closing EmuDeck"
-	  #Start-Sleep 15
 }
 
 #Cleaning up
-#rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 
+echo 100
 
 Stop-Transcript
