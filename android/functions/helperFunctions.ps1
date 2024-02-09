@@ -86,15 +86,6 @@ function Move-To-MTP
 				$destinationFolderPath.Path
 
 				$destinationFolder.GetFolder.MoveHere($item, 0x4)
-				if (test-path -path $targetFilePath)
-				{
-					# We do nothing
-				}
-				else
-				{
-					write-error "Failed to move file to destination:`n`t$targetFilePath"
-				}
-
 			}
 
 		}
