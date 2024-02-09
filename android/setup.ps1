@@ -48,6 +48,7 @@ Start-Sleep 1
 
 #Clear old installation msg log
 setMSG "Installing, please stand by..."
+rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 Write-Output ""
 
 #Roms folders
@@ -95,9 +96,6 @@ if ( $android_writable -eq "false" ){
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
 }
-
-#Cleaning up
-rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 
 setMSG "Please close EmuDeck when the transfers are completed"
 
