@@ -85,7 +85,7 @@ function Move-To-MTP
 				$targetFilePath = join-path -path $destinationFolderPath -childPath $fileName
 				$destinationFolderPath.Path
 
-				$destinationFolder.GetFolder.MoveHere($item, 0x4) -ErrorAction SilentlyContinue
+				$destinationFolder.GetFolder.MoveHere($item, 0x4)
 				if (test-path -path $targetFilePath)
 				{
 					# We do nothing
@@ -93,12 +93,6 @@ function Move-To-MTP
 				else
 				{
 					write-error "Failed to move file to destination:`n`t$targetFilePath"
-				}
-
-				if($percent -eq "100"){
-					if($finish -eq "true"){
-						Write-Output "100"
-					}
 				}
 
 			}
