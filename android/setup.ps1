@@ -90,9 +90,9 @@ if ( $android_writable -eq "false" ){
 		  $phone = Get-Phone
 		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
 		  $SDCARDNAME = $SDObject.Name
-		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
+		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME" -ErrorAction SilentlyContinue
 	  }
-	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage" -finish "true"
+	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage" -finish "true" -ErrorAction SilentlyContinue
 	  #Start-Sleep 15
 }
 
