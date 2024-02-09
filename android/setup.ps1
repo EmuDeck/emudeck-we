@@ -37,6 +37,7 @@ JSONtoPS1
 #We set  $android_writable to true or false to enable or disable adb push
 Android_ADB_testWrite
 Start-Sleep 1
+
 . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
 #
@@ -98,6 +99,10 @@ if ( $android_writable -eq "false" ){
 #Cleaning up
 rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 
-echo 100
+setMSG "Please close EmuDeck when the transfers are completed"
+
+echo "100"
+
+Start-Sleep 1000
 
 Stop-Transcript
