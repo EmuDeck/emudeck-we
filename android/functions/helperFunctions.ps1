@@ -97,7 +97,7 @@ function Move-To-MTP
 
 				if($percent -eq "100"){
 					if($finish -eq "true"){
-						Write-Write-Output "100"
+						Write-Output "100"
 					}
 				}
 
