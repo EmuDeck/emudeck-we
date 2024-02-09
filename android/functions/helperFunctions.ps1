@@ -45,7 +45,8 @@ function Move-To-MTP
 {
 	param(
 		$parent,
-		$path
+		$path,
+		$finish
 	)
 	$customFolderItem = Get-CustomFolder -origin $parent
 	$phone = Get-Phone
@@ -95,60 +96,29 @@ function Move-To-MTP
 				}
 
 			}
+
 		}
 	}
-
-}
-
-function Ask-SDCARD {
-
-	Add-Type -AssemblyName System.Windows.Forms
-
-	$form = New-Object System.Windows.Forms.Form
-	$form.Text = "What's the name of your SD Card?"
-	$form.Size = New-Object System.Drawing.Size(400, 140)
-	$form.StartPosition = "CenterScreen"
-	$form.TopMost = $true  # Configurar el formulario como siempre en la parte superior
-
-	$textBox = New-Object System.Windows.Forms.TextBox
-	$textBox.Location = New-Object System.Drawing.Point(20, 20)
-	$textBox.Size = New-Object System.Drawing.Size(340, 140)
-
-	$buttonOK = New-Object System.Windows.Forms.Button
-	$buttonOK.Location = New-Object System.Drawing.Point(20, 60)
-	$buttonOK.Size = New-Object System.Drawing.Size(100, 30)
-	$buttonOK.Text = "Continue"
-
-	$buttonOK.Add_Click({
-		$form.Tag = $textBox.Text
-		$form.Close()
-	})
-
-	$form.Controls.Add($textBox)
-	$form.Controls.Add($buttonOK)
-
-	$form.ShowDialog()
-
-	$SDCardName = $form.Tag
-
-	return $SDCardName
+	if($finish -eq "true"){
+		Write-Write-Output "100"
+	}
 }
 
 function Android_getLatestReleaseURLGH($Repository, $FileType, $FindToMatch = "", $IgnoreText = "pepe"){
 
 $url = "https://api.github.com/repos/$Repository/releases/latest"
 
-# Fetch JSON content from the URL
-$jsonString = Invoke-RestMethod -Uri $url
+	# Fetch JSON content from the URL
+	$jsonString = Invoke-RestMethod -Uri $url
 
-# Find the first asset with .apk extension
-$firstApkAsset = $jsonString.assets | Where-Object { $_.browser_download_url -like "*$FileType" -and $_.browser_download_url -like "*$FindToMatch" -and $_.browser_download_url -notlike "*$IgnoreText*" } | Select-Object -First 1
+	# Find the first asset with .apk extension
+	$firstApkAsset = $jsonString.assets | Where-Object { $_.browser_download_url -like "*$FileType" -and $_.browser_download_url -like "*$FindToMatch" -and $_.browser_download_url -notlike "*$IgnoreText*" } | Select-Object -First 1
 
-# Check if a matching asset was found
-if ($firstApkAsset) {
-	$downloadUrl = $firstApkAsset.browser_download_url
-	Write-Output $downloadUrl
-} else {
-	Write-Host "No matching asset found."
-}
+	# Check if a matching asset was found
+	if ($firstApkAsset) {
+		$downloadUrl = $firstApkAsset.browser_download_url
+		Write-Output $downloadUrl
+	} else {
+		Write-Host "No matching asset found."
+	}
 }

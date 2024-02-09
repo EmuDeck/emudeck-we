@@ -86,19 +86,18 @@ Android_RetroArch_init
 
 if ( $android_writable -eq "false" ){
 	  setMSG "Moving settings and roms folder ussing MTP, expect some pop ups behind this window"
-	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
 	  if ( $androidStoragePath -like "*-*" ){
 		  $phone = Get-Phone
 		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
-	  Start-Sleep 15
+	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage" -finish "true"
+	  #Start-Sleep 15
 }
 
 #Cleaning up
-rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+#rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 
-echo 100
 
 Stop-Transcript
