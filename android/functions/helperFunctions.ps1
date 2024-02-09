@@ -74,12 +74,12 @@ function Move-To-MTP
 			{
 				$fileName = $item.Name
 
-				++$count
-				$percent = [int](($count * 100) / $totalItems)
-				Write-Progress -Activity "Processing Files in $phoneName\$phoneFolderPath" `
-					-status "Processing File ${count} / ${totalItems} (${percent}%)" `
-					-CurrentOperation $fileName `
-					-PercentComplete $percent
+				# ++$count
+				# $percent = [int](($count * 100) / $totalItems)
+				# Write-Progress -Activity "Processing Files in $phoneName\$phoneFolderPath" `
+				# 	-status "Processing File ${count} / ${totalItems} (${percent}%)" `
+				# 	-CurrentOperation $fileName `
+				# 	-PercentComplete $percent
 
 				# Check the target file doesn't exist:
 				$targetFilePath = join-path -path $destinationFolderPath -childPath $fileName
