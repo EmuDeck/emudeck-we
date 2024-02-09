@@ -99,7 +99,7 @@ if ( $android_writable -eq "false" ){
 
 setMSG "Please close EmuDeck when the transfers are completed"
 
-echo "100"
+echo "100ANDROID"
 
 Start-Sleep 1000
 
