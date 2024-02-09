@@ -98,8 +98,9 @@ if ( $android_writable -eq "false" ){
 }
 
 setMSG "Please close EmuDeck when the transfers are completed"
+setMSG "100 #ANDROID"
 
-echo "100ANDROID"
+confirmDialog -TitleText "RetroArch Cores" -MessageText "We are downloadeding the needed RetroArch cores for you but you have to manually install them going to RetroArch, Load Core -> Install or Restore a core and then select the ones you want"
 
 Start-Sleep 1000
 
