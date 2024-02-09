@@ -50,8 +50,8 @@ setMSG "Installing, please stand by..."
 Write-Output ""
 
 #Roms folders
+setMSG "Creating rom folders in $androidStoragePath..."
 if ( $android_writable -eq "true" ){
-	setMSG "Creating rom folders in $androidStoragePath..."
 	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
 }else{
 	if ( $androidStoragePath -like "*-*" ){
@@ -93,6 +93,7 @@ if ( $android_writable -eq "false" ){
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
+	  Start-Sleep 15
 }
 
 #Cleaning up
