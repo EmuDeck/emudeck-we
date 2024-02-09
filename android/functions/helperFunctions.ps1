@@ -95,12 +95,15 @@ function Move-To-MTP
 					write-error "Failed to move file to destination:`n`t$targetFilePath"
 				}
 
+				if($percent -eq "100"){
+					if($finish -eq "true"){
+						Write-Write-Output "100"
+					}
+				}
+
 			}
 
 		}
-	}
-	if($finish -eq "true"){
-		Write-Write-Output "100"
 	}
 }
 

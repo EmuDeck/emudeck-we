@@ -77,7 +77,7 @@ Android_Pegasus_init
 # Android_AetherSX2_init
 # Android_Citra_init
 # Android_Dolphin_init
-Android_RetroArch_init
+#Android_RetroArch_init
 # Android_PPSSPP_init
 # Android_Yuzu_init
 # Android_ScummVM_init
