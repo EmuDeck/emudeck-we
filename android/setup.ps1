@@ -54,7 +54,7 @@ Write-Output ""
 #Roms folders
 if ( $android_writable -eq "true" ){
 	setMSG "Creating rom folders in $androidStoragePath..."
-	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath"
+	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath/Emulation/roms"
 }else{
 	if ( $androidStoragePath -like "*-*" ){
 		copyFromTo "$env:APPDATA\EmuDeck\backend\android\roms" "$Android_temp_external/Emulation/roms"
