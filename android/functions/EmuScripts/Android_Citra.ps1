@@ -8,5 +8,9 @@ function Android_Citra_install(){
 }
 
 function Android_Citra_init(){
-	echo "NYI"
+	setMSG "Setting up Citra"
+
+	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/citra-emu/" "$Android_temp_internal/citra-emu/"
+
+	Android_ADB_push "$Android_temp_internal/citra-emu/" /storage/emulated/0/citra-emu/
 }
