@@ -100,7 +100,7 @@ if ( $android_writable -eq "false" ){
 setMSG "Please close EmuDeck when the transfers are completed"
 setMSG "100 #ANDROID"
 
-confirmDialog -TitleText "RetroArch Cores" -MessageText "We are downloadeding the needed RetroArch cores for you but you have to manually install them going to RetroArch, Load Core -> Install or Restore a core and then select the ones you want"
+confirmDialog -TitleText "RetroArch Cores" -MessageText "We are downloading the needed RetroArch cores for you but you have to manually install them going to RetroArch, 'Load Core' -> 'Install or Restore a core' and then select the ones you want. Don't close this pop up until all transfers have finished in the background"
 
 Start-Sleep 1000
 
