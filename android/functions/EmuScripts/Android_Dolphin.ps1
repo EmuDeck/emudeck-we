@@ -10,7 +10,7 @@ function Android_Dolphin_install(){
 function Android_Dolphin_init(){
 	setMSG "Setting up Dolphin"
 
-	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/mmjr2-vbi/" "$Android_temp_internal/"
+	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/mmjr2-vbi" "$Android_temp_internal/mmjr2-vbi"
 	$originFile="$Android_temp_internal/mmjr2-vbi/Config/Dolphin.ini"
 	$origin="XXXX"
 
