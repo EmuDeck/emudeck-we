@@ -8,5 +8,21 @@ function Android_Dolphin_install(){
 }
 
 function Android_Dolphin_init(){
-	echo "NYI"
+	setMSG "Setting up Dolphin"
+
+	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/mmjr2-vbi/" "$Android_temp_internal/"
+	$originFile="$Android_temp_internal/mmjr2-vbi/Config/Dolphin.txt"
+	$origin="XXXX"
+
+	#SD or internal?
+	if ( $androidStoragePath -like "*-*" ){
+		$target = $androidStoragePath -replace "/storage/", ""
+	}else{
+		$target="primary"
+	}
+
+	sedFile $originFile $origin $target
+
+	Android_ADB_push "$Android_temp_internal/mmjr2-vbi" /storage/emulated/0/mmjr2-vbi
+
 }
