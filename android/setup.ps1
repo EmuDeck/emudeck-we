@@ -79,11 +79,11 @@ Android_Pegasus_init
 Android_AetherSX2_init
 Android_Citra_init
 Android_Dolphin_init
-Android_RetroArch_init
 Android_PPSSPP_init
 Android_Yuzu_init
 Android_ScummVM_init
 Android_Vita3K_init
+Android_RetroArch_init
 
 
 if ( $android_writable -eq "false" ){
@@ -99,9 +99,7 @@ if ( $android_writable -eq "false" ){
 
 setMSG "Please close EmuDeck when the transfers are completed"
 setMSG "100 #ANDROID"
-
-confirmDialog -TitleText "RetroArch Cores" -MessageText "We are downloading the needed RetroArch cores for you but you have to manually install them going to RetroArch, 'Load Core' -> 'Install or Restore a core' and then select the ones you want. Don't close this pop up until all transfers have finished in the background"
-
+confirmDialog -TitleText "RetroArch Cores" -MessageText "Don't close this pop up until all transfers have finished in the background"
 Start-Sleep 1000
 
 Stop-Transcript
