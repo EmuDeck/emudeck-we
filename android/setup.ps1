@@ -141,16 +141,16 @@ if ($result -eq "OKButton") {
 	Android_RetroArch_bezelOffAll
 }
 
-$result = yesNoDialog -TitleText "Shaders" -MessageText "Do you want to use shaders?" -OKButtonText "Yes" -CancelButtonText "No"
-if ($result -eq "OKButton") {
-	Android_RetroArch_CRTshaderOnAll
-	Android_RetroArch_MATshadersOnAll
-
-} else {
-	Android_RetroArch_CRTshaderOffAll
-	Android_RetroArch_MATshadersOffAll
-
-}
+#$result = yesNoDialog -TitleText "Shaders" -MessageText "Do you want to use shaders?" -OKButtonText "Yes" -CancelButtonText "No"
+#if ($result -eq "OKButton") {
+#	Android_RetroArch_CRTshaderOnAll
+#	Android_RetroArch_MATshadersOnAll
+#
+#} else {
+#	Android_RetroArch_CRTshaderOffAll
+#	Android_RetroArch_MATshadersOffAll
+#
+#}
 
 
 if ( $android_writable -eq "false" ){
