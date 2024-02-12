@@ -140,7 +140,7 @@ if ( $android_writable -eq "false" ){
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
-	  confirmDialog -TitleText "Wait" -MessageText "Please wait for all transfers for complete before hitting Continue"
+	  confirmDialog -TitleText "Wait" -MessageText "Please wait for all transfers for complete before hitting Continue" -Position "Manual"
 }
 
 
