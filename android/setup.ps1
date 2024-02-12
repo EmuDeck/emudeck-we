@@ -51,13 +51,17 @@ setMSG "Installing, please stand by..."
 rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
 Write-Output ""
 $copySavedGames="false"
-$result = yesNoDialog -TitleText "Saved Games" -MessageText "Do you want us to copy your current saved games to your Android Device?" -OKButtonText "Yes" -CancelButtonText "No"
+$result = yesNoDialog -TitleText "Saved Games" -MessageText "Do you want to copy your current saved games to your Android Device?" -OKButtonText "Yes" -CancelButtonText "No"
 
 if ($result -eq "OKButton") {
 	$copySavedGames="true"
 } else {
 	$copySavedGames="false"
 }
+
+
+
+
 
 #Roms folders
 if ( $android_writable -eq "true" ){
@@ -128,6 +132,25 @@ Android_Yuzu_init
 Android_ScummVM_init
 Android_Vita3K_init
 #Android_RetroArch_init
+
+
+$result = yesNoDialog -TitleText "Saved Games" -MessageText "Do you want to use bezels?" -OKButtonText "Yes" -CancelButtonText "No"
+if ($result -eq "OKButton") {
+	Android_RetroArch_bezelOnAll
+} else {
+	Android_RetroArch_bezelOffAll
+}
+
+$result = yesNoDialog -TitleText "Saved Games" -MessageText "Do you want to use shaders?" -OKButtonText "Yes" -CancelButtonText "No"
+if ($result -eq "OKButton") {
+	Android_RetroArch_CRTshaderOnAll
+	Android_RetroArch_MATshadersOnAll
+
+} else {
+	Android_RetroArch_CRTshaderOffAll
+	Android_RetroArch_MATshadersOffAll
+
+}
 
 
 if ( $android_writable -eq "false" ){
