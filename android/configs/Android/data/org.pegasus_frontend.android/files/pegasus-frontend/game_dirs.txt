@@ -1,5 +1,6 @@
 XXXX/Emulation/roms/3do
 XXXX/Emulation/roms/3ds
+XXXX/Emulation/roms/n3ds
 XXXX/Emulation/roms/64dd
 XXXX/Emulation/roms/ags
 XXXX/Emulation/roms/amiga

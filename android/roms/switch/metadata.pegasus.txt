@@ -1,0 +1,4 @@
+collection: Nintendo Switch
+shortname: switch
+extensions: nca, nro, nso, nsp, xci,
+launch: am start -n org.yuzu.yuzu_emu/.activities.EmulationActivityr -a android.intent.action.VIEW -e GamePath {file.path}
