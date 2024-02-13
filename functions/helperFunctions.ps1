@@ -85,11 +85,14 @@ function getLocations {
 	foreach ($networkDrive in $networkDrives) {
 		$name = $networkDrive.VolumeName
 		$size = if ($networkDrive.Size) { [math]::Round($networkDrive.Size / 1GB, 2) } else { $null }
-		$driveInfo += @{
-			name   = $name
-			size   = $size
-			type   = "Network"
-			letter = $networkDrive.DeviceID
+		# Verificar si hay espacio disponible antes de agregar al array
+		if ($size -ne $null) {
+			$driveInfo += @{
+				name   = $name
+				size   = $size
+				type   = "Network"
+				letter = $networkDrive.DeviceID
+			}
 		}
 	}
 
@@ -107,11 +110,14 @@ function getLocations {
 			foreach ($partition in $partitions) {
 				$name = $drive.Model
 				$size = if ($drive.Size) { [math]::Round($drive.Size / 1GB, 2) } else { $null }
-				$driveInfo += @{
-					name   = $name
-					size   = $size
-					type   = $driveType
-					letter = $partition.DeviceID
+				# Verificar si hay espacio disponible antes de agregar al array
+				if ($size -ne $null) {
+					$driveInfo += @{
+						name   = $name
+						size   = $size
+						type   = $driveType
+						letter = $partition.DeviceID
+					}
 				}
 			}
 		}
@@ -126,8 +132,13 @@ function getLocations {
 
 	$json = "[" + ($jsonArray -join ",") + "]"
 
+	if ($json -eq "[]"){
+		$json = '[{ "type":  "Internal", "letter":  "C:", "name":  "harddisk SSD", "size": 999 }]'
+	}
+
 	Write-Host $json
 }
+
 
 
 function customLocation(){
@@ -231,6 +242,16 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 		   return $url
 
 	return $url
+}
+
+function getLatestReleaseVersion($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
+
+	$url = "https://api.github.com/repos/$Repository/releases/latest"
+
+	$name = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty name | Select-Object -First 1
+		   return $name
+
+	return $name
 }
 
 function getReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
@@ -819,17 +840,17 @@ function createSaveLink($simLinkPath, $emuSavePath){
 		} else {
 			#Check if we have space
 
-			$userDrive=(Get-Item "$emulationPath").PSDrive.Name
-			$destinationFree = (Get-PSDrive -Name $userDrive).Free
-			$sizeInGB = [Math]::Round($destinationFree / 1GB)
+			#$userDrive=(Get-Item "$emulationPath").PSDrive.Name
+			#$destinationFree = (Get-PSDrive -Name $userDrive).Free
+			#$sizeInGB = [Math]::Round($destinationFree / 1GB)
 
-			$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
-			$wshell = New-Object -ComObject Wscript.Shell
+			#$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
+			#$wshell = New-Object -ComObject Wscript.Shell
 
-			if ( $originSize -gt $destinationFree ){
-				$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
-				exit
-			}
+			#if ( $originSize -gt $destinationFree ){
+			#	$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
+			#	exit
+			#}
 
 			# We copy the saves to the Emulation/saves Folder and we create a backup
 			echo "Creating saves symlink"
@@ -927,12 +948,12 @@ function fullScreenToast {
 	$form.Width = $screenWidth
 	$form.Height = $screenHeight
 
-	$pictureBox = New-Object Windows.Forms.PictureBox
-	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
-	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
-	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
-
-	$form.Controls.Add($pictureBox)
+# 	$pictureBox = New-Object Windows.Forms.PictureBox
+# 	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
+# 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
+# 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
+#
+# 	$form.Controls.Add($pictureBox)
 	$form.Show()
 
 	return $form
@@ -1082,7 +1103,7 @@ function checkAndStartSteam(){
 function startSteam($silent){
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+	$steamInstallPath = $steamInstallPath.Replace("/", "\")
 	$steamArguments = "$silent"
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
@@ -1095,25 +1116,176 @@ function killBOM($file){
 
 
 function setResolutions(){
-	Cemu_setResolution
-	Citra_setResolution
-	Dolphin_setResolution
-	DuckStation_setResolution
-	Flycast_setResolution
-	MAME_setResolution
-	melonDS_setResolution
-	mGBA_setResolution
-	PCSX2QT_setResolution
-	PPSSPP_setResolution
-	Primehack_setResolution
-	RetroArch_setResolution
-	RPCS3_setResolution
-	Ryujinx_setResolution
-	ScummVM_setResolution
-	SuperModel_setResolution
-	Template_setResolution
-	Vita3K_setResolution
-	Xemu_setResolution
-	Xenia_setResolution
-	Yuzu_setResolution
+	. "$userFolder\EmuDeck\settings.ps1"
+	#Cemu_setResolution
+	Citra_setResolution $citraResolution
+	Dolphin_setResolution $dolphinResolution
+	DuckStation_setResolution $duckstationResolution
+	#Flycast_setResolution
+	#MAME_setResolution
+	melonDS_setResolution $melondsResolution
+	#mGBA_setResolution
+	PCSX2QT_setResolution $pcsx2Resolution
+	#PPSSPP_setResolution
+	#Primehack_setResolution
+	#RetroArch_setResolution
+	RPCS3_setResolution $rpcs3Resolution
+	Ryujinx_setResolution $yuzuResolution
+	#ScummVM_setResolution
+	#SuperModel_setResolution
+	#Template_setResolution
+	#Vita3K_setResolution
+	#Xemu_setResolution $xemuResolution
+	#Xenia_setResolution $xeniaResolution
+	Yuzu_setResolution $yuzuResolution
+}
+
+
+
+function getEmuRepo($emuName){
+
+	switch ( $emuName )
+	{
+		"cemu" { $repo="cemu-project/Cemu" }
+		"citra" { $repo="citra-emu/citra-nightly" }
+		"dolphin" { $repo="shiiion/dolphin" }
+		"duckstation" { $repo="stenzek/duckstation" }
+		"flycast" { $repo="flyinghead/flycast" }
+		"MAME" { $repo="mamedev\mame" }
+		"melonDS" { $repo="melonDS-emu/melonDS" }
+		"mgba" { $repo="mgba-emu/mgba" }
+		"pcsx2" { $repo="pcsx2/pcsx2" }
+		"primehack" { $repo="shiiion/dolphin" }
+		"rpcs3" { $repo="RPCS3/rpcs3-binaries-win" }
+		"ryujinx" { $repo="Ryujinx/release-channel-master" }
+		"vita3K" { $repo="Vita3K/Vita3K" }
+		"xemu" { $repo="xemu-project/xemu" }
+		"xenia" { $repo="xenia-canary/xenia-canary" }
+		"yuzu" { $repo="yuzu-emu/yuzu-mainline" }
+		default { $repo = "none" }
+	}
+	return $repo
+}
+
+
+function getLatestVersionGH($repository){
+
+	$url = "https://api.github.com/repos/$repository/releases/latest"
+
+	$id = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty id | Select-Object -First 1
+		   return $id
+
+	return $id
+}
+
+
+function saveLatestVersionGH($emuName){
+	if ( check_internet_connection -eq 'true' ){
+		$repo = getEmuRepo $emuName
+
+		if( $repo -eq "none" ){
+			echo "no autoupdate"
+		}else{
+			$emuVersion = getLatestVersionGH $repo
+			# JSON file path
+			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+
+			$test=Test-Path -Path $jsonFilePath
+			if($test){
+				echo "file found"
+			}else{
+				"{}" | Set-Content -Path $rutaArchivo
+			}
+
+			# Read the content of the JSON file
+			$jsonContent = Get-Content -Path $jsonFilePath | ConvertFrom-Json
+
+			# Check if the key exists
+			if ($jsonContent.PSObject.Properties[$emuName]) {
+				# The key exists, change its value
+				$jsonContent.$emuName = $emuVersion
+			} else {
+				# The key doesn't exist, create it with a new value
+				$jsonContent | Add-Member -MemberType NoteProperty -Name $emuName -Value $emuVersion
+			}
+
+			# Convert the modified JSON object back to JSON format
+			$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
+
+			# Save the modified JSON back to the file
+			$modifiedJson | Set-Content -Path $jsonFilePath
+		}
+	}
+}
+
+
+function isLatestVersionGH($emuName){
+
+	if ( check_internet_connection -eq 'true' ){
+		$repo = getEmuRepo $emuName
+
+		if( $repo -eq "none" ){
+			echo "no autoupdate"
+		}else{
+			$emuVersion = getLatestVersionGH $repo
+
+			# JSON file path
+			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+
+			$test=Test-Path -Path $jsonFilePath
+			if($test){
+				echo "file found"
+			}else{
+				"{}" | Set-Content -Path $rutaArchivo
+			}
+
+			# Read the content of the JSON file
+			$jsonContent = Get-Content -Path $jsonFilePath | ConvertFrom-Json
+
+			# Check if the key exists
+			if ($jsonContent.PSObject.Properties[$emuName]) {
+
+				# The key exists, check if it's the same value
+				if( $jsonContent.$emuName -ne $emuVersion ){
+					$jsonContent.$emuName = $emuVersion
+					$latest="false"
+				}else{
+					$latest="true"
+				}
+			} else {
+				# The key doesn't exist, create it with a new value
+				$jsonContent | Add-Member -MemberType NoteProperty -Name $emuName -Value "$emuVersion"
+				$latest="true"
+			}
+			if ($latest -eq "false"){
+
+				#Ask the user to update
+
+				$capitalizedEmuName= $emuName.Substring(0,1).ToUpper() + $emuName.Substring(1).ToLower()
+
+				$result = yesNoDialog -TitleText "New Update" -MessageText "We've detected an update for $capitalizedEmuName. Do you want to update?" -OKButtonText "Yes" -CancelButtonText "No"
+
+				if ($result -eq "OKButton") {
+					# Convert the modified JSON object back to JSON format
+					$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
+
+					# Save the modified JSON back to the file
+					$modifiedJson | Set-Content -Path $jsonFilePath
+
+					& "${emuName}_Install"
+				}
+
+			}else{
+				$modifiedJson = $jsonContent | ConvertTo-Json -Depth 10
+
+				# Save the modified JSON back to the file
+				$modifiedJson | Set-Content -Path $jsonFilePath
+
+			}
+
+			Write-Host "Latest version=$latest"
+		}
+	}
+
+
 }

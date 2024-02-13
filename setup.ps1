@@ -281,6 +281,10 @@ if ( "$doSetupMGBA" -eq "true" ){
 	$setupSaves+="mGBA_setupSaves;"
 }
 
+if ( Android_ADB_isInstalled -eq "false" ){
+	Android_ADB_install
+}
+
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
 Invoke-Expression $setupSaves

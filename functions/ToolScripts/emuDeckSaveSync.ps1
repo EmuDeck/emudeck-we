@@ -757,9 +757,15 @@ function cloud_sync_check_lock(){
 	$lockedFile="$userFolder\EmuDeck\cloud.lock"
 	if(Test-Path -Path $lockedFile){
 		#$toast = steamToast -MessageText "CloudSync in progress! We're syncing your saved games..."
+		$counter=0
 		while (Test-Path -Path $lockedFile) {
 			Start-Sleep -Milliseconds 200
+			$counter++
+			if ($counter -gt 15) {
+				Remove-Item -Force -Recurse $lockedFile
+			}
 		}
+
 		#$toast.Close()
 	}
 }
