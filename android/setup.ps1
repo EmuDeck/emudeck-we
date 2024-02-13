@@ -170,38 +170,36 @@ if ( $android_writable -eq "false" ){
 #adb shell 'dumpsys package | grep -Eo "^[[:space:]]+[0-9a-f]+[[:space:]]+org.dolphinemu.mmjr/[^[:space:]]+" | grep -oE "[^[:space:]]+$"'
 
 #Citra setup.
-adb shell am start -n org.citra.emu/.ui.MainActivity
-confirmDialog -TitleText "Citra" -MessageText "Go to your device, and click on allow access. Press Continue when you've done it."
-adb shell am force-stop org.citra.emu
+adb shell pm grant org.citra.emu android.permission.WRITE_EXTERNAL_STORAGE
 
 #Dolphin setup
-adb shell am start -n org.dolphinemu.mmjr/org.dolphinemu.dolphinemu.ui.main.MainActivity
-confirmDialog -TitleText "Dolphin" -MessageText "Go to your device, and click on allow access. Press Continue when you've done it."
-adb shell am force-stop org.dolphinemu.mmjr
+adb shell pm grant org.dolphinemu.mmjr android.permission.WRITE_EXTERNAL_STORAGE
 
 #Yuzu setup
+adb shell pm grant org.yuzu.yuzu_emu android.permission.WRITE_EXTERNAL_STORAGE
 adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
 confirmDialog -TitleText "Yuzu" -MessageText "Go to your device, and click on Get Started and finish setup on your device. Your Keys should be in $androidStorage/Emulation/bios/yuzu/keys. Press Continue when you've done it."
 adb shell am force-stop org.yuzu.yuzu_emu
 
 #PPSSPP setup
+adb shell pm grant org.ppsspp.ppsspp android.permission.WRITE_EXTERNAL_STORAGE
 adb shell am start -n org.ppsspp.ppsspp/.PpssppActivity
-confirmDialog -TitleText "PPSSPP" -MessageText "Go to your device, and click on allow access, create the PSP folder in $androidStorage/Emulation/saves/. Press Continue when you've done it."
+confirmDialog -TitleText "PPSSPP" -MessageText "Go to your device and create the PSP folder in $androidStorage/Emulation/saves/. Press Continue when you've done it."
 adb shell am force-stop org.ppsspp.ppsspp
 
 #AetherSX2 setup
+adb shell pm grant xyz.aethersx2.android.permission.WRITE_EXTERNAL_STORAGE
 adb shell am start -n xyz.aethersx2.android/.MainActivity
-confirmDialog -TitleText "AetherSX2" -MessageText "Go to your device, and click on allow access and setup your bios that should be in $androidStorage/Emulation/bios. Press Continue when you've done it."
+confirmDialog -TitleText "AetherSX2" -MessageText "Go to your device and setup your bios that should be in $androidStorage/Emulation/bios. Press Continue when you've done it."
 adb shell am force-stop xyz.aethersx2.android
 
 #Scummvm setup
-adb shell am start -n org.scummvm.scummvm/.SplashActivity
-confirmDialog -TitleText "Scummvm" -MessageText "Go to your device, and click on allow access. Press Continue when you've done it."
-adb shell am force-stop org.scummvm.scummvm
+adb shell pm grant org.scummvm.scummvm android.permission.WRITE_EXTERNAL_STORAGE
 
 #RetroArch setup
+adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
 adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainMenuActivity
-confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, click on allow access, go to Load Core, Install or Restore a Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
+confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, go to Load Core, Install or Restore a Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
 adb shell am force-stop com.retroarch.aarch64
 
 
