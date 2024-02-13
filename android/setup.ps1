@@ -216,6 +216,7 @@ adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainM
 confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, go to Load Core, Install or Restore a Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
 adb shell am force-stop com.retroarch.aarch64
 
+adb shell am start -n org.pegasus_frontend.android/.MainActivity
 
 setMSG "100 #ANDROID"
 Stop-Transcript
