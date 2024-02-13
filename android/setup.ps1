@@ -169,17 +169,22 @@ if ( $android_writable -eq "false" ){
 
 #adb shell 'dumpsys package | grep -Eo "^[[:space:]]+[0-9a-f]+[[:space:]]+org.dolphinemu.mmjr/[^[:space:]]+" | grep -oE "[^[:space:]]+$"'
 
+
+#Pegasus Setup
+adb shell pm grant org.pegasus_frontend.android android.permission.WRITE_EXTERNAL_STORAGE
+
 #Citra setup.
 adb shell pm grant org.citra.emu android.permission.WRITE_EXTERNAL_STORAGE
-adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
+adb shell am start -n org.citra.emu/.ui.MainActivity
 Start-Sleep -Seconds 1
-adb shell am force-stop org.ppsspp.ppsspp
+adb shell am force-stop org.citra.emu
 
 #Dolphin setup
 adb shell pm grant org.dolphinemu.mmjr android.permission.WRITE_EXTERNAL_STORAGE
-adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
+adb shell am start -n org.dolphinemu.mmjr/org.dolphinemu.dolphinemu.ui.main.MainActivity
 Start-Sleep -Seconds 1
-adb shell am force-stop org.ppsspp.ppsspp
+adb shell am force-stop org.dolphinemu.mmjr
+
 
 #Yuzu setup
 adb shell pm grant org.yuzu.yuzu_emu android.permission.WRITE_EXTERNAL_STORAGE
@@ -201,16 +206,15 @@ adb shell am force-stop xyz.aethersx2.android
 
 #Scummvm setup
 adb shell pm grant org.scummvm.scummvm android.permission.WRITE_EXTERNAL_STORAGE
-adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
+adb shell am start -n org.scummvm.scummvm/.ui.main.MainActivity
 Start-Sleep -Seconds 1
-adb shell am force-stop org.ppsspp.ppsspp
+adb shell am force-stop org.scummvm.scummvm
 
 #RetroArch setup
 adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
 adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainMenuActivity
 confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, go to Load Core, Install or Restore a Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
 adb shell am force-stop com.retroarch.aarch64
-
 
 
 setMSG "100 #ANDROID"
