@@ -171,9 +171,15 @@ if ( $android_writable -eq "false" ){
 
 #Citra setup.
 adb shell pm grant org.citra.emu android.permission.WRITE_EXTERNAL_STORAGE
+adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
+Start-Sleep -Seconds 1
+adb shell am force-stop org.ppsspp.ppsspp
 
 #Dolphin setup
 adb shell pm grant org.dolphinemu.mmjr android.permission.WRITE_EXTERNAL_STORAGE
+adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
+Start-Sleep -Seconds 1
+adb shell am force-stop org.ppsspp.ppsspp
 
 #Yuzu setup
 adb shell pm grant org.yuzu.yuzu_emu android.permission.WRITE_EXTERNAL_STORAGE
@@ -195,6 +201,9 @@ adb shell am force-stop xyz.aethersx2.android
 
 #Scummvm setup
 adb shell pm grant org.scummvm.scummvm android.permission.WRITE_EXTERNAL_STORAGE
+adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
+Start-Sleep -Seconds 1
+adb shell am force-stop org.ppsspp.ppsspp
 
 #RetroArch setup
 adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
