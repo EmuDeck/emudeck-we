@@ -3,7 +3,7 @@ function ESDE_install(){
 
 	#Fixes for ESDE warning message
 	if ( ESDE_IsInstalled -like "*true*" ){
-		moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
 		ESDE_uninstall
 		$doInit="true"
 	}
@@ -21,8 +21,8 @@ function ESDE_install(){
 
 function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
-	if(Test-Path "$esdePath\.emulationstation\gamelists"){
-		moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+	if(Test-Path "$esdePath\ES-DE\gamelists"){
+		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
 	}
 	#We reset ESDE system files
 	#Copy-Item "$esdePath/resources/systems/windows/es_systems.xml.bak" -Destination "$esdePath/resources/systems/windows/es_systems.xml" -ErrorAction SilentlyContinue
@@ -78,19 +78,19 @@ function ESDE_init(){
 
 	}
 
-	$destination="$esdePath\.emulationstation"
+	$destination="$esdePath\ES-DE"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination"
 
-	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 	mkdir "$emulationPath/storage/downloaded_media" -ErrorAction SilentlyContinue
 
-	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
 	createLauncher "esde/EmulationStationDE"
@@ -106,9 +106,9 @@ function ESDE_init(){
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>'
 
 	if(Test-Path "$temp\gamelists"){
-		rm -r -fo "$esdePath\.emulationstation\gamelists"
-		mkdir "$esdePath\.emulationstation\gamelists" -ErrorAction SilentlyContinue
-		moveFromTo "$temp\gamelists" "$esdePath\.emulationstation\gamelists"
+		rm -r -fo "$esdePath\ES-DE\gamelists"
+		mkdir "$esdePath\ES-DE\gamelists" -ErrorAction SilentlyContinue
+		moveFromTo "$temp\gamelists" "$esdePath\ES-DE\gamelists"
 		rm -r -fo "$temp\gamelists"
 	}
 
@@ -196,13 +196,13 @@ function ESDE_finalize(){
 
 function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 
-	mkdir -p "$esdePath\.emulationstation\themes" -ErrorAction SilentlyContinue
-	cd "$esdePath\.emulationstation\themes"
+	mkdir -p "$esdePath\ES-DE\themes" -ErrorAction SilentlyContinue
+	cd "$esdePath\ES-DE\themes"
 	git clone $esdeThemeUrl "./$esdeThemeName"
 
-	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', "$esdeThemeName"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 }
 
