@@ -1,7 +1,3 @@
-$Android_ADB_path = "$env:USERPROFILE\emudeck\android\platform-tools"
-$Android_ADB_url = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip"
-$env:PATH += ";$Android_ADB_path"
-
 function Android_ADB_isInstalled {
 	if (Test-Path -Path $Android_ADB_path -PathType Container) {
 		Write-Output "true"
@@ -27,6 +23,17 @@ function Android_ADB_connected {
 	}
 }
 
+function Android_ADB_testWrite{
+	adb shell ls /storage/emulated/0/
+	if($?){
+		setSetting "android_writable" "true"
+		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	}else{
+		setSetting "android_writable" "false"
+		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	}
+}
+
 
 function Android_ADB_install {
 	$outFile = "adb.zip"
@@ -47,9 +54,10 @@ function Android_ADB_push {
 		[string]$origin,
 		[string]$destination
 	)
-
-	$env:PATH += ";$Android_ADB_path"
-	adb push $origin $destination
+	if ( $android_writable -eq "true" ){
+		$env:PATH += ";$Android_ADB_path"
+		adb push $origin $destination
+	}
 }
 
 function Android_ADB_installAPK {
@@ -73,7 +81,13 @@ function Android_ADB_dl_installAPK {
 }
 
 function Android_ADB_getSDCard {
-	adb shell sm list-volumes public | ForEach-Object { $_.Split()[-1] }
+	$volumes = adb shell sm list-volumes public | ForEach-Object { $_.Split()[-1] }
+
+	if ($volumes -eq '{}' -or $volumes.Count -eq 0) {
+		return "false"
+	} else {
+		return $volumes
+	}
 }
 
 function Android_ADB_init {
@@ -108,13 +122,13 @@ function Android_download {
 }
 function Android_downloadCore($url, $core) {
 	$wc = New-Object net.webclient
-	$destination="$Android_RetroArch_temp/cores/$core.zip"
+	$destination="$Android_RetroArch_temp/downloads/$core.zip"
 	$wc.Downloadfile($url, $destination)
 
 	foreach ($line in $destination) {
 		$extn = [IO.Path]::GetExtension($line)
 		if ($extn -eq ".zip" ){
-			& $7z x -o"$Android_RetroArch_temp/cores/" -aoa $destination
+			& $7z x -o"$Android_RetroArch_temp/downloads/" -aoa $destination
 			Start-Sleep -Seconds 0.5
 			Remove-Item $destination
 		}
