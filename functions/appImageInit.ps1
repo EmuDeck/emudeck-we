@@ -1,11 +1,9 @@
 function appImageInit(){
+
 	$ESDE_oldConfigDirectory="$esdePath\.emulationstation"
 	$ESDE_newConfigDirectory="$esdePath\ES-DE"
-	if (Test-Path -Path $ESDE_oldConfigDirectory -and -not (Test-Path -PathType Container -LiteralPath $ESDE_oldConfigDirectory -or Test-Path -PathType Container -LiteralPath (Get-Item $ESDE_oldConfigDirectory).LinkType)) {
-		Move-Item -Path $ESDE_oldConfigDirectory -Destination $ESDE_newConfigDirectory
-		$simLinkPath = "$ESDE_oldConfigDirectory"
-		$emuSavePath = "$ESDE_newConfigDirectory"
-		createSaveLink $simLinkPath $emuSavePath
+	if (Test-Path -Path $ESDE_oldConfigDirectory) {
+		Rename-Item $ESDE_oldConfigDirectory $ESDE_newConfigDirectory
 		Write-Output "EmulationStation-DE config directory successfully migrated and linked."
 	}
 
