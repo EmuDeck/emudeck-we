@@ -112,6 +112,7 @@ function ESDE_init(){
 	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
+	SRM_resetLaunchers #ESDE3.0 fix
 	createLauncher "esde/EmulationStationDE"
 
 	ESDE_applyTheme "$esdeThemeUrl" "$esdeThemeName"
