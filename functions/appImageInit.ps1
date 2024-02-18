@@ -1,13 +1,5 @@
 function appImageInit(){
 
-	$ESDE_oldConfigDirectory="$esdePath\.emulationstation"
-	$ESDE_newConfigDirectory="$esdePath\ES-DE"
-	if (Test-Path -Path $ESDE_oldConfigDirectory) {
-		Rename-Item $ESDE_oldConfigDirectory $ESDE_newConfigDirectory
-		Write-Output "EmulationStation-DE config directory successfully migrated and linked."
-	}
-
-
 
 	#AutoFixes
 	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue
