@@ -221,7 +221,7 @@ function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 }
 
 function ESDE_IsInstalled(){
-	$test=Test-Path -Path "$esdePath\emulationstation.exe"
+	$test=Test-Path -Path "$esdePath\ES-DE.exe"
 	$testold=Test-Path -Path "$toolsPath/EmulationStation-DE"
 	if ($test -or $testold) {
 		Write-Output "true"
