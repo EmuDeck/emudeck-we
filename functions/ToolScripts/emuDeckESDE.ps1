@@ -12,7 +12,7 @@ function ESDE_install(){
 	download $url_esde "esde.zip"
 	mkdir $esdePath -ErrorAction SilentlyContinue
 
-	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"
+	moveFromTo "$temp/esde/ES-DE" "$esdePath"
 
 	if($doInit -eq "true" ){
 		ESDE_init
