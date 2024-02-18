@@ -3,7 +3,12 @@ function ESDE_install(){
 
 	#Fixes for ESDE warning message
 	if ( ESDE_IsInstalled -like "*true*" ){
-		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
+		if (Test-Path -Path "$esdePath\ES-DE\gamelists") {
+			moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
+		}
+		if (Test-Path -Path "$esdePath\.emulationstation\gamelists") {
+			moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		}
 		ESDE_uninstall
 		$doInit="true"
 	}
@@ -43,7 +48,7 @@ function ESDE_init(){
 	#Copy-Item "$esdePath/resources/systems/windows/es_find_rules.xml.bak" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml" -ErrorAction SilentlyContinue
 
 	#We move ESDE + Emus to the userfolder.
-	$test=Test-Path -Path "$toolsPath\EmulationStation-DE\EmulationStation.exe"
+	$test=Test-Path -Path "$toolsPath\EmulationStation-DE\ES-DE.exe"
 	if($test){
 
 		$userDrive="$userFolder[0]"
