@@ -61,7 +61,7 @@ copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
 
 #Dowloading..ESDE
-$test=Test-Path -Path "$esdePath\EmulationStation.exe"
+$test=Test-Path -Path "$esdePath\ES-DE.exe"
 if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
