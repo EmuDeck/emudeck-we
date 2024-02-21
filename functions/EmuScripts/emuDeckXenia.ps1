@@ -22,7 +22,12 @@ function Xenia_setEmulationFolder(){
 	Write-Output "NYI"
 }
 function Xenia_setupSaves(){
-	Write-Output "NYI"
+	setMSG "Xenia - Saves Links"
+	mkdir "$emusPath\xenia\content"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\xenia\content"
+	$emuSavePath = "$emulationPath\saves\xenia\saves"
+	createSaveLink $simLinkPath $emuSavePath
+
 }
 function Xenia_setResolution($resolution){
 	Write-Output $resolution
