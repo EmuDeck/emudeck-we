@@ -12,7 +12,7 @@ function Android_PPSSPP_init(){
 }
 
 function Android_PPSSPP_setup(){
-	setMSG "000 #PPSSPP"
+	setMSG "PPSSPP"
 	adb shell pm grant org.ppsspp.ppsspp android.permission.WRITE_EXTERNAL_STORAGE
 	adb shell am start -n org.ppsspp.ppsspp/.PpssppActivity
 	confirmDialog -TitleText "Manual action" -MessageText "Waiting for user..."

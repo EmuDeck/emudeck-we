@@ -25,7 +25,7 @@ function Android_RetroArch_install(){
 }
 
 function Android_RetroArch_setup(){
-	setMSG "000 #RETROARCH"
+	setMSG "RETROARCH"
 	adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
 	adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainMenuActivity
 	confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, go to Load Core -> Download Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
