@@ -204,6 +204,7 @@ if(!Android_Citra_init){
 if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
+	setMSG "100 #FINISH"
 
 	#Pegasus Setup
 	Android_Pegasus_setup
@@ -221,8 +222,7 @@ if($success -eq "false"){
 	Android_NetherSX2_setup
 	#RetroArch setup
 	Android_RetroArch_setup
-
-	setMSG "100 #FINISH"
+	setMSG "FINISH"
 	adb shell am start -n org.pegasus_frontend.android/.MainActivity
 
 }
