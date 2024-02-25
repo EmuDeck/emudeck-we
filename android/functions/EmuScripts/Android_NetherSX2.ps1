@@ -22,6 +22,13 @@ function Android_NetherSX2_init(){
 	echo "NYI"
 }
 
+function Android_NetherSX2_setup(){
+	setMSG "000 #NETHER"
+	adb shell pm grant xyz.aethersx2.android.permission.WRITE_EXTERNAL_STORAGE
+	adb shell am start -n xyz.aethersx2.android/.MainActivity
+	confirmDialog -TitleText "Manual action" -MessageText "Waiting for user..."
+	adb shell am force-stop xyz.aethersx2.android
+}
 
 function Android_NetherSX2_IsInstalled(){
 	$package="xyz.aethersx2.android"

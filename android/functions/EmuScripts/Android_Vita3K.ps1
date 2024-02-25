@@ -11,6 +11,10 @@ function Android_Vita3K_init(){
 	echo "NYI"
 }
 
+function Android_Citra_setup(){
+	echo "NYI"
+}
+
 function Android_Vita3K_IsInstalled(){
 	$package="com.retroarch.aarch64"
 	$test= adb shell pm list packages $package

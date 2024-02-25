@@ -27,6 +27,13 @@ function Android_Dolphin_init(){
 
 }
 
+function Android_Dolphin_setup(){
+	adb shell pm grant org.dolphinemu.mmjr android.permission.WRITE_EXTERNAL_STORAGE
+	adb shell am start -n org.dolphinemu.mmjr/org.dolphinemu.dolphinemu.ui.main.MainActivity
+	Start-Sleep -Seconds 1
+	adb shell am force-stop org.dolphinemu.mmjr
+
+}
 
 function Android_Dolphin_IsInstalled(){
 	$package="org.dolphinemu.mmjr"

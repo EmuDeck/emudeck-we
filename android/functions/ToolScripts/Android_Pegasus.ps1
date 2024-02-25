@@ -26,6 +26,10 @@ function Android_Pegasus_init(){
 	Android_ADB_push $Android_Pegasus_temp/ /storage/emulated/0/Android/data/org.pegasus_frontend.android/files/pegasus-frontend/
 }
 
+function Android_Pegasus_setup(){
+	adb shell pm grant org.pegasus_frontend.android android.permission.WRITE_EXTERNAL_STORAGE
+}
+
 function Android_Pegasus_IsInstalled(){
 	$package="org.pegasus_frontend.android"
 	$test= adb shell pm list packages $package

@@ -23,6 +23,16 @@ function Android_RetroArch_install(){
 # 		Android_downloadCore $url $core
 # 	}
 }
+
+function Android_RetroArch_setup(){
+	setMSG "000 #RETROARCH"
+	adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
+	adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainMenuActivity
+	confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, go to Load Core -> Download Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
+	confirmDialog -TitleText "Manual action" -MessageText "Waiting for user..."
+	adb shell am force-stop com.retroarch.aarch64
+}
+
 function Android_RetroArch_init(){
 	$RetroArch_configFile="$Android_RetroArch_temp/retroarch.cfg"
 	Remove-Item $RetroArch_configFile  -ErrorAction SilentlyContinue

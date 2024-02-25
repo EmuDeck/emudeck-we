@@ -206,52 +206,25 @@ if($success -eq "false"){
 }else{
 	setMSG "100 #ANDROID"
 
+
 	#Pegasus Setup
-	adb shell pm grant org.pegasus_frontend.android android.permission.WRITE_EXTERNAL_STORAGE
-
+	Android_Pegasus_setup
 	#Citra setup.
-	adb shell pm grant org.citra.emu android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n org.citra.emu/.ui.MainActivity
-	Start-Sleep -Seconds 1
-	adb shell am force-stop org.citra.emu
-
+	Android_Citra_setup
 	#Dolphin setup
-	adb shell pm grant org.dolphinemu.mmjr android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n org.dolphinemu.mmjr/org.dolphinemu.dolphinemu.ui.main.MainActivity
-	Start-Sleep -Seconds 1
-	adb shell am force-stop org.dolphinemu.mmjr
-
-
-	#Yuzu setup
-	adb shell pm grant org.yuzu.yuzu_emu android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
-	confirmDialog -TitleText "Yuzu" -MessageText "Go to your device, and click on Get Started and finish setup on your device. Your Keys should be in $androidStorage/Emulation/bios/yuzu/keys. Press Continue when you've done it."
-	adb shell am force-stop org.yuzu.yuzu_emu
-
-	#PPSSPP setup
-	adb shell pm grant org.ppsspp.ppsspp android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n org.ppsspp.ppsspp/.PpssppActivity
-	confirmDialog -TitleText "PPSSPP" -MessageText "Go to your device and create the PSP folder in $androidStorage/Emulation/saves/. Press Continue when you've done it."
-	adb shell am force-stop org.ppsspp.ppsspp
-
-	#AetherSX2 setup
-	adb shell pm grant xyz.aethersx2.android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n xyz.aethersx2.android/.MainActivity
-	confirmDialog -TitleText "AetherSX2" -MessageText "Go to your device and setup your bios that should be in $androidStorage/Emulation/bios. Press Continue when you've done it."
-	adb shell am force-stop xyz.aethersx2.android
-
+	Android_Dolphin_setup
 	#Scummvm setup
-	adb shell pm grant org.scummvm.scummvm android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n org.scummvm.scummvm/.ui.main.MainActivity
-	Start-Sleep -Seconds 1
-	adb shell am force-stop org.scummvm.scummvm
-
+	Android_ScummVM_setup
+	#Yuzu setup
+	Android_Yuzu_setup
+	#PPSSPP setup
+	Android_PPSSPP_setup
+	#AetherSX2 setup
+	Android_NetherSX2_setup
 	#RetroArch setup
-	adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
-	adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainMenuActivity
-	confirmDialog -TitleText "RetroArch" -MessageText "Go to your device, go to Load Core, Install or Restore a Core and install all the cores you need. Then go to Settings, Directory. Set your System/Bios to $androidStorage/Emulation/bios. Set Save Files to $androidStorage/Emulation/saves/RetroArch/saves and Save States to $androidStorage/Emulation/saves/RetroArch/states"
-	adb shell am force-stop com.retroarch.aarch64
+	Android_RetroArch_setup
 
+	setMSG "999 #FINISH"
 	adb shell am start -n org.pegasus_frontend.android/.MainActivity
 
 }
