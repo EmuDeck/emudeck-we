@@ -204,7 +204,7 @@ if(!Android_Citra_init){
 if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
-	setMSG "100 #ANDROID"
+	setMSG "900 #ANDROID"
 
 
 	#Pegasus Setup
