@@ -26,3 +26,14 @@ function Android_Dolphin_init(){
 	Android_ADB_push "$Android_temp_internal/mmjr2-vbi" /storage/emulated/0/mmjr2-vbi
 
 }
+
+
+function Android_Dolphin_IsInstalled(){
+	$package="org.dolphinemu.mmjr"
+	$test= adb shell pm list packages $package
+	if ($test){
+		Write-Output  "true"
+	}else{
+		Write-Output  "false"
+	}
+}

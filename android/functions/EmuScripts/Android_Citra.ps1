@@ -14,3 +14,13 @@ function Android_Citra_init(){
 
 	Android_ADB_push "$Android_temp_internal/citra-emu/" /storage/emulated/0/citra-emu/
 }
+
+function Android_Citra_IsInstalled(){
+	$package="org.citra.emu"
+	$test= adb shell pm list packages $package
+	if ($test){
+		Write-Output  "true"
+	}else{
+		Write-Output  "false"
+	}
+}

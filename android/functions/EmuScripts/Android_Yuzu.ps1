@@ -25,3 +25,14 @@ function Android_Yuzu_init(){
 
 	Android_ADB_push "$Android_temp_android_data/org.yuzu.yuzu_emu/" /storage/emulated/0/Android/data/org.yuzu.yuzu_emu/
 }
+
+
+function Android_Yuzu_IsInstalled(){
+	$package="org.yuzu.yuzu_emu"
+	$test= adb shell pm list packages $package
+	if ($test){
+		Write-Output  "true"
+	}else{
+		Write-Output  "false"
+	}
+}

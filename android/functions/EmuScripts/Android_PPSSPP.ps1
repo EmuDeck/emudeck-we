@@ -10,3 +10,13 @@ function Android_PPSSPP_install(){
 function Android_PPSSPP_init(){
 	echo "NYI"
 }
+
+function Android_PPSSPP_IsInstalled(){
+	$package="org.ppsspp.ppsspp"
+	$test= adb shell pm list packages $package
+	if ($test){
+		Write-Output  "true"
+	}else{
+		Write-Output  "false"
+	}
+}

@@ -10,3 +10,13 @@ function Android_ScummVM_install(){
 function Android_ScummVM_init(){
 	echo "NYI"
 }
+
+function Android_ScummVM_IsInstalled(){
+	$package="org.scummvm.scummvm"
+	$test= adb shell pm list packages $package
+	if ($test){
+		Write-Output  "true"
+	}else{
+		Write-Output  "false"
+	}
+}

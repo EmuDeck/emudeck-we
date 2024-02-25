@@ -25,3 +25,14 @@ function Android_Pegasus_init(){
 
 	Android_ADB_push $Android_Pegasus_temp/ /storage/emulated/0/Android/data/org.pegasus_frontend.android/files/pegasus-frontend/
 }
+
+function Android_Pegasus_IsInstalled(){
+	$package="org.pegasus_frontend.android"
+	$test= adb shell pm list packages $package
+	if ($test){
+		Write-Output  "true"
+	}else{
+		Write-Output  "false"
+	}
+}
+
