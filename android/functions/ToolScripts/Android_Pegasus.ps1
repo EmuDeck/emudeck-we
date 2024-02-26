@@ -11,7 +11,7 @@ function Android_Pegasus_init(){
 	setMSG "Setting up Pegasus"
 	#Download theme
 	mkdir "$Android_Pegasus_temp/themes/" -ErrorAction SilentlyContinue
-	$temp_url="$(Android_getLatestReleaseURLGH "plaidman/retromega-next" ".zip")"
+	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/retromega-next" ".zip")"
 	$temp_emu="retromega-next"
 	Android_download "$temp_emu.zip" $temp_url
 	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
@@ -32,6 +32,12 @@ function Android_Pegasus_init(){
 
 	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/RP-RG351" ".zip")"
 	$temp_emu="rg351"
+	Android_download "$temp_emu.zip" $temp_url
+	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
+	rm -fo -r "$Android_folder\$temp_emu.zip"
+
+	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/RP-epic-noir" ".zip")"
+	$temp_emu="epicnoir"
 	Android_download "$temp_emu.zip" $temp_url
 	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
 	rm -fo -r "$Android_folder\$temp_emu.zip"
