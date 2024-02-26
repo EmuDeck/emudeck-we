@@ -154,7 +154,7 @@ if ($result -eq "OKButton") {
 
 
 if ( $android_writable -eq "false" ){
-	  setMSG "Moving data ussing MTP, expect some pop ups behind this window"
+	  setMSG "Moving data ussing MTP, expect some Windows dialogs"
 
 	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
 	  if ( $androidStoragePath -like "*-*" ){
@@ -204,7 +204,6 @@ if(!Android_Citra_init){
 if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
-	setMSG "100 #FINISH"
 
 	#Pegasus Setup
 	Android_Pegasus_setup
@@ -222,7 +221,7 @@ if($success -eq "false"){
 	Android_NetherSX2_setup
 	#RetroArch setup
 	Android_RetroArch_setup
-	setMSG "FINISH"
+	setMSG "100 #FINISH"
 	adb shell am start -n org.pegasus_frontend.android/.MainActivity
 
 }
