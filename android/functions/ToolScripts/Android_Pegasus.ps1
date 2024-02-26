@@ -29,13 +29,6 @@ function Android_Pegasus_init(){
 	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
 	rm -fo -r "$Android_folder\$temp_emu.zip"
 
-
-	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/RP-RG351" ".zip")"
-	$temp_emu="rg351"
-	Android_download "$temp_emu.zip" $temp_url
-	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
-	rm -fo -r "$Android_folder\$temp_emu.zip"
-
 	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/RP-epic-noir" ".zip")"
 	$temp_emu="epicnoir"
 	Android_download "$temp_emu.zip" $temp_url
