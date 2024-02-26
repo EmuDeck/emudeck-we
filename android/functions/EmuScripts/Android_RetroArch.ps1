@@ -28,7 +28,7 @@ function Android_RetroArch_setup(){
 	setMSG "RETROARCH"
 	adb shell pm grant com.retroarch.aarch64 android.permission.WRITE_EXTERNAL_STORAGE
 	adb shell am start -n com.retroarch.aarch64/com.retroarch.browser.mainmenu.MainMenuActivity
-	confirmDialog -TitleText "Manual action" -MessageText "Waiting for user..."
+	confirmDialog -TitleText "Manual action" -MessageText "waiting for user action..."
 	adb shell am force-stop com.retroarch.aarch64
 }
 

@@ -30,7 +30,7 @@ function Android_Yuzu_setup(){
 	setMSG "YUZU"
 	adb shell pm grant org.yuzu.yuzu_emu android.permission.WRITE_EXTERNAL_STORAGE
 	adb shell am start -n org.yuzu.yuzu_emu/.ui.main.MainActivity
-	confirmDialog -TitleText "Manual action" -MessageText "Waiting for user..."
+	confirmDialog -TitleText "Manual action" -MessageText "waiting for user action..."
 	adb shell am force-stop org.yuzu.yuzu_emu
 
 }

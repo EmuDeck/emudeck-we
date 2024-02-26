@@ -26,7 +26,7 @@ function Android_NetherSX2_setup(){
 	setMSG "NETHERSX2"
 	adb shell pm grant xyz.aethersx2.android.permission.WRITE_EXTERNAL_STORAGE
 	adb shell am start -n xyz.aethersx2.android/.MainActivity
-	confirmDialog -TitleText "Manual action" -MessageText "Waiting for user..."
+	confirmDialog -TitleText "Manual action" -MessageText "waiting for user action..."
 	adb shell am force-stop xyz.aethersx2.android
 }
 
