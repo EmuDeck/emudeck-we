@@ -213,16 +213,18 @@ if($success -eq "false"){
 	Android_Dolphin_setup
 	#Scummvm setup
 	Android_ScummVM_setup
+
+
 	#Yuzu setup
-	Android_Yuzu_setup
+	#Android_Yuzu_setup
 	#PPSSPP setup
-	Android_PPSSPP_setup
+	#Android_PPSSPP_setup
 	#AetherSX2 setup
-	Android_NetherSX2_setup
+	#Android_NetherSX2_setup
 	#RetroArch setup
-	Android_RetroArch_setup
+	#Android_RetroArch_setup
 	setMSG "100 #FINISH"
-	adb shell am start -n org.pegasus_frontend.android/.MainActivity
+	#adb shell am start -n org.pegasus_frontend.android/.MainActivity
 
 }
 
