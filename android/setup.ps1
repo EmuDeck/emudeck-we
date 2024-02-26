@@ -113,7 +113,7 @@ if ( $android_writable -eq "true" ){
 
 
 Android_Pegasus_install
-Android_AetherSX2_install
+Android_NetherSX2_install
 Android_Citra_install
 Android_Dolphin_install
 Android_RetroArch_install
@@ -124,7 +124,7 @@ Android_ScummVM_install
 
 
 Android_Pegasus_init
-Android_AetherSX2_init
+Android_NetherSX2_init
 Android_Citra_init
 Android_Dolphin_init
 Android_PPSSPP_init
