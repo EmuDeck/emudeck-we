@@ -11,7 +11,7 @@ function Android_Vita3K_init(){
 	echo "NYI"
 }
 
-function Android_Citra_setup(){
+function Android_Vita3K_setup(){
 	echo "NYI"
 }
 
