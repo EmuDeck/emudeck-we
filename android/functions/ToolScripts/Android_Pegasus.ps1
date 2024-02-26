@@ -16,6 +16,26 @@ function Android_Pegasus_init(){
 	Android_download "$temp_emu.zip" $temp_url
 	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
 	rm -fo -r "$Android_folder\$temp_emu.zip"
+
+	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/ES-Simple-Clean" ".zip")"
+	$temp_emu="simple-clean"
+	Android_download "$temp_emu.zip" $temp_url
+	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
+	rm -fo -r "$Android_folder\$temp_emu.zip"
+
+	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/COLORFUL" ".zip")"
+	$temp_emu="colorful"
+	Android_download "$temp_emu.zip" $temp_url
+	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
+	rm -fo -r "$Android_folder\$temp_emu.zip"
+
+
+	$temp_url="$(Android_getLatestReleaseURLGH "dragoonDorise/RP-RG351" ".zip")"
+	$temp_emu="rg351"
+	Android_download "$temp_emu.zip" $temp_url
+	& $7z x -o"$Android_Pegasus_temp/themes/$temp_emu" -aoa "$Android_folder\$temp_emu.zip"
+	rm -fo -r "$Android_folder\$temp_emu.zip"
+
 	#Change paths
 	copyFromTo "$env:APPDATA/EmuDeck/backend/android/configs/Android/data/org.pegasus_frontend.android/files/pegasus-frontend" "$Android_Pegasus_temp/"
 	$originFile="$Android_Pegasus_temp/game_dirs.txt"
