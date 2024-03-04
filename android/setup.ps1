@@ -78,7 +78,7 @@ if ( $android_writable -eq "true" ){
 		Android_ADB_push "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"  "$androidStoragePath/Emulation/saves/PSP/SAVEDATA"
 		Android_ADB_push "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE" "$androidStoragePath/Emulation/saves/PSP/PPSSPP_STATE"
 		#Yuzu
-		Android_ADB_push "$savesPath/yuzu/saves/" "/storage/emulated/0/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
+		#Android_ADB_push "$savesPath/yuzu/saves/" "/storage/emulated/0/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
 		#Citra
 		Android_ADB_push "$savesPath\citra\saves" "/storage/emulated/0/citra-emu/sdmc/"
 
@@ -104,7 +104,7 @@ if ( $android_writable -eq "true" ){
 		Android_ADB_push "$savesPath\ppsspp\saves"  "$androidStoragePath/Emulation/saves/PSP/SAVEDATA"
 		Android_ADB_push "$savesPath\ppsspp\states" "$androidStoragePath/Emulation/saves/PSP/PPSSPP_STATE"
 		#Yuzu
-		copyFromTo "$savesPath/yuzu/saves/" "$Android_temp_internal/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
+		#copyFromTo "$savesPath/yuzu/saves/" "$Android_temp_internal/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
 		#Citra
 		copyFromTo "$savesPath\citra\saves" "$Android_temp_internal/citra-emu/sdmc/"
 	}
@@ -118,7 +118,7 @@ Android_Citra_install
 Android_Dolphin_install
 Android_RetroArch_install
 Android_PPSSPP_install
-Android_Yuzu_install
+#Android_Yuzu_install
 Android_ScummVM_install
 #Android_Vita3K_install
 
@@ -128,9 +128,9 @@ Android_NetherSX2_init
 Android_Citra_init
 Android_Dolphin_init
 Android_PPSSPP_init
-Android_Yuzu_init
+#Android_Yuzu_init
 Android_ScummVM_init
-Android_Vita3K_init
+#Android_Vita3K_init
 Android_RetroArch_init
 
 
@@ -192,10 +192,10 @@ if(!Android_ScummVM_IsInstalled){
 	confirmDialog -TitleText "ScummVM" -MessageText "ScummVM Installation failed, please try again"
 	$success="false"
 }
-if(!Android_Yuzu_IsInstalled){
-	confirmDialog -TitleText "Yuzu" -MessageText "Yuzu Installation failed, please try again"
-	$success="false"
-}
+# if(!Android_Yuzu_IsInstalled){
+# 	confirmDialog -TitleText "Yuzu" -MessageText "Yuzu Installation failed, please try again"
+# 	$success="false"
+# }
 if(!Android_Citra_init){
 	confirmDialog -TitleText "Citra" -MessageText "Citra Installation failed, please try again"
 	$success="false"
