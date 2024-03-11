@@ -931,29 +931,22 @@ function setScreenDimensionsScale(){
 }
 
 function fullScreenToast {
+	Add-Type -AssemblyName System.Windows.Forms
 
-	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-
-	$form = New-Object Windows.Forms.Form
+	$form = New-Object System.Windows.Forms.Form
 	$form.Text = "Popup"
-	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
-	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
+	$form.WindowState = [System.Windows.Forms.FormWindowState]::Maximized
+	$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
 	$form.BackColor = [System.Drawing.Color]::Black
 
-	# Obtener el tamaño de la pantalla
-	$screenWidth = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
-	$screenHeight = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+	# La propiedad PrimaryScreen.Bounds ya considera la posición correcta de la pantalla principal.
+	$screenBounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+	$form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
+	$form.Location = New-Object System.Drawing.Point($screenBounds.Location.X, $screenBounds.Location.Y)
+	$form.Size = New-Object System.Drawing.Size($screenBounds.Width, $screenBounds.Height)
 
-	$form.Width = $screenWidth
-	$form.Height = $screenHeight
-
-# 	$pictureBox = New-Object Windows.Forms.PictureBox
-# 	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
-# 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
-# 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
-#
-# 	$form.Controls.Add($pictureBox)
-	$form.Show()
+	# Mostrar el formulario
+	$form.ShowDialog()
 
 	return $form
 }
