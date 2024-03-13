@@ -806,6 +806,8 @@ function cloud_sync_init($emulator){
 						"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 						cloud_sync_downloadEmu $emulator
 					}
+				}else{
+					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}
 
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
