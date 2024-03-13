@@ -857,9 +857,11 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
 
 			if ($?) {
-				$backupSuffix = "_bak"
-				$backupName = -join($simLinkPath, $backupSuffix)
-				Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
+				if ($networkInstallation -eq "false"){
+					$backupSuffix = "_bak"
+					$backupName = -join($simLinkPath, $backupSuffix)
+					Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
+				}
 			}
 			createSymlink $simLinkPath $emuSavePath
 		}
