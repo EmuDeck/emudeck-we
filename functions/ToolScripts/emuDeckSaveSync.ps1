@@ -788,62 +788,31 @@ function cloud_sync_notification($text){
 
 function cloud_sync_init($emulator){
 	#startLog($MyInvocation.MyCommand.Name)
+
+
+
 	if ( check_internet_connection -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
 				"" | Set-Content $savesPath/.watching -Encoding UTF8
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
-				if($emulator -eq "EmulationStationDE"){
-					"\" | Set-Content $savesPath/.emulator -Encoding UTF8
-					cloud_sync_downloadEmuAll
-				}else{
-					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
-					cloud_sync_downloadEmu $emulator
+				$branch = Invoke-Expression "cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git rev-parse --abbrev-ref HEAD"
+				if ("$branch" -eq "early" -or "$branch" -eq "dev"){
+					if($emulator -eq "EmulationStationDE"){
+						"\" | Set-Content $savesPath/.emulator -Encoding UTF8
+						cloud_sync_downloadEmuAll
+					}else{
+						"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
+						cloud_sync_downloadEmu $emulator
+					}
 				}
+
 				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				cls
 				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
 				cls
 				$toast.Close()
-# 				cmd /c start /min powershell -Command {
-# 					. $env:APPDATA\EmuDeck\backend\functions\allCloud.ps1
-# 					hideMe
-# 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
-# 					while($true){
-# 						if(IsServiceRunning -eq "Running"){
-# 							cloud_sync_check_lock
-# 						}else{
-# 							echo "exit!"
-# 							$toast = steamToast -MessageText "Upload finished!"
-# 							Start-Sleep  -Milliseconds 1000
-# 							$toast.Close()
-# 							break
-# 						}
-#
-# 					}
-# 					exit
-# 				}
-# 				invoke-expression 'cmd /c start /min powershell -Command {
-# 					. $env:APPDATA\EmuDeck\backend\functions\allCloud.ps1
-# 					hideMe
-# 					echo "CloudSync: Waiting for the game to close. Keep this this window open!"
-# 					while($true){
-# 						if(IsServiceRunning -eq "Running"){
-# 							cloud_sync_check_lock
-# 						}else{
-# 							echo "exit!"
-# 							$toast.Close()
-# 							$toast = steamToast -MessageText "Upload finished!"
-# 							Start-Sleep  -Milliseconds 1000
-# 							$toast.Close()
-# 							break
-# 						}
-#
-# 					}
-# 					exit
-# 				}'
-
 			}
 		}
 	}else{
