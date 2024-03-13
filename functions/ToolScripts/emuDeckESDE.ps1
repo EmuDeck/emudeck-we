@@ -3,7 +3,12 @@ function ESDE_install(){
 
 	#Fixes for ESDE warning message
 	if ( ESDE_IsInstalled -like "*true*" ){
-		moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		if (Test-Path -Path "$esdePath\ES-DE\gamelists") {
+			moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
+		}
+		if (Test-Path -Path "$esdePath\.emulationstation\gamelists") {
+			moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		}
 		ESDE_uninstall
 		$doInit="true"
 	}
@@ -12,7 +17,7 @@ function ESDE_install(){
 	download $url_esde "esde.zip"
 	mkdir $esdePath -ErrorAction SilentlyContinue
 
-	moveFromTo "$temp/esde/EmulationStation-DE" "$esdePath"
+	moveFromTo "$temp/esde/ES-DE" "$esdePath"
 
 	if($doInit -eq "true" ){
 		ESDE_init
@@ -21,15 +26,29 @@ function ESDE_install(){
 
 function ESDE_init(){
 	setMSG 'EmulationStation DE - Paths and Themes'
+
+
+	$ESDE_oldConfigDirectory="$esdePath\.emulationstation"
+	$ESDE_newConfigDirectory="$esdePath\ES-DE"
+	if (Test-Path -Path $ESDE_oldConfigDirectory) {
+		Rename-Item $ESDE_oldConfigDirectory $ESDE_newConfigDirectory
+		Write-Output "EmulationStation-DE config directory successfully migrated and linked."
+	}
+
+
+	if(Test-Path "$esdePath\ES-DE\gamelists"){
+		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
+	}
+
 	if(Test-Path "$esdePath\.emulationstation\gamelists"){
-		moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
 	}
 	#We reset ESDE system files
 	#Copy-Item "$esdePath/resources/systems/windows/es_systems.xml.bak" -Destination "$esdePath/resources/systems/windows/es_systems.xml" -ErrorAction SilentlyContinue
 	#Copy-Item "$esdePath/resources/systems/windows/es_find_rules.xml.bak" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml" -ErrorAction SilentlyContinue
 
 	#We move ESDE + Emus to the userfolder.
-	$test=Test-Path -Path "$toolsPath\EmulationStation-DE\EmulationStation.exe"
+	$test=Test-Path -Path "$toolsPath\EmulationStation-DE\ES-DE.exe"
 	if($test){
 
 		$userDrive="$userFolder[0]"
@@ -54,7 +73,7 @@ function ESDE_init(){
 	}
 
 	#We move download_media folder
-	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\.emulationstation\downloaded_media"
+	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\ES-DE\downloaded_media"
 	if($test){
 
 		$userDrive="$userFolder[0]"
@@ -72,27 +91,28 @@ function ESDE_init(){
 		$Output = $wshell.Popup("We are going to move EmulationStation scrape data to $emulationPath/storage in order to free space in your internal drive. This could take long, so please wait until you get a new confirmation window")
 
 		mkdir "$emulationPath/storage/downloaded_media"  -ErrorAction SilentlyContinue
-		moveFromTo "$esdePath/.emulationstation/downloaded_media" "$emulationPath/storage/downloaded_media"
+		moveFromTo "$esdePath/ES-DE/downloaded_media" "$emulationPath/storage/downloaded_media"
 
 		$Output = $wshell.Popup("Migration complete!")
 
 	}
 
-	$destination="$esdePath\.emulationstation"
+	$destination="$esdePath\ES-DE"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination"
 
-	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 	mkdir "$emulationPath/storage/downloaded_media" -ErrorAction SilentlyContinue
 
-	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
+	SRM_resetLaunchers #ESDE3.0 fix
 	createLauncher "esde/EmulationStationDE"
 
 	ESDE_applyTheme "$esdeThemeUrl" "$esdeThemeName"
@@ -106,9 +126,9 @@ function ESDE_init(){
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>'
 
 	if(Test-Path "$temp\gamelists"){
-		rm -r -fo "$esdePath\.emulationstation\gamelists"
-		mkdir "$esdePath\.emulationstation\gamelists" -ErrorAction SilentlyContinue
-		moveFromTo "$temp\gamelists" "$esdePath\.emulationstation\gamelists"
+		rm -r -fo "$esdePath\ES-DE\gamelists"
+		mkdir "$esdePath\ES-DE\gamelists" -ErrorAction SilentlyContinue
+		moveFromTo "$temp\gamelists" "$esdePath\ES-DE\gamelists"
 		rm -r -fo "$temp\gamelists"
 	}
 
@@ -196,18 +216,18 @@ function ESDE_finalize(){
 
 function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 
-	mkdir -p "$esdePath\.emulationstation\themes" -ErrorAction SilentlyContinue
-	cd "$esdePath\.emulationstation\themes"
+	mkdir -p "$esdePath\ES-DE\themes" -ErrorAction SilentlyContinue
+	cd "$esdePath\ES-DE\themes"
 	git clone $esdeThemeUrl "./$esdeThemeName"
 
-	$xml = Get-Content "$esdePath\.emulationstation\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', "$esdeThemeName"
-	$updatedXML | Set-Content "$esdePath\.emulationstation\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
 
 }
 
 function ESDE_IsInstalled(){
-	$test=Test-Path -Path "$esdePath\emulationstation.exe"
+	$test=Test-Path -Path "$esdePath\ES-DE.exe"
 	$testold=Test-Path -Path "$toolsPath/EmulationStation-DE"
 	if ($test -or $testold) {
 		Write-Output "true"
@@ -226,7 +246,7 @@ function ESDE_resetConfig(){
 
 
 function ESDE_setDefaultEmulators(){
-	mkdir "$esdePath/.emulationstation/gamelists/"  -ErrorAction SilentlyContinue
+	mkdir "$esdePath/ES-DE/gamelists/"  -ErrorAction SilentlyContinue
 
 	ESDE_setEmu 'Dolphin (Standalone)' gc
 	ESDE_setEmu 'PPSSPP (Standalone)' psp
@@ -242,7 +262,7 @@ function ESDE_setDefaultEmulators(){
 
 
 function ESDE_setEmu($emu, $system){
-    $gamelistFile="$esdePath/.emulationstation/gamelists/$system/gamelist.xml"
+    $gamelistFile="$esdePath/ES-DE/gamelists/$system/gamelist.xml"
 	$test=Test-Path -Path "gamelistFile"
 
 	if ( Test-Path -Path "$gamelistFile" ){
@@ -258,7 +278,7 @@ function ESDE_setEmu($emu, $system){
 	}
 	else{
 
-		mkdir "$esdePath/.emulationstation/gamelists/$system"  -ErrorAction SilentlyContinue
+		mkdir "$esdePath/ES-DE/gamelists/$system"  -ErrorAction SilentlyContinue
 
 		"$env:APPDATA\EmuDeck\backend\configs\emulationstation"
 

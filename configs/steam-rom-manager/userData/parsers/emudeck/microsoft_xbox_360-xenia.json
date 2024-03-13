@@ -67,7 +67,7 @@
     "useCredentials": true
   },
   "parserInputs": {
-    "glob": "{**/!(xbla),roms}/**/${title}@(.iso|.ISO|.xex|.XEX)"
+    "glob": "${title}@(.iso|.ISO|.xex|.XEX)"
   },
   "titleFromVariable": {
     "limitToGroups": "",
