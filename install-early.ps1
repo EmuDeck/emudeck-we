@@ -480,7 +480,7 @@ if (-not (Test-Path $installDir)) {
 	Write-Host ""
 	Write-Host "Downloading EmuDeck..." -ForegroundColor white
 	Write-Host ""
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron' 'exe' 'emudeck'
+	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
 	download $url_emudeck "emudeck_install.exe"
 	$temp = Join-Path "$env:USERPROFILE" "Downloads"
 	Write-Host " Launching EmuDeck Installer, please wait..."
