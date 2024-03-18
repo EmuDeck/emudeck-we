@@ -18,4 +18,34 @@
         <platform>ps3</platform>
         <theme>ps3</theme>
     </system>
+	<system>
+		<name>ps3-shortcut</name>
+		<fullname>Sony PlayStation 3 - Shortcut Games</fullname>
+		<path>%ROMPATH%\ps3\shortcuts</path>
+		<extension>.lnk .LNK</extension>
+		<command label="RPCS3 Shortcut (Standalone)">%HIDEWINDOW% %ESCAPESPECIALS% %EMULATOR_OS-SHELL% /C %ROM%</command>
+		<platform>ps3</platform>
+		<theme>ps3</theme>
+	</system>
+	<system>
+		<name>switch</name>
+		<fullname>Nintendo Switch</fullname>
+		<path>%ROMPATH%\switch</path>
+		<extension>.nca .NCA .nro .NRO .nso .NSO .nsp .NSP .xci .XCI</extension>
+		<command label="Yuzu (Standalone)">%EMULATOR_YUZU% -f -g %ROM%</command>
+		<command label="Ryujinx (Standalone)">%EMULATOR_RYUJINX% %ROM%</command>
+		<platform>switch</platform>
+		<theme>switch</theme>
+	</system>
+	<system>
+		<name>n3ds</name>
+		<fullname>Nintendo 3DS</fullname>
+		<path>%ROMPATH%\n3ds</path>
+		<extension>.3ds .3DS .3dsx .3DSX .app .APP .axf .AXF .cci .CCI .cxi .CXI .elf .ELF .7z .7Z .zip .ZIP</extension>
+		<command label="Citra">%EMULATOR_RETROARCH% -L %CORE_RETROARCH%\citra_libretro.dll %ROM%</command>
+		<command label="Citra 2018">%EMULATOR_RETROARCH% -L %CORE_RETROARCH%\citra2018_libretro.dll %ROM%</command>
+		<command label="Citra (Standalone)">%EMULATOR_CITRA% %ROM%</command>
+		<platform>n3ds</platform>
+		<theme>n3ds</theme>
+	</system>
 </systemList>
