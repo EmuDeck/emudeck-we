@@ -404,33 +404,38 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
 
+$wingetCommand = Get-Command -Name winget -ErrorAction SilentlyContinue
+if ($wingetCommand -eq $null) {
+    confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have the 'App Installer' app up to date in the Windows Store, or the EmuDeck installation. Press Continue to open the App Installer page in the Microsoft Store and then click update."
 
-confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have the 'App Installer' app up to date in the Windows Store, or the EmuDeck installation. Press Continue to open the App Installer page in the Microsoft Store and then click update."
+	Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1"
 
-Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1"
+	Write-Host "Waiting for user, please update App Installer, close the Microsoft Store after that..."
 
-Write-Host "Waiting for user, please update App Installer, close the Microsoft Store after that..."
+	$storeProcess = Get-Process -Name "WinStore.App"
 
-$storeProcess = Get-Process -Name "WinStore.App"
+	$storeProcess.WaitForExit()
+	cls
+	Write-Host "Updating Winget" -ForegroundColor white
+	Write-Host ""
 
-$storeProcess.WaitForExit()
-cls
-Write-Host "Updating Winget" -ForegroundColor white
-Write-Host ""
+	$url = "https://cdn.winget.microsoft.com/cache/source.msix"
+	$destination = "$env:TEMP\source.msix"
+	Invoke-WebRequest -Uri $url -OutFile $destination
+	Start-Process -FilePath $destination
 
-$url = "https://cdn.winget.microsoft.com/cache/source.msix"
-$destination = "$env:TEMP\source.msix"
-Invoke-WebRequest -Uri $url -OutFile $destination
-Start-Process -FilePath $destination
+	Write-Host "Waiting for user, please update / Reinstall Winget..."
 
-Write-Host "Waiting for user, please update / Reinstall Winget..."
+	$storeProcess = Get-Process -Name "AppInstaller"
 
-$storeProcess = Get-Process -Name "AppInstaller"
+	$storeProcess.WaitForExit()
 
-$storeProcess.WaitForExit()
-
-Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
-
+	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
+} else {
+    Write-Host "winget is already installed."
+	# Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Microsoft.AppInstaller --silent"
+	Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements --silent"
+}
 
 $installDir="$env:ProgramFiles\Git\"
 if (-not (Test-Path $installDir)) {
