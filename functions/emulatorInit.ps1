@@ -9,7 +9,6 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 
 	#NetPlay
 	if( $emuName -eq "retroarch"){
-		cloud_sync_init($emuName);
 		if( $netplay -eq "true"){
 			netplaySetIP
 			if ("$netplayHost" = 'true' ){
