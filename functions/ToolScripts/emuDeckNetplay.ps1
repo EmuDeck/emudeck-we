@@ -5,7 +5,7 @@ function netplaySetIP(){
 	$subnet = "$segment."
 	$port = 55435
 	$nethost = "none"
-	setSetting netplayIP "false"
+	netplaySetHost
 	1..254 | ForEach-Object {
 		$ip = $subnet + $_
 		$tcpClient = New-Object System.Net.Sockets.TcpClient
@@ -14,8 +14,19 @@ function netplaySetIP(){
 		$result = $tcpClient.BeginConnect($ip, $port, $null, $null)
 		$wait = $result.AsyncWaitHandle.WaitOne(1, $false)
 		if ($wait -eq $true -and $tcpClient.Connected) {
+			netplaySetClient
 			setSetting netplayIP $ip
 		}
 		$tcpClient.Close()
 	}
+}
+
+function netplaySetHost(){
+	setSetting netplay "true"
+	setSetting netplayHost "true"
+}
+
+function netplaySetClient(){
+	setSetting netplay "true"
+	setSetting netplayHost "false"
 }
