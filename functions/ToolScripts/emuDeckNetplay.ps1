@@ -15,18 +15,16 @@ function netplaySetIP(){
 		$wait = $result.AsyncWaitHandle.WaitOne(1, $false)
 		if ($wait -eq $true -and $tcpClient.Connected) {
 			netplaySetClient
-			setSetting netplayIP $ip
+			setSetting netplayIP "$ip"
 		}
 		$tcpClient.Close()
 	}
 }
 
 function netplaySetHost(){
-	setSetting netplay "true"
 	setSetting netplayHost "true"
 }
 
 function netplaySetClient(){
-	setSetting netplay "true"
 	setSetting netplayHost "false"
 }

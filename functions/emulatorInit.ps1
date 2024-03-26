@@ -11,13 +11,15 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	if( $emuName -eq "retroarch"){
 		if( $netplay -eq "true"){
 			netplaySetIP
-			if ("$netplayHost" = 'true' ){
+			. $env:USERPROFILE\emudeck\settings.ps1
+			if ($netplayHost -eq "true" ){
 				setSetting netplayCMD " -H"
 			}else{
 				setSetting netplayCMD " -C $netplayIP"
 			}
 		}else{
 			setSetting netplayCMD ""
+			setSetting netplayHost "false"
 		}
 	}
 
