@@ -798,7 +798,7 @@ function cloud_sync_init($emulator){
 				$toast = steamToast -MessageText "CloudSync watching in the background"
 				#We pass the emulator to the service
 				$branch = Invoke-Expression "cd $env:USERPROFILE/AppData/Roaming/EmuDeck/backend; git rev-parse --abbrev-ref HEAD"
-				if ("$branch" -eq "early" -or "$branch" -eq "dev"){
+				if ("$branch" -like "*early*" -or "$branch" -eq "dev"){
 					if($emulator -eq "EmulationStationDE"){
 						"\" | Set-Content $savesPath/.emulator -Encoding UTF8
 						cloud_sync_downloadEmuAll
