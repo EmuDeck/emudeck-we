@@ -8,23 +8,23 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	}
 
 	#NetPlay
-	if( $emuName -eq "retroarch"){
-		if( $netplay -eq "true"){
-			netplaySetIP
-			. $env:USERPROFILE\emudeck\settings.ps1
-			if ($netplayHost -eq "true" ){
-				setSetting netplayCMD " -H"
-			}else{
-				setSetting netplayCMD " -C $netplayIP"
-			}
-		}else{
-			setSetting netplayCMD ""
-			setSetting netplayHost "false"
-		}
-	}
+	# if( $emuName -eq "retroarch"){
+	# 	if( $netplay -eq "true"){
+	# 		netplaySetIP
+	# 		. $env:USERPROFILE\emudeck\settings.ps1
+	# 		if ($netplayHost -eq "true" ){
+	# 			setSetting netplayCMD " -H"
+	# 		}else{
+	# 			setSetting netplayCMD " -C $netplayIP"
+	# 		}
+	# 	}else{
+	# 		setSetting netplayCMD ""
+	# 		setSetting netplayHost "false"
+	# 	}
+	# }
 
 	if($formattedArgs){
-		$formattedArgs += '"' + $netplayCMD + '"'
+		#$formattedArgs += '"' + $netplayCMD + '"'
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args $formattedArgs
 	}else{
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait
