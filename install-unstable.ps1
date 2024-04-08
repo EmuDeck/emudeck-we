@@ -401,6 +401,15 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 ##
 #
 
+Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
+Write-Host ""
+$url_emudeck = getLatestReleaseURLGH 'git-for-windows/git' 'exe' '64-bit'
+download $url_emudeck "git_install.exe"
+$temp = Join-Path "$env:USERPROFILE" "Downloads"
+Write-Host " Installing GIT, please wait..."
+$installDir="$env:ProgramFiles\Git\"
+Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
+
 Write-Host "Downloading EmuDeck..." -ForegroundColor white
 Write-Host ""
 $url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early-unstable' 'exe' 'emudeck'
