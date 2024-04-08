@@ -42,19 +42,19 @@ function Ryujinx_setupSaves(){
 	setMSG "Ryujinx - Saves Links"
 	mkdir "$emusPath\Ryujinx\portable\bis\user" -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\save"
-	$emuSavePath = "$emulationPath\saves\Ryujinx\saves"
+	$emuSavePath = "$emulationPath\saves\ryujinx\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	$simLinkPath = "$emusPath\Ryujinx\portable\bis\system\save"
-	$emuSavePath = "$emulationPath\saves\Ryujinx\system_saves"
+	$emuSavePath = "$emulationPath\saves\ryujinx\system_saves"
 	createSaveLink $simLinkPath $emuSavePath
 
 	$simLinkPath = "$emusPath\Ryujinx\portable\bis\user\saveMeta"
-	$emuSavePath = "$emulationPath\saves\Ryujinx\saveMeta"
+	$emuSavePath = "$emulationPath\saves\ryujinx\saveMeta"
 	createSaveLink $simLinkPath $emuSavePath
 
 	$simLinkPath = "$emusPath\Ryujinx\portable\system"
-	$emuSavePath = "$emulationPath\saves\Ryujinx\system"
+	$emuSavePath = "$emulationPath\saves\ryujinx\system"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#cloud_sync_save_hash "$savesPath\ryujinx"
