@@ -405,7 +405,7 @@ Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
 
 
-confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have the 'App Installer' app up to date in the Windows Store, or the EmuDeck installation. Press Continue to open the App Instaler page in the Microsoft Store and then click update."
+confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have the 'App Installer' app up to date in the Windows Store, or the EmuDeck installation. Press Continue to open the App Installer page in the Microsoft Store and then click update."
 
 Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1"
 
