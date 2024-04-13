@@ -54,10 +54,11 @@ function Android_ADB_push {
 		[string]$origin,
 		[string]$destination
 	)
-	if ( $android_writable -eq "true" ){
-		$env:PATH += ";$Android_ADB_path"
-		adb push $origin $destination
-	}
+	echo "push"
+	#if ( $android_writable -eq "true" ){
+	#	$env:PATH += ";$Android_ADB_path"
+	#	adb push $origin $destination
+	#}
 }
 
 function Android_ADB_installAPK {
