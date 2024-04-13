@@ -64,27 +64,27 @@ if ($result -eq "OKButton") {
 
 
 #Roms folders
-if ( $android_writable -eq "true" ){
-	setMSG "Creating rom folders in $androidStoragePath..."
-	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath/Emulation/roms"
-	setMSG "Copying BIOS"
-	Android_ADB_push "$biosPath" "$androidStoragePath/Emulation/bios"
-
-	if ($copySavedGames -eq "true") {
-		setMSG "Copying Saves & States"
-		#RA
-		Android_ADB_push "$savesPath/RetroArch" "$androidStoragePath/Emulation/saves/RetroArch/"
-		#PPSSPP
-		Android_ADB_push "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"  "$androidStoragePath/Emulation/saves/PSP/SAVEDATA"
-		Android_ADB_push "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE" "$androidStoragePath/Emulation/saves/PSP/PPSSPP_STATE"
-		#Yuzu
-		#Android_ADB_push "$savesPath/yuzu/saves/" "/storage/emulated/0/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
-		#Citra
-		Android_ADB_push "$savesPath\citra\saves" "/storage/emulated/0/citra-emu/sdmc/"
-
-	}
-
-}else{
+#if ( $android_writable -eq "true" ){
+#	setMSG "Creating rom folders in $androidStoragePath..."
+#	Android_ADB_push "$env:APPDATA\EmuDeck\backend\android\roms" "$androidStoragePath/Emulation/roms"
+#	setMSG "Copying BIOS"
+#	Android_ADB_push "$biosPath" "$androidStoragePath/Emulation/bios"
+#
+#	if ($copySavedGames -eq "true") {
+#		setMSG "Copying Saves & States"
+#		#RA
+#		Android_ADB_push "$savesPath/RetroArch" "$androidStoragePath/Emulation/saves/RetroArch/"
+#		#PPSSPP
+#		Android_ADB_push "$emusPath\PPSSPP\memstick\PSP\SAVEDATA"  "$androidStoragePath/Emulation/saves/PSP/SAVEDATA"
+#		Android_ADB_push "$emusPath\PPSSPP\memstick\PSP\PPSSPP_STATE" "$androidStoragePath/Emulation/saves/PSP/PPSSPP_STATE"
+#		#Yuzu
+#		#Android_ADB_push "$savesPath/yuzu/saves/" "/storage/emulated/0/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
+#		#Citra
+#		Android_ADB_push "$savesPath\citra\saves" "/storage/emulated/0/citra-emu/sdmc/"
+#
+#	}
+#
+#}else{
 
 	if ( $androidStoragePath -like "*-*" ){
 		$Android_cond_path=$Android_temp_external
@@ -108,7 +108,7 @@ if ( $android_writable -eq "true" ){
 		#Citra
 		copyFromTo "$savesPath\citra\saves" "$Android_temp_internal/citra-emu/sdmc/"
 	}
-}
+#}
 
 
 
@@ -153,7 +153,7 @@ if ($result -eq "OKButton") {
 #}
 
 
-if ( $android_writable -eq "false" ){
+#if ( $android_writable -eq "false" ){
 	  setMSG "Moving data ussing MTP, expect some Windows dialogs"
 
 	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
@@ -164,7 +164,7 @@ if ( $android_writable -eq "false" ){
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
 	  confirmDialog -TitleText "Wait" -MessageText "Please wait for all transfers for complete before hitting Continue" -Position "Manual"
-}
+#}
 
 
 #adb shell 'dumpsys package | grep -Eo "^[[:space:]]+[0-9a-f]+[[:space:]]+org.dolphinemu.mmjr/[^[:space:]]+" | grep -oE "[^[:space:]]+$"'
