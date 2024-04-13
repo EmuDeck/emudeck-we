@@ -136,19 +136,19 @@ function Ask-SDCARD {
 
 function Android_getLatestReleaseURLGH($Repository, $FileType, $FindToMatch = "", $IgnoreText = "pepe"){
 
-$url = "https://api.github.com/repos/$Repository/releases/latest"
+	$url = "https://api.github.com/repos/$Repository/releases/latest"
 
-# Fetch JSON content from the URL
-$jsonString = Invoke-RestMethod -Uri $url
+	# Fetch JSON content from the URL
+	$jsonString = Invoke-RestMethod -Uri $url
 
-# Find the first asset with .apk extension
-$firstApkAsset = $jsonString.assets | Where-Object { $_.browser_download_url -like "*$FileType" -and $_.browser_download_url -like "*$FindToMatch" -and $_.browser_download_url -notlike "*$IgnoreText*" } | Select-Object -First 1
+	# Find the first asset with .apk extension
+	$firstApkAsset = $jsonString.assets | Where-Object { $_.browser_download_url -like "*$FileType" -and $_.browser_download_url -like "*$FindToMatch" -and $_.browser_download_url -notlike "*$IgnoreText*" } | Select-Object -First 1
 
-# Check if a matching asset was found
-if ($firstApkAsset) {
-	$downloadUrl = $firstApkAsset.browser_download_url
-	Write-Output $downloadUrl
-} else {
-	Write-Host "No matching asset found."
-}
+	# Check if a matching asset was found
+	if ($firstApkAsset) {
+		$downloadUrl = $firstApkAsset.browser_download_url
+		Write-Output $downloadUrl
+	} else {
+		Write-Host "No matching asset found."
+	}
 }
