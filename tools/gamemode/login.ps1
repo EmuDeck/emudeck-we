@@ -9,7 +9,6 @@ function startSteam(){
  }
 
 hideMe
-fullScreenToast
 startSteam
 if($?){
 	#Back to desktop
