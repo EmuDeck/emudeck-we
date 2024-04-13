@@ -46,6 +46,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckGameMode.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckInstallHomebrewGames.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckNetplay.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\cloudSyncHealth.ps1"
 
 #Android
