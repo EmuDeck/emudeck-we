@@ -8,17 +8,17 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	}
 
 	#NetPlay
-	if( $emuName -eq "retroarch"){
-		if( $netPlay -eq "true"){
-			#Looks for devices listening
-			setSetting netplayCMD " -H"
-			Start-Sleep -Seconds 2
-			netplaySetIP
-		}else{
-			setSetting netplayCMD "' '"
-		}
-		. $env:USERPROFILE\emudeck\settings.ps1
-	}
+	# if( $emuName -eq "retroarch"){
+	# 	if( $netPlay -eq "true"){
+	# 		#Looks for devices listening
+	# 		setSetting netplayCMD " -H"
+	# 		Start-Sleep -Seconds 2
+	# 		netplaySetIP
+	# 	}else{
+	# 		setSetting netplayCMD "' '"
+	# 	}
+	# 	. $env:USERPROFILE\emudeck\settings.ps1
+	# }
 
 	if($formattedArgs){
 		$formattedArgs += "`"$netplayCMD`""
