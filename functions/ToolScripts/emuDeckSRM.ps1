@@ -443,9 +443,16 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 }
 
 
-
-
-
+function SRM_deleteCache(){
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+ 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+ 	Get-ChildItem -Path "$steamInstallPath" -Directory -Depth 2 |
+	Where-Object { $_.Name -eq 'config' } |
+	Remove-Item -Force -Recurse
+	if($?){
+		Write-Output "true"
+	}
+}
 
 
 	 #gba
@@ -473,3 +480,5 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 			#	$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 			#	$exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
 			#}
+
+
