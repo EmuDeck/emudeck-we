@@ -268,6 +268,8 @@ function JSONtoPS1(){
 	$device = $myJson.device
 	setSettinginFile("`$device=`"$device`"")
 
+	storePatreonToken($myJson.patreonToken)
+
 	Start-Sleep -Seconds 0.5
 	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
 
