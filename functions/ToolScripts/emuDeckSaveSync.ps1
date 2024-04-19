@@ -527,6 +527,34 @@ function cloud_sync_upload{
 
 	Write-Host "upload"
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
+
+
+		& "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider":Emudeck/saves/.token "$savesPath/.token"
+
+		$tokenPath = "$savesPath/.token"
+		if (Test-Path $tokenPath) {
+			# Lee el token desde el archivo
+			$token = Get-Content $tokenPath
+
+			$url = "https://token.emudeck.com/quick-check.php?access_token=$token"
+
+			$response = Invoke-RestMethod -Uri $url
+
+
+			if ($response.status -eq $true) {
+				Write-Host "Continue"
+			}
+			else {
+				confirmDialog -TitleText "Outdated token" -MessageText "Please open EmuDeck to regenerate your token"
+				exit
+			}
+		} else {
+			confirmDialog -TitleText "Token not found" -MessageText "Please open EmuDeck to regenerate your token"
+			Write-Host "Token not found: $tokenPath"
+			exit
+		}
+
+
 		#We lock cloudsync
 		Write-Host "Locking..."
 		cloud_sync_lock "$userFolder"
