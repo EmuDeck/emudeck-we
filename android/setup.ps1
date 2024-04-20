@@ -133,8 +133,6 @@ if($androidInstallDolphin -eq  "true" ){
 if($androidInstallRA -eq "true" ){
 	Android_RetroArch_install
 	Android_RetroArch_init
-	$result = yesNoDialog -TitleText "Bezels" -MessageText "Do you want to use bezels?" -OKButtonText "Yes" -CancelButtonText "No"
-
 	if($androidRABezels -eq "true"){
 		Android_RetroArch_bezelOnAll
 	}else{
@@ -171,34 +169,34 @@ if($androidInstallScummVM -eq "true" ){
 
 $success="true"
 #Check everything is installed
-if(!Android_Pegasus_IsInstalled){
-	confirmDialog -TitleText "Pegasus" -MessageText "Pegasus Installation failed, please try again"
-	$success="false"
-}
-if(!Android_Dolphin_IsInstalled){
-	confirmDialog -TitleText "Dolphin" -MessageText "Dolphin Installation failed, please try again"
-	$success="false"
-}
-if(!Android_RetroArch_IsInstalled){
-	confirmDialog -TitleText "RetroArch" -MessageText "RetroArch Installation failed, please try again"
-	$success="false"
-}
-if(!Android_PPSSPP_IsInstalled){
-	confirmDialog -TitleText "PPSSPP" -MessageText "PPSSPP Installation failed, please try again"
-	$success="false"
-}
-if(!Android_ScummVM_IsInstalled){
-	confirmDialog -TitleText "ScummVM" -MessageText "ScummVM Installation failed, please try again"
-	$success="false"
-}
-# if(!Android_Yuzu_IsInstalled){
-# 	confirmDialog -TitleText "Yuzu" -MessageText "Yuzu Installation failed, please try again"
+# if(!Android_Pegasus_IsInstalled){
+# 	confirmDialog -TitleText "Pegasus" -MessageText "Pegasus Installation failed, please try again"
 # 	$success="false"
 # }
-if(!Android_Citra_init){
-	confirmDialog -TitleText "Citra" -MessageText "Citra Installation failed, please try again"
-	$success="false"
-}
+# if(!Android_Dolphin_IsInstalled){
+# 	confirmDialog -TitleText "Dolphin" -MessageText "Dolphin Installation failed, please try again"
+# 	$success="false"
+# }
+# if(!Android_RetroArch_IsInstalled){
+# 	confirmDialog -TitleText "RetroArch" -MessageText "RetroArch Installation failed, please try again"
+# 	$success="false"
+# }
+# if(!Android_PPSSPP_IsInstalled){
+# 	confirmDialog -TitleText "PPSSPP" -MessageText "PPSSPP Installation failed, please try again"
+# 	$success="false"
+# }
+# if(!Android_ScummVM_IsInstalled){
+# 	confirmDialog -TitleText "ScummVM" -MessageText "ScummVM Installation failed, please try again"
+# 	$success="false"
+# }
+# # if(!Android_Yuzu_IsInstalled){
+# # 	confirmDialog -TitleText "Yuzu" -MessageText "Yuzu Installation failed, please try again"
+# # 	$success="false"
+# # }
+# if(!Android_Citra_init){
+# 	confirmDialog -TitleText "Citra" -MessageText "Citra Installation failed, please try again"
+# 	$success="false"
+# }
 
 #Bring your own APK
 $downloadPath = (Join-Path $env:HOMEDRIVE (Join-Path $env:HOMEPATH "Downloads"))
