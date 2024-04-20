@@ -200,6 +200,16 @@ if(!Android_Citra_init){
 	$success="false"
 }
 
+#Bring your own APK
+$downloadPath = (Join-Path $env:HOMEDRIVE (Join-Path $env:HOMEPATH "Downloads"))
+$apkFiles = Get-ChildItem -Path $downloadPath -Filter *.apk -Recurse
+
+foreach ($file in $apkFiles) {
+	$filePath = $file.FullName
+	setMSG "Installing $filePath..."
+	Android_ADB_installAPK $filePath
+}
+
 if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
@@ -216,6 +226,8 @@ if($success -eq "false"){
 	if($androidInstallScummVM -eq "true" ){
 		Android_ScummVM_setup
 	}
+
+
 
 	setMSG "100 #FINISH"
 	#adb shell am start -n org.pegasus_frontend.android/.MainActivity
