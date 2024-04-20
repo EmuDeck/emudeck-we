@@ -111,46 +111,45 @@ if ($result -eq "OKButton") {
 #}
 
 
-
-Android_Pegasus_install
-Android_NetherSX2_install
-Android_Citra_install
-Android_Dolphin_install
-Android_RetroArch_install
-Android_PPSSPP_install
-#Android_Yuzu_install
-Android_ScummVM_install
-#Android_Vita3K_install
-
-
-Android_Pegasus_init
-Android_NetherSX2_init
-Android_Citra_init
-Android_Dolphin_init
-Android_PPSSPP_init
-#Android_Yuzu_init
-Android_ScummVM_init
-#Android_Vita3K_init
-Android_RetroArch_init
-
-
-$result = yesNoDialog -TitleText "Bezels" -MessageText "Do you want to use bezels?" -OKButtonText "Yes" -CancelButtonText "No"
-if ($result -eq "OKButton") {
-	Android_RetroArch_bezelOnAll
-} else {
-	Android_RetroArch_bezelOffAll
+if($androidInstallPegasus -eq "true" ){
+	Android_Pegasus_install
+	Android_Pegasus_init
 }
+if($androidInstallESDE -eq "true" ){
+	Android_ESDE_init
+}
+if($androidInstallNetherSX2 -eq "true" ){
+	Android_NetherSX2_install
+	Android_NetherSX2_init
+}
+if($androidInstallCitraMMJ -eq "true" ){
+	Android_Citra_install
+	Android_Citra_init
+}
+if($androidInstallDolphin "true" ){
+	Android_Dolphin_install
+	Android_Dolphin_init
+}
+if($androidInstallRA -eq "true" ){
+	Android_RetroArch_install
+	Android_RetroArch_init
+	$result = yesNoDialog -TitleText "Bezels" -MessageText "Do you want to use bezels?" -OKButtonText "Yes" -CancelButtonText "No"
 
-#$result = yesNoDialog -TitleText "Shaders" -MessageText "Do you want to use shaders?" -OKButtonText "Yes" -CancelButtonText "No"
-#if ($result -eq "OKButton") {
-#	Android_RetroArch_CRTshaderOnAll
-#	Android_RetroArch_MATshadersOnAll
-#
-#} else {
-#	Android_RetroArch_CRTshaderOffAll
-#	Android_RetroArch_MATshadersOffAll
-#
-#}
+	if($androidRABezels -eq "true"){
+		Android_RetroArch_bezelOnAll
+	}else{
+		Android_RetroArch_bezelOffAll
+	}
+
+}
+if($androidInstallPPSSPP -eq "true" ){
+	Android_PPSSPP_install
+	Android_PPSSPP_init
+}
+if($androidInstallScummVM -eq "true" ){
+	Android_ScummVM_install
+	Android_ScummVM_init
+}
 
 
 #if ( $android_writable -eq "false" ){
@@ -205,24 +204,19 @@ if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
 
-	#Pegasus Setup
-	Android_Pegasus_setup
-	#Citra setup.
-	Android_Citra_setup
-	#Dolphin setup
-	Android_Dolphin_setup
-	#Scummvm setup
-	Android_ScummVM_setup
+	if($androidInstallCitraMMJ -eq "true" ){
+		Android_Citra_setup
+	}
+	if($androidInstallPegasus -eq "true" ){
+		Android_Pegasus_setup
+	}
+	if($androidInstallDolphin -eq "true" ){
+		Android_Dolphin_setup
+	}
+	if($androidInstallScummVM -eq "true" ){
+		Android_ScummVM_setup
+	}
 
-
-	#Yuzu setup
-	#Android_Yuzu_setup
-	#PPSSPP setup
-	#Android_PPSSPP_setup
-	#AetherSX2 setup
-	#Android_NetherSX2_setup
-	#RetroArch setup
-	#Android_RetroArch_setup
 	setMSG "100 #FINISH"
 	#adb shell am start -n org.pegasus_frontend.android/.MainActivity
 

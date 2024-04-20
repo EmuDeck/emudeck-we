@@ -272,9 +272,38 @@ function JSONtoPS1(){
 	#Android
 	$androidStorage = $myJson.android.Storage
 	$androidStoragePath = $myJson.android.StoragePath
+	$androidInstallRA= $myJson.android.installEmus.ra.status
+	$androidInstallDolphin= $myJson.android.installEmus.dolphin.status
+	$androidInstallPPSSPP= $myJson.android.installEmus.ppsspp.status
+	$androidInstallCitraMMJ= $myJson.android.installEmus.citrammj.status
+	$androidInstallNetherSX2= $myJson.android.installEmus.nethersx2.status
+	$androidInstallScummVM= $myJson.android.installEmus.scummvm.status
 
 	setSettinginFile("`$androidStorage=`"$androidStorage`"")
 	setSettinginFile("`$androidStoragePath=`"$androidStoragePath`"")
+	setSettinginFile("`$androidInstallRA=`"$androidInstallRA`"")
+	setSettinginFile("`$androidInstallDolphin=`"$androidInstallDolphin`"")
+	setSettinginFile("`$androidInstallPPSSPP=`"$androidInstallPPSSPP`"")
+	setSettinginFile("`$androidInstallCitraMMJ=`"$androidInstallCitraMMJ`"")
+	setSettinginFile("`$androidInstallNetherSX2=`"$androidInstallNetherSX2`"")
+	setSettinginFile("`$androidInstallScummVM=`"$androidInstallScummVM`"")
+
+	$androidInstallESDE= $myJson.android.installFrontends.esde.status
+	$androidInstallPegasus= $myJson.android.installFrontends.pegasus.status
+
+	setSettinginFile("`$androidInstallESDE=`"$androidInstallESDE`"")
+	setSettinginFile("`$androidInstallPegasus=`"$androidInstallPegasus`"")
+
+	$androidRABezels=$myJson.android.bezels
+	setSettinginFile("`$androidRABezels=`"$androidRABezels`"")
+
+	#Frontends
+	$InstallESDE= $myJson.installFrontends.esde.status
+	$InstallPegasus= $myJson.installFrontends.pegasus.status
+	$steamAsFrontend= $myJson.installFrontends.steam.status
+
+	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
+	setSettinginFile("`$doInstallPegasus=`"$InstallPegasus`"")
 
 
 	$device = $myJson.device
