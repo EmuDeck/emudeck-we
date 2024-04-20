@@ -403,86 +403,17 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
-
-
-confirmDialog -TitleText "Windows Store" -MessageText "Make sure you have the 'App Installer' app up to date in the Windows Store, or the EmuDeck installation. Press Continue to open the App Instaler page in the Microsoft Store and then click update."
-
-Start-Process "ms-windows-store://pdp/?productid=9NBLGGH4NNS1"
-
-Write-Host "Waiting for user, please update App Installer, close the Microsoft Store after that..."
-
-$storeProcess = Get-Process -Name "WinStore.App"
-
-$storeProcess.WaitForExit()
-cls
-Write-Host "Updating Winget" -ForegroundColor white
-Write-Host ""
-
-$url = "https://cdn.winget.microsoft.com/cache/source.msix"
-$destination = "$env:TEMP\source.msix"
-Invoke-WebRequest -Uri $url -OutFile $destination
-Start-Process -FilePath $destination
-
-Write-Host "Waiting for user, please update / Reinstall Winget..."
-
-$storeProcess = Get-Process -Name "AppInstaller"
-
-$storeProcess.WaitForExit()
-
-Start-Process "winget" -Wait -NoNewWindow -Args "install -e --id Git.Git --accept-package-agreements --accept-source-agreements"
-
-
+$url_emudeck = getLatestReleaseURLGH 'git-for-windows/git' 'exe' '64-bit'
+download $url_emudeck "git_install.exe"
+$temp = Join-Path "$env:USERPROFILE" "Downloads"
+Write-Host " Installing GIT, please wait..."
 $installDir="$env:ProgramFiles\Git\"
-if (-not (Test-Path $installDir)) {
+Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
 
-
-	$Host.UI.RawUI.BackgroundColor = "Red"
-
-	#Clear-Host
-	Write-Host ""
-	Write-Host "There was an error trying to install GIT using Winget."
-	Write-Host "We are gonna try to install it manually..."
-	Write-Host ""
-	$Host.UI.RawUI.BackgroundColor = "Black"
-
-	#Download git
-	Write-Host "Downloading GIT..."
-	$url_git = getLatestReleaseURLGH 'git-for-windows/git' 'exe' '64-bit'
-	download $url_git "git_install.exe"
-	$temp = Join-Path "$env:USERPROFILE" "Downloads"
-
-	Write-Host "Installing GIT in the background, please wait a few minutes..."
-
-	$installDir="$env:ProgramFiles\Git\"
-
-	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
-	$file = "$env:USERPROFILE\roms\$system\media\$type\$romName.png"
-
-
-	if (-not (Test-Path $installDir)) {
-		$Host.UI.RawUI.BackgroundColor = "Red"
-		Write-Host "GIT Download Failed" -ForegroundColor white
-		$Host.UI.RawUI.BackgroundColor = "Black"
-		Write-Host "Please visit this url to learn how to install all the dependencies manually by yourself:" -ForegroundColor white
-		Write-Host ""
-		Write-Host "https://emudeck.github.io/known-issues/windows/#dependencies" -ForegroundColor white
-		Write-Host ""
-		Write-Host ""
-		$Host.UI.RawUI.BackgroundColor = "Black"
-		Read-Host -Prompt "Press ENTER to exit"
-	}else{
-		Write-Host "Please restart this installer to continue"
-		Read-Host -Prompt "Press ENTER to exit"
-	}
-
-}else{
-	Write-Host "All dependencies are installed" -ForegroundColor white
-	Write-Host ""
-	Write-Host "Downloading EmuDeck..." -ForegroundColor white
-	Write-Host ""
-	$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
-	download $url_emudeck "emudeck_install.exe"
-	$temp = Join-Path "$env:USERPROFILE" "Downloads"
-	Write-Host " Launching EmuDeck Installer, please wait..."
-	&"$temp/emudeck_install.exe"
-}
+Write-Host "Downloading EmuDeck..." -ForegroundColor white
+Write-Host ""
+$url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early' 'exe' 'emudeck'
+download $url_emudeck "emudeck_install.exe"
+$temp = Join-Path "$env:USERPROFILE" "Downloads"
+Write-Host " Launching EmuDeck Installer, please wait..."
+&"$temp/emudeck_install.exe"
