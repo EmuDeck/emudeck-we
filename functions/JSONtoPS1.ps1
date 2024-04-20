@@ -7,8 +7,9 @@ function setSettinginFile($keySetting){
 	#Start-Sleep -Seconds 1
 }
 
-function storePatreonToken($token, $path){
-	$token | Set-Content -Path "$path/.token" -Encoding UTF8
+function storePatreonToken($token){
+	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
 	if (Test-Path "$cloud_sync_bin") {
 		& "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider":Emudeck/saves/.token
 	}
@@ -152,7 +153,7 @@ function JSONtoPS1(){
 			setSettinginFile('$savesPath=$testdrive.ToString() + ":\Emulation\saves"')
 			setSettinginFile('$storagePath=$testdrive.ToString() + ":\Emulation\storage"')
 			setSettinginFile('$ESDEscrapData=$testdrive.ToString() + ":\Emulation\tools\downloaded_media"')
-			storePatreonToken $myJson.patreonToken  $testdrive.ToString() + ":\Emulation\saves"
+
 
 		} else {
 			setSettinginFile('$networkInstallation="false"')
@@ -164,7 +165,6 @@ function JSONtoPS1(){
 			setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
 			setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
 
-			storePatreonToken $myJson.patreonToken $globPath\Emulation\saves
 
 		}
 	} else {
@@ -175,6 +175,7 @@ function JSONtoPS1(){
 		setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
 		setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
 		setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
+
 	}
 
 
@@ -309,6 +310,7 @@ function JSONtoPS1(){
 	$device = $myJson.device
 	setSettinginFile("`$device=`"$device`"")
 
+	storePatreonToken $myJson.patreonToken
 
 	Start-Sleep -Seconds 0.5
 	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
