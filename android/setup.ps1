@@ -126,7 +126,7 @@ if($androidInstallCitraMMJ -eq "true" ){
 	Android_Citra_install
 	Android_Citra_init
 }
-if($androidInstallDolphin "true" ){
+if($androidInstallDolphin -eq  "true" ){
 	Android_Dolphin_install
 	Android_Dolphin_init
 }
