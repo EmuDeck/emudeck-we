@@ -409,11 +409,13 @@ function cloud_sync_download($emuName){
 				Write-Host "Continue"
 			}
 			else {
-				confirmDialog -TitleText "Outdated token" -MessageText "Please open EmuDeck to regenerate your token"
+				echo "exit"
+				#confirmDialog -TitleText "Outdated token" -MessageText "Please open EmuDeck to regenerate your token"
 				#exit
 			}
 		} else {
-			confirmDialog -TitleText "Token not found" -MessageText "Please open EmuDeck to regenerate your token"
+			echo "exit"
+			#confirmDialog -TitleText "Token not found" -MessageText "Please open EmuDeck to regenerate your token"
 			Write-Host "Token not found: $tokenPath"
 			#exit
 		}
