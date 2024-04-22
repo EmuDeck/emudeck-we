@@ -393,7 +393,7 @@ function cloud_sync_download($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 
 
-		& "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider":Emudeck/saves/.token "$savesPath/.token"
+		& "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck/saves/.token" "$savesPath/.token"
 
 		$tokenPath = "$savesPath/.token"
 		if (Test-Path $tokenPath) {
