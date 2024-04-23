@@ -152,11 +152,13 @@ if($androidInstallScummVM -eq "true" ){
 
 #if ( $android_writable -eq "false" ){
 	  setMSG "Moving data ussing MTP, expect some Windows dialogs"
-
-	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
+	  $phone = Get-Phone
+	  $InternalObject = $phone.GetFolder.items()| Select-Object -First 1
+	  $InternalName = $InternalObject.Name
+	  Move-To-MTP -parent "CopyToInternal" -path "$InternalName"
 	  if ( $androidStoragePath -like "*-*" ){
-		  $phone = Get-Phone
-		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
+
+		  $SDObject = $phone.GetFolder.items() | Select-Object -Skip 1 -First 1
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }

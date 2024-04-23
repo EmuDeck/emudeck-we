@@ -38,7 +38,7 @@ function Get-Folder
 		$parent,
 		$path
 	)
-	return $parent.GetFolder.items() | where { $_.Name -eq $path }
+	return $parent.GetFolder.items()
 }
 
 function Move-To-MTP
