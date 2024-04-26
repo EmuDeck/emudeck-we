@@ -1,6 +1,5 @@
 . "$env:APPDATA\EmuDeck\backend\functions/all.ps1"
 hideMe
-fullScreenToast
 function startSteam(){
 	 $steamRegPath = "HKCU:\Software\Valve\Steam"
 	 $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath

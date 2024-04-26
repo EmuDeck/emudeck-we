@@ -111,55 +111,54 @@ if ($result -eq "OKButton") {
 #}
 
 
-
-Android_Pegasus_install
-Android_NetherSX2_install
-Android_Citra_install
-Android_Dolphin_install
-Android_RetroArch_install
-Android_PPSSPP_install
-#Android_Yuzu_install
-Android_ScummVM_install
-#Android_Vita3K_install
-
-
-Android_Pegasus_init
-Android_NetherSX2_init
-Android_Citra_init
-Android_Dolphin_init
-Android_PPSSPP_init
-#Android_Yuzu_init
-Android_ScummVM_init
-#Android_Vita3K_init
-Android_RetroArch_init
-
-
-$result = yesNoDialog -TitleText "Bezels" -MessageText "Do you want to use bezels?" -OKButtonText "Yes" -CancelButtonText "No"
-if ($result -eq "OKButton") {
-	Android_RetroArch_bezelOnAll
-} else {
-	Android_RetroArch_bezelOffAll
+if($androidInstallPegasus -eq "true" ){
+	Android_Pegasus_install
+	Android_Pegasus_init
 }
+if($androidInstallESDE -eq "true" ){
+	Android_ESDE_init
+}
+if($androidInstallNetherSX2 -eq "true" ){
+	Android_NetherSX2_install
+	Android_NetherSX2_init
+}
+if($androidInstallCitraMMJ -eq "true" ){
+	Android_Citra_install
+	Android_Citra_init
+}
+if($androidInstallDolphin -eq  "true" ){
+	Android_Dolphin_install
+	Android_Dolphin_init
+}
+if($androidInstallRA -eq "true" ){
+	Android_RetroArch_install
+	Android_RetroArch_init
+	if($androidRABezels -eq "true"){
+		Android_RetroArch_bezelOnAll
+	}else{
+		Android_RetroArch_bezelOffAll
+	}
 
-#$result = yesNoDialog -TitleText "Shaders" -MessageText "Do you want to use shaders?" -OKButtonText "Yes" -CancelButtonText "No"
-#if ($result -eq "OKButton") {
-#	Android_RetroArch_CRTshaderOnAll
-#	Android_RetroArch_MATshadersOnAll
-#
-#} else {
-#	Android_RetroArch_CRTshaderOffAll
-#	Android_RetroArch_MATshadersOffAll
-#
-#}
+}
+if($androidInstallPPSSPP -eq "true" ){
+	Android_PPSSPP_install
+	Android_PPSSPP_init
+}
+if($androidInstallScummVM -eq "true" ){
+	Android_ScummVM_install
+	Android_ScummVM_init
+}
 
 
 #if ( $android_writable -eq "false" ){
 	  setMSG "Moving data ussing MTP, expect some Windows dialogs"
-
-	  Move-To-MTP -parent "CopyToInternal" -path "Internal shared storage"
+	  $phone = Get-Phone
+	  $InternalObject = $phone.GetFolder.items()| Select-Object -First 1
+	  $InternalName = $InternalObject.Name
+	  Move-To-MTP -parent "CopyToInternal" -path "$InternalName"
 	  if ( $androidStoragePath -like "*-*" ){
-		  $phone = Get-Phone
-		  $SDObject = $phone.GetFolder.items()| where { $_.Name -ne "Internal shared storage" }
+
+		  $SDObject = $phone.GetFolder.items() | Select-Object -Skip 1 -First 1
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
@@ -172,57 +171,64 @@ if ($result -eq "OKButton") {
 
 $success="true"
 #Check everything is installed
-if(!Android_Pegasus_IsInstalled){
-	confirmDialog -TitleText "Pegasus" -MessageText "Pegasus Installation failed, please try again"
-	$success="false"
-}
-if(!Android_Dolphin_IsInstalled){
-	confirmDialog -TitleText "Dolphin" -MessageText "Dolphin Installation failed, please try again"
-	$success="false"
-}
-if(!Android_RetroArch_IsInstalled){
-	confirmDialog -TitleText "RetroArch" -MessageText "RetroArch Installation failed, please try again"
-	$success="false"
-}
-if(!Android_PPSSPP_IsInstalled){
-	confirmDialog -TitleText "PPSSPP" -MessageText "PPSSPP Installation failed, please try again"
-	$success="false"
-}
-if(!Android_ScummVM_IsInstalled){
-	confirmDialog -TitleText "ScummVM" -MessageText "ScummVM Installation failed, please try again"
-	$success="false"
-}
-# if(!Android_Yuzu_IsInstalled){
-# 	confirmDialog -TitleText "Yuzu" -MessageText "Yuzu Installation failed, please try again"
+# if(!Android_Pegasus_IsInstalled){
+# 	confirmDialog -TitleText "Pegasus" -MessageText "Pegasus Installation failed, please try again"
 # 	$success="false"
 # }
-if(!Android_Citra_init){
-	confirmDialog -TitleText "Citra" -MessageText "Citra Installation failed, please try again"
-	$success="false"
+# if(!Android_Dolphin_IsInstalled){
+# 	confirmDialog -TitleText "Dolphin" -MessageText "Dolphin Installation failed, please try again"
+# 	$success="false"
+# }
+# if(!Android_RetroArch_IsInstalled){
+# 	confirmDialog -TitleText "RetroArch" -MessageText "RetroArch Installation failed, please try again"
+# 	$success="false"
+# }
+# if(!Android_PPSSPP_IsInstalled){
+# 	confirmDialog -TitleText "PPSSPP" -MessageText "PPSSPP Installation failed, please try again"
+# 	$success="false"
+# }
+# if(!Android_ScummVM_IsInstalled){
+# 	confirmDialog -TitleText "ScummVM" -MessageText "ScummVM Installation failed, please try again"
+# 	$success="false"
+# }
+# # if(!Android_Yuzu_IsInstalled){
+# # 	confirmDialog -TitleText "Yuzu" -MessageText "Yuzu Installation failed, please try again"
+# # 	$success="false"
+# # }
+# if(!Android_Citra_init){
+# 	confirmDialog -TitleText "Citra" -MessageText "Citra Installation failed, please try again"
+# 	$success="false"
+# }
+
+#Bring your own APK
+$downloadPath = (Join-Path $env:HOMEDRIVE (Join-Path $env:HOMEPATH "Downloads"))
+$apkFiles = Get-ChildItem -Path $downloadPath -Filter *.apk -Recurse
+
+foreach ($file in $apkFiles) {
+	$filePath = $file.FullName
+	setMSG "Installing $filePath..."
+	Android_ADB_installAPK $filePath
 }
 
 if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
 
-	#Pegasus Setup
-	Android_Pegasus_setup
-	#Citra setup.
-	Android_Citra_setup
-	#Dolphin setup
-	Android_Dolphin_setup
-	#Scummvm setup
-	Android_ScummVM_setup
+	if($androidInstallCitraMMJ -eq "true" ){
+		Android_Citra_setup
+	}
+	if($androidInstallPegasus -eq "true" ){
+		Android_Pegasus_setup
+	}
+	if($androidInstallDolphin -eq "true" ){
+		Android_Dolphin_setup
+	}
+	if($androidInstallScummVM -eq "true" ){
+		Android_ScummVM_setup
+	}
 
 
-	#Yuzu setup
-	#Android_Yuzu_setup
-	#PPSSPP setup
-	#Android_PPSSPP_setup
-	#AetherSX2 setup
-	#Android_NetherSX2_setup
-	#RetroArch setup
-	#Android_RetroArch_setup
+
 	setMSG "100 #FINISH"
 	#adb shell am start -n org.pegasus_frontend.android/.MainActivity
 
