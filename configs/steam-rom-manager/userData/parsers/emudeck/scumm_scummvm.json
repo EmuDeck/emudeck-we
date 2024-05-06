@@ -4,7 +4,7 @@
   "steamCategory": "${ScummVM}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "${romsdirglobal}/scummvm",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\mame.ps1 '--path=${filePath}' --auto-detect ${\\}}\" && exit \" && exit --emudeck",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\scummvm.ps1 '--path=${filePath}' --auto-detect ${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
