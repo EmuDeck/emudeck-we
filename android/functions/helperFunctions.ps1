@@ -20,7 +20,7 @@ function Get-CustomFolder
 {
 	param($origin)
 	$shell = New-Object -ComObject shell.application
-	$userFolderPath = Join-Path $Env:USERPROFILE "emudeck\android\temp"
+	$userFolderPath = Join-Path $Env:USERPROFILE "emudeck\android\temp\$origin"
 
 	$customFolder = $shell.Namespace($userFolderPath)
 	if ($customFolder -ne $null) {
