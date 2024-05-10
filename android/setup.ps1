@@ -162,7 +162,7 @@ if($androidInstallScummVM -eq "true" ){
 		  $SDCARDNAME = $SDObject.Name
 		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
-	  confirmDialog -TitleText "Wait" -MessageText "Please wait for all transfers for complete before hitting Continue" -Position "Manual"
+	  confirmDialog -TitleText "Wait" -MessageText "Please wait for all transfers for complete before hitting Continue. Keep your device's screen turned on at all times" -Position "Manual"
 #}
 
 
