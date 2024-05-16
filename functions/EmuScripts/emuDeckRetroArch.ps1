@@ -234,6 +234,7 @@ function RetroArch_bezelOnAll(){
 	Foreach-Object {
 		$originFile = $_.FullName
 		setConfigRA "input_overlay_enable" "true" $originFile
+		setConfigRA "input_overlay_behind_menu" "true" $originFile
 	}
 }
 
@@ -243,6 +244,7 @@ function RetroArch_bezelOffAll(){
 	Foreach-Object {
 		$originFile = $_.FullName
 		setConfigRA "input_overlay_enable" "false" $originFile
+		setConfigRA "input_overlay_behind_menu" "true" $originFile
 	}
 }
 
