@@ -853,8 +853,15 @@ function createSaveLink($simLinkPath, $emuSavePath){
 
 			# We copy the saves to the Emulation/saves Folder and we create a backup
 			echo "Creating saves symlink"
-			#Move-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Force
-			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
+			$originalFolderName = Split-Path $simLinkPath -Leaf
+			$newFolderName = Split-Path $emuSavePath -Leaf
+			$emuSaveParent = Split-Path $emuSavePath -Parent
+			
+			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
+			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
+			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
+			
+   			#Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
 
 			if ($?) {
 				if ($networkInstallation -eq "false"){
