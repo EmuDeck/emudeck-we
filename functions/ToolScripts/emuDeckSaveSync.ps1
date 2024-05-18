@@ -509,11 +509,11 @@ function cloud_sync_download($emuName){
 					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = steamToast  -MessageText "Downloading saves for $emuName, please wait..."
-					& $cloud_sync_bin copy --fast-list --update --tps-limit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
+					& $cloud_sync_bin copy --fast-list --update --tpslimit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
 				}
 			}else{
 				$dialog = steamToast  -MessageText "Downloading saves for $emuName, please wait..."
-				& $cloud_sync_bin copy --fast-list --update --tps-limit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log"  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
+				& $cloud_sync_bin copy --fast-list --update --tpslimit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log"  --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\$emuName\" "$target"
 			}
 
 		}
@@ -572,7 +572,7 @@ function cloud_sync_upload{
 
 			cloud_sync_save_hash($target)
 
-			& $cloud_sync_bin copy --fast-list --update --tps-limit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user -q --log-file "$userFolder/EmuDeck/logs/rclone.log" "$target" "$cloud_sync_provider`:Emudeck\saves\"
+			& $cloud_sync_bin copy --fast-list --update --tpslimit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user -q --log-file "$userFolder/EmuDeck/logs/rclone.log" "$target" "$cloud_sync_provider`:Emudeck\saves\"
 			if ($?) {
 				$baseFolder = "$target"
 				$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -593,7 +593,7 @@ function cloud_sync_upload{
 			$target = "$emulationPath\saves\$emuName"
 			cloud_sync_save_hash($target)
 
-			& $cloud_sync_bin copy -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --fast-list --update --tps-limit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+			& $cloud_sync_bin copy -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --fast-list --update --tpslimit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
