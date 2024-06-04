@@ -41,7 +41,7 @@ function Get-Folder
 	return $parent.GetFolder.items()
 }
 
-function Move-To-MTP
+function Move-To-MTP-Internal
 {
 	param(
 		$parent,
@@ -49,7 +49,7 @@ function Move-To-MTP
 	)
 	$customFolderItem = Get-CustomFolder -origin $parent
 	$phone = Get-Phone
-	$phoneInternal = Get-Folder -parent $phone -path $path
+	$phoneInternal = Get-Folder -parent $phone -path $path | Select-Object -First 1
 	$destinationFolderPath=$phoneInternal
 	$items = @( $customFolderItem.GetFolder.items())
 	if ($items)
@@ -99,6 +99,66 @@ function Move-To-MTP
 	}
 
 }
+
+function Move-To-MTP-SD
+{
+	param(
+		$parent,
+		$path
+	)
+	$customFolderItem = Get-CustomFolder -origin $parent
+	$phone = Get-Phone
+	$phoneInternal = Get-Folder -parent $phone -path $path | Select-Object  -Skip 1 -First 1
+	$destinationFolderPath=$phoneInternal
+	$items = @( $customFolderItem.GetFolder.items())
+	if ($items)
+	{
+		$totalItems = $items.count
+		if ($totalItems -gt 0)
+		{
+			# If destination path doesn't exist, create it only if we have some items to move
+			if (-not (test-path $destinationFolderPath) )
+			{
+				$created = new-item -itemtype directory -path $destinationFolderPath
+			}
+
+			Write-Verbose "Processing Path : $phoneName\$phoneFolderPath"
+			Write-Verbose "Moving to : $destinationFolderPath"
+
+			$shell = Get-ShellProxy
+			$destinationFolder = $shell.Namespace($destinationFolderPath).self
+			$count = 0;
+			foreach ($item in $items)
+			{
+				$fileName = $item.Name
+
+				++$count
+				$percent = [int](($count * 100) / $totalItems)
+				Write-Progress -Activity "Processing Files in $phoneName\$phoneFolderPath" `
+					-status "Processing File ${count} / ${totalItems} (${percent}%)" `
+					-CurrentOperation $fileName `
+					-PercentComplete $percent
+
+				# Check the target file doesn't exist:
+				$targetFilePath = join-path -path $destinationFolderPath -childPath $fileName
+				$destinationFolderPath.Path
+
+				$destinationFolder.GetFolder.MoveHere($item, 0x4)
+				# if (test-path -path $targetFilePath)
+				# {
+				# 	# We do nothing
+				# }
+				# else
+				# {
+				# 	write-error "Failed to move file to destination:`n`t$targetFilePath"
+				# }
+
+			}
+		}
+	}
+
+}
+
 
 function Ask-SDCARD {
 

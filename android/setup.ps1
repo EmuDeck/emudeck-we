@@ -155,12 +155,12 @@ if($androidInstallScummVM -eq "true" ){
 	  $phone = Get-Phone
 	  $InternalObject = $phone.GetFolder.items()| Select-Object -First 1
 	  $InternalName = $InternalObject.Name
-	  Move-To-MTP -parent "CopyToInternal" -path "$InternalName"
+	  Move-To-MTP-Internal -parent "CopyToInternal" -path "$InternalName"
 	  if ( $androidStoragePath -like "*-*" ){
 
 		  $SDObject = $phone.GetFolder.items() | Select-Object -Skip 1 -First 1
 		  $SDCARDNAME = $SDObject.Name
-		  Move-To-MTP -parent "CopyToSDCARD" -path "$SDCARDNAME"
+		  Move-To-MTP-SD -parent "CopyToSDCARD" -path "$SDCARDNAME"
 	  }
 	  confirmDialog -TitleText "Wait" -MessageText "Please wait for all transfers for complete before hitting Continue. Keep your device's screen turned on at all times" -Position "Manual"
 #}
