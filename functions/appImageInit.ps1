@@ -1,5 +1,6 @@
 function appImageInit(){
 
+
 	#AutoFixes
 	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue
 
@@ -23,6 +24,11 @@ function appImageInit(){
 	#autofix_junctions
 	#autofix_controllerSettings
 	#autofix_gamecubeFolder
+
+	#ADB
+	if ( Android_ADB_isInstalled -eq "false" ){
+		Android_ADB_install
+	}
 
 	# Init functions
 	setScreenDimensionsScale

@@ -1,0 +1,12 @@
+collection: Nintendo 64
+shortname: n64
+extensions: bin, n64, ndd, u1, v64, z64, zip, 7z
+launch: am start
+  -n com.retroarch.aarch64/com.retroarch.browser.retroactivity.RetroActivityFuture
+  -e ROM {file.path}
+  -e LIBRETRO /data/data/com.retroarch.aarch64/cores/mupen64plus_next_gles2_libretro_android.so
+  -e CONFIGFILE /storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg
+  -e QUITFOCUS
+  --activity-clear-task
+  --activity-clear-top
+  --activity-no-history

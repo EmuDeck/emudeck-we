@@ -1,0 +1,10 @@
+collection: PlayStation 2
+shortname: ps2
+extensions: bin, chd, ciso, cso, cue, dump, elf, gz, img, iso, isz, m3u, mdf, nrg
+launch: am start
+  -n xyz.aethersx2.android/.EmulationActivity
+  -a android.intent.action.MAIN
+  -e bootPath "{file.documenturi}"
+  --activity-clear-task
+  --activity-clear-top
+  --activity-no-history

@@ -1,6 +1,6 @@
 function SRM_install(){
 	setMSG 'Downloading Steam Rom Manager'
-	$url_srm = getLatestReleaseURLGH 'dragoonDorise/steam-rom-manager' 'exe' 'portable'
+	$url_srm = getLatestReleaseURLGH 'SteamGridDB/steam-rom-manager' 'exe' 'portable'
 	download $url_srm "srm.exe"
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
 	"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
@@ -114,50 +114,50 @@ function SRM_createParsers(){
 
 
 	#Exclusion based on install status.
-	if ( $doInstallPrimeHack -ne "true" -or -not (PrimeHack_isInstalled -like "*true*")){
+	if ( -not (PrimeHack_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_primehack.json"
 	}
-	if ( $doInstallRPCS3 -ne "true" -or -not (RPCS3_isInstalled -like "*true*")){
+	if ( -not (RPCS3_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
 	}
 
-	if ( $doInstallCitra -ne "true" -or -not (Citra_isInstalled -like "*true*")){
+	if ( -not (Citra_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_3ds-citra.json"
 	}
-	if ( $doInstallDolphin -ne "true" -or -not (Dolphin_isInstalled -like "*true*")){
+	if ( -not (Dolphin_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
 		$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
 	}
-	if ( $doInstallDuck -ne "true" -or -not (Duckstation_isInstalled -like "*true*")){
+	if ( -not (Duckstation_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_psx-duckstation.json"
 	}
-	if ( $doInstallPPSSPP -ne "true" -or -not (PPSSPP_isInstalled -like "*true*")){
+	if (-not (PPSSPP_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
 	}
-	if ( $doInstallYuzu -ne "true" -or -not (Yuzu_isInstalled -like "*true*")){
+	if ( -not (Yuzu_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
 	}
-	if ( $doInstallCemu -ne "true" -or -not (Cemu_isInstalled -like "*true*")){
+	if ( -not (Cemu_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
 	}
-	if ( $doInstallRyujinx -ne "true" -or -not (Ryujinx_isInstalled -like "*true*")){
+	if ( -or -not (Ryujinx_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
 	}
-	if ( "$doInstallPCSX2" -ne "true" -or -not (PCSX2QT_isInstalled -like "*true*")){
+	if ( -not (PCSX2QT_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
 	}
-	if ( "$doInstallSuperModel" -ne "true" -or -not (SuperModel_isInstalled -like "*true*")){
+	if ( -not (SuperModel_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sega_arcade-supermodel.json"
 	}
-	if ( $doInstallScummVM -ne "true" -or -not (ScummVM_isInstalled -like "*true*")){
+	if ( -not (ScummVM_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"scumm_scummvm.json"
 	}
-	if ( $doInstallVita3K -ne "true" -or -not (Vita3K_isInstalled -like "*true*")){
+	if ( -not (Vita3K_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
 	}
-	if ( $doInstallMGBA -ne "true" -or -not (mGBA_isInstalled -like "*true*")){
+	if (-not (mGBA_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 	}
 

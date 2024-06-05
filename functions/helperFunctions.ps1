@@ -85,11 +85,14 @@ function getLocations {
 	foreach ($networkDrive in $networkDrives) {
 		$name = $networkDrive.VolumeName
 		$size = if ($networkDrive.Size) { [math]::Round($networkDrive.Size / 1GB, 2) } else { $null }
-		$driveInfo += @{
-			name   = $name
-			size   = $size
-			type   = "Network"
-			letter = $networkDrive.DeviceID
+		# Verificar si hay espacio disponible antes de agregar al array
+		if ($size -ne $null) {
+			$driveInfo += @{
+				name   = $name
+				size   = $size
+				type   = "Network"
+				letter = $networkDrive.DeviceID
+			}
 		}
 	}
 
@@ -107,11 +110,14 @@ function getLocations {
 			foreach ($partition in $partitions) {
 				$name = $drive.Model
 				$size = if ($drive.Size) { [math]::Round($drive.Size / 1GB, 2) } else { $null }
-				$driveInfo += @{
-					name   = $name
-					size   = $size
-					type   = $driveType
-					letter = $partition.DeviceID
+				# Verificar si hay espacio disponible antes de agregar al array
+				if ($size -ne $null) {
+					$driveInfo += @{
+						name   = $name
+						size   = $size
+						type   = $driveType
+						letter = $partition.DeviceID
+					}
 				}
 			}
 		}
@@ -124,8 +130,6 @@ function getLocations {
 		$jsonArray += $info | ConvertTo-Json
 	}
 
-
-
 	$json = "[" + ($jsonArray -join ",") + "]"
 
 	if ($json -eq "[]"){
@@ -134,6 +138,7 @@ function getLocations {
 
 	Write-Host $json
 }
+
 
 
 function customLocation(){
@@ -439,15 +444,16 @@ function confirmDialog {
 		[string]$TitleText = "Do you want to continue?",
 		[string]$MessageText = "",
 		[string]$OKButtonText = "Continue",
-		[string]$CancelButtonText = "Cancel"
+		[string]$CancelButtonText = "Cancel",
+		[string]$Position = "CenterScreen"
 	)
 	# This is the XAML that defines the GUI.
-	$WPFXaml = @'
+	$WPFXaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
- 	   	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
-		 	<Grid Name="grid">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="Popup" AllowsTransparency="True" Background="Transparent"  Foreground="#FFFFFFFF" ResizeMode="NoResize" WindowStartupLocation="$Position" SizeToContent="WidthAndHeight" WindowStyle="None" MaxWidth="600" Padding="20" Margin="0" Topmost="True">
+	<Border CornerRadius="10" BorderBrush="#222" BorderThickness="2" Background="#222">
+	 <Grid Name="grid">
 				<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 					<StackPanel>
 						<Border Margin="20,10,0,20" Background="Transparent">
@@ -456,10 +462,9 @@ function confirmDialog {
 						<Border Margin="20,0,20,0" Background="Transparent">
 							<TextBlock Name="Message" Margin="0,0,0,20" TextWrapping="Wrap" Text="_CONTENT_" FontSize="18"/>
 						</Border>
-						<Border Margin="20,0,20,20" Background="Transparent">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-							<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,0" >
-								<Button Name="OKButton" Content="_OKBUTTONTEXT_" Margin="5" MaxWidth="175" Background="Transparent" FontSize="16" Foreground="White">
+							<Border CornerRadius="20" BorderBrush="#5bf" BorderThickness="1" Background="#5bf" Margin="0,0,10,20" >
+								<Button Name="OKButton" BorderBrush="Transparent" Content="_OKBUTTONTEXT_" Background="Transparent" FontSize="16" Foreground="White">
 									<Button.Style>
 										<Style TargetType="Button">
 											<Setter Property="Background" Value="#5bf" />
@@ -482,13 +487,12 @@ function confirmDialog {
 								</Button>
 							</Border>
 						</StackPanel>
-						</Border>
 					</StackPanel>
 				</ScrollViewer>
 			</Grid>
-		</Border>
+	</Border>
 </Window>
-'@
+"@
 
 	# Build Dialog
 	$WPFGui = NewWPFDialog -XamlData $WPFXaml
@@ -853,9 +857,11 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
 
 			if ($?) {
-				$backupSuffix = "_bak"
-				$backupName = -join($simLinkPath, $backupSuffix)
-				Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
+				if ($networkInstallation -eq "false"){
+					$backupSuffix = "_bak"
+					$backupName = -join($simLinkPath, $backupSuffix)
+					Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
+				}
 			}
 			createSymlink $simLinkPath $emuSavePath
 		}
@@ -1111,28 +1117,30 @@ function killBOM($file){
 
 
 function setResolutions(){
-	Cemu_setResolution
-	Citra_setResolution
-	Dolphin_setResolution
-	DuckStation_setResolution
-	Flycast_setResolution
-	MAME_setResolution
-	melonDS_setResolution
-	mGBA_setResolution
-	PCSX2QT_setResolution
-	PPSSPP_setResolution
-	Primehack_setResolution
-	RetroArch_setResolution
-	RPCS3_setResolution
-	Ryujinx_setResolution
-	ScummVM_setResolution
-	SuperModel_setResolution
-	Template_setResolution
-	Vita3K_setResolution
-	Xemu_setResolution
-	Xenia_setResolution
-	Yuzu_setResolution
+	. "$userFolder\EmuDeck\settings.ps1"
+	#Cemu_setResolution
+	Citra_setResolution $citraResolution
+	Dolphin_setResolution $dolphinResolution
+	DuckStation_setResolution $duckstationResolution
+	#Flycast_setResolution
+	#MAME_setResolution
+	melonDS_setResolution $melondsResolution
+	#mGBA_setResolution
+	PCSX2QT_setResolution $pcsx2Resolution
+	#PPSSPP_setResolution
+	#Primehack_setResolution
+	#RetroArch_setResolution
+	RPCS3_setResolution $rpcs3Resolution
+	Ryujinx_setResolution $yuzuResolution
+	#ScummVM_setResolution
+	#SuperModel_setResolution
+	#Template_setResolution
+	#Vita3K_setResolution
+	#Xemu_setResolution $xemuResolution
+	#Xenia_setResolution $xeniaResolution
+	Yuzu_setResolution $yuzuResolution
 }
+
 
 
 function getEmuRepo($emuName){

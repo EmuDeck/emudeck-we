@@ -9,7 +9,7 @@ function RetroArch_install(){
 
 	setMSG "Downloading RetroArch Cores"
 	mkdir "$emusPath\RetroArch\cores" -ErrorAction SilentlyContinue
-	$RAcores = @("a5200_libretro.dll","81_libretro.dll","atari800_libretro.dll","bluemsx_libretro.dll","chailove_libretro.dll","fbneo_libretro.dll","freechaf_libretro.dll","freeintv_libretro.dll","fuse_libretro.dll","gearsystem_libretro.dll","gw_libretro.dll","hatari_libretro.dll","lutro_libretro.dll","mednafen_pcfx_libretro.dll","mednafen_vb_libretro.dll","mednafen_wswan_libretro.dll","mu_libretro.dll","neocd_libretro.dll","nestopia_libretro.dll","nxengine_libretro.dll","o2em_libretro.dll","picodrive_libretro.dll","pokemini_libretro.dll","prboom_libretro.dll","prosystem_libretro.dll","px68k_libretro.dll","quasi88_libretro.dll","scummvm_libretro.dll","squirreljme_libretro.dll","theodore_libretro.dll","uzem_libretro.dll","vecx_libretro.dll","vice_xvic_libretro.dll","virtualjaguar_libretro.dll","x1_libretro.dll","mednafen_lynx_libretro.dll","mednafen_ngp_libretro.dll","mednafen_pce_libretro.dll","mednafen_pce_fast_libretro.dll","mednafen_psx_libretro.dll","mednafen_psx_hw_libretro.dll","mednafen_saturn_libretro.dll","mednafen_supafaust_libretro.dll","mednafen_supergrafx_libretro.dll","blastem_libretro.dll","bluemsx_libretro.dll","bsnes_libretro.dll","bsnes_mercury_accuracy_libretro.dll","cap32_libretro.dll","citra2018_libretro.dll","citra_libretro.dll","crocods_libretro.dll","desmume2015_libretro.dll","desmume_libretro.dll","dolphin_libretro.dll","dosbox_core_libretro.dll","dosbox_pure_libretro.dll","dosbox_svn_libretro.dll","fbalpha2012_cps1_libretro.dll","fbalpha2012_cps2_libretro.dll","fbalpha2012_cps3_libretro.dll","fbalpha2012_libretro.dll","fbalpha2012_neogeo_libretro.dll","fceumm_libretro.dll","fbneo_libretro.dll","flycast_libretro.dll","fmsx_libretro.dll","frodo_libretro.dll","gambatte_libretro.dll","gearboy_libretro.dll","gearsystem_libretro.dll","genesis_plus_gx_libretro.dll","genesis_plus_gx_wide_libretro.dll","gpsp_libretro.dll","handy_libretro.dll","kronos_libretro.dll","mame2000_libretro.dll","mame2003_plus_libretro.dll","mame2010_libretro.dll","mame_libretro.dll","melonds_libretro.dll","mesen_libretro.dll","mesen-s_libretro.dll","mgba_libretro.dll","mupen64plus_next_libretro.dll","nekop2_libretro.dll","np2kai_libretro.dll","nestopia_libretro.dll","parallel_n64_libretro.dll","pcsx2_libretro.dll","pcsx_rearmed_libretro.dll","picodrive_libretro.dll","ppsspp_libretro.dll","puae_libretro.dll","quicknes_libretro.dll","race_libretro.dll","sameboy_libretro.dll","smsplus_libretro.dll","snes9x2010_libretro.dll","snes9x_libretro.dll","stella2014_libretro.dll","stella_libretro.dll","tgbdual_libretro.dll","vbam_libretro.dll","vba_next_libretro.dll","vice_x128_libretro.dll","vice_x64_libretro.dll","vice_x64sc_libretro.dll","vice_xscpu64_libretro.dll","yabasanshiro_libretro.dll","yabause_libretro.dll","bsnes_hd_beta_libretro.dll","swanstation_libretro.dll")
+	$RAcores = @("a5200_libretro.dll","81_libretro.dll","atari800_libretro.dll","bluemsx_libretro.dll","chailove_libretro.dll","fbneo_libretro.dll","freechaf_libretro.dll","freeintv_libretro.dll","fuse_libretro.dll","gearsystem_libretro.dll","gw_libretro.dll","hatari_libretro.dll","lutro_libretro.dll","mednafen_pcfx_libretro.dll","mednafen_vb_libretro.dll","mednafen_wswan_libretro.dll","mu_libretro.dll","neocd_libretro.dll","nestopia_libretro.dll","nxengine_libretro.dll","o2em_libretro.dll","picodrive_libretro.dll","pokemini_libretro.dll","prboom_libretro.dll","prosystem_libretro.dll","px68k_libretro.dll","quasi88_libretro.dll","scummvm_libretro.dll","squirreljme_libretro.dll","theodore_libretro.dll","uzem_libretro.dll","vecx_libretro.dll","vice_xvic_libretro.dll","virtualjaguar_libretro.dll","x1_libretro.dll","mednafen_lynx_libretro.dll","mednafen_ngp_libretro.dll","mednafen_pce_libretro.dll","mednafen_pce_fast_libretro.dll","mednafen_psx_libretro.dll","mednafen_psx_hw_libretro.dll","mednafen_saturn_libretro.dll","mednafen_supafaust_libretro.dll","mednafen_supergrafx_libretro.dll","blastem_libretro.dll","bluemsx_libretro.dll","bsnes_libretro.dll","bsnes_mercury_accuracy_libretro.dll","cap32_libretro.dll","citra2018_libretro.dll","citra_libretro.dll","crocods_libretro.dll","desmume2015_libretro.dll","desmume_libretro.dll","dolphin_libretro.dll","dosbox_core_libretro.dll","dosbox_pure_libretro.dll","dosbox_svn_libretro.dll","fbalpha2012_cps1_libretro.dll","fbalpha2012_cps2_libretro.dll","fbalpha2012_cps3_libretro.dll","fbalpha2012_libretro.dll","fbalpha2012_neogeo_libretro.dll","fceumm_libretro.dll","fbneo_libretro.dll","flycast_libretro.dll","fmsx_libretro.dll","frodo_libretro.dll","gambatte_libretro.dll","gearboy_libretro.dll","gearsystem_libretro.dll","genesis_plus_gx_libretro.dll","genesis_plus_gx_wide_libretro.dll","gpsp_libretro.dll","handy_libretro.dll","kronos_libretro.dll","mame2000_libretro.dll","mame2003_plus_libretro.dll","mame2010_libretro.dll","mame_libretro.dll","melonds_libretro.dll","mesen_libretro.dll","mesen-s_libretro.dll","mgba_libretro.dll","mupen64plus_next_libretro.dll","nekop2_libretro.dll","np2kai_libretro.dll","nestopia_libretro.dll","parallel_n64_libretro.dll","pcsx2_libretro.dll","pcsx_rearmed_libretro.dll","picodrive_libretro.dll","ppsspp_libretro.dll","puae_libretro.dll","quicknes_libretro.dll","race_libretro.dll","sameboy_libretro.dll","smsplus_libretro.dll","snes9x2010_libretro.dll","snes9x_libretro.dll","stella2014_libretro.dll","stella_libretro.dll","tgbdual_libretro.dll","vbam_libretro.dll","vba_next_libretro.dll","vice_x128_libretro.dll","vice_x64_libretro.dll","vice_x64sc_libretro.dll","vice_xscpu64_libretro.dll","yabasanshiro_libretro.dll","yabause_libretro.dll","bsnes_hd_beta_libretro.dll","swanstation_libretro.dll","opera_libretro.dll")
 	$RAcores.count
 
 	foreach ( $core in $RAcores )
@@ -574,7 +574,7 @@ function RetroArch_lynx_bezelOn(){
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_opacity' '"0.700000"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_scale_landscape' '"1.170000"'
+	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_scale_landscape' '"1.055000"'
 	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_scale_integer' '"false"'
 
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'aspect_ratio_index' '"21"'
@@ -582,7 +582,7 @@ function RetroArch_lynx_bezelOn(){
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_opacity' '"0.700000"'
-	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_scale_landscape' '"1.170000"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_scale_landscape' '"1.055000"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'video_scale_integer' '"false"'
 }
 
@@ -774,7 +774,7 @@ function RetroArch_neogeo_bezelOn(){
 	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_hide_in_menu' '"false"'
-	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_scale_landscape' '"1.170000'
+	RetroArch_setOverride 'neogeo.cfg' 'FinalBurn Neo'  'input_overlay_scale_landscape' '"1.055000'
 }
 
 function RetroArch_neogeo_bezelOff(){
@@ -798,7 +798,7 @@ function RetroArch_fbneo_bezelOn(){
 	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_hide_in_menu' '"false"'
-	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_scale_landscape' '"1.170000'
+	RetroArch_setOverride 'fbneo.cfg' 'FinalBurn Neo'  'input_overlay_scale_landscape' '"1.055000'
 }
 
 function RetroArch_fbneo_bezelOff(){
@@ -828,14 +828,14 @@ function RetroArch_segacd_bezelOn(){
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_hide_in_menu' '"false"'
-	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000'
+	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.055000'
 	RetroArch_setOverride 'megacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\segacd.cfg"
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_hide_in_menu' '"false"'
-	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000'
+	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.055000'
 	RetroArch_setOverride 'segacd.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 }
 function RetroArch_segacd_bezelOff(){
@@ -873,13 +873,13 @@ function RetroArch_genesis_bezelOn(){
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\genesis.cfg"
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
-	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
+	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.055000"'
 	RetroArch_setOverride 'genesis.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\genesis.cfg"
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
-	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
+	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.055000"'
 	RetroArch_setOverride 'megadrive.cfg' 'Genesis Plus GX'  'aspect_ratio_index' '"0"'
 
 }
@@ -977,7 +977,7 @@ function RetroArch_mastersystem_bezelOn(){
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\mastersystem.cfg"
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_auto_scale' '"false"'
 	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_enable' '"true"'
-	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.170000"'
+	RetroArch_setOverride 'mastersystem.cfg' 'Genesis Plus GX'  'input_overlay_scale_landscape' '"1.055000"'
 }
 
 function RetroArch_mastersystem_bezelOff(){
@@ -1377,7 +1377,7 @@ function RetroArch_snes_CRTshaderOff(){
 
 function RetroArch_snes_ar43(){
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'aspect_ratio_index' '"0"'
-	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.170000"'
+	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_scale_landscape' '"1.055000"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay_aspect_adjust_landscape' '"0"'
 	RetroArch_setOverride 'snes.cfg' 'Snes9x'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\snes.cfg"
 }

@@ -1,4 +1,4 @@
 collection: Nintendo Switch
 shortname: switch
-extensions: nca, NCA, nro, NRO, nso, NSO, nsp, NSP, xci, XCI, 7z, 7Z, zip, ZIP
+extensions: nca, NCA, nro, NRO, nso, NSO, nsp, NSP, xci, XCI
 launch: powershell -ExecutionPolicy Bypass -NoProfile -File   "/run/media/mmcblk0p1/Emulation/tools/launchers/yuzu.ps1" -f -g {file.path}

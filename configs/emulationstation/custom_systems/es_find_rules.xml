@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- This is the ES-DE find rules configuration file for Unix -->
+<ruleList>
+<emulator name="YUZU">
+	<!-- Nintendo Switch emulator Yuzu -->
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe</entry>
+		<entry>%ESPATH%\..\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe</entry>
+	</rule>
+</emulator>
+<emulator name="CITRA">
+	<!-- Nintendo 3DS emulator Citra -->
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>
+		<entry>%ESPATH%\Emulators\Citra\canary-mingw\citra-qt.exe</entry>
+		<entry>%ESPATH%\..\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>
+		<entry>%ESPATH%\..\Emulators\Citra\canary-mingw\citra-qt.exe</entry>
+	</rule>
+</emulator>
+</ruleList>
