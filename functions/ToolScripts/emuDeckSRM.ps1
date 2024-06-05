@@ -142,7 +142,7 @@ function SRM_createParsers(){
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
 	}
-	if ( -or -not (Ryujinx_isInstalled -like "*true*")){
+	if ( -not (Ryujinx_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
 	}
 	if ( -not (PCSX2QT_isInstalled -like "*true*")){
@@ -157,7 +157,7 @@ function SRM_createParsers(){
 	if ( -not (Vita3K_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
 	}
-	if (-not (mGBA_isInstalled -like "*true*")){
+	if ( -not (mGBA_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 	}
 
