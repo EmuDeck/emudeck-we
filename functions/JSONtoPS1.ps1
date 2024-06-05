@@ -1,11 +1,19 @@
 
 
 function setSettinginFile($keySetting){
+	. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 	$keySetting | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1" -Append
 	Write-Output "Added $keySetting to settings.ps1"
 	#Start-Sleep -Seconds 1
 }
 
+function storePatreonToken($token){
+	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
+	if (Test-Path "$cloud_sync_bin") {
+		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:Emudeck\saves\.token"
+	}
+}
 
 function JSONtoPS1(){
 
@@ -145,6 +153,8 @@ function JSONtoPS1(){
 			setSettinginFile('$savesPath=$testdrive.ToString() + ":\Emulation\saves"')
 			setSettinginFile('$storagePath=$testdrive.ToString() + ":\Emulation\storage"')
 			setSettinginFile('$ESDEscrapData=$testdrive.ToString() + ":\Emulation\tools\downloaded_media"')
+
+
 		} else {
 			setSettinginFile('$networkInstallation="false"')
 			setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
@@ -154,6 +164,8 @@ function JSONtoPS1(){
 			setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
 			setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
 			setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
+
+
 		}
 	} else {
 		setSettinginFile("`$emulationPath=`"$globPath\Emulation`"")
@@ -163,6 +175,7 @@ function JSONtoPS1(){
 		setSettinginFile("`$savesPath=`"$globPath\Emulation\saves`"")
 		setSettinginFile("`$storagePath=`"$globPath\Emulation\storage`"")
 		setSettinginFile("`$ESDEscrapData=`"$globPath\Emulation\tools\downloaded_media`"")
+
 	}
 
 
@@ -260,13 +273,44 @@ function JSONtoPS1(){
 	#Android
 	$androidStorage = $myJson.android.Storage
 	$androidStoragePath = $myJson.android.StoragePath
+	$androidInstallRA= $myJson.android.installEmus.ra.status
+	$androidInstallDolphin= $myJson.android.installEmus.dolphin.status
+	$androidInstallPPSSPP= $myJson.android.installEmus.ppsspp.status
+	$androidInstallCitraMMJ= $myJson.android.installEmus.citrammj.status
+	$androidInstallNetherSX2= $myJson.android.installEmus.nethersx2.status
+	$androidInstallScummVM= $myJson.android.installEmus.scummvm.status
 
 	setSettinginFile("`$androidStorage=`"$androidStorage`"")
 	setSettinginFile("`$androidStoragePath=`"$androidStoragePath`"")
+	setSettinginFile("`$androidInstallRA=`"$androidInstallRA`"")
+	setSettinginFile("`$androidInstallDolphin=`"$androidInstallDolphin`"")
+	setSettinginFile("`$androidInstallPPSSPP=`"$androidInstallPPSSPP`"")
+	setSettinginFile("`$androidInstallCitraMMJ=`"$androidInstallCitraMMJ`"")
+	setSettinginFile("`$androidInstallNetherSX2=`"$androidInstallNetherSX2`"")
+	setSettinginFile("`$androidInstallScummVM=`"$androidInstallScummVM`"")
+
+	$androidInstallESDE= $myJson.android.installFrontends.esde.status
+	$androidInstallPegasus= $myJson.android.installFrontends.pegasus.status
+
+	setSettinginFile("`$androidInstallESDE=`"$androidInstallESDE`"")
+	setSettinginFile("`$androidInstallPegasus=`"$androidInstallPegasus`"")
+
+	$androidRABezels=$myJson.android.bezels
+	setSettinginFile("`$androidRABezels=`"$androidRABezels`"")
+
+	#Frontends
+	$InstallESDE= $myJson.installFrontends.esde.status
+	$InstallPegasus= $myJson.installFrontends.pegasus.status
+	$steamAsFrontend= $myJson.installFrontends.steam.status
+
+	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
+	setSettinginFile("`$doInstallPegasus=`"$InstallPegasus`"")
 
 
 	$device = $myJson.device
 	setSettinginFile("`$device=`"$device`"")
+
+	storePatreonToken $myJson.patreonToken
 
 	Start-Sleep -Seconds 0.5
 	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
@@ -275,5 +319,6 @@ function JSONtoPS1(){
 	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
 
 	$mutex.ReleaseMutex()
+
 
 }

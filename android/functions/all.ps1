@@ -15,4 +15,5 @@
 
 . "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_ADB.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_Daijisho.ps1"
+. "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_ESDE.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\ToolScripts\Android_Pegasus.ps1"
