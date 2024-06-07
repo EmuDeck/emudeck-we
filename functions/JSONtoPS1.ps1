@@ -289,6 +289,21 @@ function JSONtoPS1(){
 	setSettinginFile("`$androidInstallNetherSX2=`"$androidInstallNetherSX2`"")
 	setSettinginFile("`$androidInstallScummVM=`"$androidInstallScummVM`"")
 
+	$androidSetupRA= $myJson.android.overwriteConfigEmus.ra.status
+	$androidSetupDolphin= $myJson.android.overwriteConfigEmus.dolphin.status
+	$androidSetupPPSSPP= $myJson.android.overwriteConfigEmus.ppsspp.status
+	$androidSetupCitraMMJ= $myJson.android.overwriteConfigEmus.citrammj.status
+	$androidSetupNetherSX2= $myJson.android.overwriteConfigEmus.nethersx2.status
+	$androidSetupScummVM= $myJson.android.overwriteConfigEmus.scummvm.status
+
+	setSettinginFile("`$androidSetupRA=`"$androidSetupRA`"")
+	setSettinginFile("`$androidSetupDolphin=`"$androidSetupDolphin`"")
+	setSettinginFile("`$androidSetupPPSSPP=`"$androidSetupPPSSPP`"")
+	setSettinginFile("`$androidSetupCitraMMJ=`"$androidSetupCitraMMJ`"")
+	setSettinginFile("`$androidSetupNetherSX2=`"$androidSetupNetherSX2`"")
+	setSettinginFile("`$androidSetupScummVM=`"$androidSetupScummVM`"")
+
+
 	$androidInstallESDE= $myJson.android.installFrontends.esde.status
 	$androidInstallPegasus= $myJson.android.installFrontends.pegasus.status
 
