@@ -39,6 +39,14 @@ function Lime3DS_setEmulationFolder(){
 }
 function Lime3DS_setupSaves(){
 	setMSG "Lime3DS - Saves Links"
+
+	#Saves migration
+	$test=Test-Path -Path "$emulationPath\saves\citra"
+	if($test){
+		Rename-Item -Path "$emulationPath\saves\citra" -NewName "$emulationPath\saves\lime3ds"
+	}
+
+
 	mkdir "$emusPath\lime-qt\user"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\lime-qt\user\sdmc"
 	$emuSavePath = "$emulationPath\saves\lime3ds\saves"
