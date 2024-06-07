@@ -5,9 +5,9 @@ function Lime3DS_install(){
 	$url_lime3ds = getLatestReleaseURLGH "Lime3DS/Lime3DS" "zip" "windows-msvc"
 	download $url_lime3ds "lime3ds.zip"
 	$oldName = Get-ChildItem -Path "$temp/lime3ds" -Directory -Filter "lime3ds-*-windows-msvc" | Select-Object -First 1
-	$newName = Join-Path -Path "$temp/lime3ds" -ChildPath "lime-qt"
+	$newName = Join-Path -Path "$temp/lime3ds" -ChildPath "lime3ds"
 	Rename-Item -Path $oldName.FullName -NewName $newName
-	moveFromTo "$temp/lime3ds/lime-qt" "$emusPath/lime3ds"
+	moveFromTo "$temp/lime3ds/lime3ds" "$emusPath/lime3ds"
 	rm -r -fo "$temp/lime3ds"
 
 }
