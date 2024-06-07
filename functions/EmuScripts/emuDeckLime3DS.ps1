@@ -7,13 +7,17 @@ function Lime3DS_install(){
 	$oldName = Get-ChildItem -Path "$temp/lime3ds" -Directory -Filter "lime3ds-*-windows-msvc" | Select-Object -First 1
 	$newName = Join-Path -Path "$temp/lime3ds" -ChildPath "lime-qt"
 	Rename-Item -Path $oldName.FullName -NewName $newName
-	moveFromTo "$temp/lime3ds/lime-qt" "$emusPath/lime-qt"
+	moveFromTo "$temp/lime3ds/lime-qt" "$emusPath/lime3ds"
 	rm -r -fo "$temp/lime3ds"
 
 }
 function Lime3DS_init(){
 
 	setMSG "Lime3DS - Configuration"
+
+	#Esde Fix
+	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\lime-qt\lime-qt.exe</entry>' '<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe.exe</entry>'
+
 	$destination="$emusPath\lime-qt\user"
 	mkdir $destination -ErrorAction SilentlyContinue
 
