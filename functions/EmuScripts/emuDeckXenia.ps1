@@ -13,6 +13,7 @@ function Xenia_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\xenia" "$destination"
 	mkdir "$romsPath\xbox360\xbla" -ErrorAction SilentlyContinue
+	mkdir "$romsPath\xbox360\roms" -ErrorAction SilentlyContinue
 	#Xenia_setResolution $xeniaResolution
 }
 function Xenia_update(){
