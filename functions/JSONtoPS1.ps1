@@ -277,6 +277,7 @@ function JSONtoPS1(){
 	$androidInstallDolphin= $myJson.android.installEmus.dolphin.status
 	$androidInstallPPSSPP= $myJson.android.installEmus.ppsspp.status
 	$androidInstallCitraMMJ= $myJson.android.installEmus.citrammj.status
+	$androidInstallLime3DS= $myJson.android.installEmus.lime3ds.status
 	$androidInstallNetherSX2= $myJson.android.installEmus.nethersx2.status
 	$androidInstallScummVM= $myJson.android.installEmus.scummvm.status
 
@@ -286,6 +287,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$androidInstallDolphin=`"$androidInstallDolphin`"")
 	setSettinginFile("`$androidInstallPPSSPP=`"$androidInstallPPSSPP`"")
 	setSettinginFile("`$androidInstallCitraMMJ=`"$androidInstallCitraMMJ`"")
+	setSettinginFile("`$androidInstallLime3DS=`"$androidInstallLime3DS`"")
 	setSettinginFile("`$androidInstallNetherSX2=`"$androidInstallNetherSX2`"")
 	setSettinginFile("`$androidInstallScummVM=`"$androidInstallScummVM`"")
 
@@ -293,6 +295,7 @@ function JSONtoPS1(){
 	$androidSetupDolphin= $myJson.android.overwriteConfigEmus.dolphin.status
 	$androidSetupPPSSPP= $myJson.android.overwriteConfigEmus.ppsspp.status
 	$androidSetupCitraMMJ= $myJson.android.overwriteConfigEmus.citrammj.status
+	$androidSetupLime3DS= $myJson.android.overwriteConfigEmus.lime3ds.status
 	$androidSetupNetherSX2= $myJson.android.overwriteConfigEmus.nethersx2.status
 	$androidSetupScummVM= $myJson.android.overwriteConfigEmus.scummvm.status
 
@@ -300,6 +303,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$androidSetupDolphin=`"$androidSetupDolphin`"")
 	setSettinginFile("`$androidSetupPPSSPP=`"$androidSetupPPSSPP`"")
 	setSettinginFile("`$androidSetupCitraMMJ=`"$androidSetupCitraMMJ`"")
+	setSettinginFile("`$androidSetupLime3DS=`"$androidSetupLime3DS`"")
 	setSettinginFile("`$androidSetupNetherSX2=`"$androidSetupNetherSX2`"")
 	setSettinginFile("`$androidSetupScummVM=`"$androidSetupScummVM`"")
 

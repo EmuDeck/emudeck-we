@@ -1,4 +1,4 @@
-$Lime3DS_configFile="$emusPath\lime-qt\user\config\qt-config.ini"
+$Lime3DS_configFile="$emusPath\lime3ds\user\config\qt-config.ini"
 
 function Lime3DS_install(){
 	setMSG "Downloading Lime3DS"
@@ -18,10 +18,10 @@ function Lime3DS_init(){
 	#Esde Fix
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\lime-qt\lime-qt.exe</entry>' '<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe.exe</entry>'
 
-	$destination="$emusPath\lime-qt\user"
+	$destination="$emusPath\lime3ds\user"
 	mkdir $destination -ErrorAction SilentlyContinue
 
-	$destination="$emusPath\lime-qt\user\config"
+	$destination="$emusPath\lime3ds\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\lime3ds\config" "$destination"
 
@@ -29,8 +29,8 @@ function Lime3DS_init(){
 	sedFile "$Lime3DS_configFile" ":\Emulation" ":/Emulation"
 
 	mkdir "$emusPath\lime-qt\user\sysdata"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\lime-qt\user\sysdata"
-	$emuSavePath = "$biosPath\lime-qt"
+	$simLinkPath = "$emusPath\lime3ds\user\sysdata"
+	$emuSavePath = "$biosPath\lime3ds"
 	createSaveLink $simLinkPath $emuSavePath
 
 #	Lime3DS_setupSaves
@@ -51,12 +51,12 @@ function Lime3DS_setupSaves(){
 	}
 
 
-	mkdir "$emusPath\lime-qt\user"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\lime-qt\user\sdmc"
+	mkdir "$emusPath\lime3ds\user"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\lime3ds\user\sdmc"
 	$emuSavePath = "$emulationPath\saves\lime3ds\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
-	$simLinkPath = "$emusPath\lime-qt\user\states"
+	$simLinkPath = "$emusPath\lime3ds\user\states"
 	$emuSavePath = "$emulationPath\saves\lime3ds\states"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\citra"
