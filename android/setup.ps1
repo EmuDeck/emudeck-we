@@ -122,9 +122,9 @@ if($androidInstallNetherSX2 -eq "true" ){
 	Android_NetherSX2_install
 	Android_NetherSX2_init
 }
-if($androidInstallCitraMMJ -eq "true" ){
-	Android_Citra_install
-	Android_Citra_init
+if($androidInstallLime3DS -eq "true" ){
+	Android_Lime3DS_install
+	Android_Lime3DS_init
 }
 if($androidInstallDolphin -eq  "true" ){
 	Android_Dolphin_install
