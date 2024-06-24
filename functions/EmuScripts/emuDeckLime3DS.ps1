@@ -16,7 +16,7 @@ function Lime3DS_init(){
 	setMSG "Lime3DS - Configuration"
 
 	#Esde Fix
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\lime-qt\lime-qt.exe</entry>' '<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe.exe</entry>'
+	#sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\lime-qt\lime-qt.exe</entry>' '<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe.exe</entry>'
 
 	$destination="$emusPath\lime3ds\user"
 	mkdir $destination -ErrorAction SilentlyContinue
@@ -28,7 +28,7 @@ function Lime3DS_init(){
 	sedFile "$Lime3DS_configFile" "C:/Emulation" "$emulationPath"
 	sedFile "$Lime3DS_configFile" ":\Emulation" ":/Emulation"
 
-	mkdir "$emusPath\lime-qt\user\sysdata"  -ErrorAction SilentlyContinue
+	mkdir "$emusPath\lime3ds\user\sysdata"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\lime3ds\user\sysdata"
 	$emuSavePath = "$biosPath\lime3ds"
 	createSaveLink $simLinkPath $emuSavePath
