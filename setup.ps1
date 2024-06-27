@@ -120,6 +120,11 @@ $test=Test-Path -Path "$emusPath\citra\citra-qt.exe"
 if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
+#Citra
+$test=Test-Path -Path "$emusPath\lime3ds\lime3ds-qt.exe"
+if(-not($test) -and $doInstallLime3DS -eq "true" ){
+	Lime3DS_install
+}
 #melonDS
 $test=Test-Path -Path "$emusPath\melonDS\melonDS.exe"
 if(-not($test) -and $doInstallmelonDS -eq "true" ){
@@ -233,6 +238,11 @@ if ( "$doSetupRyujinx" -eq "true" ){
 if ( "$doSetupCitra" -eq "true" ){
 	Citra_init
 	$setupSaves+="Citra_setupSaves;"
+}
+
+if ( "$doSetupLime3DS" -eq "true" ){
+	Lime3DS_init
+	$setupSaves+="Lime3DS_setupSaves;"
 }
 
 if ( "$doSetupCemu" -eq "true" ){

@@ -2,13 +2,12 @@ $Citra_configFile="$emusPath\citra\user\config\qt-config.ini"
 
 function Citra_install(){
 	setMSG "Downloading Citra"
-	$url_citra = getLatestReleaseURLGH "citra-emu/citra-nightly" "7z" "windows-msvc"
+	$url_citra = getLatestReleaseURLGH "PabloMK7/citra" "7z" "windows-msvc"
 	download $url_citra "citra.7z"
-	moveFromTo "$temp/citra/nightly" "$emusPath\citra"
+	moveFromTo "$temp/citra/head" "$emusPath\citra"
 	Remove-Item -Recurse -Force citra -ErrorAction SilentlyContinue
 	mkdir "$emusPath\citra\user" -ErrorAction SilentlyContinue
 	createLauncher "citra"
-
 }
 function Citra_init(){
 
