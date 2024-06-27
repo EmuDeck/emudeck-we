@@ -30,6 +30,7 @@ function JSONtoPS1(){
 	$SetupRPCS3= $myJson.overwriteConfigEmus.rpcs3.status
 	$SetupYuzu= $myJson.overwriteConfigEmus.yuzu.status
 	$SetupCitra= $myJson.overwriteConfigEmus.citra.status
+	$SetupLime3DS= $myJson.overwriteConfigEmus.lime3ds.status
 	$SetupDuck= $myJson.overwriteConfigEmus.duckstation.status
 	$SetupCemu= $myJson.overwriteConfigEmus.cemu.status
 	$SetupXenia= $myJson.overwriteConfigEmus.xenia.status
@@ -53,6 +54,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupRPCS3=`"$SetupRPCS3`"")
 	setSettinginFile("`$doSetupYuzu=`"$SetupYuzu`"")
 	setSettinginFile("`$doSetupCitra=`"$SetupCitra`"")
+	setSettinginFile("`$doSetupLime3DS=`"$SetupLime3DS`"")
 	setSettinginFile("`$doSetupDuck=`"$SetupDuck`"")
 	setSettinginFile("`$doSetupCemu=`"$SetupCemu`"")
 	setSettinginFile("`$doSetupXenia=`"$SetupXenia`"")
@@ -77,6 +79,7 @@ function JSONtoPS1(){
 	$InstallRPCS3= $myJson.installEmus.rpcs3.status
 	$InstallYuzu= $myJson.installEmus.yuzu.status
 	$InstallCitra= $myJson.installEmus.citra.status
+	$InstallLime3DS= $myJson.installEmus.lime3ds.status
 	$InstallDuck= $myJson.installEmus.duckstation.status
 	$InstallCemu= $myJson.installEmus.cemu.status
 	$InstallXenia= $myJson.installEmus.xenia.status
@@ -103,6 +106,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallRPCS3=`"$InstallRPCS3`"")
 	setSettinginFile("`$doInstallYuzu=`"$InstallYuzu`"")
 	setSettinginFile("`$doInstallCitra=`"$InstallCitra`"")
+	setSettinginFile("`$doInstallLime3DS=`"$InstallLime3DS`"")
 	setSettinginFile("`$doInstallDuck=`"$InstallDuck`"")
 	setSettinginFile("`$doInstallCemu=`"$InstallCemu`"")
 	setSettinginFile("`$doInstallXenia=`"$InstallXenia`"")
