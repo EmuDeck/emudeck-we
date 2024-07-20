@@ -15,6 +15,7 @@
 		<entry>%ESPATH%\Emulators\Citra\canary-mingw\citra-qt.exe</entry>
 		<entry>%ESPATH%\..\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>
 		<entry>%ESPATH%\..\Emulators\Citra\canary-mingw\citra-qt.exe</entry>
+		<entry>%ESPATH%\Emulators\Citra\citra-qt.exe</entry>
 	</rule>
 </emulator>
 </ruleList>
