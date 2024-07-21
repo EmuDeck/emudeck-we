@@ -53,10 +53,6 @@ function Ryujinx_setupSaves(){
 	$emuSavePath = "$emulationPath\saves\ryujinx\saveMeta"
 	createSaveLink $simLinkPath $emuSavePath
 
-	$simLinkPath = "$emusPath\Ryujinx\portable\system"
-	$emuSavePath = "$emulationPath\saves\ryujinx\system"
-	createSaveLink $simLinkPath $emuSavePath
-
 	#cloud_sync_save_hash "$savesPath\ryujinx"
 
 }
