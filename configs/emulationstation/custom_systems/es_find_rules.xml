@@ -18,4 +18,9 @@
 		<entry>%ESPATH%\Emulators\Citra\citra-qt.exe</entry>
 	</rule>
 </emulator>
+<emulator name="LIME3DS">
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe</entry>
+	</rule>
+</emulator>
 </ruleList>
