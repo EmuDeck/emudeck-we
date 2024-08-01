@@ -45,6 +45,7 @@
 		<command label="Citra">%EMULATOR_RETROARCH% -L %CORE_RETROARCH%\citra_libretro.dll %ROM%</command>
 		<command label="Citra 2018">%EMULATOR_RETROARCH% -L %CORE_RETROARCH%\citra2018_libretro.dll %ROM%</command>
 		<command label="Citra (Standalone)">%EMULATOR_CITRA% %ROM%</command>
+		<command label="Lime 3DS">%EMULATOR_LIME3DS% %ROM%</command>
 		<platform>n3ds</platform>
 		<theme>n3ds</theme>
 	</system>
