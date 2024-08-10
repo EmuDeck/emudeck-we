@@ -842,12 +842,11 @@ function cloud_sync_init($emulator){
 				}else{
 					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}
-				Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$env:USERPROFILE/AppData/Roaming/EmuDeck/tools/cloudSync/cloud_sync_watcher_user.ps1`" $env:USERNAME" -WindowStyle Hidden
 
-				#& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
-				#cls
-				#Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
-				#cls
+				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
+				cls
+				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+				cls
 				$toast.Close()
 			}
 		}

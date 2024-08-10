@@ -22,11 +22,10 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 
 	if($formattedArgs){
 		#$formattedArgs += "`"$netplayCMD`""
-		$process = Start-Process $emulatorFile -PassThru -WindowStyle Maximized -Wait -Args $formattedArgs
+		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args $formattedArgs
 	}else{
-		$process = Start-Process $emulatorFile -PassThru -WindowStyle Maximized -Wait
+		Start-Process $emulatorFile -WindowStyle Maximized -Wait
 	}
-	$process.WaitForExit()
 	rm -fo -r "$savesPath/.watching" -ErrorAction SilentlyContinue
 	rm -fo -r "$savesPath/.emulator" -ErrorAction SilentlyContinue
 }
