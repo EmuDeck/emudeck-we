@@ -843,7 +843,7 @@ function cloud_sync_init($emulator){
 					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}
 
-				Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/cloud_sync_watcher_user.ps1`" $env:USERNAME"
+				Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/cloud_sync_watcher_user.ps1`" $env:USERNAME" -WindowStyle Hidden
 
 				# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				# cls

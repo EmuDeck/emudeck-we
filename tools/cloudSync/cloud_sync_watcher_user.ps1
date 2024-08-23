@@ -17,9 +17,6 @@ $string | Out-File -FilePath $logPath
 . $f4
 . $f5
 
- $toast = steamToast -MessageText "CloudSync - WATCHING"
-			  Start-Sleep -Seconds 1.5
-   $toast.Close()
 $nssm = Join-Path -Path $userPath -ChildPath '\AppData\Roaming\EmuDeck\backend\wintools\nssm.exe'
 $emuName = Get-Content "$savesPath/.emulator"
 $lockFile = Join-Path -Path $userPath -ChildPath 'EmuDeck\cloud.lock'
