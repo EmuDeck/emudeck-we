@@ -68,16 +68,8 @@ function cloudSyncHealth(){
 	}else{
 		echo "<td>Provider Status: </td><td class='alert--success'><strong>Success</strong></td>"
 	}
-	echo "</tr><tr>"
-
-	if (Get-Service -Name "CloudWatch" -ErrorAction SilentlyContinue) {
-		echo "<td>Watcher Status: </td><td class='alert--success'><strong>Success</strong></td>"
-	}else{
-		echo "<td>Watcher Status: </td><td class='alert--danger'><strong>Failure, please reinstall</strong></td>"
-		exit
-	}
 	echo "</tr>"
-	$miArreglo = @("Cemu","citra","dolphin","duckstation","MAME","melonds","mgba","pcsx2","ppsspp","primehack","retroarch","rpcs3","scummvm","Vita3K","yuzu","ryujinx")
+	$miArreglo = @("retroarch")
 
 	foreach ($elemento in $miArreglo) {
 		cloud_sync_upload_test $elemento
