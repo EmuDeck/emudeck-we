@@ -160,6 +160,15 @@ $scriptContent = @"
 
 function cloud_sync_install($cloud_sync_provider){
 	#startLog($MyInvocation.MyCommand.Name)
+	$batFilePath = "$env:APPDATA\EmuDeck\backend\tools\cloudSync\cloud_sync_force.bat"
+	$shortcutPath = "$env:USERPROFILE\Desktop\Force CloudSync.lnk"
+	$iconPath = "$env:USERPROFILE/AppData/Local/Programs/EmuDeck/EmuDeck.exe"
+	$wshShell = New-Object -ComObject WScript.Shell
+	$shortcut = $wshShell.CreateShortcut($shortcutPath)
+	$shortcut.TargetPath = $batFilePath
+	$shortcut.IconLocation = $iconPath
+	$shortcut.Save()
+
 
  	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
 
@@ -616,7 +625,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
-
+			Stop-Process -Name "Rclone" -Force -ErrorAction SilentlyContinue
 			#Do we have a pending upload?
 			if (Test-Path "$savesPath/$emuName/.pending_upload") {
 
@@ -700,6 +709,7 @@ function cloud_sync_uploadEmu{
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
+			Stop-Process -Name "Rclone" -Force -ErrorAction SilentlyContinue
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_upload") {
 				$date = Get-Content "$savesPath/$emuName/.fail_upload"
