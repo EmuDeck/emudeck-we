@@ -73,7 +73,7 @@ try
 	$skip = $blackList | ForEach-Object { $FullPath -like "*$_" }
 
 	if($skip -contains $true){
-		echo  "Ignoring blacklisted file"
+		Write-Host  "Ignoring blacklisted file"
 		return
 	}
 
@@ -86,7 +86,7 @@ try
 	# Check if the file was modified in the last 2 seconds
 	$lastModifiedTime = $lastModifiedTimes[$FullPath]
 	if ($lastModifiedTime -and ($Timestamp).Subtract($lastModifiedTime).TotalMilliseconds -lt 500) {
-		echo  "Ignoring $FullPath because it was modified again too quickly."
+		Write-Host  "Ignoring $FullPath because it was modified again too quickly."
 		return
 	}
 
@@ -103,8 +103,8 @@ try
 
 	# let's compose a message:
 	$text = "{0} was {1} at {2}" -f $FullPath, $ChangeType, $Timestamp
-	echo   ""
-	echo   $text -ForegroundColor DarkYellow
+	Write-Host   ""
+	Write-Host   $text -ForegroundColor DarkYellow
 
 	# you can also execute code based on change type here:
 	switch ($ChangeType)
@@ -112,7 +112,7 @@ try
 	  'Changed'  {
 
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
-			  echo "No upload"
+			  Write-Host "No upload"
 		  } else {
 			  $toast = steamToast -MessageText "CloudSync - Uploading Modified file"
 				Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
@@ -124,7 +124,7 @@ try
 	  }
 	  'Created'  {
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
-			  echo "No upload"
+			  Write-Host "No upload"
 		  } else {
 			  $toast = steamToast -MessageText "CloudSync - Uploading new file"
 			  Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
@@ -139,18 +139,18 @@ try
 		# to illustrate that ALL changes are picked up even if
 		# handling an event takes a lot of time, we artificially
 		# extend the time the handler needs whenever a file is deleted
-		echo "Deletion Handler Start"
+		Write-Host "Deletion Handler Start"
 		Start-Sleep -Seconds 4
-		echo "Deletion Handler End"
+		Write-Host "Deletion Handler End"
 	  }
 	  'Renamed'  {
 		# this executes only when a file was renamed
 		$text = "File {0} was renamed to {1}" -f $OldName, $Name
-		echo $text
+		Write-Host $text
 	  }
 
 	  # any unhandled change types surface here:
-	  default   { echo $_ }
+	  default   { Write-Host $_ }
 	}
   }
 
@@ -167,7 +167,7 @@ try
   # monitoring starts now:
   $watcher.EnableRaisingEvents = $true
 
-  echo "Watching for changes to $Path"
+  Write-Host "Watching for changes to $Path"
 
   # since the FileSystemWatcher is no longer blocking PowerShell
   # we need a way to pause PowerShell while being responsive to
@@ -179,7 +179,7 @@ try
 	Wait-Event -Timeout 1
 
 	# write a dot to indicate we are still monitoring:
-	echo "." -NoNewline
+	Write-Host "." -NoNewline
 
 	# Process name to find
 	$processName = "EmuDeck Launcher"
@@ -192,13 +192,13 @@ try
 
 	# We exit if it doesn't
 	if (-not (Test-Path $cmdFile)) {
-		echo "There's no .watching file"
+		Write-Host "There's no .watching file"
 		$dialog = steamToast  -MessageText "Uploading... don't turn off your device"
 		Add-Type -AssemblyName System.speech
 		# Check for lock file
 		if (-not (Test-Path $lockFile)) {
 			$dialog.Close()
-			echo "There's no lock file, bye!"
+			Write-Host "There's no lock file, bye!"
 			$dialog = steamToast  -MessageText "Sync Completed! You can safely turn off your device"
 			& $nssm stop CloudWatch
 			$dialog.Close()
