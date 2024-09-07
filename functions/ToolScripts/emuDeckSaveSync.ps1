@@ -160,10 +160,9 @@ $scriptContent = @"
 
 function cloud_sync_install($cloud_sync_provider){
 	#startLog($MyInvocation.MyCommand.Name)
-
 	$batFilePath = "$env:APPDATA\EmuDeck\backend\tools\cloudSync\cloud_sync_force.bat"
 	$shortcutPath = "$env:USERPROFILE\Desktop\Force CloudSync.lnk"
-	$iconPath = "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/gamemode/icon.ico"
+	$iconPath = "$env:USERPROFILE/AppData/Local/Programs/EmuDeck/EmuDeck.exe"
 	$wshShell = New-Object -ComObject WScript.Shell
 	$shortcut = $wshShell.CreateShortcut($shortcutPath)
 	$shortcut.TargetPath = $batFilePath
