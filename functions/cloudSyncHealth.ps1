@@ -1,5 +1,6 @@
 function cloudSyncHealth(){
 
+  Write-Host "<div class='is-hidden'>"
   $watcherStatus=1
   $upload=1
   $download=1
@@ -78,6 +79,8 @@ function cloudSyncHealth(){
   } else {
 	  Stop-Process -Name "ES-DE" -Force
   }
+
+  Write-Host "</div>"
 
   Write-Host "<table class='table'>"
   Write-Host "<tr>"
