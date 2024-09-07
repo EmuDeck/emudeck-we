@@ -28,7 +28,7 @@ function cloudSyncHealth(){
 		Start-Sleep -Seconds 2
 	}
   }
-  Start-Sleep -Seconds 2
+  Start-Sleep -Seconds 5
   echo "Creating test file"
   echo "testing upload" > "$savesPath/retroarch/test_emudeck.txt"
 
