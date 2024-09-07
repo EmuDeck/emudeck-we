@@ -163,7 +163,7 @@ function cloud_sync_install($cloud_sync_provider){
 
 	$batFilePath = "$env:APPDATA\EmuDeck\backend\tools\cloudSync\cloud_sync_force.bat"
 	$shortcutPath = "$env:USERPROFILE\Desktop\Force CloudSync.lnk"
-	$iconPath = "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/steamdecklogo.png"
+	$iconPath = "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/gamemode/icon.ico"
 	$wshShell = New-Object -ComObject WScript.Shell
 	$shortcut = $wshShell.CreateShortcut($shortcutPath)
 	$shortcut.TargetPath = $batFilePath
