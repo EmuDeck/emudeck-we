@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -NoExit . .\cloud_sync_force.ps1

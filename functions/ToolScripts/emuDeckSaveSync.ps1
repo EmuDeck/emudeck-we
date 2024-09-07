@@ -161,6 +161,16 @@ $scriptContent = @"
 function cloud_sync_install($cloud_sync_provider){
 	#startLog($MyInvocation.MyCommand.Name)
 
+	$batFilePath = "$env:APPDATA\EmuDeck\backend\tools\cloudSync\cloud_sync_force.bat"
+	$shortcutPath = "$env:USERPROFILE\Desktop\Force CloudSync.lnk"
+	$iconPath = "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/steamdecklogo.png"
+	$wshShell = New-Object -ComObject WScript.Shell
+	$shortcut = $wshShell.CreateShortcut($shortcutPath)
+	$shortcut.TargetPath = $batFilePath
+	$shortcut.IconLocation = $iconPath
+	$shortcut.Save()
+
+
  	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
 
  	& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
