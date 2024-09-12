@@ -108,7 +108,7 @@ function Lime3DS_finalize(){
 	Write-Output "NYI"
 }
 function Lime3DS_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\lime3ds\lime3ds-gui.exe"
+	$test=Test-Path -Path "$emusPath\lime3ds\lime3ds.exe"
 	if($test){
 		Write-Output "true"
 	}else{
