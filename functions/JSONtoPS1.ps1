@@ -9,6 +9,7 @@ function setSettinginFile($keySetting){
 
 function storePatreonToken($token){
 	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
 	if (Test-Path "$cloud_sync_bin") {
 		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:Emudeck\saves\.token"
