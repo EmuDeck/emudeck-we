@@ -856,11 +856,11 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			$originalFolderName = Split-Path $simLinkPath -Leaf
 			$newFolderName = Split-Path $emuSavePath -Leaf
 			$emuSaveParent = Split-Path $emuSavePath -Parent
-			
+
 			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
 			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
 			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
-			
+
    			#Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
 
 			if ($?) {
@@ -1301,6 +1301,7 @@ function isLatestVersionGH($emuName){
 
 
 function storePatreonToken($token){
+	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
 	if (Test-Path "$cloud_sync_bin") {
 		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:Emudeck\saves\.token"
