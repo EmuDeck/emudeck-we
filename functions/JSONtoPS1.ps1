@@ -9,6 +9,7 @@ function setSettinginFile($keySetting){
 
 function storePatreonToken($token){
 	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
 	if (Test-Path "$cloud_sync_bin") {
 		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:Emudeck\saves\.token"
@@ -30,6 +31,7 @@ function JSONtoPS1(){
 	$SetupRPCS3= $myJson.overwriteConfigEmus.rpcs3.status
 	$SetupYuzu= $myJson.overwriteConfigEmus.yuzu.status
 	$SetupCitra= $myJson.overwriteConfigEmus.citra.status
+	$SetupLime3DS= $myJson.overwriteConfigEmus.lime3ds.status
 	$SetupDuck= $myJson.overwriteConfigEmus.duckstation.status
 	$SetupCemu= $myJson.overwriteConfigEmus.cemu.status
 	$SetupXenia= $myJson.overwriteConfigEmus.xenia.status
@@ -53,6 +55,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupRPCS3=`"$SetupRPCS3`"")
 	setSettinginFile("`$doSetupYuzu=`"$SetupYuzu`"")
 	setSettinginFile("`$doSetupCitra=`"$SetupCitra`"")
+	setSettinginFile("`$doSetupLime3DS=`"$SetupLime3DS`"")
 	setSettinginFile("`$doSetupDuck=`"$SetupDuck`"")
 	setSettinginFile("`$doSetupCemu=`"$SetupCemu`"")
 	setSettinginFile("`$doSetupXenia=`"$SetupXenia`"")
@@ -77,6 +80,7 @@ function JSONtoPS1(){
 	$InstallRPCS3= $myJson.installEmus.rpcs3.status
 	$InstallYuzu= $myJson.installEmus.yuzu.status
 	$InstallCitra= $myJson.installEmus.citra.status
+	$InstallLime3DS= $myJson.installEmus.lime3ds.status
 	$InstallDuck= $myJson.installEmus.duckstation.status
 	$InstallCemu= $myJson.installEmus.cemu.status
 	$InstallXenia= $myJson.installEmus.xenia.status
@@ -103,6 +107,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallRPCS3=`"$InstallRPCS3`"")
 	setSettinginFile("`$doInstallYuzu=`"$InstallYuzu`"")
 	setSettinginFile("`$doInstallCitra=`"$InstallCitra`"")
+	setSettinginFile("`$doInstallLime3DS=`"$InstallLime3DS`"")
 	setSettinginFile("`$doInstallDuck=`"$InstallDuck`"")
 	setSettinginFile("`$doInstallCemu=`"$InstallCemu`"")
 	setSettinginFile("`$doInstallXenia=`"$InstallXenia`"")
@@ -277,6 +282,7 @@ function JSONtoPS1(){
 	$androidInstallDolphin= $myJson.android.installEmus.dolphin.status
 	$androidInstallPPSSPP= $myJson.android.installEmus.ppsspp.status
 	$androidInstallCitraMMJ= $myJson.android.installEmus.citrammj.status
+	$androidInstallLime3DS= $myJson.android.installEmus.lime3ds.status
 	$androidInstallNetherSX2= $myJson.android.installEmus.nethersx2.status
 	$androidInstallScummVM= $myJson.android.installEmus.scummvm.status
 
@@ -286,8 +292,26 @@ function JSONtoPS1(){
 	setSettinginFile("`$androidInstallDolphin=`"$androidInstallDolphin`"")
 	setSettinginFile("`$androidInstallPPSSPP=`"$androidInstallPPSSPP`"")
 	setSettinginFile("`$androidInstallCitraMMJ=`"$androidInstallCitraMMJ`"")
+	setSettinginFile("`$androidInstallLime3DS=`"$androidInstallLime3DS`"")
 	setSettinginFile("`$androidInstallNetherSX2=`"$androidInstallNetherSX2`"")
 	setSettinginFile("`$androidInstallScummVM=`"$androidInstallScummVM`"")
+
+	$androidSetupRA= $myJson.android.overwriteConfigEmus.ra.status
+	$androidSetupDolphin= $myJson.android.overwriteConfigEmus.dolphin.status
+	$androidSetupPPSSPP= $myJson.android.overwriteConfigEmus.ppsspp.status
+	$androidSetupCitraMMJ= $myJson.android.overwriteConfigEmus.citrammj.status
+	$androidSetupLime3DS= $myJson.android.overwriteConfigEmus.lime3ds.status
+	$androidSetupNetherSX2= $myJson.android.overwriteConfigEmus.nethersx2.status
+	$androidSetupScummVM= $myJson.android.overwriteConfigEmus.scummvm.status
+
+	setSettinginFile("`$androidSetupRA=`"$androidSetupRA`"")
+	setSettinginFile("`$androidSetupDolphin=`"$androidSetupDolphin`"")
+	setSettinginFile("`$androidSetupPPSSPP=`"$androidSetupPPSSPP`"")
+	setSettinginFile("`$androidSetupCitraMMJ=`"$androidSetupCitraMMJ`"")
+	setSettinginFile("`$androidSetupLime3DS=`"$androidSetupLime3DS`"")
+	setSettinginFile("`$androidSetupNetherSX2=`"$androidSetupNetherSX2`"")
+	setSettinginFile("`$androidSetupScummVM=`"$androidSetupScummVM`"")
+
 
 	$androidInstallESDE= $myJson.android.installFrontends.esde.status
 	$androidInstallPegasus= $myJson.android.installFrontends.pegasus.status

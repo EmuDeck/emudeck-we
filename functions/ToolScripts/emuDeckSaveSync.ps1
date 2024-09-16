@@ -160,6 +160,15 @@ $scriptContent = @"
 
 function cloud_sync_install($cloud_sync_provider){
 	#startLog($MyInvocation.MyCommand.Name)
+	$batFilePath = "$env:APPDATA\EmuDeck\backend\tools\cloudSync\cloud_sync_force.bat"
+	$shortcutPath = "$env:USERPROFILE\Desktop\Force CloudSync.lnk"
+	$iconPath = "$env:USERPROFILE/AppData/Local/Programs/EmuDeck/EmuDeck.exe"
+	$wshShell = New-Object -ComObject WScript.Shell
+	$shortcut = $wshShell.CreateShortcut($shortcutPath)
+	$shortcut.TargetPath = $batFilePath
+	$shortcut.IconLocation = $iconPath
+	$shortcut.Save()
+
 
  	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
 
@@ -393,32 +402,32 @@ function cloud_sync_download($emuName){
 	if ((Test-Path "$cloud_sync_bin") -and ($cloud_sync_status -eq $true)) {
 
 
-# 		& "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck/saves/.token" "$savesPath/.token"
-#
-# 		$tokenPath = "$savesPath/.token"
-# 		if (Test-Path $tokenPath) {
-# 			# Lee el token desde el archivo
-# 			$token = Get-Content $tokenPath
-#
-# 			$url = "https://token.emudeck.com/quick-check.php?access_token=$token"
-#
-# 			$response = Invoke-RestMethod -Uri $url
-#
-#
-# 			if ($response.status -eq $true) {
-# 				Write-Host "Continue"
-# 			}
-# 			else {
-# 				echo "exit"
-# 				#confirmDialog -TitleText "Outdated token" -MessageText "Please open EmuDeck to regenerate your token"
-# 				#exit
-# 			}
-# 		} else {
-# 			echo "exit"
-# 			#confirmDialog -TitleText "Token not found" -MessageText "Please open EmuDeck to regenerate your token"
-# 			Write-Host "Token not found: $tokenPath"
-# 			#exit
-# 		}
+		& "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 --log-file "$userFolder/EmuDeck/logs/rclone.log" "$cloud_sync_provider`:Emudeck/saves/.token" "$savesPath/.token"
+
+		$tokenPath = "$savesPath/.token"
+		if (Test-Path $tokenPath) {
+			# Lee el token desde el archivo
+			$token = Get-Content $tokenPath
+
+			$url = "https://token.emudeck.com/quick-check.php?access_token=$token"
+
+			$response = Invoke-RestMethod -Uri $url
+
+
+			if ($response.status -eq $true) {
+				Write-Host "Continue"
+			}
+			else {
+				echo "exit"
+				#confirmDialog -TitleText "Outdated token" -MessageText "Please open EmuDeck to regenerate your token"
+				#exit
+			}
+		} else {
+			echo "exit"
+			#confirmDialog -TitleText "Token not found" -MessageText "Please open EmuDeck to regenerate your token"
+			Write-Host "Token not found: $tokenPath"
+			#exit
+		}
 
 		#We wait for any upload in progress
 		cloud_sync_check_lock
@@ -437,7 +446,7 @@ function cloud_sync_download($emuName){
 				$hash="0"
 			}
 
-			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\.hash" "$fileHash"
+			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 --log-file "$userFolder/EmuDeck/logs/rclone.log" "$cloud_sync_provider`:Emudeck\saves\.hash" "$fileHash"
 
 			if (Test-Path -PathType Any "$fileHash"){
 				$hashCloud= Get-Content $fileHash
@@ -449,7 +458,7 @@ function cloud_sync_download($emuName){
 					$dialog = steamToast  -MessageText "Saves up to date, no need to sync"
 				}else{
 					$dialog = steamToast  -MessageText "Downloading saves for all installed system, please wait..."
-					& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
+					& $cloud_sync_bin copy --fast-list --update --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
 					if ($?) {
 						$baseFolder = "$target"
 						$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -468,7 +477,7 @@ function cloud_sync_download($emuName){
 				}
 			}else{
 				$dialog = steamToast  -MessageText "Downloading saves for all installed system, please wait..."
-				& $cloud_sync_bin copy --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user "$cloud_sync_provider`:Emudeck\saves\" "$target"
+				& $cloud_sync_bin copy  --update --fast-list --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user --log-file "$userFolder/EmuDeck/logs/rclone.log" "$cloud_sync_provider`:Emudeck\saves\" "$target"
 				if ($?) {
 					$baseFolder = "$target"
 					$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -497,7 +506,7 @@ function cloud_sync_download($emuName){
 				$hash="0"
 			}
 
-			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$fileHash"
+			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 --log-file "$userFolder/EmuDeck/logs/rclone.log" "$cloud_sync_provider`:Emudeck\saves\$emuName\.hash" "$fileHash"
 
 			if (Test-Path -PathType Any "$fileHash"){
 				$hashCloud= Get-Content $fileHash
@@ -593,7 +602,7 @@ function cloud_sync_upload{
 			$target = "$emulationPath\saves\$emuName"
 			cloud_sync_save_hash($target)
 
-			& $cloud_sync_bin copy -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --fast-list --update --tpslimit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
+			& $cloud_sync_bin copy -q --log-file "$userFolder/EmuDeck/logs/rclone.log" --fast-list --update --tpslimit 12 --checkers=50 --exclude=/.fail_upload --exclude=/.fail_download --exclude=/system/prod.keys --exclude=/system/title.keys --exclude=/.pending_upload --exclude=/.watching --exclude=/*.lnk --exclude=/.cloud --exclude=/.emulator --exclude=/.user --log-file "$userFolder/EmuDeck/logs/rclone.log" "$target" "$cloud_sync_provider`:Emudeck\saves\$emuName\"
 			if ($?) {
 				Write-Host "upload success"
 				Write-Host $target
@@ -616,7 +625,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
-
+			Stop-Process -Name "Rclone" -Force -ErrorAction SilentlyContinue
 			#Do we have a pending upload?
 			if (Test-Path "$savesPath/$emuName/.pending_upload") {
 
@@ -700,6 +709,7 @@ function cloud_sync_uploadEmu{
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
 		if ( check_internet_connection -eq 'true' ){
+			Stop-Process -Name "Rclone" -Force -ErrorAction SilentlyContinue
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_upload") {
 				$date = Get-Content "$savesPath/$emuName/.fail_upload"
@@ -843,10 +853,12 @@ function cloud_sync_init($emulator){
 					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}
 
-				& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
-				cls
-				Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
-				cls
+				Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/cloud_sync_watcher_user.ps1`" $env:USERNAME"
+
+				# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
+				# cls
+				# Start-Process "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" -Args "start CloudWatch" -WindowStyle Hidden
+				# cls
 				$toast.Close()
 			}
 		}

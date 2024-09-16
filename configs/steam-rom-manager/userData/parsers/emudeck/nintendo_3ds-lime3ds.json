@@ -1,17 +1,17 @@
 {
   "parserType": "Glob",
-  "configTitle": "Nintendo 3DS - Citra",
+  "configTitle": "Nintendo 3DS - Lime3DS",
   "steamCategory": "${Nintendo 3DS}",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}/n3ds",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\citra.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\lime3ds.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "onlineImageQueries": "${${fuzzyTitle}}",
   "imagePool": "${fuzzyTitle}",
   "imageProviders": ["SteamGridDB"],
-  "disabled": true,
+  "disabled": false,
   "userAccounts": {
     "specifiedAccounts": ""
   },
@@ -34,7 +34,7 @@
     "shortcutPassthrough": false,
     "appendArgsToExecutable": true
   },
-  "parserId": "16478559884003904",
+  "parserId": "16478559884003905",
   "version": 15,
   "controllers": {
     "switch_pro": {
