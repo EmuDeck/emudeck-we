@@ -6,7 +6,7 @@ function Primehack_install(){
 	$url_primehack = "https://github.com/shiiion/dolphin/releases/download/1.0.7a/PrimeHack.Release.v1.0.7a.zip"
 	download $url_primehack "PrimeHack.zip"
 	moveFromTo "$temp\PrimeHack" "$emusPath\PrimeHack"
-	createLauncher "PrimeHack"
+	createLauncher "primehack"
 }
 function Primehack_init(){
 	setMSG "Dolphin - Configuration"
