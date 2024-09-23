@@ -81,7 +81,7 @@ function Lime3DS_wipe(){
 	Write-Output "NYI"
 }
 function Lime3DS_uninstall(){
-	Remove-Item -path "$emusPath\lime-qt"-recurse -force
+	Remove-Item -path "$emusPath\lime3ds"-recurse -force
 	if($?){
 		Write-Output "true"
 	}
