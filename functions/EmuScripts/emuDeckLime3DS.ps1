@@ -9,6 +9,7 @@ function Lime3DS_install(){
 	Rename-Item -Path $oldName.FullName -NewName $newName
 	moveFromTo "$temp/lime3ds/lime3ds" "$emusPath/lime3ds"
 	rm -r -fo "$temp/lime3ds"
+	createLauncher "lime3ds"
 
 }
 function Lime3DS_init(){
