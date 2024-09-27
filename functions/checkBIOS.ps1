@@ -7,7 +7,7 @@ function checkPS1BIOS() {
 	$files = Get-ChildItem -Path "$biosPath" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -24,7 +24,7 @@ function checkPS2BIOS() {
 	$files = Get-ChildItem -Path "$biosPath" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -40,7 +40,7 @@ function checkSegaCDBios() {
 	$files = Get-ChildItem -Path "$biosPath" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -56,7 +56,7 @@ function checkSaturnBios() {
 	$files = Get-ChildItem -Path "$biosPath" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -72,7 +72,7 @@ function checkDreamcastBios() {
 	$files = Get-ChildItem -Path "$biosPath/dc" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -80,7 +80,7 @@ function checkDreamcastBios() {
 	$files = Get-ChildItem -Path "$biosPath/DC" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -96,7 +96,7 @@ function checkDSBios() {
 	$files = Get-ChildItem -Path "$biosPath" -Recurse -File
 	foreach ($file in $files) {
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
-		if ($md5.Hash -in $HashList) {			
+		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
 			break
 		}
@@ -105,10 +105,22 @@ function checkDSBios() {
 
 
 function checkYuzuBios(){
-	$file = "$esdePath\Emulators\yuzu\yuzu-windows-msvc\user\keys\prod.keys"
-	if (Test-Path $file -PathType Leaf) {
-		Write-Host "true"
-	} else {
+	$ryujinxKeys = "$esdePath\Emulators\ryujinx\portable\system\prod.keys"
+	$ryujinxFirmware ="$esdePath\Emulators\ryujinx\bis/system/Contents/registered"
+
+	$firmwareExists = Test-Path -Path $ryujinxFirmware -PathType Container
+	$keysExist = Test-Path -Path $ryujinxKeys -PathType Leaf
+
+   if ($firmwareExists -and $keysExist) {
+		if ((Get-ChildItem -Path $ryujinxFirmware | Measure-Object).Count -gt 0) {
+			Write-Host "true"
+		}
+		else {
+			Write-Host "false"
+		}
+	}
+	else {
 		Write-Host "false"
 	}
+
 }
