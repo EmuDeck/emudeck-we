@@ -267,7 +267,10 @@ function cloud_sync_config($cloud_sync_provider, $token){
 		  -ContentType "application/x-www-form-urlencoded" `
 		  -Body "$json"
 
-		 $ofuspass= $($password.cloud_token)
+		 $pass= $($password.cloud_token)
+
+		 $ofuspass = $pass -replace "[`r`n]", ""
+
 		 $user=$($parts[0])
 		 setSetting "cs_user" "cs_$user\"
 
