@@ -271,7 +271,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		 $pass= $($password.cloud_token)
 		 $user=$($parts[0])
-		 setSetting "cs_user" "cs_$user/"
+		 setSetting "cs_user" "cs_$user\"
 
 		 Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
 			createCloudFile $_.FullName
