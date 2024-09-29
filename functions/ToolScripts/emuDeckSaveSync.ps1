@@ -283,7 +283,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		$arguments = @"
 		config update Emudeck-cloud host=cloud.emudeck.com user=cs_$user port=22 pass="$ofuspass"
-		"@
+"@
 
 		Start-Process powershell -ArgumentList "-NoExit", "-Command", "`"$cloud_sync_bin`" $arguments" -WindowStyle Maximized -Wait
 
