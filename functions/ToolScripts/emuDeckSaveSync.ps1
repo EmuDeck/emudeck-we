@@ -170,18 +170,18 @@ function cloud_sync_install($cloud_sync_provider){
 	$shortcut.Save()
 
 
- 	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
+# 	confirmDialog -TitleText "Administrator Privileges needed" -MessageText "During the installation of CloudSync you'll get several windows asking for elevated permissions. This is so we can create symlinks, a background service and set its proper permissions. Please accept all of them"
 
- 	& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
+ #	& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 
- 	if (-not ( & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" status "CloudWatch" )) {
-		#We create the service
-		cloud_sync_install_service
- 	}else{
-		& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
-		& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" remove "CloudWatch" confirm
-		cloud_sync_install_service
- 	}
+ 	# if (-not ( & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" status "CloudWatch" )) {
+		# #We create the service
+		# cloud_sync_install_service
+ 	# }else{
+		# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
+		# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" remove "CloudWatch" confirm
+		# cloud_sync_install_service
+ 	# }
  	if (-not(Test-Path "$cloud_sync_bin")) {
 		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 		download $cloud_sync_releaseURL "rclone.zip"
@@ -213,7 +213,7 @@ function createCloudFile($folder) {
 	}
 }
 
-function cloud_sync_config($cloud_sync_provider){
+function cloud_sync_config($cloud_sync_provider, $token){
 	#startLog($MyInvocation.MyCommand.Name)
 	taskkill /F /IM rclone.exe > NUL 2>NUL
 	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
@@ -260,6 +260,29 @@ function cloud_sync_config($cloud_sync_provider){
 			Remove-Item $_.FullName
 		}
 		Write-Output 'true'
+	} elseif ($cloud_sync_provider -eq "Emudeck-cloud") {
+			$parts = $token -split '\|\|\|'
+			$json = '{"token":"'+ $token + '"}'
+			$password = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/create-cs.php" `
+			 -ContentType "application/x-www-form-urlencoded" `
+			 -Body "$json"
+
+			$pass=$password.cloud_token
+			$params="obscure $pass"
+			$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+			Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+				createCloudFile $_.FullName
+			}
+			Start-Process $cloud_sync_bin -ArgumentList @"
+			config update "Emudeck-cloud" host="141.94.246.71" user=$($parts[0]) port="22" pass="$obscuredPassword"
+	"@ -WindowStyle Maximized -Wait
+			& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+			& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+			#Cleaning up
+			Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+				Remove-Item $_.FullName
+			}
+			Write-Output 'true'
 	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 		$credentials = Get-Custom-Credentials "Emudeck-SMB"
 		$pass=$credentials.Password
@@ -332,10 +355,10 @@ function cloud_sync_config_with_code($code){
 	#stopLog
 }
 
-function cloud_sync_install_and_config($cloud_sync_provider){
+function cloud_sync_install_and_config($cloud_sync_provider, $token){
 	#startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
-	cloud_sync_config($cloud_sync_provider)
+	cloud_sync_config $cloud_sync_provider $token
 	#stopLog
 }
 
