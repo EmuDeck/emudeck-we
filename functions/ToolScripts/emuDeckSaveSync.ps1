@@ -287,8 +287,17 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		Start-Process powershell -ArgumentList "-NoExit", "-Command", "`"$cloud_sync_bin`" $arguments" -WindowStyle Maximized -Wait
 
-		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-		 & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
+		 #& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
+		$arguments = @"
+		mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
+"@
+		 Start-Process powershell -ArgumentList "-NoExit", "-Command", "`"$cloud_sync_bin`" $arguments" -WindowStyle Maximized -Wait
+
+		 $arguments = @"
+		copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
+"@
+		 #& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
+		 Start-Process powershell -ArgumentList "-NoExit", "-Command", "`"$cloud_sync_bin`" $arguments" -WindowStyle Maximized -Wait
 		 #Cleaning up
 		 Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
 			Remove-Item $_.FullName
