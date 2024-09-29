@@ -214,102 +214,103 @@ function createCloudFile($folder) {
 }
 
 function cloud_sync_config($cloud_sync_provider, $token){
-	#startLog($MyInvocation.MyCommand.Name)
-	taskkill /F /IM rclone.exe > NUL 2>NUL
-	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
-	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
-	setSetting "cloud_sync_status" "true"
-	setSetting "cloud_sync_provider" "$cloud_sync_provider"
+   #startLog($MyInvocation.MyCommand.Name)
+   taskkill /F /IM rclone.exe > NUL 2>NUL
+   Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
+   createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
+   setSetting "cloud_sync_status" "true"
+   setSetting "cloud_sync_provider" "$cloud_sync_provider"
 
-	if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
-		$credentials = Get-Custom-Credentials "Emudeck-NextCloud"
-		$pass=$credentials.Password
-		$params="obscure $pass"
-		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-		& $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
-		Write-Output 'true'
-	} elseif ($cloud_sync_provider -eq "Emudeck-OneDrive") {
-		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-			createCloudFile $_.FullName
-		}
-		Start-Process $cloud_sync_bin -ArgumentList @"
-		config update $cloud_sync_provider
+   if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
+	  $credentials = Get-Custom-Credentials "Emudeck-NextCloud"
+	  $pass=$credentials.Password
+	  $params="obscure $pass"
+	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+	  & $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+	  Write-Output 'true'
+   } elseif ($cloud_sync_provider -eq "Emudeck-OneDrive") {
+	  Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+		 createCloudFile $_.FullName
+	  }
+	  Start-Process $cloud_sync_bin -ArgumentList @"
+	  config update $cloud_sync_provider
 "@ -WindowStyle Maximized -Wait
-		& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
-		#Cleaning up
-		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
-			Remove-Item $_.FullName
-		}
-		Write-Output 'true'
-	} elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
-		$credentials = Get-Custom-Credentials "Emudeck-SFTP"
-		$pass=$credentials.Password
-		$params="obscure $pass"
-		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-			createCloudFile $_.FullName
-		}
-		Start-Process $cloud_sync_bin -ArgumentList @"
-		config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
+	  & $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+	  & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+	  #Cleaning up
+	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+		 Remove-Item $_.FullName
+	  }
+	  Write-Output 'true'
+   } elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
+	  $credentials = Get-Custom-Credentials "Emudeck-SFTP"
+	  $pass=$credentials.Password
+	  $params="obscure $pass"
+	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+	  Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+		 createCloudFile $_.FullName
+	  }
+	  Start-Process $cloud_sync_bin -ArgumentList @"
+	  config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
 "@ -WindowStyle Maximized -Wait
-		& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
-		#Cleaning up
-		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+	  & $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+	  & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+	  #Cleaning up
+	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+		 Remove-Item $_.FullName
+	  }
+	  Write-Output 'true'
+   } elseif ($cloud_sync_provider -eq "Emudeck-cloud") {
+		 $parts = $token -split '\|\|\|'
+		 $json = '{"token":"'+ $token + '"}'
+		 $password = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/create-cs.php" `
+		  -ContentType "application/x-www-form-urlencoded" `
+		  -Body "$json"
+
+
+
+		 $pass= $($password.cloud_token)
+		 $user=$($parts[0])
+		 setSetting "cs_user" "cs_$user/"
+
+		 Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+			createCloudFile $_.FullName
+		 }
+
+		 & "$cloud_sync_bin" config update Emudeck-cloud host=cloud.emudeck.com user=cs_$user port=22 pass=$pass
+		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
+		 & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
+		 #Cleaning up
+		 Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
 			Remove-Item $_.FullName
-		}
-		Write-Output 'true'
-	} elseif ($cloud_sync_provider -eq "Emudeck-cloud") {
-			$parts = $token -split '\|\|\|'
-			$json = '{"token":"'+ $token + '"}'
-			$password = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/create-cs.php" `
-			 -ContentType "application/x-www-form-urlencoded" `
-			 -Body "$json"
+		 }
+		 Write-Output 'true'
+   } elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
+	  $credentials = Get-Custom-Credentials "Emudeck-SMB"
+	  $pass=$credentials.Password
+	  $params="obscure $pass"
+	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 
-			$pass=$password.cloud_token
-			$user=$($parts[0])
-			#$params="obscure $pass"
-			#$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-			Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-				createCloudFile $_.FullName
-			}
-			Start-Process $cloud_sync_bin -ArgumentList @"
-			config update "Emudeck-cloud" host="cloud.emudeck.com" user="cs_$user" port="22" pass="$pass"
-	"@ -WindowStyle Maximized -Wait
-			& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-			& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
-			#Cleaning up
-			Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
-				Remove-Item $_.FullName
-			}
-			Write-Output 'true'
-	} elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
-		$credentials = Get-Custom-Credentials "Emudeck-SMB"
-		$pass=$credentials.Password
-		$params="obscure $pass"
-		$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
-
-		Start-Process $cloud_sync_bin -ArgumentList @"
-		config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
+	  Start-Process $cloud_sync_bin -ArgumentList @"
+	  config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 "@  -WindowStyle Maximized -Wait
 
-		Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-			createCloudFile $_.FullName
-		}
+	  Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+		 createCloudFile $_.FullName
+	  }
 
-		& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-		& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
-		#Cleaning up
-		Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
-			Remove-Item $_.FullName
-		}
+	  & $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
+	  & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+	  #Cleaning up
+	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+		 Remove-Item $_.FullName
+	  }
 
-		Write-Output 'true'
-	} else {
-		& $cloud_sync_bin config update "$cloud_sync_provider"
-		Write-Output 'true'
-	}
+	  Write-Output 'true'
+   } else {
+	  & $cloud_sync_bin config update "$cloud_sync_provider"
+	  Write-Output 'true'
+   }
 
 
 }
