@@ -269,13 +269,13 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 			$pass=$password.cloud_token
 			$user=$($parts[0])
-			$params="obscure $pass"
-			$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+			#$params="obscure $pass"
+			#$obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 			Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
 				createCloudFile $_.FullName
 			}
 			Start-Process $cloud_sync_bin -ArgumentList @"
-			config update "Emudeck-cloud" host="cloud.emudeck.com" user="cs_$user" port="22" pass="$obscuredPassword"
+			config update "Emudeck-cloud" host="cloud.emudeck.com" user="cs_$user" port="22" pass="$pass"
 	"@ -WindowStyle Maximized -Wait
 			& $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
 			& $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
