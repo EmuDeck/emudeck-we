@@ -174,15 +174,15 @@ function cloud_sync_install($cloud_sync_provider){
 
  #	& "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 
- 	# if (-not ( & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" status "CloudWatch" )) {
+	 # if (-not ( & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" status "CloudWatch" )) {
 		# #We create the service
 		# cloud_sync_install_service
- 	# }else{
+	 # }else{
 		# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 		# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" remove "CloudWatch" confirm
 		# cloud_sync_install_service
- 	# }
- 	if (-not(Test-Path "$cloud_sync_bin")) {
+	 # }
+	 if (-not(Test-Path "$cloud_sync_bin")) {
 		$cloud_sync_releaseURL = getLatestReleaseURLGH 'rclone/rclone' 'zip' 'windows-amd64'
 		download $cloud_sync_releaseURL "rclone.zip"
 		setSetting "cloud_sync_provider" "$cloud_sync_provider"
@@ -190,18 +190,18 @@ function cloud_sync_install($cloud_sync_provider){
 		$regex = '^.*\/(rclone-v\d+\.\d+\.\d+-windows-amd64\.zip)$'
 
 		if ($cloud_sync_releaseURL -match $regex) {
-	 	$filename = $matches[1]
-	 	$filename = $filename.Replace('.zip','')
-	 	Rename-Item "$temp\rclone\$filename" -NewName "rclone"
-	 	moveFromTo "$temp/rclone" "$toolsPath"
+		 $filename = $matches[1]
+		 $filename = $filename.Replace('.zip','')
+		 Rename-Item "$temp\rclone\$filename" -NewName "rclone"
+		 moveFromTo "$temp/rclone" "$toolsPath"
 		}
- 	}
- 	#stopLog
+	 }
+	 #stopLog
 }
 
 function cloud_sync_toggle($status){
 	#startLog($MyInvocation.MyCommand.Name)
-    setSetting "cloud_sync_status" $status
+	setSetting "cloud_sync_status" $status
 	#stopLog
 }
 
@@ -261,6 +261,9 @@ function cloud_sync_config($cloud_sync_provider, $token){
 	  }
 	  Write-Output 'true'
    } elseif ($cloud_sync_provider -eq "Emudeck-cloud") {
+
+		$token = $token -replace "---", '|||'
+
 		 $parts = $token -split '\|\|\|'
 		 $json = '{"token":"'+ $token + '"}'
 		 $password = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/create-cs.php" `
@@ -269,7 +272,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		 $pass= $($password.cloud_token)
 
-		 $ofuspass = $pass -replace "[`r`n]", ""
+		 $ofuspass = $pass
 
 		 $user=$($parts[0])
 		 setSetting "cs_user" "cs_$user\"
@@ -280,7 +283,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		 Start-Process $cloud_sync_bin -ArgumentList @"
 				  config update Emudeck-cloud host=cloud.emudeck.com user=cs_$user port=22 pass="$ofuspass"
-		 "@  -WindowStyle Maximized -Wait
+"@  -WindowStyle Maximized -Wait
 
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 		 & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
