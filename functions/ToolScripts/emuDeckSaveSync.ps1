@@ -214,6 +214,9 @@ function createCloudFile($folder) {
 }
 
 function cloud_sync_config($cloud_sync_provider, $token){
+
+	setSetting "cs_user" ""
+
    #startLog($MyInvocation.MyCommand.Name)
    taskkill /F /IM rclone.exe > NUL 2>NUL
    Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$cloud_sync_path" -Force
