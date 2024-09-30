@@ -1,4 +1,4 @@
-$user=$args[0]
+$user="$args[0]"
 $userPath = "C:\Users\$user"
 $logPath = Join-Path -Path "$userPath" -ChildPath 'EmuDeck\logs\cloudWatcher.log'
 $f1 = Join-Path -Path "$userPath" -ChildPath 'EmuDeck\settings.ps1'
