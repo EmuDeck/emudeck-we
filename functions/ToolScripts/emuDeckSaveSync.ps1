@@ -291,7 +291,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 		 cloud_sync_save_hash($savesPath)
 
-		 & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:Emudeck\saves"
+		 & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 
 		 Write-Output 'true'
    } elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
