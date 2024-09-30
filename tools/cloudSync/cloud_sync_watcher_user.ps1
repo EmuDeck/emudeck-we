@@ -114,24 +114,24 @@ try
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {
-			  $toast = steamToast -MessageText "CloudSync - Uploading Modified file"
+			  #$toast = steamToast -MessageText "CloudSync - Uploading Modified file"
 				Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 			  rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 			  Start-Sleep -Seconds 1.5
-			  $toast.Close()
+			 # $toast.Close()
 		  }
 	  }
 	  'Created'  {
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Write-Host "No upload"
 		  } else {
-			  $toast = steamToast -MessageText "CloudSync - Uploading new file"
+			  #$toast = steamToast -MessageText "CloudSync - Uploading new file"
 			  Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 			  rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 			  Start-Sleep -Seconds 1.5
-			  $toast.Close()
+			  #$toast.Close()
 		  }
 
 	  }
