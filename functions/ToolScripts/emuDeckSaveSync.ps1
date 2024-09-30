@@ -232,18 +232,18 @@ function cloud_sync_config($cloud_sync_provider, $token){
 	  & $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 	  Write-Output 'true'
    } elseif ($cloud_sync_provider -eq "Emudeck-OneDrive") {
-	  Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-		 createCloudFile $_.FullName
-	  }
+	  #Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
+	#	 createCloudFile $_.FullName
+	 # }
 	  Start-Process $cloud_sync_bin -ArgumentList @"
 	  config update $cloud_sync_provider
 "@ -WindowStyle Maximized -Wait
 	  & $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
-	  & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+	  # & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
 	  #Cleaning up
-	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
-		 Remove-Item $_.FullName
-	  }
+	  #Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+	#	 Remove-Item $_.FullName
+	#  }
 	  Write-Output 'true'
    } elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 	  $credentials = Get-Custom-Credentials "Emudeck-SFTP"
@@ -257,7 +257,10 @@ function cloud_sync_config($cloud_sync_provider, $token){
 	  config update "Emudeck-SFTP" host=$($credentials.Url) user=$($credentials.Username) port=$($credentials.Port) pass="$obscuredPassword"
 "@ -WindowStyle Maximized -Wait
 	  & $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
-	  & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+
+	  cloud_sync_save_hash($savesPath)
+
+	  & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:Emudeck\saves"
 	  #Cleaning up
 	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
 		 Remove-Item $_.FullName
@@ -280,20 +283,16 @@ function cloud_sync_config($cloud_sync_provider, $token){
 		 $user=$($parts[0])
 		 setSetting "cs_user" "cs_$user\"
 
-		 Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
-			createCloudFile $_.FullName
-		 }
 
 		 Start-Process $cloud_sync_bin -ArgumentList @"
 				  config update Emudeck-cloud host=cloud.emudeck.com user=cs_$user port=22 pass="$ofuspass"
 "@  -WindowStyle Maximized -Wait
 
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-		 & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:$cs_user`Emudeck\saves" --include "*.cloud"
-		 #Cleaning up
-		 Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
-			Remove-Item $_.FullName
-		 }
+		 cloud_sync_save_hash($savesPath)
+
+		 & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:Emudeck\saves"
+
 		 Write-Output 'true'
    } elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 	  $credentials = Get-Custom-Credentials "Emudeck-SMB"
