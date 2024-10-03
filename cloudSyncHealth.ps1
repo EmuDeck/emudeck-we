@@ -37,7 +37,7 @@ function cloud_sync_download_test($emuName){
 			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
 			Write-Host "Testing $emuName download..."
-			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp" "$fileHash"
+			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:$cs_user`Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
 				Write-Host "success" -ForegroundColor Green
 			}else{
@@ -62,7 +62,7 @@ function cloud_sync_upload_test($emuNAme){
 
 			Write-Host "Testing $emuName upload..."
 
-			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:Emudeck\saves\$emuName\.temp"
+			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:$cs_user`Emudeck\saves\$emuName\.temp"
 			if ($?) {
 				Write-Host "success" -ForegroundColor Green
 			}else{
