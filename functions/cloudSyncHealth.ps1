@@ -42,7 +42,7 @@ function cloudSyncHealth(){
 	  Start-Sleep -Seconds 1
   }
 
-  $result = & $cloud_sync_bin lsf "$cloud_sync_provider`:Emudeck/saves/retroarch/" | Select-String "test_emudeck.txt"
+  $result = & $cloud_sync_bin lsf "$cloud_sync_provider`:$cs_user`Emudeck/saves/retroarch/" | Select-String "test_emudeck.txt"
 
   # Evaluar el resultado
   if ($result) {
@@ -57,7 +57,7 @@ function cloudSyncHealth(){
   ##Testing Dowmload
   #
 
- &  "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:Emudeck/saves/retroarch/test_emudeck.txt" "$savesPath/retroarch/test_emudeck.txt"
+ &  "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:$cs_user`Emudeck/saves/retroarch/test_emudeck.txt" "$savesPath/retroarch/test_emudeck.txt"
 
   if (Test-Path "$savesPath\retroarch\test_emudeck.txt") {
 	  Write-Host "file exists in local. SUCCESS"
@@ -71,7 +71,7 @@ function cloudSyncHealth(){
   Remove-Item -Recurse -Force "$savesPath\retroarch\test_emudeck.txt"
 
   # Eliminar el archivo remoto
-  & $cloud_sync_bin delete "$cloud_sync_provider`:Emudeck/saves/retroarch/test_emudeck.txt"
+  & $cloud_sync_bin delete "$cloud_sync_provider`:$cs_user`Emudeck/saves/retroarch/test_emudeck.txt"
 
   # Verificar si se debe matar Retroarch o cerrar otra ventana
   if ($kill -eq "RETROARCH") {
