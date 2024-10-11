@@ -3,7 +3,7 @@
   "configTitle": "Microsoft Xbox 360 - Xbox Live Arcade - Xenia",
   "steamCategory": "${Microsoft Xbox 360 - Xbox Live Arcade}",
   "steamDirectory": "${steamdirglobal}",
-  "romDirectory": "${romsdirglobal}/xbox360/xbla/",
+  "romDirectory": "${romsdirglobal}/xbox360/",
   "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\xenia.ps1 '${filePath}' ${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
