@@ -10,7 +10,6 @@ function CreateStructureUSB {
         New-Item -Path "$destination\bios\yuzu\keys" -ItemType Directory -Force
         New-Item -Path "$destination\roms\" -ItemType Directory -Force
 
-        # Crear el archivo readme.txt con el contenido
         $readmeContent = @"
 # Where to put your bios?
 First of all, don't create any new subdirectory. ***
@@ -44,33 +43,33 @@ function CopyGames {
         [string]$origin
     )
 
-    # Calcular espacio necesario
     $neededSpace = (Get-ChildItem -Recurse -Force -File -Path $origin | Measure-Object -Sum Length).Sum
     $neededSpaceInHuman = [math]::round($neededSpace / 1GB, 2)
 
 
-    # Obtener la letra de la unidad desde la ruta $emulationPath
     $driveLetter = (Split-Path -Qualifier $emulationPath)
 
-    # Obtener información sobre el volumen de la unidad
     $volume = Get-Volume -DriveLetter $driveLetter.TrimEnd(':')
 
-    # Obtener el espacio libre en la unidad
     $freeSpace = $volume.SizeRemaining
     $freeSpaceInHuman = [math]::round($freeSpace / 1GB, 2)
     $difference = $freeSpace - $neededSpace
 
     if ($difference -lt 0) {
-        $text = "Make sure you have enough space in $emulationPath. You need to have at least $neededSpaceInHuman GB available"
-        Write-Output $text
 
-        $ans = Read-Host "Do you want to continue? (yes/no)"
-        if ($ans -ne "yes") {
+        $result = yesNoDialog -TitleText "CloudSync Force" -MessageText "Make sure you have enough space in $emulationPath. You need to have at least $neededSpaceInHuman GB available" -OKButtonText "Continue" -CancelButtonText "Cancel"
+
+        if ($result -eq "OKButton") {
+            $dialog = steamToast  -MessageText "Uploading all systems... don't turn off your device"
+            cloud_sync_uploadEmuAll
+            $dialog.Close()
+        } else {
             exit
+            $dialog.Close()
         }
     }
 
-    # Copiar archivos
+
     foreach ($entry in Get-ChildItem -Path "$origin\roms\" -Directory) {
         $files = Get-ChildItem -Path $entry.FullName -Recurse -File | Where-Object { $_.Extension -ne ".txt" }
         if ($files.Count -gt 0) {
@@ -82,12 +81,10 @@ function CopyGames {
         }
     }
 
-    # Copiar BIOS
     Write-Output "Importing your bios to $biosPath"
     robocopy "$origin\bios" "$biosPath" /E /XO /NJH /NJS /NP
 
-    # Mensaje de éxito
-    Write-Output "<b>Success!</b> The contents of your USB Drive have been copied to your Emulation folder"
+    confirmDialog -TitleText "Success" -MessageText "The contents of your USB Drive have been copied to your Emulation folder"
     Start-Sleep -Seconds 3
     Write-Output "3... 2... 1..."
 }
