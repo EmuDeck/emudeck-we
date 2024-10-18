@@ -261,7 +261,7 @@ function getReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pe
 
 function check_internet_connection(){
 
-	if ((Test-Connection 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue).StatusCode -eq 0) { return "true" } else { return "false" }
+	if ((Test-Connection 1.1.1.1 -Count 1 -ErrorAction SilentlyContinue).StatusCode -eq 0) { return "true" } else { return "false" }
 
 }
 
