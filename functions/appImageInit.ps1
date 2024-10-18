@@ -4,6 +4,11 @@ function appImageInit(){
 	#AutoFixes
 	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue
 
+
+	#CHD
+	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
+	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chdconv.ps1" -Destination "$toolsPath\chdconv\" -Force
+
 	#Remove SRM BOM
 	# $userConfigsFile="$toolsPath\userData\userConfigurations.json"
 	# $content = Get-Content -Path $userConfigsFile -Raw
