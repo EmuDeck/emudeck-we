@@ -1,5 +1,3 @@
-. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
-
 function Migration_init {
     param (
         [string]$destination
