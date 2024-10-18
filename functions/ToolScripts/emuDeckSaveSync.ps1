@@ -903,3 +903,8 @@ function cloud_sync_init($emulator){
 	}
 	#stopLog
 }
+
+
+function cloud_decky_check_status(){
+	echo "nope"
+}
