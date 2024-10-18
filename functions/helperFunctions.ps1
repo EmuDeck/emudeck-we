@@ -1309,3 +1309,7 @@ function storePatreonToken($token){
 		echo "NOPE"
 	}
 }
+
+function startCompressor(){
+	Start-Process cmd -ArgumentList "/k powershell -ExecutionPolicy Bypass -NoProfile -File `"$toolsPath/chdconv/chddeck.ps1`""
+}
