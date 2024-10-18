@@ -21,6 +21,7 @@
 <emulator name="LIME3DS">
 	<rule type="staticpath">
 		<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe</entry>
+		<entry>%ESPATH%\Emulators\lime3ds\lime3ds.exe</entry>
 	</rule>
 </emulator>
 </ruleList>
