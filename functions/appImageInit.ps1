@@ -7,7 +7,7 @@ function appImageInit(){
 
 	#CHD
 	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
-	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chdconv.ps1" -Destination "$toolsPath\chdconv\" -Force
+	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chddeck.ps1" -Destination "$toolsPath\chdconv\" -Force
 
 	#Remove SRM BOM
 	# $userConfigsFile="$toolsPath\userData\userConfigurations.json"
