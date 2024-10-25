@@ -812,9 +812,9 @@ function cloud_sync_lock($userPath){
 	}
 
 	Add-Content "$userFolder\EmuDeck\cloud.lock" "Locked" -NoNewline -Encoding UTF8
-	$toast = steamToast -MessageText "Uploading..."
-	Start-Sleep -Milliseconds 500
-	$toast.Close()
+	#$toast = steamToast -MessageText "Uploading..."
+	#Start-Sleep -Milliseconds 500
+	#$toast.Close()
 	#stopLog
 }
 
@@ -824,9 +824,9 @@ function cloud_sync_unlock($userPath){
 		$userFolder = "$userPath"
 	}
 	Remove-Item "$userFolder\EmuDeck\cloud.lock" -Force -ErrorAction SilentlyContinue
-	$toast = steamToast -MessageText "Uploads completed!"
-	Start-Sleep -Milliseconds 500
-	$toast.Close()
+	#$toast = steamToast -MessageText "Uploads completed!"
+	#Start-Sleep -Milliseconds 500
+	#$toast.Close()
 	#stopLog
 }
 
