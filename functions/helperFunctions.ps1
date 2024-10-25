@@ -792,6 +792,14 @@ function createSymlink($source, $target){
 mkdir "$target" -ErrorAction SilentlyContinue
 #
 if ($networkInstallation -eq "false"){
+
+	if (Test-Path $source) {
+	   	$item = Get-Item $source
+ 	  	if ($item.LinkType -eq "Junction") {
+ 		  	Remove-Item -Path $source -Force -Recurse
+	   	}
+	}
+
 	New-Item -ItemType Junction -Path "$source"  -Target "$target" -ErrorAction SilentlyContinue
 } else {
 
