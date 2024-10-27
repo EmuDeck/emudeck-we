@@ -6,24 +6,21 @@ function generateGameLists() {
 
 function generateGameListsJson {
 
-    # Ejecuta el script de Python para generar la lista de juegos
     python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\generate_game_lists.py" "$romsPath"
 
-    # Muestra el contenido del archivo roms_games.json
     Get-Content "$HOME\emudeck\cache\roms_games.json"
 
     # Comprueba si .romlibrary_first existe y ejecuta la lógica de generación de arte
-    if (Test-Path "$HOME\emudeck\cache\.romlibrary_first") {
-         generateGameLists_artwork 0
-    }
-    else {
-        for ($i = 1; $i -le 5; $i++) {
-            generateGameLists_artwork $i
-            #Start-Sleep -Seconds 1
-        }
-        # Crea el archivo .romlibrary_first
-        New-Item -ItemType File -Path "$HOME\emudeck\cache\.romlibrary_first" | Out-Null
-    }
+    # if (Test-Path "$HOME\emudeck\cache\.romlibrary_first") {
+    #      generateGameLists_artwork 0
+    # }else {
+    #     for ($i = 1; $i -le 5; $i++) {
+    #         generateGameLists_artwork $i
+    #         #Start-Sleep -Seconds 1
+    #     }
+    #     # Crea el archivo .romlibrary_first
+    #     New-Item -ItemType File -Path "$HOME\emudeck\cache\.romlibrary_first" | Out-Null
+    # }
 }
 
 
