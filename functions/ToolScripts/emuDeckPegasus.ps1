@@ -25,15 +25,11 @@ function pegasus_setPaths(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
 	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
-		(Get-Content $_.FullName) | ForEach-Object {
-			$_ -replace "CORESPATH/", "$emusPath\RetroArch\cores\"
-		} | Out-File -FilePath $_.FullName -Encoding utf8
+		sedFile "$_.FullName" "CORESPATH/" "$emusPath\RetroArch\cores\"
 	}
 
 	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
-		(Get-Content $_.FullName) | ForEach-Object {
-			$_ -replace "/run/media/mmcblk0p1/Emulation/tools/launchers/", "$toolsPath\launchers\"
-		} | Out-File -FilePath $_.FullName -Encoding utf8
+		sedFile "$_.FullName" "/run/media/mmcblk0p1/Emulation/tools/launchers/" "$toolsPath\launchers\"
 	}
 
 	sedFile "$pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
