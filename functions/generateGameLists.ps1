@@ -13,7 +13,7 @@ function generateGameListsJson {
     else {
         for ($i = 1; $i -le 5; $i++) {
             generateGameLists_artwork $i
-            Start-Sleep -Seconds 5
+            Start-Sleep -Seconds 1
         }
         # Crea el archivo .romlibrary_first
         New-Item -ItemType File -Path "$HOME\emudeck\cache\.romlibrary_first" | Out-Null
