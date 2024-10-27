@@ -11,7 +11,7 @@ function generateGameListsJson {
 
     # Comprueba si .romlibrary_first existe y ejecuta la lógica de generación de arte
     if (Test-Path "$HOME\emudeck\cache\.romlibrary_first") {
-        Start-Process -NoNewWindow -FilePath "generateGameLists_artwork" -ArgumentList 0
+        generateGameLists_artwork 0
     }
     else {
         for ($i = 1; $i -le 5; $i++) {
