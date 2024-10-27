@@ -20,15 +20,7 @@ function pegasus_install(){
 	pegasus_init
 }
 
-#ApplyInitialSettings
-function pegasus_init(){
-	setMSG "Setting up $pegasus_toolName"
-	$destination="$pegasus_path/"
-	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\pegasus" "$destination"
-
-	createLauncher "pegasus/pegasus-frontend"
-
+function pegasus_setPaths(){
 	#metadata and cores paths
 	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
@@ -45,6 +37,19 @@ function pegasus_init(){
 	}
 
 	sedFile "$pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+
+}
+
+#ApplyInitialSettings
+function pegasus_init(){
+	setMSG "Setting up $pegasus_toolName"
+	$destination="$pegasus_path/"
+	mkdir $destination -ErrorAction SilentlyContinue
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\pegasus" "$destination"
+
+	createLauncher "pegasus/pegasus-frontend"
+
+	pegasus_setPaths
 
 	Get-ChildItem -Path $romsPath | ForEach-Object {
 		$systemPath = $_.FullName

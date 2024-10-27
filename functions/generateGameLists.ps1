@@ -1,7 +1,13 @@
+function generateGameLists() {
+    pegasus_setPaths
+    mkdir "$HOME/emudeck/cache/" -ErrorAction SilentlyContinue
+    python "$env:APPDATA\EmuDeck/backend/tools/generate_game_lists.py" "$romsPath"
+}
+
 function generateGameListsJson {
 
     # Ejecuta el script de Python para generar la lista de juegos
-    python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\generate_game_lists.py" $romsPath
+    python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\generate_game_lists.py" "$romsPath"
 
     # Muestra el contenido del archivo roms_games.json
     Get-Content "$HOME\emudeck\cache\roms_games.json"
