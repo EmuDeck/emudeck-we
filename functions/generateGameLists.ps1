@@ -1,7 +1,4 @@
 function generateGameListsJson {
-    param (
-        [string]$romsPath
-    )
 
     # Ejecuta el script de Python para generar la lista de juegos
     python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\generate_game_lists.py" $romsPath
@@ -11,7 +8,7 @@ function generateGameListsJson {
 
     # Comprueba si .romlibrary_first existe y ejecuta la lógica de generación de arte
     if (Test-Path "$HOME\emudeck\cache\.romlibrary_first") {
-        generateGameLists_artwork 0
+         generateGameLists_artwork 0
     }
     else {
         for ($i = 1; $i -le 5; $i++) {
@@ -34,7 +31,13 @@ function generateGameLists_artwork {
     $logFolder = "$HOME\emudeck\logs\"
     $jsonFile = "$cacheFolder\roms_games.json"
     $logFileName = "$logFolder\library_$number_log.log"
-    $accountFolder = (Get-ChildItem -Directory "$HOME\.steam\steam\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
+
+    $steamRegPath = "HKCU:\Software\Valve\Steam"
+    $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+    $steamInstallPath = $steamInstallPath.Replace("/", "\\")
+    $steamPath = "$steamInstallPath\userdata"
+
+    $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
     $destFolder = "$accountFolder\config\grid\emudeck\"
     $processedGames = @{}
 
@@ -59,7 +62,7 @@ function generateGameLists_artwork {
         if ($number_log -eq 1) {
             $games = $jsonContent | Where-Object { $_.id -eq $platform } | ForEach-Object { $_.games.name }
         } else {
-            $games = ($jsonContent | Where-Object { $_.id -eq $platform } | ForEach-Object { $_.games.name }) | Get-Random -Count ($games.Count)
+            $games = ($jsonContent | Where-Object { $_.id -eq $platform } | ForEach-Object { $_.games.name })
         }
 
         $downloadArray = @()
@@ -72,7 +75,7 @@ function generateGameLists_artwork {
 
                 # Procesamiento fuzzy
                 $fuzzygame = python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\fuzzy_search_rom.py" $game | Out-String
-                $fuzzygame = $fuzzygame -replace '[\s:./&!]', ''
+                #$fuzzygame = $fuzzygame -replace '[\s:./&!]', ''
                 "`nFUZZY: $fuzzygame" | Out-File -Append -Encoding utf8 $logFileName
 
                 # Realiza la consulta de imagen
@@ -150,5 +153,5 @@ function saveImage {
     New-Item -ItemType Directory -Force -Path $destFolder | Out-Null
 
     # Descarga la imagen desde la URL proporcionada
-    Invoke-WebRequest -Uri $url -OutFile $destPath -Quiet
+    download $url $destPath
 }
