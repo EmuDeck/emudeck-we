@@ -4,7 +4,7 @@ function generateGameListsJson {
     )
 
     # Ejecuta el script de Python para generar la lista de juegos
-    python "$HOME\.config\EmuDeck\backend\tools\generate_game_lists.py" $romsPath
+    python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\generate_game_lists.py" $romsPath
 
     # Muestra el contenido del archivo roms_games.json
     Get-Content "$HOME\emudeck\cache\roms_games.json"
@@ -71,7 +71,7 @@ function generateGameLists_artwork {
                 "`nGAME: $game" | Out-File -Append -Encoding utf8 $logFileName
 
                 # Procesamiento fuzzy
-                $fuzzygame = python "$HOME\.config\EmuDeck\backend\tools\fuzzy_search_rom.py" $game | Out-String
+                $fuzzygame = python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\fuzzy_search_rom.py" $game | Out-String
                 $fuzzygame = $fuzzygame -replace '[\s:./&!]', ''
                 "`nFUZZY: $fuzzygame" | Out-File -Append -Encoding utf8 $logFileName
 

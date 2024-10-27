@@ -42,13 +42,36 @@ json_file_path = os.path.join(emudeck_dir, "games.json")
 # Descargar o cargar el JSON
 if not os.path.exists(json_file_path) or is_file_older_than(json_file_path, 5):
 
-    bash_command = 'wget --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36" "https://steamgriddb.com/api/games" -O "$HOME/emudeck/games.json"'
     try:
-        result = subprocess.run(bash_command, shell=True, check=True, text=True, capture_output=True)
-        print("Salida del comando:", result.stdout)
-    except subprocess.CalledProcessError as e:
-        print(f"Ocurrió un error al ejecutar el comando: {e}")
+        url = "https://steamgriddb.com/api/games"
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
+        }
 
+        # Crea una solicitud con el encabezado de `User-Agent`
+        request = urllib.request.Request(url, headers=headers)
+
+        # Realiza la solicitud y guarda la respuesta
+        with urllib.request.urlopen(request) as response:
+            content = response.read()
+
+        # Define la ruta de destino
+        dest_path = os.path.expanduser("~/emudeck/games.json")
+        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+
+        # Guarda el contenido en el archivo especificado
+        with open(dest_path, "wb") as file:
+            file.write(content)
+
+        # Verifica si el archivo se ha guardado correctamente
+        if os.path.exists(dest_path):
+            # Asegura que el archivo tiene contenido (opcional)
+            while os.path.getsize(dest_path) == 0:
+                time.sleep(0.1)  # Espera 100 ms si el archivo aún está vacío
+
+        print("Archivo descargado exitosamente en:", dest_path)
+    except urllib.error.URLError as e:
+        print(f"Ocurrió un error al descargar el archivo: {e}")
 else:
     # Cargar el JSON desde el disco duro
     with open(json_file_path, "r") as json_file:
