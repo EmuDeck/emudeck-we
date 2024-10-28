@@ -13,9 +13,13 @@ function generateGameListsJson {
     getArtwork  | Out-Null
 }
 
-function launch($app){
+function launchGame {
+    param (
+        [string]$app
+    )
     python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\launch.py" "$app"
 }
+
 
 function getArtwork {
     Start-Job -ScriptBlock {
