@@ -39,11 +39,10 @@ function Plugins_installEmuDecky(){
     download $url "EmuDecky.zip"
     moveFromTo "$temp/EmuDecky" "$HOME/homebrew/plugins"
 
-    if ( -not (Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\decky-loader-win.exe")){
-       Plugins_installPluginLoader
-    }else{
-        echo "true"
-    }
+    Plugins_installPluginLoader
+
+    echo "true"
+
 
 
 }
@@ -54,10 +53,8 @@ function Plugins_installDeckyRomLibrary(){
    download $url "retroLibrary.zip"
    moveFromTo "$temp/retroLibrary" "$HOME/homebrew/plugins"
 
-   if ( -not (Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\decky-loader-win.exe")){
-       Plugins_installPluginLoader
-    }else{
-        echo "true"
-    }
+   Plugins_installPluginLoader
+
+   echo "true"
 
 }
