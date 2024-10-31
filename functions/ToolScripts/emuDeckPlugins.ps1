@@ -21,7 +21,7 @@ Move-Item -Path "$temp/decky-loader-win.exe" -Destination "C:\ProgramData\Micros
     startScriptWithAdmin -ScriptContent $scriptContent
     mkdir "$HOME/homebrew/plugins" -ErrorAction SilentlyContinue
     Start-Process "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\decky-loader-win.exe"
-    echo "running"
+    echo "true"
 }
 
 function Plugins_installEmuDecky(){
@@ -32,7 +32,10 @@ function Plugins_installEmuDecky(){
 
     if ( -not (Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\decky-loader-win.exe")){
        Plugins_installPluginLoader
+    }else{
+        echo "true"
     }
+
 
 }
 
@@ -44,6 +47,8 @@ function Plugins_installDeckyRomLibrary(){
 
    if ( -not (Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\decky-loader-win.exe")){
        Plugins_installPluginLoader
+    }else{
+        echo "true"
     }
 
 }
