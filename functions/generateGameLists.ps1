@@ -161,14 +161,19 @@ function saveImage {
         [string]$name
     )
 
-    # Define la carpeta de destino
-    $accountFolder = (Get-ChildItem -Directory "$HOME\.steam\steam\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
-    $destFolder = "$accountFolder\config\grid\emudeck"
+    $steamRegPath = "HKCU:\Software\Valve\Steam"
+     $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+     $steamInstallPath = $steamInstallPath.Replace("/", "\\")
+     $steamPath = "$steamInstallPath\userdata"
+
+     $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
+     $destFolder = "$accountFolder\config\grid\emudeck\"
     $destPath = "$destFolder\$name.jpg"
 
     # Crea el directorio de destino si no existe
     New-Item -ItemType Directory -Force -Path $destFolder | Out-Null
 
     # Descarga la imagen desde la URL proporcionada
-    download $url $destPath
+    $wc = New-Object net.webclient
+    $wc.Downloadfile($url, $destPath)
 }
