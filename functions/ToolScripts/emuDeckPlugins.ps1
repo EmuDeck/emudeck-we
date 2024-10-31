@@ -16,11 +16,20 @@ function Plugins_installPluginLoader(){
 
 
 $scriptContent = @"
-Move-Item -Path "$temp/decky-loader-win.exe" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" -Force
+#Move-Item -Path "$temp/decky-loader-win.exe" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" -Force
+
+$appPath = ""$toolsPath\decky-loader-win.exe"
+
+# Define la clave de registro para el inicio
+$regPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
+$appName = "Decky Loader"
+
+# Agrega la aplicación al inicio en el Registro
+Set-ItemProperty -Path $regPath -Name $appName -Value $appPath
 "@
     startScriptWithAdmin -ScriptContent $scriptContent
     mkdir "$HOME/homebrew/plugins" -ErrorAction SilentlyContinue
-    Start-Process "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\decky-loader-win.exe"
+    Start-Process "$toolsPath\decky-loader-win.exe"
     echo "true"
 }
 
