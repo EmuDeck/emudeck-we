@@ -29,7 +29,7 @@ Set-ItemProperty -Path $regPath -Name $appName -Value $appPath
 "@
     startScriptWithAdmin -ScriptContent $scriptContent
     mkdir "$HOME/homebrew/plugins" -ErrorAction SilentlyContinue
-    Start-Process "$toolsPath\decky-loader-win.exe"
+    Start-Process "$toolsPath\decky-loader-win.exe" -ErrorAction SilentlyContinue
     echo "true"
 }
 
