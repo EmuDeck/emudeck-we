@@ -12,13 +12,12 @@ function Plugins_installPluginLoader(){
 
     $url = getLatestReleaseURLGH 'emudeck/decky-loader-win' 'exe' '_noconsole'
     download $url "decky-loader-win.exe"
-    cp "$temp/decky-loader-win.exe" "$toolsPath"
-
+    Move-Item -Path "$temp/decky-loader-win.exe" -Destination "$toolsPath" -Force
 
 $scriptContent = @"
 #Move-Item -Path "$temp/decky-loader-win.exe" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup" -Force
 
-$appPath = ""$toolsPath\decky-loader-win.exe"
+$appPath = "$toolsPath\decky-loader-win.exe"
 
 # Define la clave de registro para el inicio
 $regPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
@@ -27,6 +26,7 @@ $appName = "Decky Loader"
 # Agrega la aplicación al inicio en el Registro
 Set-ItemProperty -Path $regPath -Name $appName -Value $appPath
 "@
+    taskkill /IM decky-loader-win.exe /F
     startScriptWithAdmin -ScriptContent $scriptContent
     mkdir "$HOME/homebrew/plugins" -ErrorAction SilentlyContinue
     Start-Process "$toolsPath\decky-loader-win.exe" -ErrorAction SilentlyContinue
@@ -42,7 +42,6 @@ function Plugins_installEmuDecky(){
     Plugins_installPluginLoader
 
     echo "true"
-
 
 
 }

@@ -3,6 +3,8 @@
 $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you sure you want to uninstall EmuDeck? If you are having issues do a Custom Reset, if that doesn't fix your issue visit the EmuDeck Discord or Reddit for support. For links, see: https://www.emudeck.com/#download" -OKButtonText "Uninstall" -CancelButtonText "Cancel"
 
 	if ($result -eq "OKButton") {
+		#Decky
+		taskkill /IM decky-loader-win.exe /F
 		#Steam Input
 		SRM_removeSteamInputProfiles
 		#Cloud service
@@ -14,6 +16,7 @@ $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you s
 		#Backend
 		rm -fo -r "$env:APPDATA\EmuDeck"
 		rm -fo -r "$env:USERPROFILE\EmuDeck"
+		rm -fo -r
 		#App
 		& "$env:USERPROFILE\AppData\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
 	} else {
