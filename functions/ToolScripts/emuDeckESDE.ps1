@@ -298,8 +298,8 @@ function ESDE_steamShortcut(){
    $json = @{
 	   path = "C:/Users/rsedano/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/EmuDeck/EmulationStationDE.lnk"
 	   appname = "ES-DE"
-	   poster_path = "$($env:APPDATA)/EmuDeck/backend/config/artwork/ESDE/esde_p.png"
-	   icon_path = "$($env:APPDATA)/EmuDeck/backend/config/artwork/ESDE/esde_icon.png"
+	   poster_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_p.png"
+	   icon_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_icon.png"
    } | ConvertTo-Json
 
    $jsonBytes = [System.Text.Encoding]::UTF8.GetBytes($json)
