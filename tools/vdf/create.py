@@ -13,6 +13,25 @@ parser.add_argument("--data", type=str, required=True, help="El JSON en formato 
 # Parsear los argumentos
 args = parser.parse_args()
 
+try:
+    # Decodificar el argumento base64
+    json_string = base64.b64decode(args.data).decode('utf-8')
+    print("Cadena JSON decodificada:", json_string)  # Imprimir para depuración
+
+    # Intentar convertir a un diccionario JSON
+    data = json.loads(json_string)
+    print("Datos procesados:", data)
+
+    # Acceder al campo 'appname'
+    appname = data.get("appname")
+    print("Nombre de la aplicación:", appname)
+
+except base64.binascii.Error:
+    print("Error: El argumento proporcionado no está correctamente codificado en base64.")
+
+except json.JSONDecodeError:
+    print("Error: El argumento decodificado no es un JSON válido.")
+
 # Decodificar el argumento base64 y convertirlo en un diccionario de Python
 try:
     json_string = base64.b64decode(args.data).decode()
