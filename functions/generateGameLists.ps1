@@ -177,3 +177,24 @@ function saveImage {
     $wc = New-Object net.webclient
     $wc.Downloadfile($url, $destPath)
 }
+
+
+function addGameListsArtwork(){
+    param (
+        [string]$file
+    )
+    $steamRegPath = "HKCU:\Software\Valve\Steam"
+    $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+    $steamInstallPath = $steamInstallPath.Replace("/", "\\")
+    $steamPath = "$steamInstallPath\userdata"
+
+    $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
+    $appID = Get-Content -Path "$env:USERPROFILE/homebrew/settings/rom-library/scid.txt"
+
+    $origin = "$accountFolder\config\grid\emudeck\$file.jpg"
+    $destination = "$accountFolder\config\grid\$appIDp.jpg"
+
+    createSymlink "$origin" "$destination"
+
+
+}
