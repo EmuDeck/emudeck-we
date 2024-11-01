@@ -297,6 +297,7 @@ function ESDE_setEmu($emu, $system){
 function ESDE_steamShortcut(){
    $json = @{
 	   path = "C:/Users/rsedano/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/EmuDeck/EmulationStationDE.lnk"
+	   startdir = "C:/"
 	   appname = "ES-DE"
 	   poster_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_p.png"
 	   icon_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_icon.png"
