@@ -189,7 +189,7 @@ function addGameListsArtwork(){
     $steamPath = "$steamInstallPath\userdata"
 
     $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
-    $appID = Get-Content -Path "$env:USERPROFILE/homebrew/settings/rom-library/scid.txt"
+    $appID = Get-Content -Path "$env:USERPROFILE/homebrew/settings/decky-rom-library/scid.txt"
 
     $origin = "$accountFolder\config\grid\emudeck\$file.jpg"
     $destination = "$accountFolder\config\grid\$appIDp.jpg"
