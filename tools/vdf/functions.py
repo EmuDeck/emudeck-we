@@ -7,9 +7,6 @@ import shutil
 import sys
 import argparse
 
-filepath = rf"C:\Program Files (x86)\Steam\userdata\{latest_userid}\config\shortcuts.vdf"
-user_id = get_latest_userid()  # Obtener el UserID más reciente
-
 def add_shortcut_if_not_exists(filepath, appname, exe_path, startdir, icon=None, tags=None):
     # Cargar el archivo VDF existente
     if os.path.exists(filepath):
@@ -81,7 +78,7 @@ def remove_shortcut(filepath, appname=None, exe_path=None):
             vdf.binary_dump(shortcuts, f)
 
 
-def get_latest_userid():
+def get_user_id():
     userdata_path = r"C:\Program Files (x86)\Steam\userdata"
 
     # Listar las subcarpetas en userdata
@@ -89,9 +86,9 @@ def get_latest_userid():
 
     # Encontrar la carpeta con la última fecha de modificación
     latest_dir = max(user_dirs, key=os.path.getmtime)
-    latest_userid = os.path.basename(latest_dir)
+    user_id = os.path.basename(latest_dir)
 
-    return latest_userid
+    return user_id
 
 def get_steam_game_id(exe_path, appname):
     # Crea el ID hash de Steam
@@ -122,3 +119,6 @@ def set_steam_artwork(user_id, game_id, artwork_path):
     # Copia la imagen personalizada al destino
     shutil.copy2(artwork_path, dest_path)
     print(f"Artwork añadido en: {dest_path}")
+
+user_id = get_user_id()
+filepath = rf"C:\Program Files (x86)\Steam\userdata\{user_id}\config\shortcuts.vdf"
