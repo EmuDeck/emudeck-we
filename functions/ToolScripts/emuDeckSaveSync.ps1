@@ -272,20 +272,24 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		 $parts = $token -split '\|\|\|'
 		 $json = '{"token":"'+ $token + '"}'
-		 $password = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/create-cs.php" `
-		  -ContentType "application/x-www-form-urlencoded" `
-		  -Body "$json"
+		 $response = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/b2.php" `
+			 -ContentType "application/json" `
+			 -Body $json
+
+		 # Asignar los valores a variables
+		 $cloud_key_id = $response.cloud_key_id
+		 $cloud_key = $response.cloud_key
 
 		 $pass= $($password.cloud_token)
 
 		 $ofuspass = $pass
 
 		 $user=$($parts[0])
-		 setSetting "cs_user" "cs_$user\"
+		 setSetting "cs_user" "cs$user\"
 
 
 		 Start-Process $cloud_sync_bin -ArgumentList @"
-				  config update Emudeck-cloud host=cloud.emudeck.com user=cs_$user port=22 pass="$ofuspass"
+				  config update Emudeck-cloud key="$cloud_key" account="$cloud_key_id"
 "@  -WindowStyle Maximized -Wait
 
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
