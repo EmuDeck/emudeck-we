@@ -4,7 +4,7 @@ function Ryujinx_install(){
 	setMSG "Downloading Ryujinx"
 	$url_ryu = getLatestReleaseURLGH "GreemDev/Ryujinx" "zip"
 	download $url_ryu "Ryujinx.zip"
-	moveFromTo "$temp/Ryujinx" "$emusPath\Ryujinx"
+	moveFromTo "$temp/Ryujinx/publish" "$emusPath\Ryujinx"
 	createLauncher "Ryujinx"
 }
 function Ryujinx_init(){
