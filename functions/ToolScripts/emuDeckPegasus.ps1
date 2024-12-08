@@ -20,6 +20,30 @@ function pegasus_install(){
 	pegasus_init
 }
 
+function pegasus_setPaths(){
+	#metadata and cores paths
+	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
+
+	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
+		sedFile $_.FullName "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	}
+
+	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
+		sedFile $_.FullName "CORESPATH/" "$emusPath\RetroArch\cores\"
+	}
+
+	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
+		sedFile $_.FullName '\' '/'
+	}
+
+	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
+		sedFile $_.FullName '"' "'"
+	}
+
+	sedFile "$pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+
+}
+
 #ApplyInitialSettings
 function pegasus_init(){
 	setMSG "Setting up $pegasus_toolName"
@@ -29,22 +53,7 @@ function pegasus_init(){
 
 	createLauncher "pegasus/pegasus-frontend"
 
-	#metadata and cores paths
-	copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
-
-	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
-		(Get-Content $_.FullName) | ForEach-Object {
-			$_ -replace "CORESPATH/", "$emusPath\RetroArch\cores\"
-		} | Set-Content $_.FullName -Encoding UTF8
-	}
-
-	Get-ChildItem -Path $romsPath -File -Filter "metadata.txt" -Recurse | ForEach-Object {
-		(Get-Content $_.FullName) | ForEach-Object {
-			$_ -replace "/run/media/mmcblk0p1/Emulation/tools/launchers/", "$toolsPath\launchers\"
-		} | Set-Content $_.FullName -Encoding UTF8
-	}
-
-	sedFile "$pegasus_dir_file" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	pegasus_setPaths
 
 	Get-ChildItem -Path $romsPath | ForEach-Object {
 		$systemPath = $_.FullName

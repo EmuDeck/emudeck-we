@@ -12,7 +12,7 @@ function Cemu_install(){
 	}
 
 	Remove-Item -Recurse -Force cemu -ErrorAction SilentlyContinue
-	createLauncher "cemu"
+	createLauncher "Cemu"
 
 }
 function Cemu_init(){
