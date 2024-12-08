@@ -403,17 +403,32 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 Write-Host "Installing EmuDeck WE Dependencies" -ForegroundColor white
 Write-Host ""
-$url_emudeck = getLatestReleaseURLGH 'git-for-windows/git' 'exe' '64-bit'
-download $url_emudeck "git_install.exe"
 $temp = Join-Path "$env:USERPROFILE" "Downloads"
-Write-Host " Installing GIT, please wait..."
-$installDir="$env:ProgramFiles\Git\"
-Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
+if (Get-Command git -ErrorAction SilentlyContinue) {
+   Write-Output "GIT already installed."
+} else {
+	$url_emudeck = getLatestReleaseURLGH 'git-for-windows/git' 'exe' '64-bit'
+	download $url_emudeck "git_install.exe"
+
+	Write-Host " Installing GIT, please wait..."
+	$installDir="$env:ProgramFiles\Git\"
+	Start-Process "$temp\git_install.exe" -Wait -Args "/VERYSILENT /INSTALLDIR=\$installDir"
+}
+
+
+if (Get-Command python -ErrorAction SilentlyContinue) {
+   Write-Output "Python already installed."
+} else {
+   Write-Host "Installing Python, please wait..."
+   $PYinstaller = "python-3.11.0-amd64.exe"
+   $url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
+   download $url $PYinstaller
+   Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
+}
 
 Write-Host "Downloading EmuDeck..." -ForegroundColor white
 Write-Host ""
 $url_emudeck = getLatestReleaseURLGH 'EmuDeck/emudeck-electron-early-unstable' 'exe' 'emudeck'
 download $url_emudeck "emudeck_install.exe"
-$temp = Join-Path "$env:USERPROFILE" "Downloads"
 Write-Host " Launching EmuDeck Installer, please wait..."
 &"$temp/emudeck_install.exe"
