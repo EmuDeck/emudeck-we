@@ -101,7 +101,9 @@ function Get-Custom-Credentials($provider){
 	}
 	if( $provider -eq "Emudeck-SFTP" ){
 		$buttonHeight=200
-	}else{
+	} elseif( $provider -eq "Emudeck-SMB" ) {
+	    $buttonHeight=200
+	} else{
 		$buttonHeight=160
 	}
 
