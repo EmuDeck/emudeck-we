@@ -108,7 +108,6 @@ function cloudSyncHealth(){
 	  Write-Host "<td>Upload Status: </td><td class='alert--success'><strong>Success</strong></td>"
   } else {
 	  Write-Host "<td>Upload Status: </td><td class='alert--danger'><strong>Failure</strong></td>"
-	  Write-Host "</tr></table>"
   }
   Write-Host "</tr>"
 
@@ -118,7 +117,6 @@ function cloudSyncHealth(){
 	  Write-Host "<td>Download Status: </td><td class='alert--success'><strong>Success</strong></td>"
   } else {
 	  Write-Host "<td>Download Status: </td><td class='alert--danger'><strong>Failure</strong></td>"
-	  Write-Host "</tr></table>"
   }
   Write-Host "</tr>"
 
