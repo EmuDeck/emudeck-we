@@ -197,7 +197,7 @@ function ESDE_uninstall(){
 	else{
 		Write-Output "False"
 	}
-	
+
 }
 function ESDE_migrate(){
 	Write-Output "NYI"
@@ -292,4 +292,18 @@ function ESDE_setEmu($emu, $system){
 		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation/gamelists/$system/gamelist.xml" -Destination "$gamelistFile" -ErrorAction SilentlyContinue -Force
 	}
 
+}
+
+function ESDE_steamShortcut(){
+   $json = @{
+	   path = "C:/Users/rsedano/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/EmuDeck/EmulationStationDE.lnk"
+	   startdir = "C:/"
+	   appname = "ES-DE"
+	   poster_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_p.png"
+	   icon_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_icon.png"
+   } | ConvertTo-Json
+
+   $jsonBytes = [System.Text.Encoding]::UTF8.GetBytes($json)
+   $jsonBase64 = [Convert]::ToBase64String($jsonBytes)
+   python "$env:APPDATA/EmuDeck/backend/tools/vdf/create.py" --data $jsonBase64
 }

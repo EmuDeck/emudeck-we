@@ -4,6 +4,17 @@ function appImageInit(){
 	#AutoFixes
 	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue
 
+	#Python
+	if (Get-Command python -ErrorAction SilentlyContinue) {
+	   Write-Output "Python already installed."
+	} else {
+	   Write-Host "Installing Python, please wait..."
+	   $PYinstaller = "python-3.11.0-amd64.exe"
+	   $url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
+	   download $url $PYinstaller
+	   Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
+	}
+
 
 	#CHD
 	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
