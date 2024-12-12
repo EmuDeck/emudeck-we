@@ -2,7 +2,7 @@ $Lime3DS_configFile="$emusPath\lime3ds\user\config\qt-config.ini"
 
 function Lime3DS_install(){
 	setMSG "Downloading Lime3DS"
-	$url_lime3ds = getLatestReleaseURLGH "Lime3DS/Lime3DS" "zip" "windows-msvc"
+	$url_lime3ds = getLatestReleaseURLGH "Lime3DS/lime3ds-archive" "zip" "windows-msvc"
 	#$url_lime3ds = "https://github.com/Lime3DS/Lime3DS/releases/download/2118/lime3ds-2118-windows-msvc.zip"
 	download $url_lime3ds "lime3ds.zip"
 	$oldName = Get-ChildItem -Path "$temp/lime3ds" -Directory -Filter "lime3ds-*-windows-msvc" | Select-Object -First 1
