@@ -82,6 +82,15 @@ function Get-Custom-Credentials($provider){
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
 		$form.Controls.Add($textBoxUrl)
 
+		$labelShare = New-Object System.Windows.Forms.Label
+        $labelShare.Text = "Share name:"
+        $labelShare.Location = New-Object System.Drawing.Point(30, 150)
+        $form.Controls.Add($labelShare)
+		$textBoxShare = New-Object System.Windows.Forms.TextBox
+		$textBoxShare.Location = New-Object System.Drawing.Point(140, 150)
+        $textBoxShare.Size = New-Object System.Drawing.Size(150, 20)
+        $form.Controls.Add($textBoxShare)
+
 		#$labelPort = New-Object System.Windows.Forms.Label
 		#$labelPort.Text = "You need to create an emudeck folder in the root of your storage before #setting up CloudSync"
 		#$labelPort.Location = New-Object System.Drawing.Point(40, 200)
@@ -92,7 +101,9 @@ function Get-Custom-Credentials($provider){
 	}
 	if( $provider -eq "Emudeck-SFTP" ){
 		$buttonHeight=200
-	}else{
+	} elseif( $provider -eq "Emudeck-SMB" ) {
+	    $buttonHeight=200
+	} else{
 		$buttonHeight=160
 	}
 
@@ -116,12 +127,14 @@ function Get-Custom-Credentials($provider){
 	if ($result -eq [System.Windows.Forms.DialogResult]::OK) {
 		$username = $textBoxUsername.Text
 		$password = $textBoxPassword.Text
+		$share = $textBoxShare.Text
 		$url = $textBoxUrl.Text
 		$port = $textBoxPort.Text
 		#stopLog
 		return [PSCustomObject]@{
 			Username = $username
 			Password = $password
+			Share = $share
 			Url = $url
 			Port = $port
 		}
@@ -272,20 +285,24 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 		 $parts = $token -split '\|\|\|'
 		 $json = '{"token":"'+ $token + '"}'
-		 $password = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/create-cs.php" `
-		  -ContentType "application/x-www-form-urlencoded" `
-		  -Body "$json"
+		 $response = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/b2.php" `
+			 -ContentType "application/json" `
+			 -Body $json
+
+		 # Asignar los valores a variables
+		 $cloud_key_id = $response.cloud_key_id
+		 $cloud_key = $response.cloud_key
 
 		 $pass= $($password.cloud_token)
 
 		 $ofuspass = $pass
 
 		 $user=$($parts[0])
-		 setSetting "cs_user" "cs_$user\"
+		 setSetting "cs_user" "cs$user\"
 
 
 		 Start-Process $cloud_sync_bin -ArgumentList @"
-				  config update Emudeck-cloud host=cloud.emudeck.com user=cs_$user port=22 pass="$ofuspass"
+				  config update Emudeck-cloud key="$cloud_key" account="$cloud_key_id"
 "@  -WindowStyle Maximized -Wait
 
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
@@ -297,6 +314,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
    } elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 	  $credentials = Get-Custom-Credentials "Emudeck-SMB"
 	  $pass=$credentials.Password
+	  $share=$credentials.Share
 	  $params="obscure $pass"
 	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
 
@@ -308,8 +326,9 @@ function cloud_sync_config($cloud_sync_provider, $token){
 		 createCloudFile $_.FullName
 	  }
 
-	  & $cloud_sync_bin mkdir "$cloud_sync_provider`:Emudeck\saves"
-	  & $cloud_sync_bin copy $savesPath "$cloud_sync_provider`:Emudeck\saves" --include "*.cloud"
+      $path="${cloud_sync_provider}:${share}\Emudeck\saves"
+	  & $cloud_sync_bin mkdir $path
+	  & $cloud_sync_bin copy $savesPath $path --include "*.cloud"
 	  #Cleaning up
 	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
 		 Remove-Item $_.FullName

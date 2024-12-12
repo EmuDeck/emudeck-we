@@ -5,29 +5,21 @@ function cloudSyncHealth(){
   $upload=1
   $download=1
 
-  $result = yesNoDialog -TitleText "CloudSync Health" -MessageText "Do you use EmulationStation to launch your games?" -OKButtonText "Yes" -CancelButtonText "No"
+  $result = yesNoDialog -TitleText "CloudSync Health" -MessageText "You need to have RetroArch installed for this to work." -OKButtonText "OK" -CancelButtonText "Cancel"
 
   if ($result -eq "OKButton") {
-	#Launching ESDE
-	Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/esde/EmulationStationDE.ps1`" "
-
-  } else {
-	$kill = "RETROARCH"
-	Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
-
-  }
-
-  if ($kill -eq "RETROARCH") {
-	while (-not (Get-Process -Name "retroarch" -ErrorAction SilentlyContinue)) {
-		echo "waiting for RA to open"
-		Start-Sleep -Seconds 2
-	}
+    Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
   }else{
-	while (-not (Get-Process -Name "ES-DE" -ErrorAction SilentlyContinue)) {
-		echo "waiting for ESDE to open"
-		Start-Sleep -Seconds 2
-	}
+    confirmDialog -TitleText "Manual action" -MessageText "Please install RetroArch from Manage Emulators..."
+    exit
   }
+
+  while (-not (Get-Process -Name "retroarch" -ErrorAction SilentlyContinue)) {
+    echo "waiting for RA to open"
+    Start-Sleep -Seconds 2
+  }
+
+
   Start-Sleep -Seconds 5
   echo "Creating test file"
   echo "testing upload" > "$savesPath/retroarch/test_emudeck.txt"
