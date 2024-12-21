@@ -1,16 +1,15 @@
 function appImageInit(){
 
-	 # Obtener información del item
-	 $item = Get-Item $emusPath
+	  $path = "$esdePath/Emulators"
+	  $item = Get-Item $path
 
-	 # Verificar si es una junction o un directorio real
-	 if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+	  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
 		 Write-Output "$path it's a junction."
-	 } else {
+	  } else {
 		 Write-Output "$path it's a directory."
 		 moveFromTo "$path" "$emusPath"
 		 createSaveLink $path $emusPath
-	 }
+	  }
 
 
 	#AutoFixes
