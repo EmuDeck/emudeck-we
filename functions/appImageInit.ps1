@@ -1,5 +1,17 @@
 function appImageInit(){
 
+	 # Obtener información del item
+	 $item = Get-Item $emusPath
+
+	 # Verificar si es una junction o un directorio real
+	 if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+		 Write-Output "$path it's a junction."
+	 } else {
+		 Write-Output "$path it's a directory."
+		 moveFromTo "$path" "$emusPath"
+		 createSaveLink $path $emusPath
+	 }
+
 
 	#AutoFixes
 	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue

@@ -1,4 +1,4 @@
-$emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/xenia/xenia_canary.exe"
+$emulatorFile = "$env:USERPROFILE/EmuDeck/Emulators/xenia/xenia_canary.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 if($args){

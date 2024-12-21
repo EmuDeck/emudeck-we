@@ -1,4 +1,4 @@
-$emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/mame/mame.exe"
+$emulatorFile = "$env:USERPROFILE/EmuDeck/Emulators/mame/mame.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 if($args){

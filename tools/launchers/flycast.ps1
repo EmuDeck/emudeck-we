@@ -1,4 +1,4 @@
-$emulatorFile = "$env:USERPROFILE/EmuDeck/EmulationStation-DE/Emulators/flycast/flycast.exe"
+$emulatorFile = "$env:USERPROFILE/EmuDeck/Emulators/flycast/flycast.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 if($args){
