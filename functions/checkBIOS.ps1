@@ -105,8 +105,8 @@ function checkDSBios() {
 
 
 function checkYuzuBios(){
-	$ryujinxKeys = "$esdePath\Emulators\ryujinx\portable\system\prod.keys"
-	$ryujinxFirmware ="$esdePath\Emulators\ryujinx\bis/system/Contents/registered"
+	$ryujinxKeys = "$emusPath\ryujinx\portable\system\prod.keys"
+	$ryujinxFirmware ="$emusPath\ryujinx\bis/system/Contents/registered"
 
 	$firmwareExists = Test-Path -Path $ryujinxFirmware -PathType Container
 	$keysExist = Test-Path -Path $ryujinxKeys -PathType Leaf
