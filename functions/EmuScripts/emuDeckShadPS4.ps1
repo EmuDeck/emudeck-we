@@ -1,10 +1,10 @@
-$ShadPS4_configFile="$emusPath\ShadPS4\user\config.tom"
+$ShadPS4_configFile="$emusPath\ShadPS4\user\config.toml"
 
 function ShadPS4_install(){
 	setMSG "Downloading ShadPS4"
 	$url_ShadPS4 = "https://github.com/shadps4-emu/shadPS4/releases/download/v.0.4.0/shadps4-win64-qt-0.4.0.zip"
 	download $url_ShadPS4 "ShadPS4.zip"
-	moveFromTo "$temp/ShadPS4" "$emusPath\ShadPS4"
+	moveFromTo "$temp/ShadPS4" "$emusPath\ShadPS4-qt"
 	createLauncher "ShadPS4"
 }
 function ShadPS4_init(){
@@ -31,6 +31,7 @@ function ShadPS4_setResolution($resolution){
 
 function ShadPS4_setupSaves(){
 	setMSG "ShadPS4 - Saves Links"
+	mkdir "$emusPath\shadps4-qt\user"  -ErrorAction SilentlyContinue
 	mkdir "$emusPath\shadps4-qt\user\savedata"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\shadps4-qt\user\savedata"
 	$emuSavePath = "$emulationPath\saves\shadps4\saves"
