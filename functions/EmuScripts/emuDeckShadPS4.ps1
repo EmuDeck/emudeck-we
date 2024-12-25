@@ -21,7 +21,7 @@ function ShadPS4_update(){
 	Write-Output "NYI"
 }
 function ShadPS4_setEmulationFolder(){
-	sedFile "$ShadPS4_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
+	sedFile "$ShadPS4_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath/"
 	sedFile "$ShadPS4_configFile" "\" "/"
 	sedFile "$ShadPS4_configFile" "/" "//"
 }
