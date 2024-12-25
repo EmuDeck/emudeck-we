@@ -29,6 +29,7 @@ function JSONtoPS1(){
 	$SetupDolphin= $myJson.overwriteConfigEmus.dolphin.status
 	$SetupPCSX2= $myJson.overwriteConfigEmus.pcsx2.status
 	$SetupRPCS3= $myJson.overwriteConfigEmus.rpcs3.status
+	$SetupShadPS4= $myJson.overwriteConfigEmus.shadps4.status
 	$SetupYuzu= $myJson.overwriteConfigEmus.yuzu.status
 	$SetupCitra= $myJson.overwriteConfigEmus.citra.status
 	$SetupLime3DS= $myJson.overwriteConfigEmus.lime3ds.status
@@ -53,6 +54,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
 	setSettinginFile("`$doSetupPCSX2=`"$SetupPCSX2`"")
 	setSettinginFile("`$doSetupRPCS3=`"$SetupRPCS3`"")
+	setSettinginFile("`$doSetupShadPS4=`"$SetupShadPS4`"")
 	setSettinginFile("`$doSetupYuzu=`"$SetupYuzu`"")
 	setSettinginFile("`$doSetupCitra=`"$SetupCitra`"")
 	setSettinginFile("`$doSetupLime3DS=`"$SetupLime3DS`"")
@@ -78,6 +80,7 @@ function JSONtoPS1(){
 	$InstallDolphin= $myJson.installEmus.dolphin.status
 	$InstallPCSX2= $myJson.installEmus.pcsx2.status
 	$InstallRPCS3= $myJson.installEmus.rpcs3.status
+	$InstallShadPS4= $myJson.installEmus.shadps4.status
 	$InstallYuzu= $myJson.installEmus.yuzu.status
 	$InstallCitra= $myJson.installEmus.citra.status
 	$InstallLime3DS= $myJson.installEmus.lime3ds.status
@@ -105,6 +108,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
 	setSettinginFile("`$doInstallPCSX2=`"$InstallPCSX2`"")
 	setSettinginFile("`$doInstallRPCS3=`"$InstallRPCS3`"")
+	setSettinginFile("`$doInstallShadPS4=`"$InstallShadPS4`"")
 	setSettinginFile("`$doInstallYuzu=`"$InstallYuzu`"")
 	setSettinginFile("`$doInstallCitra=`"$InstallCitra`"")
 	setSettinginFile("`$doInstallLime3DS=`"$InstallLime3DS`"")

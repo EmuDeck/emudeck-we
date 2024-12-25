@@ -186,6 +186,12 @@ if(-not($test) -and $doInstallScummVM -eq "true" ){
 	ScummVM_install
 }
 
+$test=Test-Path -Path "$emusPath\shadps4-qt\shadps4.exe"
+if(-not($test) -and $doInstallShadPS4 -eq "true" ){
+	ShadPS4_install
+}
+
+
 #
 # Emus Configuration
 #
@@ -291,6 +297,11 @@ if ( "$doSetupScummVM" -eq "true" ){
 if ( "$doSetupMGBA" -eq "true" ){
 	mGBA_init
 	$setupSaves+="mGBA_setupSaves;"
+}
+
+if ( "$doSetupShadPS4" -eq "true" ){
+	ShadPS4_init
+	$setupSaves+="ShadPS4_setupSaves;"
 }
 
 
