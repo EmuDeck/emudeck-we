@@ -1,4 +1,4 @@
-$ShadPS4_configFile="$emusPath\ShadPS4\user\config.toml"
+$ShadPS4_configFile="$emusPath\ShadPS4-qt\user\config.toml"
 
 function ShadPS4_install(){
 	setMSG "Downloading ShadPS4"
