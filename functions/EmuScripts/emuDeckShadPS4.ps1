@@ -11,7 +11,7 @@ function ShadPS4_init(){
 	setMSG "ShadPS4 - Configuration"
 	$destination="$emusPath\ShadPS4\user"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\ShadPS4" "$destination"
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\ShadPS4-qt" "$destination"
 	#ShadPS4_setResolution $ShadPS4Resolution
 	ShadPS4_setupStorage
 	#ShadPS4_setupSaves
