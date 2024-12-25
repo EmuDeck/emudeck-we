@@ -5,7 +5,7 @@ function ShadPS4_install(){
 	$url_ShadPS4 = "https://github.com/shadps4-emu/shadPS4/releases/download/v.0.4.0/shadps4-win64-qt-0.4.0.zip"
 	download $url_ShadPS4 "ShadPS4.zip"
 	moveFromTo "$temp/ShadPS4" "$emusPath\ShadPS4-qt"
-	createLauncher "ShadPS4"
+	createLauncher "shadps4"
 }
 function ShadPS4_init(){
 	setMSG "ShadPS4 - Configuration"
@@ -21,7 +21,7 @@ function ShadPS4_update(){
 	Write-Output "NYI"
 }
 function ShadPS4_setEmulationFolder(){
-	sedFile "$ShadPS4_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath/"
+	sedFile "$ShadPS4_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
 	sedFile "$ShadPS4_configFile" "\" "/"
 	sedFile "$ShadPS4_configFile" "/" "//"
 }
