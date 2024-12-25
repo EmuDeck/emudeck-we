@@ -379,6 +379,10 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 		createLauncher rpcs3
 		$setupSaves+="RPCS3_setupSaves;"
 	}
+	if ($doInstallShadPS4 -eq "true" -or (ShadPS4_isInstalled -like "*true*")){
+		createLauncher shadps4
+		$setupSaves+="ShadPS4_setupSaves;"
+	}
 	if ($doInstallYuzu -eq "true" -or (Yuzu_isInstalled -like "*true*")){
 		createLauncher yuzu
 		$setupSaves+="Yuzu_setupSaves;"
