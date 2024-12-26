@@ -1,10 +1,10 @@
 {
   "parserType": "Glob-regex",
-  "configTitle": "Sony PlayStation 4 - RPCS3 (Installed PKG)",
+  "configTitle": "Sony PlayStation 4 - ShadPS4 (Installed PKG)",
   "steamCategory": "${Sony PlayStation 4}",
   "steamDirectory": "${steamdirglobal}",
-  "romDirectory": "C:\\Emulation\\storage\\shadps4\\ganes\\",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\rpcs3.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
+  "romDirectory": "C:\\Emulation\\storage\\shadps4\\games\\",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\shadps4.ps1 '-g ' '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
