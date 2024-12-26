@@ -16,7 +16,7 @@
     "specifiedAccounts": ""
   },
   "parserInputs": {
-    "glob": "**/@(.lnk|.LNK)"
+    "glob": "**/${title}@(.lnk|.LNK)"
   },
   "titleFromVariable": {
     "limitToGroups": "",
