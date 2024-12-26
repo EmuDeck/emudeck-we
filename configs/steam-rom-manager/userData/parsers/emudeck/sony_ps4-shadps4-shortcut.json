@@ -2,7 +2,7 @@
   "parserType": "Glob",
   "configTitle": "Sony PlayStation 4 - ShadPS4 (Shortcut)",
   "steamCategory": "${Sony PlayStation 4}",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\shardps4.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\shadps4.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "romDirectory": "${romsdirglobal}/ps4/shortcuts",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
