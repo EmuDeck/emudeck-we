@@ -14,19 +14,10 @@
 		<fullname>Sony PlayStation 4</fullname>
 		<path>%ROMPATH%\ps4</path>
 		<extension>.lnk .LNK</extension>
-		<command label="ShadPS4 Shortcut (Standalone)">%EMULATOR_RPCS3% %ROM%</command>
+		<command label="ShadPS4 Shortcut (Standalone)">%HIDEWINDOW% %ESCAPESPECIALS% %EMULATOR_OS-SHELL% /C %ROM%</command>
 		<platform>ps4</platform>
 		<theme>ps4</theme>
 	</system>
-    <system>
-        <name>ps3-shortcut</name>
-        <fullname>Sony PlayStation 3 - Shortcut Games</fullname>
-        <path>%ROMPATH%\ps3\shortcuts</path>
-        <extension>.lnk .LNK</extension>
-        <command label="RPCS3 Shortcut (Standalone)">%HIDEWINDOW% %ESCAPESPECIALS% %EMULATOR_OS-SHELL% /C %ROM%</command>
-        <platform>ps3</platform>
-        <theme>ps3</theme>
-    </system>
 	<system>
 		<name>ps3-shortcut</name>
 		<fullname>Sony PlayStation 3 - Shortcut Games</fullname>
