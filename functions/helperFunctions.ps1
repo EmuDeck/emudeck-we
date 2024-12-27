@@ -788,32 +788,28 @@ function startScriptWithAdmin {
 }
 
 function createSymlink($source, $target){
-#target is the real folder, source is the simlink because...windows
-mkdir "$target" -ErrorAction SilentlyContinue
-#
-if ($networkInstallation -eq "false"){
+    mkdir "$target" -ErrorAction SilentlyContinue
 
-	if (Test-Path $source) {
-	   	$item = Get-Item $source
- 	  	if ($item.LinkType -eq "Junction") {
- 		  	Remove-Item -Path $source -Force -Recurse
-	   	}
-	}
-
-	New-Item -ItemType Junction -Path "$source"  -Target "$target" -ErrorAction SilentlyContinue
-} else {
-
-if(testAdministrator -eq $true){
-	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
-}else{
-	$scriptContent = @"
-		. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
-		New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
+    if ($networkInstallation -eq "false") {
+        if (Test-Path $source) {
+            $item = Get-Item $source
+            if ($item.LinkType -eq "Junction") {
+                echo "Detected an existing junction at $source. Removing and recreating..."
+                Remove-Item -Path $source -Force -Recurse
+            }
+        }
+        New-Item -ItemType Junction -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
+    } else {
+        if (testAdministrator -eq $true) {
+            New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
+        } else {
+            $scriptContent = @"
+                . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
+                New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 "@
-
-	startScriptWithAdmin -ScriptContent $scriptContent
-}
-}
+            startScriptWithAdmin -ScriptContent $scriptContent
+        }
+    }
 }
 
 function testAdministrator {
@@ -823,62 +819,37 @@ function testAdministrator {
 }
 
 function createSaveLink($simLinkPath, $emuSavePath){
-	mkdir "$emuSavePath" -ErrorAction SilentlyContinue
-	#Symlink?
+    mkdir "$emuSavePath" -ErrorAction SilentlyContinue
 
-	if(Test-Path -Path "$simLinkPath"){
+    if(Test-Path -Path "$simLinkPath"){
+        $folderInfo = Get-Item -Path $simLinkPath
 
-		$folderInfo = Get-Item -Path $simLinkPath
+        if ($folderInfo.LinkType -eq "Junction") {
+            echo "Detected an existing junction. Removing and recreating..."
+            Remove-Item -Path $simLinkPath -Force -Recurse
+            createSymlink $simLinkPath $emuSavePath
+        } else {
+            echo "Not a junction. Proceeding with migration..."
+            $originalFolderName = Split-Path $simLinkPath -Leaf
+            $newFolderName = Split-Path $emuSavePath -Leaf
+            $emuSaveParent = Split-Path $emuSavePath -Parent
 
-		if ($folderInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-			if ($networkInstallation -eq "false"){
-				echo "Symlink already exists, we delete it and make it a junction"
-				rm -fo -r $simLinkPath
-				New-Item -ItemType Junction -Path "$simLinkPath"  -Target "$emuSavePath"
-			}else{
-				echo "Symlink already exists, we do nothing since this is a network installation"
-			}
-		} else {
-			#Check if we have space
+            rmdir "$emuSavePath" -ErrorAction SilentlyContinue
+            Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
+            Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
 
-			#$userDrive=(Get-Item "$emulationPath").PSDrive.Name
-			#$destinationFree = (Get-PSDrive -Name $userDrive).Free
-			#$sizeInGB = [Math]::Round($destinationFree / 1GB)
-
-			#$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
-			#$wshell = New-Object -ComObject Wscript.Shell
-
-			#if ( $originSize -gt $destinationFree ){
-			#	$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
-			#	exit
-			#}
-
-			# We copy the saves to the Emulation/saves Folder and we create a backup
-			echo "Creating saves symlink"
-			$originalFolderName = Split-Path $simLinkPath -Leaf
-			$newFolderName = Split-Path $emuSavePath -Leaf
-			$emuSaveParent = Split-Path $emuSavePath -Parent
-
-			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
-			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
-			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
-
-   			#Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
-
-			if ($?) {
-				if ($networkInstallation -eq "false"){
-					$backupSuffix = "_bak"
-					$backupName = -join($simLinkPath, $backupSuffix)
-					Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
-				}
-			}
-			createSymlink $simLinkPath $emuSavePath
-		}
-	}else{
-		createSymlink $simLinkPath $emuSavePath
-		#cloud_sync_save_hash "$emuSavePath"
-	}
-
+            if ($?) {
+                if ($networkInstallation -eq "false"){
+                    $backupSuffix = "_bak"
+                    $backupName = -join($simLinkPath, $backupSuffix)
+                    Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
+                }
+            }
+            createSymlink $simLinkPath $emuSavePath
+        }
+    } else {
+        createSymlink $simLinkPath $emuSavePath
+    }
 }
 
 
