@@ -2,7 +2,7 @@ $melonD_configFile="$emusPath\melonDS\melonDS.ini"
 
 function melonDS_install(){
 	setMSG "Downloading melonDS"
-	$url_melonDS = getLatestReleaseURLGH "melonDS-emu/melonDS" "zip" "win_x64"
+	$url_melonDS = getLatestReleaseURLGH "melonDS-emu/melonDS" "zip" "windows"
 	download $url_melonDS "melonds.zip"
 	moveFromTo "$temp/melonDS" "$emusPath/melonDS"
 	Remove-Item -Recurse -Force melonds.zip -ErrorAction SilentlyContinue
