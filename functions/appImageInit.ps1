@@ -9,6 +9,7 @@ function appImageInit(){
 		 Write-Output "$path it's a directory."
 		 moveFromTo "$path" "$emusPath"
 		 createSaveLink $path $emusPath
+		 SRM_resetLaunchers
 	  }
 
 	  $path = "$env:USERPROFILE/EmuDeck"
@@ -20,6 +21,7 @@ function appImageInit(){
 		 Write-Output "$path it's a directory."
 		 moveFromTo "$path" "$emudeckFolder"
 		 createSaveLink $path $emudeckFolder
+		 SRM_resetLaunchers
 	  }
 
 	#AutoFixes
