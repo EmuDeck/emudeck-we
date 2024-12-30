@@ -359,7 +359,7 @@ function showListDialog($title, $subtitle, $options){
 
 function startLog($funcName){
 
-	Start-Transcript "$env:USERPROFILE/EmuDeck/logs/$funcName.log"
+	Start-Transcript "$env:APPDATA/emudeck/logs/$funcName.log"
 
 }
 
@@ -915,7 +915,7 @@ function setScreenDimensionsScale(){
 	setSetting "ScreenWidth" "$ScreenWidth"
 	setSetting "ScreenHeight" "$ScreenHeight"
 	setSetting "Scale" "$Scale"
-	. "$env:USERPROFILE\EmuDeck\settings.ps1"
+	. "$env:APPDATA\emudeck\settings.ps1"
 }
 
 function fullScreenToast {
@@ -1175,7 +1175,7 @@ function saveLatestVersionGH($emuName){
 		}else{
 			$emuVersion = getLatestVersionGH $repo
 			# JSON file path
-			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+			$jsonFilePath = "$env:APPDATA\emudeck\emu_versions.json"
 
 			$test=Test-Path -Path $jsonFilePath
 			if($test){
@@ -1217,7 +1217,7 @@ function isLatestVersionGH($emuName){
 			$emuVersion = getLatestVersionGH $repo
 
 			# JSON file path
-			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+			$jsonFilePath = "$env:APPDATA\emudeck\emu_versions.json"
 
 			$test=Test-Path -Path $jsonFilePath
 			if($test){
