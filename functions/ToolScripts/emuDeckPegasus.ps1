@@ -130,7 +130,7 @@ function pegasus_setEmu(){
 }
 
 function pegasus_IsInstalled(){
-	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
+	$test=Test-Path -Path "$env:APPDATA\emudeck\Pegasus\pegasus-fe.exe"
 	if($test){
 		Write-Output "true"
 	}else{
@@ -140,7 +140,7 @@ function pegasus_IsInstalled(){
 
 function pegasus_uninstall(){
 	rm -r -fo $pegasus_path -ErrorAction SilentlyContinue
-	rm -r -fo "$env:USERPROFILE\EmuDeck\Pegasus" -ErrorAction SilentlyContinue
+	rm -r -fo "$env:APPDATA\emudeck\Pegasus" -ErrorAction SilentlyContinue
 	if($?){
 		Write-Output "true"
 	}

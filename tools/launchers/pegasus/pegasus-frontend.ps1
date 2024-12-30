@@ -1,4 +1,4 @@
-$emulatorFile = "$env:USERPROFILE\EmuDeck\Pegasus/pegasus-fe.exe"
+$emulatorFile = "$env:APPDATA\emudeck\Pegasus/pegasus-fe.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 

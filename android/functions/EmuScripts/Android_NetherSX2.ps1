@@ -15,7 +15,7 @@ function Android_NetherSX2_install(){
 
 	& $Android_folder\builder\build-nethersx2.bat
 	adb uninstall xyz.aethersx2.android
-	Android_ADB_installAPK "$env:USERPROFILE\emudeck\android\builder\\PatchedAPK\15210-v1.5-4248-noads.apk"
+	Android_ADB_installAPK "$env:APPDATA\emudeck\android\builder\\PatchedAPK\15210-v1.5-4248-noads.apk"
 }
 
 function Android_NetherSX2_init(){

@@ -1,5 +1,5 @@
 function API_pull($branchGIT){
-	Start-Transcript "$env:USERPROFILE/EmuDeck/logs/git.log";
+	Start-Transcript "$env:APPDATA/emudeck/logs/git.log";
 		cd "$env:APPDATA\EmuDeck\backend\";
 		git reset --hard;
 		git clean -fd;

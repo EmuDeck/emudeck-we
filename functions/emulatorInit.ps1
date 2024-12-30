@@ -16,7 +16,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	# 	}else{
 	# 		setSetting netplayCMD "' '"
 	# 	}
-	# 	. $env:USERPROFILE\emudeck\settings.ps1
+	# 	. $env:APPDATA\emudeck\settings.ps1
 	# }
 
 	if($formattedArgs){

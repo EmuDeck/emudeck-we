@@ -13,11 +13,11 @@ function setMSGTemp($message){
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:USERPROFILE\EmuDeck\logs\EmuDeckAndroidSetup.log"
+Write-Output "" > "$env:APPDATA\emudeck\logs\EmuDeckAndroidSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckAndroidSetup.log"
+Start-Transcript "$env:APPDATA\emudeck\logs\EmuDeckAndroidSetup.log"
 
 #We install 7zip - Now its on the appimage
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
@@ -48,7 +48,7 @@ Start-Sleep 1
 
 #Clear old installation msg log
 setMSG "Installing, please stand by..."
-rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+rm -fo -r $env:APPDATA/emudeck/android/temp
 Write-Output ""
 $copySavedGames="false"
 $result = yesNoDialog -TitleText "Saved Games" -MessageText "Do you want to copy your current saved games to your Android Device?" -OKButtonText "Yes" -CancelButtonText "No"

@@ -2,13 +2,13 @@
 
 function setSettinginFile($keySetting){
 	. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
-	$keySetting | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1" -Append
+	$keySetting | Out-File -FilePath "$env:APPDATA/emudeck/settings.ps1" -Append
 	Write-Output "Added $keySetting to settings.ps1"
 	#Start-Sleep -Seconds 1
 }
 
 function storePatreonToken($token){
-	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	. "$env:APPDATA\emudeck\settings.ps1" -ErrorAction SilentlyContinue
 	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
 	if (Test-Path "$cloud_sync_bin") {
@@ -21,7 +21,7 @@ function JSONtoPS1(){
 	$mutex = new-object System.Threading.Mutex $false,'EmuDeckSettingsJSONParse'
 	$mutex.WaitOne() > $null
 
-	'' | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1"
+	'' | Out-File -FilePath "$env:APPDATA/emudeck/settings.ps1"
 	$myJson = Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json" -Raw | ConvertFrom-Json
 
 	#Default settings for all systems
@@ -341,10 +341,10 @@ function JSONtoPS1(){
 	storePatreonToken $myJson.patreonToken
 
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
+	((Get-Content -path "$env:APPDATA/emudeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:APPDATA/emudeck/settings.ps1" -Encoding UTF8
 
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
+	((Get-Content -path "$env:APPDATA/emudeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:APPDATA/emudeck/settings.ps1" -Encoding UTF8
 
 	$mutex.ReleaseMutex()
 
