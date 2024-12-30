@@ -9,7 +9,7 @@ if(-not($test)){
 }
 
 if (-not "$emulationPath") {
-	$emulationPath = "C:\"
+	$emulationPath = "C:\Emulation"
 }
 . "$env:APPDATA\EmuDeck\backend\api.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
