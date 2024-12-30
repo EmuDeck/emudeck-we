@@ -78,9 +78,9 @@ function autofix_lnk(){
 }
 
 function autofix_cloudSyncLockfile(){
-	if( Test-Path "$userFolder\cloud.lock" ){
+	if( Test-Path "$emudeckFolder\cloud.lock" ){
 		confirmDialog -TitleText "CloudSync Lock file detected" -MessageText "EmuDeck will delete the cloud.lock fike. Maybe your upload failed?"
-		rm -fo -r "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+		rm -fo -r "$emudeckFolder\cloud.lock" -ErrorAction SilentlyContinue
 	}
 }
 

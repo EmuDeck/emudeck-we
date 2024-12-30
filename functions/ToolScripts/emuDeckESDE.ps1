@@ -73,7 +73,7 @@ function ESDE_init(){
 	}
 
 	#We move download_media folder
-	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\ES-DE\downloaded_media"
+	$test=Test-Path -Path "$emudeckFolder\EmulationStation-DE\ES-DE\downloaded_media"
 	if($test){
 
 		$userDrive="$userFolder[0]"

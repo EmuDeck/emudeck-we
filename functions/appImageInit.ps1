@@ -11,9 +11,19 @@ function appImageInit(){
 		 createSaveLink $path $emusPath
 	  }
 
+	  $path = "$env:USERPROFILE/EmuDeck"
+	  $item = Get-Item $path
+
+	  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+		 Write-Output "$path it's a junction."
+	  } else {
+		 Write-Output "$path it's a directory."
+		 moveFromTo "$path" "$emudeckFolder"
+		 createSaveLink $path $emudeckFolder
+	  }
 
 	#AutoFixes
-	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue
+	mkdir "$emudeckFolder/feeds" -ErrorAction SilentlyContinue
 
 	#Python
 	if (Get-Command python -ErrorAction SilentlyContinue) {

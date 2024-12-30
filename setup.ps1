@@ -43,7 +43,7 @@ mkdir "$savesPath" -ErrorAction SilentlyContinue
 #
 #
 #Clear old installation msg log
-Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyContinue
+Remove-Item "$emudeckFolder\msg.log" -ErrorAction SilentlyContinue
 Write-Output "Installing, please stand by..."
 Write-Output ""
 

@@ -1,5 +1,5 @@
 function setSetting($old, $new){
-	$fileToCheck = "$userFolder\EmuDeck\settings.ps1"
+	$fileToCheck = "$emudeckFolder\settings.ps1"
 
 	$fileContents = Get-Content $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
@@ -205,7 +205,7 @@ function changeLine($Keyword,$Replace,$File) {
 }
 
 function setMSG($message){
-	$progressBarValue = Get-Content -Path "$userFolder\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarValue = Get-Content -Path "$emudeckFolder\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
 	}
@@ -213,9 +213,9 @@ function setMSG($message){
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$userFolder\AppData\Roaming\EmuDeck\msg.log"
+	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\msg.log"
 	Write-Output $message
-	Add-Content "$userFolder\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
+	Add-Content "$emudeckFolder\msg.log" "# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }
 
@@ -1103,7 +1103,7 @@ function killBOM($file){
 
 
 function setResolutions(){
-	. "$userFolder\EmuDeck\settings.ps1"
+	. "$emudeckFolder\settings.ps1"
 	#Cemu_setResolution
 	Citra_setResolution $citraResolution
 	Dolphin_setResolution $dolphinResolution
