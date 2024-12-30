@@ -13,11 +13,11 @@ function setMSGTemp($message){
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
+Write-Output "" > "$env:APPDATA\emudeck\logs\EmuDeckSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
+Start-Transcript "$env:APPDATA\emudeck\logs\EmuDeckSetup.log"
 
 # JSON Parsing to ps1 file
 . "$env:APPDATA\EmuDeck\backend\functions\JSONtoPS1.ps1"
@@ -62,7 +62,7 @@ if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
 
-$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
+$test=Test-Path -Path "$env:APPDATA\emudeck\Pegasus\pegasus-fe.exe"
 if(-not($test) -and $doInstallPegasus -eq "true" ){
 	pegasus_install
 }

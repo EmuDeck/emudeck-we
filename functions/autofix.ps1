@@ -212,7 +212,7 @@ function autofix_ESDE(){
 	echo $MyInvocation.MyCommand.Name
 	if (ESDE_isInstalled -like "*true*"){
 
-		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\ES-DE\es_settings.xml"
+		$xmlFile = "$env:APPDATA\emudeck\EmulationStation-DE\ES-DE\es_settings.xml"
 
 		if (-not (Select-String -Pattern "Emulation\\" -Path "$xmlFile")){
 			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."

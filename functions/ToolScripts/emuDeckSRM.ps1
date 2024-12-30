@@ -4,7 +4,7 @@ function SRM_install(){
 	#$url_srm="https://github.com/SteamGridDB/steam-rom-manager/releases/download/v2.5.11/Steam-ROM-Manager-portable-2.5.11.exe"
 	download $url_srm "srm.exe"
 	Move-item -Path "$temp/srm.exe" -destination "$toolsPath/srm.exe" -force
-	"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
+	"" | Set-Content "$env:APPDATA\emudeck\.srm_migrated_2123" -Encoding UTF8
 }
 
 function SRM_createParsers(){
@@ -165,7 +165,7 @@ function SRM_createParsers(){
 
 	Start-Sleep -Seconds 1
 
-	$exclusionList | Set-Content "$env:USERPROFILE\EmuDeck\logs\SRM_exclusionList.log" -Encoding UTF8
+	$exclusionList | Set-Content "$env:APPDATA\emudeck\logs\SRM_exclusionList.log" -Encoding UTF8
 
 	if($steamAsFrontend -ne "False"){
 		Get-ChildItem -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\parsers\emudeck\" -Filter *.json | ForEach-Object {
@@ -224,7 +224,7 @@ function SRM_removeSteamInputProfiles(){
 function SRM_init(){
 	mkdir "$toolsPath\userData\" -ErrorAction SilentlyContinue
 	#Fix for games with - in it's path
-	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\.srm_migrated_2123"
+	$test=Test-Path -Path "$env:APPDATA\emudeck\.srm_migrated_2123"
 	if($test){
 			echo "already migrated"
 	}else{
@@ -251,7 +251,7 @@ function SRM_init(){
 		sedFile "$shorcutsPath" '"-g"' '-g'
 		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
 		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
-		"" | Set-Content "$env:USERPROFILE\EmuDeck\.srm_migrated_2123" -Encoding UTF8
+		"" | Set-Content "$env:APPDATA\emudeck\.srm_migrated_2123" -Encoding UTF8
 	}
 
 	setMSG 'Steam Rom Manager - Configuration'

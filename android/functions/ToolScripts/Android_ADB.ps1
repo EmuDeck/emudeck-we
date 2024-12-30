@@ -27,17 +27,17 @@ function Android_ADB_testWrite{
 	adb shell ls /storage/emulated/0/
 	if($?){
 		setSetting "android_writable" "true"
-		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+		. "$env:APPDATA\emudeck\settings.ps1" -ErrorAction SilentlyContinue
 	}else{
 		setSetting "android_writable" "false"
-		. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+		. "$env:APPDATA\emudeck\settings.ps1" -ErrorAction SilentlyContinue
 	}
 }
 
 
 function Android_ADB_install {
 	$outFile = "adb.zip"
-	$outDir = "$env:USERPROFILE\emudeck\android"
+	$outDir = "$env:APPDATA\emudeck\android"
 
 	Android_download $outFile $Android_ADB_url
 
@@ -78,7 +78,7 @@ function Android_ADB_dl_installAPK {
 	)
 
 	Android_download "$temp_emu.apk" $temp_url
-	Android_ADB_installAPK "$env:USERPROFILE\emudeck\android\$temp_emu.apk"
+	Android_ADB_installAPK "$env:APPDATA\emudeck\android\$temp_emu.apk"
 }
 
 function Android_ADB_getSDCard {
@@ -115,7 +115,7 @@ function Android_download {
 		[string]$outFile,
 		[string]$url
 	)
-	$outDir = "$env:USERPROFILE\emudeck\android"
+	$outDir = "$env:APPDATA\emudeck\android"
 	$wc = New-Object net.webclient
 	$wc.Downloadfile($url, "$outDir\$outFile")
 	Write-Output "true"
