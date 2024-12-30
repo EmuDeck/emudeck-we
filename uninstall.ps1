@@ -15,8 +15,6 @@ $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you s
 		rm -fo -r "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck"
 		#Backend
 		rm -fo -r "$env:APPDATA\EmuDeck"
-		rm -fo -r "$env:APPDATA\emudeck"
-		rm -fo -r
 		#App
 		& "$env:USERPROFILE\AppData\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
 	} else {
