@@ -839,19 +839,6 @@ function createSaveLink($simLinkPath, $emuSavePath){
 				echo "Symlink already exists, we do nothing since this is a network installation"
 			}
 		} else {
-			#Check if we have space
-
-			#$userDrive=(Get-Item "$emulationPath").PSDrive.Name
-			#$destinationFree = (Get-PSDrive -Name $userDrive).Free
-			#$sizeInGB = [Math]::Round($destinationFree / 1GB)
-
-			#$originSize = (Get-ChildItem -Path "$simLinkPath" -Recurse | Measure-Object -Property Length -Sum).Sum
-			#$wshell = New-Object -ComObject Wscript.Shell
-
-			#if ( $originSize -gt $destinationFree ){
-			#	$Output = $wshell.Popup("You don't have enough space in your $userDrive drive, free at least $sizeInGB GB so we can migrate your saves")
-			#	exit
-			#}
 
 			# We copy the saves to the Emulation/saves Folder and we create a backup
 			echo "Creating saves symlink"
@@ -862,16 +849,6 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
 			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
 			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
-
-   			#Copy-Item -Path "$simLinkPath\*" -Destination $emuSavePath -Recurse -Force
-
-			if ($?) {
-				if ($networkInstallation -eq "false"){
-					$backupSuffix = "_bak"
-					$backupName = -join($simLinkPath, $backupSuffix)
-					Rename-Item -Path "$simLinkPath" -NewName "$backupName"  -ErrorAction SilentlyContinue
-				}
-			}
 			createSymlink $simLinkPath $emuSavePath
 		}
 	}else{
