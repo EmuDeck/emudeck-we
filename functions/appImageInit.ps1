@@ -1,17 +1,5 @@
 function appImageInit(){
 
-	  $path = "$esdePath/Emulators"
-	  $item = Get-Item $path
-
-	  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-		 Write-Output "$path it's a junction."
-	  } else {
-		 Write-Output "$path it's a directory."
-		 moveFromTo "$path" "$emusPath"
-		 createSaveLink $path $emusPath
-		 SRM_resetLaunchers
-	  }
-
 	  $path = "$env:USERPROFILE/EmuDeck"
 	  $item = Get-Item $path
 
