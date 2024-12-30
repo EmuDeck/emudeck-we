@@ -1,16 +1,31 @@
 function appImageInit(){
 
-	  $path = "$env:USERPROFILE/EmuDeck"
-	  $item = Get-Item $path
+	#Folder Migration
+	$path = "$env:USERPROFILE/EmuDeck"
+	if (Test-Path -Path $path -PathType Container) {
 
-	  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-		 Write-Output "$path it's a junction."
-	  } else {
-		 Write-Output "$path it's a directory."
-		 moveFromTo "$path" "$emudeckFolder"
-		 createSaveLink $path $emudeckFolder
-		 SRM_resetLaunchers
-	  }
+		$item = Get-Item $path
+
+		if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+			Write-Output "$path it's a junction."
+		} else {
+
+			Get-ChildItem -Path "$env:USERPROFILE/EmuDeck" -Recurse -Directory | ForEach-Object {
+				if ((Get-Item $_.FullName).Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+					Write-Host "Eliminando junction: $($_.FullName)" -ForegroundColor Yellow
+					Remove-Item -Path $_.FullName -Recurse -Force
+				}
+			}
+			#Write-Output "$path it's a directory."
+			confirmDialog -TitleText "Migration" -MessageText "We are going to move the $env:USERPROFILE/EmuDeck folder to $env:APPDATA\EmuDeck.Please wait until a new message confirms the migration"
+
+			moveFromTo "$path" "$env:APPDATA\EmuDeck"
+			createSaveLink $path "$env:APPDATA\EmuDeck"
+			SRM_resetLaunchers
+
+			confirmDialog -TitleText "Complete" -MessageText "Migration complete,you can now use EmuDeck as always. The Emulation folder is still at $emulationPath"
+		}
+	}
 
 	#AutoFixes
 	mkdir "$emudeckFolder/feeds" -ErrorAction SilentlyContinue
