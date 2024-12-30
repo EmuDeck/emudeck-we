@@ -30,7 +30,7 @@ function appImageInit(){
 
 		 SRM_resetLaunchers
 
-		 Remove-Item -Path $path -Force
+		 Remove-Item -Path $path -Recurse -Force
 
 		 confirmDialog -TitleText "Complete" -MessageText "Migration complete,you can now use EmuDeck as always. The Emulation folder is still at $emulationPath"
 	 }
