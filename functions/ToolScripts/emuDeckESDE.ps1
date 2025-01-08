@@ -296,7 +296,7 @@ function ESDE_setEmu($emu, $system){
 
 }
 
-ESDE_addToSteam(){
+function ESDE_addToSteam(){
 	setMSG "Adding $ESDE_toolName to Steam"
 	add_to_steam "es-de" "ES-DE" "$toolsPath/launchers/esde/EmulationStationDE.ps1" "$esdePath" "$emudeckFolder/backend/tools/launchers/icons/EmulationStationDE.ico"
 }
