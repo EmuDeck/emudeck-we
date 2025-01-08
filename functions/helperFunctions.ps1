@@ -1292,3 +1292,20 @@ function storePatreonToken($token){
 function startCompressor(){
 	Start-Process cmd -ArgumentList "/k powershell -ExecutionPolicy Bypass -NoProfile -File `"$toolsPath/chdconv/chddeck.ps1`""
 }
+
+function generate_pythonEnv() {
+	pip install requests
+	pip install vdf
+}
+
+function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
+	generate_pythonEnv
+	#Example
+	#add_to_steam "es-de" "ES-DE" "$toolsPath/launchers/es-de/es-de.sh" "$HOME/Applications/" "$HOME/.config/EmuDeck/backend/icons/ico/EmulationStationDE.ico"
+	$steam_directory="$steamInstallPath"
+	$user_id = Get-ChildItem -Directory -Path "$steamInstallPath\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
+
+
+	python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory $user_id
+
+}
