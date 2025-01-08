@@ -29,11 +29,28 @@ function appImageInit(){
 		 . "$env:APPDATA/EmuDeck/backend/vars.ps1"
 
 		 SRM_resetLaunchers
+		 SRM_createParsers
 
 		 Remove-Item -Path $path -Recurse -Force
 
 		 confirmDialog -TitleText "Complete" -MessageText "Migration complete,you can now use EmuDeck as always. The Emulation folder is still at $emulationPath"
 	 }
+
+
+	 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
+
+	 foreach ($folder in $folders) {
+
+		 $filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+		 if (Test-Path -Path "$filePath") {
+			 $shorcutsPath = "$filePath"
+		 }
+	 }
+
+
+	 Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.bak" -ErrorAction SilentlyContinue
+	 sedFile "$shorcutsPath" 'EmuDeck\EmulationStation-DE\Emulators' 'AppData\Roaming\EmuDeck\Emulators'
+
 
 	 $path = "$esdePath/Emulators"
 	 if (Test-Path -Path $path -PathType Container) {
