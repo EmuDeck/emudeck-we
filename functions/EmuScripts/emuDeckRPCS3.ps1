@@ -30,26 +30,21 @@ function RPCS3_setEmulationFolder(){
 
 }
 function RPCS3_renameFolders(){
-	Write-Output "Renaming PS3 folders for ESDE compatibility..."
-	$basePath = "$romsPath/ps3"
-	$directories = Get-ChildItem -Path $basePath -Directory
+    Write-Output "Renaming PS3 folders for ESDE compatibility..."
+    $basePath = "$romsPath/ps3"
+    $directories = Get-ChildItem -Path $basePath -Directory
 
-	foreach ($directory in $directories) {
-		$name = $directory.Name
-		if ($name -ne "shortcuts") {
-			if ($name -ne "media") {
-				if (-not $name.EndsWith(".ps3")) {
-					$newName = $name + ".ps3"
-					$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
-					Rename-Item -Path $directory.FullName -NewName $newName
-				}
-			}else{
-				$newName = "media"
-				$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
-				Rename-Item -Path $directory.FullName -NewName $newName
-			}
-		}
-	}
+    foreach ($directory in $directories) {
+        $name = $directory.Name
+        if ($name -ne "shortcuts" -and $name -ne "media") {
+            if (-not $name.EndsWith(".ps3")) {
+                $newName = $name + ".ps3"
+                Rename-Item -Path $directory.FullName -NewName $newName
+            } else {
+                Write-Host "Folder '$name' already ends with '.ps3', no need to rename it."
+            }
+        }
+    }
 }
 function RPCS3_setResolution($resolution){
 	switch ( $resolution )
