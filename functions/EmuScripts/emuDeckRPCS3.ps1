@@ -31,17 +31,30 @@ function RPCS3_setEmulationFolder(){
 }
 function RPCS3_renameFolders(){
     Write-Output "Renaming PS3 folders for ESDE compatibility..."
+    
     $basePath = "$romsPath/ps3"
+    if (-not (Test-Path $basePath)) {
+        Write-Output "The directory $basePath does not exist. Please verify the path."
+        return
+    }
+
     $directories = Get-ChildItem -Path $basePath -Directory
 
     foreach ($directory in $directories) {
         $name = $directory.Name
-        if ($name -ne "shortcuts" -and $name -ne "media") {
+
+        # Skip the "shortcuts" folder
+        if ($name -ne "shortcuts") {
+
+            # If the folder name does not end with .ps3, add the extension
             if (-not $name.EndsWith(".ps3")) {
                 $newName = $name + ".ps3"
                 Rename-Item -Path $directory.FullName -NewName $newName
-            } else {
-                Write-Host "Folder '$name' already ends with '.ps3', no need to rename it."
+                Write-Output "Renamed folder '$name' to '$newName'."
+            } 
+            # Avoid renaming "media" to itself
+            elseif ($name -eq "media") {
+                Write-Output "The folder 'media' does not need to be renamed."
             }
         }
     }
