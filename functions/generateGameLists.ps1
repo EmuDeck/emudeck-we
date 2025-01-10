@@ -6,7 +6,7 @@ function generateGameLists {
     generate_pythonEnv | Out-Null
 
     # Obtiene la carpeta de usuario de Steam más reciente
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $destFolder = "$accountFolder/config/grid/retrolibrary/artwork"
     Write-Output "Starting to build database" | Set-Content -Path $MSG
 
@@ -78,7 +78,7 @@ function generateGameLists_artwork {
 function saveImage($url, $name, $system){
 
     # Obtiene la carpeta de usuario de Steam más reciente
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 
     # Define las rutas de destino
     $destFolder = "$storagePath/retrolibrary/artwork/$system/media/box2dfront/"
@@ -96,7 +96,7 @@ function saveImage($url, $name, $system){
 function addGameListsArtwork($file, $appID, $platform){
 
     # Obtiene la carpeta de usuario de Steam más reciente
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     # Define las rutas de origen y destino
     $vertical = "$storagePath/retrolibrary/artwork/$platform/media/box2dfront/$file.jpg"
     $grid = $vertical
@@ -120,7 +120,7 @@ function generateGameLists_getPercentage {
     generate_pythonEnv | Out-Null
 
     # Obtiene la carpeta de usuario de Steam más reciente
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     # Define las rutas necesarias
     $destFolder = "$storagePath/retrolibrary/artwork/"
     $jsonFile = "$storagePath/retrolibrary/cache/roms_games.json"
@@ -171,7 +171,7 @@ function generateGameLists_retroAchievements {
 function generateGameLists_downloadAchievements {
     # Define la carpeta de logros
     $folder = "$storagePath/retrolibrary/achievements"
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $destFolder = "$($accountFolder.FullName)/config/grid/retrolibrary/achievements"
 
     # Comprueba si la carpeta existe, si no, la crea y descarga los datos
@@ -189,7 +189,7 @@ function generateGameLists_downloadAchievements {
 function generateGameLists_downloadData {
     # Define la carpeta de datos
     $folder = "$storagePath/retrolibrary/data"
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $destFolder = "$($accountFolder.FullName)/config/grid/retrolibrary/data"
 
     # Crea la carpeta y descarga los datos si no existe
@@ -207,7 +207,7 @@ function generateGameLists_downloadData {
 function generateGameLists_downloadAssets {
     # Define la carpeta de assets
     $folder = "$storagePath/retrolibrary/assets"
-    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $destFolder = "$($accountFolder.FullName)/config/grid/retrolibrary/assets"
 
     # Crea la carpeta y descarga los assets si no existe
