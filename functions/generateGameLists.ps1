@@ -1,5 +1,8 @@
-
 $MSG="$emudeckFolder/logs/msg.log"
+
+function generate_pythonEnv(){
+  echo "NYI"
+}
 
 function generateGameLists {
     # Invoca la función generate_pythonEnv y redirige la salida a null
@@ -19,8 +22,14 @@ function generateGameLists {
     Get-ChildItem "$storagePath/retrolibrary/artwork" -File | Where-Object { $_.Length -eq 0 } | Remove-Item -Force
 
     # Crea junctions
-    cmd /c "mklink /J `"$accountFolder\config\grid\retrolibrary\artwork`" `"$storagePath\retrolibrary\artwork`""
-    cmd /c "mklink /J `"$accountFolder\config\grid\retrolibrary\cache`" `"$storagePath\retrolibrary\cache`""
+    mkdir "$accountFolder/config/grid/retrolibrary" -ErrorAction SilentlyContinue
+    $simLinkPath = "$accountFolder\config\grid\retrolibrary\artwork"
+    $emuSavePath = "$storagePath\retrolibrary\artwork"
+    createSaveLink $simLinkPath $emuSavePath
+
+    $simLinkPath = "$accountFolder\config\grid\retrolibrary\cache"
+    $emuSavePath = "$storagePath\retrolibrary\cache"
+    createSaveLink $simLinkPath $emuSavePath
 
     # Llama a las funciones de descarga
     generateGameLists_downloadAchievements
@@ -39,7 +48,7 @@ function generateGameLists {
     python "$emudeckBackend/tools/retro-library/generate_game_lists.py" "$romsPath"
 
     # Llama a la función para manejar artwork en segundo plano
-    Start-Job { generateGameLists_artwork } | Out-Null
+    #Start-Job { generateGameLists_artwork } | Out-Null
 }
 
 function generateGameListsJson {
@@ -79,6 +88,7 @@ function saveImage($url, $name, $system){
 
     # Obtiene la carpeta de usuario de Steam más reciente
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$accountFolder = $accountFolder.FullName
 
     # Define las rutas de destino
     $destFolder = "$storagePath/retrolibrary/artwork/$system/media/box2dfront/"
@@ -97,12 +107,13 @@ function addGameListsArtwork($file, $appID, $platform){
 
     # Obtiene la carpeta de usuario de Steam más reciente
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
     # Define las rutas de origen y destino
     $vertical = "$storagePath/retrolibrary/artwork/$platform/media/box2dfront/$file.jpg"
     $grid = $vertical
-    $destinationVertical = "$($accountFolder.FullName)/config/grid/${appID}p.png"
-    $destinationHero = "$($accountFolder.FullName)/config/grid/${appID}_hero.png"
-    $destinationGrid = "$($accountFolder.FullName)/config/grid/${appID}.png"
+    $destinationVertical = "$accountFolder/config/grid/${appID}p.png"
+    $destinationHero = "$accountFolder/config/grid/${appID}_hero.png"
+    $destinationGrid = "$accountFolder/config/grid/${appID}.png"
 
     # Elimina los archivos existentes en los destinos
     Remove-Item -Path $destinationVertical -Force -ErrorAction SilentlyContinue
@@ -110,9 +121,10 @@ function addGameListsArtwork($file, $appID, $platform){
     Remove-Item -Path $destinationGrid -Force -ErrorAction SilentlyContinue
 
     # Crea enlaces simbólicos (junctions)
-    cmd /c "mklink /J `"$destinationVertical`" `"$vertical`""
-    cmd /c "mklink /J `"$destinationHero`" `"$grid`""
-    cmd /c "mklink /J `"$destinationGrid`" `"$grid`""
+    createSaveLink $destinationVertical $vertical
+    createSaveLink $destinationHero $grid
+    createSaveLink $destinationGrid $grid
+
 }
 
 function generateGameLists_getPercentage {
@@ -121,6 +133,7 @@ function generateGameLists_getPercentage {
 
     # Obtiene la carpeta de usuario de Steam más reciente
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
     # Define las rutas necesarias
     $destFolder = "$storagePath/retrolibrary/artwork/"
     $jsonFile = "$storagePath/retrolibrary/cache/roms_games.json"
@@ -155,11 +168,7 @@ function generateGameLists_getPercentage {
 
 
 
-function generateGameLists_retroAchievements {
-    param (
-        [string]$hash,
-        [string]$system
-    )
+function generateGameLists_retroAchievements($hash, $system) {
 
     # Define la ruta local para los datos
     $localDataPath = "$storagePath/retrolibrary/achievements/$system.json"
@@ -172,16 +181,16 @@ function generateGameLists_downloadAchievements {
     # Define la carpeta de logros
     $folder = "$storagePath/retrolibrary/achievements"
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $destFolder = "$($accountFolder.FullName)/config/grid/retrolibrary/achievements"
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/achievements"
 
     # Comprueba si la carpeta existe, si no, la crea y descarga los datos
     if (-not (Test-Path -Path $folder)) {
         Write-Output "Downloading Retroachievements Data" | Set-Content -Path $MSG
         New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        cmd /c "mklink /J `"$destFolder`" `"$folder`""
-        Invoke-WebRequest -Uri "https://bot.emudeck.com/achievements/achievements.zip" -OutFile "$folder/achievements.zip" -Quiet
-        Expand-Archive -Path "$folder/achievements.zip" -DestinationPath $folder -Force
-        Remove-Item "$folder/achievements.zip"
+        createSaveLink $destFolder $folder
+        download "https://bot.emudeck.com/achievements/achievements.zip" "achievements.zip"
+        moveFromTo "$temp/achievements" "$storagePath\retrolibrary\achievements"
         Write-Output "Retroachievements Data Downloaded" | Set-Content -Path $MSG
     }
 }
@@ -190,16 +199,16 @@ function generateGameLists_downloadData {
     # Define la carpeta de datos
     $folder = "$storagePath/retrolibrary/data"
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $destFolder = "$($accountFolder.FullName)/config/grid/retrolibrary/data"
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/data"
 
     # Crea la carpeta y descarga los datos si no existe
     if (-not (Test-Path -Path $folder)) {
         Write-Output "Downloading Metadata" | Set-Content -Path $MSG
         New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        cmd /c "mklink /J `"$destFolder`" `"$folder`""
-        Invoke-WebRequest -Uri "https://bot.emudeck.com/data/data.zip" -OutFile "$folder/data.zip" -Quiet
-        Expand-Archive -Path "$folder/data.zip" -DestinationPath $folder -Force
-        Remove-Item "$folder/data.zip"
+        createSaveLink $destFolder $folder
+        download "https://bot.emudeck.com/data/data.zip" "data.zip"
+        moveFromTo "$temp/data" "$storagePath\retrolibrary\data"
         Write-Output "Metadata Downloaded" | Set-Content -Path $MSG
     }
 }
@@ -208,16 +217,16 @@ function generateGameLists_downloadAssets {
     # Define la carpeta de assets
     $folder = "$storagePath/retrolibrary/assets"
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $destFolder = "$($accountFolder.FullName)/config/grid/retrolibrary/assets"
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/assets"
 
     # Crea la carpeta y descarga los assets si no existe
     if (-not (Test-Path -Path $folder)) {
         Write-Output "Downloading Assets" | Set-Content -Path $MSG
         New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        cmd /c "mklink /J `"$destFolder`" `"$folder`""
-        Invoke-WebRequest -Uri "https://bot.emudeck.com/assets/alekfull/alekfull.zip" -OutFile "$folder/alekfull.zip" -Quiet
-        Expand-Archive -Path "$folder/alekfull.zip" -DestinationPath $folder -Force
-        Remove-Item "$folder/alekfull.zip"
+        createSaveLink $destFolder $folder
+        download "https://bot.emudeck.com/assets/alekfull/alekfull.zip" "alekfull.zip"
+        moveFromTo "$temp/alekfull" "$storagePath\retrolibrary\assets"
         Write-Output "Assets Downloaded" | Set-Content -Path $MSG
     }
 }
