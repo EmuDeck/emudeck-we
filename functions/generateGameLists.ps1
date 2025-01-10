@@ -1,12 +1,12 @@
 
-MSG="$emudeckFolder/logs/msg.log"
+$MSG="$emudeckFolder/logs/msg.log"
 
 function generateGameLists {
     # Invoca la función generate_pythonEnv y redirige la salida a null
     generate_pythonEnv | Out-Null
 
     # Obtiene la carpeta de usuario de Steam más reciente
-    $accountFolder = $steamInstallPath
+    $accountFolder = Get-ChildItem "$steamInstallPath" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $destFolder = "$accountFolder/config/grid/retrolibrary/artwork"
     Write-Output "Starting to build database" | Set-Content -Path $MSG
 
