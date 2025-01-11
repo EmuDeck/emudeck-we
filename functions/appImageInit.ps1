@@ -37,25 +37,25 @@ function appImageInit(){
 	 }
 
 
-	 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
+# 	 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
+#
+# 	 foreach ($folder in $folders) {
+#
+# 		 $filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+# 		 if (Test-Path -Path "$filePath") {
+# 			 $shorcutsPath = "$filePath"
+# 		 }
+# 	 }
 
-	 foreach ($folder in $folders) {
 
-		 $filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
-		 if (Test-Path -Path "$filePath") {
-			 $shorcutsPath = "$filePath"
-		 }
-	 }
-
-
-	 Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.bak" -ErrorAction SilentlyContinue
-	 sedFile "$shorcutsPath" 'EmuDeck\EmulationStation-DE\Emulators' 'AppData\Roaming\EmuDeck\Emulators'
-	 sedFile "$shorcutsPath" '\\' '\'
-
-	 $userConfigsFile="$shorcutsPath"
-	 $content = Get-Content -Path $userConfigsFile -Raw
-	 $killBOM = New-Object System.Text.UTF8Encoding $false
-	 [System.IO.File]::WriteAllText($userConfigsFile, $content, $killBOM)
+# 	 Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.bak" -ErrorAction SilentlyContinue
+# 	 sedFile "$shorcutsPath" 'EmuDeck\EmulationStation-DE\Emulators' 'AppData\Roaming\EmuDeck\Emulators'
+# 	 sedFile "$shorcutsPath" '\\' '\'
+#
+# 	 $userConfigsFile="$shorcutsPath"
+# 	 $content = Get-Content -Path $userConfigsFile -Raw
+# 	 $killBOM = New-Object System.Text.UTF8Encoding $false
+# 	 [System.IO.File]::WriteAllText($userConfigsFile, $content, $killBOM)
 
 
 	 $path = "$esdePath/Emulators"
