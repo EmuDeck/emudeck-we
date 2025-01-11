@@ -1,200 +1,232 @@
-function generateGameLists() {
+$MSG="$emudeckFolder/logs/msg.log"
+
+function generate_pythonEnv(){
+  echo "NYI"
+}
+
+function generateGameLists {
+    # Invoca la función generate_pythonEnv y redirige la salida a null
+    generate_pythonEnv | Out-Null
+
+    # Obtiene la carpeta de usuario de Steam más reciente
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $destFolder = "$accountFolder/config/grid/retrolibrary/artwork"
+    Write-Output "Starting to build database" | Set-Content -Path $MSG
+
+    # Crea los directorios necesarios
+    New-Item -ItemType Directory -Force -Path "$storagePath/retrolibrary/artwork"
+    New-Item -ItemType Directory -Force -Path "$storagePath/retrolibrary/cache"
+    New-Item -ItemType Directory -Force -Path "$accountFolder/config/grid/retrolibrary"
+
+    # Elimina archivos vacíos en el directorio de artwork
+    Get-ChildItem "$storagePath/retrolibrary/artwork" -File | Where-Object { $_.Length -eq 0 } | Remove-Item -Force
+
+    # Crea junctions
+    mkdir "$accountFolder/config/grid/retrolibrary" -ErrorAction SilentlyContinue
+    $simLinkPath = "$accountFolder\config\grid\retrolibrary\artwork"
+    $emuSavePath = "$storagePath\retrolibrary\artwork"
+    createSaveLink $simLinkPath $emuSavePath
+
+    $simLinkPath = "$accountFolder\config\grid\retrolibrary\cache"
+    $emuSavePath = "$storagePath\retrolibrary\cache"
+    createSaveLink $simLinkPath $emuSavePath
+
+    # Llama a las funciones de descarga
+    generateGameLists_downloadAchievements
+    generateGameLists_downloadData
+    generateGameLists_downloadAssets
+
+    # Sincroniza archivos usando RoboCopy
+    robocopy "$emudeckBackend/roms/" "$storagePath/retrolibrary/artwork" /MIR /XD roms txt /SL
+
+    # Configura las rutas de Pegasus
     pegasus_setPaths
-    mkdir "$HOME/emudeck/cache/" -ErrorAction SilentlyContinue
-    python "$env:APPDATA\EmuDeck/backend/tools/retroLibrary/generate_game_lists.py" "$romsPath"
+
+    Write-Output "Database built" | Set-Content -Path $MSG
+
+    # Ejecuta el script de Python
+    python "$emudeckBackend/tools/retro-library/generate_game_lists.py" "$romsPath"
+
+    # Llama a la función para manejar artwork en segundo plano
+    #Start-Job { generateGameLists_artwork } | Out-Null
 }
 
 function generateGameListsJson {
+    # Invoca la función generate_pythonEnv y redirige la salida a null
+    generate_pythonEnv | Out-Null
 
-    python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\generate_game_lists.py" "$romsPath"
+    # Escribe mensajes en el archivo de mensaje
+    Write-Output "Adding Games" | Set-Content -Path $MSG
+    Write-Output "Games Added" | Set-Content -Path $MSG
 
-    Get-Content "$HOME\emudeck\cache\roms_games.json"
-
-    getArtwork  | Out-Null
+    # Muestra el contenido del archivo JSON
+    Get-Content "$storagePath/retrolibrary/cache/roms_games.json"
 }
-
-function launchGame {
-    param (
-        [string]$app
-    )
-    python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\launch.py" "$app"
-}
-
-
-function getArtwork {
-    Start-Job -ScriptBlock {
-    # Comprueba si .romlibrary_first existe y ejecuta la lógica de generación de arte
-        if (Test-Path "$HOME\emudeck\cache\.romlibrary_first") {
-             generateGameLists_artwork 0 | Out-Null
-        }else {
-            for ($i = 1; $i -le 5; $i++) {
-                generateGameLists_artwork $i | Out-Null
-                #Start-Sleep -Seconds 1
-            }
-            # Crea el archivo .romlibrary_first
-            New-Item -ItemType File -Path "$HOME\emudeck\cache\.romlibrary_first" | Out-Null
-        }
-    }
-}
-
 
 function generateGameLists_artwork {
-    param (
-        [int]$number_log
-    )
+    # Invoca la función generate_pythonEnv y redirige la salida a null
+    generate_pythonEnv | Out-Null
 
+    # Escribe mensaje inicial en el archivo de mensaje
+    Write-Output "Searching for missing artwork" | Set-Content -Path $MSG
+
+    # Ejecuta los scripts de Python para buscar y descargar artwork
+    python "$emudeckBackend/tools/retro-library/missing_artwork_platforms.py" "$romsPath" "$storagePath/retrolibrary/artwork" | Out-Null
+    python "$emudeckBackend/tools/retro-library/download_art_platforms.py" "$storagePath/retrolibrary/artwork" | Out-Null
+
+    # Ejecuta los scripts de Python adicionales en segundo plano
+    Start-Job {
+        python "$emudeckBackend/tools/retro-library/missing_artwork_nohash.py" "$romsPath" "$storagePath/retrolibrary/artwork" | Out-Null
+        python "$emudeckBackend/tools/retro-library/download_art_nohash.py" "$storagePath/retrolibrary/artwork" | Out-Null
+    } | Out-Null
+
+    # Escribe mensaje final en el archivo de mensaje
+    Write-Output "Artwork finished. Restart if you see this message" | Set-Content -Path $MSG
+}
+
+function saveImage($url, $name, $system){
+
+    # Obtiene la carpeta de usuario de Steam más reciente
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$accountFolder = $accountFolder.FullName
+
+    # Define las rutas de destino
+    $destFolder = "$storagePath/retrolibrary/artwork/$system/media/box2dfront/"
+    $destPath = "$destFolder/$name.jpg"
+
+    # Crea el directorio si no existe
+    if (-not (Test-Path -Path $destFolder)) {
+        New-Item -ItemType Directory -Force -Path $destFolder | Out-Null
+    }
+
+    # Descarga la imagen desde la URL
+    Invoke-WebRequest -Uri $url -OutFile $destPath -UseBasicParsing -Quiet
+}
+
+function addGameListsArtwork($file, $appID, $platform){
+
+    # Obtiene la carpeta de usuario de Steam más reciente
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
+    # Define las rutas de origen y destino
+    $vertical = "$storagePath/retrolibrary/artwork/$platform/media/box2dfront/$file.jpg"
+    $grid = $vertical
+    $destinationVertical = "$accountFolder/config/grid/${appID}p.png"
+    $destinationHero = "$accountFolder/config/grid/${appID}_hero.png"
+    $destinationGrid = "$accountFolder/config/grid/${appID}.png"
+
+    # Elimina los archivos existentes en los destinos
+    Remove-Item -Path $destinationVertical -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $destinationHero -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path $destinationGrid -Force -ErrorAction SilentlyContinue
+
+    # Crea enlaces simbólicos (junctions)
+    createSaveLink $destinationVertical $vertical
+    createSaveLink $destinationHero $grid
+    createSaveLink $destinationGrid $grid
+
+}
+
+function generateGameLists_getPercentage {
+    # Invoca la función generate_pythonEnv y redirige la salida a null
+    generate_pythonEnv | Out-Null
+
+    # Obtiene la carpeta de usuario de Steam más reciente
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
     # Define las rutas necesarias
-    $cacheFolder = "$HOME\emudeck\cache\"
-    $logFolder = "$HOME\emudeck\logs\"
-    $jsonFile = "$cacheFolder\roms_games.json"
-    $logFileName = "$logFolder\library_$number_log.log"
+    $destFolder = "$storagePath/retrolibrary/artwork/"
+    $jsonFile = "$storagePath/retrolibrary/cache/roms_games.json"
+    $jsonFileArtwork = "$storagePath/retrolibrary/cache/missing_artwork_no_hash.json"
 
-    $steamRegPath = "HKCU:\Software\Valve\Steam"
-    $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-    $steamInstallPath = $steamInstallPath.Replace("/", "\\")
-    $steamPath = "$steamInstallPath\userdata"
+    # Ejecuta el script de Python para generar datos de artworks faltantes
+    python "$emudeckBackend/tools/retro-library/missing_artwork_nohash.py" "$romsPath" "$destFolder" | Out-Null
 
-    $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
-    $destFolder = "$accountFolder\config\grid\emudeck\"
-    $processedGames = @{}
-
-    # Crea los directorios necesarios
-    New-Item -ItemType Directory -Force -Path $cacheFolder | Out-Null
-    New-Item -ItemType Directory -Force -Path $destFolder | Out-Null
-    "" | Out-File -Encoding utf8 $logFileName
-
-    # Lee el contenido del archivo JSON
-    $jsonContent = Get-Content $jsonFile | Out-String | ConvertFrom-Json
-
-    # Determina las plataformas
-    if ($number_log -eq 1) {
-        $platforms = $jsonContent | ForEach-Object { $_.id }
-    } else {
-        $platforms = ($jsonContent | ForEach-Object { $_.id }) | Get-Random -Count ($jsonContent.Count)
+    # Cargar y procesar los datos de JSON
+    if (-Not (Test-Path $jsonFile) -or -Not (Test-Path $jsonFileArtwork)) {
+        Write-Output "Required JSON files are missing."
+        return
     }
 
-    foreach ($platform in $platforms) {
-        "`nProcessing platform: $platform" | Out-File -Append -Encoding utf8 $logFileName
+    # Leer el contenido de los archivos JSON
+    $games = (Get-Content $jsonFile | ConvertFrom-Json | ForEach-Object { $_.games } | Measure-Object).Count
+    $artworkMissing = (Get-Content $jsonFileArtwork | ConvertFrom-Json | ForEach-Object { $_.games } | Measure-Object).Count
 
-        if ($number_log -eq 1) {
-            $games = $jsonContent | Where-Object { $_.id -eq $platform } | ForEach-Object { $_.games.name }
-        } else {
-            $games = ($jsonContent | Where-Object { $_.id -eq $platform } | ForEach-Object { $_.games.name })
-        }
-
-        $downloadArray = @()
-        $downloadDestPaths = @()
-
-        foreach ($game in $games) {
-            $fileToCheck = "$destFolder$($game -replace ' ', '_').jpg"
-            if (!(Test-Path $fileToCheck) -and -not $processedGames.ContainsKey($game)) {
-                "`nGAME: $game" | Out-File -Append -Encoding utf8 $logFileName
-
-                # Procesamiento fuzzy
-                $fuzzygame = python "$env:APPDATA\EmuDeck\backend\tools\retroLibrary\fuzzy_search_rom.py" $game | Out-String
-                #$fuzzygame = $fuzzygame -replace '[\s:./&!]', ''
-                "`nFUZZY: $fuzzygame" | Out-File -Append -Encoding utf8 $logFileName
-
-                # Realiza la consulta de imagen
-                Invoke-WebRequest -Uri "https://bot.emudeck.com/steamdbimg.php?name=$fuzzygame" -OutFile "$cacheFolder\response.json"
-                $response = Get-Content "$cacheFolder\response.json" | ConvertFrom-Json
-                $gameImgUrl = $response.img
-                $destPath = "$destFolder$game.jpg"
-
-                if (!(Test-Path $destPath) -and $gameImgUrl -ne "null") {
-                    "`nAdded to the list: $gameImgUrl" | Out-File -Append -Encoding utf8 $logFileName
-                    $downloadArray += $gameImgUrl
-                    $downloadDestPaths += $destPath
-                    $processedGames[$game] = $true
-                } else {
-                    Invoke-WebRequest -Uri "https://bot.emudeck.com/steamdbimg.php?name=$game" -OutFile "$cacheFolder\response.json"
-                    $response = Get-Content "$cacheFolder\response.json" | ConvertFrom-Json
-                    $gameImgUrl = $response.img
-                    $destPath = "$destFolder$game.jpg"
-
-                    if ($gameImgUrl -ne "null") {
-                        "`nAdded to the list (NO FUZZY): $gameImgUrl" | Out-File -Append -Encoding utf8 $logFileName
-                        $downloadArray += $gameImgUrl
-                        $downloadDestPaths += $destPath
-                        $processedGames[$game] = $true
-                    } else {
-                        "`n - No picture" | Out-File -Append -Encoding utf8 $logFileName
-                    }
-                }
-            }
-
-            # Descargar en lotes de 10
-            if ($downloadArray.Count -ge 10) {
-                "`nStart batch" | Out-File -Append -Encoding utf8 $logFileName
-                for ($i = 0; $i -lt $downloadArray.Count; $i++) {
-                    Start-Job -ScriptBlock {
-                        param ($url, $destPath)
-                        Invoke-WebRequest -Uri $url -OutFile $destPath
-                    } -ArgumentList $downloadArray[$i], $downloadDestPaths[$i]
-                }
-                Get-Job | Wait-Job | Remove-Job
-                "`nCompleted batch" | Out-File -Append -Encoding utf8 $logFileName
-                $downloadArray = @()
-                $downloadDestPaths = @()
-            }
-        }
-
-        # Descargar imágenes restantes
-        if ($downloadArray.Count -ne 0) {
-            for ($i = 0; $i -lt $downloadArray.Count; $i++) {
-                Start-Job -ScriptBlock {
-                    param ($url, $destPath)
-                    Invoke-WebRequest -Uri $url -OutFile $destPath
-                } -ArgumentList $downloadArray[$i], $downloadDestPaths[$i]
-            }
-            Get-Job | Wait-Job | Remove-Job
-        }
-
-        "`nCompleted search for platform: $platform" | Out-File -Append -Encoding utf8 $logFileName
+    if ($games -eq 0 -or -Not $games) {
+        Write-Output "No games found in the JSON file."
+        return
     }
+
+    # Calcular juegos procesados y el porcentaje
+    $parsedGames = $games - $artworkMissing
+    $percentage = [math]::Floor((100 * $parsedGames) / $games)
+
+    # Mostrar el resultado
+    Write-Output "$parsedGames / $games ($percentage%)"
 }
 
 
-function saveImage {
-    param (
-        [string]$url,
-        [string]$name
-    )
 
-    $steamRegPath = "HKCU:\Software\Valve\Steam"
-     $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-     $steamInstallPath = $steamInstallPath.Replace("/", "\\")
-     $steamPath = "$steamInstallPath\userdata"
 
-     $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
-     $destFolder = "$accountFolder\config\grid\emudeck\"
-    $destPath = "$destFolder\$name.jpg"
+function generateGameLists_retroAchievements($hash, $system) {
 
-    # Crea el directorio de destino si no existe
-    New-Item -ItemType Directory -Force -Path $destFolder | Out-Null
+    # Define la ruta local para los datos
+    $localDataPath = "$storagePath/retrolibrary/achievements/$system.json"
 
-    # Descarga la imagen desde la URL proporcionada
-    $wc = New-Object net.webclient
-    $wc.Downloadfile($url, $destPath)
+    # Ejecuta el script de Python para gestionar retroachievements
+    python "$emudeckBackend/tools/retro-library/retro_achievements.py" "$cheevos_username" "$hash" "$localDataPath"
 }
 
+function generateGameLists_downloadAchievements {
+    # Define la carpeta de logros
+    $folder = "$storagePath/retrolibrary/achievements"
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/achievements"
 
-function addGameListsArtwork(){
-    param (
-        [string]$file
-    )
-    $steamRegPath = "HKCU:\Software\Valve\Steam"
-    $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-    $steamInstallPath = $steamInstallPath.Replace("/", "\\")
-    $steamPath = "$steamInstallPath\userdata"
+    # Comprueba si la carpeta existe, si no, la crea y descarga los datos
+    if (-not (Test-Path -Path $folder)) {
+        Write-Output "Downloading Retroachievements Data" | Set-Content -Path $MSG
+        New-Item -ItemType Directory -Force -Path $folder | Out-Null
+        createSaveLink $destFolder $folder
+        download "https://bot.emudeck.com/achievements/achievements.zip" "achievements.zip"
+        moveFromTo "$temp/achievements" "$storagePath\retrolibrary\achievements"
+        Write-Output "Retroachievements Data Downloaded" | Set-Content -Path $MSG
+    }
+}
 
-    $accountFolder = (Get-ChildItem -Directory $steamPath | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
-    $appID = Get-Content -Path "$env:USERPROFILE/homebrew/settings/decky-rom-library/scid.txt"
+function generateGameLists_downloadData {
+    # Define la carpeta de datos
+    $folder = "$storagePath/retrolibrary/data"
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/data"
 
-    $origin = "$accountFolder\config\grid\emudeck\$file.jpg"
-    $destination = "$accountFolder\config\grid\$appIDp.jpg"
+    # Crea la carpeta y descarga los datos si no existe
+    if (-not (Test-Path -Path $folder)) {
+        Write-Output "Downloading Metadata" | Set-Content -Path $MSG
+        New-Item -ItemType Directory -Force -Path $folder | Out-Null
+        createSaveLink $destFolder $folder
+        download "https://bot.emudeck.com/data/data.zip" "data.zip"
+        moveFromTo "$temp/data" "$storagePath\retrolibrary\data"
+        Write-Output "Metadata Downloaded" | Set-Content -Path $MSG
+    }
+}
 
-    createSymlink "$origin" "$destination"
+function generateGameLists_downloadAssets {
+    # Define la carpeta de assets
+    $folder = "$storagePath/retrolibrary/assets"
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/assets"
 
-
+    # Crea la carpeta y descarga los assets si no existe
+    if (-not (Test-Path -Path $folder)) {
+        Write-Output "Downloading Assets" | Set-Content -Path $MSG
+        New-Item -ItemType Directory -Force -Path $folder | Out-Null
+        createSaveLink $destFolder $folder
+        download "https://bot.emudeck.com/assets/alekfull/alekfull.zip" "alekfull.zip"
+        moveFromTo "$temp/alekfull" "$storagePath\retrolibrary\assets"
+        Write-Output "Assets Downloaded" | Set-Content -Path $MSG
+    }
 }

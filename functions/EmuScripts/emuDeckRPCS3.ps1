@@ -30,26 +30,34 @@ function RPCS3_setEmulationFolder(){
 
 }
 function RPCS3_renameFolders(){
-	Write-Output "Renaming PS3 folders for ESDE compatibility..."
-	$basePath = "$romsPath/ps3"
-	$directories = Get-ChildItem -Path $basePath -Directory
+    Write-Output "Renaming PS3 folders for ESDE compatibility..."
+    
+    $basePath = "$romsPath/ps3"
+    if (-not (Test-Path $basePath)) {
+        Write-Output "The directory $basePath does not exist. Please verify the path."
+        return
+    }
 
-	foreach ($directory in $directories) {
-		$name = $directory.Name
-		if ($name -ne "shortcuts") {
-			if ($name -ne "media") {
-				if (-not $name.EndsWith(".ps3")) {
-					$newName = $name + ".ps3"
-					$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
-					Rename-Item -Path $directory.FullName -NewName $newName
-				}
-			}else{
-				$newName = "media"
-				$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
-				Rename-Item -Path $directory.FullName -NewName $newName
-			}
-		}
-	}
+    $directories = Get-ChildItem -Path $basePath -Directory
+
+    foreach ($directory in $directories) {
+        $name = $directory.Name
+
+        # Skip the "shortcuts" folder
+        if ($name -ne "shortcuts") {
+
+            # If the folder name does not end with .ps3, add the extension
+            if (-not $name.EndsWith(".ps3")) {
+                $newName = $name + ".ps3"
+                Rename-Item -Path $directory.FullName -NewName $newName
+                Write-Output "Renamed folder '$name' to '$newName'."
+            } 
+            # Avoid renaming "media" to itself
+            elseif ($name -eq "media") {
+                Write-Output "The folder 'media' does not need to be renamed."
+            }
+        }
+    }
 }
 function RPCS3_setResolution($resolution){
 	switch ( $resolution )

@@ -9,6 +9,8 @@ $url_scummVM = "https://downloads.scummvm.org/frs/scummvm/2.7.1/scummvm-2.7.1-wi
 
 $userFolder = "$env:USERPROFILE"
 $emudeckFolder = "$env:APPDATA\EmuDeck"
+$emudeckBackend = "$env:APPDATA\EmuDeck\backend"
+$emudeckLogs = "$env:APPDATA\EmuDeck\logs"
 $emusPath = "$env:APPDATA\EmuDeck\Emulators"
 $emusPathSRM = $emusPath.Replace("\", '\\')
 $esdePath = "$env:APPDATA/EmuDeck/EmulationStation-DE"

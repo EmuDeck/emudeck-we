@@ -119,6 +119,8 @@ function ESDE_init(){
 
 	ESDE_setDefaultEmulators
 
+	ESDE_addToSteam
+
 	#Citra fixes
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\Emulators\citra\citra-qt.exe</entry>'
 
@@ -294,16 +296,7 @@ function ESDE_setEmu($emu, $system){
 
 }
 
-function ESDE_steamShortcut(){
-   $json = @{
-	   path = "C:/Users/rsedano/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/EmuDeck/EmulationStationDE.lnk"
-	   startdir = "C:/"
-	   appname = "ES-DE"
-	   poster_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_p.png"
-	   icon_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_icon.png"
-   } | ConvertTo-Json
-
-   $jsonBytes = [System.Text.Encoding]::UTF8.GetBytes($json)
-   $jsonBase64 = [Convert]::ToBase64String($jsonBytes)
-   python "$env:APPDATA/EmuDeck/backend/tools/vdf/create.py" --data $jsonBase64
+function ESDE_addToSteam(){
+	setMSG "Adding $ESDE_toolName to Steam"
+	add_to_steam 'es-de' 'ES-DE' "$toolsPath\launchers\esde\EmulationStationDE.ps1" "$esdePath" "$emudeckFolder\backend\tools\launchers\icons\EmulationStationDE.ico"
 }

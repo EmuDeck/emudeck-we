@@ -1292,3 +1292,43 @@ function storePatreonToken($token){
 function startCompressor(){
 	Start-Process cmd -ArgumentList "/k powershell -ExecutionPolicy Bypass -NoProfile -File `"$toolsPath/chdconv/chddeck.ps1`""
 }
+
+function check_for_pip($packageName) {
+	$checkCommand = "import importlib.util; print(importlib.util.find_spec('$packageName') is not None)"
+	$isInstalled = python -c $checkCommand
+
+	if ($isInstalled -eq "True") {
+		Write-Host "'$packageName' already installed."
+	} else {
+		Write-Host "Installing..."
+		python -m pip install $packageName
+	}
+}
+
+function generate_pythonEnv() {
+	if ((Get-Command python).Source -match "Program Files") {
+		Write-Output "Python already installed."
+	} else {
+		Write-Host "Installing Python, please wait..."
+		$PYinstaller = "python-3.11.0-amd64.exe"
+		$url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
+		download $url $PYinstaller
+		Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
+	}
+
+	check_for_pip 'requests'
+	check_for_pip 'vdf'
+}
+
+function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
+  #Example
+  #add_to_steam "es-de" "ES-DE" "$toolsPath/launchers/es-de/es-de.sh" "$HOME/Applications/" "$HOME/.config/EmuDeck/backend/icons/ico/EmulationStationDE.ico"
+
+  generate_pythonEnv
+
+  $target_path = 'C:\Windows\System32\cmd.exe\" /k start /min \"Loading PowerShell Launcher\" \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path + ' && exit && exit --emudeck'
+  $steam_directory="$steamInstallPath"
+  $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
+  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id"
+
+}

@@ -86,6 +86,8 @@ function pegasus_init(){
 
 	pegasus_applyTheme $pegasusThemeUrl
 
+	pegasus_addToSteam
+
 }
 
 
@@ -144,4 +146,8 @@ function pegasus_uninstall(){
 	if($?){
 		Write-Output "true"
 	}
+}
+function pegasus_addToSteam(){
+	setMSG "Adding $pegasus_toolName to Steam"
+	add_to_steam 'pegasus' $pegasus_toolName "$toolsPath\launchers\pegasus\pegasus-frontend.ps1" "$pegasus_path" "$emudeckFolder\backend\tools\launchers\icons\pegasus.ico"
 }
