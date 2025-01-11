@@ -52,6 +52,11 @@ function appImageInit(){
 	 sedFile "$shorcutsPath" 'EmuDeck\EmulationStation-DE\Emulators' 'AppData\\Roaming\\EmuDeck\\Emulators'
 	 sedFile "$shorcutsPath" '\AppData\Roaming' 'AppData\\Roaming'
 
+	 $userConfigsFile="$shorcutsPath"
+	 $content = Get-Content -Path $userConfigsFile -Raw
+	 $killBOM = New-Object System.Text.UTF8Encoding $false
+	 [System.IO.File]::WriteAllText($userConfigsFile, $content, $killBOM)
+
 
 	 $path = "$esdePath/Emulators"
 	 if (Test-Path -Path $path -PathType Container) {
