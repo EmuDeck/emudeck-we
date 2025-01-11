@@ -49,7 +49,7 @@ function appImageInit(){
 
 
 	 Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.bak" -ErrorAction SilentlyContinue
-	 sedFile "$shorcutsPath" 'EmuDeck\EmulationStation-DE\Emulators' 'AppData\\Roaming\\EmuDeck\\Emulators'
+	 sedFile "$shorcutsPath" 'EmuDeck\EmulationStation-DE\Emulators' 'AppData\Roaming\EmuDeck\Emulators'
 	 sedFile "$shorcutsPath" '\\' '\'
 
 	 $userConfigsFile="$shorcutsPath"
