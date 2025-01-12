@@ -36,11 +36,7 @@ function appImageInit(){
 		 confirmDialog -TitleText "Complete" -MessageText "Migration complete,you can now use EmuDeck as always. The Emulation folder is still at $emulationPath"
 	 }
 
-
-	 $simLinkPath = "$env:USERPROFILE\EmuDeck\Emulators\RetroArch"
-	 $emuSavePath = "$env:APPDATA\EmuDeck\Emulators\RetroArch"
-	 createSaveLink $simLinkPath $emuSavePath
-
+	# Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.bak" -ErrorAction SilentlyContinue
 
 
 	 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Director
