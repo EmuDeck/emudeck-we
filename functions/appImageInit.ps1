@@ -72,6 +72,14 @@ function appImageInit(){
 				 Rename-Item -Path "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -NewName "$steamInstallPath\userdata\$folder\config\shortcuts.vdf.bak2"
 				 Copy-Item "$shorcutsPath" -Destination "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -ErrorAction SilentlyContinue
 				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.restored"
+
+				 Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.baknew" -ErrorAction SilentlyContinue
+				   $filePath = "$shorcutsPath"
+				   $content = Get-Content -Raw -Encoding Default $filePath
+				   $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+				   Set-Content -Path $filePath -Value $newContent -Encoding Default
+
+
 				 checkAndStartSteam
 			  }else{
 				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.restored"
