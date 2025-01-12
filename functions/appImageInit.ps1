@@ -33,27 +33,48 @@ function appImageInit(){
 
 		 Remove-Item -Path $path -Recurse -Force
 
+		 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Director
+
+		   foreach ($folder in $folders) {
+
+			   $filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+			   if (Test-Path -Path "$filePath") {
+
+				   $shorcutsPath = "$filePath"
+			   }
+		   }
+		  Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.baknew" -ErrorAction SilentlyContinue
+		  $filePath = "$shorcutsPath"
+		  $content = Get-Content -Raw -Encoding Default $filePath
+		  $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+		  Set-Content -Path $filePath -Value $newContent -Encoding Default
+
 		 confirmDialog -TitleText "Complete" -MessageText "Migration complete,you can now use EmuDeck as always. The Emulation folder is still at $emulationPath"
 	 }
 
 	# Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.bak" -ErrorAction SilentlyContinue
 
 
-	 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Director
+	$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Director
 
-	  foreach ($folder in $folders) {
+	   foreach ($folder in $folders) {
 
-		  $filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
-		  if (Test-Path -Path "$filePath") {
-
+		   $filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf.bak"
+		   if (Test-Path -Path "$filePath") {
 			  $shorcutsPath = "$filePath"
-		  }
-	  }
+			  $result = yesNoDialog -TitleText "SRM Backup" -MessageText "Is your Steam Library corrupted? Do you want to restore your last backup?" -OKButtonText "Yes" -CancelButtonText "No"
 
-	 $filePath = "$shorcutsPath"
-	 $content = Get-Content -Raw -Encoding Default $filePath
-	 $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
-	 Set-Content -Path $filePath -Value $newContent -Encoding Default
+			  if ($result -eq "OKButton") {
+				 Rename-Item -Path "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -NewName "$steamInstallPath\userdata\$folder\config\shortcuts.vdf.bak2"
+				 Copy-Item "$shorcutsPath" -Destination "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -ErrorAction SilentlyContinue
+				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.old"
+			  }else{
+				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.old"
+			  }
+
+		   }
+	   }
+
 
 
 	 $path = "$esdePath/Emulators"
