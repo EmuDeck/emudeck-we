@@ -30,6 +30,7 @@ function appImageInit(){
 
 		 SRM_resetLaunchers
 		 SRM_createParsers
+		 ESDE_init
 
 		 Remove-Item -Path $path -Recurse -Force
 
