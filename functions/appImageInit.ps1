@@ -73,21 +73,29 @@ function appImageInit(){
 				 Copy-Item "$shorcutsPath" -Destination "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -ErrorAction SilentlyContinue
 				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.restored"
 
-				 Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.baknew" -ErrorAction SilentlyContinue
-				   $filePath = "$shorcutsPath"
-				   $content = Get-Content -Raw -Encoding Default $filePath
-				   $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
-				   Set-Content -Path $filePath -Value $newContent -Encoding Default
 
-
-				 checkAndStartSteam
 			  }else{
-				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.restored"
+				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.cancel"
 			  }
 
 		   }
 	   }
 
+	 $folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Director
+
+		foreach ($folder in $folders) {
+
+			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
+			if (Test-Path -Path "$filePath") {
+
+				$shorcutsPath = "$filePath"
+			}
+		}
+	   Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.baknew" -ErrorAction SilentlyContinue
+	   $filePath = "$shorcutsPath"
+	   $content = Get-Content -Raw -Encoding Default $filePath
+	   $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+	   Set-Content -Path $filePath -Value $newContent -Encoding Default
 
 
 	 $path = "$esdePath/Emulators"
