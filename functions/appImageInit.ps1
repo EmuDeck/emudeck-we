@@ -65,11 +65,16 @@ function appImageInit(){
 			  $result = yesNoDialog -TitleText "SRM Backup" -MessageText "Is your Steam Library corrupted? Do you want to restore your last backup?" -OKButtonText "Yes" -CancelButtonText "No"
 
 			  if ($result -eq "OKButton") {
+				 $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
+				 if ($steamRunning) {
+					 taskkill /IM steam.exe /F
+				 }
 				 Rename-Item -Path "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -NewName "$steamInstallPath\userdata\$folder\config\shortcuts.vdf.bak2"
 				 Copy-Item "$shorcutsPath" -Destination "$steamInstallPath\userdata\$folder\config\shortcuts.vdf" -ErrorAction SilentlyContinue
-				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.old"
+				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.restored"
+				 checkAndStartSteam
 			  }else{
-				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.old"
+				 Rename-Item -Path "$shorcutsPath" -NewName "$shorcutsPath.restored"
 			  }
 
 		   }
