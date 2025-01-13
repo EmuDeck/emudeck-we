@@ -1,4 +1,4 @@
-. $env:APPDATA\EmuDeck\backend\functions\all.ps1
+. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
 
 cls
