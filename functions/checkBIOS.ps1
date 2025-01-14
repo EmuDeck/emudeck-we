@@ -106,12 +106,12 @@ function checkDSBios() {
 
 function checkYuzuBios(){
 	$ryujinxKeys = "$emusPath\ryujinx\portable\system\prod.keys"
-	$ryujinxFirmware ="$emusPath\ryujinx\bis/system/Contents/registered"
+	$ryujinxFirmware ="$emusPath\ryujinx\portable\bis\system\Contents\registered"
 
 	$firmwareExists = Test-Path -Path $ryujinxFirmware -PathType Container
 	$keysExist = Test-Path -Path $ryujinxKeys -PathType Leaf
 
-   if ($firmwareExists -and $keysExist) {
+	if ($firmwareExists -and $keysExist) {
 		if ((Get-ChildItem -Path $ryujinxFirmware | Measure-Object).Count -gt 0) {
 			Write-Host "true"
 		}
@@ -122,5 +122,4 @@ function checkYuzuBios(){
 	else {
 		Write-Host "false"
 	}
-
 }
