@@ -13,11 +13,11 @@ function setMSGTemp($message){
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:APPDATA\emudeck\logs\EmuDeckSetup.log"
+Write-Output "" > "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:APPDATA\emudeck\logs\EmuDeckSetup.log"
+Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
 
 # JSON Parsing to ps1 file
 . "$env:APPDATA\EmuDeck\backend\functions\JSONtoPS1.ps1"
@@ -43,7 +43,7 @@ mkdir "$savesPath" -ErrorAction SilentlyContinue
 #
 #
 #Clear old installation msg log
-Remove-Item "$emudeckFolder\msg.log" -ErrorAction SilentlyContinue
+Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyContinue
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
@@ -62,7 +62,7 @@ if(-not($test) -and $doInstallESDE -eq "true" ){
 	ESDE_install
 }
 
-$test=Test-Path -Path "$env:APPDATA\emudeck\Pegasus\pegasus-fe.exe"
+$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
 if(-not($test) -and $doInstallPegasus -eq "true" ){
 	pegasus_install
 }
@@ -191,6 +191,12 @@ if(-not($test) -and $doInstallShadPS4 -eq "true" ){
 	ShadPS4_install
 }
 
+$test = Test-Path -Path "$emusPath\bigpemu\BigPEmu.exe"
+if (-not($test) -and $doInstallBigPEmu -eq "true") {
+    BigPEmu_install
+}
+
+
 
 #
 # Emus Configuration
@@ -303,6 +309,12 @@ if ( "$doSetupShadPS4" -eq "true" ){
 	ShadPS4_init
 	$setupSaves+="ShadPS4_setupSaves;"
 }
+
+if ("$doSetupBigPEmu" -eq "true") {
+    BigPEmu_init
+    $setupSaves += "BigPEmu_setupSaves;"
+}
+
 
 
 setMSG 'Configuring Save folders'

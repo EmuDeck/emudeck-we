@@ -26,6 +26,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\appImageInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\autofix.ps1"
 
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckBigPemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckLime3DS.ps1"
