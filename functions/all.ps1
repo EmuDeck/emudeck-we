@@ -1,15 +1,9 @@
 
 . "$env:APPDATA\EmuDeck\backend\vars.ps1"
-
-$test=Test-Path -Path "$env:APPDATA\EmuDeck\settings.ps1"
-if(-not($test)){
-	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
-}else{
-	. "$env:APPDATA\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
-}
+. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
 
 if (-not "$emulationPath") {
-	$emulationPath = "C:\Emulation"
+	$emulationPath = "C:\"
 }
 . "$env:APPDATA\EmuDeck\backend\api.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
@@ -26,6 +20,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\appImageInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\autofix.ps1"
 
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckBigPemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckLime3DS.ps1"
