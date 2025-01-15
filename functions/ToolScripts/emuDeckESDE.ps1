@@ -119,7 +119,7 @@ function ESDE_init(){
 
 	ESDE_setDefaultEmulators
 
-	ESDE_addToSteam
+	#ESDE_addToSteam
 
 	#Citra fixes
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\..Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\..Emulators\citra\citra-qt.exe</entry>'
