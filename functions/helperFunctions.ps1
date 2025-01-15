@@ -1305,20 +1305,7 @@ function check_for_pip($packageName) {
 	}
 }
 
-function generate_pythonEnv() {
-	if ((Get-Command python).Source -match "Program Files") {
-		Write-Output "Python already installed."
-	} else {
-		Write-Host "Installing Python, please wait..."
-		$PYinstaller = "python-3.11.0-amd64.exe"
-		$url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
-		download $url $PYinstaller
-		Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
-	}
 
-	check_for_pip 'requests'
-	check_for_pip 'vdf'
-}
 
 function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
   #Example
