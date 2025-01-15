@@ -49,7 +49,9 @@ function JSONtoPS1(){
 	$SetupVita3K= $myJson.overwriteConfigEmus.vita3k.status
 	$SetupMGBA= $myJson.overwriteConfigEmus.mgba.status
 	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
+	$mode= $myJson.mode
 
+	setSettinginFile("`$mode=`"$mode`"")
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
 	setSettinginFile("`$doSetupPCSX2=`"$SetupPCSX2`"")
@@ -92,7 +94,6 @@ function JSONtoPS1(){
 	$InstallPrimeHack= $myJson.installEmus.primehack.status
 	$InstallPPSSPP= $myJson.installEmus.ppsspp.status
 	$InstallXemu= $myJson.installEmus.xemu.status
-	$InstallSRM= $myJson.installEmus.srm.status
 	$InstallmelonDS= $myJson.installEmus.melonDS.status
 	$InstallScummVM= $myJson.installEmus.scummvm.status
 	$InstallFlycast= $myJson.installEmus.flycast.status
@@ -102,7 +103,7 @@ function JSONtoPS1(){
 	#Frontends
 	$InstallESDE= $myJson.installFrontends.esde.status
 	$InstallPegasus= $myJson.installFrontends.pegasus.status
-	$steamAsFrontend= $myJson.installFrontends.steam.status
+	$InstallSRM= $myJson.installFrontends.steam.status
 
 	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
