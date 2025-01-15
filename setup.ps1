@@ -55,20 +55,29 @@ if ( Android_ADB_isInstalled -eq "false" ){
 
 copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
-
-#Dowloading..ESDE
-$test=Test-Path -Path "$esdePath\ES-DE.exe"
-if(-not($test) -and $doInstallESDE -eq "true" ){
-	ESDE_install
-}
-
 $test=Test-Path -Path "$env:APPDATA\emudeck\Pegasus\pegasus-fe.exe"
 if(-not($test) -and $doInstallPegasus -eq "true" ){
 	pegasus_install
 }
 
+
 #SRM
-SRM_install
+
+#Forced install on easy
+if($mode -eq "easy"){
+	SRM_install
+	ESDE_install
+}else{
+	if($doInstallSRM -eq "true" ){
+		SRM_install
+	}
+	$test=Test-Path -Path "$esdePath\ES-DE.exe"
+	if(-not($test) -and $doInstallESDE -eq "true" ){
+		ESDE_install
+	}
+}
+
+
 
 
 #
