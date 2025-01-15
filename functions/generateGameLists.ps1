@@ -1,7 +1,8 @@
 $MSG="$emudeckFolder/logs/msg.log"
 
 function generate_pythonEnv() {
-  if ((Get-Command python).Source -match "Program Files") {
+  $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
+  if (Test-Path $pythonRegistryPath) {
     Write-Output "Python already installed."
   } else {
     Write-Host "Installing Python, please wait..."
