@@ -1,9 +1,15 @@
 
 . "$env:APPDATA\EmuDeck\backend\vars.ps1"
-. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+
+$test=Test-Path -Path "$env:APPDATA\EmuDeck\settings.ps1"
+if(-not($test)){
+	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+}else{
+	. "$env:APPDATA\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+}
 
 if (-not "$emulationPath") {
-	$emulationPath = "C:\"
+	$emulationPath = "C:\Emulation"
 }
 . "$env:APPDATA\EmuDeck\backend\api.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\download.ps1"

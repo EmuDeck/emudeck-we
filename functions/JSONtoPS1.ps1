@@ -2,13 +2,13 @@
 
 function setSettinginFile($keySetting){
 	. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
-	$keySetting | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1" -Append
+	$keySetting | Out-File -FilePath "$env:APPDATA/emudeck/settings.ps1" -Append
 	Write-Output "Added $keySetting to settings.ps1"
 	#Start-Sleep -Seconds 1
 }
 
 function storePatreonToken($token){
-	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+	. "$env:APPDATA\emudeck\settings.ps1" -ErrorAction SilentlyContinue
 	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
 	if (Test-Path "$cloud_sync_bin") {
@@ -21,7 +21,7 @@ function JSONtoPS1(){
 	$mutex = new-object System.Threading.Mutex $false,'EmuDeckSettingsJSONParse'
 	$mutex.WaitOne() > $null
 
-	'' | Out-File -FilePath "$env:USERPROFILE/EmuDeck/settings.ps1"
+	'' | Out-File -FilePath "$env:APPDATA/emudeck/settings.ps1"
 	$myJson = Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json" -Raw | ConvertFrom-Json
 
 	#Default settings for all systems
@@ -49,8 +49,9 @@ function JSONtoPS1(){
 	$SetupVita3K= $myJson.overwriteConfigEmus.vita3k.status
 	$SetupMGBA= $myJson.overwriteConfigEmus.mgba.status
 	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
-	$SetupBigPemu= $myJson.overwriteConfigEmus.bigpemu.status
+	$mode= $myJson.mode
 
+	setSettinginFile("`$mode=`"$mode`"")
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
 	setSettinginFile("`$doSetupPCSX2=`"$SetupPCSX2`"")
@@ -94,7 +95,6 @@ function JSONtoPS1(){
 	$InstallPrimeHack= $myJson.installEmus.primehack.status
 	$InstallPPSSPP= $myJson.installEmus.ppsspp.status
 	$InstallXemu= $myJson.installEmus.xemu.status
-	$InstallSRM= $myJson.installEmus.srm.status
 	$InstallmelonDS= $myJson.installEmus.melonDS.status
 	$InstallScummVM= $myJson.installEmus.scummvm.status
 	$InstallFlycast= $myJson.installEmus.flycast.status
@@ -106,7 +106,7 @@ function JSONtoPS1(){
 	#Frontends
 	$InstallESDE= $myJson.installFrontends.esde.status
 	$InstallPegasus= $myJson.installFrontends.pegasus.status
-	$steamAsFrontend= $myJson.installFrontends.steam.status
+	$InstallSRM= $myJson.installFrontends.steam.status
 
 	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
@@ -347,10 +347,10 @@ function JSONtoPS1(){
 	storePatreonToken $myJson.patreonToken
 
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
+	((Get-Content -path "$env:APPDATA/emudeck/settings.ps1" -Raw) -replace 'False','false') | Set-Content -Path "$env:APPDATA/emudeck/settings.ps1" -Encoding UTF8
 
 	Start-Sleep -Seconds 0.5
-	((Get-Content -path "$env:USERPROFILE/EmuDeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -Encoding UTF8
+	((Get-Content -path "$env:APPDATA/emudeck/settings.ps1" -Raw) -replace 'True','true') | Set-Content -Path "$env:APPDATA/emudeck/settings.ps1" -Encoding UTF8
 
 	$mutex.ReleaseMutex()
 
