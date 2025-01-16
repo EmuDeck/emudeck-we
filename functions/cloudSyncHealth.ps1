@@ -5,14 +5,19 @@ function cloudSyncHealth(){
   $upload=1
   $download=1
 
-  $result = yesNoDialog -TitleText "CloudSync Health" -MessageText "You need to have RetroArch installed for this to work." -OKButtonText "OK" -CancelButtonText "Cancel"
-
-  if ($result -eq "OKButton") {
-    Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
+  if ( $doInstallRA -eq "true" -and -not (RetroArch_isInstalled -like "*true*")){
+   Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
   }else{
-    confirmDialog -TitleText "Manual action" -MessageText "Please install RetroArch from Manage Emulators..."
-    exit
+    $result = yesNoDialog -TitleText "CloudSync Health" -MessageText "You need to have RetroArch installed for this to work." -OKButtonText "OK" -CancelButtonText "Cancel"
+
+    if ($result -eq "OKButton") {
+      Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
+    }else{
+      confirmDialog -TitleText "Manual action" -MessageText "Please install RetroArch from Manage Emulators..."
+      exit
+    }
   }
+
 
   while (-not (Get-Process -Name "retroarch" -ErrorAction SilentlyContinue)) {
     echo "waiting for RA to open"
