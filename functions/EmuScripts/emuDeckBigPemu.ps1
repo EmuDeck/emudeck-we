@@ -34,7 +34,7 @@ function BigPEmu_setupSaves(){
     $emuSavePath = "$emulationPath\saves\BigPEmu\saves"
 
     if (Test-Path $savesLinkPath) {
-        Write-Host "The symbolic link for 'saves' already exists. Removing it..."
+        Write-Output "The symbolic link for 'saves' already exists. Removing it..."
         Remove-Item $savesLinkPath -Force -Recurse
     }
 
@@ -44,7 +44,7 @@ function BigPEmu_setupSaves(){
     $emuSavePath = "$emulationPath\saves\BigPEmu\states"
 
     if (Test-Path $savesLinkPath) {
-        Write-Host "The symbolic link for 'states' already exists. Removing it..."
+        Write-Output "The symbolic link for 'states' already exists. Removing it..."
         Remove-Item $savesLinkPath -Force -Recurse
     }
 
@@ -56,7 +56,7 @@ function BigPEmu_setupStorage {
     
     $screenshotsLinkPath = "$emulationPath\storage\BigPEmu"
     if (Test-Path $screenshotsLinkPath) {
-        Write-Host "The symbolic link for 'storage' already exists. Removing it..."
+        Write-Output "The symbolic link for 'storage' already exists. Removing it..."
         Remove-Item $screenshotsLinkPath -Force
     }
 
