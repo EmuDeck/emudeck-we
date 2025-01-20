@@ -48,6 +48,7 @@ function JSONtoPS1(){
 	$SetupFlycast= $myJson.overwriteConfigEmus.flycast.status
 	$SetupVita3K= $myJson.overwriteConfigEmus.vita3k.status
 	$SetupMGBA= $myJson.overwriteConfigEmus.mgba.status
+	$SetupBigPEmu= $myJson.overwriteConfigEmus.bigpemu.status
 	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
 	$mode= $myJson.mode
 
@@ -76,6 +77,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupVita3K=`"$SetupVita3K`"")
 	setSettinginFile("`$doSetupMGBA=`"$SetupMGBA`"")
 	setSettinginFile("`$doSetupPegasus=`"$SetupPegasus`"")
+	setSettinginFile("`$doSetupBigPEmu=`"$SetupBigPEmu`"")
 
 	#Install all systems by default
 	$InstallRA = $myJson.installEmus.ra.status
@@ -99,6 +101,7 @@ function JSONtoPS1(){
 	$InstallFlycast= $myJson.installEmus.flycast.status
 	$InstallVita3K= $myJson.installEmus.vita3k.status
 	$InstallMGBA= $myJson.installEmus.mgba.status
+	$InstallBigPEmu = $myJson.installEmus.bigpemu.status
 
 	#Frontends
 	$InstallESDE= $myJson.installFrontends.esde.status
@@ -127,6 +130,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallFlycast=`"$InstallFlycast`"")
 	setSettinginFile("`$doInstallVita3K=`"$InstallVita3K`"")
 	setSettinginFile("`$doInstallMGBA=`"$InstallMGBA`"")
+	setSettinginFile("`$doInstallBigPEmu=`"$InstallBigPEmu`"")
 
 
 	#Frontends
