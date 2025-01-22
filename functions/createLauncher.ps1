@@ -9,9 +9,7 @@ function createLauncher($ps1) {
   $ShortcutPathPs1 = "$toolsPath\launchers\$ps1.ps1"
   Copy-Item -Path $SourceFilePath -Destination $ShortcutPathPs1 -Force -ErrorAction SilentlyContinue
 
-  $cultureInfo = [System.Globalization.CultureInfo]::CurrentCulture
-  $textInfo = $cultureInfo.TextInfo
-  $name = $textInfo.ToTitleCase($ps1)
+  $name = $ps1
 
   if ($name -like "*EmulationStationDE*") {
     $name = "EmulationStationDE"
