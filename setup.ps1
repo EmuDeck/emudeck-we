@@ -6,18 +6,18 @@ function setMSGTemp($message){
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\msg.log"
+	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\logs\msg.log"
 	Write-Output $message
-	Add-Content "$env:APPDATA\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
+	Add-Content "$env:APPDATA\EmuDeck\logs\msg.log" "# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:APPDATA\emudeck\logs\EmuDeckSetup.log"
+Write-Output "" > "$env:APPDATA\EmuDeck\logs\EmuDeckSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:APPDATA\emudeck\logs\EmuDeckSetup.log"
+Start-Transcript "$env:APPDATA\EmuDeck\logs\EmuDeckSetup.log"
 
 # JSON Parsing to ps1 file
 . "$env:APPDATA\EmuDeck\backend\functions\JSONtoPS1.ps1"
@@ -43,7 +43,7 @@ mkdir "$savesPath" -ErrorAction SilentlyContinue
 #
 #
 #Clear old installation msg log
-Remove-Item "$emudeckFolder\msg.log" -ErrorAction SilentlyContinue
+Remove-Item "$emudeckFolder\logs\msg.log" -ErrorAction SilentlyContinue
 Write-Output "Installing, please stand by..."
 Write-Output ""
 

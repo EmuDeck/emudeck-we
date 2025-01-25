@@ -205,7 +205,7 @@ function changeLine($Keyword,$Replace,$File) {
 }
 
 function setMSG($message){
-	$progressBarValue = Get-Content -Path "$emudeckFolder\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
+	$progressBarValue = Get-Content -Path "$emudeckFolder\logs\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
 	}
@@ -213,9 +213,9 @@ function setMSG($message){
 	if ( $progressBarUpdate -eq 95 ){
 		$progressBarUpdate=90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\msg.log"
+	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\logs\msg.log"
 	Write-Output $message
-	Add-Content "$emudeckFolder\msg.log" "# $message" -NoNewline -Encoding UTF8
+	Add-Content "$emudeckFolder\logs\msg.log" "# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }
 
