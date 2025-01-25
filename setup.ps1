@@ -67,8 +67,8 @@ if(-not($test) -and $doInstallPegasus -eq "true" ){
 if($doInstallSRM -eq "true" ){
 	SRM_install
 }
-$test=Test-Path -Path "$esdePath\ES-DE.exe"
-if(-not($test) -and $doInstallESDE -eq "true" ){
+
+if($doInstallESDE -eq "true" ){
 	ESDE_install
 }
 
