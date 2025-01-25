@@ -27,8 +27,8 @@ function BigPEmu_setEmulationFolder(){
 
 function BigPEmu_setupSaves(){
 
-    mkdir "$savesPath/bigpemu/saves" -ErrorAction SilentlyContinue
-    mkdir "$savesPath/bigpemu/states" -ErrorAction SilentlyContinue
+    mkdir "$savesPath/BigPEmu/saves" -ErrorAction SilentlyContinue
+    mkdir "$savesPath/BigPEmu/states" -ErrorAction SilentlyContinue
 
     $savesLinkPath = "$env:APPDATA\BigPEmu"
     $emuSavePath = "$emulationPath\saves\BigPEmu\saves"
@@ -53,7 +53,7 @@ function BigPEmu_setupSaves(){
 }
 
 function BigPEmu_setupStorage {
-    
+
     $screenshotsLinkPath = "$emulationPath\storage\BigPEmu"
     if (Test-Path $screenshotsLinkPath) {
         Write-Host "The symbolic link for 'storage' already exists. Removing it..."
