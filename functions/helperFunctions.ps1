@@ -222,8 +222,6 @@ function setMSG($message){
 
 	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
 
-	Add-Content -Path $logFilePath -Value "$progressBarUpdate# $Message" -NoNewline -Encoding UTF8
-
 	Start-Sleep -Seconds 0.5
 }
 
