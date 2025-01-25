@@ -1,5 +1,5 @@
 $BigPEmu_configFile="$emusPath/BigPEmu/BigPEmuConfig.bigpcfg"
-
+$BigPEmu_appData="$emusPath/BigPEmu/UserData"
 function BigPEmu_install(){
     setMSG "Downloading BigPEmu"
     $url_BigPEmu = "https://www.richwhitehouse.com/jaguar/builds/BigPEmu_v117.zip"
@@ -9,8 +9,7 @@ function BigPEmu_install(){
 }
 
 function BigPEmu_init(){
-    $destination="$emusPath\BigPEmu"
-    copyFromTo "$env:APPDATA\EmuDeck\backend\configs\bigpemu" "$destination"
+    copyFromTo "$env:APPDATA\EmuDeck\backend\configs\bigpemu" "$BigPEmu_appData"
     BigPEmu_setEmulationFolder
     BigPEmu_setupSaves
     BigPEmu_setupStorage
@@ -27,41 +26,26 @@ function BigPEmu_setEmulationFolder(){
 
 function BigPEmu_setupSaves(){
 
-    mkdir "$savesPath/BigPEmu/saves" -ErrorAction SilentlyContinue
-    mkdir "$savesPath/BigPEmu/states" -ErrorAction SilentlyContinue
+    setMSG "BigPEmu - Saves Links"
 
-    $savesLinkPath = "$env:APPDATA\BigPEmu"
+    mkdir $BigPEmu_appData -ErrorAction SilentlyContinue
+
+    $simLinkPath = "$BigPEmu_appData\saves"
     $emuSavePath = "$emulationPath\saves\BigPEmu\saves"
+    createSaveLink $simLinkPath $emuSavePath
 
-    if (Test-Path $savesLinkPath) {
-        Write-Host "The symbolic link for 'saves' already exists. Removing it..."
-        Remove-Item $savesLinkPath -Force -Recurse
-    }
 
-    New-Item -ItemType SymbolicLink -Path $savesLinkPath -Target $emuSavePath
-
-    $savesLinkPath = "$env:APPDATA\BigPEmu"
+    $simLinkPath = "$BigPEmu_appData\states"
     $emuSavePath = "$emulationPath\saves\BigPEmu\states"
-
-    if (Test-Path $savesLinkPath) {
-        Write-Host "The symbolic link for 'states' already exists. Removing it..."
-        Remove-Item $savesLinkPath -Force -Recurse
-    }
-
-    New-Item -ItemType SymbolicLink -Path $savesLinkPath -Target $emuSavePath
+    createSaveLink $simLinkPath $emuSavePath
 
 }
 
 function BigPEmu_setupStorage {
 
-    $screenshotsLinkPath = "$emulationPath\storage\BigPEmu"
-    if (Test-Path $screenshotsLinkPath) {
-        Write-Host "The symbolic link for 'storage' already exists. Removing it..."
-        Remove-Item $screenshotsLinkPath -Force
-    }
+    mkdir "$storagePath/BigPEmu/screenshots" -ErrorAction SilentlyContinue
+    createSymlink "$BigPEmu_appData" "$storagePath/BigPEmu/screenshots"
 
-    $screenshotsTargetPath = "$env:APPDATA\BigPEmu"
-    New-Item -ItemType SymbolicLink -Path $screenshotsLinkPath -Target $screenshotsTargetPath
 }
 
 
