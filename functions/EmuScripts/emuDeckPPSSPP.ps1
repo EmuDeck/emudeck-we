@@ -27,7 +27,7 @@ function PPSSPP_init(){
 		PPSSPP_retroAchievementsSetLogin
 	}
 
-#	PPSSPP_setupSaves
+	PPSSPP_setupSaves
 	#PPSSPP_setResolution $ppssppResolution
 }
 function PPSSPP_update(){
