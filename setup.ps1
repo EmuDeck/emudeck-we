@@ -190,9 +190,16 @@ if(-not($test) -and $doInstallScummVM -eq "true" ){
 	ScummVM_install
 }
 
+#ShadPS4
 $test=Test-Path -Path "$emusPath\shadps4-qt\shadps4.exe"
 if(-not($test) -and $doInstallShadPS4 -eq "true" ){
 	ShadPS4_install
+}
+
+#BigPEmu
+$test = Test-Path -Path "$emusPath\BigPEmu\BigPEmu.exe"
+if (-not($test) -and $doInstallBigPEmu -eq "true") {
+    BigPEmu_install
 }
 
 
@@ -306,6 +313,11 @@ if ( "$doSetupMGBA" -eq "true" ){
 if ( "$doSetupShadPS4" -eq "true" ){
 	ShadPS4_init
 	$setupSaves+="ShadPS4_setupSaves;"
+}
+
+if ("$doSetupBigPEmu" -eq "true") {
+    BigPEmu_init
+    $setupSaves += "BigPEmu_setupSaves;"
 }
 
 
