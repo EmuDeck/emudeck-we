@@ -208,6 +208,8 @@ function setMSG($message){
 	$progressBarValue = Get-Content -Path "$emudeckFolder\logs\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
+	} else {
+		$progressBarUpdate = 5
 	}
 	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
 	if ( $progressBarUpdate -eq 95 ){
@@ -215,7 +217,7 @@ function setMSG($message){
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\logs\msg.log"
 	Write-Output $message
-	Add-Content "$emudeckFolder\logs\msg.log" "# $message" -NoNewline -Encoding UTF8
+	Add-Content "$emudeckFolder\logs\msg.log" "$progressBarUpdate# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }
 
