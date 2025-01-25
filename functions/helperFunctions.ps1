@@ -205,18 +205,25 @@ function changeLine($Keyword,$Replace,$File) {
 }
 
 function setMSG($message){
-	$progressBarValue = Get-Content -Path "$emudeckFolder\logs\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$logFilePath = "$emudeckFolder\logs\msg.log"
+
+	$progressBarValue = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
 	} else {
 		$progressBarUpdate = 5
 	}
-	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBarUpdate -eq 95 ){
-		$progressBarUpdate=90
+
+	if ($progressBarUpdate -ge 95) {
+		$progressBarUpdate = 90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\logs\msg.log"
-	Add-Content "$emudeckFolder\logs\msg.log" "$progressBarUpdate# $message" -NoNewline -Encoding UTF8
+
+	"$progressBarUpdate" | Out-File -Encoding ASCII $logFilePath
+
+	Add-Content -Path $logFilePath -Value "$progressBarUpdate# $Message" -NoNewline -Encoding UTF8
+
 	Start-Sleep -Seconds 0.5
 }
 
