@@ -136,7 +136,7 @@ function JSONtoPS1(){
 
 
 	#Frontends
-	setSettinginFile("`$doInstallPegasus=`"$doInstallPegasus`"")
+	setSettinginFile("`$doInstallPegasus=`"$InstallPegasus`"")
 	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
 	setSettinginFile("`$steamAsFrontend=`"$steamAsFrontend`"")
 
@@ -333,13 +333,6 @@ function JSONtoPS1(){
 	$androidRABezels=$myJson.android.bezels
 	setSettinginFile("`$androidRABezels=`"$androidRABezels`"")
 
-	#Frontends
-	$InstallESDE= $myJson.installFrontends.esde.status
-	$InstallPegasus= $myJson.installFrontends.pegasus.status
-	$steamAsFrontend= $myJson.installFrontends.steam.status
-
-	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
-	setSettinginFile("`$doInstallPegasus=`"$InstallPegasus`"")
 
 
 	$device = $myJson.device
