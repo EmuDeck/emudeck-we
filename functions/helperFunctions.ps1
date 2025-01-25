@@ -208,7 +208,9 @@ function setMSG($message){
 
 	$logFilePath = "$emudeckFolder\logs\msg.log"
 
-	$progressBarValue = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+	$line = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$progressBarValue = ($line -split '#')[0]
 
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
