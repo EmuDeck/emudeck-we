@@ -1,4 +1,4 @@
-$BigPEmu_configFile="$emusPath/BigPEmu/BigPEmuConfig.bigpcfg"
+$BigPEmu_configFile="$emusPath/BigPEmu/UserData/BigPEmuConfig.bigpcfg"
 $BigPEmu_appData="$emusPath/BigPEmu/UserData"
 function BigPEmu_install(){
     setMSG "Downloading BigPEmu"
@@ -20,8 +20,9 @@ function BigPEmu_update(){
 }
 
 function BigPEmu_setEmulationFolder(){
-    sedFile $BigPEmu_configFile "Z:\\home\\deck\\Emulation" "$emulationPath"
-    sedFile $BigPEmu_configFile ":\" ":\\"
+    $jsonContent = Get-Content -Path $BigPEmu_configFile | ConvertFrom-Json
+    $jsonContent.BigPEmuConfig.ROMPath = "$emulationPath\roms\atarijaguar"
+    $jsonContent | ConvertTo-Json -Depth 100 | Set-Content -Path $BigPEmu_configFile
 }
 
 function BigPEmu_setupSaves(){
@@ -44,7 +45,7 @@ function BigPEmu_setupSaves(){
 function BigPEmu_setupStorage {
 
     mkdir "$storagePath/BigPEmu/screenshots" -ErrorAction SilentlyContinue
-    createSymlink "$BigPEmu_appData" "$storagePath/BigPEmu/screenshots"
+    createSymlink "$BigPEmu_appData/screenshots" "$storagePath/BigPEmu/screenshots"
 
 }
 
