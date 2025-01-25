@@ -216,7 +216,6 @@ function setMSG($message){
 		$progressBarUpdate=90
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\logs\msg.log"
-	Write-Output $message
 	Add-Content "$emudeckFolder\logs\msg.log" "$progressBarUpdate# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }

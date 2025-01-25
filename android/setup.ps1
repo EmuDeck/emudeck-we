@@ -10,7 +10,6 @@ function setMSGTemp($message){
 		$progressBarUpdate=90
 	}
 	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\logs\msg.log"
-	Write-Output $message
 	Add-Content "$env:APPDATA\EmuDeck\logs\msg.log" "$progressBarUpdate# $message" -NoNewline -Encoding UTF8
 	Start-Sleep -Seconds 0.5
 }
