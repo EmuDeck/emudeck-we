@@ -1282,10 +1282,10 @@ function isLatestVersionGH($emuName){
 function storePatreonToken($token){
 	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
-	if (Test-Path "$cloud_sync_bin") {
-		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
-	}else{
-		echo "NOPE"
+	if (-not [string]::IsNullOrWhiteSpace($cloud_sync_bin)) {
+		if (Test-Path "$cloud_sync_bin") {
+			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
+		}
 	}
 }
 
