@@ -13,9 +13,7 @@ function setMSGTemp($message){
 		$progressBarUpdate = 90
 	}
 
-	"$progressBarUpdate" | Out-File -Encoding ASCII $logFilePath
-
-	Add-Content -Path $logFilePath -Value "$progressBarUpdate# $Message" -NoNewline -Encoding UTF8
+	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
 
 	Start-Sleep -Seconds 0.5
 }
