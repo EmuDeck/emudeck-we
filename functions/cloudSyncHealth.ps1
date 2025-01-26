@@ -5,17 +5,12 @@ function cloudSyncHealth(){
   $upload=1
   $download=1
 
-  if ( $doInstallRA -eq "true" -and -not (RetroArch_isInstalled -like "*true*")){
-   Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
+  $test=Test-Path -Path "$emusPath\RetroArch\retroarch.exe"
+  if($test){
+      Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$emusPath\RetroArch\retroarch.exe`" "
   }else{
-    $result = yesNoDialog -TitleText "CloudSync Health" -MessageText "You need to have RetroArch installed for this to work." -OKButtonText "OK" -CancelButtonText "Cancel"
-
-    if ($result -eq "OKButton") {
-      Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$toolsPath/launchers/retroarch.ps1`" "
-    }else{
-      confirmDialog -TitleText "Manual action" -MessageText "Please install RetroArch from Manage Emulators..."
+      confirmDialog -TitleText "RetroArch Not detected" -MessageText "You need to have RetroArch installed for this to work."
       exit
-    }
   }
 
 
@@ -51,7 +46,7 @@ function cloudSyncHealth(){
 
 
   #
-  ##Testing Dowmload
+  ##Testing Download
   #
 
  &  "$cloud_sync_bin"  --progress copyto -L --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:$cs_user`Emudeck/saves/retroarch/test_emudeck.txt" "$savesPath/retroarch/test_emudeck.txt"
@@ -71,11 +66,7 @@ function cloudSyncHealth(){
   & $cloud_sync_bin delete "$cloud_sync_provider`:$cs_user`Emudeck/saves/retroarch/test_emudeck.txt"
 
   # Verificar si se debe matar Retroarch o cerrar otra ventana
-  if ($kill -eq "RETROARCH") {
-	  Stop-Process -Name "RetroArch" -Force
-  } else {
-	  Stop-Process -Name "ES-DE" -Force
-  }
+  Stop-Process -Name "RetroArch" -Force
 
   Write-Host "</div>"
 
