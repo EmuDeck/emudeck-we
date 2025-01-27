@@ -854,7 +854,8 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			$newFolderName = Split-Path $emuSavePath -Leaf
 			$emuSaveParent = Split-Path $emuSavePath -Parent
 
-			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
+			rm -r -fo "$emuSavePath" -ErrorAction SilentlyContinue
+
 			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
 
 			if ((Test-Path "$emuSaveParent\$originalFolderName") -and $originalFolderName -ne $newFolderName) {
