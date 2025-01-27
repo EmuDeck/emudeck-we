@@ -858,9 +858,8 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
 
 			if ((Test-Path "$emuSaveParent\$originalFolderName") -and $originalFolderName -ne $newFolderName) {
-                Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName $newFolderName -Force
-            }
-			
+               			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName $newFolderName -Force
+            		}
 			createSymlink $simLinkPath $emuSavePath
 		}
 	}else{
