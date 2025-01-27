@@ -210,6 +210,12 @@ if (-not($test) -and $doInstallBigPEmu -eq "true") {
     BigPEmu_install
 }
 
+#Supermodel
+$test = Test-Path -Path "$emusPath\Supermodel\Supermodel.exe"
+if (-not($test) -and $doInstallBigPEmu -eq "true") {
+    SuperModel_install
+}
+
 
 #
 # Emus Configuration
@@ -326,6 +332,11 @@ if ( "$doSetupShadPS4" -eq "true" ){
 if ("$doSetupBigPEmu" -eq "true") {
     BigPEmu_init
     $setupSaves += "BigPEmu_setupSaves;"
+}
+
+if ("$doSetupSupermodel" -eq "true") {
+    SuperModel_init
+    $setupSaves += "SuperModel_setupSaves;"
 }
 
 
