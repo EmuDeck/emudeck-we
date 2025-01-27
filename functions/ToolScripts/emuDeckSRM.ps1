@@ -164,6 +164,10 @@ function SRM_createParsers(){
 	if ( -not (BigPEmu_IsInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"atari_jaguar-bigpemu.json"
 	}
+	if ( -not (Supermodel_IsInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"sega_model_3-supermodel.json"
+	}
+	
 
 
 	Start-Sleep -Seconds 1

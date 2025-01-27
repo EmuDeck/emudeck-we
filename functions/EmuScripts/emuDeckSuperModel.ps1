@@ -3,11 +3,12 @@ $Supermodel_gamesList="https://raw.githubusercontent.com/trzy/Supermodel/master/
 
 function SuperModel_install(){
 	setMSG "Installing Supermodel"
-    $url_Supermodel = "https://www.supermodel3.com/Files/Git_Snapshots/Supermodel_0.3a-git-d043dc0_Win64.zip" # URL del instalador
+    $url_Supermodel = "https://www.supermodel3.com/Files/Git_Snapshots/Supermodel_0.3a-git-d043dc0_Win64.zip"
     download $url_Supermodel "supermodel.zip"
     moveFromTo "$temp\supermodel" "$emusPath\Supermodel"
     createLauncher "Supermodel"
 }
+
 function SuperModel_init(){
 
 	$destination="$emusPath\Supermodel"
