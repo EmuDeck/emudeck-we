@@ -28,7 +28,7 @@ function Citron_init(){
 	Citron_setupStorage
 #	Citron_setupSaves
 	Citron_setResolution $citronResolution
-	createLauncher "citron"
+	createLauncher "Citron"
 
 }
 function Citron_update(){

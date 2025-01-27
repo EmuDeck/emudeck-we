@@ -28,7 +28,7 @@ function Yuzu_init(){
 	Yuzu_setupStorage
 #	Yuzu_setupSaves
 	Yuzu_setResolution $yuzuResolution
-	createLauncher "yuzu"
+	createLauncher "Yuzu"
 
 }
 function Yuzu_update(){
