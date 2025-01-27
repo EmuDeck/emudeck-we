@@ -1,18 +1,53 @@
+$Supermodel_configFile="$emusPath/Supermodel/Config/Supermodel.ini"
+$Supermodel_gamesList="https://raw.githubusercontent.com/trzy/Supermodel/master/Config/Games.xml"
+
 function SuperModel_install(){
-	Write-Output "NYI"
+	setMSG "Installing Supermodel"
+    $url_Supermodel = "https://www.supermodel3.com/Files/Git_Snapshots/Supermodel_0.3a-git-d043dc0_Win64.zip"
+    download $url_Supermodel "supermodel.zip"
+    moveFromTo "$temp\supermodel" "$emusPath\Supermodel"
+    createLauncher "Supermodel"
 }
+
 function SuperModel_init(){
-	Write-Output "NYI"
+
+	$destination="$emusPath\Supermodel"
+    
+    mkdir -Force "$destination\Analysis"
+    mkdir -Force "$destination\Log"
+
+    $sourcePath = "$env:APPDATA\EmuDeck\backend\configs\supermodel\Supermodel.ini"
+    $destinationPath = "$emusPath\Supermodel\Config\Supermodel.ini"
+    Copy-Item -Path $sourcePath -Destination $destinationPath -Force
+
+    if (Test-Path "$destination\Config\Games.xml") {
+        Remove-Item "$destination\Config\Games.xml" -Force
+    }
+    Invoke-WebRequest -Uri $Supermodel_gamesList -OutFile "$destination\Config\Games.xml"
+    Supermodel_setEmulationFolder
+    Supermodel_setupSaves
 }
+
 function SuperModel_update(){
 	Write-Output "NYI"
 }
+
 function SuperModel_setEmulationFolder(){
-	Write-Output "NYI"
+	sedFile $Supermodel_configFile "ROMs" "$emulationPath\\roms\\model3"
+    sedFile $Supermodel_configFile ":\" ":\\"
 }
-function SuperModel_setupSaves(){
-	Write-Output "NYI"
+
+function SuperModel_setupSaves() {
+
+    setMSG "Supermodel - Saves Links"
+
+    mkdir "$emusPath\Supermodel" -ErrorAction SilentlyContinue
+
+    $simLinkPath = "$emusPath\Supermodel\saves"
+    $emuSavePath = "$emulationPath\saves\supermodel\saves"
+    createSaveLink $simLinkPath $emuSavePath
 }
+
 function SuperModel_setupStorage(){
 	Write-Output "NYI"
 }
@@ -55,5 +90,10 @@ function SuperModel_IsInstalled(){
 	}
 }
 function SuperModel_resetConfig(){
-	Write-Output "NYI"
+	Supermodel_init
+    if ($?) {
+        Write-Output "true"
+    } else {
+        Write-Output "false"
+    }
 }
