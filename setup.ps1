@@ -339,6 +339,11 @@ if ("$doSetupSupermodel" -eq "true") {
     $setupSaves += "SuperModel_setupSaves;"
 }
 
+if ("$doSetupModel2" -eq "true") {
+    Model2_init
+    $setupSaves += "Model2_setupSaves;"
+}
+
 
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)

@@ -167,6 +167,9 @@ function SRM_createParsers(){
 	if ( -not (Supermodel_IsInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sega_model_3-supermodel.json"
 	}
+	if ( -not (Model2_IsInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"sega_model2-model2emulator.json"
+	}
 	
 
 
