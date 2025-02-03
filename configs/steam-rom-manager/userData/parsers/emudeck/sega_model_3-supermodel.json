@@ -1,7 +1,7 @@
 {
   "parserType": "Glob",
-  "configTitle": "Atari Jaguar/Jaguar CD - BigPEmu",
-  "steamCategory": "${Atari Jaguar}",
+  "configTitle": "Sega Model 3 - Supermodel",
+  "steamCategory": "${Sega Model 3 - Supermodel}",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}",
   "steamDirectory": "${steamdirglobal}",
