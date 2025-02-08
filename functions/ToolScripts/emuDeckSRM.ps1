@@ -170,7 +170,7 @@ function SRM_createParsers(){
 	if ( -not (Model2_IsInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sega_model2-model2emulator.json"
 	}
-	
+
 
 
 	Start-Sleep -Seconds 1
@@ -368,6 +368,20 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 	Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
 
 	createLauncher "srm\steamrommanager"
+
+	$targetLaunchers = Join-Path $toolsPath "launchers"
+	$sourceLaunchers = Join-Path $emudeckBackend "tools\launchers"
+
+	Get-ChildItem -Path $targetLaunchers -Filter *.ps1 -File -Recurse | ForEach-Object {
+		$relativePath = $_.FullName.Substring($targetLaunchers.Length + 1)
+		$targetFile = $_.FullName
+		$sourceFile = Join-Path $sourceLaunchers $relativePath
+
+		if (Test-Path $sourceFile) {
+			Copy-Item -Path $sourceFile -Destination $targetFile -Force
+		}
+	}
+
 }
 
 
