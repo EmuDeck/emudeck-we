@@ -31,13 +31,8 @@ function BigPEmu_setupSaves(){
 
     mkdir $BigPEmu_appData -ErrorAction SilentlyContinue
 
-    $simLinkPath = "$BigPEmu_appData\saves"
+    $simLinkPath = "$BigPEmu_appData"
     $emuSavePath = "$emulationPath\saves\BigPEmu\saves"
-    createSaveLink $simLinkPath $emuSavePath
-
-
-    $simLinkPath = "$BigPEmu_appData\states"
-    $emuSavePath = "$emulationPath\saves\BigPEmu\states"
     createSaveLink $simLinkPath $emuSavePath
 
 }
