@@ -3,7 +3,7 @@
   "configTitle": "Sega Model 3 - Supermodel",
   "steamCategory": "${Sega Model 3 - Supermodel}",
   "executableModifier": "\"${exePath}\"",
-  "romDirectory": "${romsdirglobal}",
+  "romDirectory": "${romsdirglobal}/model3",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",

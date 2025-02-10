@@ -3,7 +3,7 @@
   "configTitle": "Sega Model 2 - Model 2 Emulator",
   "steamCategory": "${Sega Model 2}",
   "executableModifier": "\"${exePath}\"",
-  "romDirectory": "${romsdirglobal}",
+  "romDirectory": "${romsdirglobal}/model2",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
