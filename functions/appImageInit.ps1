@@ -1,5 +1,6 @@
 function appImageInit(){
 
+	SRM_resetLaunchers
 
 	#emudeck folder relocation
 	$path = "$env:USERPROFILE/EmuDeck"
@@ -8,8 +9,7 @@ function appImageInit(){
 	   confirmDialog -TitleText "Migration" -MessageText "We are going to move the $env:USERPROFILE/EmuDeck folder to $env:APPDATA\EmuDeck.Please wait until a new message confirms the migration"
 
 		$destination = "$env:APPDATA/EmuDeck"
-			# We copy the saves to the Emulation/saves Folder and we create a backup
-		echo "Creating saves symlink"
+
 		$originalFolderName = Split-Path $path -Leaf
 		$newFolderName = Split-Path $destination -Leaf
 
@@ -28,7 +28,7 @@ function appImageInit(){
 		 . "$env:APPDATA/EmuDeck/settings.ps1"
 		 . "$env:APPDATA/EmuDeck/backend/vars.ps1"
 
-		 SRM_resetLaunchers
+
 		 SRM_createParsers
 		 ESDE_init
 
