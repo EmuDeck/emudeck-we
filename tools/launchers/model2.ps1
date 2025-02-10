@@ -1,3 +1,4 @@
+cd "$env:APPDATA/EmuDeck/Emulators/Model2"
 $emulatorFile = "$env:APPDATA/EmuDeck/Emulators/Model2/EMULATOR.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
