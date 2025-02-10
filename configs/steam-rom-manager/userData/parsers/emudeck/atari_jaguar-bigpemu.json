@@ -17,11 +17,13 @@
   "defaultHeroImage": "",
   "defaultLogoImage": "",
   "defaultIcon": "",
-  "localImages": "",
-  "localTallImages": "",
-  "localHeroImages": "",
-  "localLogoImages": "",
-  "localIcons": "",
+  "localImages": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  },
   "disabled": false,
   "userAccounts": {
     "specifiedAccounts": "",
