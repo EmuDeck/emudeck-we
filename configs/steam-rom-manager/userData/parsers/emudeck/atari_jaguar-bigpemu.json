@@ -1,6 +1,6 @@
 {
   "parserType": "Glob",
-  "configTitle": "Atari Jaguar/Jaguar CD - BigPEmu",
+  "configTitle": "Atari Jaguar - BigPEmu",
   "steamCategory": "${Atari Jaguar}",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}",
