@@ -98,8 +98,8 @@ function appImageInit(){
 	   $content = Get-Content -Raw -Encoding Default $filePath
 	   $newContent = $content -replace [regex]::Escape("EmuDeck\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
 	   $newContent = $newContent -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+	   $newContent = $newContent -replace [regex]::Escape("AppData\Roaming\AppData\Roaming"), "AppData\Roaming"
 	   Set-Content -Path $filePath -Value $newContent -Encoding Default
-
 
 	 $path = "$esdePath/Emulators"
 	 if (Test-Path -Path $path -PathType Container) {
