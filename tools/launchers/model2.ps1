@@ -1,4 +1,4 @@
-cd "$env:APPDATA/EmuDeck/Emulators/Model2"
+cd "$env:APPDATA/EmuDeck/Emulators/m2emulator"
 $emulatorFile = "./EMULATOR.exe"
 $emuName = "model2"
 

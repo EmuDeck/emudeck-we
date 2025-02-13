@@ -1,5 +1,5 @@
-$Model2_emuPath = "$emusPath\model2\EMULATOR.EXE"
-$Model2_configFile = "$emusPath\model2\EMULATOR.INI"
+$Model2_emuPath = "$emusPath\m2emulator\EMULATOR.EXE"
+$Model2_configFile = "$emusPath\m2emulator\EMULATOR.INI"
 
 $Model2_romsPath = "$emusPath\model2\roms"
 $Model2_launcherPath = "$toolsPath\launchers\model-2-emulator.ps1"
@@ -9,18 +9,18 @@ function Model2_install() {
     setMSG "Installing Model 2 Emulator"
     $url_Model2 = "https://github.com/PhoenixInteractiveNL/edc-repo0004/raw/master/m2emulator/1.1a.7z"
     download $url_Model2 "model2.zip"
-    moveFromTo "$temp\model2" "$emusPath\Model2"
+    moveFromTo "$temp\model2" "$emusPath\m2emulator"
     createLauncher "Model2"
 }
 
 function Model2_init(){
 
-	$destination="$emusPath\Model2"
+	$destination="$emusPath\m2emulator"
 
     mkdir -Force "$destination\pfx"
 
     $sourcePath = "$env:APPDATA\EmuDeck\backend\configs\model2\EMULATOR.ini"
-    $destinationPath = "$emusPath\Model2\EMULATOR.ini"
+    $destinationPath = "$emusPath\m2emulator\EMULATOR.ini"
     Copy-Item -Path $sourcePath -Destination $destinationPath -Force
 
     $sourceCFG = "$env:APPDATA\EmuDeck\backend\configs\model2\CFG"
@@ -54,14 +54,14 @@ function Model2_update(){
 }
 
 function Model2_uninstall(){
-	Remove-Item -path "$emusPath\Model2"-recurse -force
+	Remove-Item -path "$emusPath\m2emulator"-recurse -force
 	if($?){
 		Write-Output "true"
 	}
 }
 
 function Model2_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\Model2"
+	$test=Test-Path -Path "$emusPath\m2emulator"
 	if($test){
 		Write-Output "true"
 	}else{
