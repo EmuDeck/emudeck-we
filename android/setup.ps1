@@ -1,14 +1,22 @@
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path "$env:APPDATA\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
-	$progressBarUpdate=[int]$progressBarValue+1
+	$logFilePath = "$env:APPDATA\emudeck\logs\msg.log"
 
-	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBarUpdate -eq 95 ){
-		$progressBarUpdate=90
+	$line = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$progressBarValue = ($line -split '#')[0]
+
+	if ($progressBarValue -match '^\d+$') {
+		$progressBarUpdate = [int]$progressBarValue + 5
+	} else {
+		$progressBarUpdate = 5
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\msg.log"
-	Write-Output $message
-	Add-Content "$env:APPDATA\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
+
+	if ($progressBarUpdate -ge 95) {
+		$progressBarUpdate = 90
+	}
+
+	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
+
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'

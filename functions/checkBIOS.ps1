@@ -104,23 +104,60 @@ function checkDSBios() {
 }
 
 
-function checkYuzuBios(){
-	$ryujinxKeys = "$emusPath\ryujinx\portable\system\prod.keys"
-	$ryujinxFirmware ="$emusPath\ryujinx\bis/system/Contents/registered"
+function checkRyujinxBios(){
+	$keys = "$emusPath\ryujinx\portable\system\prod.keys"
+	$firmware ="$emusPath\ryujinx\portable\bis\system\Contents\registered"
 
-	$firmwareExists = Test-Path -Path $ryujinxFirmware -PathType Container
-	$keysExist = Test-Path -Path $ryujinxKeys -PathType Leaf
+	$firmwareExists = Test-Path -Path $firmware -PathType Container
+	$keysExist = Test-Path -Path $keys -PathType Leaf
 
-   if ($firmwareExists -and $keysExist) {
-		if ((Get-ChildItem -Path $ryujinxFirmware | Measure-Object).Count -gt 0) {
+	if ($firmwareExists -and $keysExist) {
+		if ((Get-ChildItem -Path $firmware | Measure-Object).Count -gt 0) {
 			Write-Host "true"
 		}
 		else {
 			Write-Host "false"
 		}
-	}
-	else {
+	}else {
 		Write-Host "false"
 	}
+}
 
+function checkYuzuBios(){
+	$keys = "$biosPath/yuzu/keys/prod.keys"
+	$firmware ="$biosPath/yuzu/firmware"
+
+	$firmwareExists = Test-Path -Path $firmware -PathType Container
+	$keysExist = Test-Path -Path $keys -PathType Leaf
+
+	if ($firmwareExists -and $keysExist) {
+		if ((Get-ChildItem -Path $firmware | Measure-Object).Count -gt 0) {
+			Write-Host "true"
+		}
+		else {
+			Write-Host "false"
+		}
+	}else {
+		Write-Host "false"
+	}
+}
+
+
+function checkCitronBios(){
+	$keys = "$biosPath/citron/keys/prod.keys"
+	$firmware ="$biosPath/citron/firmware"
+
+	$firmwareExists = Test-Path -Path $firmware -PathType Container
+	$keysExist = Test-Path -Path $keys -PathType Leaf
+
+	if ($firmwareExists -and $keysExist) {
+		if ((Get-ChildItem -Path $firmware | Measure-Object).Count -gt 0) {
+			Write-Host "true"
+		}
+		else {
+			Write-Host "false"
+		}
+	}else {
+		Write-Host "false"
+	}
 }

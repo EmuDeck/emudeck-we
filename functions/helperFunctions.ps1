@@ -205,17 +205,25 @@ function changeLine($Keyword,$Replace,$File) {
 }
 
 function setMSG($message){
-	$progressBarValue = Get-Content -Path "$emudeckFolder\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$logFilePath = "$emudeckFolder\logs\msg.log"
+
+	$line = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$progressBarValue = ($line -split '#')[0]
+
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
+	} else {
+		$progressBarUpdate = 5
 	}
-	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBarUpdate -eq 95 ){
-		$progressBarUpdate=90
+
+	if ($progressBarUpdate -ge 95) {
+		$progressBarUpdate = 90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$emudeckFolder\msg.log"
-	Write-Output $message
-	Add-Content "$emudeckFolder\msg.log" "# $message" -NoNewline -Encoding UTF8
+
+	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
+
 	Start-Sleep -Seconds 0.5
 }
 
@@ -846,9 +854,13 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			$newFolderName = Split-Path $emuSavePath -Leaf
 			$emuSaveParent = Split-Path $emuSavePath -Parent
 
-			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
+			rm -r -fo "$emuSavePath" -ErrorAction SilentlyContinue
+
 			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
-			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
+
+			if ((Test-Path "$emuSaveParent\$originalFolderName") -and $originalFolderName -ne $newFolderName) {
+               			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName $newFolderName -Force
+            		}
 			createSymlink $simLinkPath $emuSavePath
 		}
 	}else{
@@ -1282,10 +1294,10 @@ function isLatestVersionGH($emuName){
 function storePatreonToken($token){
 	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
-	if (Test-Path "$cloud_sync_bin") {
-		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
-	}else{
-		echo "NOPE"
+	if (-not [string]::IsNullOrWhiteSpace($cloud_sync_bin)) {
+		if (Test-Path "$cloud_sync_bin") {
+			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
+		}
 	}
 }
 
@@ -1313,9 +1325,15 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
 
   generate_pythonEnv
 
+  #Kill Steam
+  taskkill /IM steam.exe /F
+
   $target_path = 'C:\Windows\System32\cmd.exe\" /k start /min \"Loading PowerShell Launcher\" \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path + ' && exit && exit --emudeck'
   $steam_directory="$steamInstallPath"
   $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
   python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id"
+
+  #StartSteam
+  startSteam "-silent"
 
 }

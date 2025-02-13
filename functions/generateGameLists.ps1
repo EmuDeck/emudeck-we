@@ -1,7 +1,8 @@
 $MSG="$emudeckFolder/logs/msg.log"
 
 function generate_pythonEnv() {
-  if ((Get-Command python).Source -match "Program Files") {
+  $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
+  if (Test-Path $pythonRegistryPath) {
     Write-Output "Python already installed."
   } else {
     Write-Host "Installing Python, please wait..."
@@ -21,7 +22,7 @@ function generateGameLists {
 
     # Obtiene la carpeta de usuario de Steam más reciente
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $destFolder = "$accountFolder/config/grid/retrolibrary/artwork"
+    $destFolder = "$steamInstallPath/userdata$accountFolder/config/grid/retrolibrary/artwork"
     Write-Output "Starting to build database" | Set-Content -Path $MSG
 
     # Crea los directorios necesarios
@@ -34,11 +35,11 @@ function generateGameLists {
 
     # Crea junctions
     mkdir "$accountFolder/config/grid/retrolibrary" -ErrorAction SilentlyContinue
-    $simLinkPath = "$accountFolder\config\grid\retrolibrary\artwork"
-    $emuSavePath = "$storagePath\retrolibrary\artwork"
+    $simLinkPath = "$steamInstallPath/userdata/$accountFolder/config/grid/retrolibrary/artwork"
+    $emuSavePath = "$storagePath/retrolibrary/artwork"
     createSaveLink $simLinkPath $emuSavePath
 
-    $simLinkPath = "$accountFolder\config\grid\retrolibrary\cache"
+    $simLinkPath = "$steamInstallPath/userdata/$accountFolder/config/grid/retrolibrary/cache"
     $emuSavePath = "$storagePath\retrolibrary\cache"
     createSaveLink $simLinkPath $emuSavePath
 
@@ -82,14 +83,14 @@ function generateGameLists_artwork {
     Write-Output "Searching for missing artwork" | Set-Content -Path $MSG
 
     # Ejecuta los scripts de Python para buscar y descargar artwork
-    python "$emudeckBackend/tools/retro-library/missing_artwork_platforms.py" "$romsPath" "$storagePath/retrolibrary/artwork" | Out-Null
-    python "$emudeckBackend/tools/retro-library/download_art_platforms.py" "$storagePath/retrolibrary/artwork" | Out-Null
+    python "$emudeckBackend/tools/retro-library/missing_artwork_platforms.py" "$romsPath" "$storagePath/retrolibrary/artwork"
+    python "$emudeckBackend/tools/retro-library/download_art_platforms.py" "$storagePath/retrolibrary/artwork"
 
     # Ejecuta los scripts de Python adicionales en segundo plano
     Start-Job {
-        python "$emudeckBackend/tools/retro-library/missing_artwork_nohash.py" "$romsPath" "$storagePath/retrolibrary/artwork" | Out-Null
-        python "$emudeckBackend/tools/retro-library/download_art_nohash.py" "$storagePath/retrolibrary/artwork" | Out-Null
-    } | Out-Null
+        python "$emudeckBackend/tools/retro-library/missing_artwork_nohash.py" "$romsPath" "$storagePath/retrolibrary/artwork"
+        python "$emudeckBackend/tools/retro-library/download_art_nohash.py" "$storagePath/retrolibrary/artwork"
+    }
 
     # Escribe mensaje final en el archivo de mensaje
     Write-Output "Artwork finished. Restart if you see this message" | Set-Content -Path $MSG

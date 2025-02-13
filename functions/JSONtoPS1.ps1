@@ -11,8 +11,10 @@ function storePatreonToken($token){
 	. "$env:APPDATA\emudeck\settings.ps1" -ErrorAction SilentlyContinue
 	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
-	if (Test-Path "$cloud_sync_bin") {
-		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
+	if (-not [string]::IsNullOrWhiteSpace($cloud_sync_bin)) {
+		if (Test-Path "$cloud_sync_bin") {
+			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
+		}
 	}
 }
 
@@ -48,8 +50,13 @@ function JSONtoPS1(){
 	$SetupFlycast= $myJson.overwriteConfigEmus.flycast.status
 	$SetupVita3K= $myJson.overwriteConfigEmus.vita3k.status
 	$SetupMGBA= $myJson.overwriteConfigEmus.mgba.status
+	$SetupBigPEmu= $myJson.overwriteConfigEmus.bigpemu.status
 	$SetupPegasus= $myJson.overwriteConfigEmus.pegasus.status
+	$mode= $myJson.mode
+	$SetupSupermodel= $myJson.overwriteConfigEmus.supermodel.status
+	$SetupModel2= $myJson.overwriteConfigEmus.model2.status
 
+	setSettinginFile("`$mode=`"$mode`"")
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
 	setSettinginFile("`$doSetupDolphin=`"$SetupDolphin`"")
 	setSettinginFile("`$doSetupPCSX2=`"$SetupPCSX2`"")
@@ -74,6 +81,10 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupVita3K=`"$SetupVita3K`"")
 	setSettinginFile("`$doSetupMGBA=`"$SetupMGBA`"")
 	setSettinginFile("`$doSetupPegasus=`"$SetupPegasus`"")
+	setSettinginFile("`$doSetupBigPEmu=`"$SetupBigPEmu`"")
+	setSettinginFile("`$doSetupSupermodel=`"$SetupSupermodel`"")
+	setSettinginFile("`$doSetupModel2=`"$SetupModel2`"")
+
 
 	#Install all systems by default
 	$InstallRA = $myJson.installEmus.ra.status
@@ -92,17 +103,20 @@ function JSONtoPS1(){
 	$InstallPrimeHack= $myJson.installEmus.primehack.status
 	$InstallPPSSPP= $myJson.installEmus.ppsspp.status
 	$InstallXemu= $myJson.installEmus.xemu.status
-	$InstallSRM= $myJson.installEmus.srm.status
 	$InstallmelonDS= $myJson.installEmus.melonDS.status
 	$InstallScummVM= $myJson.installEmus.scummvm.status
 	$InstallFlycast= $myJson.installEmus.flycast.status
 	$InstallVita3K= $myJson.installEmus.vita3k.status
 	$InstallMGBA= $myJson.installEmus.mgba.status
+	$InstallBigPEmu = $myJson.installEmus.bigpemu.status
+	$InstallSupermodel = $myJson.installEmus.supermodel.status
+	$InstallModel2 = $myJson.installEmus.model2.status
+
 
 	#Frontends
 	$InstallESDE= $myJson.installFrontends.esde.status
 	$InstallPegasus= $myJson.installFrontends.pegasus.status
-	$steamAsFrontend= $myJson.installFrontends.steam.status
+	$InstallSRM= $myJson.installFrontends.steam.status
 
 	setSettinginFile("`$doInstallRA=`"$InstallRA`"")
 	setSettinginFile("`$doInstallDolphin=`"$InstallDolphin`"")
@@ -126,10 +140,14 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallFlycast=`"$InstallFlycast`"")
 	setSettinginFile("`$doInstallVita3K=`"$InstallVita3K`"")
 	setSettinginFile("`$doInstallMGBA=`"$InstallMGBA`"")
+	setSettinginFile("`$doInstallBigPEmu=`"$InstallBigPEmu`"")
+	setSettinginFile("`$doInstallSupermodel=`"$InstallSupermodel`"")
+	setSettinginFile("`$doInstallModel2=`"$InstallModel2`"")
+
 
 
 	#Frontends
-	setSettinginFile("`$doInstallPegasus=`"$doInstallPegasus`"")
+	setSettinginFile("`$doInstallPegasus=`"$InstallPegasus`"")
 	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
 	setSettinginFile("`$steamAsFrontend=`"$steamAsFrontend`"")
 
@@ -326,13 +344,6 @@ function JSONtoPS1(){
 	$androidRABezels=$myJson.android.bezels
 	setSettinginFile("`$androidRABezels=`"$androidRABezels`"")
 
-	#Frontends
-	$InstallESDE= $myJson.installFrontends.esde.status
-	$InstallPegasus= $myJson.installFrontends.pegasus.status
-	$steamAsFrontend= $myJson.installFrontends.steam.status
-
-	setSettinginFile("`$doInstallESDE=`"$InstallESDE`"")
-	setSettinginFile("`$doInstallPegasus=`"$InstallPegasus`"")
 
 
 	$device = $myJson.device
