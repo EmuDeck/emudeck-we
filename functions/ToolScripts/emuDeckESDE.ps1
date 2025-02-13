@@ -21,7 +21,11 @@ function ESDE_install(){
 
 	if($doInit -eq "true" ){
 		ESDE_init
+	}else{
+		ESDE_addToSteam
 	}
+
+
 }
 
 function ESDE_init(){

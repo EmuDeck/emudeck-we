@@ -1,5 +1,6 @@
 function appImageInit(){
 
+	SRM_resetLaunchers
 
 	#emudeck folder relocation
 	$path = "$env:USERPROFILE/EmuDeck"
@@ -8,8 +9,7 @@ function appImageInit(){
 	   confirmDialog -TitleText "Migration" -MessageText "We are going to move the $env:USERPROFILE/EmuDeck folder to $env:APPDATA\EmuDeck.Please wait until a new message confirms the migration"
 
 		$destination = "$env:APPDATA/EmuDeck"
-			# We copy the saves to the Emulation/saves Folder and we create a backup
-		echo "Creating saves symlink"
+
 		$originalFolderName = Split-Path $path -Leaf
 		$newFolderName = Split-Path $destination -Leaf
 
@@ -28,7 +28,7 @@ function appImageInit(){
 		 . "$env:APPDATA/EmuDeck/settings.ps1"
 		 . "$env:APPDATA/EmuDeck/backend/vars.ps1"
 
-		 SRM_resetLaunchers
+
 		 SRM_createParsers
 		 ESDE_init
 
@@ -47,7 +47,8 @@ function appImageInit(){
 		  Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.baknew" -ErrorAction SilentlyContinue
 		  $filePath = "$shorcutsPath"
 		  $content = Get-Content -Raw -Encoding Default $filePath
-		  $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+		  $newContent = $content -replace [regex]::Escape("EmuDeck\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+		  $newContent = $newContent -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
 		  Set-Content -Path $filePath -Value $newContent -Encoding Default
 
 		 confirmDialog -TitleText "Complete" -MessageText "Migration complete,you can now use EmuDeck as always. The Emulation folder is still at $emulationPath"
@@ -95,9 +96,10 @@ function appImageInit(){
 	   Copy-Item "$shorcutsPath" -Destination "$shorcutsPath.baknew" -ErrorAction SilentlyContinue
 	   $filePath = "$shorcutsPath"
 	   $content = Get-Content -Raw -Encoding Default $filePath
-	   $newContent = $content -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+	   $newContent = $content -replace [regex]::Escape("EmuDeck\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+	   $newContent = $newContent -replace [regex]::Escape("EmuDeck\EmulationStation-DE\Emulators"), "AppData\Roaming\EmuDeck\Emulators"
+	   $newContent = $newContent -replace [regex]::Escape("AppData\Roaming\AppData\Roaming"), "AppData\Roaming"
 	   Set-Content -Path $filePath -Value $newContent -Encoding Default
-
 
 	 $path = "$esdePath/Emulators"
 	 if (Test-Path -Path $path -PathType Container) {

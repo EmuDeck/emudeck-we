@@ -161,6 +161,16 @@ function SRM_createParsers(){
 	if ( -not (mGBA_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 	}
+	if ( -not (BigPEmu_IsInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"atari_jaguar-bigpemu.json"
+	}
+	if ( -not (Supermodel_IsInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"sega_model_3-supermodel.json"
+	}
+	if ( -not (Model2_IsInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"sega_model2-model2emulator.json"
+	}
+
 
 
 	Start-Sleep -Seconds 1
@@ -358,93 +368,20 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 	Get-ChildItem -Path "$toolsPath\launchers\" -File -Recurse | Where-Object { $_.Extension -eq ".bat" } | Remove-Item -Force
 
 	createLauncher "srm\steamrommanager"
-	$setupSaves=''
 
-	if ($doInstallPegasus -eq "true" -or (pegasus_isInstalled -like "*true*")){
-	    createLauncher "pegasus\pegasus-frontend"
-	}
-	if ($doInstallRA -eq "true" -or (RetroArch_isInstalled -like "*true*")){
-		createLauncher retroarch
-		$setupSaves+="RetroArch_setupSaves;"
-	}
-	if ($doInstallDolphin -eq "true" -or (Dolphin_isInstalled -like "*true*")){
-		createLauncher dolphin
-		$setupSaves+="Dolphin_setupSaves;"
-	}
-	if ($doInstallPCSX2 -eq "true" -or (PCSX2QT_isInstalled -like "*true*")){
-		createLauncher pcsx2
-		$setupSaves+="PCSX2QT_setupSaves;"
-	}
-	if ($doInstallRPCS3 -eq "true" -or (RPCS3_isInstalled -like "*true*")){
-		createLauncher rpcs3
-		$setupSaves+="RPCS3_setupSaves;"
-	}
-	if ($doInstallShadPS4 -eq "true" -or (ShadPS4_isInstalled -like "*true*")){
-		createLauncher shadps4
-		$setupSaves+="ShadPS4_setupSaves;"
-	}
-	if ($doInstallYuzu -eq "true" -or (Yuzu_isInstalled -like "*true*")){
-		createLauncher yuzu
-		$setupSaves+="Yuzu_setupSaves;"
-	}
-	if ($doInstallRyujinx -eq "true" -or (Ryujinx_isInstalled -like "*true*")){
-		createLauncher "Ryujinx"
-		$setupSaves+="Ryujinx_setupSaves;"
-	}
-	if ($doInstallCitra -eq "true" -or (Citra_isInstalled -like "*true*")){
-		createLauncher Citra
-		$setupSaves+="Citra_setupSaves;"
-	}
-	if ($doInstallDuck -eq "true" -or (DuckStation_isInstalled -like "*true*")){
-		createLauncher duckstation
-		$setupSaves+="DuckStation_setupSaves;"
-	}
-	if ($doInstallmelonDS -eq "true" -or (melonDS_isInstalled -like "*true*")){
-		createLauncher melonDS
-		$setupSaves+="melonDS_setupSaves;"
-	}
-	if ($doInstallCemu -eq "true" -or (Cemu_isInstalled -like "*true*")){
-		createLauncher cemu
-		$setupSaves+="Cemu_setupSaves;"
+	$targetLaunchers = Join-Path $toolsPath "launchers"
+	$sourceLaunchers = Join-Path $emudeckBackend "tools\launchers"
+
+	Get-ChildItem -Path $targetLaunchers -Filter *.ps1 -File -Recurse | ForEach-Object {
+		$relativePath = $_.FullName.Substring($targetLaunchers.Length + 1)
+		$targetFile = $_.FullName
+		$sourceFile = Join-Path $sourceLaunchers $relativePath
+
+		if (Test-Path $sourceFile) {
+			Copy-Item -Path $sourceFile -Destination $targetFile -Force
+		}
 	}
 
-	if ($doInstallPPSSPP -eq "true" -or (PPSSPP_isInstalled -like "*true*")){
-		createLauncher PPSSPP
-		$setupSaves+="PPSSPP_setupSaves;"
-	}
-	if ($doInstallESDE -eq "true" -or (ESDE_isInstalled -like "*true*")){
-		createLauncher "esde\EmulationStationDE"
-	}
-
-	if ($doInstallXemu -eq "true" -or (Xemu_isInstalled -like "*true*")){
-		createLauncher xemu
-		$setupSaves+="Xemu_setupSaves;"
-	}
-	if ($doInstallXenia -eq "true" -or (Xenia_isInstalled -like "*true*")){
-		createLauncher xenia
-		$setupSaves+="Xenia_setupSaves;"
-	}
-	if ($doInstallFlycast -eq "true" -or (Flycast_isInstalled -like "*true*")){
-		createLauncher flycast
-		$setupSaves+="Flycast_setupSaves;"
-	}
-	if ($doInstallSuperModel -eq "true" -or (SuperModel_isInstalled -like "*true*")){
-		createLauncher supermodel
-		$setupSaves+="SuperModel_setupSaves;"
-	}
-	if ($doInstallVita3K -eq "true" -or (Vita3K_isInstalled -like "*true*")){
-		createLauncher Vita3K
-		$setupSaves+="Vita3K_setupSaves;"
-	}
-	if ($doInstallScummVM -eq "true" -or (ScummVM_isInstalled -like "*true*")){
-		createLauncher ScummVM
-		$setupSaves+="ScummVM_setupSaves;"
-	}
-
-	if ( $setupSaves -ne '' ){
-		$setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
-		Invoke-Expression $setupSaves
-	}
 }
 
 

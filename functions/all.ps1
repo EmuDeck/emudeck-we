@@ -26,6 +26,8 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\appImageInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\autofix.ps1"
 
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckModel2.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckBigPemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckLime3DS.ps1"
@@ -38,6 +40,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckXemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckXenia.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckYuzu.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitron.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckRyujinx.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckPPSSPP.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckmelonDS.ps1"

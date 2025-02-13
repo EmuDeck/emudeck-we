@@ -36,6 +36,7 @@ function Android_ADB_testWrite{
 
 
 function Android_ADB_install {
+	setMSG "Installing Android Tools..."
 	$outFile = "adb.zip"
 	$outDir = "$env:APPDATA\emudeck\android"
 
