@@ -57,23 +57,45 @@ function Migration_move {
 
     $progressForm.Show()
 
-    # Ejecutar el comando Robocopy para migrar archivos
+    # Detectar y almacenar los enlaces simbólicos en el origen
+    $symbolicLinks = Get-ChildItem -Path $origin -Recurse | Where-Object { $_.Attributes -match "ReparsePoint" }
 
-    $robocopyArgs = @("$origin", "$destination", "/MIR", "/Z", "/MT:16", "/R:5", "/W:5", "/NFL", "/NDL")
-    $robocopyProcess = Start-Process -FilePath "robocopy" -ArgumentList $robocopyArgs -NoNewWindow -PassThru -Wait
-
-    if ($robocopyProcess.ExitCode -lt 8) {
-        # Copia exitosa (exit codes 0-7 en robocopy son advertencias menores)
-        $progressBar.Value = 100
-        $progressLabel.Text = "Migration completed."
-    } else {
-        # Error en la copia
-        $progressLabel.Text = "Migration failed."
+    # Mover todo el contenido de Emulation a su nuevo destino
+    Get-ChildItem -Path $origin | ForEach-Object {
+        Move-Item -Path $_.FullName -Destination "$destination\Emulation" -Force
     }
 
-    # Cerrar la ventana de progreso después de unos segundos
+    # Volver a crear los enlaces simbólicos en el destino
+    foreach ($link in $symbolicLinks) {
+        $linkTarget = (Get-Item $link.FullName).Target
+        $newLinkPath = $link.FullName -replace [regex]::Escape($origin), "$destination\Emulation"
+
+        # Si ya existe el enlace en el destino, lo eliminamos primero
+        if (Test-Path $newLinkPath) {
+            Remove-Item -Path $newLinkPath -Force
+        }
+
+        # Crear el nuevo enlace simbólico en el destino
+        New-Item -ItemType Junction -Path $newLinkPath -Target $linkTarget -Force
+        Write-Host "Symbolic link created: $newLinkPath -> $linkTarget"
+    }
+
+    # Verificar que no queden archivos en la carpeta de origen y eliminarla
+    if ((Get-ChildItem -Path $origin -Recurse | Measure-Object).Count -eq 0) {
+        Remove-Item -Path $origin -Recurse -Force
+        Write-Host "Source folder deleted: $origin"
+    } else {
+        Write-Host "Warning: The source folder was not empty after migration."
+    }
+
+    # Finalizar progreso
+    $progressBar.Value = 100
+    $progressLabel.Text = "Migration completed."
+
     Start-Sleep -Seconds 2
     $progressForm.Close()
+
+    Write-Host "Migration completed."
 }
 
 function Migration_updatePaths {
