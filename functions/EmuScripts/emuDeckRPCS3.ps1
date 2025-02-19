@@ -46,6 +46,12 @@ function RPCS3_renameFolders(){
 		# Skip the "shortcuts" folder
 		if ($name -ne "shortcuts") {
 
+			if ($name -eq "media.ps3") {
+				$newName = "media"
+				Rename-Item -Path $directory.FullName -NewName $newName
+				Write-Output "Fixed folder '$name' to '$newName'."
+			}
+
 			# If the folder name does not end with .ps3, add the extension
 			if ($name -eq "media") {
 				Write-Output "The folder 'media' does not need to be renamed."
