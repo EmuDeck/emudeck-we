@@ -18,7 +18,7 @@ function MAME_init(){
 
 	MAME_setupStorage
 	MAME_setEmulationFolder
-	#MAME_setupSaves
+	MAME_setupSaves
 }
 function MAME_update(){
 	Write-Output "NYI"

@@ -14,7 +14,7 @@ function mGBA_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\mgba" "$destination"
 	#mGBA_setupStorage
 	mGBA_setEmulationFolder
-	#mGBA_setupSaves
+	mGBA_setupSaves
 	#mGBA_addSteamInputProfile
 }
 function mGBA_update(){

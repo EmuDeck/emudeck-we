@@ -18,7 +18,7 @@ function RPCS3_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RPCS3" "$destination"
 	RPCS3_setResolution $rpcs3Resolution
 	RPCS3_setupStorage
-	#RPCS3_setupSaves
+	RPCS3_setupSaves
 	RPCS3_setEmulationFolder
 }
 function RPCS3_update(){
