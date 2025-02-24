@@ -26,7 +26,7 @@ function Citron_init(){
 	sedFile $destination\qt-config.ini "C:/Emulation" $emulationPath
 
 	Citron_setupStorage
-#	Citron_setupSaves
+	Citron_setupSaves
 	Citron_setResolution $citronResolution
 	createLauncher "Citron"
 
