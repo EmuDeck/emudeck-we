@@ -14,7 +14,7 @@ function Flycast_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\flycast" "$destination"
 	#Flycast_setupStorage
 	Flycast_setEmulationFolder
-	#Flycast_setupSaves
+	Flycast_setupSaves
 }
 function Flycast_update(){
 	Write-Output "NYI"

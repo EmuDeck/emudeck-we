@@ -66,7 +66,7 @@ function RetroArch_init(){
 
 	#setMSG "RetroArch - Bios & Saves"
 
-#	RetroArch_setupSaves
+	RetroArch_setupSaves
 
 	#retroAchievements
 	if ("$achievementsUserToken" -ne "" ){
