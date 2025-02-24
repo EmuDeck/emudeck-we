@@ -14,7 +14,7 @@ function ShadPS4_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\ShadPS4" "$destination"
 	#ShadPS4_setResolution $ShadPS4Resolution
 	ShadPS4_setupStorage
-	#ShadPS4_setupSaves
+	ShadPS4_setupSaves
 	ShadPS4_setEmulationFolder
 }
 function ShadPS4_update(){

@@ -35,7 +35,7 @@ function Lime3DS_init(){
 	$emuSavePath = "$biosPath\lime3ds"
 	createSaveLink $simLinkPath $emuSavePath
 
-#	Lime3DS_setupSaves
+	Lime3DS_setupSaves
 }
 function Lime3DS_update(){
 	Write-Output "NYI"

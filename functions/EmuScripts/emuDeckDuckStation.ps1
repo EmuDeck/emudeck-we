@@ -17,7 +17,7 @@ function DuckStation_init(){
 	#Paths
 	sedFile $destination\settings.ini "C:\Emulation" "$emulationPath"
 
-#	DuckStation_setupSaves
+	DuckStation_setupSaves
 	DuckStation_setResolution $duckstationResolution
 
 	if ("$achievementsUserToken" -ne "" ){
