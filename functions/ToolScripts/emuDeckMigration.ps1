@@ -34,6 +34,7 @@ function Migration_move {
 
     Add-Type -AssemblyName System.Windows.Forms
     mkdir "$destination/Emulation" -ErrorAction SilentlyContinue
+
     # Crear el diálogo de progreso
     $progressForm = New-Object System.Windows.Forms.Form
     $progressBar = New-Object System.Windows.Forms.ProgressBar
@@ -57,35 +58,23 @@ function Migration_move {
 
     $progressForm.Show()
 
-    # Detectar y almacenar los enlaces simbólicos en el origen
-    $symbolicLinks = Get-ChildItem -Path $origin -Recurse | Where-Object { $_.Attributes -match "ReparsePoint" }
-
     # Mover todo el contenido de Emulation a su nuevo destino
     Get-ChildItem -Path $origin | ForEach-Object {
         Move-Item -Path $_.FullName -Destination "$destination\Emulation" -Force
     }
 
-    # Volver a crear los enlaces simbólicos en el destino
-    foreach ($link in $symbolicLinks) {
-        $linkTarget = (Get-Item $link.FullName).Target
-        $newLinkPath = $link.FullName -replace [regex]::Escape($origin), "$destination\Emulation"
+    # Actualizar los paths tras la migración
+    Migration_updatePaths $origin "$destination\Emulation"
 
-        # Si ya existe el enlace en el destino, lo eliminamos primero
-        if (Test-Path $newLinkPath) {
-            Remove-Item -Path $newLinkPath -Force
+    # Forzar la eliminación de la carpeta de origen tras la migración y actualización de paths
+    Start-Sleep -Seconds 2  # Esperar un poco para asegurar que no haya procesos abiertos
+    if (Test-Path $origin) {
+        Remove-Item -Path $origin -Recurse -Force -ErrorAction SilentlyContinue
+        if (-Not (Test-Path $origin)) {
+            Write-Host "Source folder successfully deleted: $origin"
+        } else {
+            Write-Host "Warning: Failed to delete the source folder. It may contain locked files."
         }
-
-        # Crear el nuevo enlace simbólico en el destino
-        New-Item -ItemType Junction -Path $newLinkPath -Target $linkTarget -Force
-        Write-Host "Symbolic link created: $newLinkPath -> $linkTarget"
-    }
-
-    # Verificar que no queden archivos en la carpeta de origen y eliminarla
-    if ((Get-ChildItem -Path $origin -Recurse | Measure-Object).Count -eq 0) {
-        Remove-Item -Path $origin -Recurse -Force
-        Write-Host "Source folder deleted: $origin"
-    } else {
-        Write-Host "Warning: The source folder was not empty after migration."
     }
 
     # Finalizar progreso
@@ -97,6 +86,7 @@ function Migration_move {
 
     Write-Host "Migration completed."
 }
+
 
 function Migration_updatePaths {
     param (
@@ -164,6 +154,12 @@ function Migration_updatePaths {
     }
 
 
+    # Rehacer los junctions llamando a todas las funciones de setupSaves
+    Write-Host "Reconfigurando los enlaces simbólicos de saves..."
+    Invoke-Expression $setupSaves
+    Write-Host "Junctions recreados correctamente."
+
+
     # Mensaje de éxito
     confirmDialog -TitleText "EmuDeck" -MessageText "Your library has been moved to $destination."
 
@@ -185,11 +181,40 @@ function Migration_updateSRM {
     }
 
     # Actualizar "userSettings.json" con la nueva ruta de ROMs usando ConvertFrom-Json y ConvertTo-Json
-    $settingsFile = "$toolsPath\userData\userSettings.json"
-    $settings = Get-Content $settingsFile | ConvertFrom-Json
-    $settings.environmentVariables.romsDirectory = $romsPath
+    $settingsFile = "$destination\tools\userData\userSettings.json"
+
+    # Cargar el JSON correctamente como objeto mutable
+    $jsonText = Get-Content $settingsFile -Raw
+    $settings = $jsonText | ConvertFrom-Json
+
+    # Actualizar la ruta de ROMs con la nueva ubicación
+    $settings.environmentVariables.romsDirectory = "$destination\roms"
+
+    # Guardar los cambios en el JSON
     $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile
 
+    # Actualizar "userConfigurations.json"
+    $configFile = "$destination\tools\userData\userConfigurations.json"
+
+    if (Test-Path $configFile) {
+        $jsonText = Get-Content $configFile -Raw
+        $config = $jsonText | ConvertFrom-Json
+
+        # Recorrer cada configuración y actualizar solo la ruta del emulador
+        foreach ($entry in $config) {
+            if ($entry.executableArgs -match "C:\\Emulation\\tools\\launchers\\") {
+                $entry.executableArgs = $entry.executableArgs -replace "C:\\Emulation\\tools\\launchers\\", "$destination\tools\launchers\"
+            }
+        }
+
+        # Guardar los cambios en el archivo
+        $config | ConvertTo-Json -Depth 10 | Set-Content $configFile
+        Write-Host "userConfigurations.json actualizado correctamente."
+    } else {
+        Write-Host "userConfigurations.json not found, skipping update."
+    }
+
+    # Reiniciar SRM después de la actualización
     SRM_init
 }
 
