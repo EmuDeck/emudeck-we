@@ -27,7 +27,7 @@ function Citra_init(){
 	$emuSavePath = "$biosPath\citra"
 	createSaveLink $simLinkPath $emuSavePath
 
-#	Citra_setupSaves
+	Citra_setupSaves
 }
 function Citra_update(){
 	Write-Output "NYI"
