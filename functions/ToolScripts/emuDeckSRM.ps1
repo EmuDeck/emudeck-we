@@ -266,7 +266,7 @@ function SRM_init(){
 
 	setMSG 'Steam Rom Manager - Configuration'
 
-	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\" -Force
+	#Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\steam-rom-manager\userData\userSettings.json" -Destination "$toolsPath\userData\" -Force
 
 	setMSG 'Steam Rom Manager - Creating Parsers & Steam Input profiles'
 	SRM_createParsers

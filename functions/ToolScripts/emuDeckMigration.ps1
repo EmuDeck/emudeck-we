@@ -181,40 +181,11 @@ function Migration_updateSRM {
     }
 
     # Actualizar "userSettings.json" con la nueva ruta de ROMs usando ConvertFrom-Json y ConvertTo-Json
-    $settingsFile = "$destination\tools\userData\userSettings.json"
-
-    # Cargar el JSON correctamente como objeto mutable
-    $jsonText = Get-Content $settingsFile -Raw
-    $settings = $jsonText | ConvertFrom-Json
-
-    # Actualizar la ruta de ROMs con la nueva ubicación
-    $settings.environmentVariables.romsDirectory = "$destination\roms"
-
-    # Guardar los cambios en el JSON
+    $settingsFile = "$toolsPath\userData\userSettings.json"
+    $settings = Get-Content $settingsFile | ConvertFrom-Json
+    $settings.environmentVariables.romsDirectory = $romsPath
     $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile
 
-    # Actualizar "userConfigurations.json"
-    $configFile = "$destination\tools\userData\userConfigurations.json"
-
-    if (Test-Path $configFile) {
-        $jsonText = Get-Content $configFile -Raw
-        $config = $jsonText | ConvertFrom-Json
-
-        # Recorrer cada configuración y actualizar solo la ruta del emulador
-        foreach ($entry in $config) {
-            if ($entry.executableArgs -match "C:\\Emulation\\tools\\launchers\\") {
-                $entry.executableArgs = $entry.executableArgs -replace "C:\\Emulation\\tools\\launchers\\", "$destination\tools\launchers\"
-            }
-        }
-
-        # Guardar los cambios en el archivo
-        $config | ConvertTo-Json -Depth 10 | Set-Content $configFile
-        Write-Host "userConfigurations.json actualizado correctamente."
-    } else {
-        Write-Host "userConfigurations.json not found, skipping update."
-    }
-
-    # Reiniciar SRM después de la actualización
     SRM_init
 }
 
