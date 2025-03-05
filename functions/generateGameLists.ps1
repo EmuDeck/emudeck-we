@@ -196,9 +196,10 @@ function generateGameLists_downloadData {
 }
 
 function generateGameLists_downloadAssets {
-    $accountFolder = Get-ChildItem -Path "$env:USERPROFILE\AppData\Local\Steam\userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-    $folder = "$storagePath\retrolibrary\assets"
-    $destFolder = "$($accountFolder.FullName)\config\grid\retrolibrary\assets"
+    $folder = "$storagePath/retrolibrary/data"
+    $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    $accountFolder = $accountFolder.FullName
+    $destFolder = "$accountFolder/config/grid/retrolibrary/data"
 
     $folderDefault = "$storagePath\retrolibrary\assets\default"
     $folderBezels = "$storagePath\retrolibrary\assets\bezels"
