@@ -1305,6 +1305,22 @@ function startCompressor(){
 	Start-Process cmd -ArgumentList "/k powershell -ExecutionPolicy Bypass -NoProfile -File `"$toolsPath/chdconv/chddeck.ps1`""
 }
 
+function generate_pythonEnv() {
+  $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
+  if (Test-Path $pythonRegistryPath) {
+	Write-Output "Python already installed."
+  } else {
+	Write-Host "Installing Python, please wait..."
+	$PYinstaller = "python-3.11.0-amd64.exe"
+	$url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
+	download $url $PYinstaller
+	Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
+  }
+
+  check_for_pip 'requests'
+  check_for_pip 'vdf'
+}
+
 function check_for_pip($packageName) {
 	$checkCommand = "import importlib.util; print(importlib.util.find_spec('$packageName') is not None)"
 	$isInstalled = python -c $checkCommand
