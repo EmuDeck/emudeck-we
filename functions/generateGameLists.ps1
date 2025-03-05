@@ -198,22 +198,21 @@ function generateGameLists_downloadData {
 }
 
 function generateGameLists_downloadAssets {
-    $folder = "$storagePath/retrolibrary/data"
+
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $accountFolder = $accountFolder.FullName
-    $destFolder = "$accountFolder/config/grid/retrolibrary/data"
+    $folder = "$storagePath/retrolibrary/assets"
+    $destFolder = "$accountFolder/config/grid/retrolibrary/assets"
 
     $folderDefault = "$storagePath\retrolibrary\assets\default"
     $folderBezels = "$storagePath\retrolibrary\assets\bezels"
     $folderWii = "$storagePath\retrolibrary\assets\wii"
 
     New-Item -ItemType Directory -Force -Path $folder | Out-Null
-    New-Item -ItemType SymbolicLink -Path $destFolder -Target $folder -Force | Out-Null
+    createSaveLink $destFolder $folder
 
     if (-not (Test-Path -Path $folderDefault)) {
         Write-Output "Downloading Assets" | Set-Content -Path $MSG
-        New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        createSaveLink $destFolder $folder
         download "https://artwork.emudeck.com/assets/default.zip" "default.zip"
         moveFromTo "$temp/default" "$storagePath\retrolibrary\assets"
         Write-Output "Assets Downloaded" | Set-Content -Path $MSG
@@ -221,8 +220,6 @@ function generateGameLists_downloadAssets {
 
     if (-not (Test-Path -Path $folderBezels)) {
         Write-Output "Downloading Bezels" | Set-Content -Path $MSG
-        New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        createSaveLink $destFolder $folder
         download "https://artwork.emudeck.com/assets/bezels.zip" "bezels.zip"
         moveFromTo "$temp/bezels" "$storagePath\retrolibrary\assets"
         Write-Output "Bezels Downloaded" | Set-Content -Path $MSG
@@ -230,8 +227,6 @@ function generateGameLists_downloadAssets {
 
     if (-not (Test-Path -Path $folderWii)) {
         Write-Output "Downloading Wii Assets" | Set-Content -Path $MSG
-        New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        createSaveLink $destFolder $folder
         download "https://artwork.emudeck.com/assets/wii.zip" "wii.zip"
         moveFromTo "$temp/wii" "$storagePath\retrolibrary\assets"
         Write-Output "Wii Assets Downloaded" | Set-Content -Path $MSG
