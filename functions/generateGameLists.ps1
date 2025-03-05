@@ -1,3 +1,5 @@
+$MSG="$emudeckFolder/logs/msg.log"
+
 function generateGameLists {
     # Invoca la función generate_pythonEnv y redirige la salida a null
     generate_pythonEnv | Out-Null
