@@ -1308,7 +1308,7 @@ function startCompressor(){
 function generate_pythonEnv() {
   $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
   if (Test-Path $pythonRegistryPath) {
-	Write-Output "Python already installed."
+
   } else {
 	Write-Host "Installing Python, please wait..."
 	$PYinstaller = "python-3.11.0-amd64.exe"
@@ -1326,7 +1326,7 @@ function check_for_pip($packageName) {
 	$isInstalled = python -c $checkCommand
 
 	if ($isInstalled -eq "True") {
-		Write-Host "'$packageName' already installed."
+
 	} else {
 		Write-Host "Installing..."
 		python -m pip install $packageName
