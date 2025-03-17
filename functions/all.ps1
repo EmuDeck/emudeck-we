@@ -62,6 +62,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckMigration.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\generateGameLists.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckPlugins.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckStore.ps1"
 
 #Android
 . "$env:APPDATA\EmuDeck\backend\android\functions\all.ps1"

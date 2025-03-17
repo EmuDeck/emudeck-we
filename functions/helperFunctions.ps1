@@ -1044,8 +1044,7 @@ return [Math]::round([DPI]::scaling(), 2)
 function zipLogs(){
 
 	$logsFolder = Join-Path $env:USERPROFILE "emudeck\logs"
-	$settingsFile = Join-Path $env:USERPROFILE "emudeck\settings.ps1"
-
+	$settingsFile = Join-Path $env:APPDATA "EmuDeck\settings.ps1"
 
 	$zipOutput = "$env:USERPROFILE\Desktop\emudeck_logs.7z"
 
@@ -1305,12 +1304,28 @@ function startCompressor(){
 	Start-Process cmd -ArgumentList "/k powershell -ExecutionPolicy Bypass -NoProfile -File `"$toolsPath/chdconv/chddeck.ps1`""
 }
 
+function generate_pythonEnv() {
+  $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
+  if (Test-Path $pythonRegistryPath) {
+
+  } else {
+	Write-Host "Installing Python, please wait..."
+	$PYinstaller = "python-3.11.0-amd64.exe"
+	$url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
+	download $url $PYinstaller
+	Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
+  }
+
+  check_for_pip 'requests'
+  check_for_pip 'vdf'
+}
+
 function check_for_pip($packageName) {
 	$checkCommand = "import importlib.util; print(importlib.util.find_spec('$packageName') is not None)"
 	$isInstalled = python -c $checkCommand
 
 	if ($isInstalled -eq "True") {
-		Write-Host "'$packageName' already installed."
+
 	} else {
 		Write-Host "Installing..."
 		python -m pip install $packageName
