@@ -2,7 +2,7 @@ $Ryujinx_configFile="$emusPath\Ryujinx\portable\Config.json"
 
 function Ryujinx_install(){
 	setMSG "Downloading Ryujinx"
-	$url_ryu = "https://github.com/Ryubing/Stable-Releases/releases/download/1.2.86/ryujinx-1.2.86-win_x64.zip"
+	$url_ryu = getLatestReleaseURLGH "Ryubing/Stable-Releases" "zip"
 	download $url_ryu "Ryujinx.zip"
 	moveFromTo "$temp/Ryujinx/publish" "$emusPath\Ryujinx"
 	createLauncher "Ryujinx"
