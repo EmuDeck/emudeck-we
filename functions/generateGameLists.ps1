@@ -1,21 +1,5 @@
 $MSG="$emudeckFolder/logs/msg.log"
 
-function generate_pythonEnv() {
-  $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
-  if (Test-Path $pythonRegistryPath) {
-    Write-Output "Python already installed."
-  } else {
-    Write-Host "Installing Python, please wait..."
-    $PYinstaller = "python-3.11.0-amd64.exe"
-    $url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
-    download $url $PYinstaller
-    Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
-  }
-
-  check_for_pip 'requests'
-  check_for_pip 'vdf'
-}
-
 function generateGameLists {
     # Invoca la función generate_pythonEnv y redirige la salida a null
     generate_pythonEnv | Out-Null
@@ -60,7 +44,7 @@ function generateGameLists {
     python "$emudeckBackend/tools/retro-library/generate_game_lists.py" "$romsPath"
 
     # Llama a la función para manejar artwork en segundo plano
-    #Start-Job { generateGameLists_artwork } | Out-Null
+    Start-Job { generateGameLists_artwork } | Out-Null
 }
 
 function generateGameListsJson {
@@ -177,18 +161,6 @@ function generateGameLists_getPercentage {
     Write-Output "$parsedGames / $games ($percentage%)"
 }
 
-
-
-
-function generateGameLists_retroAchievements($hash, $system) {
-
-    # Define la ruta local para los datos
-    $localDataPath = "$storagePath/retrolibrary/achievements/$system.json"
-
-    # Ejecuta el script de Python para gestionar retroachievements
-    python "$emudeckBackend/tools/retro-library/retro_achievements.py" "$cheevos_username" "$hash" "$localDataPath"
-}
-
 function generateGameLists_downloadAchievements {
     # Define la carpeta de logros
     $folder = "$storagePath/retrolibrary/achievements"
@@ -201,7 +173,7 @@ function generateGameLists_downloadAchievements {
         Write-Output "Downloading Retroachievements Data" | Set-Content -Path $MSG
         New-Item -ItemType Directory -Force -Path $folder | Out-Null
         createSaveLink $destFolder $folder
-        download "https://bot.emudeck.com/achievements/achievements.zip" "achievements.zip"
+        download "https://artwork.emudeck.com/achievements/achievements.zip" "achievements.zip"
         moveFromTo "$temp/achievements" "$storagePath\retrolibrary\achievements"
         Write-Output "Retroachievements Data Downloaded" | Set-Content -Path $MSG
     }
@@ -219,26 +191,49 @@ function generateGameLists_downloadData {
         Write-Output "Downloading Metadata" | Set-Content -Path $MSG
         New-Item -ItemType Directory -Force -Path $folder | Out-Null
         createSaveLink $destFolder $folder
-        download "https://bot.emudeck.com/data/data.zip" "data.zip"
+        download "https://artwork.emudeck.com/data/data.zip" "data.zip"
         moveFromTo "$temp/data" "$storagePath\retrolibrary\data"
         Write-Output "Metadata Downloaded" | Set-Content -Path $MSG
     }
 }
 
 function generateGameLists_downloadAssets {
-    # Define la carpeta de assets
-    $folder = "$storagePath/retrolibrary/assets"
+
     $accountFolder = Get-ChildItem "$steamInstallPath/userdata" -Directory | Sort-Object LastWriteTime -Descending | Select-Object -First 1
     $accountFolder = $accountFolder.FullName
+    $folder = "$storagePath/retrolibrary/assets"
     $destFolder = "$accountFolder/config/grid/retrolibrary/assets"
 
-    # Crea la carpeta y descarga los assets si no existe
-    if (-not (Test-Path -Path $folder)) {
+    $folderDefault = "$storagePath\retrolibrary\assets\default"
+    $folderBezels = "$storagePath\retrolibrary\assets\bezels"
+    $folderWii = "$storagePath\retrolibrary\assets\wii"
+
+    New-Item -ItemType Directory -Force -Path $folder | Out-Null
+    createSaveLink $destFolder $folder
+
+    if (-not (Test-Path -Path $folderDefault)) {
         Write-Output "Downloading Assets" | Set-Content -Path $MSG
-        New-Item -ItemType Directory -Force -Path $folder | Out-Null
-        createSaveLink $destFolder $folder
-        download "https://bot.emudeck.com/assets/alekfull/alekfull.zip" "alekfull.zip"
-        moveFromTo "$temp/alekfull" "$storagePath\retrolibrary\assets"
+        download "https://artwork.emudeck.com/assets/default.zip" "default.zip"
+        moveFromTo "$temp/default" "$storagePath\retrolibrary\assets"
         Write-Output "Assets Downloaded" | Set-Content -Path $MSG
     }
+
+    if (-not (Test-Path -Path $folderBezels)) {
+        Write-Output "Downloading Bezels" | Set-Content -Path $MSG
+        download "https://artwork.emudeck.com/assets/bezels.zip" "bezels.zip"
+        moveFromTo "$temp/bezels" "$storagePath\retrolibrary\assets"
+        Write-Output "Bezels Downloaded" | Set-Content -Path $MSG
+    }
+
+    if (-not (Test-Path -Path $folderWii)) {
+        Write-Output "Downloading Wii Assets" | Set-Content -Path $MSG
+        download "https://artwork.emudeck.com/assets/wii.zip" "wii.zip"
+        moveFromTo "$temp/wii" "$storagePath\retrolibrary\assets"
+        Write-Output "Wii Assets Downloaded" | Set-Content -Path $MSG
+    }
+
+
+    Invoke-WebRequest -Uri "https://artwork.emudeck.com/assets/default/backgrounds/store.jpg" -OutFile "$folder\default\backgrounds\store.jpg"
+    Invoke-WebRequest -Uri "https://artwork.emudeck.com/assets/default/carousel-icons/store.jpg" -OutFile "$folder\default\carousel-icons\store.jpg"
+    Invoke-WebRequest -Uri "https://artwork.emudeck.com/assets/default/logo/store.png" -OutFile "$folder\default\logo\store.png"
 }
