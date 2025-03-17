@@ -1044,8 +1044,7 @@ return [Math]::round([DPI]::scaling(), 2)
 function zipLogs(){
 
 	$logsFolder = Join-Path $env:USERPROFILE "emudeck\logs"
-	$settingsFile = Join-Path $env:USERPROFILE "emudeck\settings.ps1"
-
+	$settingsFile = Join-Path $env:APPDATA "EmuDeck\settings.ps1"
 
 	$zipOutput = "$env:USERPROFILE\Desktop\emudeck_logs.7z"
 
