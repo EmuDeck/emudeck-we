@@ -1,22 +1,49 @@
-function setSetting($old, $new){
-	$fileToCheck = "$emudeckFolder\settings.ps1"
-
-	$fileContents = Get-Content $fileToCheck
-	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
-	if ($line) {
-		$newLine = -join('$', $old, '=', '"', $new, '"')
-		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
-
-		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
-
-		Write-Host "Line '$line' changed to '$newLine'"
-	} else {
-		$newLine = -join('$', $old, '=', '"', $new, '"')
-		$newLine += "`r`n"  # Agregar nueva línea al final del contenido
-		Add-Content $fileToCheck $newLine -Encoding UTF8
-
-		Write-Host "New line '$newLine' created in $fileToCheck"
-	}
+function setSetting($old, $new) {
+    $fileToCheck = "$emudeckFolder\settings.ps1"
+    
+    # Leer el contenido del archivo
+    $fileContents = Get-Content $fileToCheck
+    
+    # Crear la nueva línea
+    $newLine = -join('$', $old, '=', '"', $new, '"')
+    
+    # Método de reemplazo específico
+    $modifiedContents = $fileContents | ForEach-Object {
+        if ($_ -match "^\s*\`$$old\s*=") {
+            $newLine  # Reemplazar exactamente la línea que define la variable
+        } else {
+            $_  # Mantener todas las demás líneas sin cambios
+        }
+    }
+    
+    # Si la línea no existía, agregarla al final
+    if ($modifiedContents -notcontains $newLine) {
+        $modifiedContents += $newLine
+    }
+    
+    # Eliminar líneas duplicadas de la variable específica
+    if ($old -eq "storagePath") {
+        $uniqueLines = @()
+        $found = $false
+        
+        foreach ($line in $modifiedContents) {
+            if ($line -match "^\s*\`$storagePath\s*=") {
+                if (-not $found) {
+                    $uniqueLines += $line
+                    $found = $true
+                }
+            } else {
+                $uniqueLines += $line
+            }
+        }
+        
+        $modifiedContents = $uniqueLines
+    }
+    
+    # Escribir el contenido modificado
+    $modifiedContents | Set-Content $fileToCheck -Encoding UTF8
+    
+    Write-Host "Updated setting: $old to $new"
 }
 
 function setSettingNoQuotes($file, $old, $new){
