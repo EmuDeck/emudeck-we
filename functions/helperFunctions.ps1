@@ -1116,7 +1116,7 @@ function killBOM($file){
 function setResolutions(){
 	. "$emudeckFolder\settings.ps1"
 	#Cemu_setResolution
-	Citra_setResolution $citraResolution
+	Azahar_setResolution $azaharResolution
 	Dolphin_setResolution $dolphinResolution
 	DuckStation_setResolution $duckstationResolution
 	#Flycast_setResolution
@@ -1145,7 +1145,7 @@ function getEmuRepo($emuName){
 	switch ( $emuName )
 	{
 		"cemu" { $repo="cemu-project/Cemu" }
-		"citra" { $repo="citra-emu/citra-nightly" }
+		"azahar" { $repo="citra-emu/citra-nightly" }
 		"dolphin" { $repo="shiiion/dolphin" }
 		"duckstation" { $repo="stenzek/duckstation" }
 		"flycast" { $repo="flyinghead/flycast" }

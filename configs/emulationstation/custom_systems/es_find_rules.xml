@@ -35,10 +35,18 @@
 </emulator>
 <emulator name="LIME3DS">
 	<rule type="staticpath">
-		<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe</entry>
-		<entry>%ESPATH%\Emulators\lime3ds\lime3ds.exe</entry>
-		<entry>%ESPATH%\..Emulators\lime3ds\lime3ds-gui.exe</entry>
-		<entry>%ESPATH%\..Emulators\lime3ds\lime3ds.exe</entry>
+		<entry>%ESPATH%\Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\Emulators\azahar\azahar.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar.exe</entry>
+	</rule>
+</emulator>
+<emulator name="AZAHAR">
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\Emulators\azahar\azahar.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar.exe</entry>
 	</rule>
 </emulator>
 </ruleList>

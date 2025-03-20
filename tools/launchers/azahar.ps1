@@ -1,4 +1,4 @@
-$emulatorFile = "$env:APPDATA/emudeck/Emulators/lime3ds/lime3ds.exe"
+$emulatorFile = "$env:APPDATA/emudeck/Emulators/azahar/azahar.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 if($args){

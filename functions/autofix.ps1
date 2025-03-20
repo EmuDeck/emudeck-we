@@ -352,9 +352,9 @@ function autofix_areInstalled(){
 		RPCS3_install; RPCS3_init
 	}
 
-	if ( $doInstallCitra -eq "true" -and -not (Citra_isInstalled -like "*true*")){
-		confirmDialog -TitleText "Error installing" -MessageText "We've detected Citra  was scheduled to install but was't properly installed, trying again now."
-		Citra_install; Citra_init
+	if ( $doInstallAzahar -eq "true" -and -not (Azahar_isInstalled -like "*true*")){
+		confirmDialog -TitleText "Error installing" -MessageText "We've detected Azahar  was scheduled to install but was't properly installed, trying again now."
+		Azahar_install; Azahar_init
 	}
 	if ( $doInstallDolphin -eq "true" -and -not (Dolphin_isInstalled -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected olphin  was scheduled to install but was't properly installed, trying again now."
