@@ -2,7 +2,7 @@ $Azahar_configFile="$emusPath\azahar\user\config\qt-config.ini"
 
 function Azahar_install(){
 	setMSG "Downloading Azahar"
-	$url_azahar = getLatestReleaseURLGH "azahar-emu/azahar" "zip" "windows-msvc"
+	#$url_azahar = getLatestReleaseURLGH "azahar-emu/azahar" "zip" "windows-msvc"
 	$url_azahar = "https://github.com/azahar-emu/azahar/releases/download/2120-rc3/azahar-2120-rc3-windows-msvc.zip"
 	download $url_azahar "azahar.zip"
 	$oldName = Get-ChildItem -Path "$temp/azahar" -Directory -Filter "azahar-*-windows-msvc" | Select-Object -First 1
@@ -33,6 +33,8 @@ function Azahar_init(){
 	createSaveLink $simLinkPath $emuSavePath
 
 	Azahar_setupSaves
+
+	Azahar_migrate
 }
 function Azahar_update(){
 	Write-Output "NYI"
@@ -86,8 +88,20 @@ function Azahar_uninstall(){
 	}
 }
 function Azahar_migrate(){
-	Write-Output "NYI"
+
+	# Launcher
+	rm -fo $toolsPath/launchers/citra.ps1
+	rm -fo $toolsPath/launchers/lime3ds.ps1
+
+	$simLinkPath = $toolsPath/launchers/lime3ds.ps1
+	$emuSavePath = $toolsPath/launchers/azahar.ps1
+	createSaveLink $simLinkPath $emuSavePath
+
+	$simLinkPath = $toolsPath/launchers/citra.ps1
+	$emuSavePath = $toolsPath/launchers/azahar.ps1
+	createSaveLink $simLinkPath $emuSavePath
 }
+
 function Azahar_setABXYstyle(){
 	Write-Output "NYI"
 }
