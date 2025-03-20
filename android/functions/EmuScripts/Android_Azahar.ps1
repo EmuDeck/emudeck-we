@@ -2,7 +2,7 @@
 
 function Android_Azahar_install(){
 	setMSG "Installing Azahar"
-	$temp_url="$(Android_getLatestReleaseURLGH "Azahar/Azahar" ".apk")"
+	$temp_url="$(Android_getLatestReleaseURLGH "azahar-emu/azahar" ".apk")"
 	$temp_emu="azahar"
 	Android_ADB_dl_installAPK $temp_emu $temp_url
 }
