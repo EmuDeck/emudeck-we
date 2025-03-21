@@ -1,13 +1,13 @@
 {
   "parserType": "Glob",
-  "configTitle": "Nintendo 3DS - Lime3DS",
+  "configTitle": "Nintendo 3DS - Azahar",
   "steamCategory": "${Nintendo 3DS}",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}/n3ds",
   "steamDirectory": "${steamdirglobal}",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\lime3ds.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\azahar.ps1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "onlineImageQueries": "${${fuzzyTitle}}",
   "imagePool": "${fuzzyTitle}",
   "imageProviders": ["SteamGridDB"],
@@ -16,7 +16,7 @@
     "specifiedAccounts": ""
   },
   "parserInputs": {
-    "glob": "**/${title}@(.3ds|.3DS|.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cii|.CII|.cxi|.CXI|.elf|.ELF|.cci|.CCI)"
+    "glob": "**/${title}@(.3dsx|.3DSX|.app|.APP|.axf|.AXF|.cii|.CII|.cxi|.CXI|.elf|.ELF|.cci|.CCI)"
   },
   "titleFromVariable": {
     "limitToGroups": "",

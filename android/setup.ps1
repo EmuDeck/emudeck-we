@@ -114,7 +114,7 @@ if ($result -eq "OKButton") {
 		#Yuzu
 		#copyFromTo "$savesPath/yuzu/saves/" "$Android_temp_internal/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
 		#Citra
-		copyFromTo "$savesPath\citra\saves" "$Android_temp_internal/citra-emu/sdmc/"
+		copyFromTo "$savesPath\azahar\saves" "$Android_temp_internal/azahar-emu/sdmc/"
 	}
 #}
 
@@ -130,9 +130,9 @@ if($androidInstallNetherSX2 -eq "true" ){
 	Android_NetherSX2_install
 	Android_NetherSX2_init
 }
-if($androidInstallLime3DS -eq "true" ){
-	Android_Lime3DS_install
-	Android_Lime3DS_init
+if($androidInstallAzahar -eq "true" ){
+	Android_Azahar_install
+	Android_Azahar_init
 }
 if($androidInstallDolphin -eq  "true" ){
 	Android_Dolphin_install
@@ -222,8 +222,8 @@ if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
 
-	if($androidInstallCitraMMJ -eq "true" ){
-		Android_Citra_setup
+	if($androidInstallAzahar -eq "true" ){
+		Android_Azahar_setup
 	}
 	if($androidInstallPegasus -eq "true" ){
 		Android_Pegasus_setup

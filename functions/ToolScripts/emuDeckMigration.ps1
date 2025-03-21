@@ -107,8 +107,7 @@ function Migration_updatePaths {
     }
 
     # Actualización de los archivos de configuración de emuladores
-    Update-ConfigFile $Lime3DS_configFile $origin $destination
-    Update-ConfigFile $Citra_configFile $origin $destination
+    Update-ConfigFile $Azahar_configFile $origin $destination
     Update-ConfigFile $Dolphin_configFile $origin $destination
     Update-ConfigFile $DuckStation_configFileNew $origin $destination
     Update-ConfigFile $MAME_configFile $origin $destination

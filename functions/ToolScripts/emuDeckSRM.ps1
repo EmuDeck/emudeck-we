@@ -123,8 +123,8 @@ function SRM_createParsers(){
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
 	}
 
-	if ( -not (Citra_isInstalled -like "*true*")){
-		$exclusionList=$exclusionList+"nintendo_3ds-citra.json"
+	if ( -not (Azahar_isInstalled -like "*true*")){
+		$exclusionList=$exclusionList+"nintendo_3ds-azahar.json"
 	}
 	if ( -not (Dolphin_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"

@@ -3,43 +3,43 @@ function appImageInit(){
 	SRM_resetLaunchers
 
 	#Emulators new Path Junction
-	$carpetaA = "$env:USERPROFILE/EmuDeck/Emulators"
-	$carpetaB = "$env:APPDATA/EmuDeck/Emulators"
+	$carpetaReal = "$env:USERPROFILE/EmuDeck/Emulators"
+	$carpetaSymlink = "$env:APPDATA/EmuDeck/Emulators"
 
-	# Verificar si la carpeta A es un directorio real
-	$esDirectorioA = (Test-Path $carpetaA -PathType Container)
+	# Verificar si la carpeta real existe como un directorio
+	$esDirectorioReal = Test-Path $carpetaReal -PathType Container
 
-	# Verificar si la carpeta B no existe o si existe pero no es un Junction
-	$existeB = Test-Path $carpetaB -PathType Container
-	$esJunctionB = $false
+	# Verificar si la carpeta symlink no existe o si existe pero no es un junction
+	$existeSymlink = Test-Path $carpetaSymlink -PathType Container
+	$esJunctionSymlink = $false
 
-	if ($existeB) {
-		$esJunctionB = (Get-Item $carpetaB).Attributes -match "ReparsePoint"
+	if ($existeSymlink) {
+		$esJunctionSymlink = (Get-Item $carpetaSymlink).Attributes -match "ReparsePoint"
 	}
 
-	# Si la carpeta A es un directorio y la carpeta B no existe o no es un junction, ejecutar pepito
-	if ($esDirectorioA -and (-not $existeB -or -not $esJunctionB)) {
-		createSaveLink $carpetaA $carpetaB
+	# Si la carpeta real existe y la symlink no existe o no es un junction, crear el symlink
+	if ($esDirectorioReal -and (-not $existeSymlink -or -not $esJunctionSymlink)) {
+		createSaveLink $carpetaReal $carpetaSymlink
 	}
 
 	#ESDE new Path Junction
-	$carpetaA = "$env:USERPROFILE/EmuDeck/EmulationStation-DE"
-	$carpetaB = "$env:APPDATA/EmuDeck/EmulationStation-DE"
+	$carpetaReal = "$env:USERPROFILE/EmuDeck/EmulationStation-DE"
+	$carpetaSymlink = "$env:APPDATA/EmuDeck/EmulationStation-DE"
 
-	# Verificar si la carpeta A es un directorio real
-	$esDirectorioA = (Test-Path $carpetaA -PathType Container)
+	# Verificar si la carpeta real existe como un directorio
+	$esDirectorioReal = Test-Path $carpetaReal -PathType Container
 
-	# Verificar si la carpeta B no existe o si existe pero no es un Junction
-	$existeB = Test-Path $carpetaB -PathType Container
-	$esJunctionB = $false
+	# Verificar si la carpeta symlink no existe o si existe pero no es un junction
+	$existeSymlink = Test-Path $carpetaSymlink -PathType Container
+	$esJunctionSymlink = $false
 
-	if ($existeB) {
-		$esJunctionB = (Get-Item $carpetaB).Attributes -match "ReparsePoint"
+	if ($existeSymlink) {
+		$esJunctionSymlink = (Get-Item $carpetaSymlink).Attributes -match "ReparsePoint"
 	}
 
-	# Si la carpeta A es un directorio y la carpeta B no existe o no es un junction, ejecutar pepito
-	if ($esDirectorioA -and (-not $existeB -or -not $esJunctionB)) {
-		createSaveLink $carpetaA $carpetaB
+	# Si la carpeta real existe y la symlink no existe o no es un junction, crear el symlink
+	if ($esDirectorioReal -and (-not $existeSymlink -or -not $esJunctionSymlink)) {
+		createSaveLink $carpetaReal $carpetaSymlink
 	}
 
 

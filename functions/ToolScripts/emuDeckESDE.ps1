@@ -126,7 +126,6 @@ function ESDE_init(){
 	#ESDE_addToSteam
 
 	#Citra fixes
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\..Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\..Emulators\citra\citra-qt.exe</entry>'
 
 	#Xenia fixes
 	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\..Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\..Emulators\xenia\xenia_canary.exe</entry>'
@@ -138,6 +137,10 @@ function ESDE_init(){
 		rm -r -fo "$temp\gamelists"
 	}
 
+}
+
+function ESDE_refreshCustomEmus(){
+	copyFromTo "$emudeckFolder\backend\configs\emulationstation\custom_systems" "$emudeckFolder\EmulationStation-DE\ES-DE\custom_systems"
 }
 
 function ESDE_addLauncher($emucode, $launcher){
@@ -266,7 +269,7 @@ function ESDE_setDefaultEmulators(){
 	ESDE_setEmu 'Dolphin (Standalone)' wii
 	ESDE_setEmu 'PCSX2 (Standalone)' ps2
 	ESDE_setEmu 'melonDS' nds
-	ESDE_setEmu 'Citra (Standalone)' n3ds
+	ESDE_setEmu 'Azahar (Standalone)' n3ds
 	ESDE_setEmu 'Beetle Lynx' atarilynx
 	ESDE_setEmu 'DuckStation (Standalone)' psx
 	ESDE_setEmu 'Beetle Saturn' saturn

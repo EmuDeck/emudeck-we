@@ -33,8 +33,7 @@ function JSONtoPS1(){
 	$SetupRPCS3= $myJson.overwriteConfigEmus.rpcs3.status
 	$SetupShadPS4= $myJson.overwriteConfigEmus.shadps4.status
 	$SetupYuzu= $myJson.overwriteConfigEmus.yuzu.status
-	$SetupCitra= $myJson.overwriteConfigEmus.citra.status
-	$SetupLime3DS= $myJson.overwriteConfigEmus.lime3ds.status
+	$SetupAzahar= $myJson.overwriteConfigEmus.azahar.status
 	$SetupDuck= $myJson.overwriteConfigEmus.duckstation.status
 	$SetupCemu= $myJson.overwriteConfigEmus.cemu.status
 	$SetupXenia= $myJson.overwriteConfigEmus.xenia.status
@@ -63,8 +62,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupRPCS3=`"$SetupRPCS3`"")
 	setSettinginFile("`$doSetupShadPS4=`"$SetupShadPS4`"")
 	setSettinginFile("`$doSetupYuzu=`"$SetupYuzu`"")
-	setSettinginFile("`$doSetupCitra=`"$SetupCitra`"")
-	setSettinginFile("`$doSetupLime3DS=`"$SetupLime3DS`"")
+	setSettinginFile("`$doSetupAzahar=`"$SetupAzahar`"")
 	setSettinginFile("`$doSetupDuck=`"$SetupDuck`"")
 	setSettinginFile("`$doSetupCemu=`"$SetupCemu`"")
 	setSettinginFile("`$doSetupXenia=`"$SetupXenia`"")
@@ -93,8 +91,7 @@ function JSONtoPS1(){
 	$InstallRPCS3= $myJson.installEmus.rpcs3.status
 	$InstallShadPS4= $myJson.installEmus.shadps4.status
 	$InstallYuzu= $myJson.installEmus.yuzu.status
-	$InstallCitra= $myJson.installEmus.citra.status
-	$InstallLime3DS= $myJson.installEmus.lime3ds.status
+	$InstallAzahar= $myJson.installEmus.azahar.status
 	$InstallDuck= $myJson.installEmus.duckstation.status
 	$InstallCemu= $myJson.installEmus.cemu.status
 	$InstallXenia= $myJson.installEmus.xenia.status
@@ -124,8 +121,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallRPCS3=`"$InstallRPCS3`"")
 	setSettinginFile("`$doInstallShadPS4=`"$InstallShadPS4`"")
 	setSettinginFile("`$doInstallYuzu=`"$InstallYuzu`"")
-	setSettinginFile("`$doInstallCitra=`"$InstallCitra`"")
-	setSettinginFile("`$doInstallLime3DS=`"$InstallLime3DS`"")
+	setSettinginFile("`$doInstallAzahar=`"$InstallAzahar`"")
 	setSettinginFile("`$doInstallDuck=`"$InstallDuck`"")
 	setSettinginFile("`$doInstallCemu=`"$InstallCemu`"")
 	setSettinginFile("`$doInstallXenia=`"$InstallXenia`"")
@@ -259,7 +255,7 @@ function JSONtoPS1(){
 	$yuzuResolution = $myJson.resolutions.yuzu
 	$ppssppResolution = $myJson.resolutions.ppsspp
 	$rpcs3Resolution = $myJson.resolutions.rpcs3
-	$citraResolution = $myJson.resolutions.citra
+	$azaharResolution = $myJson.resolutions.azahar
 	$xemuResolution = $myJson.resolutions.xemu
 	$xeniaResolution = $myJson.resolutions.xenia
 	$melondsResolution = $myJson.resolutions.melonds
@@ -271,7 +267,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$yuzuResolution=`"$yuzuResolution`"")
 	setSettinginFile("`$ppssppResolution=`"$ppssppResolution`"")
 	setSettinginFile("`$rpcs3Resolution=`"$rpcs3Resolution`"")
-	setSettinginFile("`$citraResolution=`"$citraResolution`"")
+	setSettinginFile("`$azaharResolution=`"$azaharResolution`"")
 	setSettinginFile("`$xemuResolution=`"$xemuResolution`"")
 	setSettinginFile("`$xeniaResolution=`"$xeniaResolution`"")
 	setSettinginFile("`$melondsResolution=`"$melondsResolution`"")
@@ -303,8 +299,7 @@ function JSONtoPS1(){
 	$androidInstallRA= $myJson.android.installEmus.ra.status
 	$androidInstallDolphin= $myJson.android.installEmus.dolphin.status
 	$androidInstallPPSSPP= $myJson.android.installEmus.ppsspp.status
-	$androidInstallCitraMMJ= $myJson.android.installEmus.citrammj.status
-	$androidInstallLime3DS= $myJson.android.installEmus.lime3ds.status
+	$androidInstallAzahar= $myJson.android.installEmus.azahar.status
 	$androidInstallNetherSX2= $myJson.android.installEmus.nethersx2.status
 	$androidInstallScummVM= $myJson.android.installEmus.scummvm.status
 
@@ -313,24 +308,21 @@ function JSONtoPS1(){
 	setSettinginFile("`$androidInstallRA=`"$androidInstallRA`"")
 	setSettinginFile("`$androidInstallDolphin=`"$androidInstallDolphin`"")
 	setSettinginFile("`$androidInstallPPSSPP=`"$androidInstallPPSSPP`"")
-	setSettinginFile("`$androidInstallCitraMMJ=`"$androidInstallCitraMMJ`"")
-	setSettinginFile("`$androidInstallLime3DS=`"$androidInstallLime3DS`"")
+	setSettinginFile("`$androidInstallAzahar=`"$androidInstallAzahar`"")
 	setSettinginFile("`$androidInstallNetherSX2=`"$androidInstallNetherSX2`"")
 	setSettinginFile("`$androidInstallScummVM=`"$androidInstallScummVM`"")
 
 	$androidSetupRA= $myJson.android.overwriteConfigEmus.ra.status
 	$androidSetupDolphin= $myJson.android.overwriteConfigEmus.dolphin.status
 	$androidSetupPPSSPP= $myJson.android.overwriteConfigEmus.ppsspp.status
-	$androidSetupCitraMMJ= $myJson.android.overwriteConfigEmus.citrammj.status
-	$androidSetupLime3DS= $myJson.android.overwriteConfigEmus.lime3ds.status
+	$androidSetupAzahar= $myJson.android.overwriteConfigEmus.azahar.status
 	$androidSetupNetherSX2= $myJson.android.overwriteConfigEmus.nethersx2.status
 	$androidSetupScummVM= $myJson.android.overwriteConfigEmus.scummvm.status
 
 	setSettinginFile("`$androidSetupRA=`"$androidSetupRA`"")
 	setSettinginFile("`$androidSetupDolphin=`"$androidSetupDolphin`"")
 	setSettinginFile("`$androidSetupPPSSPP=`"$androidSetupPPSSPP`"")
-	setSettinginFile("`$androidSetupCitraMMJ=`"$androidSetupCitraMMJ`"")
-	setSettinginFile("`$androidSetupLime3DS=`"$androidSetupLime3DS`"")
+	setSettinginFile("`$androidSetupAzahar=`"$androidSetupAzahar`"")
 	setSettinginFile("`$androidSetupNetherSX2=`"$androidSetupNetherSX2`"")
 	setSettinginFile("`$androidSetupScummVM=`"$androidSetupScummVM`"")
 

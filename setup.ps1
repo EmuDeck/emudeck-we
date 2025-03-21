@@ -129,9 +129,9 @@ if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
 #Citra
-$test=Test-Path -Path "$emusPath\lime3ds\lime3ds-qt.exe"
-if(-not($test) -and $doInstallLime3DS -eq "true" ){
-	Lime3DS_install
+$test=Test-Path -Path "$emusPath\azahar\azahar-qt.exe"
+if(-not($test) -and $doInstallAzahar -eq "true" ){
+	Azahar_install
 }
 #melonDS
 $test=Test-Path -Path "$emusPath\melonDS\melonDS.exe"
@@ -267,9 +267,9 @@ if ( "$doSetupCitra" -eq "true" ){
 	$setupSaves+="Citra_setupSaves;"
 }
 
-if ( "$doSetupLime3DS" -eq "true" ){
-	Lime3DS_init
-	$setupSaves+="Lime3DS_setupSaves;"
+if ( "$doSetupAzahar" -eq "true" ){
+	Azahar_init
+	$setupSaves+="Azahar_setupSaves;"
 }
 
 if ( "$doSetupCemu" -eq "true" ){

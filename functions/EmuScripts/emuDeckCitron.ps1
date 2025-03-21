@@ -30,6 +30,8 @@ function Citron_init(){
 	Citron_setResolution $citronResolution
 	createLauncher "Citron"
 
+	ESDE_refreshCustomEmus
+
 }
 function Citron_update(){
 	Write-Output "NYI"
