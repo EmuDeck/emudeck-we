@@ -93,18 +93,16 @@ function Azahar_uninstall(){
 function Azahar_migrate(){
 
 	# Launcher
-	rm -fo $toolsPath/launchers/citra.ps1
-	rm -fo $toolsPath/launchers/lime3ds.ps1
+	rm -fo "$toolsPath/launchers/citra.ps1"
+	rm -fo "$toolsPath/launchers/lime3ds.ps1"
 
-	$simLinkPath = $toolsPath/launchers/lime3ds.ps1
-	$emuSavePath = $toolsPath/launchers/azahar.ps1
+	$simLinkPath = "$toolsPath/launchers/lime3ds.ps1"
+	$emuSavePath = "$toolsPath/launchers/azahar.ps1"
 	createSaveLink $simLinkPath $emuSavePath
 
-	$simLinkPath = $toolsPath/launchers/citra.ps1
-	$emuSavePath = $toolsPath/launchers/azahar.ps1
+	$simLinkPath = "$toolsPath/launchers/citra.ps1"
+	$emuSavePath = "$toolsPath/launchers/azahar.ps1"
 	createSaveLink $simLinkPath $emuSavePath
-
-	ESDE_init
 }
 
 function Azahar_setABXYstyle(){
