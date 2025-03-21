@@ -77,3 +77,7 @@ function Model2_resetConfig(){
         Write-Output "false"
     }
 }
+
+function Model2_setupSaves(){
+    Write-Output "NYI"
+}
