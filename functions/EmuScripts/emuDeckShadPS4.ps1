@@ -45,7 +45,7 @@ function ShadPS4_wipe(){
 	Write-Output "NYI"
 }
 function ShadPS4_uninstall(){
-	Remove-Item -path "$emusPath\ShadPS4-qt"-recurse -force
+	Remove-Item -path "$emusPath\ShadPS4-qt" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

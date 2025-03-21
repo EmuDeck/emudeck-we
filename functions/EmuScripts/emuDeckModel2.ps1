@@ -54,7 +54,7 @@ function Model2_update(){
 }
 
 function Model2_uninstall(){
-	Remove-Item -path "$emusPath\m2emulator"-recurse -force
+	Remove-Item -path "$emusPath\m2emulator" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

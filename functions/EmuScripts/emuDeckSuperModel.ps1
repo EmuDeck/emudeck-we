@@ -55,7 +55,7 @@ function SuperModel_wipe(){
 	Write-Output "NYI"
 }
 function SuperModel_uninstall(){
-	Remove-Item -path "$emusPath\SuperModel"-recurse -force
+	Remove-Item -path "$emusPath\SuperModel" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

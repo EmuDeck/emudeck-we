@@ -22,7 +22,7 @@ function template_wipe(){
 	Write-Output "NYI"
 }
 function template_uninstall(){
-	Remove-Item -path "$emusPath\template"-recurse -force
+	Remove-Item -path "$emusPath\template" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

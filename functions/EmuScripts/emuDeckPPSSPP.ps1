@@ -59,7 +59,7 @@ function PPSSPP_wipe(){
 	Write-Output "NYI"
 }
 function PPSSPP_uninstall(){
-	Remove-Item -path "$emusPath\PPSSPP"-recurse -force
+	Remove-Item -path "$emusPath\PPSSPP" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

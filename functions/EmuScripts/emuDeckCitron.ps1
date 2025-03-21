@@ -98,7 +98,7 @@ function Citron_wipe(){
 	Write-Output "NYI"
 }
 function Citron_uninstall(){
-	Remove-Item -path "$emusPath\citron"-recurse -force
+	Remove-Item -path "$emusPath\citron" -recurse -force
 	if($?){
 		Write-Output "true"
 	}
