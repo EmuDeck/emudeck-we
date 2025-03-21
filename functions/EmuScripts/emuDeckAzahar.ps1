@@ -100,6 +100,8 @@ function Azahar_migrate(){
 	$simLinkPath = $toolsPath/launchers/citra.ps1
 	$emuSavePath = $toolsPath/launchers/azahar.ps1
 	createSaveLink $simLinkPath $emuSavePath
+
+	ESDE_init
 }
 
 function Azahar_setABXYstyle(){
