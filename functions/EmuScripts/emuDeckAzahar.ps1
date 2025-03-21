@@ -2,8 +2,8 @@ $Azahar_configFile="$emusPath\azahar\user\config\qt-config.ini"
 
 function Azahar_install(){
 	setMSG "Downloading Azahar"
-	#$url_azahar = getLatestReleaseURLGH "azahar-emu/azahar" "zip" "windows-msvc"
-	$url_azahar = "https://github.com/azahar-emu/azahar/releases/download/2120-rc3/azahar-2120-rc3-windows-msvc.zip"
+	$url_azahar = getLatestReleaseURLGH "azahar-emu/azahar" "zip" "windows-msvc"
+	#$url_azahar = "https://github.com/azahar-emu/azahar/releases/download/2120-rc3/azahar-2120-rc3-windows-msvc.zip"
 	download $url_azahar "azahar.zip"
 	$oldName = Get-ChildItem -Path "$temp/azahar" -Directory -Filter "azahar-*-windows-msvc" | Select-Object -First 1
 	$newName = Join-Path -Path "$temp/azahar" -ChildPath "azahar"
