@@ -38,6 +38,8 @@ function Azahar_init(){
 
 	ESDE_refreshCustomEmus
 
+	ESDE_setEmu 'Azahar (Standalone)' n3ds
+
 }
 function Azahar_update(){
 	Write-Output "NYI"
