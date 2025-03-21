@@ -259,7 +259,7 @@ function RetroArch_wipe(){
 	Write-Output "NYI"
 }
 function RetroArch_uninstall(){
-	Remove-Item -path "$emusPath\Retroarch"-recurse -force
+	Remove-Item -path "$emusPath\Retroarch" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

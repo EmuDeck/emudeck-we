@@ -35,7 +35,7 @@ function Vita3K_wipe(){
 	Write-Output "NYI"
 }
 function Vita3K_uninstall(){
-	Remove-Item -path "$emusPath\vita3k"-recurse -force
+	Remove-Item -path "$emusPath\vita3k" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

@@ -44,7 +44,7 @@ function Flycast_wipe(){
 	Write-Output "NYI"
 }
 function Flycast_uninstall(){
-	Remove-Item -path "$emusPath\Flycast"-recurse -force
+	Remove-Item -path "$emusPath\Flycast" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

@@ -81,7 +81,7 @@ function Ryujinx_wipe(){
 	Write-Output "NYI"
 }
 function Ryujinx_uninstall(){
-	Remove-Item -path "$emusPath\Ryujinx"-recurse -force
+	Remove-Item -path "$emusPath\Ryujinx" -recurse -force
 	if($?){
 		Write-Output "true"
 	}
