@@ -139,6 +139,10 @@ function ESDE_init(){
 
 }
 
+function ESDE_refreshCustomEmus(){
+	copyFromTo "$emudeckFolder\backend\configs\emulationstation\custom_systems" "$emudeckFolder\EmulationStation-DE\ES-DE\custom_systems"
+}
+
 function ESDE_addLauncher($emucode, $launcher){
 
 	# Configuration file path

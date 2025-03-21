@@ -35,6 +35,9 @@ function Azahar_init(){
 	Azahar_setupSaves
 
 	Azahar_migrate
+
+	ESDE_refreshCustomEmus
+
 }
 function Azahar_update(){
 	Write-Output "NYI"
