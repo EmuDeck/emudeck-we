@@ -89,7 +89,7 @@ function Azahar_wipe(){
 	Write-Output "NYI"
 }
 function Azahar_uninstall(){
-	Remove-Item -path "$emusPath\azahar"-recurse -force
+	Remove-Item -path "$emusPath\azahar" -recurse -force
 	if($?){
 		Write-Output "true"
 	}
