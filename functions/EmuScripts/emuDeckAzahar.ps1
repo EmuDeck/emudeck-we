@@ -40,6 +40,8 @@ function Azahar_init(){
 
 	ESDE_setEmu 'Azahar (Standalone)' n3ds
 
+	SRM_createParsers
+
 }
 function Azahar_update(){
 	Write-Output "NYI"
