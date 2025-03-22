@@ -8,11 +8,14 @@ $url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/164503
 $url_scummVM = "https://downloads.scummvm.org/frs/scummvm/2.7.1/scummvm-2.7.1-win32-x86_64.zip"
 
 $userFolder = "$env:USERPROFILE"
-$emusPath = "$env:USERPROFILE\EmuDeck\Emulators"
-$emusPathSRM = "$env:USERPROFILE\\EmuDeck\\Emulators"
-$esdePath = "$env:USERPROFILE/EmuDeck/EmulationStation-DE"
-$pegasusPath = "$env:USERPROFILE/EmuDeck/Pegasus"
-$temp = "$env:USERPROFILE\EmuDeck\temp"
+$emudeckFolder = "$env:APPDATA\EmuDeck"
+$emudeckBackend = "$env:APPDATA\EmuDeck\backend"
+$emudeckLogs = "$env:APPDATA\EmuDeck\logs"
+$emusPath = "$env:APPDATA\EmuDeck\Emulators"
+$emusPathSRM = $emusPath.Replace("\", '\\')
+$esdePath = "$env:APPDATA/EmuDeck/EmulationStation-DE"
+$pegasusPath = "$env:APPDATA/EmuDeck/Pegasus"
+$temp = "$env:APPDATA\EmuDeck\temp"
 $nssm = "$env:APPDATA\EmuDeck\backend\wintools\nssm.exe"
 $7z = "$env:APPDATA\EmuDeck\backend\wintools\7z.exe"
 #Steam installation Path

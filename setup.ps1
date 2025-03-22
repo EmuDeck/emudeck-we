@@ -1,23 +1,31 @@
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path "$env:APPDATA\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
-	$progressBarUpdate=[int]$progressBarValue+1
+	$logFilePath = "$env:APPDATA\emudeck\logs\msg.log"
 
-	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBarUpdate -eq 95 ){
-		$progressBarUpdate=90
+	$line = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$progressBarValue = ($line -split '#')[0]
+
+	if ($progressBarValue -match '^\d+$') {
+		$progressBarUpdate = [int]$progressBarValue + 5
+	} else {
+		$progressBarUpdate = 5
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\msg.log"
-	Write-Output $message
-	Add-Content "$env:APPDATA\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
+
+	if ($progressBarUpdate -ge 95) {
+		$progressBarUpdate = 90
+	}
+
+	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
+
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
+Write-Output "" > "$env:APPDATA\EmuDeck\logs\EmuDeckSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckSetup.log"
+Start-Transcript "$env:APPDATA\EmuDeck\logs\EmuDeckSetup.log"
 
 # JSON Parsing to ps1 file
 . "$env:APPDATA\EmuDeck\backend\functions\JSONtoPS1.ps1"
@@ -43,7 +51,7 @@ mkdir "$savesPath" -ErrorAction SilentlyContinue
 #
 #
 #Clear old installation msg log
-Remove-Item "$userFolder\AppData\Roaming\EmuDeck\msg.log" -ErrorAction SilentlyContinue
+Remove-Item "$emudeckFolder\logs\msg.log" -ErrorAction SilentlyContinue
 Write-Output "Installing, please stand by..."
 Write-Output ""
 
@@ -55,20 +63,24 @@ if ( Android_ADB_isInstalled -eq "false" ){
 
 copyFromTo "$env:APPDATA\EmuDeck\backend\roms" "$romsPath"
 
-
-#Dowloading..ESDE
-$test=Test-Path -Path "$esdePath\ES-DE.exe"
-if(-not($test) -and $doInstallESDE -eq "true" ){
-	ESDE_install
-}
-
-$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
+$test=Test-Path -Path "$env:APPDATA\emudeck\Pegasus\pegasus-fe.exe"
 if(-not($test) -and $doInstallPegasus -eq "true" ){
 	pegasus_install
 }
 
+
 #SRM
-SRM_install
+
+#Forced install on easy
+if($doInstallSRM -eq "true" ){
+	SRM_install
+}
+
+if($doInstallESDE -eq "true" ){
+	ESDE_install
+}
+
+
 
 
 #
@@ -117,9 +129,9 @@ if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
 #Citra
-$test=Test-Path -Path "$emusPath\lime3ds\lime3ds-qt.exe"
-if(-not($test) -and $doInstallLime3DS -eq "true" ){
-	Lime3DS_install
+$test=Test-Path -Path "$emusPath\azahar\azahar-qt.exe"
+if(-not($test) -and $doInstallAzahar -eq "true" ){
+	Azahar_install
 }
 #melonDS
 $test=Test-Path -Path "$emusPath\melonDS\melonDS.exe"
@@ -186,9 +198,22 @@ if(-not($test) -and $doInstallScummVM -eq "true" ){
 	ScummVM_install
 }
 
+#ShadPS4
 $test=Test-Path -Path "$emusPath\shadps4-qt\shadps4.exe"
 if(-not($test) -and $doInstallShadPS4 -eq "true" ){
 	ShadPS4_install
+}
+
+#BigPEmu
+$test = Test-Path -Path "$emusPath\BigPEmu\BigPEmu.exe"
+if (-not($test) -and $doInstallBigPEmu -eq "true") {
+    BigPEmu_install
+}
+
+#Supermodel
+$test = Test-Path -Path "$emusPath\Supermodel\Supermodel.exe"
+if (-not($test) -and $doInstallBigPEmu -eq "true") {
+    SuperModel_install
 }
 
 
@@ -242,9 +267,9 @@ if ( "$doSetupCitra" -eq "true" ){
 	$setupSaves+="Citra_setupSaves;"
 }
 
-if ( "$doSetupLime3DS" -eq "true" ){
-	Lime3DS_init
-	$setupSaves+="Lime3DS_setupSaves;"
+if ( "$doSetupAzahar" -eq "true" ){
+	Azahar_init
+	$setupSaves+="Azahar_setupSaves;"
 }
 
 if ( "$doSetupCemu" -eq "true" ){
@@ -302,6 +327,21 @@ if ( "$doSetupMGBA" -eq "true" ){
 if ( "$doSetupShadPS4" -eq "true" ){
 	ShadPS4_init
 	$setupSaves+="ShadPS4_setupSaves;"
+}
+
+if ("$doSetupBigPEmu" -eq "true") {
+    BigPEmu_init
+    $setupSaves += "BigPEmu_setupSaves;"
+}
+
+if ("$doSetupSupermodel" -eq "true") {
+    SuperModel_init
+    $setupSaves += "SuperModel_setupSaves;"
+}
+
+if ("$doSetupModel2" -eq "true") {
+    Model2_init
+    $setupSaves += "Model2_setupSaves;"
 }
 
 

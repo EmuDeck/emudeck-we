@@ -14,7 +14,7 @@ function ShadPS4_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\ShadPS4" "$destination"
 	#ShadPS4_setResolution $ShadPS4Resolution
 	ShadPS4_setupStorage
-	#ShadPS4_setupSaves
+	ShadPS4_setupSaves
 	ShadPS4_setEmulationFolder
 }
 function ShadPS4_update(){
@@ -45,7 +45,7 @@ function ShadPS4_wipe(){
 	Write-Output "NYI"
 }
 function ShadPS4_uninstall(){
-	Remove-Item -path "$emusPath\ShadPS4-qt"-recurse -force
+	Remove-Item -path "$emusPath\ShadPS4-qt" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

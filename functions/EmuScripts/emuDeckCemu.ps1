@@ -22,7 +22,7 @@ function Cemu_init(){
 	#sedFile "$emusPath\cemu\controllerProfiles\Deck-Gamepad-Gyro.xml" "DSUController" "XInput"
 	sedFile "$emusPath\cemu\settings.xml" "C:\Emulation" "$emulationPath"
 
-#	Cemu_setupSaves
+	Cemu_setupSaves
 
 
 
@@ -54,7 +54,7 @@ function Cemu_wipe(){
 	Write-Output "NYI"
 }
 function Cemu_uninstall(){
-	Remove-Item -path "$emusPath\Cemu"-recurse -force
+	Remove-Item -path "$emusPath\Cemu" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

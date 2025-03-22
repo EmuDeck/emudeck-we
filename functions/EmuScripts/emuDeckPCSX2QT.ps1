@@ -19,7 +19,7 @@ function PCSX2QT_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\PCSX2" $destination
 
 	PCSX2QT_setEmulationFolder
-#	PCSX2QT_setupSaves
+	PCSX2QT_setupSaves
 	PCSX2QT_setResolution $pcsx2Resolution
 
 	if ("$achievementsUserToken" -ne "" ){
@@ -66,7 +66,7 @@ function PCSX2QT_wipe(){
 	Write-Output "NYI"
 }
 function PCSX2QT_uninstall(){
-	Remove-Item -path "$emusPath\PCSX2-Qt"-recurse -force
+	Remove-Item -path "$emusPath\PCSX2-Qt" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

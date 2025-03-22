@@ -18,7 +18,7 @@ function RPCS3_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\RPCS3" "$destination"
 	RPCS3_setResolution $rpcs3Resolution
 	RPCS3_setupStorage
-	#RPCS3_setupSaves
+	RPCS3_setupSaves
 	RPCS3_setEmulationFolder
 }
 function RPCS3_update(){
@@ -31,23 +31,36 @@ function RPCS3_setEmulationFolder(){
 }
 function RPCS3_renameFolders(){
 	Write-Output "Renaming PS3 folders for ESDE compatibility..."
+
 	$basePath = "$romsPath/ps3"
+	if (-not (Test-Path $basePath)) {
+		Write-Output "The directory $basePath does not exist. Please verify the path."
+		return
+	}
+
 	$directories = Get-ChildItem -Path $basePath -Directory
 
 	foreach ($directory in $directories) {
 		$name = $directory.Name
+
+		# Skip the "shortcuts" folder
 		if ($name -ne "shortcuts") {
-			if ($name -ne "media") {
-				if (-not $name.EndsWith(".ps3")) {
-					$newName = $name + ".ps3"
-					$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
-					Rename-Item -Path $directory.FullName -NewName $newName
-				}
-			}else{
+
+			if ($name -eq "media.ps3") {
 				$newName = "media"
-				$newPath = Join-Path -Path $directory.FullName -ChildPath $newName
 				Rename-Item -Path $directory.FullName -NewName $newName
+				Write-Output "Fixed folder '$name' to '$newName'."
 			}
+
+			# If the folder name does not end with .ps3, add the extension
+			if ($name -eq "media") {
+				Write-Output "The folder 'media' does not need to be renamed."
+			}elseif (-not $name.EndsWith(".ps3")) {
+				$newName = $name + ".ps3"
+				Rename-Item -Path $directory.FullName -NewName $newName
+				Write-Output "Renamed folder '$name' to '$newName'."
+			}
+			# Avoid renaming "media" to itself
 		}
 	}
 }
@@ -108,7 +121,7 @@ function RPCS3_wipe(){
 	Write-Output "NYI"
 }
 function RPCS3_uninstall(){
-	Remove-Item -path "$emusPath\RPCS3"-recurse -force
+	Remove-Item -path "$emusPath\RPCS3" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

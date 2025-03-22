@@ -78,9 +78,9 @@ function autofix_lnk(){
 }
 
 function autofix_cloudSyncLockfile(){
-	if( Test-Path "$userFolder\cloud.lock" ){
+	if( Test-Path "$emudeckFolder\cloud.lock" ){
 		confirmDialog -TitleText "CloudSync Lock file detected" -MessageText "EmuDeck will delete the cloud.lock fike. Maybe your upload failed?"
-		rm -fo -r "$userFolder\cloud.lock" -ErrorAction SilentlyContinue
+		rm -fo -r "$emudeckFolder\cloud.lock" -ErrorAction SilentlyContinue
 	}
 }
 
@@ -212,7 +212,7 @@ function autofix_ESDE(){
 	echo $MyInvocation.MyCommand.Name
 	if (ESDE_isInstalled -like "*true*"){
 
-		$xmlFile = "$env:USERPROFILE\emudeck\EmulationStation-DE\ES-DE\es_settings.xml"
+		$xmlFile = "$env:APPDATA\emudeck\EmulationStation-DE\ES-DE\es_settings.xml"
 
 		if (-not (Select-String -Pattern "Emulation\\" -Path "$xmlFile")){
 			confirmDialog -TitleText "ESDE is not set up" -MessageText "EmuDeck will create its settings now."
@@ -352,9 +352,9 @@ function autofix_areInstalled(){
 		RPCS3_install; RPCS3_init
 	}
 
-	if ( $doInstallCitra -eq "true" -and -not (Citra_isInstalled -like "*true*")){
-		confirmDialog -TitleText "Error installing" -MessageText "We've detected Citra  was scheduled to install but was't properly installed, trying again now."
-		Citra_install; Citra_init
+	if ( $doInstallAzahar -eq "true" -and -not (Azahar_isInstalled -like "*true*")){
+		confirmDialog -TitleText "Error installing" -MessageText "We've detected Azahar  was scheduled to install but was't properly installed, trying again now."
+		Azahar_install; Azahar_init
 	}
 	if ( $doInstallDolphin -eq "true" -and -not (Dolphin_isInstalled -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected olphin  was scheduled to install but was't properly installed, trying again now."

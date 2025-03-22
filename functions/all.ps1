@@ -1,9 +1,15 @@
 
 . "$env:APPDATA\EmuDeck\backend\vars.ps1"
-. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+
+$test=Test-Path -Path "$env:APPDATA\EmuDeck\settings.ps1"
+if(-not($test)){
+	. "$env:USERPROFILE\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+}else{
+	. "$env:APPDATA\EmuDeck\settings.ps1" -ErrorAction SilentlyContinue
+}
 
 if (-not "$emulationPath") {
-	$emulationPath = "C:\"
+	$emulationPath = "C:\Emulation"
 }
 . "$env:APPDATA\EmuDeck\backend\api.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
@@ -20,9 +26,10 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\appImageInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\autofix.ps1"
 
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckModel2.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckBigPemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1"
-. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitra.ps1"
-. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckLime3DS.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckAzahar.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckDolphin.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckDuckStation.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckRetroArch.ps1"
@@ -32,6 +39,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckXemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckXenia.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckYuzu.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitron.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckRyujinx.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckPPSSPP.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckmelonDS.ps1"
@@ -53,6 +61,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckMigration.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\generateGameLists.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckPlugins.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckStore.ps1"
 
 #Android
 . "$env:APPDATA\EmuDeck\backend\android\functions\all.ps1"

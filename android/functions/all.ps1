@@ -6,7 +6,7 @@
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_RetroArch.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Yuzu.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_NetherSX2.ps1"
-. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Lime3DS.ps1"
+. "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Azahar.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_Dolphin.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_PPSSPP.ps1"
 . "$env:APPDATA\EmuDeck\backend\android\functions\EmuScripts\Android_ScummVM.ps1"

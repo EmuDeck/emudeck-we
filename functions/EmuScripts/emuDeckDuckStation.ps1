@@ -17,7 +17,7 @@ function DuckStation_init(){
 	#Paths
 	sedFile $destination\settings.ini "C:\Emulation" "$emulationPath"
 
-#	DuckStation_setupSaves
+	DuckStation_setupSaves
 	DuckStation_setResolution $duckstationResolution
 
 	if ("$achievementsUserToken" -ne "" ){
@@ -76,7 +76,7 @@ function DuckStation_wipe(){
 	Write-Output "NYI"
 }
 function DuckStation_uninstall(){
-	Remove-Item -path "$emusPath\duckstation"-recurse -force
+	Remove-Item -path "$emusPath\duckstation" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

@@ -270,7 +270,7 @@ function Android_RetroArch_wipe(){
 	Write-Output "NYI"
 }
 function Android_RetroArch_uninstall(){
-	Remove-Item -path "$Android_RetroArch_temp"-recurse -force
+	Remove-Item -path "$Android_RetroArch_temp" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

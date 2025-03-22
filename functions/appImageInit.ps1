@@ -1,19 +1,50 @@
 function appImageInit(){
 
-	  $path = "$esdePath/Emulators"
-	  $item = Get-Item $path
+	SRM_resetLaunchers
 
-	  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
-		 Write-Output "$path it's a junction."
-	  } else {
-		 Write-Output "$path it's a directory."
-		 moveFromTo "$path" "$emusPath"
-		 createSaveLink $path $emusPath
-	  }
+	#Emulators new Path Junction
+	$carpetaReal = "$env:USERPROFILE/EmuDeck/Emulators"
+	$carpetaSymlink = "$env:APPDATA/EmuDeck/Emulators"
+
+	# Verificar si la carpeta real existe como un directorio
+	$esDirectorioReal = Test-Path $carpetaReal -PathType Container
+
+	# Verificar si la carpeta symlink no existe o si existe pero no es un junction
+	$existeSymlink = Test-Path $carpetaSymlink -PathType Container
+	$esJunctionSymlink = $false
+
+	if ($existeSymlink) {
+		$esJunctionSymlink = (Get-Item $carpetaSymlink).Attributes -match "ReparsePoint"
+	}
+
+	# Si la carpeta real existe y la symlink no existe o no es un junction, crear el symlink
+	if ($esDirectorioReal -and (-not $existeSymlink -or -not $esJunctionSymlink)) {
+		createSaveLink $carpetaReal $carpetaSymlink
+	}
+
+	#ESDE new Path Junction
+	$carpetaReal = "$env:USERPROFILE/EmuDeck/EmulationStation-DE"
+	$carpetaSymlink = "$env:APPDATA/EmuDeck/EmulationStation-DE"
+
+	# Verificar si la carpeta real existe como un directorio
+	$esDirectorioReal = Test-Path $carpetaReal -PathType Container
+
+	# Verificar si la carpeta symlink no existe o si existe pero no es un junction
+	$existeSymlink = Test-Path $carpetaSymlink -PathType Container
+	$esJunctionSymlink = $false
+
+	if ($existeSymlink) {
+		$esJunctionSymlink = (Get-Item $carpetaSymlink).Attributes -match "ReparsePoint"
+	}
+
+	# Si la carpeta real existe y la symlink no existe o no es un junction, crear el symlink
+	if ($esDirectorioReal -and (-not $existeSymlink -or -not $esJunctionSymlink)) {
+		createSaveLink $carpetaReal $carpetaSymlink
+	}
 
 
 	#AutoFixes
-	mkdir "$env:USERPROFILE/emudeck/feeds" -ErrorAction SilentlyContinue
+	mkdir "$emudeckFolder/feeds" -ErrorAction SilentlyContinue
 
 	#Python
 	if (Get-Command python -ErrorAction SilentlyContinue) {

@@ -26,9 +26,9 @@ function Yuzu_init(){
 	sedFile $destination\qt-config.ini "C:/Emulation" $emulationPath
 
 	Yuzu_setupStorage
-#	Yuzu_setupSaves
+	Yuzu_setupSaves
 	Yuzu_setResolution $yuzuResolution
-
+	createLauncher "Yuzu"
 
 }
 function Yuzu_update(){
@@ -96,7 +96,7 @@ function Yuzu_wipe(){
 	Write-Output "NYI"
 }
 function Yuzu_uninstall(){
-	Remove-Item -path "$emusPath\yuzu"-recurse -force
+	Remove-Item -path "$emusPath\yuzu" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

@@ -1,5 +1,5 @@
 function setSetting($old, $new){
-	$fileToCheck = "$userFolder\EmuDeck\settings.ps1"
+	$fileToCheck = "$emudeckFolder\settings.ps1"
 
 	$fileContents = Get-Content $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
@@ -205,17 +205,25 @@ function changeLine($Keyword,$Replace,$File) {
 }
 
 function setMSG($message){
-	$progressBarValue = Get-Content -Path "$userFolder\AppData\Roaming\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$logFilePath = "$emudeckFolder\logs\msg.log"
+
+	$line = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$progressBarValue = ($line -split '#')[0]
+
 	if ($progressBarValue -match '^\d+$') {
 		$progressBarUpdate = [int]$progressBarValue + 5
+	} else {
+		$progressBarUpdate = 5
 	}
-	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBarUpdate -eq 95 ){
-		$progressBarUpdate=90
+
+	if ($progressBarUpdate -ge 95) {
+		$progressBarUpdate = 90
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$userFolder\AppData\Roaming\EmuDeck\msg.log"
-	Write-Output $message
-	Add-Content "$userFolder\AppData\Roaming\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
+
+	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
+
 	Start-Sleep -Seconds 0.5
 }
 
@@ -359,7 +367,7 @@ function showListDialog($title, $subtitle, $options){
 
 function startLog($funcName){
 
-	Start-Transcript "$env:USERPROFILE/EmuDeck/logs/$funcName.log"
+	Start-Transcript "$env:APPDATA/emudeck/logs/$funcName.log"
 
 }
 
@@ -846,9 +854,13 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			$newFolderName = Split-Path $emuSavePath -Leaf
 			$emuSaveParent = Split-Path $emuSavePath -Parent
 
-			rmdir "$emuSavePath" -ErrorAction SilentlyContinue
+			rm -r -fo "$emuSavePath" -ErrorAction SilentlyContinue
+
 			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
-			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName  $newFolderName -Force
+
+			if ((Test-Path "$emuSaveParent\$originalFolderName") -and $originalFolderName -ne $newFolderName) {
+               			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName $newFolderName -Force
+            		}
 			createSymlink $simLinkPath $emuSavePath
 		}
 	}else{
@@ -915,7 +927,7 @@ function setScreenDimensionsScale(){
 	setSetting "ScreenWidth" "$ScreenWidth"
 	setSetting "ScreenHeight" "$ScreenHeight"
 	setSetting "Scale" "$Scale"
-	. "$env:USERPROFILE\EmuDeck\settings.ps1"
+	. "$env:APPDATA\emudeck\settings.ps1"
 }
 
 function fullScreenToast {
@@ -1032,8 +1044,7 @@ return [Math]::round([DPI]::scaling(), 2)
 function zipLogs(){
 
 	$logsFolder = Join-Path $env:USERPROFILE "emudeck\logs"
-	$settingsFile = Join-Path $env:USERPROFILE "emudeck\settings.ps1"
-
+	$settingsFile = Join-Path $env:APPDATA "EmuDeck\settings.ps1"
 
 	$zipOutput = "$env:USERPROFILE\Desktop\emudeck_logs.7z"
 
@@ -1103,9 +1114,9 @@ function killBOM($file){
 
 
 function setResolutions(){
-	. "$userFolder\EmuDeck\settings.ps1"
+	. "$emudeckFolder\settings.ps1"
 	#Cemu_setResolution
-	Citra_setResolution $citraResolution
+	Azahar_setResolution $azaharResolution
 	Dolphin_setResolution $dolphinResolution
 	DuckStation_setResolution $duckstationResolution
 	#Flycast_setResolution
@@ -1134,7 +1145,7 @@ function getEmuRepo($emuName){
 	switch ( $emuName )
 	{
 		"cemu" { $repo="cemu-project/Cemu" }
-		"citra" { $repo="citra-emu/citra-nightly" }
+		"azahar" { $repo="citra-emu/citra-nightly" }
 		"dolphin" { $repo="shiiion/dolphin" }
 		"duckstation" { $repo="stenzek/duckstation" }
 		"flycast" { $repo="flyinghead/flycast" }
@@ -1175,7 +1186,7 @@ function saveLatestVersionGH($emuName){
 		}else{
 			$emuVersion = getLatestVersionGH $repo
 			# JSON file path
-			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+			$jsonFilePath = "$env:APPDATA\emudeck\emu_versions.json"
 
 			$test=Test-Path -Path $jsonFilePath
 			if($test){
@@ -1217,7 +1228,7 @@ function isLatestVersionGH($emuName){
 			$emuVersion = getLatestVersionGH $repo
 
 			# JSON file path
-			$jsonFilePath = "$env:USERPROFILE\EmuDeck\emu_versions.json"
+			$jsonFilePath = "$env:APPDATA\emudeck\emu_versions.json"
 
 			$test=Test-Path -Path $jsonFilePath
 			if($test){
@@ -1282,13 +1293,62 @@ function isLatestVersionGH($emuName){
 function storePatreonToken($token){
 	mkdir "$savesPath" -ErrorAction SilentlyContinue
 	$token | Set-Content -Path "$savesPath/.token" -Encoding UTF8
-	if (Test-Path "$cloud_sync_bin") {
-		& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
-	}else{
-		echo "NOPE"
+	if (-not [string]::IsNullOrWhiteSpace($cloud_sync_bin)) {
+		if (Test-Path "$cloud_sync_bin") {
+			& $cloud_sync_bin --progress copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$savesPath/.token" "$cloud_sync_provider`:$cs_user`Emudeck\saves\.token"
+		}
 	}
 }
 
 function startCompressor(){
 	Start-Process cmd -ArgumentList "/k powershell -ExecutionPolicy Bypass -NoProfile -File `"$toolsPath/chdconv/chddeck.ps1`""
+}
+
+function generate_pythonEnv() {
+  $pythonRegistryPath = "HKLM:\SOFTWARE\Python\PythonCore"
+  if (Test-Path $pythonRegistryPath) {
+
+  } else {
+	Write-Host "Installing Python, please wait..."
+	$PYinstaller = "python-3.11.0-amd64.exe"
+	$url = "https://www.python.org/ftp/python/3.11.0/$PYinstaller"
+	download $url $PYinstaller
+	Start-Process "$temp\$PYinstaller" -Wait -Args "/passive InstallAllUsers=1 PrependPath=1 Include_test=0"
+  }
+
+  check_for_pip 'requests'
+  check_for_pip 'vdf'
+}
+
+function check_for_pip($packageName) {
+	$checkCommand = "import importlib.util; print(importlib.util.find_spec('$packageName') is not None)"
+	$isInstalled = python -c $checkCommand
+
+	if ($isInstalled -eq "True") {
+
+	} else {
+		Write-Host "Installing..."
+		python -m pip install $packageName
+	}
+}
+
+
+
+function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
+  #Example
+  #add_to_steam "es-de" "ES-DE" "$toolsPath/launchers/es-de/es-de.sh" "$HOME/Applications/" "$HOME/.config/EmuDeck/backend/icons/ico/EmulationStationDE.ico"
+
+  generate_pythonEnv
+
+  #Kill Steam
+  taskkill /IM steam.exe /F
+
+  $target_path = 'C:\Windows\System32\cmd.exe\" /k start /min \"Loading PowerShell Launcher\" \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path + ' && exit && exit --emudeck'
+  $steam_directory="$steamInstallPath"
+  $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
+  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id"
+
+  #StartSteam
+  startSteam "-silent"
+
 }

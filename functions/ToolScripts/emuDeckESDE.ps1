@@ -21,7 +21,11 @@ function ESDE_install(){
 
 	if($doInit -eq "true" ){
 		ESDE_init
+	}else{
+		ESDE_addToSteam
 	}
+
+
 }
 
 function ESDE_init(){
@@ -73,7 +77,7 @@ function ESDE_init(){
 	}
 
 	#We move download_media folder
-	$test=Test-Path -Path "$userFolder\emudeck\EmulationStation-DE\ES-DE\downloaded_media"
+	$test=Test-Path -Path "$emudeckFolder\EmulationStation-DE\ES-DE\downloaded_media"
 	if($test){
 
 		$userDrive="$userFolder[0]"
@@ -119,11 +123,12 @@ function ESDE_init(){
 
 	ESDE_setDefaultEmulators
 
+	#ESDE_addToSteam
+
 	#Citra fixes
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>' '<entry>%ESPATH%\Emulators\citra\citra-qt.exe</entry>'
 
 	#Xenia fixes
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>'
+	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\..Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\..Emulators\xenia\xenia_canary.exe</entry>'
 
 	if(Test-Path "$temp\gamelists"){
 		rm -r -fo "$esdePath\ES-DE\gamelists"
@@ -132,6 +137,10 @@ function ESDE_init(){
 		rm -r -fo "$temp\gamelists"
 	}
 
+}
+
+function ESDE_refreshCustomEmus(){
+	copyFromTo "$emudeckFolder\backend\configs\emulationstation\custom_systems" "$emudeckFolder\EmulationStation-DE\ES-DE\custom_systems"
 }
 
 function ESDE_addLauncher($emucode, $launcher){
@@ -260,7 +269,7 @@ function ESDE_setDefaultEmulators(){
 	ESDE_setEmu 'Dolphin (Standalone)' wii
 	ESDE_setEmu 'PCSX2 (Standalone)' ps2
 	ESDE_setEmu 'melonDS' nds
-	ESDE_setEmu 'Citra (Standalone)' n3ds
+	ESDE_setEmu 'Azahar (Standalone)' n3ds
 	ESDE_setEmu 'Beetle Lynx' atarilynx
 	ESDE_setEmu 'DuckStation (Standalone)' psx
 	ESDE_setEmu 'Beetle Saturn' saturn
@@ -294,16 +303,7 @@ function ESDE_setEmu($emu, $system){
 
 }
 
-function ESDE_steamShortcut(){
-   $json = @{
-	   path = "C:/Users/rsedano/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/EmuDeck/EmulationStationDE.lnk"
-	   startdir = "C:/"
-	   appname = "ES-DE"
-	   poster_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_p.png"
-	   icon_path = "$($env:APPDATA)/EmuDeck/backend/configs/artwork/ESDE/esde_icon.png"
-   } | ConvertTo-Json
-
-   $jsonBytes = [System.Text.Encoding]::UTF8.GetBytes($json)
-   $jsonBase64 = [Convert]::ToBase64String($jsonBytes)
-   python "$env:APPDATA/EmuDeck/backend/tools/vdf/create.py" --data $jsonBase64
+function ESDE_addToSteam(){
+	setMSG "Adding $ESDE_toolName to Steam"
+	add_to_steam 'es-de' 'EmulationStationDE' "$toolsPath\launchers\esde\EmulationStationDE.ps1" "$esdePath" "$emudeckFolder\backend\tools\launchers\icons\EmulationStationDE.ico"
 }

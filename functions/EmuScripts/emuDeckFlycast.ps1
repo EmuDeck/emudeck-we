@@ -14,7 +14,7 @@ function Flycast_init(){
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\flycast" "$destination"
 	#Flycast_setupStorage
 	Flycast_setEmulationFolder
-	#Flycast_setupSaves
+	Flycast_setupSaves
 }
 function Flycast_update(){
 	Write-Output "NYI"
@@ -44,7 +44,7 @@ function Flycast_wipe(){
 	Write-Output "NYI"
 }
 function Flycast_uninstall(){
-	Remove-Item -path "$emusPath\Flycast"-recurse -force
+	Remove-Item -path "$emusPath\Flycast" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

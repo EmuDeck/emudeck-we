@@ -1,5 +1,6 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
+	fullScreenToast
 	isLatestVersionGH($emuName)
 	checkAndStartSteam
 	if( $emuName -ne "pegasus-frontend"){
@@ -16,7 +17,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	# 	}else{
 	# 		setSetting netplayCMD "' '"
 	# 	}
-	# 	. $env:USERPROFILE\emudeck\settings.ps1
+	# 	. $env:APPDATA\emudeck\settings.ps1
 	# }
 
 	if($formattedArgs){

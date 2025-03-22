@@ -1,23 +1,31 @@
 function setMSGTemp($message){
-	$progressBarValue = Get-Content -Path "$env:APPDATA\EmuDeck\msg.log" -TotalCount 1 -ErrorAction SilentlyContinue
-	$progressBarUpdate=[int]$progressBarValue+1
+	$logFilePath = "$env:APPDATA\emudeck\logs\msg.log"
 
-	#We prevent the UI to close if we have too much MSG, the classic eternal 99%
-	if ( $progressBarUpdate -eq 95 ){
-		$progressBarUpdate=90
+	$line = Get-Content -Path $logFilePath -TotalCount 1 -ErrorAction SilentlyContinue
+
+	$progressBarValue = ($line -split '#')[0]
+
+	if ($progressBarValue -match '^\d+$') {
+		$progressBarUpdate = [int]$progressBarValue + 5
+	} else {
+		$progressBarUpdate = 5
 	}
-	"$progressBarUpdate" | Out-File -encoding ascii "$env:APPDATA\EmuDeck\msg.log"
-	Write-Output $message
-	Add-Content "$env:APPDATA\EmuDeck\msg.log" "# $message" -NoNewline -Encoding UTF8
+
+	if ($progressBarUpdate -ge 95) {
+		$progressBarUpdate = 90
+	}
+
+	"$progressBarUpdate# $Message" | Out-File -Encoding ASCII $logFilePath
+
 	Start-Sleep -Seconds 0.5
 }
 setMSGTemp 'Creating configuration files. please wait'
 
-Write-Output "" > "$env:USERPROFILE\EmuDeck\logs\EmuDeckAndroidSetup.log"
+Write-Output "" > "$env:APPDATA\emudeck\logs\EmuDeckAndroidSetup.log"
 
 Start-Sleep -Seconds 1.5
 
-Start-Transcript "$env:USERPROFILE\EmuDeck\logs\EmuDeckAndroidSetup.log"
+Start-Transcript "$env:APPDATA\emudeck\logs\EmuDeckAndroidSetup.log"
 
 #We install 7zip - Now its on the appimage
 #winget install -e --id 7zip.7zip --accept-package-agreements --accept-source-agreements
@@ -48,7 +56,7 @@ Start-Sleep 1
 
 #Clear old installation msg log
 setMSG "Installing, please stand by..."
-rm -fo -r $env:USERPROFILE/EmuDeck/android/temp
+rm -fo -r $env:APPDATA/emudeck/android/temp
 Write-Output ""
 $copySavedGames="false"
 $result = yesNoDialog -TitleText "Saved Games" -MessageText "Do you want to copy your current saved games to your Android Device?" -OKButtonText "Yes" -CancelButtonText "No"
@@ -106,7 +114,7 @@ if ($result -eq "OKButton") {
 		#Yuzu
 		#copyFromTo "$savesPath/yuzu/saves/" "$Android_temp_internal/Android/data/org.yuzu.yuzu_emu/files/nand/user/saves/"
 		#Citra
-		copyFromTo "$savesPath\citra\saves" "$Android_temp_internal/citra-emu/sdmc/"
+		copyFromTo "$savesPath\azahar\saves" "$Android_temp_internal/azahar-emu/sdmc/"
 	}
 #}
 
@@ -122,9 +130,9 @@ if($androidInstallNetherSX2 -eq "true" ){
 	Android_NetherSX2_install
 	Android_NetherSX2_init
 }
-if($androidInstallLime3DS -eq "true" ){
-	Android_Lime3DS_install
-	Android_Lime3DS_init
+if($androidInstallAzahar -eq "true" ){
+	Android_Azahar_install
+	Android_Azahar_init
 }
 if($androidInstallDolphin -eq  "true" ){
 	Android_Dolphin_install
@@ -214,8 +222,8 @@ if($success -eq "false"){
 	setMSG "500 #ANDROID"
 }else{
 
-	if($androidInstallCitraMMJ -eq "true" ){
-		Android_Citra_setup
+	if($androidInstallAzahar -eq "true" ){
+		Android_Azahar_setup
 	}
 	if($androidInstallPegasus -eq "true" ){
 		Android_Pegasus_setup

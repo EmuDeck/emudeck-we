@@ -13,7 +13,7 @@ function Ryujinx_init(){
 	mkdir "$destination\portable" -ErrorAction SilentlyContinue
 	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\Ryujinx\Config.json" -Destination "$destination\portable\Config.json" -Force
 	Ryujinx_setEmulationFolder
-#	Ryujinx_setupSaves
+	Ryujinx_setupSaves
 	Ryujinx_setResolution $yuzuResolution
 
 
@@ -81,7 +81,7 @@ function Ryujinx_wipe(){
 	Write-Output "NYI"
 }
 function Ryujinx_uninstall(){
-	Remove-Item -path "$emusPath\Ryujinx"-recurse -force
+	Remove-Item -path "$emusPath\Ryujinx" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

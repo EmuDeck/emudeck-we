@@ -86,6 +86,8 @@ function pegasus_init(){
 
 	pegasus_applyTheme $pegasusThemeUrl
 
+	pegasus_addToSteam
+
 }
 
 
@@ -130,7 +132,7 @@ function pegasus_setEmu(){
 }
 
 function pegasus_IsInstalled(){
-	$test=Test-Path -Path "$env:USERPROFILE\EmuDeck\Pegasus\pegasus-fe.exe"
+	$test=Test-Path -Path "$env:APPDATA\emudeck\Pegasus\pegasus-fe.exe"
 	if($test){
 		Write-Output "true"
 	}else{
@@ -140,8 +142,12 @@ function pegasus_IsInstalled(){
 
 function pegasus_uninstall(){
 	rm -r -fo $pegasus_path -ErrorAction SilentlyContinue
-	rm -r -fo "$env:USERPROFILE\EmuDeck\Pegasus" -ErrorAction SilentlyContinue
+	rm -r -fo "$env:APPDATA\emudeck\Pegasus" -ErrorAction SilentlyContinue
 	if($?){
 		Write-Output "true"
 	}
+}
+function pegasus_addToSteam(){
+	setMSG "Adding $pegasus_toolName to Steam"
+	add_to_steam 'pegasus' $pegasus_toolName "$toolsPath\launchers\pegasus\pegasus-frontend.ps1" "$pegasus_path" "$emudeckFolder\backend\tools\launchers\icons\pegasus.ico"
 }

@@ -2,4 +2,7 @@
 <alternativeEmulator>
     <label>Citra (Standalone)</label>
 </alternativeEmulator>
+<alternativeEmulator>
+    <label>Azahar (Standalone)</label>
+</alternativeEmulator>
 <gameList />

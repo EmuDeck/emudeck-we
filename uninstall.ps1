@@ -5,20 +5,21 @@ $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you s
 	if ($result -eq "OKButton") {
 		#Decky
 		taskkill /IM decky-loader-win.exe /F
+		taskkill /IM emudeck.exe /F
 		#Steam Input
 		SRM_removeSteamInputProfiles
 		#Cloud service
-		cloud_sync_uninstall_service
+		#cloud_sync_uninstall_service
 		#Emulation folder.
 		rm -fo -r "$toolsPath"
 		#Launchers
 		rm -fo -r "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck"
-		#Backend
-		rm -fo -r "$env:APPDATA\EmuDeck"
-		rm -fo -r "$env:USERPROFILE\EmuDeck"
-		rm -fo -r
+
+
 		#App
 		& "$env:USERPROFILE\AppData\Local\Programs\EmuDeck\Uninstall EmuDeck.exe"
+		#Backend
+		rm -fo -r "$env:APPDATA\EmuDeck"
 	} else {
 		echo "Nope"
 	}

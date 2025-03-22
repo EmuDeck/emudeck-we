@@ -1,0 +1,78 @@
+{
+  "parserType": "Glob",
+  "configTitle": "Sega Model 2 - Model 2 Emulator",
+  "steamCategory": "${Sega Model 2}",
+  "executableModifier": "\"${exePath}\"",
+  "romDirectory": "${romsdirglobal}/model2",
+  "steamDirectory": "${steamdirglobal}",
+  "startInDirectory": "",
+  "titleModifier": "${fuzzyTitle}",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\Model2.ps1 '${fileName}' ${\\}}\" && exit \" && exit --emudeck",
+  "onlineImageQueries": "${${fuzzyTitle}}",
+  "imagePool": "${fuzzyTitle}",
+  "imageProviders": ["SteamGridDB"],
+  "disabled": false,
+  "userAccounts": {
+    "specifiedAccounts": ""
+  },
+  "parserInputs": {
+    "glob": "**/${title}@(.zip|.ZIP)"
+  },
+  "titleFromVariable": {
+    "limitToGroups": "${MAME}",
+    "caseInsensitiveVariables": false,
+    "skipFileIfVariableWasNotFound": false,
+    "tryToMatchTitle": true
+  },
+  "fuzzyMatch": {
+    "replaceDiacritics": true,
+    "removeCharacters": true,
+    "removeBrackets": true
+  },
+  "executable": {
+    "path": "${retroarchpath}",
+    "shortcutPassthrough": false,
+    "appendArgsToExecutable": true
+  },
+  "controllers": {
+    "switch_pro": null,
+    "neptune": {
+      "title": "Gamepad with Mouse Trackpad",
+      "mappingId": "controller_neptune_gamepad+mouse.vdf",
+      "profileType": "template"
+    },
+    "ps4": null,
+    "ps5": null,
+    "xbox360": null,
+    "xboxone": null,
+    "switch_joycon_left": null,
+    "switch_joycon_right": null
+  },
+  "parserId": "169890088467987948",
+  "version": 15,
+  "imageProviderAPIs": {
+    "SteamGridDB": {
+      "nsfw": false,
+      "humor": false,
+      "imageMotionTypes": ["static"],
+      "styles": [],
+      "stylesHero": [],
+      "stylesLogo": [],
+      "stylesIcon": []
+    }
+  },
+  "defaultImage": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  },
+  "localImages": {
+    "long": "",
+    "tall": "",
+    "hero": "",
+    "logo": "",
+    "icon": ""
+  }
+}

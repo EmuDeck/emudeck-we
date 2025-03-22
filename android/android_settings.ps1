@@ -4,7 +4,6 @@
 android_doSetupRA=true
 android_doSetupDolphin=true
 android_doSetupYuzu=true
-android_doSetupCitra=true
 android_doSetupPPSSPP=true
 android_doSetupAetherSX2=true
 
@@ -12,7 +11,6 @@ android_doSetupAetherSX2=true
 android_doInstallRA=true
 android_doInstallDolphin=true
 android_doInstallYuzu=true
-android_doInstallCitra=true
 android_doInstallPPSSPP=true
 android_doInstallAetherSX2=true
 

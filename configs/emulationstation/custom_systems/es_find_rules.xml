@@ -8,6 +8,13 @@
 		<entry>%ESPATH%\..\Emulators\yuzu\yuzu-windows-msvc\yuzu.exe</entry>
 	</rule>
 </emulator>
+<emulator name="CITRON">
+	<!-- Nintendo Switch emulator Yuzu -->
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\citron\citron.exe</entry>
+		<entry>%ESPATH%\..\Emulators\citron\citron.exe</entry>
+	</rule>
+</emulator>
 <emulator name="SHADPS4">
 	<!-- PS4 emulator ShadPS4 -->
 	<rule type="staticpath">
@@ -23,12 +30,23 @@
 		<entry>%ESPATH%\..\Emulators\Citra\nightly-mingw\citra-qt.exe</entry>
 		<entry>%ESPATH%\..\Emulators\Citra\canary-mingw\citra-qt.exe</entry>
 		<entry>%ESPATH%\Emulators\Citra\citra-qt.exe</entry>
+		<entry>%ESPATH%\..Emulators\Citra\citra-qt.exe</entry>
 	</rule>
 </emulator>
 <emulator name="LIME3DS">
 	<rule type="staticpath">
-		<entry>%ESPATH%\Emulators\lime3ds\lime3ds-gui.exe</entry>
-		<entry>%ESPATH%\Emulators\lime3ds\lime3ds.exe</entry>
+		<entry>%ESPATH%\Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\Emulators\azahar\azahar.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar.exe</entry>
+	</rule>
+</emulator>
+<emulator name="AZAHAR">
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\Emulators\azahar\azahar.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar-gui.exe</entry>
+		<entry>%ESPATH%\..Emulators\azahar\azahar.exe</entry>
 	</rule>
 </emulator>
 </ruleList>

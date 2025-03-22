@@ -20,7 +20,7 @@ function Primehack_init(){
 	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/" "$romsPath"
 	sedFile $destination\User\Config\Dolphin.ini "/" '\'
 
-#	Dolphin_setupSaves
+	Primehack_setupSaves
 	#Dolphin_DynamicInputTextures
 	Primehack_setResolution $dolphinResolution
 }
@@ -71,7 +71,7 @@ function Primehack_wipe(){
 	Write-Output "true"
 }
 function Primehack_uninstall(){
-	Remove-Item -path "$emusPath\primehack"-recurse -force
+	Remove-Item -path "$emusPath\primehack" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

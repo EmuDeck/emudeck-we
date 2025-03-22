@@ -29,7 +29,7 @@ function Dolphin_init(){
 
 	sedFile "$Dolphin_configFile" "/" "\"
 
-#	Dolphin_setupSaves
+	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
 	Dolphin_setResolution $dolphinResolution
 
@@ -90,7 +90,7 @@ function Dolphin_wipe(){
 	Write-Output "NYI"
 }
 function Dolphin_uninstall(){
-	Remove-Item -path "$emusPath\Dolphin"-recurse -force
+	Remove-Item -path "$emusPath\Dolphin" -recurse -force
 	if($?){
 		Write-Output "true"
 	}

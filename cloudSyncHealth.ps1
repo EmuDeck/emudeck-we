@@ -1,16 +1,16 @@
-. $env:APPDATA\EmuDeck\backend\functions\all.ps1
+. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 
 
 cls
 $upload="Yes"
 $download="Yes"
-"" | Set-Content "$userFolder/EmuDeck/logs/rclone.log" -Encoding UTF8
+"" | Set-Content "$emudeckFolder/logs/rclone.log" -Encoding UTF8
 Write-Host "Testing EmuDeck integrity..." -ForegroundColor White
 
 if ( ! $userFolder ){
 	cls
 	Write-Host "We can't find your installation"  -ForegroundColor Red
-	Write-Host "Open an Issue in our discord and upload this file: $env:USERPROFILE\emudeck\settings.ps1"  -ForegroundColor Red
+	Write-Host "Open an Issue in our discord and upload this file: $env:APPDATA\emudeck\settings.ps1"  -ForegroundColor Red
 	Read-Host -Prompt "Press any key to continue or CTRL+C to quit"
 	exit
 }
@@ -37,7 +37,7 @@ function cloud_sync_download_test($emuName){
 			"test" | Set-Content "$target\.temp" -ErrorAction SilentlyContinue -Encoding UTF8
 			$fileHash = "$target\.temp"
 			Write-Host "Testing $emuName download..."
-			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:$cs_user`Emudeck\saves\$emuName\.temp" "$fileHash"
+			& $cloud_sync_bin -q --log-file "$emudeckFolder/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$cloud_sync_provider`:$cs_user`Emudeck\saves\$emuName\.temp" "$fileHash"
 			if ($?) {
 				Write-Host "success" -ForegroundColor Green
 			}else{
@@ -62,7 +62,7 @@ function cloud_sync_upload_test($emuNAme){
 
 			Write-Host "Testing $emuName upload..."
 
-			& $cloud_sync_bin -q --log-file "$userFolder/EmuDeck/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:$cs_user`Emudeck\saves\$emuName\.temp"
+			& $cloud_sync_bin -q --log-file "$emudeckFolder/logs/rclone.log" copyto --fast-list --checkers=50 --transfers=50 --low-level-retries 1 --retries 1 "$fileHash" "$cloud_sync_provider`:$cs_user`Emudeck\saves\$emuName\.temp"
 			if ($?) {
 				Write-Host "success" -ForegroundColor Green
 			}else{

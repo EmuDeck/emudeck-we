@@ -1,7 +1,7 @@
 $user=$args[0]
 $userPath = ( Get-CimInstance Win32_UserProfile -Filter "SID = '$((Get-LocalUser $user).Sid)'" ).LocalPath
-$logPath = Join-Path -Path "$userPath" -ChildPath 'EmuDeck\logs\cloudWatcher.log'
-$f1 = Join-Path -Path "$userPath" -ChildPath 'EmuDeck\settings.ps1'
+$logPath = Join-Path -Path "$userPath" -ChildPath '\AppData\Roaming\EmuDeck\logs\cloudWatcher.log'
+$f1 = Join-Path -Path "$userPath" -ChildPath '\AppData\Roaming\EmuDeck\settings.ps1'
 $f2 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
 $f3 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLauncher.ps1'
 $f4 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\helperFunctions.ps1'
@@ -114,7 +114,7 @@ try
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Add-Content -Path $logPath -Value "No upload"
 		  } else {
-		  	  Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
+				Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 
 			  rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
@@ -124,7 +124,7 @@ try
 		if ($skip -contains $true -or $FullPath -eq $savesPath -or $FullPath -eq $emuPath) {
 			  Add-Content -Path $logPath -Value "No upload"
 		  } else {
-		      Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
+			  Get-Date -Format "yyyy-MM-dd HH:mm:ss" | Out-File -FilePath $savesPath/$emuName/.pending_upload
 			  cloud_sync_uploadEmu -emuName $emuName -mode "$userPath"
 			  rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 		  }

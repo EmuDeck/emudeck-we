@@ -28,7 +28,7 @@ function ScummVM_wipe(){
 	Write-Output "NYI"
 }
 function ScummVM_uninstall(){
-	Remove-Item -path "$emusPath\ScummVM"-recurse -force
+	Remove-Item -path "$emusPath\ScummVM" -recurse -force
 	if($?){
 		Write-Output "true"
 	}
