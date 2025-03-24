@@ -42,7 +42,7 @@
 		<path>%ROMPATH%\switch</path>
 		<extension>.nca .NCA .nro .NRO .nso .NSO .nsp .NSP .xci .XCI</extension>
 		<command label="Yuzu (Standalone)">%EMULATOR_YUZU% -f -g %ROM%</command>
-		<command label="Citron (Standalone)">%EMULATOR_YUZU% -f -g %ROM%</command>
+		<command label="Citron (Standalone)">%EMULATOR_CITRON% -f -g %ROM%</command>
 		<command label="Ryujinx (Standalone)">%EMULATOR_RYUJINX% %ROM%</command>
 		<platform>switch</platform>
 		<theme>switch</theme>
