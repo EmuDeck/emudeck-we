@@ -1,5 +1,15 @@
 function appImageInit(){
 
+	#Azahar 3DS fix
+	$xmlPath = "$esdePath/ES-DE/gamelists/n3ds/gamelist.xml"
+
+	if (Select-String -Path $xmlPath -Pattern "Citra") {
+		confirmDialog -TitleText "Azahar ESDE fixed" -MessageText "There was an issue launching Azahar from ESDE, we have just automatically fixed it. Now you can play 3DS Games using Azahar from ESDE"
+		ESDE_init
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/n3ds" -ErrorAction SilentlyContinue -Force
+	}
+
+
 	SRM_resetLaunchers
 
 	#Emulators new Path Junction
