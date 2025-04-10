@@ -4,7 +4,7 @@ $EmuDeckStartFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDec
 $url_ra = "https://buildbot.libretro.com/nightly/windows/x86_64/RetroArch.7z"
 $url_dolphin = "https://dl.dolphin-emu.org/builds/24/4e/dolphin-master-5.0-21088-x64.7z"
 $url_ppsspp = "https://www.ppsspp.org/files/1_17_1/ppsspp_win.zip"
-$url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/164503025/download"
+$url_esde = "https://gitlab.com/es-de/emulationstation-de/-/package_files/184126686/download"
 $url_scummVM = "https://downloads.scummvm.org/frs/scummvm/2.7.1/scummvm-2.7.1-win32-x86_64.zip"
 
 $userFolder = "$env:USERPROFILE"
