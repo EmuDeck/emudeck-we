@@ -38,7 +38,7 @@ function Cemu_setupSaves(){
 	setMSG "Cemu - Saves Links"
 	mkdir "$emusPath\cemu\mlc01\usr\" -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\cemu\mlc01\usr\save"
-	$emuSavePath = "$emulationPath/saves\Cemu\saves"
+	$emuSavePath = "$emulationPath\saves\Cemu\saves"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\Cemu"
 }
