@@ -15,19 +15,4 @@
 		<entry>%ESPATH%\..\Emulators\citron\citron.exe</entry>
 	</rule>
 </emulator>
-<emulator name="SHADPS4">
-	<!-- PS4 emulator ShadPS4 -->
-	<rule type="staticpath">
-		<entry>%ESPATH%\Emulators\shadps4-qt\shadps4.exe</entry>
-		<entry>%ESPATH%\..\Emulators\shadps4-qt\shadps4.exe</entry>
-	</rule>
-</emulator>
-<emulator name="AZAHAR">
-	<rule type="staticpath">
-		<entry>%ESPATH%\Emulators\azahar\azahar-gui.exe</entry>
-		<entry>%ESPATH%\Emulators\azahar\azahar.exe</entry>
-		<entry>%ESPATH%\..\Emulators\azahar\azahar-gui.exe</entry>
-		<entry>%ESPATH%\..\Emulators\azahar\azahar.exe</entry>
-	</rule>
-</emulator>
 </ruleList>
