@@ -26,7 +26,7 @@ function appImageInit(){
 		}
 	}
 
-	if ($ESDEinSteam -eq "No" && $doInstallESDE -eq "true" ){
+	if ($ESDEinSteam -eq "No" -and $doInstallESDE -eq "true" ){
 		ESDE_addToSteam
 	}
 
