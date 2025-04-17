@@ -1358,7 +1358,7 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
   $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
   python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id"
 
-  confirmDialog -TitleText "EmulationStation" -MessageText "EmulationStationDE has been added to your Non Steam Games"
+  confirmDialog -TitleText "$name" -MessageText "$name has been added to your Non Steam Games"
 
   #StartSteam
   startSteam "-silent"

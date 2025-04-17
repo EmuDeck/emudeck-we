@@ -1,5 +1,36 @@
 function appImageInit(){
 
+
+	###
+	###
+	### Check if ESDE is added to Steam
+	###
+	###
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+
+	$steamPath = "$steamInstallPath\userdata"
+	# Busca el archivo shortcuts.vdf en cada carpeta de userdata
+	$ESDEinSteam="No"
+
+	$archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "shortcuts.vdf"
+
+	if ($archivosLinksVDF.Count -gt 0) {
+		$archivosLinksVDF | ForEach-Object {
+			$filePath =  $_.FullName
+			$shortcutsContent = Get-Content -Path $filePath
+			if ($shortcutsContent -like "*EmulationStationDE*"){
+				$ESDEinSteam="Yes"
+			}
+		}
+	}
+
+	if ($ESDEinSteam -eq "No" && $doInstallESDE -eq "true" ){
+		ESDE_addToSteam
+	}
+
+
 	#Azahar ESDE fix
 	$xmlPath = "$esdePath/ES-DE/gamelists/n3ds/gamelist.xml"
 
