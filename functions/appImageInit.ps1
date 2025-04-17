@@ -1,67 +1,5 @@
 function appImageInit(){
 
-
-	###
-	###
-	### Check if ESDE is added to Steam
-	###
-	###
-	$steamRegPath = "HKCU:\Software\Valve\Steam"
-	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
-
-	$steamPath = "$steamInstallPath\userdata"
-	# Busca el archivo shortcuts.vdf en cada carpeta de userdata
-	$ESDEinSteam="No"
-
-	$archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "shortcuts.vdf"
-
-	if ($archivosLinksVDF.Count -gt 0) {
-		$archivosLinksVDF | ForEach-Object {
-			$filePath =  $_.FullName
-			$shortcutsContent = Get-Content -Path $filePath
-			if ($shortcutsContent -like "*EmulationStationDE*"){
-				$ESDEinSteam="Yes"
-			}
-		}
-	}
-
-	if ($ESDEinSteam -eq "No" -and $doInstallESDE -eq "true" ){
-		ESDE_addToSteam
-	}
-
-
-	#Azahar ESDE fix
-	$xmlPath = "$esdePath/ES-DE/gamelists/n3ds/gamelist.xml"
-
-	if (Select-String -Path $xmlPath -Pattern "Citra") {
-		confirmDialog -TitleText "Azahar ESDE fixed" -MessageText "There was an issue launching Azahar from ESDE, we have just automatically fixed it. Now you can play 3DS Games using Azahar from ESDE"
-		ESDE_init
-		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/n3ds" -ErrorAction SilentlyContinue -Force
-	}
-
-	#Citron ESDE fix
-	$xmlPath = "$esdePath/ES-DE/gamelists/switch/gamelist.xml"
-
-	if(Test-Path "$xmlPath"){
-		if (Select-String -Path $xmlPath -Pattern "Citron") {
-			echo "we do nothing"
-		}else{
-			confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
-			ESDE_init
-			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
-		}
-	}else{
-		mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
-		confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
-		ESDE_init
-		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
-	}
-
-
-
-	SRM_resetLaunchers
-
 	#Emulators new Path Junction
 	$carpetaReal = "$env:USERPROFILE/EmuDeck/Emulators"
 	$carpetaSymlink = "$env:APPDATA/EmuDeck/Emulators"
@@ -153,7 +91,64 @@ function appImageInit(){
 #	mkdir "$emulationPath\roms\genesiswide" -ErrorAction SilentlyContinue
 #	mkdir "$emulationPath\storage\rpcs3\dev_hdd0\game"  -ErrorAction SilentlyContinue
 
-	echo "true"
 
+	###
+	###
+	### Check if ESDE is added to Steam
+	###
+	###
+	$steamRegPath = "HKCU:\Software\Valve\Steam"
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+	$steamInstallPath = $steamInstallPath.Replace("/", "\\")
+
+	$steamPath = "$steamInstallPath\userdata"
+	# Busca el archivo shortcuts.vdf en cada carpeta de userdata
+	$ESDEinSteam="No"
+
+	$archivosLinksVDF = Get-ChildItem -Path $steamPath -File -Recurse -Filter "shortcuts.vdf"
+
+	if ($archivosLinksVDF.Count -gt 0) {
+		$archivosLinksVDF | ForEach-Object {
+			$filePath =  $_.FullName
+			$shortcutsContent = Get-Content -Path $filePath
+			if ($shortcutsContent -like "*EmulationStationDE*"){
+				$ESDEinSteam="Yes"
+			}
+		}
+	}
+
+	if ($ESDEinSteam -eq "No" -and $doInstallESDE -eq "true" ){
+		ESDE_addToSteam
+	}
+
+	#Azahar ESDE fix
+	$xmlPath = "$esdePath/ES-DE/gamelists/n3ds/gamelist.xml"
+
+	if (Select-String -Path $xmlPath -Pattern "Citra") {
+		confirmDialog -TitleText "Azahar ESDE fixed" -MessageText "There was an issue launching Azahar from ESDE, we have just automatically fixed it. Now you can play 3DS Games using Azahar from ESDE"
+		ESDE_init
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/n3ds" -ErrorAction SilentlyContinue -Force
+	}
+
+	#Citron ESDE fix
+	$xmlPath = "$esdePath/ES-DE/gamelists/switch/gamelist.xml"
+
+	if(Test-Path "$xmlPath"){
+		if (Select-String -Path $xmlPath -Pattern "Citron") {
+			echo "we do nothing"
+		}else{
+			confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
+			ESDE_init
+			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
+		}
+	}else{
+		mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
+		confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
+		ESDE_init
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
+	}
+
+
+	echo "true"
 
 }
