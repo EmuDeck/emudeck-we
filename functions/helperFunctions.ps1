@@ -1320,7 +1320,6 @@ function generate_pythonEnv() {
 	  Write-Host "Python env exists"
   } else{
 	  Write-Host "Creating Python env, please wait..."
-	  confirmDialog -TitleText "Python dependency" -MessageText "Creating Python env, please wait..."
 	  python -m venv "$emudeckFolder/python_virtual_env"
   }
 
