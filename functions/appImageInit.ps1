@@ -1,5 +1,8 @@
 function appImageInit(){
 
+
+
+
 	#Emulators new Path Junction
 	$carpetaReal = "$env:USERPROFILE/EmuDeck/Emulators"
 	$carpetaSymlink = "$env:APPDATA/EmuDeck/Emulators"
@@ -51,6 +54,10 @@ function appImageInit(){
 	#CHD
 	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
 	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chddeck.ps1" -Destination "$toolsPath\chdconv\" -Force
+
+
+	Move-item -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -destination "$env:APPDATA/EmuDeck/settings.ps1" -force
+	setSetting "miratedSettings" "true"
 
 	#Remove SRM BOM
 	# $userConfigsFile="$toolsPath\userData\userConfigurations.json"
