@@ -22,6 +22,12 @@
 		<entry>%ESPATH%\..\Emulators\shadps4-qt\shadps4.exe</entry>
 	</rule>
 </emulator>
+<emulator name="XENIA">
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\xenia\xenia_canary.exe</entry>
+		<entry>%ESPATH%\..\Emulators\xenia\xenia_canary.exe</entry>
+	</rule>
+</emulator>
 <emulator name="AZAHAR">
 	<rule type="staticpath">
 		<entry>%ESPATH%\Emulators\azahar\azahar-gui.exe</entry>

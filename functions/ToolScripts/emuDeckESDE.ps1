@@ -123,13 +123,6 @@ function ESDE_init(){
 
 	ESDE_setDefaultEmulators
 
-	#ESDE_addToSteam
-
-	#Citra fixes
-
-	#Xenia fixes
-	sedFile "$esdePath\resources\systems\windows\es_find_rules.xml" '<entry>%ESPATH%\..Emulators\xenia_canary\xenia_canary.exe</entry>' '<entry>%ESPATH%\..Emulators\xenia\xenia_canary.exe</entry>'
-
 	if(Test-Path "$temp\gamelists"){
 		rm -r -fo "$esdePath\ES-DE\gamelists"
 		mkdir "$esdePath\ES-DE\gamelists" -ErrorAction SilentlyContinue
