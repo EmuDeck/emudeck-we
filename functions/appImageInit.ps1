@@ -146,7 +146,7 @@ function appImageInit(){
 		}else{
 			confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
 			ESDE_init
-			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
+			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
 		}
 	}else{
 		mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
