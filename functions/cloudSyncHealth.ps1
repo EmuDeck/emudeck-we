@@ -16,7 +16,7 @@ function cloud_sync_health_checkBin {
 
 function cloud_sync_health_checkCfg {
   $char_count_og = (Get-Content "$emudeckFolder/backend/configs/rclone/rclone.conf" -Raw).Length
-  $char_count = (Get-Content "$cloud_sync_config" -Raw).Length
+  $char_count = (Get-Content "$cloud_sync_config_file_symlink" -Raw).Length
 
   if ($char_count_og -eq $char_count) {
     Write-Output "false"
