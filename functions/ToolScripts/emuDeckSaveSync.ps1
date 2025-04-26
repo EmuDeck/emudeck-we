@@ -347,17 +347,12 @@ function cloud_sync_config($cloud_sync_provider, $token){
 function cloud_sync_install_and_config($cloud_sync_provider, $token){
 	#startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
+	cloud_sync_config $cloud_sync_provider $token
 	if ($LASTEXITCODE -eq 0) {
-		cloud_sync_config $cloud_sync_provider $token
-		if ($LASTEXITCODE -eq 0) {
-			Write-Output "true_cs"
-		  } else {
-			Write-Output "false_cs"
-		  }
-	  } else {
+		Write-Output "true_cs"
+	} else {
 		Write-Output "false_cs"
-	  }
-
+	}
 	#stopLog
 }
 
