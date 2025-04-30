@@ -144,15 +144,13 @@ function appImageInit(){
 		if (Select-String -Path $xmlPath -Pattern "Citron") {
 			echo "we do nothing"
 		}else{
+			#ESDE_init
 			mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
-			confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
-			ESDE_init
-			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch/gamelist.xml" -ErrorAction SilentlyContinue -Force
+			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
 		}
 	}else{
+		#ESDE_init
 		mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
-		confirmDialog -TitleText "Citron ESDE fixed" -MessageText "There was an issue launching Citron from ESDE, we have just automatically fixed it. Now you can play your games using Citron from ESDE"
-		ESDE_init
 		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch/gamelist.xml" -ErrorAction SilentlyContinue -Force
 	}
 
