@@ -6,22 +6,22 @@ function Eden_install(){
 	$url_eden = getLatestReleaseURLGH "eden-emu/eden-mainline" "7z" "windows"
 	#$url_eden = "https://github.com/eden-emu/eden-mainline/releases/download/mainline-0-1476/eden-windows-msvc-20230621-e3122c5b4.7z"
 	download $url_eden "eden.7z"
-	moveFromTo "$temp/eden/eden-windows-msvc" "$emusPath\eden"
+	moveFromTo "$temp/eden/eden-windows-msvc" "$emusPath\eden-windows-msvc"
 	Remove-Item -Recurse -Force eden -ErrorAction SilentlyContinue
 	createLauncher "eden"
 }
 function Eden_init(){
 
 	setMSG "Eden - Configuration"
-	mkdir "$emusPath\eden\user\nand\system\Contents\registered" -ErrorAction SilentlyContinue
-	mkdir "$emusPath\eden\user\keys" -ErrorAction SilentlyContinue
+	mkdir "$emusPath\eden-windows-msvc\user\nand\system\Contents\registered" -ErrorAction SilentlyContinue
+	mkdir "$emusPath\eden-windows-msvc\user\keys" -ErrorAction SilentlyContinue
 
-	$destination="$emusPath\eden\user\config"
+	$destination="$emusPath\eden-windows-msvc\user\config"
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\eden\config" "$destination"
 
 	#SDL fix
-	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll" -Destination "$emusPath\eden\" -ErrorAction SilentlyContinue -Force
+	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll" -Destination "$emusPath\eden-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
 	sedFile $destination\qt-config.ini "C:/Emulation" $emulationPath
 
@@ -43,30 +43,30 @@ function Eden_setupSaves(){
 
 	setMSG "Eden - Creating Keys & Firmware Links"
 	#Firmware
-	mkdir "$emusPath\eden\user\nand\system\Contents"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\eden\user\nand\system\Contents\registered"
+	mkdir "$emusPath\eden-windows-msvc\user\nand\system\Contents"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\eden-windows-msvc\user\nand\system\Contents\registered"
 	$emuSavePath = "$emulationPath\bios\eden\firmware"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#DLCs
-	mkdir "$emusPath\eden\user\nand\user\Contents"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\eden\user\nand\user\Contents\registered"
+	mkdir "$emusPath\eden-windows-msvc\user\nand\user\Contents"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\eden-windows-msvc\user\nand\user\Contents\registered"
 	$emuSavePath = "$storagePath\eden\storage"
 	createSaveLink $simLinkPath $emuSavePath
 
 	#Keys
-	$simLinkPath = "$emusPath\eden\user\keys"
+	$simLinkPath = "$emusPath\eden-windows-msvc\user\keys"
 	$emuSavePath = "$emulationPath\bios\eden\keys"
 	createSaveLink $simLinkPath $emuSavePath
 
 	setMSG "Eden - Saves Links"
-	mkdir "$emusPath\eden\user\nand\user"  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\eden\user\nand\user\save"
+	mkdir "$emusPath\eden-windows-msvc\user\nand\user"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\eden-windows-msvc\user\nand\user\save"
 	$emuSavePath = "$emulationPath\saves\eden\saves"
 	createSaveLink $simLinkPath $emuSavePath
 
-	mkdir $emusPath\eden\user\nand\system\save\8000000000000010\su\  -ErrorAction SilentlyContinue
-	$simLinkPath = "$emusPath\eden\user\nand\system\save\8000000000000010\su\avators"
+	mkdir $emusPath\eden-windows-msvc\user\nand\system\save\8000000000000010\su\  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\eden-windows-msvc\user\nand\system\save\8000000000000010\su\avators"
 	$emuSavePath = "$emulationPath\saves\eden\profiles"
 	createSaveLink $simLinkPath $emuSavePath
 	#cloud_sync_save_hash "$savesPath\eden"
@@ -82,8 +82,8 @@ function Eden_setResolution($resolution){
 		"4K" { $multiplier = 3; $docked="true" }
 	}
 
-	setConfig "resolution_setup" $multiplier "$emusPath\eden\user\config\qt-config.ini"
-	setConfig "use_docked_mode" $docked "$emusPath\eden\user\config\qt-config.ini"
+	setConfig "resolution_setup" $multiplier "$emusPath\eden-windows-msvc\user\config\qt-config.ini"
+	setConfig "use_docked_mode" $docked "$emusPath\eden-windows-msvc\user\config\qt-config.ini"
 
 }
 function Eden_setupStorage(){
@@ -98,7 +98,7 @@ function Eden_wipe(){
 	Write-Output "NYI"
 }
 function Eden_uninstall(){
-	Remove-Item -path "$emusPath\eden" -recurse -force
+	Remove-Item -path "$emusPath\eden-windows-msvc" -recurse -force
 	if($?){
 		Write-Output "true"
 	}
@@ -125,7 +125,7 @@ function Eden_finalize(){
 	Write-Output "NYI"
 }
 function Eden_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\eden-windows-msvc"
+	$test=Test-Path -Path "$emusPath\eden-windows-msvc-windows-msvc"
 	if($test){
 		Write-Output "true"
 	}else{
@@ -180,12 +180,12 @@ function EdenEA_install($tokenValue) {
 
 		rm -r -fo "$temp/edenEA"-ErrorAction SilentlyContinue > $null
 		download $url_edenEA "edenEA.7z" $BEARERTOKEN > $null
-		xcopy "$temp\edenEA\eden-windows-msvc-early-access\" "$emusPath\eden\" /H /E /Y > $null
+		xcopy "$temp\edenEA\eden-windows-msvc-early-access\" "$emusPath\eden-windows-msvc\" /H /E /Y > $null
 		rm -r -fo "$temp/edenEA" -ErrorAction SilentlyContinue > $null
 		#createLauncher "eden"
 
 		#SDL fix
-		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll" -Destination "$emusPath\eden\" -ErrorAction SilentlyContinue -Force
+		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll" -Destination "$emusPath\eden-windows-msvc\" -ErrorAction SilentlyContinue -Force
 
 		Write-Host "true"
 
