@@ -139,12 +139,6 @@ function SRM_createParsers(){
 	if ( -not (Yuzu_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
 	}
-	if ( -not (Citron_isInstalled -like "*true*")){
-		$exclusionList=$exclusionList+"nintendo_switch-citron.json"
-	}
-	if ( -not (Eden_isInstalled -like "*true*")){
-		$exclusionList=$exclusionList+"nintendo_switch-eden.json"
-	}
 	if ( -not (Cemu_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
