@@ -343,105 +343,19 @@ function cloud_sync_config($cloud_sync_provider, $token){
 
 }
 
-function cloud_sync_config_with_code($code){
-	#startLog($MyInvocation.MyCommand.Name)
-	setSetting "cloud_sync_status" "true"
-
-	$headers = @{
-		"User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
-	}
-
-	$response = Invoke-WebRequest -Uri "https://patreon.emudeck.com/hastebin.php?code=$code" -Headers $headers
-
-	$json = ConvertFrom-Json $response.Content
-
-	$section = $json.section
-	$token = $json.token
-
-	#cleanup
-	$token = $token.Replace("'", '"')
-
-	Copy-Item "$env:APPDATA\EmuDeck\backend\configs\rclone\rclone.conf" -Destination "$env:APPDATA\EmuDeck" -Force
-
-	createSymlink $cloud_sync_config_file_symlink $cloud_sync_config_file
-
-	Write-Output $section;
-
-	foreach($_ in Get-Content $cloud_sync_config_file_symlink) {
-		if ($_ -like "*$section*") {
-			$found = "true"
-		}elseif ($found -eq "true" -and $_ -like "token =*") {
-			$_ = $_ -replace "token =", "token =$token"
-			$found = "false"
-		}
-		$content += "$_" + "`n"
-
-	}
-
-	$content | Set-Content $cloud_sync_config_file_symlink -Encoding UTF8
-
-	Add-Type -AssemblyName PresentationFramework
-	[System.Windows.MessageBox]::Show("CloudSync Configured!", "Success!")
-	#stopLog
-}
 
 function cloud_sync_install_and_config($cloud_sync_provider, $token){
 	#startLog($MyInvocation.MyCommand.Name)
 	cloud_sync_install($cloud_sync_provider)
 	cloud_sync_config $cloud_sync_provider $token
-	#stopLog
-}
-
-function cloud_sync_install_and_config_with_code($cloud_sync_provider){
-	#startLog($MyInvocation.MyCommand.Name)
-	Add-Type -AssemblyName System.Windows.Forms
-	Add-Type -AssemblyName System.Drawing
-
-	$Form = New-Object System.Windows.Forms.Form
-	$Form.Text = "Enter SaveSync Code"
-	$Form.ClientSize = New-Object System.Drawing.Size(300, 100)
-	$Form.StartPosition = "CenterScreen"
-
-	$Label = New-Object System.Windows.Forms.Label
-	$Label.Text = "Please enter your SaveSync code:"
-	$Label.Location = New-Object System.Drawing.Point(10, 20)
-	$Label.AutoSize = $true
-	$Form.Controls.Add($Label)
-
-	$TextBox = New-Object System.Windows.Forms.TextBox
-	$TextBox.Location = New-Object System.Drawing.Point(10, 40)
-	$TextBox.Size = New-Object System.Drawing.Size(260, 20)
-	$TextBox.PasswordChar = "*"
-	$Form.Controls.Add($TextBox)
-
-	$OKButton = New-Object System.Windows.Forms.Button
-	$OKButton.Text = "OK"
-	$OKButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
-	$OKButton.Location = New-Object System.Drawing.Point(10, 70)
-	$OKButton.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right
-	$Form.AcceptButton = $OKButton
-	$Form.Controls.Add($OKButton)
-
-	$CancelButton = New-Object System.Windows.Forms.Button
-	$CancelButton.Text = "Cancel"
-	$CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
-	$CancelButton.Location = New-Object System.Drawing.Point(90, 70)
-	$CancelButton.Anchor = [System.Windows.Forms.AnchorStyles]::Bottom -bor [System.Windows.Forms.AnchorStyles]::Right
-	$Form.CancelButton = $CancelButton
-	$Form.Controls.Add($CancelButton)
-
-	$Form.Topmost = $true
-
-	$Result = $Form.ShowDialog()
-
-	if ($Result -eq [System.Windows.Forms.DialogResult]::OK) {
-		$code = $TextBox.Text
+	if ($LASTEXITCODE -eq 0) {
+		Write-Output "true_cs"
+	} else {
+		Write-Output "false_cs"
 	}
-
-	cloud_sync_install($cloud_sync_provider)
-	cloud_sync_config_with_code($code)
 	#stopLog
 }
+
 
 function cloud_sync_uninstall(){
 	#startLog($MyInvocation.MyCommand.Name)

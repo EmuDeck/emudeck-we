@@ -15,6 +15,13 @@
 		<entry>%ESPATH%\..\Emulators\citron\citron.exe</entry>
 	</rule>
 </emulator>
+<emulator name="EDEN">
+	<!-- Nintendo Switch emulator Yuzu -->
+	<rule type="staticpath">
+		<entry>%ESPATH%\Emulators\eden\eden-windows-msvc\yuzu.exe</entry>
+		<entry>%ESPATH%\..\Emulators\eden\eden-windows-msvc\yuzu.exe</entry>
+	</rule>
+</emulator>
 <emulator name="SHADPS4">
 	<!-- PS4 emulator ShadPS4 -->
 	<rule type="staticpath">

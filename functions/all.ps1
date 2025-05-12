@@ -39,6 +39,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckXemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckXenia.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckYuzu.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckEden.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCitron.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckRyujinx.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckPPSSPP.ps1"
