@@ -200,7 +200,7 @@ function EdenEA_addToken($tokenValue){
 }
 
 function EdenEA_IsInstalled() {
-	$test=Test-Path -Path "$emusPath\eden"
+	$test=Test-Path -Path "$emusPath\eden-windows-msvc"
 	if($test){
 		Write-Output "true"
 	}else{
