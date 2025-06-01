@@ -9,6 +9,8 @@ android: Google Android
 apple2: Apple II
 apple2gs: Apple IIGS
 arcade: Arcade
+arcadia: Emerson Arcadia 2001
+arduboy: Arduboy Miniature Game System
 astrocde: Bally Astrocade
 atari2600: Atari 2600
 atari5200: Atari 5200
@@ -21,15 +23,21 @@ atarist: Atari ST
 atarixe: Atari XE
 atomiswave: Atomiswave
 bbcmicro: BBC Micro
+c16: Commodore 16
 c64: Commodore 64
 cavestory: Cave Story (NXEngine)
 cdimono1: Philips CD-i
 cdtv: Commodore CDTV
 chailove: ChaiLove Game Engine
 channelf: Fairchild Channel F
+cloud: Cloud Services
 coco: Tandy Color Computer
 colecovision: ColecoVision
 cps: Capcom Play System
+cps1: Capcom Play System I
+cps2: Capcom Play System II
+cps3: Capcom Play System III
+crvision: VTech CreatiVision
 daphne: Daphne Arcade LaserDisc Emulator
 desktop: Desktop Applications
 doom: Doom
@@ -45,6 +53,7 @@ fds: Nintendo Famicom Disk System
 flash: Adobe Flash
 fmtowns: Fujitsu FM Towns
 gameandwatch: Nintendo Game and Watch
+gamecom: Tiger Electronics Game.com
 gamegear: Sega Game Gear
 gb: Nintendo Game Boy
 gba: Nintendo Game Boy Advance
@@ -55,6 +64,7 @@ gx4000: Amstrad GX4000
 intellivision: Mattel Electronics Intellivision
 j2me: Java 2 Micro Edition (J2ME)
 kodi: Kodi Home Theatre Software
+lcdgames: LCD Handheld Games
 lutris: Lutris Open Gaming Platform
 lutro: Lutro Game Engine
 macintosh: Apple Macintosh
@@ -65,6 +75,7 @@ mastersystem: Sega Master System
 megacd: Sega Mega-CD
 megacdjp: Sega Mega-CD
 megadrive: Sega Mega Drive
+megadrivejp: Sega Mega Drive
 megaduck: Creatronic Mega Duck
 mess: Multi Emulator Super System
 model2: Sega Model 2
@@ -102,12 +113,16 @@ pcfx: NEC PC-FX
 pico8: PICO-8 Fantasy Console
 pokemini: Nintendo Pokémon Mini
 ports: Ports
+primehack: Nintendo Wii / gamecube
 ps2: Sony PlayStation 2
 ps3: Sony PlayStation 3
 ps4: Sony PlayStation 4
 psp: Sony PlayStation Portable
 psvita: Sony PlayStation Vita
 psx: Sony PlayStation
+pv1000: Casio PV-1000
+quake: Quake
+remoteplay: Remote Play Clients
 samcoupe: SAM Coupé
 satellaview: Nintendo Satellaview
 saturn: Sega Saturn
@@ -121,6 +136,7 @@ sfc: Nintendo SFC (Super Famicom)
 sg-1000: Sega SG-1000
 sgb: Nintendo Super Game Boy
 snes: Nintendo SNES (Super Nintendo)
+sneshd: Nintendo SNES WideScreen (Super Nintendo)
 snesna: Nintendo SNES (Super Nintendo)
 solarus: Solarus Game Engine
 spectravideo: Spectravideo
@@ -143,9 +159,10 @@ vectrex: Vectrex
 vic20: Commodore VIC-20
 videopac: Philips Videopac G7000
 virtualboy: Nintendo Virtual Boy
+vsmile: VTech V.Smile
+wasm4: WASM-4 Fantasy Console
 wii: Nintendo Wii
 wiiu: Nintendo Wii U
-wiiu/roms (custom system): Nintendo Wii U
 wonderswan: Bandai WonderSwan
 wonderswancolor: Bandai WonderSwan Color
 x1: Sharp X1
