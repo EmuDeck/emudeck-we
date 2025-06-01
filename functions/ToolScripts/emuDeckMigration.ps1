@@ -25,7 +25,6 @@ function Migration_init {
 }
 
 function Migration_move {
-
     param (
         [string]$origin,
         [string]$destination,
@@ -34,6 +33,7 @@ function Migration_move {
 
     Add-Type -AssemblyName System.Windows.Forms
     mkdir "$destination/Emulation" -ErrorAction SilentlyContinue
+
     # Crear el diálogo de progreso
     $progressForm = New-Object System.Windows.Forms.Form
     $progressBar = New-Object System.Windows.Forms.ProgressBar
@@ -57,24 +57,55 @@ function Migration_move {
 
     $progressForm.Show()
 
-    # Ejecutar el comando Robocopy para migrar archivos
+    # Mover todo el contenido de Emulation a su nuevo destino
+    $items = Get-ChildItem -Path $origin
+    $totalItems = $items.Count
+    $movedItems = 0
 
-    $robocopyArgs = @("$origin", "$destination", "/MIR", "/Z", "/MT:16", "/R:5", "/W:5", "/NFL", "/NDL")
-    $robocopyProcess = Start-Process -FilePath "robocopy" -ArgumentList $robocopyArgs -NoNewWindow -PassThru -Wait
+    foreach ($item in $items) {
+        try {
+            # Copiar item al nuevo destino
+            $destinationPath = "$destination\Emulation\$($item.Name)"
+            Copy-Item -Path $item.FullName -Destination $destinationPath -Recurse -Force
 
-    if ($robocopyProcess.ExitCode -lt 8) {
-        # Copia exitosa (exit codes 0-7 en robocopy son advertencias menores)
-        $progressBar.Value = 100
-        $progressLabel.Text = "Migration completed."
-    } else {
-        # Error en la copia
-        $progressLabel.Text = "Migration failed."
+            # Si la copia fue exitosa, eliminar el origen
+            Remove-Item -Path $item.FullName -Recurse -Force -ErrorAction SilentlyContinue
+
+            # Incrementar el contador de items movidos
+            $movedItems++
+        } catch {
+            Write-Host "Error moving item: $($item.FullName)"
+        }
+
+        # Actualizar progreso
+        $progressBar.Value = [math]::Round(($movedItems / $totalItems) * 100)
+        $progressLabel.Text = "Migrating... ($movedItems of $totalItems)"
     }
 
-    # Cerrar la ventana de progreso después de unos segundos
+    # Actualizar los paths tras la migración
+    Migration_updatePaths $origin "$destination\Emulation"
+
+    # Forzar la eliminación de la carpeta de origen tras la migración y actualización de paths
+    Start-Sleep -Seconds 2  # Esperar un poco para asegurar que no haya procesos abiertos
+    if (Test-Path $origin) {
+        Remove-Item -Path $origin -Recurse -Force -ErrorAction SilentlyContinue
+        if (-Not (Test-Path $origin)) {
+            Write-Host "Source folder successfully deleted: $origin"
+        } else {
+            Write-Host "Warning: Failed to delete the source folder. It may contain locked files."
+        }
+    }
+
+    # Finalizar progreso
+    $progressBar.Value = 100
+    $progressLabel.Text = "Migration completed."
+
     Start-Sleep -Seconds 2
     $progressForm.Close()
+
+    Write-Host "Migration completed."
 }
+
 
 function Migration_updatePaths {
     param (
@@ -84,12 +115,12 @@ function Migration_updatePaths {
 
     # Actualización de las nuevas rutas
     setSetting "emulationPath" $destination
-    setSetting "toolsPath" "$destination/tools"
-    setSetting "romsPath" "$destination/roms"
-    setSetting "biosPath" "$destination/bios"
-    setSetting "savesPath" "$destination/saves"
-    setSetting "storagePath" "$destination/storage"
-    setSetting "ESDEscrapData" "$destination/tools/downloaded_media"
+    setSetting "toolsPath" "$destination\tools"
+    setSetting "romsPath" "$destination\roms"
+    setSetting "biosPath" "$destination\bios"
+    setSetting "savesPath" "$destination\saves"
+    setSetting "storagePath" "$destination\storage"
+    setSetting "ESDEscrapData" "$destination\tools\downloaded_media"
 
     # Función para reemplazar rutas en archivos de configuración
     function Update-ConfigFile {
@@ -130,16 +161,22 @@ function Migration_updatePaths {
     Migration_updateSRM $origin $destination
 
     # Recargar las ubicaciones de las partidas guardadas
+    Write-Host "Reconfigurando los enlaces simbólicos de saves..."
     Get-Command -Name "*_IsInstalled" | ForEach-Object {
         $func = $_.Name
+        Write-Host "Checking emulator: $func"
         if (& $func) {
             $setup_func = $func -replace '_IsInstalled$', '_setupSaves'
+            Write-Host "Setup function: $setup_func"
             if (Get-Command -Name $setup_func -ErrorAction SilentlyContinue) {
+                Write-Host "Executing: $setup_func"
                 & $setup_func
+            } else {
+                Write-Host "Setup function not found: $setup_func"
             }
         }
     }
-
+    Write-Host "Junctions recreados correctamente."
 
     # Mensaje de éxito
     confirmDialog -TitleText "EmuDeck" -MessageText "Your library has been moved to $destination."
@@ -149,26 +186,59 @@ function Migration_updatePaths {
 
 function Migration_updateSRM {
     param (
-        [string]$origin,
-        [string]$destination
+        [string]$origin,        # Ruta antigua
+        [string]$destination    # Ruta nueva
     )
 
     $steamRegPath = "HKCU:\Software\Valve\Steam"
     $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
 
-   # Reemplazar rutas en "shortcuts.vdf" usando Get-ChildItem para encontrar los archivos
+    # Reemplazar rutas en "shortcuts.vdf"
     Get-ChildItem $steamInstallPath -Recurse -Filter "shortcuts.vdf" | ForEach-Object {
-        (Get-Content $_.FullName) -replace [regex]::Escape($origin), $destination | Set-Content $_.FullName
+        (Get-Content $_.FullName) -creplace [regex]::Escape($origin), $destination | Set-Content $_.FullName
     }
 
-    # Actualizar "userSettings.json" con la nueva ruta de ROMs usando ConvertFrom-Json y ConvertTo-Json
-    $settingsFile = "$toolsPath\userData\userSettings.json"
-    $settings = Get-Content $settingsFile | ConvertFrom-Json
-    $settings.environmentVariables.romsDirectory = $romsPath
-    $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile
+    # Actualizar "userSettings.json"
+    $settingsFile = "$destination\tools\userData\userSettings.json"
 
+    if (Test-Path $settingsFile) {
+        $jsonText = Get-Content $settingsFile -Raw
+        $settings = $jsonText | ConvertFrom-Json
+
+        # Actualizar la ruta de ROMs
+        $settings.environmentVariables.romsDirectory = "$destination\roms"
+
+        # Guardar cambios
+        $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile
+    } else {
+        Write-Host "userSettings.json no encontrado, saltando actualización."
+    }
+
+    # Actualizar "userConfigurations.json"
+    $configFile = "$destination\tools\userData\userConfigurations.json"
+
+    if (Test-Path $configFile) {
+        $jsonText = Get-Content $configFile -Raw
+        $config = $jsonText | ConvertFrom-Json
+
+        # Reemplazar solo si `executableArgs` contiene la ruta original
+        foreach ($entry in $config) {
+            if ($entry.executableArgs -match [regex]::Escape($origin)) {
+                $entry.executableArgs = $entry.executableArgs -creplace [regex]::Escape($origin), $destination
+            }
+        }
+
+        # Guardar cambios
+        $config | ConvertTo-Json -Depth 10 | Set-Content $configFile
+        Write-Host "userConfigurations.json actualizado correctamente."
+    } else {
+        Write-Host "userConfigurations.json no encontrado, saltando actualización."
+    }
+
+    # Reiniciar SRM después de la actualización
     SRM_init
 }
+
 
 function Migration_ESDE {
     ESDE_setEmulationFolder
