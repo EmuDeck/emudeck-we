@@ -1,6 +1,6 @@
 function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
-
+	
 	#Fixes for ESDE warning message
 	if ( ESDE_IsInstalled -like "*true*" ){
 		if (Test-Path -Path "$esdePath\ES-DE\gamelists") {
@@ -25,12 +25,43 @@ function ESDE_install(){
 		ESDE_addToSteam
 	}
 
+	# Lanzar ES-DE para forzar la migración y generación del archivo de configuración 
+	$esdeExe = "$esdePath\ES-DE.exe"
+	$settingsFinal = "$esdePath\ES-DE\settings\es_settings.xml"
+	$themeToApply = $esdeThemeName  # El nombre del tema seleccionado
 
+	$proc = Start-Process -FilePath $esdeExe -WindowStyle Hidden -PassThru
+	Start-Sleep -Seconds 8 
+
+	try {
+		$proc.CloseMainWindow() | Out-Null
+		Start-Sleep -Seconds 1
+		if (!$proc.HasExited) { $proc.Kill() }
+	} catch {}
+
+	$timeout = 120
+	$elapsed = 0
+	while (!(Test-Path $settingsFinal) -and $elapsed -lt $timeout) {
+		Start-Sleep -Seconds 2
+		$elapsed += 2
+	}
+
+	if (Test-Path $settingsFinal) {
+		$xml = Get-Content $settingsFinal
+
+		# Modifica el tema activo y el ThemeSet
+		$xml = $xml -replace '(?<=<string name="Theme" value=").*?(?=" />)', $themeToApply
+		$xml = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', $themeToApply
+
+		$xml | Set-Content $settingsFinal -Encoding UTF8
+		Write-Output "ES-DE theme has been successfully applied: $themeToApply"
+	} else {
+		Write-Output "ERROR: Could not apply the theme because the definitive es_settings.xml file does not exist."
+	}
 }
 
 function ESDE_init(){
-	setMSG 'EmulationStation DE - Paths and Themes'
-
+	setMSG 'EmulationStation DE - Paths and Themes. ES-DE will now start for initial configuration. Please do not close any windows or interact with ES-DE.'
 
 	$ESDE_oldConfigDirectory="$esdePath\.emulationstation"
 	$ESDE_newConfigDirectory="$esdePath\ES-DE"
