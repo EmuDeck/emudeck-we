@@ -18,8 +18,8 @@
 <emulator name="EDEN">
 	<!-- Nintendo Switch emulator Yuzu -->
 	<rule type="staticpath">
-		<entry>%ESPATH%\Emulators\eden\eden-windows-msvc\yuzu.exe</entry>
-		<entry>%ESPATH%\..\Emulators\eden\eden-windows-msvc\yuzu.exe</entry>
+		<entry>%ESPATH%\Emulators\eden-windows-msvc\eden.exe</entry>
+		<entry>%ESPATH%\..\Emulators\eden-windows-msvc\eden.exe</entry>
 	</rule>
 </emulator>
 <emulator name="SHADPS4">
