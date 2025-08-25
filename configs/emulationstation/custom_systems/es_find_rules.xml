@@ -9,17 +9,17 @@
 	</rule>
 </emulator>
 <emulator name="CITRON">
-	<!-- Nintendo Switch emulator Yuzu -->
+	<!-- Nintendo Switch emulator Citron -->
 	<rule type="staticpath">
 		<entry>%ESPATH%\Emulators\citron\citron.exe</entry>
 		<entry>%ESPATH%\..\Emulators\citron\citron.exe</entry>
 	</rule>
 </emulator>
 <emulator name="EDEN">
-	<!-- Nintendo Switch emulator Yuzu -->
+	<!-- Nintendo Switch emulator Eden -->
 	<rule type="staticpath">
-		<entry>%ESPATH%\Emulators\eden\eden-windows-msvc\yuzu.exe</entry>
-		<entry>%ESPATH%\..\Emulators\eden\eden-windows-msvc\yuzu.exe</entry>
+		<entry>%ESPATH%\Emulators\eden-windows-msvc\eden.exe</entry>
+		<entry>%ESPATH%\..\Emulators\eden-windows-msvc\eden.exe</entry>
 	</rule>
 </emulator>
 <emulator name="SHADPS4">
