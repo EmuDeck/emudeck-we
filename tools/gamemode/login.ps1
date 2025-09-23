@@ -1,42 +1,28 @@
 . "$env:APPDATA\EmuDeck\backend\functions/all.ps1"
 
 function startSteam(){
-	 $steamRegPath = "HKCU:\Software\Valve\Steam"
-	 $steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
-	 $steamInstallPath = $steamInstallPath.Replace("/", "\")
-	 $steamArguments = "-bigpicture"
-	 Start-Process -FilePath "$steamInstallPath\Steam.exe" -Wait -ArgumentList $steamArguments
- }
+    $steamRegPath = "HKCU:\Software\Valve\Steam"
+    $steamInstallPath = (Get-ItemProperty -Path $steamRegPath -ErrorAction SilentlyContinue).SteamPath
+    if (-not $steamInstallPath) { $steamInstallPath = "${env:ProgramFiles(x86)}\Steam" }
+    $steamInstallPath = $steamInstallPath.Replace("/", "\")
+    $steamExe = Join-Path $steamInstallPath 'Steam.exe'
+    if (-not (Test-Path $steamExe)) { return $false }
+
+	# Iniciar Steam en modo Big Picture
+    Start-Process -FilePath $steamExe -ArgumentList '-bigpicture' -WindowStyle Hidden
+    Wait-Process -Name steam -ErrorAction SilentlyContinue
+    return $true
+}
 
 hideMe
-startSteam
-if($?){
-	#Back to desktop
-	#We set the good old explorer.exe as shell
-$scriptContent = @"
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
-	#We restart sihost to launch explorer and the desktop
-	Wait-Event -Timeout 5
-	Stop-Process -Name "sihost" -Force
-	Wait-Event -Timeout 5
-	& "C:\Windows\System32\sihost.exe"
-	#We set the next restart to be on game mode.
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.bat"
-"@
-	startScriptWithAdmin -ScriptContent $scriptContent
-	#We don't restart sihost since we don't want to go to game mode now.
-}else{
-	confirmDialog -TitleText "Game Mode" -MessageText "There was an error running Steam. Please press CTRL ALT DEL, open task manager, then New Task and run explorer.exe, navigate to EmuDeck, enable Desktop Mode and restart your device"
 
-	#Disable game mode in case of fail, we set explorer.exe and restart the desktop with sihost
-$scriptContent = @"
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "explorer.exe"
-	Wait-Event -Timeout 5
-	#We restart sihost to launch explorer and the desktop
-	Stop-Process -Name "sihost" -Force
-	Wait-Event -Timeout 5
-	& "C:\Windows\System32\sihost.exe"
-"@
-	confirmDialog -TitleText "Game mode failed to start" -MessageText "Going back to your Desktop"
-	startScriptWithAdmin -ScriptContent $scriptContent
+if (startSteam) {
+    if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) {
+        Start-Process explorer.exe
+    }
+} else {
+    confirmDialog -TitleText "Game Mode" -MessageText "There was an error running Steam. Returning to Desktop."
+    if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) {
+        Start-Process explorer.exe
+    }
 }
