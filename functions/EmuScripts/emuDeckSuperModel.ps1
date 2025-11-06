@@ -34,7 +34,7 @@ function SuperModel_init(){
 }
 
 function SuperModel_update(){
-	SuperModel_install
+	Write-Output "NYI"
 }
 
 function SuperModel_setEmulationFolder(){
