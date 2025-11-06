@@ -2,12 +2,17 @@ $Supermodel_configFile="$emusPath/Supermodel/Config/Supermodel.ini"
 $Supermodel_gamesList="https://raw.githubusercontent.com/trzy/Supermodel/master/Config/Games.xml"
 
 function SuperModel_install(){
-	setMSG "Installing Supermodel"
-    $url_Supermodel = "https://www.supermodel3.com/Files/Git_Snapshots/Supermodel_0.3a-git-d043dc0_Win64.zip"
-    download $url_Supermodel "supermodel.zip"
-    moveFromTo "$temp\supermodel" "$emusPath\Supermodel"
+    setMSG "Downloading Supermodel"
+    $url_supermodel = getLatestReleaseURLGH "trzy/Supermodel" "zip" "windows.zip"
+    download $url_supermodel "supermodel.zip"
+    $oldName = Get-ChildItem -Path "$temp/supermodel" -Directory -Filter "supermodel-*" | Select-Object -First 1
+    $newName = Join-Path -Path "$temp/supermodel" -ChildPath "supermodel"
+    if ($oldName) { Rename-Item -Path $oldName.FullName -NewName $newName }
+    moveFromTo "$temp/supermodel/supermodel" "$emusPath/Supermodel"
+    rm -r -fo "$temp/supermodel"
     createLauncher "Supermodel"
 }
+
 
 function SuperModel_init(){
 
@@ -29,7 +34,7 @@ function SuperModel_init(){
 }
 
 function SuperModel_update(){
-	Write-Output "NYI"
+	SuperModel_install
 }
 
 function SuperModel_setEmulationFolder(){
