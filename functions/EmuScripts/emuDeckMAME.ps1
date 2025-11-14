@@ -3,7 +3,7 @@ $MAME_configFile="$emusPAth\mame\mame.ini"
 
 function MAME_install(){
 	setMSG "Downloading MAME"
-	$url_MAME = getLatestReleaseURLGH "mamedev\mame" "exe" "64bit" "symbols"
+	$url_MAME = getLatestReleaseURLGH "mamedev\mame" "exe" "x64|64bit" "symbols"
 	download $url_MAME "mame.exe"
 	mkdir "$emusPath\mame" -ErrorAction SilentlyContinue
 	$installDir="$emusPath\mame"
