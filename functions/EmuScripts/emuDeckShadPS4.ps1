@@ -1,11 +1,24 @@
 $ShadPS4_configFile="$emusPath\ShadPS4-qt\user\config.toml"
 
 function ShadPS4_install(){
-	setMSG "Downloading ShadPS4"
-	$url_ShadPS4 = "https://github.com/shadps4-emu/shadPS4/releases/download/v.0.4.0/shadps4-win64-qt-0.4.0.zip"
-	download $url_ShadPS4 "ShadPS4.zip"
-	moveFromTo "$temp/ShadPS4" "$emusPath\ShadPS4-qt"
-	createLauncher "shadps4"
+    setMSG "Downloading ShadPS4"
+    $apiUrl  = "https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases"
+    $headers = @{ "User-Agent" = "EmuDeck" }
+
+    $release = Invoke-RestMethod -Uri $apiUrl -Headers $headers | Select-Object -First 1
+
+    $url_ShadPS4 = $release.assets |
+        Where-Object { $_.browser_download_url -match "win64" -and $_.browser_download_url -like "*.zip" } |
+        Select-Object -ExpandProperty browser_download_url -First 1
+
+    if (-not $url_ShadPS4) {
+        setMSG "ShadPS4: no Win64 ZIP files were found in the latest release.."
+        return $false
+    }
+
+    download $url_ShadPS4 "ShadPS4.zip"
+    moveFromTo "$temp\ShadPS4" "$emusPath\ShadPS4-qt"
+    createLauncher "shadps4"
 }
 function ShadPS4_init(){
 	setMSG "ShadPS4 - Configuration"
@@ -72,12 +85,16 @@ function ShadPS4_finalize(){
 	Write-Output "NYI"
 }
 function ShadPS4_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\ShadPS4-qt\shadPS4.exe"
-	if($test){
-		Write-Output "true"
-	}else{
-		Write-Output "false"
-	}
+    $exeNew = "$emusPath\ShadPS4-qt\shadPS4QtLauncher.exe"
+    $exeOld = "$emusPath\ShadPS4-qt\shadPS4.exe"
+
+    $test = (Test-Path -Path $exeNew) -or (Test-Path -Path $exeOld)
+
+    if($test){
+        Write-Output "true"
+    }else{
+        Write-Output "false"
+    }
 }
 function ShadPS4_resetConfig(){
 	ShadPS4_init
