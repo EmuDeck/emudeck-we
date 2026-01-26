@@ -6,7 +6,24 @@ function PPSSPP_install(){
 		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue
 	}
 	setMSG "Downloading PPSSPP"
-	download $url_PPSSPP "PPSSPP.zip"
+
+	$ppssppUrl = $url_PPSSPP  
+
+	try {
+		$html = (Invoke-WebRequest -UseBasicParsing -Uri "https://www.ppsspp.org/download/").Content
+		$match = [regex]::Match(
+			$html,
+			'https://www\.ppsspp\.org/files/\d+_\d+(_\d+)?/ppsspp_win\.zip'
+		)
+
+		if ($match.Success) {
+			$ppssppUrl = $match.Value
+		}
+	} catch {
+		Write-Output "Failed to fetch latest PPSSPP URL, using default."
+	}
+	
+	download $ppssppUrl "PPSSPP.zip"
 	moveFromTo "$temp/PPSSPP" "$emusPath\PPSSPP"
 	createLauncher "PPSSPP"
 }
