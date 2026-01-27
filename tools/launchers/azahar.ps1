@@ -1,4 +1,4 @@
-$emulatorFile = "$env:APPDATA/emudeck/Emulators/azahar/azahar.exe"
+$emulatorFile = "D:\Emulator/azahar/azahar.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 if($args){
