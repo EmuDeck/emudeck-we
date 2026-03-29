@@ -1,5 +1,4 @@
-$user="$args"
-$userPath = "C:\Users\$user"
+$userPath = $env:USERPROFILE
 $logPath = Join-Path -Path "$userPath" -ChildPath '\AppData\Roaming\EmuDeck\logs\cloudWatcher.log'
 $f1 = Join-Path -Path "$userPath" -ChildPath '\AppData\Roaming\EmuDeck\settings.ps1'
 $f2 = Join-Path -Path "$userPath" -ChildPath 'AppData\Roaming\EmuDeck\backend\functions\createLink.ps1'
