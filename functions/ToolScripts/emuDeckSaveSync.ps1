@@ -226,7 +226,7 @@ function createCloudFile($folder) {
 	}
 }
 
-function cloud_sync_config($cloud_sync_provider, $token){
+function cloud_sync_config($cloud_sync_provider, $token) {
 
 	setSetting "cs_user" ""
 
@@ -311,7 +311,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
 		 & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 
 		 Write-Output 'true'
-   elseif ($cloud_sync_provider -eq "Emudeck-cloud2") {
+   } elseif ($cloud_sync_provider -eq "Emudeck-cloud2") {
    
 		   $token = $token -replace "---", '|||'
    
@@ -335,7 +335,7 @@ function cloud_sync_config($cloud_sync_provider, $token){
    
 			Start-Process $cloud_sync_bin -ArgumentList @"
 					 config update Emudeck-cloud2 secret_access_key="$cloud_key" access_key_id="$cloud_key_id"
-   "@  -WindowStyle Maximized -Wait
+"@  -WindowStyle Maximized -Wait
    
 			& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 			cloud_sync_save_hash($savesPath)
