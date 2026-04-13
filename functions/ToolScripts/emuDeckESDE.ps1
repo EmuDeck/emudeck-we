@@ -14,9 +14,16 @@ function ESDE_install(){
 	}
 
 	rm -r -fo "$temp/esde" -ErrorAction SilentlyContinue
-	download $url_esde "esde.zip"
-	mkdir $esdePath -ErrorAction SilentlyContinue
+	$esdeRelease = Invoke-RestMethod -Uri $url_esde
+	$esdeDownloadUrl = ($esdeRelease.assets.links | Where-Object { $_.name -like '*x64_Portable.zip' } | Select-Object -First 1).url
 
+	if (!$esdeDownloadUrl) {
+		Write-Output "ERROR: Could not resolve the latest ES-DE portable ZIP asset."
+		return
+	}
+
+	download $esdeDownloadUrl "esde.zip"
+	mkdir $esdePath -ErrorAction SilentlyContinue
 	moveFromTo "$temp/esde/ES-DE" "$esdePath"
 
 	if($doInit -eq "true" ){
