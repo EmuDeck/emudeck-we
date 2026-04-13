@@ -1,32 +1,12 @@
 $Ryujinx_configFile="$emusPath\Ryujinx\portable\Config.json"
 
-function Ryujinx_install(){
-	setMSG "Downloading Ryujinx"
-
-	# Obtiene la última URL válida del release para Windows x64 desde GitLab
-	$apiUrl = "https://git.ryujinx.app/api/v4/projects/1/releases"
-	try {
-		$releases = Invoke-RestMethod -Uri $apiUrl
-		# Ordena las releases por fecha descendente y coge la más reciente
-		$latestRelease = $releases | Sort-Object { [datetime]$_.released_at } -Descending | Select-Object -First 1
-		# Busca el asset que sea un ZIP para Windows x64
-		$asset = $latestRelease.assets.links | Where-Object { $_.name -match "win_x64\.zip$" }
-		if (-not $asset) {
-			throw "No se encontró asset de Windows x64 en la última release."
-		}
-		$url_ryujinx = $asset.url
-	}
-	catch {
-		Write-Host "Error obteniendo URL de descarga: $($_.Exception.Message)"
-		return
-	}
-
-	download $url_ryujinx "ryujinx.zip"
-	moveFromTo "$temp\ryujinx\publish\" "$emusPath\Ryujinx"
-	createLauncher "Ryujinx"
+function Ryujinx_install() {
+    setMSG "Downloading Ryujinx"
+    $release = Invoke-RestMethod -Uri "https://update.ryujinx.app/api/v1/version/stable/latest?os=win&arch=amd64"
+    download $release.download_url "ryujinx.zip"
+    moveFromTo "$temp\ryujinx\publish\" "$emusPath\Ryujinx"
+    createLauncher "Ryujinx"
 }
-
-
 
 function Ryujinx_init(){
 	setMSG "Ryujinx - Configuration"
