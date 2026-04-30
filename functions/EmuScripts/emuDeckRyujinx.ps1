@@ -2,11 +2,24 @@ $Ryujinx_configFile="$emusPath\Ryujinx\portable\Config.json"
 
 function Ryujinx_install() {
     setMSG "Downloading Ryujinx"
-    $release = Invoke-RestMethod -Uri "https://update.ryujinx.app/api/v1/version/stable/latest?os=win&arch=amd64"
-    download $release.download_url "ryujinx.zip"
+
+    $apiUrl  = "https://git.ryujinx.app/api/v1/repos/Ryubing/Canary/releases/latest"
+    $headers = @{ "User-Agent" = "EmuDeck" }
+    $release = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+	$url_Ryujinx = $release.assets |
+        Where-Object { $_.browser_download_url -match "win_x64" -and $_.browser_download_url -like "*.zip" } |
+        Select-Object -ExpandProperty browser_download_url -First 1
+
+    if (-not $url_Ryujinx) {
+        setMSG "Ryujinx: no Windows ZIP file was found in the latest release."
+        return $false
+    }
+
+    download $url_Ryujinx "ryujinx.zip"
     moveFromTo "$temp\ryujinx\publish\" "$emusPath\Ryujinx"
     createLauncher "Ryujinx"
 }
+
 
 function Ryujinx_init(){
 	setMSG "Ryujinx - Configuration"
