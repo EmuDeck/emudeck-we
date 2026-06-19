@@ -279,71 +279,46 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 		 Remove-Item $_.FullName
 	  }
 	  Write-Output 'true'
-   } elseif ($cloud_sync_provider -eq "Emudeck-cloud") {
+   } elseif ($cloud_sync_provider -like "*Emudeck-cloud*") {
 
 		$token = $token -replace "---", '|||'
 
 		 $parts = $token -split '\|\|\|'
 		 $json = '{"token":"'+ $token + '"}'
-		 $response = Invoke-RestMethod -Method Post -Uri "https://token.emudeck.com/b2.php" `
+		 $response = Invoke-RestMethod -Method Post -Uri "https://cloud.emudeck.com/register.php" `
 			 -ContentType "application/json" `
 			 -Body $json
 
-		 # Asignar los valores a variables
 		 $cloud_key_id = $response.cloud_key_id
 		 $cloud_key = $response.cloud_key
+		 $cloud = $response.cloud
 
 		 $pass= $($password.cloud_token)
 
 		 $ofuspass = $pass
 
 		 $user=$($parts[0])
-		 setSetting "cs_user" "cs$user\"
-
-
-		 Start-Process $cloud_sync_bin -ArgumentList @"
-				  config update Emudeck-cloud key="$cloud_key" account="$cloud_key_id"
-"@  -WindowStyle Maximized -Wait
+		 
+		 if ($cloud -eq "cloud2") {
+			 setSetting cloud_sync_provider "Emudeck-cloud2" 
+			 setSetting "cs_user" "emudeck-saves\cs$user\"
+					  Start-Process $cloud_sync_bin -ArgumentList @"
+							   config update Emudeck-cloud secret_access_key="$cloud_key" access_key_id="$cloud_key_id"
+			 "@  -WindowStyle Maximized -Wait
+		 }else{
+			 setSetting "cs_user" "cs$user\"
+					  Start-Process $cloud_sync_bin -ArgumentList @"
+							   config update Emudeck-cloud key="$cloud_key" account="$cloud_key_id"
+			 "@  -WindowStyle Maximized -Wait
+		 }
+		 
 
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 		 cloud_sync_save_hash($savesPath)
 
 		 & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:$cs_user`Emudeck\saves"
 
-		 Write-Output 'true'
-   } elseif ($cloud_sync_provider -eq "Emudeck-cloud2") {
-   
-		   $token = $token -replace "---", '|||'
-   
-			$parts = $token -split '\|\|\|'
-			$json = '{"token":"'+ $token + '"}'
-			$response = Invoke-RestMethod -Method Post -Uri "https://cloud.emudeck.com/login.php" `
-				-ContentType "application/json" `
-				-Body $json
-   
-			# Asignar los valores a variables
-			$cloud_key_id = $response.cloud_key_id
-			$cloud_key = $response.cloud_key
-   
-			$pass= $($password.cloud_token)
-   
-			$ofuspass = $pass
-   
-			$user=$($parts[0])
-			setSetting "cs_user" "emudeck-saves/$user/"
-   
-   
-			Start-Process $cloud_sync_bin -ArgumentList @"
-					 config update Emudeck-cloud2 secret_access_key="$cloud_key" access_key_id="$cloud_key_id"
-"@  -WindowStyle Maximized -Wait
-   
-			& $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-			cloud_sync_save_hash($savesPath)
-   
-			& $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:$cs_user`Emudeck\saves"
-   
-			Write-Output 'true'
-			
+		 Write-Output 'true'  		
    } elseif ($cloud_sync_provider -eq "Emudeck-SMB") {
 	  $credentials = Get-Custom-Credentials "Emudeck-SMB"
 	  $pass=$credentials.Password
