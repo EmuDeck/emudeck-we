@@ -304,12 +304,12 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 			 setSetting "cs_user" "emudeck-saves\cs$user\"
 					  Start-Process $cloud_sync_bin -ArgumentList @"
 							   config update Emudeck-cloud secret_access_key="$cloud_key" access_key_id="$cloud_key_id"
-			 "@  -WindowStyle Maximized -Wait
+"@  -WindowStyle Maximized -Wait
 		 }else{
 			 setSetting "cs_user" "cs$user\"
 					  Start-Process $cloud_sync_bin -ArgumentList @"
 							   config update Emudeck-cloud key="$cloud_key" account="$cloud_key_id"
-			 "@  -WindowStyle Maximized -Wait
+"@  -WindowStyle Maximized -Wait
 		 }
 		 
 
