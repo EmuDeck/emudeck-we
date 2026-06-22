@@ -228,7 +228,7 @@ function createCloudFile($folder) {
 
 function cloud_sync_config($cloud_sync_provider, $token) {
 
-	setSetting "cs_user" ""
+   setSetting "cs_user" ""
 
    #startLog($MyInvocation.MyCommand.Name)
    taskkill /F /IM rclone.exe > NUL 2>NUL
@@ -301,14 +301,16 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 		 
 		 if ($cloud -eq "cloud2") {
 			 setSetting cloud_sync_provider "Emudeck-cloud2" 
-			 setSetting "cs_user" "emudeck-saves\cs$user\"
+			 setSetting "cs_user" "emudeck-saves\cs$user\"			
+			 $cloud_sync_provider="Emudeck-cloud2"
+			 $cs_user="emudeck-saves\cs$user\"
 					  Start-Process $cloud_sync_bin -ArgumentList @"
-							   config update Emudeck-cloud secret_access_key="$cloud_key" access_key_id="$cloud_key_id"
+							   config update $cloud_sync_provider secret_access_key="$cloud_key" access_key_id="$cloud_key_id"
 "@  -WindowStyle Maximized -Wait
 		 }else{
 			 setSetting "cs_user" "cs$user\"
 					  Start-Process $cloud_sync_bin -ArgumentList @"
-							   config update Emudeck-cloud key="$cloud_key" account="$cloud_key_id"
+							   config update $cloud_sync_provider key="$cloud_key" account="$cloud_key_id"
 "@  -WindowStyle Maximized -Wait
 		 }
 		 
@@ -334,7 +336,7 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 		 createCloudFile $_.FullName
 	  }
 
-      $path="${cloud_sync_provider}:${share}\Emudeck\saves"
+	  $path="${cloud_sync_provider}:${share}\Emudeck\saves"
 	  & $cloud_sync_bin mkdir $path
 	  & $cloud_sync_bin copy $savesPath $path --include "*.cloud"
 	  #Cleaning up
