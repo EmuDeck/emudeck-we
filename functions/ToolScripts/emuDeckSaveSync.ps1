@@ -302,8 +302,7 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 		  setSetting "cs_user" "cs$user\"
 		  Start-Process $cloud_sync_bin -ArgumentList @"
 							   config update $cloud_sync_provider key="$cloud_key" account="$cloud_key_id"
-"@  -WindowStyle Maximized -Wait
-		 }
+"@  -WindowStyle Maximized -Wait		
 		 
 
 		 & $cloud_sync_bin mkdir "$cloud_sync_provider`:$cs_user`Emudeck\saves"
