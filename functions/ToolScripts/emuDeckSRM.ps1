@@ -423,3 +423,12 @@ function SRM_deleteCache(){
 			#}
 
 
+function SRM_checkParsers {
+	$userConfig = "$toolsPath\userData\userConfigurations.json"
+	$parsers = Get-Content $userConfig -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
+
+	if (!$parsers -or $parsers.Count -eq 0) {
+		Write-Host "Steam ROM Manager has no parsers, restoring configuration..."
+		SRM_createParsers
+	}
+}
