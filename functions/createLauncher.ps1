@@ -9,12 +9,6 @@ function createLauncher($ps1) {
   $ShortcutPathPs1 = "$toolsPath\launchers\$ps1.ps1"
   Copy-Item -Path $SourceFilePath -Destination $ShortcutPathPs1 -Force -ErrorAction SilentlyContinue
 
-  # Generamos un .bat que envuelve al .ps1. El acceso directo apunta a este .bat
-  # en lugar de a powershell.exe directamente, así Windows no lo oculta del menú de inicio.
-  $ShortcutPathBat = "$toolsPath\launchers\$ps1.bat"
-  $batContent = "@echo off`r`nstart """" /min powershell.exe -ExecutionPolicy Bypass -File ""$ShortcutPathPs1"""
-  Set-Content -Path $ShortcutPathBat -Value $batContent -Encoding ASCII -Force -ErrorAction SilentlyContinue
-
   $name = $ps1
 
   if ($name -like "*EmulationStationDE*") {
@@ -30,11 +24,12 @@ function createLauncher($ps1) {
 
   mkdir "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\" -ErrorAction SilentlyContinue
   $ShortcutPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\$name.lnk"
-  $TargetPath = $ShortcutPathBat
+  $TargetPath = "powershell.exe"
+  $Arguments = "-ExecutionPolicy Bypass -File $ShortcutPathPs1"
   $WScriptShell = New-Object -ComObject WScript.Shell
   $Shortcut = $WScriptShell.CreateShortcut($ShortcutPath)
   $Shortcut.TargetPath = $TargetPath
-  $Shortcut.WorkingDirectory = "$toolsPath\launchers"
+  $Shortcut.Arguments = $Arguments
   $Shortcut.WindowStyle = 7
 
   if ($name -eq "EmulationStationDE") {
@@ -48,4 +43,19 @@ function createLauncher($ps1) {
   }
 
   $Shortcut.Save()
+
+  # Notificamos a la shell de Windows para que reindexe el menú de inicio,
+  # si no, los accesos recién creados no aparecen hasta reiniciar el explorador.
+  try {
+    if (-not ("EmuDeck.Shell" -as [type])) {
+      Add-Type -Namespace EmuDeck -Name Shell -MemberDefinition @"
+[System.Runtime.InteropServices.DllImport("shell32.dll")]
+public static extern void SHChangeNotify(int wEventId, uint uFlags, System.IntPtr dwItem1, System.IntPtr dwItem2);
+"@ -ErrorAction SilentlyContinue
+    }
+    # SHCNE_ASSOCCHANGED (0x08000000), SHCNF_IDLIST (0x0000)
+    [EmuDeck.Shell]::SHChangeNotify(0x08000000, 0x0000, [System.IntPtr]::Zero, [System.IntPtr]::Zero)
+  } catch {
+    Write-Host "SHChangeNotify no disponible, el menú de inicio se refrescará al reiniciar el explorador."
+  }
 }
