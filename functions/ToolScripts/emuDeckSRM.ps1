@@ -230,6 +230,35 @@ function SRM_removeSteamInputProfiles(){
 	rm -fo -r "$env:APPDATA\EmuDeck\backend\configs\steam-input\emudeck*"
 }
 
+function SRM_setSteamAccount(){
+	$userSettings = "$toolsPath\userData\userSettings.json"
+	$loginUsers = "$steamInstallPath\config\loginusers.vdf"
+	if (-not (Test-Path $loginUsers) -or -not (Test-Path $userSettings)) {
+		Write-Host "SRM: loginusers.vdf or userSettings.json not found, skipping Steam account detection."
+		return
+	}
+
+	$content = Get-Content $loginUsers -Raw
+	$accounts = @()
+	$rx = [regex]'(?s)"(\d{17})"\s*\{(.*?)\}'
+	foreach ($m in $rx.Matches($content)) {
+		$name = ([regex]::Match($m.Groups[2].Value, '"AccountName"\s*"([^"]*)"')).Groups[1].Value
+		if ($name) { $accounts += $name }
+	}
+
+	if ($accounts.Count -ne 1) {
+		Write-Host "SRM: Found $($accounts.Count) Steam accounts, leaving userAccounts empty so the user can choose."
+		return
+	}
+
+	$accountName = $accounts[0]
+	$json = Get-Content $userSettings -Raw | ConvertFrom-Json
+	if (-not $json.environmentVariables) { return }
+	$json.environmentVariables | Add-Member -NotePropertyName userAccounts -NotePropertyValue @($accountName) -Force
+	[System.IO.File]::WriteAllText($userSettings, ($json | ConvertTo-Json -Depth 20))
+	Write-Host "SRM: Only one Steam account found, set userAccounts to '$accountName'"
+}
+
 function SRM_init(){
 	mkdir "$toolsPath\userData\" -ErrorAction SilentlyContinue
 	#Fix for games with - in it's path
@@ -283,6 +312,7 @@ function SRM_init(){
 	sedFile "$toolsPath\userData\controllerTemplates.json" ":\" ":\\"
 	sedFile "$toolsPath\userData\controllerTemplates.json" "\\\" "\\"
 
+	SRM_setSteamAccount
 
 }
 
