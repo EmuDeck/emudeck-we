@@ -125,9 +125,49 @@ function DuckStation_wideScreenOff(){
 	setConfig "WidescreenHack" "false" "$DuckStation_configFile"
 	setConfig "AspectRatio" "4:3" "$DuckStation_configFile"
 }
-function DuckStation_retroAchievementsSetLogin(){
-	$ra = RA_getCredentials
-	$content = Get-Content -Path $DuckStation_configFile -Raw
-	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $($ra.User)`nToken = $($ra.Token)`nChallengeMode = $($ra.Hardcore)"
-	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
-}
+function DuckStation_encryptCheevosToken($token, $username){
+		if ([string]::IsNullOrEmpty($token) -or [string]::IsNullOrEmpty($username)) { return "" }
+
+		$enc = [System.Text.Encoding]::UTF8
+		$sha = [System.Security.Cryptography.SHA256]::Create()
+
+		$buf = New-Object System.Collections.Generic.List[byte]
+		$portable = Test-Path "$emusPath\duckstation\portable.txt"
+		if (-not $portable) {
+				try {
+						$machineGuid = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Cryptography" -Name MachineGuid).MachineGu
+						if ($machineGuid) { $buf.AddRange($enc.GetBytes($machineGuid)) }
+				} catch { }
+		}
+		$buf.AddRange($enc.GetBytes($username))
+
+		$key = $sha.ComputeHash($buf.ToArray())
+		for ($i = 0; $i -lt 100; $i++) { $key = $sha.ComputeHash($key) }
+
+		# Padding a múltiplo de 16 con ceros (NO PKCS7)
+		$tb = $enc.GetBytes($token)
+		$len = [int][Math]::Ceiling($tb.Length / 16.0) * 16
+		$len = [int][Math]::Ceiling($tb.Length / 16.0) * 16
+		if ($len -eq 0) { $len = 16 }
+		$data = New-Object byte[] $len
+		[Array]::Copy($tb, $data, $tb.Length)
+
+		$aes = [System.Security.Cryptography.Aes]::Create()
+		$aes.KeySize = 128
+		$aes.Mode    = [System.Security.Cryptography.CipherMode]::CBC
+		$aes.Padding = [System.Security.Cryptography.PaddingMode]::None
+		$aes.Key = [byte[]]($key[0..15])
+		$aes.IV  = [byte[]]($key[16..31])
+		$out = $aes.CreateEncryptor().TransformFinalBlock($data, 0, $data.Length)
+		return [Convert]::ToBase64String($out)
+  }
+
+  function DuckStation_retroAchievementsSetLogin(){
+		$ra = RA_getCredentials
+		$encToken = DuckStation_encryptCheevosToken $ra.Token $ra.User
+		$hc = "$($ra.Hardcore)".ToLower()
+		$content = Get-Content -Path $DuckStation_configFile -Raw
+		$content = $content -replace '(?s)(\[Cheevos\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $($ra.User)`nToken =
+  $encToken`nChallengeMode = $hc"
+		$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
+  }
