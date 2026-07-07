@@ -424,6 +424,17 @@ function SRM_deleteCache(){
 
 
 function SRM_checkParsers {
+	$userSettings = "$toolsPath\userData\userSettings.json"
+	$steamDir = ""
+	if (Test-Path $userSettings) {
+		$settings = Get-Content $userSettings -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
+		$steamDir = $settings.environmentVariables.steamDirectory
+	}
+	if ([string]::IsNullOrEmpty($steamDir)) {
+		Write-Host "Steam ROM Manager steamDirectory is empty, running SRM_init..."
+		SRM_init
+	}
+
 	$userConfig = "$toolsPath\userData\userConfigurations.json"
 	$parsers = Get-Content $userConfig -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
 
