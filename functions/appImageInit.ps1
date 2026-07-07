@@ -54,6 +54,7 @@ function appImageInit(){
 	#CHD
 	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
 	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chddeck.ps1" -Destination "$toolsPath\chdconv\" -Force
+	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chddeck.bat" -Destination "$toolsPath\chdconv\" -Force
 
 
 	Move-item -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -destination "$env:APPDATA/EmuDeck/settings.ps1" -force
