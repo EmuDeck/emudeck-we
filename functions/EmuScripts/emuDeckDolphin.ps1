@@ -128,7 +128,15 @@ function Dolphin_wideScreenOff(){
 	setSettingNoQuotes $configFile $wideScreenHack "False"
 	setSettingNoQuotes $configFile $AspectRatio "0"
 }
+function Dolphin_ensureCheevosConfig(){
+	if (-not (Test-Path $Dolphin_cheevosConfigFile)) {
+		$src = "$env:APPDATA\EmuDeck\backend\configs\Dolphin\User\Config\RetroAchievements.ini"
+		New-Item -ItemType Directory -Path (Split-Path $Dolphin_cheevosConfigFile) -Force | Out-Null
+		Copy-Item -Path $src -Destination $Dolphin_cheevosConfigFile -Force -ErrorAction SilentlyContinue
+	}
+}
 function Dolphin_retroAchievementsSetLogin(){
+	Dolphin_ensureCheevosConfig
 	$ra = RA_getCredentials
 	# Dolphin usa booleanos capitalizados (True/False) en RetroAchievements.ini
 	$hc = if ("$($ra.Hardcore)" -ieq 'true') { 'True' } else { 'False' }
@@ -141,11 +149,13 @@ function Dolphin_retroAchievementsSetLogin(){
 	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
 }
 function Dolphin_retroAchievementsHardCoreOn(){
+	Dolphin_ensureCheevosConfig
 	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
 	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = True"
 	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
 }
 function Dolphin_retroAchievementsHardCoreOff(){
+	Dolphin_ensureCheevosConfig
 	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
 	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = False"
 	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
