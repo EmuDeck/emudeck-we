@@ -9,6 +9,12 @@ function createLauncher($ps1) {
   $ShortcutPathPs1 = "$toolsPath\launchers\$ps1.ps1"
   Copy-Item -Path $SourceFilePath -Destination $ShortcutPathPs1 -Force -ErrorAction SilentlyContinue
 
+  # Generamos un .bat que envuelve al .ps1. El acceso directo apunta a este .bat
+  # en lugar de a powershell.exe directamente, así Windows no lo oculta del menú de inicio.
+  $ShortcutPathBat = "$toolsPath\launchers\$ps1.bat"
+  $batContent = "@echo off`r`nstart """" /min powershell.exe -ExecutionPolicy Bypass -File ""$ShortcutPathPs1"""
+  Set-Content -Path $ShortcutPathBat -Value $batContent -Encoding ASCII -Force -ErrorAction SilentlyContinue
+
   $name = $ps1
 
   if ($name -like "*EmulationStationDE*") {
@@ -24,12 +30,11 @@ function createLauncher($ps1) {
 
   mkdir "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\" -ErrorAction SilentlyContinue
   $ShortcutPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\$name.lnk"
-  $TargetPath = "powershell.exe"
-  $Arguments = "-ExecutionPolicy Bypass -File $ShortcutPathPs1"
+  $TargetPath = $ShortcutPathBat
   $WScriptShell = New-Object -ComObject WScript.Shell
   $Shortcut = $WScriptShell.CreateShortcut($ShortcutPath)
   $Shortcut.TargetPath = $TargetPath
-  $Shortcut.Arguments = $Arguments
+  $Shortcut.WorkingDirectory = "$toolsPath\launchers"
   $Shortcut.WindowStyle = 7
 
   if ($name -eq "EmulationStationDE") {
