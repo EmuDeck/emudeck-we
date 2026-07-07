@@ -42,7 +42,6 @@ $combinedFileExtensions = @(
     $n3dsFileExtensions +
     $chdFileExtensions +
     $rvzFileExtensions +
-    $rvzFileExtensions +
     $csoFileExtensions +
     $xboxFileExtensions +
     $sevenzipFileExtensions
@@ -84,7 +83,7 @@ function Compress-CHD {
     # Ejecutar el comando chdman y verificar si es exitoso
     $chdmanResult = & $chdman5 createcd -i $file -o ($file -replace '\.[^.]+$', '.chd')
 
-    if ($chdmanResult -eq 0) {
+    if ($LASTEXITCODE -eq 0) {
         $successful = $true
     }
 
@@ -284,6 +283,29 @@ function Decompress-CHDISO {
     }
 }
 
+function Decompress-CHDCD {
+    param (
+        [string]$file
+    )
+
+    $successful = $false
+    $result = & $chdman5 extractcd -i $file -o ($file -replace '\.[^.]+$', '.cue')
+
+    if ($LASTEXITCODE -eq 0) {
+        $successful = $true
+    }
+
+    if ($successful) {
+        Write-Host "Decompressing $file to CUE/BIN using the extractcd flag."
+        Write-Host "$file successfully decompressed to $($file -replace '\.[^.]+$', '.cue')"
+        Remove-Item -Path $file -Force
+    } else {
+        Write-Host "Conversion of $file failed."
+        Remove-Item -Path ($file -replace '\.[^.]+$', '.cue') -Force -ErrorAction SilentlyContinue
+        Remove-Item -Path ($file -replace '\.[^.]+$', '.bin') -Force -ErrorAction SilentlyContinue
+    }
+}
+
 function Decompress-CSOISO {
     param (
         [string]$file
@@ -363,7 +385,7 @@ if ($compressionSelection -eq "Bulk Compression") {
     }
 
     # Verificar la existencia de herramientas antes de continuar
-    if ($flatpaktool) {
+    if (Test-Path $dolphintool) {
         foreach ($romfolder in $rvzfolderWhiteList) {
             Write-Host "Checking $romsPath\$romfolder\"
             $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.gcm, *.iso
@@ -445,7 +467,7 @@ if ($compressionSelection -eq "Bulk Compression") {
         if ($rvzfolderWhiteList -contains $romfolder) {
             Get-ChildItem "$romsPath\$romfolder" -Recurse -File -Include *.gcm, *.iso | ForEach-Object {
                 Write-Host "Converting: $_"
-                Compress-RVZ $_.FullName
+                Compress-RVZ $_.FullName $dolphintool
             }
         }
     }
@@ -453,7 +475,7 @@ if ($compressionSelection -eq "Bulk Compression") {
     # CSO Conversion
     foreach ($romfolder in $folderstoconvert) {
         if ($csofolderWhiteList -contains $romfolder) {
-            $pspBulkSelection = [System.Windows.Forms.MessageBox]::Show("Would you like to compress your PlayStation Portable ROM(s) to CSO or CHD?", "PSP Compression", [System.Windows.Forms.MessageBoxButtons]::YesNoCancel)
+            $pspBulkSelection = [System.Windows.Forms.MessageBox]::Show("Would you like to compress your PlayStation Portable ROM(s) to CSO or CHD?`n`nYes = CHD, No = CSO", "PSP Compression", [System.Windows.Forms.MessageBoxButtons]::YesNoCancel)
 
             if ($pspBulkSelection -eq [System.Windows.Forms.DialogResult]::Yes) {
                 Get-ChildItem "$romsPath\$romfolder" -Recurse -File -Include *.iso | ForEach-Object {
@@ -506,9 +528,189 @@ if ($compressionSelection -eq "Bulk Compression") {
 
 
 }elseif ($compressionSelection -eq "Bulk Decompression") {
-    echo "2"
-}elseif ($compressionSelection -eq "Select a Rom") {
-    echo "3"
+
+    Write-Host "Checking $romsPath for files eligible for decompression."
+
+    # CHD folders -> .chd
+    foreach ($romfolder in $chdfolderWhiteList) {
+        Write-Host "Checking $romsPath\$romfolder\"
+        $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.chd
+        if ($files.Count -gt 0) {
+            Write-Host "found in $romfolder"
+            $searchFolderList += $romfolder
+        }
+    }
+
+    # CSO folders -> .cso / .chd (PSP puede comprimirse a CSO o CHD)
+    foreach ($romfolder in $csofolderWhiteList) {
+        Write-Host "Checking $romsPath\$romfolder\"
+        $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.cso, *.chd
+        if ($files.Count -gt 0) {
+            Write-Host "found in $romfolder"
+            $searchFolderList += $romfolder
+        }
+    }
+
+    # RVZ folders -> .rvz
+    if (Test-Path $dolphintool) {
+        foreach ($romfolder in $rvzfolderWhiteList) {
+            Write-Host "Checking $romsPath\$romfolder\"
+            $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.rvz
+            if ($files.Count -gt 0) {
+                Write-Host "found in $romfolder"
+                $searchFolderList += $romfolder
+            }
+        }
+    }
+
+    if ($searchFolderList.Count -eq 0) {
+        confirmDialog -TitleText "EmuDeck" -MessageText "No suitable ROMs were found for decompression."
+        exit
+    }
+
+    $folderstoconvert = showListDialog 'Welcome to the EmuDeck Compression Tool' 'Which folders do you want to decompress?' $searchFolderList
+
+    foreach ($romfolder in $folderstoconvert) {
+        if ($chdfolderWhiteList -contains $romfolder) {
+            Get-ChildItem "$romsPath\$romfolder" -Recurse -File -Include *.chd | ForEach-Object {
+                if ($romfolder -eq 'ps2') {
+                    Write-Host "Decompressing: $_ using the extractdvd flag"
+                    Decompress-CHDISO $_.FullName
+                } else {
+                    Write-Host "Decompressing: $_ using the extractcd flag"
+                    Decompress-CHDCD $_.FullName
+                }
+            }
+        }
+        if ($csofolderWhiteList -contains $romfolder) {
+            Get-ChildItem "$romsPath\$romfolder" -Recurse -File -Include *.cso | ForEach-Object {
+                Write-Host "Decompressing: $_"
+                Decompress-CSOISO $_.FullName
+            }
+            Get-ChildItem "$romsPath\$romfolder" -Recurse -File -Include *.chd | ForEach-Object {
+                Write-Host "Decompressing: $_ using the extractdvd flag"
+                Decompress-CHDISO $_.FullName
+            }
+        }
+        if ($rvzfolderWhiteList -contains $romfolder) {
+            Get-ChildItem "$romsPath\$romfolder" -Recurse -File -Include *.rvz | ForEach-Object {
+                Write-Host "Decompressing: $_"
+                Decompress-RVZ $_.FullName $dolphintool
+            }
+        }
+    }
+
+}elseif ($compressionSelection -eq "Select a ROM") {
+
+    Add-Type -AssemblyName System.Windows.Forms
+
+    $dialog = New-Object System.Windows.Forms.OpenFileDialog
+    $dialog.Title = "Select a ROM to compress or decompress"
+    if (Test-Path $romsPath) { $dialog.InitialDirectory = $romsPath }
+    $dialog.Filter = "ROMs|*.gdi;*.cue;*.iso;*.gcm;*.chd;*.cso;*.rvz;*.3ds;*.7z;*.zip|All files (*.*)|*.*"
+
+    if ($dialog.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK) {
+        Write-Host "No file selected."
+        exit
+    }
+
+    $file = $dialog.FileName
+    $ext = [System.IO.Path]::GetExtension($file).TrimStart(".").ToLower()
+
+    # Averiguar la carpeta del sistema (primer segmento bajo $romsPath)
+    $romfolder = ''
+    if ($file.StartsWith($romsPath)) {
+        $relative = $file.Substring($romsPath.Length).TrimStart('\')
+        $romfolder = ($relative -split '\\')[0]
+    }
+    Write-Host "Selected: $file (system: $romfolder)"
+
+    # Si el archivo ya está comprimido, confirmar antes de descomprimir
+    if ($ext -in @("chd", "cso", "rvz")) {
+        $confirm = [System.Windows.Forms.MessageBox]::Show(
+            "The selected file is compressed and will be DECOMPRESSED:`n`n$file`n`nDo you want to continue?",
+            "Confirm decompression",
+            [System.Windows.Forms.MessageBoxButtons]::YesNo,
+            [System.Windows.Forms.MessageBoxIcon]::Warning)
+
+        if ($confirm -ne [System.Windows.Forms.DialogResult]::Yes) {
+            Write-Host "Decompression cancelled by user."
+            exit
+        }
+    }
+
+    switch ($ext) {
+        # --- Decompression ---
+        "chd" {
+            if ($romfolder -eq 'ps2' -or ($csofolderWhiteList -contains $romfolder)) {
+                Write-Host "Decompressing using the extractdvd flag"
+                Decompress-CHDISO $file
+            } else {
+                Write-Host "Decompressing using the extractcd flag"
+                Decompress-CHDCD $file
+            }
+        }
+        "cso" {
+            Decompress-CSOISO $file
+        }
+        "rvz" {
+            if (Test-Path $dolphintool) {
+                Decompress-RVZ $file $dolphintool
+            } else {
+                Write-Host "DolphinTool not found, cannot decompress RVZ."
+            }
+        }
+
+        # --- Compression ---
+        { $_ -in @("gdi", "cue") } {
+            Compress-CHD $file
+        }
+        "gcm" {
+            if (Test-Path $dolphintool) {
+                Compress-RVZ $file $dolphintool
+            } else {
+                Write-Host "DolphinTool not found, cannot convert to RVZ."
+            }
+        }
+        "3ds" {
+            Trim-3DS $file
+        }
+        "iso" {
+            if ($rvzfolderWhiteList -contains $romfolder) {
+                if (Test-Path $dolphintool) {
+                    Compress-RVZ $file $dolphintool
+                } else {
+                    Write-Host "DolphinTool not found, cannot convert to RVZ."
+                }
+            } elseif ($xboxfolderWhiteList -contains $romfolder) {
+                Compress-XISO $file
+            } elseif ($csofolderWhiteList -contains $romfolder) {
+                $pspSelection = [System.Windows.Forms.MessageBox]::Show("Would you like to compress your PlayStation Portable ROM to CSO or CHD?`n`nYes = CHD, No = CSO", "PSP Compression", [System.Windows.Forms.MessageBoxButtons]::YesNoCancel)
+                if ($pspSelection -eq [System.Windows.Forms.DialogResult]::Yes) {
+                    Compress-CHDDVDLowerHunk $file
+                } elseif ($pspSelection -eq [System.Windows.Forms.DialogResult]::No) {
+                    Compress-CSO $file
+                } else {
+                    Write-Host "Cancelled."
+                    exit
+                }
+            } else {
+                # CD/DVD systems del chdfolderWhiteList: ISO -> createdvd
+                Compress-CHDDVD $file
+            }
+        }
+        default {
+            if ($sevenzipFileExtensions -contains $ext) {
+                if (Get-Command "7za" -ErrorAction SilentlyContinue) {
+                    Compress-7Z $file
+                } else {
+                    Write-Host "7za not found, cannot compress $file."
+                }
+            } else {
+                Write-Host "Unsupported file type: .$ext"
+            }
+        }
+    }
 }
 
 echo "All files converted!"

@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -NoExit . $env:APPDATA\EmuDeck\backend\tools\chdconv\chddeck.ps1
