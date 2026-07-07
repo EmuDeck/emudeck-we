@@ -3,6 +3,7 @@ $Dolphin_emuType="FlatPak"
 $Dolphin_emuPath="org.DolphinEmu.dolphin-emu"
 $Dolphin_releaseURL=""
 $Dolphin_configFile="$emusPath\Dolphin-x64\User\Config\Dolphin.ini"
+$Dolphin_cheevosConfigFile="$emusPath\Dolphin-x64\User\Config\RetroAchievements.ini"
 
 function Dolphin_install(){
 	setMSG "Downloading Dolphin"
@@ -32,7 +33,10 @@ function Dolphin_init(){
 	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
 	Dolphin_setResolution $dolphinResolution
-
+	
+	if ("$achievementsUserToken" -ne "" ){
+		Dolphin_retroAchievementsSetLogin
+	}
 
 	if ( "$arDolphin" -eq 169 ){
 		Dolphin_wideScreenOn
@@ -123,6 +127,28 @@ function Dolphin_wideScreenOff(){
 
 	setSettingNoQuotes $configFile $wideScreenHack "False"
 	setSettingNoQuotes $configFile $AspectRatio "0"
+}
+function Dolphin_retroAchievementsSetLogin(){
+	$ra = RA_getCredentials
+	# Dolphin usa booleanos capitalizados (True/False) en RetroAchievements.ini
+	$hc = if ("$($ra.Hardcore)" -ieq 'true') { 'True' } else { 'False' }
+
+	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
+	$content = $content -replace '(?m)^Enabled\s*=.*$',         "Enabled = True"
+	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = $hc"
+	$content = $content -replace '(?m)^Username\s*=.*$',        "Username = $($ra.User)"
+	$content = $content -replace '(?m)^ApiToken\s*=.*$',        "ApiToken = $($ra.Token)"
+	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
+}
+function Dolphin_retroAchievementsHardCoreOn(){
+	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
+	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = True"
+	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
+}
+function Dolphin_retroAchievementsHardCoreOff(){
+	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
+	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = False"
+	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
 }
 function Dolphin_bezelOn(){
 	Write-Output "NYI"

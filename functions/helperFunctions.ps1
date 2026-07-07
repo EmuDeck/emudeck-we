@@ -1395,6 +1395,7 @@ function retroAchievementsLogin(){
   DuckStation_retroAchievementsSetLogin
   PCSX2QT_retroAchievementsSetLogin
   PPSSPP_retroAchievementsSetLogin
+  Dolphin_retroAchievementsSetLogin
 }
 
 function retroAchievementsHardCoreOn(){
@@ -1402,6 +1403,7 @@ function retroAchievementsHardCoreOn(){
   DuckStation_retroAchievementsHardCoreOn
   PCSX2QT_retroAchievementsHardCoreOn
   PPSSPP_retroAchievementsHardCoreOn
+  Dolphin_retroAchievementsHardCoreOn
 }
 
 function retroAchievementsHardCoreOff(){
@@ -1409,4 +1411,5 @@ function retroAchievementsHardCoreOff(){
   DuckStation_retroAchievementsHardCoreOff
   PCSX2QT_retroAchievementsHardCoreOff
   PPSSPP_retroAchievementsHardCoreOff
+  Dolphin_retroAchievementsHardCoreOff
 }
