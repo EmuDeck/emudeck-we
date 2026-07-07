@@ -1363,3 +1363,8 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
   startSteam "-silent"
 
 }
+
+function start_menu_reset {
+	  Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+	  Start-Process explorer.exe
+  }
