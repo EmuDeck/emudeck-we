@@ -112,3 +112,10 @@ function PCSX2QT_retroAchievementsSetLogin() {
 	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $($ra.User)`nToken = $($ra.Token)`nChallengeMode = $($ra.Hardcore)"
 	$content | Set-Content -Path $PCSX2QT_configFile -Encoding UTF8
 }
+
+function PCSX2QT_retroAchievementsHardCoreOn(){
+	setConfig 'ChallengeMode' 'true' "$PCSX2QT_configFile"
+}
+function PCSX2QT_retroAchievementsHardCoreOff(){
+	setConfig 'ChallengeMode' 'false' "$PCSX2QT_configFile"
+}

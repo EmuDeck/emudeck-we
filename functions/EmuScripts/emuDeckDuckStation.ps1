@@ -167,7 +167,13 @@ function DuckStation_encryptCheevosToken($token, $username){
 		$encToken = DuckStation_encryptCheevosToken $ra.Token $ra.User
 		$hc = "$($ra.Hardcore)".ToLower()
 		$content = Get-Content -Path $DuckStation_configFile -Raw
-		$content = $content -replace '(?s)(\[Cheevos\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $($ra.User)`nToken =
-  $encToken`nChallengeMode = $hc"
+		$content = $content -replace '(?s)(\[Cheevos\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $($ra.User)`nToken = $encToken`nChallengeMode = $hc"
 		$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
+  }
+
+  function DuckStation_retroAchievementsHardCoreOn(){
+		setConfig 'ChallengeMode' 'true' "$DuckStation_configFile"
+  }
+  function DuckStation_retroAchievementsHardCoreOff(){
+		setConfig 'ChallengeMode' 'false' "$DuckStation_configFile"
   }

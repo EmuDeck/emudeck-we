@@ -125,3 +125,10 @@ function PPSSPP_retroAchievementsSetLogin(){
 	$content | Set-Content -Path $PPSSP_configFile -Encoding UTF8
 	$ra.Token | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
 }
+
+function PPSSPP_retroAchievementsHardCoreOn(){
+	setConfig 'AchievementsChallengeMode' 'true' "$PPSSP_configFile"
+}
+function PPSSPP_retroAchievementsHardCoreOff(){
+	setConfig 'AchievementsChallengeMode' 'false' "$PPSSP_configFile"
+}
