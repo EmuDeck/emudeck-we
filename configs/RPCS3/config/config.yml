@@ -11,8 +11,10 @@ Core:
   Thread Scheduler Mode: Operating System
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
-  SPU Reservation Busy Waiting Percentage: 0
+  SPU Reservation Busy Waiting Percentage 1: 100
+  SPU Reservation Busy Waiting Enabled: false
   SPU GETLLAR Busy Waiting Percentage: 100
+  Disable SPU GETLLAR Spin Optimization: false
   SPU Debug: false
   MFC Debug: false
   Preferred SPU Threads: 0
@@ -20,28 +22,28 @@ Core:
   SPU loop detection: false
   Max SPURS Threads: 6
   SPU Block Size: Safe
-  Accurate GETLLAR: false
   Accurate SPU DMA: false
   Accurate SPU Reservations: true
   Accurate Cache Line Stores: false
   Accurate RSX reservation access: false
-  RSX FIFO Accuracy: Fast
+  PPU Reservation Priority Over SPUs: false
+  RSX FIFO Fetch Accuracy: Atomic
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
+  PPU Profiler: false
   MFC Commands Shuffling Limit: 0
   MFC Commands Timeout: 0
   MFC Commands Shuffling In Steps: false
-  Enable TSX: Disabled
-  XFloat Accuracy: Approximate
+  SPU XFloat Accuracy: Approximate
   Accurate PPU 128-byte Reservation Op Max Length: 0
   Stub PPU Traps: 0
-  Full Width AVX-512: false
+  Precise SPU Verification: false
   PPU LLVM Java Mode Handling: true
+  PPU Vector NaN Handling: true
   Use Accurate DFMA: true
   PPU Set Saturation Bit: false
   PPU Accurate Non-Java Mode: false
-  PPU Fixup Vector NaN Values: false
   PPU Accurate Vector NaN Values: false
   PPU Set FPCC Bits: false
   Debug Console Mode: false
@@ -50,14 +52,12 @@ Core:
   HLE lwmutex: false
   SPU LLVM Lower Bound: 0
   SPU LLVM Upper Bound: 18446744073709551615
-  TSX Transaction First Limit: 800
-  TSX Transaction Second Limit: 2000
   Clocks scale: 100
   SPU Wake-Up Delay: 0
   SPU Wake-Up Delay Thread Mask: 63
   Max CPU Preempt Count: 0
   Allow RSX CPU Preemptions: true
-  Sleep Timers Accuracy: As Host
+  Sleep Timers Accuracy: Usleep Only
   Usleep Time Addend: 0
   Performance Report Threshold: 500
   Enable Performance Report: false
@@ -75,15 +75,15 @@ Video:
   Frame limit: Auto
   Second Frame Limit: 0
   MSAA: Auto
-  Shader Mode: Async Shader Recompiler
+  Shader Mode: Async Recompiler with Shader Interpreter
   Shader Precision: High
+  VSync Mode: Disabled
   Write Color Buffers: false
   Write Depth Buffer: false
   Read Color Buffers: false
   Read Depth Buffer: false
   Handle RSX Memory Tiling: false
   Log shader programs: false
-  VSync: false
   Debug output: false
   Debug overlay: false
   Renderdoc Compatibility Mode: false
@@ -91,10 +91,12 @@ Video:
   Stretch To Display Area: false
   Force High Precision Z buffer: false
   Strict Rendering Mode: false
+  Framebuffer Aliasing Heuristic Bias: Auto
   Disable ZCull Occlusion Queries: false
   Disable Video Output: false
   Disable Vertex Cache: false
   Disable FIFO Reordering: false
+  Emulate Special Depth Comparison: false
   Enable Frame Skip: false
   Force CPU Blit: false
   Disable On-Disk Shader Cache: false
@@ -103,7 +105,10 @@ Video:
   Strict Texture Flushing: false
   Multithreaded RSX: false
   Relaxed ZCULL Sync: false
+  Force Hardware MSAA Resolve: false
+  3D Display Enabled: false
   3D Display Mode: Disabled
+  Screen size in inches: 24
   Debug Program Analyser: false
   Accurate ZCULL stats: true
   Consecutive Frames To Draw: 1
@@ -114,22 +119,25 @@ Video:
   Minimum Scalable Dimension: 16
   Shader Compiler Threads: 0
   Driver Recovery Timeout: 1000000
-  Driver Wake-Up Delay: 1
+  Driver Wake-Up Delay: 0
   Vblank Rate: 60
   Vblank NTSC Fixup: false
   DECR memory layout: false
   Allow Host GPU Labels: false
   Disable MSL Fast Math: false
+  Disable Asynchronous Memory Manager: false
   Output Scaling Mode: Bilinear
+  Record With Overlays: true
+  Disable Hardware ColorSpace Remapping: false
+  FidelityFX CAS Sharpening Intensity: 50
   Vulkan:
-    Adapter: AMD Radeon Graphics
-    Force FIFO present mode: false
+    Adapter: ""
     Force primitive restart flag: false
     Exclusive Fullscreen Mode: Automatic
-    Asynchronous Texture Streaming 2: false
-    FidelityFX CAS Sharpening Intensity: 50
+    Asynchronous Texture Streaming: false
     Asynchronous Queue Scheduler: Safe
     VRAM allocation limit (MB): 65536
+    Use Re-BAR for GPU uploads: true
   Performance Overlay:
     Enabled: false
     Enable Framerate Graph: false
@@ -143,8 +151,8 @@ Video:
     Font size (px): 10
     Position: Top Left
     Font: n023055ms.ttf
-    Horizontal Margin (px): 50
-    Vertical Margin (px): 50
+    Horizontal Margin (%): 4
+    Vertical Margin (%): 7
     Center Horizontally: false
     Center Vertically: false
     Opacity (%): 70
@@ -152,10 +160,14 @@ Video:
     Body Background (hex): "#002339FF"
     Title Color (hex): "#F26C24FF"
     Title Background (hex): "#00000000"
+    Use Window Space: false
   Shader Loading Dialog:
     Allow custom background: true
     Darkening effect strength: 30
     Blur effect strength: 0
+  Custom Anaglyph Matrices:
+    Matrix Left: {}
+    Matrix Right: {}
 Audio:
   Renderer: Cubeb
   Audio Provider: CellAudio
@@ -164,10 +176,11 @@ Audio:
   Convert to 16 bit: false
   Audio Format: Stereo
   Audio Formats: 0
+  Audio Channel Layout: Automatic
   Audio Device: "@@@default@@@"
   Master Volume: 100
   Enable Buffering: true
-  Desired Audio Buffer Duration: 100
+  Desired Audio Buffer Duration: 34
   Enable Time Stretching: false
   Disable Sampling Skip: false
   Time Stretching Threshold: 75
@@ -181,6 +194,7 @@ Input/Output:
   Camera type: Unknown
   Camera flip: None
   Camera ID: Default
+  SDL Camera ID: Default
   Move: "Null"
   Buzz emulated controller: "Null"
   Turntable emulated controller: "Null"
@@ -190,19 +204,27 @@ Input/Output:
   Pad handler sleep (microseconds): 1000
   Background input enabled: true
   Show move cursor: false
+  Paint move spheres: false
+  Allow move hue set by game: false
   Lock overlay input to player one: false
   Emulated Midi devices: Keyboardßßß@@@Keyboardßßß@@@Keyboardßßß@@@
   Load SDL GameController Mappings: true
+  Mouse-based gyro enabled: false
+  IO Debug overlay: false
+  Mouse Debug overlay: false
+  Fake Move Rotation Cone: 10
+  Fake Move Rotation Cone (Vertical): 10
 System:
   License Area: SCEA
   Language: English (US)
   Keyboard Type: English keyboard (US standard)
   Enter button assignment: Enter with cross
+  Date Format: ddmmyyyy
+  Time Format: clock24
   Console time offset (s): 0
-  PSID high: 0
-  PSID low: 0
   HDD Model Name: ""
   HDD Serial Number: ""
+  Process ARGV: {}
 Net:
   Internet enabled: Disconnected
   IP address: 0.0.0.0
@@ -210,25 +232,40 @@ Net:
   DNS address: 8.8.8.8
   IP swap list: ""
   UPNP Enabled: false
+  Derive MAC from PSID: false
   PSN status: Disconnected
+  PSN Country: us
+  Clans Enabled: false
 Savestate:
   Start Paused: false
   Suspend Emulation Savestate Mode: false
   Compatible Savestate Mode: false
   Inspection Mode Savestates: false
   Save Disc Game Data: false
+  Maximum SaveState Files: 4
+  Maximum SaveState Files Space (MiB): 4096
 Miscellaneous:
   Automatically start games after boot: true
-  Exit RPCS3 when process finishes: true
+  Exit RPCS3 when process finishes: false
   Pause emulation on RPCS3 focus loss: false
   Start games in fullscreen mode: true
   Prevent display sleep while running games: true
   Show trophy popups: true
-  Show shader compilation hint: true
+  Show RPCN popups: true
+  Show shader compilation hint: false
   Show PPU compilation hint: true
+  Show autosave/autoload hint: false
+  Show pressure intensity toggle hint: true
+  Show analog limiter toggle hint: true
+  Show mouse and keyboard toggle hint: true
+  Show fatal error hints: false
+  Show capture hints: true
   Use native user interface: true
+  Use recursive scan: false
   GDB Server: 127.0.0.1:2345
   Silence All Logs: false
   Window Title Format: "FPS: %F | %R | %V | %T [%t]"
   Pause Emulation During Home Menu: false
+  Play music during boot sequence: true
+  Enable GameMode: false
 Log: {}
