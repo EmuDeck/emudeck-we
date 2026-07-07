@@ -454,20 +454,28 @@ function SRM_deleteCache(){
 
 
 function SRM_checkParsers {
+	
 	$userSettings = "$toolsPath\userData\userSettings.json"
 	$steamDir = ""
 	if (Test-Path $userSettings) {
-		$settings = Get-Content $userSettings -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
-		$steamDir = $settings.environmentVariables.steamDirectory
+		try {
+			$settings = Get-Content $userSettings -Raw | ConvertFrom-Json
+			$steamDir = $settings.environmentVariables.steamDirectory
+		} catch {
+			$steamDir = ""
+		}
 	}
 	if ([string]::IsNullOrEmpty($steamDir)) {
-		Write-Host "Steam ROM Manager steamDirectory is empty, running SRM_init..."
+		Write-Host "Steam ROM Manager steamDirectory is empty or missing, running SRM_init..."
 		SRM_init
 	}
 
-	$userConfig = "$toolsPath\userData\userConfigurations.json"
-	$parsers = Get-Content $userConfig -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
 
+	$userConfig = "$toolsPath\userData\userConfigurations.json"
+	$parsers = $null
+	if (Test-Path $userConfig) {
+		try { $parsers = Get-Content $userConfig -Raw | ConvertFrom-Json } catch { $parsers = $null }
+	}
 	if (!$parsers -or $parsers.Count -eq 0) {
 		Write-Host "Steam ROM Manager has no parsers, restoring configuration..."
 		SRM_createParsers
