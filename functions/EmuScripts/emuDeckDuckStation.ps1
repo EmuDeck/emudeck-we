@@ -126,7 +126,8 @@ function DuckStation_wideScreenOff(){
 	setConfig "AspectRatio" "4:3" "$DuckStation_configFile"
 }
 function DuckStation_retroAchievementsSetLogin(){
+	$ra = RA_getCredentials
 	$content = Get-Content -Path $DuckStation_configFile -Raw
-	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $achievementsUser`nToken = $achievementsUserToken`nChallengeMode = $achievementsHardcore"
+	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Cheevos]`nEnabled = true`nUsername = $($ra.User)`nToken = $($ra.Token)`nChallengeMode = $($ra.Hardcore)"
 	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
 }

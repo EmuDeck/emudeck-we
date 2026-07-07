@@ -107,7 +107,8 @@ function PCSX2QT_resetConfig(){
 }
 
 function PCSX2QT_retroAchievementsSetLogin() {
+	$ra = RA_getCredentials
 	$content = Get-Content -Path $PCSX2QT_configFile -Raw
-	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $achievementsUser`nToken = $achievementsUserToken`nChallengeMode = $achievementsHardcore"
+	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $($ra.User)`nToken = $($ra.Token)`nChallengeMode = $($ra.Hardcore)"
 	$content | Set-Content -Path $PCSX2QT_configFile -Encoding UTF8
 }

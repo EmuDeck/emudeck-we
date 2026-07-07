@@ -1,3 +1,24 @@
+function RA_getCredentials(){
+	# Lee las credenciales de RetroAchievements directamente del settings.json
+	# (misma carpeta que settings.ps1) cada vez que se llama, para no depender
+	# de que JSONtoPS1 haya volcado antes los valores en settings.ps1.
+	$settingsJson = "$env:APPDATA\EmuDeck\settings.json"
+	$user     = ""
+	$token    = ""
+	$hardcore = "false"
+	if (Test-Path $settingsJson) {
+		$json = Get-Content $settingsJson -Raw | ConvertFrom-Json
+		$user     = $json.achievements.user
+		$token    = $json.achievements.token
+		$hardcore = $json.achievements.hardcore
+	}
+	return [PSCustomObject]@{
+		User     = $user
+		Token    = $token
+		Hardcore = $hardcore
+	}
+}
+
 function setSetting($old, $new){
 	$fileToCheck = "$emudeckFolder\settings.ps1"
 
@@ -1364,7 +1385,28 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
 
 }
 
-function start_menu_reset {
+function start_menu_reset(){
 	  Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
 	  Start-Process explorer.exe
   }
+  
+function retroAchievementsLogin(){
+  RetroArch_retroAchievementsSetLogin
+  DuckStation_retroAchievementsSetLogin
+  PCSX2QT_retroAchievementsSetLogin
+  PPSSPP_retroAchievementsSetLogin
+}
+
+function retroAchievementsHardCoreOn(){
+  RetroArch_retroAchievementsHardCoreOn
+  DuckStation_retroAchievementsHardCoreOn
+  PCSX2QT_retroAchievementsHardCoreOn
+  PPSSPP_retroAchievementsHardCoreOn
+}
+
+function retroAchievementsHardCoreOff(){
+  RetroArch_retroAchievementsHardCoreOff
+  DuckStation_retroAchievementsHardCoreOff
+  PCSX2QT_retroAchievementsHardCoreOff
+  PPSSPP_retroAchievementsHardCoreOff
+}

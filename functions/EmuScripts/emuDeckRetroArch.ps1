@@ -1898,8 +1898,9 @@ function RetroArch_retroAchievementsHardCoreOff(){
 }
 
 function RetroArch_retroAchievementsSetLogin(){
-	setConfigRA 'cheevos_token' $achievementsUserToken "$RetroArch_configFile"
-	setConfigRA 'cheevos_username' $achievementsUser "$RetroArch_configFile"
+	$ra = RA_getCredentials
+	setConfigRA 'cheevos_token' $ra.Token "$RetroArch_configFile"
+	setConfigRA 'cheevos_username' $ra.User "$RetroArch_configFile"
 	RetroArch_retroAchievementsOn
 }
 

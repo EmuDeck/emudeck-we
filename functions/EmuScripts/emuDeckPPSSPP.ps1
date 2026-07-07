@@ -119,8 +119,9 @@ function PPSSPP_resetConfig(){
 
 
 function PPSSPP_retroAchievementsSetLogin(){
+	$ra = RA_getCredentials
 	$content = Get-Content -Path $PPSSP_configFile -Raw
-	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $achievementsUser`nAchievementsChallengeMode = $achievementsHardcore"
-	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
-	$achievementsUserToken | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
+	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $($ra.User)`nAchievementsChallengeMode = $($ra.Hardcore)"
+	$content | Set-Content -Path $PPSSP_configFile -Encoding UTF8
+	$ra.Token | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
 }
