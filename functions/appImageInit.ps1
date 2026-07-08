@@ -44,6 +44,9 @@ function appImageInit(){
 	}
 
 
+	#Ryujinx SDL3
+	Ryujinx_migrateToSDL3 | Out-Null
+
 	#AutoFixes
 	mkdir "$emudeckFolder/feeds" -ErrorAction SilentlyContinue
 

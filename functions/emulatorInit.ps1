@@ -20,6 +20,16 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	# 	. $env:APPDATA\emudeck\settings.ps1
 	# }
 
+	$fixesFn = "$($emuName -replace '-','_')_launch_fixes"
+	if(Get-Command $fixesFn -ErrorAction SilentlyContinue){
+		Write-Output "Applying launch fixes: $fixesFn"
+		try {
+			& $fixesFn
+		} catch {
+			Write-Output "$fixesFn failed, continuing launch: $_"
+		}
+	}
+
 	if($formattedArgs){
 		#$formattedArgs += "`"$netplayCMD`""
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait -Args $formattedArgs
