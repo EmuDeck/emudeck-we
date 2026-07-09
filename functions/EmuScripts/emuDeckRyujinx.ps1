@@ -327,6 +327,7 @@ function Ryujinx_configIsSDL2($configFile){
 }
 
 function Ryujinx_migrateToSDL3(){
+	if((Ryujinx_IsInstalled) -ne "true"){ return $false }
 	if(-not (Ryujinx_configIsSDL2)){ return $false }
 
 	confirmDialog -TitleText "Ryujinx SDL3 Migration" -MessageText "Ryujinx will update itself now to fix controller detection issues"
