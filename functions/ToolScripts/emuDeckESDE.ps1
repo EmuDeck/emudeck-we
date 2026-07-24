@@ -338,3 +338,14 @@ function ESDE_addToSteam(){
 	setMSG "Adding $ESDE_toolName to Steam"
 	add_to_steam 'es-de' 'EmulationStationDE' "$toolsPath\launchers\esde\EmulationStationDE.ps1" "$esdePath" "$emudeckFolder\backend\tools\launchers\icons\EmulationStationDE.ico"
 }
+function ESDE_ensurePS3Emulators(){
+	$ps3Roms = "$romsPath\ps3"
+	$gamelist = "$esdePath\ES-DE\gamelists\ps3\gamelist.xml"
+	if(-Not (Test-Path $ps3Roms)){
+		return
+	}
+	generate_pythonEnv | Out-Null
+	$env:PS3_ROMS_DIR = $ps3Roms
+	$env:PS3_GAMELIST = $gamelist
+	python "$emudeckBackend\tools\esdePS3Emulators.py"
+}
