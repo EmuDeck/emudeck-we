@@ -2,8 +2,8 @@ $Xenia_configFile="${emusPath}\xenia\xenia-canary.config.toml"
 
 function Xenia_install(){
 	setMSG "Downloading Xenia"
-	$url_xenia = getLatestReleaseURLGH "xenia-canary/xenia-canary-releases" "zip"
-	download $url_xenia "xenia.zip"
+	$url_xenia = getLatestReleaseURLGH "xenia-canary/xenia-canary-releases" "7z" "windows"
+	download $url_xenia "xenia.7z"
 	moveFromTo "$temp/xenia" "$emusPath\xenia"
 	createLauncher "xenia"
 	Xenia_getPatches
