@@ -80,6 +80,7 @@ function Eden_setResolution($resolution){
 		"1080P" { $multiplier = 2; $docked="true"   }
 		"1440P" { $multiplier = 3;  $docked="false" }
 		"4K" { $multiplier = 3; $docked="true" }
+		default { $multiplier = 2; $docked="false" }
 	}
 
 	setConfig "resolution_setup" $multiplier "$emusPath\eden-windows-msvc\user\config\qt-config.ini"

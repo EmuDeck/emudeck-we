@@ -40,6 +40,9 @@ function Flycast_setupSaves(){
 function Flycast_setupStorage(){
 	Write-Output "NYI"
 }
+function Flycast_setResolution($resolution){
+	Write-Output "NYI"
+}
 function Flycast_wipe(){
 	Write-Output "NYI"
 }

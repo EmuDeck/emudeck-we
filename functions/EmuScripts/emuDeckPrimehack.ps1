@@ -53,14 +53,16 @@ function Primehack_setupSaves(){
 	$emuSavePath = "$emulationPath\saves\primehack\states"
 	createSaveLink $simLinkPath $emuSavePath
 }
-function Primehack_setResolution(){
+function Primehack_setResolution($resolution){
 	switch ( $resolution )
 	{
 		"720P" { $multiplier = 2 }
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
+		default { $multiplier = 2 }
 	}
+
 	setConfig "InternalResolution" $multiplier "$emusPath\primehack\User\Config\GFX.ini"
 }
 

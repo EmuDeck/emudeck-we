@@ -41,8 +41,8 @@ function melonDS_setResolution($resolution){
 		"1080P" { $WindowWidth = 1536; $WindowHeight = 1152 }
 		"1440P" { $WindowWidth = 2048; $WindowHeight = 1536 }
 		"4K" { $WindowWidth = 2816;  $WindowHeight = 2112 }
+		default { $WindowWidth = 1024; $WindowHeight = 768 }
 	}
-	$destination="$emusPath/melonDS"
 
 	setConfig "WindowWidth" $WindowWidth "$melonD_configFile"
 	setConfig "WindowHeight" $WindowHeight "$melonD_configFile"

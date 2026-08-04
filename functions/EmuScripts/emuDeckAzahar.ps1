@@ -35,6 +35,8 @@ function Azahar_init(){
 	Azahar_setupSaves
 
 	Azahar_migrate
+	
+	Azahar_setResolution $azaharResolution
 
 	ESDE_refreshCustomEmus
 
@@ -80,6 +82,7 @@ function Azahar_setResolution($resolution){
 		"1080P" { $multiplier = 5 }
 		"1440P" { $multiplier = 6 }
 		"4K" { $multiplier = 9 }
+		default { $multiplier = 3 }
 	}
 
 	setConfig "resolution_factor" $multiplier "$Azahar_configFile"

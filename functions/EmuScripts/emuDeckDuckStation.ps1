@@ -64,6 +64,7 @@ function DuckStation_setResolution($resolution){
 		"1080P" { $multiplier = 5 }
 		"1440P" { $multiplier = 6 }
 		"4K" { $multiplier = 9 }
+		default { $multiplier = 3 }
 	}
 
 	setConfig "ResolutionScale" $multiplier $DuckStation_configFile

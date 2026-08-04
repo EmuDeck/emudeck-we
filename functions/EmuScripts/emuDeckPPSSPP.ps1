@@ -45,7 +45,7 @@ function PPSSPP_init(){
 	}
 
 	PPSSPP_setupSaves
-	#PPSSPP_setResolution $ppssppResolution
+	PPSSPP_setResolution $ppssppResolution
 }
 function PPSSPP_update(){
 	Write-Output "NYI"
@@ -67,7 +67,16 @@ function PPSSPP_setupSaves(){
 
 }
 function PPSSPP_setResolution($resolution){
-	Write-Output $resolution
+	switch ( $resolution )
+	{
+		"720P" { $multiplier = 3 }
+		"1080P" { $multiplier = 4 }
+		"1440P" { $multiplier = 5 }
+		"4K" { $multiplier = 6 }
+		default { $multiplier = 3 }
+	}
+
+	setConfig "InternalResolution" $multiplier "$PPSSP_configFile"
 }
 function PPSSPP_setupStorage(){
 	Write-Output "NYI"

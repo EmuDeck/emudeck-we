@@ -71,7 +71,9 @@ function RPCS3_setResolution($resolution){
 		"1080P" { $res = "150"; }
 		"1440P" { $res = "200"; }
 		"4K" { $res = "300"; }
+		default { $res = "100"; }
 	}
+
 	$destination="$emusPath\RPCS3\config.yml"
 	setConfig "Resolution Scale:" $res $destination
 	#Fix setConfig =

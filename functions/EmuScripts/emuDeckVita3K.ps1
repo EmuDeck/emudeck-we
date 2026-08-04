@@ -13,6 +13,7 @@ function Vita3K_init(){
 	Vita3K_setEmulationFolder
 	Vita3K_setupStorage
 	Vita3K_setupSaves
+	Vita3K_setResolution $vita3kResolution
 	Vita3K_finalize
 }
 function Vita3K_update(){
@@ -30,6 +31,20 @@ function Vita3K_setupSaves(){
 function Vita3K_setupStorage(){
 	mkdir "$storagePath\Vita3K\ux0\app" -ErrorAction SilentlyContinue
 	createSymlink "$romsPath\psvita\InstalledGames" "$storagePath\Vita3K\ux0\app"
+}
+function Vita3K_setResolution($resolution){
+	switch ( $resolution )
+	{
+		"720P" { $multiplier = "1.25" }
+		"1080P" { $multiplier = "2" }
+		"1440P" { $multiplier = "2.75" }
+		"4K" { $multiplier = "4" }
+		default { $multiplier = "1.25" }
+	}
+
+	$resolutionOpt = 'resolution-multiplier: '
+	$resolutionOptSetting = "$resolutionOpt$multiplier"
+	changeLine "$resolutionOpt" "$resolutionOptSetting" "$Vita3K_configFile"
 }
 function Vita3K_wipe(){
 	Write-Output "NYI"

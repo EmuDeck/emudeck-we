@@ -55,6 +55,7 @@ function PCSX2QT_setResolution($resolution){
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
+		default { $multiplier = 2 }
 	}
 
 	setConfig "upscale_multiplier" $multiplier "$PCSX2QT_configFile"

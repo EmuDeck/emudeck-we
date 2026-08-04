@@ -30,7 +30,7 @@ function Xenia_setupSaves(){
 
 }
 function Xenia_setResolution($resolution){
-	Write-Output $resolution
+	Write-Output "NYI"
 }
 function Xenia_getPatches(){
   $patches_dir="$emusPath/xenia/patches"

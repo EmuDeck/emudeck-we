@@ -1138,24 +1138,26 @@ function setResolutions(){
 	. "$emudeckFolder\settings.ps1"
 	#Cemu_setResolution
 	Azahar_setResolution $azaharResolution
+	Citron_setResolution $citronResolution
 	Dolphin_setResolution $dolphinResolution
 	DuckStation_setResolution $duckstationResolution
+	Eden_setResolution $edenResolution
 	#Flycast_setResolution
 	#MAME_setResolution
 	melonDS_setResolution $melondsResolution
 	#mGBA_setResolution
 	PCSX2QT_setResolution $pcsx2Resolution
-	#PPSSPP_setResolution
-	#Primehack_setResolution
+	PPSSPP_setResolution $ppssppResolution
+	Primehack_setResolution $dolphinResolution
 	#RetroArch_setResolution
 	RPCS3_setResolution $rpcs3Resolution
-	Ryujinx_setResolution $yuzuResolution
+	Ryujinx_setResolution $ryujinxResolution
 	#ScummVM_setResolution
 	#SuperModel_setResolution
 	#Template_setResolution
-	#Vita3K_setResolution
-	#Xemu_setResolution $xemuResolution
-	#Xenia_setResolution $xeniaResolution
+	Vita3K_setResolution $vita3kResolution
+	Xemu_setResolution $xemuResolution
+	Xenia_setResolution $xeniaResolution
 	Yuzu_setResolution $yuzuResolution
 }
 

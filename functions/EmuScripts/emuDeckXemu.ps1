@@ -15,7 +15,7 @@ function Xemu_init(){
 	Xemu_setupStorage
 	Xemu_setCustomizations
 	Xemu_setupSaves
-	#Xemu_setResolution $xemuResolution
+	Xemu_setResolution $xemuResolution
 }
 function Xemu_update(){
 	Write-Output "NYI"
@@ -28,7 +28,18 @@ function Xemu_setupSaves(){
 	createSaveLink $simLinkPath $emuSavePath
 }
 function Xemu_setResolution($resolution){
-	Write-Output $resolution
+	switch ( $resolution )
+	{
+		"720P" { $multiplier = 1 }
+		"1080P" { $multiplier = 2 }
+		"1440P" { $multiplier = 3 }
+		"4K" { $multiplier = 5 }
+		default { $multiplier = 1 }
+	}
+
+	$surfaceScale = 'surface_scale = '
+	$surfaceScaleSetting = "$surfaceScale$multiplier"
+	changeLine "$surfaceScale" "$surfaceScaleSetting" "$Xemu_configFile"
 }
 function Xemu_setupStorage(){
 	mkdir "$storagePath\xemu" -ErrorAction SilentlyContinue

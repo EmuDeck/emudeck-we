@@ -81,6 +81,7 @@ function Dolphin_setResolution($resolution){
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
+		default { $multiplier = 2 }
 	}
 
 	setConfig "InternalResolution" $multiplier "$emusPath\Dolphin-x64\User\Config\GFX.ini"

@@ -259,6 +259,12 @@ function JSONtoPS1(){
 	$xemuResolution = $myJson.resolutions.xemu
 	$xeniaResolution = $myJson.resolutions.xenia
 	$melondsResolution = $myJson.resolutions.melonds
+	$edenResolution = $myJson.resolutions.yuzu
+	$citronResolution = $myJson.resolutions.yuzu
+	$ryujinxResolution = $myJson.resolutions.yuzu
+	$flycastResolution = $myJson.resolutions.flycast
+	$vita3kResolution = $myJson.resolutions.vita3k
+	$cemuResolution = $myJson.resolutions.cemu
 
 
 	setSettinginFile("`$dolphinResolution=`"$dolphinResolution`"")
@@ -271,6 +277,12 @@ function JSONtoPS1(){
 	setSettinginFile("`$xemuResolution=`"$xemuResolution`"")
 	setSettinginFile("`$xeniaResolution=`"$xeniaResolution`"")
 	setSettinginFile("`$melondsResolution=`"$melondsResolution`"")
+	setSettinginFile("`$edenResolution=`"$edenResolution`"")
+	setSettinginFile("`$citronResolution=`"$citronResolution`"")
+	setSettinginFile("`$ryujinxResolution=`"$ryujinxResolution`"")
+	setSettinginFile("`$flycastResolution=`"$flycastResolution`"")
+	setSettinginFile("`$vita3kResolution=`"$vita3kResolution`"")
+	setSettinginFile("`$cemuResolution=`"$cemuResolution`"")
 
 	#Emus Parsers
 	$emuGBA = $myJson.emulatorAlternative.gba

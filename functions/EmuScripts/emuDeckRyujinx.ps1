@@ -82,11 +82,18 @@ function Ryujinx_setResolution($resolution){
 		"1080P" { $multiplier = 1; $docked="true"   }
 		"1440P" { $multiplier = 2;  $docked="false" }
 		"4K" { $multiplier = 2; $docked="true" }
+		default { $multiplier = 1; $docked="false" }
 	}
 
-	$jsonConfig = Get-Content -Path "$emusPath\Ryujinx\portable\Config.json" | ConvertFrom-Json
-	$jsonConfig.docked_mode = $docked
-	$jsonConfig.res_scale = $multiplier
+	$configPath = "$emusPath\Ryujinx\portable\Config.json"
+	if ( -not (Test-Path -Path $configPath) ){
+		return
+	}
+
+	$jsonConfig = Get-Content -Path $configPath -Raw | ConvertFrom-Json
+	$jsonConfig.docked_mode = [System.Convert]::ToBoolean($docked)
+	$jsonConfig.res_scale = [int]$multiplier
+	$jsonConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $configPath -Encoding UTF8
 }
 function Ryujinx_setupStorage(){
 	Write-Output "NYI"
