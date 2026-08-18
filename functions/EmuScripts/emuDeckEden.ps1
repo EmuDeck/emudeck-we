@@ -28,7 +28,7 @@ function Eden_init(){
 	Eden_setupStorage
 	Eden_setupSaves
 	Eden_setResolution $edenResolution
-	createLauncher "Eden"
+	createLauncher "eden"
 
 	ESDE_refreshCustomEmus
 
