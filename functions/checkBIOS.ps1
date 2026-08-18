@@ -161,3 +161,21 @@ function checkCitronBios(){
 		Write-Host "false"
 	}
 }
+
+function checkEdenBios() {
+    $keys = "$emusPath\eden-windows-msvc\user\keys\prod.keys"
+    $firmware = "$emusPath\eden-windows-msvc\user\nand\system\Contents\registered"
+
+    $keysExist = Test-Path -Path $keys -PathType Leaf
+    $firmwareExists = Test-Path -Path $firmware -PathType Container
+    $hasFirmware = $firmwareExists -and (
+        (Get-ChildItem -Path $firmware -Recurse -File -ErrorAction SilentlyContinue |
+            Measure-Object).Count -gt 0
+    )
+
+    if ($keysExist -and $hasFirmware) {
+        Write-Output "true"
+    } else {
+        Write-Output "false"
+    }
+}
