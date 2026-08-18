@@ -126,7 +126,8 @@ function Eden_finalize(){
 	Write-Output "NYI"
 }
 function Eden_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\eden-windows-msvc"
+	$test = Test-Path -Path "$emusPath\eden-windows-msvc\eden.exe" -PathType Leaf
+
 	if($test){
 		Write-Output "true"
 	}else{
