@@ -255,6 +255,12 @@ def import_emudeck(items, origin):
         return 1
 
     backup_origin = os.path.join(origin, "EmuDeckBackup")
+    if not backup_origin or not os.path.isdir(backup_origin):
+        log_to_frontend(json.dumps({"key": "importExport.invalidOrigin",
+                                "params": {"path": backup_origin or ""},
+                                "percentage": 100, "finished": True}))
+        return 1
+    
     selected = json.loads(items)
 
     if not any(selected.values()):
