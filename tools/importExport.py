@@ -136,7 +136,7 @@ def copy_with_robocopy(action, item, origin, destination, rsyncParams):
         total += len(filenames)
 
     command = ["robocopy", origin.rstrip("\\/"), destination.rstrip("\\/"),
-               "/E", "/NJH", "/NJS", "/NDL", "/NC", "/NS", "/NP", "/R:1", "/W:1"]
+               "/S", "/NJH", "/NJS", "/NDL", "/NC", "/NS", "/NP", "/R:1", "/W:1"]
     if excludes:
         command.append("/XF")
         command.extend(excludes)
