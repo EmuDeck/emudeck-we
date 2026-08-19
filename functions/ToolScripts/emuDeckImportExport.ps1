@@ -15,6 +15,6 @@ function export_emudeck($items, $destination) {
 }
 
 function get_locations() {
-	generate_pythonEnv | Out-Null
+	generate_pythonEnv *> $null
 	python "$emudeckBackend\tools\importExport.py" get_locations
 }
