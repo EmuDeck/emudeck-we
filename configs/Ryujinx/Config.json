@@ -206,7 +206,7 @@
   ],
   "allow_duplicate_device_assignment": false,
   "rainbow_speed": 1,
-  "graphics_backend": 2,
+  "graphics_backend": "Vulkan",
   "preferred_gpu": null,
   "multiplayer_mode": 0,
   "multiplayer_lan_interface_id": "0",
