@@ -16,6 +16,9 @@ ESDEscrapData = os.environ.get("ESDEscrapData")
 
 PERCENT_RE = re.compile(r"(\d+)%")
 
+WINDOWS_NESTED_ROMS = ("wiiu", "xbox360")
+KEEP_AT_SYSTEM_LEVEL = ("media", "xbla")
+
 #OK
 def log_to_frontend(payload):
     port = int(os.environ.get("EMUDECK_BACKEND_PORT") or 8099)    
@@ -216,6 +219,30 @@ def rsync_progress(action, item, origin, destination, rsyncParams=""):
                               "percentage": 100, "finished": False}))
     return 0
 
+def fix_windows_roms_layout(romsPath, nested):
+    for name in WINDOWS_NESTED_ROMS:
+        systemPath = os.path.join(romsPath, name)
+        if not os.path.isdir(systemPath):
+            continue
+
+        nestedPath = os.path.join(systemPath, "roms")
+
+        if nested:
+            entries = [entry for entry in os.listdir(systemPath)
+                       if entry != "roms" and entry not in KEEP_AT_SYSTEM_LEVEL]
+            if not entries:
+                continue
+            os.makedirs(nestedPath, exist_ok=True)
+            for entry in entries:
+                shutil.move(os.path.join(systemPath, entry), os.path.join(nestedPath, entry))
+        else:
+            if not os.path.isdir(nestedPath):
+                continue
+            for entry in os.listdir(nestedPath):
+                shutil.move(os.path.join(nestedPath, entry), os.path.join(systemPath, entry))
+            os.rmdir(nestedPath)
+
+
 # Pendiente
 def import_emudeck(items, origin):
     failed = 0
@@ -280,6 +307,8 @@ def import_emudeck(items, origin):
                               "--exclude=*.txt") != 0:
                 failed = 1
                 failedItems.append("roms")
+            elif system.startswith("win"):
+                fix_windows_roms_layout(os.path.join(emulationPath, "roms"), False)
 
     if failed == 0:
         log_to_frontend(json.dumps({"key": "importExport.importFinished", "params": {},
@@ -353,6 +382,8 @@ def export_emudeck(items, destination):
                               os.path.join(backup_destination, "roms"), "-L --exclude=*.txt") != 0:
                 failed = 1
                 failedItems.append("roms")
+            elif system.startswith("win"):
+                fix_windows_roms_layout(os.path.join(backup_destination, "roms"), True)
 
     if failed == 0:
         log_to_frontend(json.dumps({"key": "importExport.exportFinished", "params": {},
