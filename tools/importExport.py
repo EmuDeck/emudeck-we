@@ -82,9 +82,11 @@ def get_locations():
             import ctypes
 
             driveType = ctypes.windll.kernel32.GetDriveTypeW(ctypes.c_wchar_p(mount))
+            if driveType not in (2, 3, 4):
+                continue
             buffer = ctypes.create_unicode_buffer(261)
             ctypes.windll.kernel32.GetVolumeInformationW(
-                ctypes.c_wchar_p(mount), buffer, ctypes.sizeof(buffer), None, None, None, None, 0)
+                ctypes.c_wchar_p(mount), buffer, len(buffer), None, None, None, None, 0)
             label = (buffer.value or "").strip() or "No label"
             if driveType == 2:
                 name, driveKind = "SD Card", "External"
