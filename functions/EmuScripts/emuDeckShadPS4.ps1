@@ -36,6 +36,12 @@ function ShadPS4_update(){
 function ShadPS4_setEmulationFolder(){
 	sedFile "$ShadPS4_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile "$ShadPS4_configFile" "\" "/"
+	
+	mkdir "$biosPath\shadps4\sys_modules"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$ShadPS4_dir\sys_modules"
+	$emuBiosPath = "$biosPath\shadps4\sys_modules"
+	createSaveLink $simLinkPath $emuBiosPath
+	
 }
 function ShadPS4_setResolution($resolution){
 	echo "NYI"
