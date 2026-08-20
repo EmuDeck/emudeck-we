@@ -29,8 +29,8 @@ function Azahar_init(){
 
 	mkdir "$emusPath\azahar\user\sysdata"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\azahar\user\sysdata"
-	$emuSavePath = "$biosPath\azahar"
-	createSaveLink $simLinkPath $emuSavePath
+	$emuBiosPath = "$biosPath\azahar\keys"
+	createSaveLink $simLinkPath $emuBiosPath
 
 	Azahar_setupSaves
 
