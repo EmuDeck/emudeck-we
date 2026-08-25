@@ -3,6 +3,10 @@ function import_emudeck($items, $origin) {
 	$env:emulationPath = $emulationPath
 	$env:ESDEscrapData = $ESDEscrapData
 	$items = $items.Replace('"', '\"')
+	#New gamelist folder location
+	mkdir "$esdePath\ES-DE\gamelists"  -ErrorAction SilentlyContinue
+	createSaveLink "$esdePath\ES-DE\gamelists" "$storagePath/es-de/gamelists"
+	
 	python "$emudeckBackend\tools\importExport.py" import_emudeck "$items" "$origin"
 	return $LASTEXITCODE
 }
@@ -12,6 +16,10 @@ function export_emudeck($items, $destination) {
 	$env:emulationPath = $emulationPath
 	$env:ESDEscrapData = $ESDEscrapData
 	$items = $items.Replace('"', '\"')
+	#New gamelist folder location
+	mkdir "$esdePath\ES-DE\gamelists"  -ErrorAction SilentlyContinue
+	createSaveLink "$esdePath\ES-DE\gamelists" "$storagePath/es-de/gamelists"
+	
 	python "$emudeckBackend\tools\importExport.py" export_emudeck "$items" "$destination"
 	return $LASTEXITCODE
 }

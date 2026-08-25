@@ -3,12 +3,20 @@ function ESDE_install(){
 	
 	#Fixes for ESDE warning message
 	if ( ESDE_IsInstalled -like "*true*" ){
-		if (Test-Path -Path "$esdePath\ES-DE\gamelists") {
-			moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
+		$gamelistsPath = "$esdePath\ES-DE\gamelists"
+		
+		if ((Test-Path -Path $gamelistsPath -PathType Container) -and
+			-not (Get-Item $gamelistsPath -Force).Attributes.HasFlag([IO.FileAttributes]::ReparsePoint)) {
+			createSaveLink $gamelistsPath "$storagePath/es-de/gamelists"
 		}
-		if (Test-Path -Path "$esdePath\.emulationstation\gamelists") {
-			moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		
+		$gamelistsPath = "$esdePath\.emulationstation\gamelists"
+		
+		if ((Test-Path -Path $gamelistsPath -PathType Container) -and
+			-not (Get-Item $gamelistsPath -Force).Attributes.HasFlag([IO.FileAttributes]::ReparsePoint)) {
+			createSaveLink $gamelistsPath "$storagePath/es-de/gamelists"
 		}
+
 		ESDE_uninstall
 		$doInit="true"
 	}
@@ -77,14 +85,9 @@ function ESDE_init(){
 		Write-Output "EmulationStation-DE config directory successfully migrated and linked."
 	}
 
-
-	if(Test-Path "$esdePath\ES-DE\gamelists"){
-		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
-	}
-
-	if(Test-Path "$esdePath\.emulationstation\gamelists"){
-		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
-	}
+	mkdir "$esdePath\ES-DE\gamelists"  -ErrorAction SilentlyContinue
+	createSaveLink "$esdePath\ES-DE\gamelists" "$storagePath/es-de/gamelists"
+	
 	#We reset ESDE system files
 	#Copy-Item "$esdePath/resources/systems/windows/es_systems.xml.bak" -Destination "$esdePath/resources/systems/windows/es_systems.xml" -ErrorAction SilentlyContinue
 	#Copy-Item "$esdePath/resources/systems/windows/es_find_rules.xml.bak" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml" -ErrorAction SilentlyContinue
