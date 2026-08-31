@@ -6,9 +6,9 @@ function PCSX2QT_install(){
 	setMSG "Downloading PCSX2"
 	$url_pcsx2 = getReleaseURLGH "pcsx2/pcsx2" "7z" "windows" "symbols"
 	download $url_pcsx2 "pcsx2.7z"
+	Rename-Item -Path "$temp\pcsx2" -NewName "pcsx2-qtx64.exe" -ErrorAction SilentlyContinue
 	moveFromTo "$temp\pcsx2" "$emusPath\PCSX2-Qt"
-	Remove-Item -Recurse -Force $temp\pcsx2 -ErrorAction SilentlyContinue
-	Rename-Item -Path "$emusPath\PCSX2-Qt\pcsx2-qt.exe" -NewName "pcsx2-qtx64.exe" -ErrorAction SilentlyContinue
+	Remove-Item -Recurse -Force $temp\pcsx2 -ErrorAction SilentlyContinue	
 	createLauncher "pcsx2"
 }
 function PCSX2QT_init(){
