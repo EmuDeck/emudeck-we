@@ -18,6 +18,9 @@ function melonDS_init(){
 	sedFile "$melonD_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile "$melonD_configFile" "\" "/"
 
+	sedFile "$melonD_resolutionFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile "$melonD_resolutionFile" "\" "/"
+
 	melonDS_setupSaves
 	melonDS_setResolution $melondsResolution
 }

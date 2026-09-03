@@ -61,7 +61,7 @@ function setSettingNoQuotes($file, $old, $new){
 	}
 }
 
- function setConfig($old, $new, $fileToCheck){
+ function setConfig($old, $new, $fileToCheck, $section = $null) {
 
 	$fileContents = Get-Content $fileToCheck
 

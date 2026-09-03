@@ -1,7 +1,7 @@
 RecentROM = []
 SlowmoFPS = 30.0
 TargetFPS = 60.0
-LastROMFolder = "C:/Emulation/roms/ds"
+LastROMFolder = "/run/media/mmcblk0p1/Emulation/roms/ds"
 FastForwardFPS = 1000.0
 UITheme = ""
 AudioSync = false
@@ -10,9 +10,9 @@ PauseLostFocus = false
 
 [Instance0]
 JoystickID = 0
-SavestatePath = "C:/Emulation/saves/melonDS/states"
-SaveFilePath = "C:/Emulation/saves/melonDS/saves"
-CheatFilePath = "C:/Emulation/storage/melonDS/cheats"
+SavestatePath = "/run/media/mmcblk0p1/Emulation/saves/melonDS/states"
+SaveFilePath = "/run/media/mmcblk0p1/Emulation/saves/melonDS/saves"
+CheatFilePath = "/run/media/mmcblk0p1/Emulation/storage/melonDS/cheats"
 EnableCheats = false
 
 [Instance0.Window2]
@@ -178,15 +178,15 @@ DirectBoot = true
 ConsoleType = 0
 
 [DS]
-FirmwarePath = "C:/Emulation/bios/firmware.bin"
-BIOS7Path = "C:/Emulation/bios/bios7.bin"
-BIOS9Path = "C:/Emulation/bios/bios9.bin"
+FirmwarePath = "/run/media/mmcblk0p1/Emulation/bios/firmware.bin"
+BIOS7Path = "/run/media/mmcblk0p1/Emulation/bios/bios7.bin"
+BIOS9Path = "/run/media/mmcblk0p1/Emulation/bios/bios9.bin"
 
 [DSi]
-FirmwarePath = "C:/Emulation/bios/dsi_firmware.bin"
-NANDPath = "C:/Emulation/bios/dsi_nand.bin"
-BIOS7Path = "C:/Emulation/bios/dsi_bios7.bin"
-BIOS9Path = "C:/Emulation/bios/dsi_bios9.bin"
+FirmwarePath = "/run/media/mmcblk0p1/Emulation/bios/dsi_firmware.bin"
+NANDPath = "/run/media/mmcblk0p1/Emulation/bios/dsi_nand.bin"
+BIOS7Path = "/run/media/mmcblk0p1/Emulation/bios/dsi_bios7.bin"
+BIOS9Path = "/run/media/mmcblk0p1/Emulation/bios/dsi_bios9.bin"
 
 [DSi.Camera1]
 DeviceName = ""
