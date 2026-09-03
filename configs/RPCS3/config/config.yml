@@ -4,9 +4,8 @@ Core:
   PPU Debug: false
   PPU Calling History: false
   Save LLVM logs: false
-  Use LLVM CPU: ""
+  Use LLVM CPU: ''
   Max LLVM Compile Threads: 0
-  PPU LLVM Greedy Mode: false
   LLVM Precompilation: true
   Thread Scheduler Mode: Operating System
   Set DAZ and FTZ: false
@@ -39,7 +38,6 @@ Core:
   Accurate PPU 128-byte Reservation Op Max Length: 0
   Stub PPU Traps: 0
   Precise SPU Verification: false
-  PPU LLVM Java Mode Handling: true
   PPU Vector NaN Handling: true
   Use Accurate DFMA: true
   PPU Set Saturation Bit: false
@@ -131,8 +129,7 @@ Video:
   Disable Hardware ColorSpace Remapping: false
   FidelityFX CAS Sharpening Intensity: 50
   Vulkan:
-    Adapter: ""
-    Force primitive restart flag: false
+    Adapter: ''
     Exclusive Fullscreen Mode: Automatic
     Asynchronous Texture Streaming: false
     Asynchronous Queue Scheduler: Safe
@@ -156,10 +153,10 @@ Video:
     Center Horizontally: false
     Center Vertically: false
     Opacity (%): 70
-    Body Color (hex): "#FFE138FF"
-    Body Background (hex): "#002339FF"
-    Title Color (hex): "#F26C24FF"
-    Title Background (hex): "#00000000"
+    Body Color (hex): '#FFE138FF'
+    Body Background (hex): '#002339FF'
+    Title Color (hex): '#F26C24FF'
+    Title Background (hex): '#00000000'
     Use Window Space: false
   Shader Loading Dialog:
     Allow custom background: true
@@ -177,28 +174,28 @@ Audio:
   Audio Format: Stereo
   Audio Formats: 0
   Audio Channel Layout: Automatic
-  Audio Device: "@@@default@@@"
+  Audio Device: '@@@default@@@'
   Master Volume: 100
   Enable Buffering: true
   Desired Audio Buffer Duration: 34
   Enable Time Stretching: false
   Disable Sampling Skip: false
   Time Stretching Threshold: 75
-  Microphone Type: "Null"
-  Microphone Devices: "@@@@@@@@@@@@"
+  Microphone Type: 'Null'
+  Microphone Devices: '@@@@@@@@@@@@'
   Music Handler: Qt
 Input/Output:
-  Keyboard: "Null"
+  Keyboard: 'Null'
   Mouse: Basic
-  Camera: "Null"
+  Camera: 'Null'
   Camera type: Unknown
   Camera flip: None
   Camera ID: Default
   SDL Camera ID: Default
-  Move: "Null"
-  Buzz emulated controller: "Null"
-  Turntable emulated controller: "Null"
-  GHLtar emulated controller: "Null"
+  Move: 'Null'
+  Buzz emulated controller: 'Null'
+  Turntable emulated controller: 'Null'
+  GHLtar emulated controller: 'Null'
   Pad handler mode: Single-threaded
   Keep pads connected: false
   Pad handler sleep (microseconds): 1000
@@ -222,15 +219,15 @@ System:
   Date Format: ddmmyyyy
   Time Format: clock24
   Console time offset (s): 0
-  HDD Model Name: ""
-  HDD Serial Number: ""
+  HDD Model Name: ''
+  HDD Serial Number: ''
   Process ARGV: {}
 Net:
   Internet enabled: Disconnected
   IP address: 0.0.0.0
   Bind address: 0.0.0.0
   DNS address: 8.8.8.8
-  IP swap list: ""
+  IP swap list: ''
   UPNP Enabled: false
   Derive MAC from PSID: false
   PSN status: Disconnected
@@ -264,7 +261,7 @@ Miscellaneous:
   Use recursive scan: false
   GDB Server: 127.0.0.1:2345
   Silence All Logs: false
-  Window Title Format: "FPS: %F | %R | %V | %T [%t]"
+  Window Title Format: 'FPS: %F | %R | %V | %T [%t]'
   Pause Emulation During Home Menu: false
   Play music during boot sequence: true
   Enable GameMode: false

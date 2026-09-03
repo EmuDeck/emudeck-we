@@ -85,7 +85,7 @@ function Azahar_setResolution($resolution){
 		default { $multiplier = 3 }
 	}
 
-	setConfig "resolution_factor" $multiplier "$Azahar_configFile"
+	setConfig "resolution_factor" $multiplier "$Azahar_configFile" "Renderer"
 }
 
 function Azahar_wipe(){

@@ -1,4 +1,4 @@
-$RPCS3_configFile="$emusPath\RPCS3\config.yml"
+$RPCS3_configFile = "$emusPath\RPCS3\config\config.yml"
 
 function RPCS3_install(){
 	setMSG "Downloading RPCS3"
@@ -74,10 +74,8 @@ function RPCS3_setResolution($resolution){
 		default { $res = "100"; }
 	}
 
-	$destination="$emusPath\RPCS3\config.yml"
-	setConfig "Resolution Scale:" $res $destination
-	#Fix setConfig =
-	sedFile $destination "Resolution Scale:=" "  Resolution Scale: "
+	setConfig "Resolution Scale:" $res $RPCS3_configFile
+    sedFile $RPCS3_configFile "Resolution Scale:=" "  Resolution Scale: "
 }
 
 function RPCS3_setupSaves(){

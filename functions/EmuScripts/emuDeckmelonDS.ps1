@@ -1,4 +1,5 @@
 $melonD_configFile="$emusPath\melonDS\melonDS.ini"
+$melonD_resolutionFile="$emusPath\melonDS\melonDS.toml"
 
 function melonDS_install(){
 	setMSG "Downloading melonDS"
@@ -17,6 +18,9 @@ function melonDS_init(){
 	sedFile "$melonD_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile "$melonD_configFile" "\" "/"
 
+	sedFile "$melonD_resolutionFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile "$melonD_resolutionFile" "\" "/"
+
 	melonDS_setupSaves
 	melonDS_setResolution $melondsResolution
 }
@@ -34,21 +38,19 @@ function melonDS_setupSaves(){
 	#cloud_sync_save_hash "$savesPath\melonds"
 }
 
-function melonDS_setResolution($resolution){
-	switch ( $resolution )
-	{
-		"720P" { $WindowWidth = 1024; $WindowHeight = 768 }
-		"1080P" { $WindowWidth = 1536; $WindowHeight = 1152 }
-		"1440P" { $WindowWidth = 2048; $WindowHeight = 1536 }
-		"4K" { $WindowWidth = 2816;  $WindowHeight = 2112 }
-		default { $WindowWidth = 1024; $WindowHeight = 768 }
-	}
+function melonDS_setResolution($resolution) {
+    switch ($resolution) {
+        "720P"  { $WindowWidth = 1024; $WindowHeight = 768;  $scale = 4 }
+        "1080P" { $WindowWidth = 1536; $WindowHeight = 1152; $scale = 6 }
+        "1440P" { $WindowWidth = 2048; $WindowHeight = 1536; $scale = 8 }
+        "4K"    { $WindowWidth = 2816; $WindowHeight = 2112; $scale = 11 }
+        default { $WindowWidth = 1024; $WindowHeight = 768;  $scale = 4 }
+    }
 
-	setConfig "WindowWidth" $WindowWidth "$melonD_configFile"
-	setConfig "WindowHeight" $WindowHeight "$melonD_configFile"
+    setConfig "WindowWidth" $WindowWidth $melonD_configFile
+    setConfig "WindowHeight" $WindowHeight $melonD_configFile
+    setConfig "ScaleFactor" $scale $melonD_resolutionFile "3D.GL"
 }
-
-
 
 function melonDS_setupStorage(){
 	Write-Output "true"
