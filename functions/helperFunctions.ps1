@@ -64,7 +64,40 @@ function setSettingNoQuotes($file, $old, $new){
  function setConfig($old, $new, $fileToCheck){
 
 	$fileContents = Get-Content $fileToCheck
+
+	if ($section) {
+        $insideSection = $false
+        $changed = $false
+        $key = [regex]::Escape($old)
+        $newLine = -join($old, '=', $new)
+
+        $modifiedContents = $fileContents | ForEach-Object {
+            if ($_ -eq "[$section]") {
+                $insideSection = $true
+            } elseif ($insideSection -and $_ -match '^\[') {
+                $insideSection = $false
+            }
+
+            if ($insideSection -and -not $changed -and $_ -match "^$key=") {
+                $changed = $true
+                $newLine
+            } else {
+                $_
+            }
+        }
+
+        if (-not $changed) {
+            Write-Output "Line $old was not found in [$section]"
+            return
+        }
+
+        $modifiedContents | Set-Content -LiteralPath $fileToCheck -Encoding UTF8
+        Write-Output "Line $old changed to $newLine in [$section]"
+        return
+    }
+
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
+
 	if ($line){
 		$newLine=-join($old,'=',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
@@ -76,7 +109,6 @@ function setSettingNoQuotes($file, $old, $new){
 		Add-Content $fileToCheck $newLine -Encoding UTF8
 		Write-Output "Line created on $fileToCheck"
 	}
-
 }
 
 function setConfigRA($old, $new, $fileToCheck){
@@ -1142,7 +1174,7 @@ function setResolutions(){
 	Dolphin_setResolution $dolphinResolution
 	DuckStation_setResolution $duckstationResolution
 	Eden_setResolution $edenResolution
-	#Flycast_setResolution
+	Flycast_setResolution $flycastResolution
 	#MAME_setResolution
 	melonDS_setResolution $melondsResolution
 	#mGBA_setResolution
