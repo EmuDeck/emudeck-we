@@ -77,11 +77,11 @@ function Eden_setupSaves(){
 function Eden_setResolution($resolution){
 	switch ( $resolution )
 	{
-		"720P" { $multiplier = 2;  $docked="false"}
-		"1080P" { $multiplier = 2; $docked="true"   }
-		"1440P" { $multiplier = 3;  $docked="false" }
-		"4K" { $multiplier = 3; $docked="true" }
-		default { $multiplier = 2; $docked="false" }
+		"720P"  { $multiplier = 3; $docked = 0 }
+        "1080P" { $multiplier = 3; $docked = 1 }
+        "1440P" { $multiplier = 6; $docked = 0 }
+        "4K"    { $multiplier = 6; $docked = 1 }
+        default { $multiplier = 3; $docked = 0 }
 	}
 
 	setConfig "resolution_setup" $multiplier $Eden_configFile "Renderer"
