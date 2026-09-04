@@ -49,7 +49,9 @@ function melonDS_setResolution($resolution) {
 
     setConfig "WindowWidth" $WindowWidth $melonD_configFile
     setConfig "WindowHeight" $WindowHeight $melonD_configFile
-    setConfig "ScaleFactor" $scale $melonD_resolutionFile "3D.GL"
+    
+	$scaleLine = "ScaleFactor = $scale"
+    changeLine 'ScaleFactor\s*=' $scaleLine $melonD_resolutionFile
 }
 
 function melonDS_setupStorage(){
