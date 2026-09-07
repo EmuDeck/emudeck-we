@@ -37,9 +37,20 @@ function Xemu_setResolution($resolution){
 		default { $multiplier = 1 }
 	}
 
-	$surfaceScale = 'surface_scale = '
-	$surfaceScaleSetting = "$surfaceScale$multiplier"
-	changeLine "$surfaceScale" "$surfaceScaleSetting" "$Xemu_configFile"
+	$toml = Get-Content -LiteralPath $Xemu_configFile -Raw
+
+    if ($toml -match '(?m)^\[display\.quality\]\r?$') {
+        $toml = $toml -replace '(?m)^surface_scale\s*=.*$', "surface_scale = $multiplier"
+    }
+    else {
+        $toml = $toml -replace '(?m)^\[sys\]\r?$', "[display.quality]`r`nsurface_scale = $multiplier`r`n[sys]"
+    }
+
+    [System.IO.File]::WriteAllText(
+        $Xemu_configFile,
+        $toml,
+        [System.Text.UTF8Encoding]::new($false)
+    )
 }
 function Xemu_setupStorage(){
 	mkdir "$storagePath\xemu" -ErrorAction SilentlyContinue
