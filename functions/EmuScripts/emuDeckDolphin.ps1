@@ -1,12 +1,14 @@
-$Dolphin_emuName="Dolphin"
-$Dolphin_emuType="FlatPak"
-$Dolphin_emuPath="org.DolphinEmu.dolphin-emu"
-$Dolphin_releaseURL=""
 $Dolphin_configFile="$emusPath\Dolphin-x64\User\Config\Dolphin.ini"
 
 function Dolphin_install(){
 	setMSG "Downloading Dolphin"
-	download $url_dolphin "dolphin.7z"
+
+    $dolphinUrl = (
+        (Invoke-RestMethod "https://dolphin-emu.org/update/latest/beta/").artifacts |
+        Where-Object { $_.system -eq "Windows x64" }
+    ).url
+
+    download $dolphinUrl "dolphin.7z"
 	moveFromTo "$temp/dolphin/Dolphin-x64" "$emusPath\Dolphin-x64"
 	Remove-Item -Recurse -Force dolphin -ErrorAction SilentlyContinue
 	createLauncher "dolphin"
@@ -90,7 +92,7 @@ function Dolphin_wipe(){
 	Write-Output "NYI"
 }
 function Dolphin_uninstall(){
-	Remove-Item -path "$emusPath\Dolphin" -recurse -force
+	Remove-Item -path "$emusPath\Dolphin-x64" -recurse -force
 	if($?){
 		Write-Output "true"
 	}
