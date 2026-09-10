@@ -1027,6 +1027,15 @@ function fullScreenToast($emulatorFile) {
 		$form.BackColor = [System.Drawing.Color]::Black
 		$form.Width = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
 		$form.Height = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+
+		$label = New-Object System.Windows.Forms.Label
+		$label.Text = "Loading Emulator please wait..."
+		$label.Dock = [System.Windows.Forms.DockStyle]::Fill
+		$label.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
+		$label.ForeColor = [System.Drawing.Color]::White
+		$label.Font = New-Object System.Drawing.Font("Segoe UI", 28)
+		$form.Controls.Add($label)
+
 		$sync.FormHandle = $form.Handle
 
 		$deadline = (Get-Date).AddSeconds(60)
