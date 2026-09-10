@@ -1026,35 +1026,27 @@ function fullScreenToast($emulatorFile) {
 		$form = New-Object System.Windows.Forms.Form
 		$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
 		$form.WindowState = [System.Windows.Forms.FormWindowState]::Maximized
-		$form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#221d2d")
+		$form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#7b38b1")
 		$form.Width = $bounds.Width
 		$form.Height = $bounds.Height
 
 		$background = New-Object System.Drawing.Bitmap($bounds.Width, $bounds.Height)
 		$graphics = [System.Drawing.Graphics]::FromImage($background)
-		$gradientTop = New-Object System.Drawing.Point(0, 0)
-		$gradientBottom = New-Object System.Drawing.Point(0, $bounds.Height)
-		$gradient = New-Object System.Drawing.Drawing2D.LinearGradientBrush($gradientTop, $gradientBottom, [System.Drawing.ColorTranslator]::FromHtml("#3b2d5c"), [System.Drawing.ColorTranslator]::FromHtml("#16121d"))
+		$gradientStart = New-Object System.Drawing.Point(0, $bounds.Height)
+		$gradientEnd = New-Object System.Drawing.Point($bounds.Width, 0)
+		$gradient = New-Object System.Drawing.Drawing2D.LinearGradientBrush($gradientStart, $gradientEnd, [System.Drawing.ColorTranslator]::FromHtml("#d00888"), [System.Drawing.ColorTranslator]::FromHtml("#1274e3"))
 		$graphics.FillRectangle($gradient, 0, 0, $bounds.Width, $bounds.Height)
-
-		$glowSize = [int]($bounds.Height * 1.2)
-		$glowPath = New-Object System.Drawing.Drawing2D.GraphicsPath
-		$glowPath.AddEllipse([int](($bounds.Width - $glowSize) / 2), [int](($bounds.Height - $glowSize) / 2), $glowSize, $glowSize)
-		$glow = New-Object System.Drawing.Drawing2D.PathGradientBrush($glowPath)
-		$glow.CenterColor = [System.Drawing.Color]::FromArgb(60, 26, 159, 255)
-		$glow.SurroundColors = [System.Drawing.Color[]]@([System.Drawing.Color]::FromArgb(0, 26, 159, 255))
-		$graphics.FillPath($glow, $glowPath)
 		$graphics.Dispose()
 
 		$form.BackgroundImage = $background
 		$form.BackgroundImageLayout = [System.Windows.Forms.ImageLayout]::Stretch
 
 		$logoBottom = [int]($bounds.Height / 2)
-		$logoPath = "$env:APPDATA\EmuDeck\backend\img\logo.png"
+		$logoPath = "$env:APPDATA\EmuDeck\backend\img\logo_white.png"
 		if (Test-Path $logoPath) {
 			$logo = [System.Drawing.Image]::FromFile($logoPath)
-			$logoWidth = [int]($bounds.Width * 0.28)
-			$logoHeight = [int]($logoWidth * $logo.Height / $logo.Width)
+			$logoHeight = [int]($bounds.Height * 0.26)
+			$logoWidth = [int]($logoHeight * $logo.Width / $logo.Height)
 			$pictureBox = New-Object System.Windows.Forms.PictureBox
 			$pictureBox.Image = $logo
 			$pictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
