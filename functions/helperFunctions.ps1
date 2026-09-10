@@ -1447,3 +1447,17 @@ function retroAchievementsHardCoreOff(){
   PPSSPP_retroAchievementsHardCoreOff
   Dolphin_retroAchievementsHardCoreOff
 }
+
+function update_launchers(){
+	$targetLaunchers = Join-Path $toolsPath "launchers"
+	$sourceLaunchers = Join-Path $emudeckBackend "tools\launchers"
+
+	Get-ChildItem -Path $targetLaunchers -Filter *.ps1 -File -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+		$relativePath = $_.FullName.Substring($targetLaunchers.Length + 1)
+		$sourceFile = Join-Path $sourceLaunchers $relativePath
+
+		if (Test-Path $sourceFile) {
+			Copy-Item -Path $sourceFile -Destination $_.FullName -Force
+		}
+	}
+}

@@ -1,4 +1,7 @@
+git -C "$env:APPDATA\EmuDeck\backend" pull
+
 . "$($env:USERPROFILE)\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
+launcherInit
 
 $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 if ($steamRunning) {

@@ -1,6 +1,9 @@
+git -C "$env:APPDATA\EmuDeck\backend" pull
+
 $emulatorFile = "$env:APPDATA/emudeck/Emulators/Dolphin-x64/Dolphin.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
+launcherInit
 if($args){
 	$formattedArgs = $args | ForEach-Object { '"' + $_ + '"' }
 }

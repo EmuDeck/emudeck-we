@@ -398,18 +398,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 	createLauncher "srm\steamrommanager"
 
-	$targetLaunchers = Join-Path $toolsPath "launchers"
-	$sourceLaunchers = Join-Path $emudeckBackend "tools\launchers"
-
-	Get-ChildItem -Path $targetLaunchers -Filter *.ps1 -File -Recurse | ForEach-Object {
-		$relativePath = $_.FullName.Substring($targetLaunchers.Length + 1)
-		$targetFile = $_.FullName
-		$sourceFile = Join-Path $sourceLaunchers $relativePath
-
-		if (Test-Path $sourceFile) {
-			Copy-Item -Path $sourceFile -Destination $targetFile -Force
-		}
-	}
+	update_launchers
 
 }
 

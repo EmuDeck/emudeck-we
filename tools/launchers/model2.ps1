@@ -1,8 +1,11 @@
+git -C "$env:APPDATA\EmuDeck\backend" pull
+
 cd "$env:APPDATA/EmuDeck/Emulators/m2emulator"
 $emulatorFile = "./EMULATOR.exe"
 $emuName = "model2"
 
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
+launcherInit
 hideMe
 isLatestVersionGH($emuName)
 checkAndStartSteam

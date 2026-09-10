@@ -22,6 +22,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\createLink.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\createLauncher.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\helperFunctions.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\launcherInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\checkBIOS.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\appImageInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\autofix.ps1"

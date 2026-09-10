@@ -1,5 +1,8 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
+	git -C "$env:APPDATA\EmuDeck\backend" reset --hard
+	git -C "$env:APPDATA\EmuDeck\backend" pull
+	. "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"
 	fullScreenToast
 	isLatestVersionGH($emuName)
 	checkAndStartSteam
