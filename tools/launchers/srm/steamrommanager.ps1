@@ -1,4 +1,5 @@
-git -C "$env:APPDATA\EmuDeck\backend" pull
+$env:GIT_TERMINAL_PROMPT = "0"
+$null | git -C "$env:APPDATA\EmuDeck\backend" pull
 
 . "$($env:USERPROFILE)\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
 launcherInit

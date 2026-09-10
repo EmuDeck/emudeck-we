@@ -1,4 +1,5 @@
-git -C "$env:APPDATA\EmuDeck\backend" pull
+$env:GIT_TERMINAL_PROMPT = "0"
+$null | git -C "$env:APPDATA\EmuDeck\backend" pull
 
 cd "$env:APPDATA/EmuDeck/Emulators/m2emulator"
 $emulatorFile = "./EMULATOR.exe"

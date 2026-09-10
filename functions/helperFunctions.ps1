@@ -1044,7 +1044,7 @@ function fullScreenToast($emulatorFile) {
 		$logoBottom = [int]($bounds.Height / 2)
 		$logoPath = "$env:APPDATA\EmuDeck\backend\img\logo_white.png"
 		if (Test-Path $logoPath) {
-			$logo = [System.Drawing.Image]::FromFile($logoPath)
+			$logo = [System.Drawing.Image]::FromStream([System.IO.MemoryStream]::new([System.IO.File]::ReadAllBytes($logoPath)))
 			$logoHeight = [int]($bounds.Height * 0.26)
 			$logoWidth = [int]($logoHeight * $logo.Width / $logo.Height)
 			$pictureBox = New-Object System.Windows.Forms.PictureBox
