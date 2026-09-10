@@ -1021,19 +1021,59 @@ function fullScreenToast($emulatorFile) {
 		Add-Type -AssemblyName System.Windows.Forms
 		Add-Type -AssemblyName System.Drawing
 
+		$bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+
 		$form = New-Object System.Windows.Forms.Form
 		$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
 		$form.WindowState = [System.Windows.Forms.FormWindowState]::Maximized
-		$form.BackColor = [System.Drawing.Color]::Black
-		$form.Width = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
-		$form.Height = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+		$form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#221d2d")
+		$form.Width = $bounds.Width
+		$form.Height = $bounds.Height
+
+		$background = New-Object System.Drawing.Bitmap($bounds.Width, $bounds.Height)
+		$graphics = [System.Drawing.Graphics]::FromImage($background)
+		$gradientTop = New-Object System.Drawing.Point(0, 0)
+		$gradientBottom = New-Object System.Drawing.Point(0, $bounds.Height)
+		$gradient = New-Object System.Drawing.Drawing2D.LinearGradientBrush($gradientTop, $gradientBottom, [System.Drawing.ColorTranslator]::FromHtml("#3b2d5c"), [System.Drawing.ColorTranslator]::FromHtml("#16121d"))
+		$graphics.FillRectangle($gradient, 0, 0, $bounds.Width, $bounds.Height)
+
+		$glowSize = [int]($bounds.Height * 1.2)
+		$glowPath = New-Object System.Drawing.Drawing2D.GraphicsPath
+		$glowPath.AddEllipse([int](($bounds.Width - $glowSize) / 2), [int](($bounds.Height - $glowSize) / 2), $glowSize, $glowSize)
+		$glow = New-Object System.Drawing.Drawing2D.PathGradientBrush($glowPath)
+		$glow.CenterColor = [System.Drawing.Color]::FromArgb(60, 26, 159, 255)
+		$glow.SurroundColors = [System.Drawing.Color[]]@([System.Drawing.Color]::FromArgb(0, 26, 159, 255))
+		$graphics.FillPath($glow, $glowPath)
+		$graphics.Dispose()
+
+		$form.BackgroundImage = $background
+		$form.BackgroundImageLayout = [System.Windows.Forms.ImageLayout]::Stretch
+
+		$logoBottom = [int]($bounds.Height / 2)
+		$logoPath = "$env:APPDATA\EmuDeck\backend\img\logo.png"
+		if (Test-Path $logoPath) {
+			$logo = [System.Drawing.Image]::FromFile($logoPath)
+			$logoWidth = [int]($bounds.Width * 0.28)
+			$logoHeight = [int]($logoWidth * $logo.Height / $logo.Width)
+			$pictureBox = New-Object System.Windows.Forms.PictureBox
+			$pictureBox.Image = $logo
+			$pictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
+			$pictureBox.BackColor = [System.Drawing.Color]::Transparent
+			$pictureBox.Size = New-Object System.Drawing.Size($logoWidth, $logoHeight)
+			$pictureBox.Location = New-Object System.Drawing.Point([int](($bounds.Width - $logoWidth) / 2), [int](($bounds.Height - $logoHeight) / 2 - 40))
+			$form.Controls.Add($pictureBox)
+			$logoBottom = $pictureBox.Bottom
+		}
 
 		$label = New-Object System.Windows.Forms.Label
 		$label.Text = "Loading Emulator please wait..."
-		$label.Dock = [System.Windows.Forms.DockStyle]::Fill
+		$label.AutoSize = $false
+		$label.Size = New-Object System.Drawing.Size($bounds.Width, 60)
+		$label.Location = New-Object System.Drawing.Point(0, ($logoBottom + 30))
 		$label.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
-		$label.ForeColor = [System.Drawing.Color]::White
-		$label.Font = New-Object System.Drawing.Font("Segoe UI", 28)
+		$label.ForeColor = [System.Drawing.Color]::FromArgb(204, 255, 255, 255)
+		$label.BackColor = [System.Drawing.Color]::Transparent
+		$label.Font = New-Object System.Drawing.Font("Segoe UI", 20)
 		$form.Controls.Add($label)
 
 		$sync.FormHandle = $form.Handle
