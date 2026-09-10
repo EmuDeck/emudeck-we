@@ -1264,6 +1264,23 @@ function checkAndStartSteam(){
 	if (!$steamRunning) {
 		startSteam "-silent"
 	}
+
+	$deadline = (Get-Date).AddSeconds(60)
+	while ((Get-Date) -lt $deadline) {
+		if (steamIsReady) {
+			return
+		}
+		Start-Sleep -Milliseconds 500
+	}
+}
+
+function steamIsReady(){
+	$activeProcess = Get-ItemProperty -Path "HKCU:\Software\Valve\Steam\ActiveProcess" -ErrorAction SilentlyContinue
+	if (-not $activeProcess -or -not $activeProcess.pid -or -not $activeProcess.ActiveUser) {
+		return $false
+	}
+	$steam = Get-Process -Id $activeProcess.pid -ErrorAction SilentlyContinue
+	return ($null -ne $steam -and $steam.ProcessName -eq "steam")
 }
 
 function startSteam($silent){
