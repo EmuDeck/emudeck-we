@@ -983,32 +983,106 @@ function setScreenDimensionsScale(){
 	. "$env:APPDATA\emudeck\settings.ps1"
 }
 
-function fullScreenToast {
+function fullScreenToast($emulatorFile) {
+	if (-not ("EmuDeck.Foreground" -as [type])) {
+		Add-Type -Namespace EmuDeck -Name Foreground -MemberDefinition @"
+[DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+[DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+[DllImport("user32.dll")] public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+"@
+	}
 
-	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+	$target = "$emulatorFile".Trim('"')
+	if ($target -like "*.lnk") {
+		$target = (New-Object -ComObject WScript.Shell).CreateShortcut($target).TargetPath
+	}
+	$targetName = ""
+	$targetFolder = ""
+	if ($target) {
+		$target = [System.IO.Path]::GetFullPath($target)
+		$targetName = [System.IO.Path]::GetFileNameWithoutExtension($target)
+		$targetFolder = Split-Path -Parent $target
+	}
 
-	$form = New-Object Windows.Forms.Form
-	$form.Text = "Popup"
-	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
-	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
-	$form.BackColor = [System.Drawing.Color]::Black
+	$sync = [hashtable]::Synchronized(@{ FormHandle = [IntPtr]::Zero })
 
-	# Obtener el tamaño de la pantalla
-	$screenWidth = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
-	$screenHeight = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+	$runspace = [RunspaceFactory]::CreateRunspace()
+	$runspace.ApartmentState = [System.Threading.ApartmentState]::STA
+	$runspace.ThreadOptions = [System.Management.Automation.Runspaces.PSThreadOptions]::ReuseThread
+	$runspace.Open()
+	$runspace.SessionStateProxy.SetVariable("sync", $sync)
+	$runspace.SessionStateProxy.SetVariable("launcherPid", $PID)
+	$runspace.SessionStateProxy.SetVariable("targetName", $targetName)
+	$runspace.SessionStateProxy.SetVariable("targetFolder", $targetFolder)
 
-	$form.Width = $screenWidth
-	$form.Height = $screenHeight
+	$powershell = [PowerShell]::Create()
+	$powershell.Runspace = $runspace
+	[void]$powershell.AddScript({
+		Add-Type -AssemblyName System.Windows.Forms
+		Add-Type -AssemblyName System.Drawing
 
-# 	$pictureBox = New-Object Windows.Forms.PictureBox
-# 	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
-# 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
-# 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
-#
-# 	$form.Controls.Add($pictureBox)
-	$form.Show()
+		$form = New-Object System.Windows.Forms.Form
+		$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
+		$form.WindowState = [System.Windows.Forms.FormWindowState]::Maximized
+		$form.BackColor = [System.Drawing.Color]::Black
+		$form.Width = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
+		$form.Height = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+		$sync.FormHandle = $form.Handle
 
-	return $form
+		$deadline = (Get-Date).AddSeconds(60)
+
+		$timer = New-Object System.Windows.Forms.Timer
+		$timer.Interval = 250
+		$timer.Add_Tick({
+			$foregroundPid = [uint32]0
+			[void][EmuDeck.Foreground]::GetWindowThreadProcessId([EmuDeck.Foreground]::GetForegroundWindow(), [ref]$foregroundPid)
+
+			if ($foregroundPid -ne 0 -and $foregroundPid -ne $launcherPid) {
+				$process = Get-Process -Id $foregroundPid -ErrorAction SilentlyContinue
+				if ($process) {
+					$isTarget = ($targetName -ne "") -and ($process.ProcessName -eq $targetName)
+					if (-not $isTarget -and $targetFolder -ne "") {
+						$processPath = $null
+						try { $processPath = $process.Path } catch { }
+						if ($processPath) {
+							$isTarget = $processPath.StartsWith("$targetFolder\", [System.StringComparison]::OrdinalIgnoreCase)
+						}
+					}
+					if ($isTarget) {
+						$timer.Stop()
+						$form.Close()
+						return
+					}
+				}
+			}
+
+			if ((Get-Date) -gt $deadline) {
+				$timer.Stop()
+				$form.Close()
+			}
+		})
+		$timer.Start()
+
+		[System.Windows.Forms.Application]::Run($form)
+	})
+
+	$asyncResult = $powershell.BeginInvoke()
+
+	return @{ PowerShell = $powershell; Runspace = $runspace; AsyncResult = $asyncResult; Sync = $sync }
+}
+
+function closeFullScreenToast($toast) {
+	if (-not $toast) { return }
+
+	if ($toast.Sync.FormHandle.ToInt64() -ne 0) {
+		[void][EmuDeck.Foreground]::PostMessage($toast.Sync.FormHandle, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero)
+	}
+
+	[void]$toast.AsyncResult.AsyncWaitHandle.WaitOne(3000)
+	if (-not $toast.AsyncResult.IsCompleted) {
+		[void]$toast.PowerShell.BeginStop($null, $null)
+	}
+	$toast.Runspace.CloseAsync()
 }
 
 function steamToast {
