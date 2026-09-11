@@ -1,7 +1,7 @@
 {
   "parserType": "Glob",
-  "configTitle": "Nintendo Game Boy - mGBA (Standalone)",
-  "steamCategory": "${Nintendo Game Boy - mGBA}",
+  "configTitle": "Nintendo Game Boy Color - mGBA",
+  "steamCategory": "${Nintendo Game Boy Color - mGBA}",
   "executableModifier": "\"${exePath}\"",
   "romDirectory": "${romsdirglobal}",
   "steamDirectory": "${steamdirglobal}",
@@ -28,7 +28,7 @@
     "useCredentials": true
   },
   "parserInputs": {
-    "glob": "{gb/**/!(homebrew),gb}/${title}@(.7z|.7Z|.gb|.GB|.dmg|.DMG|.zip|.ZIP)"
+    "glob": "{gbc/**/!(homebrew),gbc}/${title}@(.7z|.7Z|.gb|.GB|.gbc|.GBC|.zip|.ZIP)"
   },
   "titleFromVariable": {
     "limitToGroups": "",
@@ -46,7 +46,7 @@
     "shortcutPassthrough": false,
     "appendArgsToExecutable": true
   },
-  "parserId": "164385421865061350",
+  "parserId": "164785621855061661",
   "version": 13,
   "controllers": {
     "switch_pro": {
