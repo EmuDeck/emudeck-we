@@ -1,7 +1,7 @@
 function appImageInit(){
 
-
-
+	#Reset launchers
+	update_launchers
 
 	#Emulators new Path Junction
 	$carpetaReal = "$env:USERPROFILE/EmuDeck/Emulators"

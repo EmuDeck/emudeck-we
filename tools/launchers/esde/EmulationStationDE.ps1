@@ -1,8 +1,12 @@
+$env:GIT_TERMINAL_PROMPT = "0"
+$null | git -C "$env:APPDATA\EmuDeck\backend" pull
+
 $emulatorFile = "$env:APPDATA/emudeck/EmulationStation-DE/ES-DE.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/EmuScripts/emuDeckRPCS3.ps1"
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/ToolScripts/emuDeckESDE.ps1"
+launcherInit
 RPCS3_renameFolders
 ESDE_ensurePS3Emulators
 

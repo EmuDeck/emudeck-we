@@ -1,4 +1,31 @@
 $RetroArch_configFile="$emusPath\RetroArch\retroarch.cfg"
+$RetroArch_assetsURL="https://buildbot.libretro.com/assets/frontend/assets.zip"
+$RetroArch_shaderscgURL="https://buildbot.libretro.com/assets/frontend/shaders_cg.zip"
+$RetroArch_shadersglslURL="https://buildbot.libretro.com/assets/frontend/shaders_glsl.zip"
+$RetroArch_shadersslangURL="https://buildbot.libretro.com/assets/frontend/shaders_slang.zip"
+$RetroArch_infoURL="https://buildbot.libretro.com/assets/frontend/info.zip"
+$RetroArch_ppssppURL="https://buildbot.libretro.com/assets/system/PPSSPP.zip"
+$RetroArch_autoconfigURL="https://buildbot.libretro.com/assets/frontend/autoconfig.zip"
+$RetroArch_overlaysURL="https://buildbot.libretro.com/assets/frontend/overlays.zip"
+$RetroArch_cheatsURL="https://buildbot.libretro.com/assets/frontend/cheats.zip"
+
+function RetroArch_buildbotDownload($url, $file, $destination, $checkDir){
+	if (-not $checkDir) { $checkDir = $destination }
+	if ((Get-ChildItem $checkDir -Force -ErrorAction SilentlyContinue | Measure-Object).Count -gt 0) {
+		return
+	}
+
+	$dir = $file.replace('.zip','')
+
+	try {
+		download $url $file
+		copyFromTo "$temp\$dir" $destination
+	} catch {
+		Write-Output "RetroArch_buildbotDownload failed: $url"
+	}
+
+	Remove-Item "$temp\$dir" -Recurse -Force -ErrorAction SilentlyContinue
+}
 
 function RetroArch_install(){
 	setMSG "Downloading RetroArch"
@@ -67,6 +94,8 @@ function RetroArch_init(){
 	#setMSG "RetroArch - Bios & Saves"
 
 	RetroArch_setupSaves
+	
+	RetroArch_buildbotDownloader
 
 	#retroAchievements
 	if ("$achievementsUserToken" -ne "" ){
@@ -204,7 +233,41 @@ function RetroArch_update(){
 }
 function RetroArch_setEmulationFolder(){
 	Write-Output "NYI"
+	
+	setConfigRA "rgui_browser_directory" "$romsPath" $RetroArch_configFile
+	setConfigRA "cheat_database_path" "$storagePath\retroarch\cheats" $RetroArch_configFile
+	
 }
+function RetroArch_buildbotDownloader(){
+	# these are not needed in windows, they come preloaded in windows
+	# $shadersDir = "$emusPath\RetroArch\shaders"
+	# $shaderscgDir = "$emusPath\RetroArch\shaders\shaders_cg"
+	# $shadersglslDir = "$emusPath\RetroArch\shaders\shaders_glsl"
+	# $shadersslangDir = "$emusPath\RetroArch\shaders\shaders_slang"
+	# $assetsDir = "$emusPath\RetroArch\assets"
+	# $autoconfigDir = "$emusPath\RetroArch\autoconfig"
+	# $overlaysDir = "$emusPath\RetroArch\overlays"
+	# $infoDir = "$emusPath\RetroArch\info"
+	
+	$ppssppDir = "$biosPath\PPSSPP"
+	$cheatsDir = "$storagePath\retroarch\cheats"
+
+	foreach ($dir in @($ppssppDir, $cheatsDir)) {
+		mkdir $dir -ErrorAction SilentlyContinue | Out-Null
+	}
+
+	# these are not needed in windows, they come preloaded in windows
+	# RetroArch_buildbotDownload $RetroArch_shaderscgURL "shaders_cg.zip" $shaderscgDir
+	# RetroArch_buildbotDownload $RetroArch_shadersglslURL "shaders_glsl.zip" $shadersglslDir
+	# RetroArch_buildbotDownload $RetroArch_shadersslangURL "shaders_slang.zip" $shadersslangDir
+	# RetroArch_buildbotDownload $RetroArch_assetsURL "assets.zip" $assetsDir
+	# RetroArch_buildbotDownload $RetroArch_overlaysURL "overlays.zip" $overlaysDir "$overlaysDir\borders"
+	# RetroArch_buildbotDownload $RetroArch_autoconfigURL "autoconfig.zip" $autoconfigDir
+	# RetroArch_buildbotDownload $RetroArch_infoURL "info.zip" $infoDir
+	RetroArch_buildbotDownload $RetroArch_cheatsURL "cheats.zip" $cheatsDir
+	RetroArch_buildbotDownload $RetroArch_ppssppURL "PPSSPP.zip" $biosPath $ppssppDir
+}
+
 function RetroArch_setupSaves(){
 	#Saves
 	setMSG "RetroArch - Creating Saves Links"

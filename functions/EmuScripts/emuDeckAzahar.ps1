@@ -29,8 +29,8 @@ function Azahar_init(){
 
 	mkdir "$emusPath\azahar\user\sysdata"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\azahar\user\sysdata"
-	$emuSavePath = "$biosPath\azahar"
-	createSaveLink $simLinkPath $emuSavePath
+	$emuBiosPath = "$biosPath\azahar\keys"
+	createSaveLink $simLinkPath $emuBiosPath
 
 	Azahar_setupSaves
 
@@ -85,7 +85,7 @@ function Azahar_setResolution($resolution){
 		default { $multiplier = 3 }
 	}
 
-	setConfig "resolution_factor" $multiplier "$Azahar_configFile"
+	setConfig "resolution_factor" $multiplier "$Azahar_configFile" "Renderer"
 }
 
 function Azahar_wipe(){

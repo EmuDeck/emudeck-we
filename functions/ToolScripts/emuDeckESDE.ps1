@@ -3,12 +3,20 @@ function ESDE_install(){
 	
 	#Fixes for ESDE warning message
 	if ( ESDE_IsInstalled -like "*true*" ){
-		if (Test-Path -Path "$esdePath\ES-DE\gamelists") {
-			moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
+		$gamelistsPath = "$esdePath\ES-DE\gamelists"
+		
+		if ((Test-Path -Path $gamelistsPath -PathType Container) -and
+			-not (Get-Item $gamelistsPath -Force).Attributes.HasFlag([IO.FileAttributes]::ReparsePoint)) {
+			createSaveLink $gamelistsPath "$storagePath/es-de/gamelists"
 		}
-		if (Test-Path -Path "$esdePath\.emulationstation\gamelists") {
-			moveFromTo "$esdePath\.emulationstation\gamelists" "$temp\gamelists"
+		
+		$gamelistsPath = "$esdePath\.emulationstation\gamelists"
+		
+		if ((Test-Path -Path $gamelistsPath -PathType Container) -and
+			-not (Get-Item $gamelistsPath -Force).Attributes.HasFlag([IO.FileAttributes]::ReparsePoint)) {
+			createSaveLink $gamelistsPath "$storagePath/es-de/gamelists"
 		}
+
 		ESDE_uninstall
 		$doInit="true"
 	}
@@ -33,38 +41,38 @@ function ESDE_install(){
 	}
 
 	# Lanzar ES-DE para forzar la migración y generación del archivo de configuración 
-	$esdeExe = "$esdePath\ES-DE.exe"
-	$settingsFinal = "$esdePath\ES-DE\settings\es_settings.xml"
-	$themeToApply = $esdeThemeName  # El nombre del tema seleccionado
-
-	$proc = Start-Process -FilePath $esdeExe -WindowStyle Hidden -PassThru
-	Start-Sleep -Seconds 8 
-
-	try {
-		$proc.CloseMainWindow() | Out-Null
-		Start-Sleep -Seconds 1
-		if (!$proc.HasExited) { $proc.Kill() }
-	} catch {}
-
-	$timeout = 120
-	$elapsed = 0
-	while (!(Test-Path $settingsFinal) -and $elapsed -lt $timeout) {
-		Start-Sleep -Seconds 2
-		$elapsed += 2
-	}
-
-	if (Test-Path $settingsFinal) {
-		$xml = Get-Content $settingsFinal
-
-		# Modifica el tema activo y el ThemeSet
-		$xml = $xml -replace '(?<=<string name="Theme" value=").*?(?=" />)', $themeToApply
-		$xml = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', $themeToApply
-
-		$xml | Set-Content $settingsFinal -Encoding UTF8
-		Write-Output "ES-DE theme has been successfully applied: $themeToApply"
-	} else {
-		Write-Output "ERROR: Could not apply the theme because the definitive es_settings.xml file does not exist."
-	}
+# 	$esdeExe = "$esdePath\ES-DE.exe"
+# 	$settingsFinal = "$esdePath\ES-DE\settings\es_settings.xml"
+# 	$themeToApply = $esdeThemeName  # El nombre del tema seleccionado
+# 
+# 	$proc = Start-Process -FilePath $esdeExe -WindowStyle Hidden -PassThru
+# 	Start-Sleep -Seconds 8 
+# 
+# 	try {
+# 		$proc.CloseMainWindow() | Out-Null
+# 		Start-Sleep -Seconds 1
+# 		if (!$proc.HasExited) { $proc.Kill() }
+# 	} catch {}
+# 
+# 	$timeout = 120
+# 	$elapsed = 0
+# 	while (!(Test-Path $settingsFinal) -and $elapsed -lt $timeout) {
+# 		Start-Sleep -Seconds 2
+# 		$elapsed += 2
+# 	}
+# 
+# 	if (Test-Path $settingsFinal) {
+# 		$xml = Get-Content $settingsFinal
+# 
+# 		# Modifica el tema activo y el ThemeSet
+# 		$xml = $xml -replace '(?<=<string name="Theme" value=").*?(?=" />)', $themeToApply
+# 		$xml = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', $themeToApply
+# 
+# 		$xml | Set-Content $settingsFinal -Encoding UTF8
+# 		Write-Output "ES-DE theme has been successfully applied: $themeToApply"
+# 	} else {
+# 		Write-Output "ERROR: Could not apply the theme because the definitive es_settings.xml file does not exist."
+# 	}
 }
 
 function ESDE_init(){
@@ -77,14 +85,9 @@ function ESDE_init(){
 		Write-Output "EmulationStation-DE config directory successfully migrated and linked."
 	}
 
-
-	if(Test-Path "$esdePath\ES-DE\gamelists"){
-		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
-	}
-
-	if(Test-Path "$esdePath\.emulationstation\gamelists"){
-		moveFromTo "$esdePath\ES-DE\gamelists" "$temp\gamelists"
-	}
+	mkdir "$esdePath\ES-DE\gamelists"  -ErrorAction SilentlyContinue
+	createSaveLink "$esdePath\ES-DE\gamelists" "$storagePath/es-de/gamelists"
+	
 	#We reset ESDE system files
 	#Copy-Item "$esdePath/resources/systems/windows/es_systems.xml.bak" -Destination "$esdePath/resources/systems/windows/es_systems.xml" -ErrorAction SilentlyContinue
 	#Copy-Item "$esdePath/resources/systems/windows/es_find_rules.xml.bak" -Destination "$esdePath/resources/systems/windows/es_find_rules.xml" -ErrorAction SilentlyContinue
@@ -143,15 +146,15 @@ function ESDE_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination"
 
-	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\settings\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
-	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\settings\es_settings.xml" -Encoding UTF8
 
 	mkdir "$emulationPath/storage/downloaded_media" -ErrorAction SilentlyContinue
 
-	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\settings\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="MediaDirectory" value=").*?(?=" />)', "$emulationPath/storage/downloaded_media"
-	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\settings\es_settings.xml" -Encoding UTF8
 
 	mkdir "$toolsPath\launchers\esde" -ErrorAction SilentlyContinue
 	SRM_resetLaunchers #ESDE3.0 fix
@@ -267,9 +270,9 @@ function ESDE_applyTheme($esdeThemeUrl, $esdeThemeName ){
 	cd "$esdePath\ES-DE\themes"
 	git clone $esdeThemeUrl "./$esdeThemeName"
 
-	$xml = Get-Content "$esdePath\ES-DE\es_settings.xml"
+	$xml = Get-Content "$esdePath\ES-DE\settings\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ThemeSet" value=").*?(?=" />)', "$esdeThemeName"
-	$updatedXML | Set-Content "$esdePath\ES-DE\es_settings.xml" -Encoding UTF8
+	$updatedXML | Set-Content "$esdePath\ES-DE\settings\es_settings.xml" -Encoding UTF8
 
 }
 

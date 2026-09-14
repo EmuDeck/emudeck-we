@@ -45,6 +45,7 @@ mkdir "$biosPath" -ErrorAction SilentlyContinue
 mkdir "$toolsPath" -ErrorAction SilentlyContinue
 mkdir "$toolsPath\launchers" -ErrorAction SilentlyContinue
 mkdir "$savesPath" -ErrorAction SilentlyContinue
+mkdir "$biosPath\Mupen64plus\cache"  -ErrorAction SilentlyContinue
 
 #
 # Installation
