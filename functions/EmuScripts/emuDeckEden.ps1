@@ -1,4 +1,4 @@
-$Eden_configFile="${emusPath}\eden\user\config\qt-config.ini"
+$Eden_configFile="${emusPath}\eden-windows-msvc\user\config\qt-config.ini"
 
 function Eden_install(){
 	setMSG "Downloading Eden"
