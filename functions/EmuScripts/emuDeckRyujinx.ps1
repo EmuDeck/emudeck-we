@@ -9,7 +9,7 @@ function Ryujinx_install() {
 	#$url_Ryujinx = $release.assets |
 	#	Where-Object { $_.browser_download_url -match "win_x64" -and $_.browser_download_url -like "*.zip" } |
 	#	Select-Object -ExpandProperty browser_download_url -First 1
-	$url_Ryujinx = "https://codeberg.org/attachments/c23ed808-fd24-4104-a02c-ccf90f0c396c"
+	$url_Ryujinx = "https://codeberg.org/attachments/468dd04b-7538-46c4-bdb0-1600000023f7"
 
 	if (-not $url_Ryujinx) {
 		setMSG "Ryujinx: no Windows ZIP file was found in the latest release."
