@@ -1,23 +1,24 @@
 $Ryujinx_configFile="$emusPath\Ryujinx\portable\Config.json"
 
 function Ryujinx_install() {
-    setMSG "Downloading Ryujinx"
+	setMSG "Downloading Ryujinx"
 
-    $apiUrl  = "https://git.ryujinx.app/api/v1/repos/Ryubing/Canary/releases/latest"
-    $headers = @{ "User-Agent" = "EmuDeck" }
-    $release = Invoke-RestMethod -Uri $apiUrl -Headers $headers
-	$url_Ryujinx = $release.assets |
-        Where-Object { $_.browser_download_url -match "win_x64" -and $_.browser_download_url -like "*.zip" } |
-        Select-Object -ExpandProperty browser_download_url -First 1
+	#$apiUrl  = "https://git.ryujinx.app/api/v1/repos/Ryubing/Canary/releases/latest"
+	#$headers = @{ "User-Agent" = "EmuDeck" }
+	#$release = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+	#$url_Ryujinx = $release.assets |
+	#	Where-Object { $_.browser_download_url -match "win_x64" -and $_.browser_download_url -like "*.zip" } |
+	#	Select-Object -ExpandProperty browser_download_url -First 1
+	$url_Ryujinx = "https://codeberg.org/attachments/c23ed808-fd24-4104-a02c-ccf90f0c396c"
 
-    if (-not $url_Ryujinx) {
-        setMSG "Ryujinx: no Windows ZIP file was found in the latest release."
-        return $false
-    }
+	if (-not $url_Ryujinx) {
+		setMSG "Ryujinx: no Windows ZIP file was found in the latest release."
+		return $false
+	}
 
-    download $url_Ryujinx "ryujinx.zip"
-    moveFromTo "$temp\ryujinx\publish\" "$emusPath\Ryujinx"
-    createLauncher "Ryujinx"
+	download $url_Ryujinx "ryujinx.zip"
+	moveFromTo "$temp\ryujinx\publish\" "$emusPath\Ryujinx"
+	createLauncher "Ryujinx"
 }
 
 
