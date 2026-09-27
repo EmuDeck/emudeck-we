@@ -114,3 +114,8 @@ function Xemu_setCustomizations(){
 	}
 }
 
+
+function Xemu_addToSteam(){
+	setMSG "Adding xemu to Steam"
+	add_to_steam 'xemu' 'xemu' "$toolsPath\launchers\xemu.ps1" "$emusPath\xemu" "$emudeckFolder\backend\tools\launchers\icons\xemu.ico" "Emulation"
+}

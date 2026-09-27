@@ -211,3 +211,8 @@ function YuzuEA_uninstall() {
 	echo "Begin Yuzu EA uninstall"
 	Write-Output "NYI"
 }
+
+function Yuzu_addToSteam(){
+	setMSG "Adding yuzu to Steam"
+	add_to_steam 'yuzu' 'yuzu' "$toolsPath\launchers\yuzu.ps1" "$emusPath\yuzu\yuzu-windows-msvc" "$emudeckFolder\backend\tools\launchers\icons\yuzu.ico" "Emulation"
+}

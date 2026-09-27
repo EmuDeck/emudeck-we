@@ -144,3 +144,8 @@ function Azahar_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function Azahar_addToSteam(){
+	setMSG "Adding Azahar to Steam"
+	add_to_steam 'azahar' 'Azahar' "$toolsPath\launchers\azahar.ps1" "$emusPath\azahar" "$emudeckFolder\backend\tools\launchers\icons\azahar.ico" "Emulation"
+}

@@ -141,3 +141,8 @@ function PPSSPP_retroAchievementsHardCoreOn(){
 function PPSSPP_retroAchievementsHardCoreOff(){
 	setConfig 'AchievementsChallengeMode' 'false' "$PPSSP_configFile"
 }
+
+function PPSSPP_addToSteam(){
+	setMSG "Adding PPSSPP to Steam"
+	add_to_steam 'ppsspp' 'PPSSPP' "$toolsPath\launchers\ppsspp.ps1" "$emusPath\PPSSPP" "$emudeckFolder\backend\tools\launchers\icons\PPSSPP.ico" "Emulation"
+}

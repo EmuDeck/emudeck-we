@@ -90,3 +90,8 @@ function Vita3K_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function Vita3K_addToSteam(){
+	setMSG "Adding Vita3K to Steam"
+	add_to_steam 'vita3k' 'Vita3K' "$toolsPath\launchers\Vita3k.ps1" "$emusPath\vita3k" "$emudeckFolder\backend\tools\launchers\icons\vita3k.ico" "Emulation"
+}

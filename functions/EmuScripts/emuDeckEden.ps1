@@ -217,3 +217,8 @@ function EdenEA_uninstall() {
 	echo "Begin Eden EA uninstall"
 	Write-Output "NYI"
 }
+
+function Eden_addToSteam(){
+	setMSG "Adding Eden to Steam"
+	add_to_steam 'eden' 'Eden' "$toolsPath\launchers\eden.ps1" "$emusPath\eden-windows-msvc" "$emudeckFolder\backend\tools\launchers\icons\eden.ico" "Emulation"
+}

@@ -117,3 +117,8 @@ function MAME_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function MAME_addToSteam(){
+	setMSG "Adding MAME to Steam"
+	add_to_steam 'mame' 'MAME' "$toolsPath\launchers\MAME.ps1" "$emusPath\mame" "$emudeckFolder\backend\tools\launchers\icons\mame.ico" "Emulation"
+}

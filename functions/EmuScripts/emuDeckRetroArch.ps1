@@ -2075,3 +2075,8 @@ function RetroArch_CRTshaderOffAll(){
 }
 
 
+
+function RetroArch_addToSteam(){
+	setMSG "Adding RetroArch to Steam"
+	add_to_steam 'retroarch' 'RetroArch' "$toolsPath\launchers\retroarch.ps1" "$emusPath\RetroArch" "$emudeckFolder\backend\tools\launchers\icons\retroarch.ico" "Emulation"
+}

@@ -112,3 +112,8 @@ function Primehack_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function Primehack_addToSteam(){
+	setMSG "Adding PrimeHack to Steam"
+	add_to_steam 'primehack' 'PrimeHack' "$toolsPath\launchers\primehack.ps1" "$emusPath\primehack" "$emudeckFolder\backend\tools\launchers\icons\primehack.ico" "Emulation"
+}

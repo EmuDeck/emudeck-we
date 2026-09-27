@@ -89,3 +89,8 @@ function Xenia_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function Xenia_addToSteam(){
+	setMSG "Adding Xenia to Steam"
+	add_to_steam 'xenia' 'Xenia' "$toolsPath\launchers\xenia.ps1" "$emusPath\xenia" "$emudeckFolder\backend\tools\launchers\icons\xenia.ico" "Emulation"
+}

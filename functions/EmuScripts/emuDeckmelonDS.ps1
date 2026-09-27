@@ -101,3 +101,8 @@ function melonDS_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function melonDS_addToSteam(){
+	setMSG "Adding melonDS to Steam"
+	add_to_steam 'melonds' 'melonDS' "$toolsPath\launchers\melonDS.ps1" "$emusPath\melonDS" "$emudeckFolder\backend\tools\launchers\icons\melonDS.ico" "Emulation"
+}

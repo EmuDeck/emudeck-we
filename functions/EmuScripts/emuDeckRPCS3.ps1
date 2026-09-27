@@ -161,3 +161,8 @@ function RPCS3_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function RPCS3_addToSteam(){
+	setMSG "Adding RPCS3 to Steam"
+	add_to_steam 'rpcs3' 'RPCS3' "$toolsPath\launchers\rpcs3.ps1" "$emusPath\RPCS3" "$emudeckFolder\backend\tools\launchers\icons\rpcs3.ico" "Emulation"
+}

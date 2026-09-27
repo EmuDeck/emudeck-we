@@ -68,3 +68,8 @@ function ScummVM_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function ScummVM_addToSteam(){
+	setMSG "Adding ScummVM to Steam"
+	add_to_steam 'scummvm' 'ScummVM' "$toolsPath\launchers\scummvm.ps1" "$emusPath\scummvm" "$emudeckFolder\backend\tools\launchers\icons\scummvm.ico" "Emulation"
+}

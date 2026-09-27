@@ -195,3 +195,8 @@ Write-Output "nope"
   #download $DIT_releaseURL "UniversalDynamicInput.7z"
   #moveFromTo "$temp/UniversalDynamicInput" "$emusPath\Dolphin-x64\User\Load"
 }
+
+function Dolphin_addToSteam(){
+	setMSG "Adding Dolphin to Steam"
+	add_to_steam 'dolphin' 'Dolphin' "$toolsPath\launchers\dolphin.ps1" "$emusPath\Dolphin-x64" "$emudeckFolder\backend\tools\launchers\icons\dolphin.ico" "Emulation"
+}

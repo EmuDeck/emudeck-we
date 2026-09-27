@@ -68,3 +68,8 @@ function BigPEmu_resetConfig(){
         Write-Output "true"
     }
 }
+
+function BigPEmu_addToSteam(){
+	setMSG "Adding BigPEmu to Steam"
+	add_to_steam 'bigpemu' 'BigPEmu' "$toolsPath\launchers\BigPEmu.ps1" "$emusPath\BigPEmu" "$emudeckFolder\backend\tools\launchers\icons\BigPEmu.ico" "Emulation"
+}

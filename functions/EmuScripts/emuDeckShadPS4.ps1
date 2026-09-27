@@ -108,3 +108,8 @@ function ShadPS4_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function ShadPS4_addToSteam(){
+	setMSG "Adding shadPS4 to Steam"
+	add_to_steam 'shadps4' 'shadPS4' "$toolsPath\launchers\shadps4.ps1" "$emusPath\shadps4-qt" "$emudeckFolder\backend\tools\launchers\icons\ShadPS4.ico" "Emulation"
+}

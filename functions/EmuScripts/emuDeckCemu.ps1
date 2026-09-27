@@ -94,3 +94,8 @@ function Cemu_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function Cemu_addToSteam(){
+	setMSG "Adding Cemu to Steam"
+	add_to_steam 'cemu' 'Cemu' "$toolsPath\launchers\Cemu.ps1" "$emusPath\cemu" "$emudeckFolder\backend\tools\launchers\icons\cemu.ico" "Emulation"
+}

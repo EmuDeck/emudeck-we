@@ -99,3 +99,8 @@ function Flycast_resetConfig(){
 		Write-Output "true"
 	}
 }
+
+function Flycast_addToSteam(){
+	setMSG "Adding Flycast to Steam"
+	add_to_steam 'flycast' 'Flycast' "$toolsPath\launchers\flycast.ps1" "$emusPath\flycast" "$emudeckFolder\backend\tools\launchers\icons\flycast.ico" "Emulation"
+}

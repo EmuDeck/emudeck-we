@@ -120,3 +120,8 @@ function PCSX2QT_retroAchievementsHardCoreOn(){
 function PCSX2QT_retroAchievementsHardCoreOff(){
 	setConfig 'ChallengeMode' 'false' "$PCSX2QT_configFile"
 }
+
+function PCSX2QT_addToSteam(){
+	setMSG "Adding PCSX2 to Steam"
+	add_to_steam 'pcsx2' 'PCSX2' "$toolsPath\launchers\pcsx2.ps1" "$emusPath\PCSX2-Qt" "$emudeckFolder\backend\tools\launchers\icons\pcsx2.ico" "Emulation"
+}

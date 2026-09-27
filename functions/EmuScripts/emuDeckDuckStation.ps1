@@ -178,3 +178,8 @@ function DuckStation_encryptCheevosToken($token, $username){
   function DuckStation_retroAchievementsHardCoreOff(){
 		setConfig 'ChallengeMode' 'false' "$DuckStation_configFile"
   }
+
+function DuckStation_addToSteam(){
+	setMSG "Adding DuckStation to Steam"
+	add_to_steam 'duckstation' 'DuckStation' "$toolsPath\launchers\duckstation.ps1" "$emusPath\duckstation" "$emudeckFolder\backend\tools\launchers\icons\duckstation.ico" "Emulation"
+}

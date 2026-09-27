@@ -102,3 +102,8 @@ function SuperModel_resetConfig(){
         Write-Output "false"
     }
 }
+
+function SuperModel_addToSteam(){
+	setMSG "Adding Supermodel to Steam"
+	add_to_steam 'supermodel' 'Supermodel' "$toolsPath\launchers\supermodel.ps1" "$emusPath\Supermodel" "$emudeckFolder\backend\tools\launchers\icons\supermodel.ico" "Emulation"
+}

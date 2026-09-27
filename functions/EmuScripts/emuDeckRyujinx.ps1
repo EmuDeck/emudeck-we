@@ -348,3 +348,8 @@ function Ryujinx_migrateToSDL3(){
 	Ryujinx_init | Out-Null
 	return $true
 }
+
+function Ryujinx_addToSteam(){
+	setMSG "Adding Ryujinx to Steam"
+	add_to_steam 'ryujinx' 'Ryujinx' "$toolsPath\launchers\ryujinx.ps1" "$emusPath\Ryujinx" "$emudeckFolder\backend\tools\launchers\icons\Ryujinx.ico" "Emulation"
+}

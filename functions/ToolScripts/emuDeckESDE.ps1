@@ -339,7 +339,7 @@ function ESDE_setEmu($emu, $system){
 
 function ESDE_addToSteam(){
 	setMSG "Adding $ESDE_toolName to Steam"
-	add_to_steam 'es-de' 'EmulationStationDE' "$toolsPath\launchers\esde\EmulationStationDE.ps1" "$esdePath" "$emudeckFolder\backend\tools\launchers\icons\EmulationStationDE.ico"
+	add_to_steam 'es-de' 'EmulationStationDE' "$toolsPath\launchers\esde\EmulationStationDE.ps1" "$esdePath" "$emudeckFolder\backend\tools\launchers\icons\EmulationStationDE.ico" "Emulation" "true"
 }
 function ESDE_ensurePS3Emulators(){
 	$ps3Roms = "$romsPath\ps3"

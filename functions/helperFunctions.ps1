@@ -1530,7 +1530,7 @@ function check_for_pip($packageName) {
 
 
 
-function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
+function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collection = "Emulation", $recent = "false"){
   #Example
   #add_to_steam "es-de" "ES-DE" "$toolsPath/launchers/es-de/es-de.sh" "$HOME/Applications/" "$HOME/.config/EmuDeck/backend/icons/ico/EmulationStationDE.ico"
 
@@ -1542,7 +1542,7 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
   $target_path = 'C:\Windows\System32\cmd.exe\" /k start /min \"Loading PowerShell Launcher\" \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path + ' && exit && exit --emudeck'
   $steam_directory="$steamInstallPath"
   $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
-  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id"
+  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id" "$collection" "$recent"
 
   confirmDialog -TitleText "$name" -MessageText "$name has been added to your Non Steam Games"
 
