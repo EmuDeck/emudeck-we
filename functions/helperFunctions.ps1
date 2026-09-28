@@ -930,34 +930,6 @@ function setScreenDimensionsScale(){
 	. "$env:APPDATA\emudeck\settings.ps1"
 }
 
-function fullScreenToast {
-
-	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-
-	$form = New-Object Windows.Forms.Form
-	$form.Text = "Popup"
-	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
-	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
-	$form.BackColor = [System.Drawing.Color]::Black
-
-	# Obtener el tamaño de la pantalla
-	$screenWidth = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
-	$screenHeight = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
-
-	$form.Width = $screenWidth
-	$form.Height = $screenHeight
-
-# 	$pictureBox = New-Object Windows.Forms.PictureBox
-# 	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
-# 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
-# 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
-#
-# 	$form.Controls.Add($pictureBox)
-	$form.Show()
-
-	return $form
-}
-
 function steamToast {
   param (
 	[string]$TitleText = "CloudSync",
