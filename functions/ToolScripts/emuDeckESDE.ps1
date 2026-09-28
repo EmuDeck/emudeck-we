@@ -302,12 +302,50 @@ function ESDE_setDefaultEmulators(){
 	ESDE_setEmu 'PPSSPP (Standalone)' psp
 	ESDE_setEmu 'Dolphin (Standalone)' wii
 	ESDE_setEmu 'PCSX2 (Standalone)' ps2
-	ESDE_setEmu 'melonDS' nds
+	if ((melonDS_IsInstalled) -eq "true") {
+		melonDS_setESDEEmu
+	} else {
+		ESDE_setEmu 'melonDS' nds
+	}
 	ESDE_setEmu 'Azahar (Standalone)' n3ds
 	ESDE_setEmu 'Beetle Lynx' atarilynx
 	ESDE_setEmu 'DuckStation (Standalone)' psx
 	ESDE_setEmu 'Beetle Saturn' saturn
 	ESDE_setEmu 'ScummVM (Standalone)' scummvm
+
+	if ((mGBA_IsInstalled) -eq "true") {
+		mGBA_setESDEEmu
+	}
+	if ((Flycast_IsInstalled) -eq "true") {
+		Flycast_setESDEEmu
+	}
+	if ((MAME_IsInstalled) -eq "true") {
+		MAME_setESDEEmu
+	}
+	if ((BigPEmu_IsInstalled) -eq "true") {
+		BigPEmu_setESDEEmu
+	}
+}
+
+function ESDE_forceEmu($emu, $system){
+	if ((ESDE_IsInstalled) -ne "true") {
+		return
+	}
+
+	$gamelistFile="$esdePath/ES-DE/gamelists/$system/gamelist.xml"
+	mkdir "$esdePath/ES-DE/gamelists/$system" -ErrorAction SilentlyContinue | Out-Null
+
+	if (-not (Test-Path -Path "$gamelistFile")) {
+		$content = "<?xml version=`"1.0`"?>`n<alternativeEmulator>`n`t<label>$emu</label>`n</alternativeEmulator>`n<gameList />`n"
+	} else {
+		$content = Get-Content -Raw -Path "$gamelistFile"
+		if ($content -match '<alternativeEmulator>') {
+			$content = ([regex]'<label>[^<]*</label>').Replace($content, "<label>$emu</label>", 1)
+		} else {
+			$content = $content.TrimEnd() + "`n<alternativeEmulator><label>$emu</label></alternativeEmulator>`n"
+		}
+	}
+	Set-Content -Path "$gamelistFile" -Value $content -Encoding UTF8 -NoNewline
 }
 
 

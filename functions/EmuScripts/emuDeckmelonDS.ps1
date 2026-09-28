@@ -23,6 +23,7 @@ function melonDS_init(){
 
 	melonDS_setupSaves
 	melonDS_setResolution $melondsResolution
+	melonDS_setESDEEmu
 }
 function melonDS_update(){
 	Write-Output "true"
@@ -105,4 +106,8 @@ function melonDS_resetConfig(){
 function melonDS_addToSteam(){
 	setMSG "Adding melonDS to Steam"
 	add_to_steam 'melonds' 'melonDS' "$toolsPath\launchers\melonDS.ps1" "$emusPath\melonDS" "$emudeckFolder\backend\tools\launchers\icons\melonDS.ico" "Emulation"
+}
+
+function melonDS_setESDEEmu(){
+	ESDE_forceEmu 'melonDS (Standalone)' nds
 }

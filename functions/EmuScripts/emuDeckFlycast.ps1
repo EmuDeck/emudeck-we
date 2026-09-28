@@ -16,6 +16,7 @@ function Flycast_init(){
 	Flycast_setEmulationFolder
 	Flycast_setupSaves
 	Flycast_setResolution $flycastResolution
+	Flycast_setESDEEmu
 }
 function Flycast_update(){
 	Write-Output "NYI"
@@ -103,4 +104,11 @@ function Flycast_resetConfig(){
 function Flycast_addToSteam(){
 	setMSG "Adding Flycast to Steam"
 	add_to_steam 'flycast' 'Flycast' "$toolsPath\launchers\flycast.ps1" "$emusPath\flycast" "$emudeckFolder\backend\tools\launchers\icons\flycast.ico" "Emulation"
+}
+function Flycast_setESDEEmu(){
+	ESDE_forceEmu 'Flycast (Standalone)' dreamcast
+	ESDE_forceEmu 'Flycast (Standalone)' naomi
+	ESDE_forceEmu 'Flycast (Standalone)' naomi2
+	ESDE_forceEmu 'Flycast (Standalone)' naomigd
+	ESDE_forceEmu 'Flycast (Standalone)' atomiswave
 }
