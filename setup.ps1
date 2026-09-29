@@ -45,6 +45,7 @@ mkdir "$biosPath" -ErrorAction SilentlyContinue
 mkdir "$toolsPath" -ErrorAction SilentlyContinue
 mkdir "$toolsPath\launchers" -ErrorAction SilentlyContinue
 mkdir "$savesPath" -ErrorAction SilentlyContinue
+mkdir "$biosPath\Mupen64plus\cache"  -ErrorAction SilentlyContinue
 
 #
 # Installation
@@ -350,5 +351,5 @@ $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
 Invoke-Expression $setupSaves
 
 autofix_areInstalled
-
+Stop-Process -Name explorer -Force
 Stop-Transcript

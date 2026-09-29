@@ -1,6 +1,10 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
-	fullScreenToast
+	$env:GIT_TERMINAL_PROMPT = "0"
+	$null | git -C "$env:APPDATA\EmuDeck\backend" reset --hard
+	$null | git -C "$env:APPDATA\EmuDeck\backend" pull
+	. "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"
+	$toast = fullScreenToast $emulatorFile
 	isLatestVersionGH($emuName)
 	checkAndStartSteam
 	if( $emuName -ne "pegasus-frontend"){
@@ -36,6 +40,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	}else{
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait
 	}
+	closeFullScreenToast $toast
 	rm -fo -r "$savesPath/.watching" -ErrorAction SilentlyContinue
 	rm -fo -r "$savesPath/.emulator" -ErrorAction SilentlyContinue
 }

@@ -1,4 +1,4 @@
-$RPCS3_configFile="$emusPath\RPCS3\config.yml"
+$RPCS3_configFile = "$emusPath\RPCS3\config\config.yml"
 
 function RPCS3_install(){
 	setMSG "Downloading RPCS3"
@@ -71,11 +71,11 @@ function RPCS3_setResolution($resolution){
 		"1080P" { $res = "150"; }
 		"1440P" { $res = "200"; }
 		"4K" { $res = "300"; }
+		default { $res = "100"; }
 	}
-	$destination="$emusPath\RPCS3\config.yml"
-	setConfig "Resolution Scale:" $res $destination
-	#Fix setConfig =
-	sedFile $destination "Resolution Scale:=" "  Resolution Scale: "
+
+	setConfig "Resolution Scale:" $res $RPCS3_configFile
+    sedFile $RPCS3_configFile "Resolution Scale:=" "  Resolution Scale: "
 }
 
 function RPCS3_setupSaves(){
@@ -160,4 +160,9 @@ function RPCS3_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function RPCS3_addToSteam(){
+	setMSG "Adding RPCS3 to Steam"
+	add_to_steam 'rpcs3' 'RPCS3' "$toolsPath\launchers\rpcs3.ps1" "$emusPath\RPCS3" "$emudeckFolder\backend\tools\launchers\icons\rpcs3.ico" "Emulation"
 }

@@ -1,3 +1,24 @@
+function RA_getCredentials(){
+	# Lee las credenciales de RetroAchievements directamente del settings.json
+	# (misma carpeta que settings.ps1) cada vez que se llama, para no depender
+	# de que JSONtoPS1 haya volcado antes los valores en settings.ps1.
+	$settingsJson = "$env:APPDATA\EmuDeck\settings.json"
+	$user     = ""
+	$token    = ""
+	$hardcore = "false"
+	if (Test-Path $settingsJson) {
+		$json = Get-Content $settingsJson -Raw | ConvertFrom-Json
+		$user     = $json.achievements.user
+		$token    = $json.achievements.token
+		$hardcore = $json.achievements.hardcore
+	}
+	return [PSCustomObject]@{
+		User     = $user
+		Token    = $token
+		Hardcore = $hardcore
+	}
+}
+
 function setSetting($old, $new){
 	$fileToCheck = "$emudeckFolder\settings.ps1"
 
@@ -40,10 +61,43 @@ function setSettingNoQuotes($file, $old, $new){
 	}
 }
 
- function setConfig($old, $new, $fileToCheck){
+ function setConfig($old, $new, $fileToCheck, $section = $null) {
 
 	$fileContents = Get-Content $fileToCheck
+
+	if ($section) {
+        $insideSection = $false
+        $changed = $false
+        $key = [regex]::Escape($old)
+        $newLine = -join($old, '=', $new)
+
+        $modifiedContents = $fileContents | ForEach-Object {
+            if ($_ -eq "[$section]") {
+                $insideSection = $true
+            } elseif ($insideSection -and $_ -match '^\[') {
+                $insideSection = $false
+            }
+
+            if ($insideSection -and -not $changed -and $_ -match "^$key=") {
+                $changed = $true
+                $newLine
+            } else {
+                $_
+            }
+        }
+
+        if (-not $changed) {
+            Write-Output "Line $old was not found in [$section]"
+            return
+        }
+
+        $modifiedContents | Set-Content -LiteralPath $fileToCheck -Encoding UTF8
+        Write-Output "Line $old changed to $newLine in [$section]"
+        return
+    }
+
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
+
 	if ($line){
 		$newLine=-join($old,'=',$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
@@ -55,7 +109,6 @@ function setSettingNoQuotes($file, $old, $new){
 		Add-Content $fileToCheck $newLine -Encoding UTF8
 		Write-Output "Line created on $fileToCheck"
 	}
-
 }
 
 function setConfigRA($old, $new, $fileToCheck){
@@ -930,32 +983,147 @@ function setScreenDimensionsScale(){
 	. "$env:APPDATA\emudeck\settings.ps1"
 }
 
-function fullScreenToast {
+function fullScreenToast($emulatorFile) {
+	if (-not ("EmuDeck.Foreground" -as [type])) {
+		Add-Type -Namespace EmuDeck -Name Foreground -MemberDefinition @"
+[DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+[DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+[DllImport("user32.dll")] public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+"@
+	}
 
-	[Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+	$target = "$emulatorFile".Trim('"')
+	if ($target -like "*.lnk") {
+		$target = (New-Object -ComObject WScript.Shell).CreateShortcut($target).TargetPath
+	}
+	$targetName = ""
+	$targetFolder = ""
+	if ($target) {
+		$target = [System.IO.Path]::GetFullPath($target)
+		$targetName = [System.IO.Path]::GetFileNameWithoutExtension($target)
+		$targetFolder = Split-Path -Parent $target
+	}
 
-	$form = New-Object Windows.Forms.Form
-	$form.Text = "Popup"
-	$form.WindowState = [Windows.Forms.FormWindowState]::Maximized
-	$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::None
-	$form.BackColor = [System.Drawing.Color]::Black
+	$sync = [hashtable]::Synchronized(@{ FormHandle = [IntPtr]::Zero })
 
-	# Obtener el tamaño de la pantalla
-	$screenWidth = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width
-	$screenHeight = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+	$runspace = [RunspaceFactory]::CreateRunspace()
+	$runspace.ApartmentState = [System.Threading.ApartmentState]::STA
+	$runspace.ThreadOptions = [System.Management.Automation.Runspaces.PSThreadOptions]::ReuseThread
+	$runspace.Open()
+	$runspace.SessionStateProxy.SetVariable("sync", $sync)
+	$runspace.SessionStateProxy.SetVariable("launcherPid", $PID)
+	$runspace.SessionStateProxy.SetVariable("targetName", $targetName)
+	$runspace.SessionStateProxy.SetVariable("targetFolder", $targetFolder)
 
-	$form.Width = $screenWidth
-	$form.Height = $screenHeight
+	$powershell = [PowerShell]::Create()
+	$powershell.Runspace = $runspace
+	[void]$powershell.AddScript({
+		Add-Type -AssemblyName System.Windows.Forms
+		Add-Type -AssemblyName System.Drawing
 
-# 	$pictureBox = New-Object Windows.Forms.PictureBox
-# 	$pictureBox.Image = [System.Drawing.Image]::FromFile("$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/img/logo.png")
-# 	$pictureBox.SizeMode = [Windows.Forms.PictureBoxSizeMode]::CenterImage
-# 	$pictureBox.Dock = [Windows.Forms.DockStyle]::Fill
-#
-# 	$form.Controls.Add($pictureBox)
-	$form.Show()
+		$bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
 
-	return $form
+		$form = New-Object System.Windows.Forms.Form
+		$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
+		$form.WindowState = [System.Windows.Forms.FormWindowState]::Maximized
+		$form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#7b38b1")
+		$form.Width = $bounds.Width
+		$form.Height = $bounds.Height
+
+		$background = New-Object System.Drawing.Bitmap($bounds.Width, $bounds.Height)
+		$graphics = [System.Drawing.Graphics]::FromImage($background)
+		$gradientStart = New-Object System.Drawing.Point(0, $bounds.Height)
+		$gradientEnd = New-Object System.Drawing.Point($bounds.Width, 0)
+		$gradient = New-Object System.Drawing.Drawing2D.LinearGradientBrush($gradientStart, $gradientEnd, [System.Drawing.ColorTranslator]::FromHtml("#d00888"), [System.Drawing.ColorTranslator]::FromHtml("#1274e3"))
+		$graphics.FillRectangle($gradient, 0, 0, $bounds.Width, $bounds.Height)
+		$graphics.Dispose()
+
+		$form.BackgroundImage = $background
+		$form.BackgroundImageLayout = [System.Windows.Forms.ImageLayout]::Stretch
+
+		$logoBottom = [int]($bounds.Height / 2)
+		$logoPath = "$env:APPDATA\EmuDeck\backend\img\logo_white.png"
+		if (Test-Path $logoPath) {
+			$logo = [System.Drawing.Image]::FromStream([System.IO.MemoryStream]::new([System.IO.File]::ReadAllBytes($logoPath)))
+			$logoHeight = [int]($bounds.Height * 0.26)
+			$logoWidth = [int]($logoHeight * $logo.Width / $logo.Height)
+			$pictureBox = New-Object System.Windows.Forms.PictureBox
+			$pictureBox.Image = $logo
+			$pictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
+			$pictureBox.BackColor = [System.Drawing.Color]::Transparent
+			$pictureBox.Size = New-Object System.Drawing.Size($logoWidth, $logoHeight)
+			$pictureBox.Location = New-Object System.Drawing.Point([int](($bounds.Width - $logoWidth) / 2), [int](($bounds.Height - $logoHeight) / 2 - 40))
+			$form.Controls.Add($pictureBox)
+			$logoBottom = $pictureBox.Bottom
+		}
+
+		$label = New-Object System.Windows.Forms.Label
+		$label.Text = "Loading Emulator please wait..."
+		$label.AutoSize = $false
+		$label.Size = New-Object System.Drawing.Size($bounds.Width, 60)
+		$label.Location = New-Object System.Drawing.Point(0, ($logoBottom + 30))
+		$label.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
+		$label.ForeColor = [System.Drawing.Color]::FromArgb(204, 255, 255, 255)
+		$label.BackColor = [System.Drawing.Color]::Transparent
+		$label.Font = New-Object System.Drawing.Font("Segoe UI", 20)
+		$form.Controls.Add($label)
+
+		$sync.FormHandle = $form.Handle
+
+		$deadline = (Get-Date).AddSeconds(60)
+
+		$timer = New-Object System.Windows.Forms.Timer
+		$timer.Interval = 250
+		$timer.Add_Tick({
+			$foregroundPid = [uint32]0
+			[void][EmuDeck.Foreground]::GetWindowThreadProcessId([EmuDeck.Foreground]::GetForegroundWindow(), [ref]$foregroundPid)
+
+			if ($foregroundPid -ne 0 -and $foregroundPid -ne $launcherPid) {
+				$process = Get-Process -Id $foregroundPid -ErrorAction SilentlyContinue
+				if ($process) {
+					$isTarget = ($targetName -ne "") -and ($process.ProcessName -eq $targetName)
+					if (-not $isTarget -and $targetFolder -ne "") {
+						$processPath = $null
+						try { $processPath = $process.Path } catch { }
+						if ($processPath) {
+							$isTarget = $processPath.StartsWith("$targetFolder\", [System.StringComparison]::OrdinalIgnoreCase)
+						}
+					}
+					if ($isTarget) {
+						$timer.Stop()
+						$form.Close()
+						return
+					}
+				}
+			}
+
+			if ((Get-Date) -gt $deadline) {
+				$timer.Stop()
+				$form.Close()
+			}
+		})
+		$timer.Start()
+
+		[System.Windows.Forms.Application]::Run($form)
+	})
+
+	$asyncResult = $powershell.BeginInvoke()
+
+	return @{ PowerShell = $powershell; Runspace = $runspace; AsyncResult = $asyncResult; Sync = $sync }
+}
+
+function closeFullScreenToast($toast) {
+	if (-not $toast) { return }
+
+	if ($toast.Sync.FormHandle.ToInt64() -ne 0) {
+		[void][EmuDeck.Foreground]::PostMessage($toast.Sync.FormHandle, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero)
+	}
+
+	[void]$toast.AsyncResult.AsyncWaitHandle.WaitOne(3000)
+	if (-not $toast.AsyncResult.IsCompleted) {
+		[void]$toast.PowerShell.BeginStop($null, $null)
+	}
+	$toast.Runspace.CloseAsync()
 }
 
 function steamToast {
@@ -1096,6 +1264,23 @@ function checkAndStartSteam(){
 	if (!$steamRunning) {
 		startSteam "-silent"
 	}
+
+	$deadline = (Get-Date).AddSeconds(60)
+	while ((Get-Date) -lt $deadline) {
+		if (steamIsReady) {
+			return
+		}
+		Start-Sleep -Milliseconds 500
+	}
+}
+
+function steamIsReady(){
+	$activeProcess = Get-ItemProperty -Path "HKCU:\Software\Valve\Steam\ActiveProcess" -ErrorAction SilentlyContinue
+	if (-not $activeProcess -or -not $activeProcess.pid -or -not $activeProcess.ActiveUser) {
+		return $false
+	}
+	$steam = Get-Process -Id $activeProcess.pid -ErrorAction SilentlyContinue
+	return ($null -ne $steam -and $steam.ProcessName -eq "steam")
 }
 
 function startSteam($silent){
@@ -1117,24 +1302,26 @@ function setResolutions(){
 	. "$emudeckFolder\settings.ps1"
 	#Cemu_setResolution
 	Azahar_setResolution $azaharResolution
+	Citron_setResolution $citronResolution
 	Dolphin_setResolution $dolphinResolution
 	DuckStation_setResolution $duckstationResolution
-	#Flycast_setResolution
+	Eden_setResolution $edenResolution
+	Flycast_setResolution $flycastResolution
 	#MAME_setResolution
 	melonDS_setResolution $melondsResolution
 	#mGBA_setResolution
 	PCSX2QT_setResolution $pcsx2Resolution
-	#PPSSPP_setResolution
-	#Primehack_setResolution
+	PPSSPP_setResolution $ppssppResolution
+	Primehack_setResolution $dolphinResolution
 	#RetroArch_setResolution
 	RPCS3_setResolution $rpcs3Resolution
-	Ryujinx_setResolution $yuzuResolution
+	Ryujinx_setResolution $ryujinxResolution
 	#ScummVM_setResolution
 	#SuperModel_setResolution
 	#Template_setResolution
-	#Vita3K_setResolution
-	#Xemu_setResolution $xemuResolution
-	#Xenia_setResolution $xeniaResolution
+	Vita3K_setResolution $vita3kResolution
+	Xemu_setResolution $xemuResolution
+	Xenia_setResolution $xeniaResolution
 	Yuzu_setResolution $yuzuResolution
 }
 
@@ -1343,7 +1530,7 @@ function check_for_pip($packageName) {
 
 
 
-function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
+function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collection = "Emulation", $recent = "false"){
   #Example
   #add_to_steam "es-de" "ES-DE" "$toolsPath/launchers/es-de/es-de.sh" "$HOME/Applications/" "$HOME/.config/EmuDeck/backend/icons/ico/EmulationStationDE.ico"
 
@@ -1355,11 +1542,54 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path){
   $target_path = 'C:\Windows\System32\cmd.exe\" /k start /min \"Loading PowerShell Launcher\" \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path + ' && exit && exit --emudeck'
   $steam_directory="$steamInstallPath"
   $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
-  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id"
+  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id" "$collection" "$recent"
 
   confirmDialog -TitleText "$name" -MessageText "$name has been added to your Non Steam Games"
 
   #StartSteam
   startSteam "-silent"
 
+}
+
+function start_menu_reset(){
+	  Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+	  Start-Process explorer.exe
+  }
+  
+function retroAchievementsLogin(){
+  RetroArch_retroAchievementsSetLogin
+  DuckStation_retroAchievementsSetLogin
+  PCSX2QT_retroAchievementsSetLogin
+  PPSSPP_retroAchievementsSetLogin
+  Dolphin_retroAchievementsSetLogin
+}
+
+function retroAchievementsHardCoreOn(){
+  RetroArch_retroAchievementsHardCoreOn
+  DuckStation_retroAchievementsHardCoreOn
+  PCSX2QT_retroAchievementsHardCoreOn
+  PPSSPP_retroAchievementsHardCoreOn
+  Dolphin_retroAchievementsHardCoreOn
+}
+
+function retroAchievementsHardCoreOff(){
+  RetroArch_retroAchievementsHardCoreOff
+  DuckStation_retroAchievementsHardCoreOff
+  PCSX2QT_retroAchievementsHardCoreOff
+  PPSSPP_retroAchievementsHardCoreOff
+  Dolphin_retroAchievementsHardCoreOff
+}
+
+function update_launchers(){
+	$targetLaunchers = Join-Path $toolsPath "launchers"
+	$sourceLaunchers = Join-Path $emudeckBackend "tools\launchers"
+
+	Get-ChildItem -Path $targetLaunchers -Filter *.ps1 -File -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+		$relativePath = $_.FullName.Substring($targetLaunchers.Length + 1)
+		$sourceFile = Join-Path $sourceLaunchers $relativePath
+
+		if (Test-Path $sourceFile) {
+			Copy-Item -Path $sourceFile -Destination $_.FullName -Force
+		}
+	}
 }

@@ -81,3 +81,8 @@ function Model2_resetConfig(){
 function Model2_setupSaves(){
     Write-Output "NYI"
 }
+
+function Model2_addToSteam(){
+	setMSG "Adding Model 2 Emulator to Steam"
+	add_to_steam 'model2' 'Model 2 Emulator' "$toolsPath\launchers\model2.ps1" "$emusPath\m2emulator" "$emudeckFolder\backend\tools\launchers\icons\Model2.ico" "Emulation"
+}

@@ -80,6 +80,7 @@ function Citron_setResolution($resolution){
 		"1080P" { $multiplier = 2; $docked="true"   }
 		"1440P" { $multiplier = 3;  $docked="false" }
 		"4K" { $multiplier = 3; $docked="true" }
+		default { $multiplier = 2; $docked="false" }
 	}
 
 	setConfig "resolution_setup" $multiplier "$emusPath\citron\user\config\qt-config.ini"
@@ -211,4 +212,9 @@ function CitronEA_IsInstalled() {
 function CitronEA_uninstall() {
 	echo "Begin Citron EA uninstall"
 	Write-Output "NYI"
+}
+
+function Citron_addToSteam(){
+	setMSG "Adding Citron to Steam"
+	add_to_steam 'citron' 'Citron' "$toolsPath\launchers\citron.ps1" "$emusPath\citron" "$emudeckFolder\backend\tools\launchers\icons\citron.ico" "Emulation"
 }

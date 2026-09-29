@@ -1,4 +1,5 @@
 $Dolphin_configFile="$emusPath\Dolphin-x64\User\Config\Dolphin.ini"
+$Dolphin_cheevosConfigFile="$emusPath\Dolphin-x64\User\Config\RetroAchievements.ini"
 
 function Dolphin_install(){
 	setMSG "Downloading Dolphin"
@@ -34,7 +35,10 @@ function Dolphin_init(){
 	Dolphin_setupSaves
 	Dolphin_DynamicInputTextures
 	Dolphin_setResolution $dolphinResolution
-
+	
+	if ("$achievementsUserToken" -ne "" ){
+		Dolphin_retroAchievementsSetLogin
+	}
 
 	if ( "$arDolphin" -eq 169 ){
 		Dolphin_wideScreenOn
@@ -79,6 +83,7 @@ function Dolphin_setResolution($resolution){
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
+		default { $multiplier = 2 }
 	}
 
 	setConfig "InternalResolution" $multiplier "$emusPath\Dolphin-x64\User\Config\GFX.ini"
@@ -126,6 +131,38 @@ function Dolphin_wideScreenOff(){
 	setSettingNoQuotes $configFile $wideScreenHack "False"
 	setSettingNoQuotes $configFile $AspectRatio "0"
 }
+function Dolphin_ensureCheevosConfig(){
+	if (-not (Test-Path $Dolphin_cheevosConfigFile)) {
+		$src = "$env:APPDATA\EmuDeck\backend\configs\Dolphin\User\Config\RetroAchievements.ini"
+		New-Item -ItemType Directory -Path (Split-Path $Dolphin_cheevosConfigFile) -Force | Out-Null
+		Copy-Item -Path $src -Destination $Dolphin_cheevosConfigFile -Force -ErrorAction SilentlyContinue
+	}
+}
+function Dolphin_retroAchievementsSetLogin(){
+	Dolphin_ensureCheevosConfig
+	$ra = RA_getCredentials
+	# Dolphin usa booleanos capitalizados (True/False) en RetroAchievements.ini
+	$hc = if ("$($ra.Hardcore)" -ieq 'true') { 'True' } else { 'False' }
+
+	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
+	$content = $content -replace '(?m)^Enabled\s*=.*$',         "Enabled = True"
+	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = $hc"
+	$content = $content -replace '(?m)^Username\s*=.*$',        "Username = $($ra.User)"
+	$content = $content -replace '(?m)^ApiToken\s*=.*$',        "ApiToken = $($ra.Token)"
+	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
+}
+function Dolphin_retroAchievementsHardCoreOn(){
+	Dolphin_ensureCheevosConfig
+	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
+	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = True"
+	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
+}
+function Dolphin_retroAchievementsHardCoreOff(){
+	Dolphin_ensureCheevosConfig
+	$content = Get-Content -Path $Dolphin_cheevosConfigFile -Raw
+	$content = $content -replace '(?m)^HardcoreEnabled\s*=.*$', "HardcoreEnabled = False"
+	$content | Set-Content -Path $Dolphin_cheevosConfigFile -Encoding UTF8
+}
 function Dolphin_bezelOn(){
 	Write-Output "NYI"
 }
@@ -157,4 +194,9 @@ Write-Output "nope"
   #mkdir "$emusPath\Dolphin-x64\User\Load" -ErrorAction SilentlyContinue
   #download $DIT_releaseURL "UniversalDynamicInput.7z"
   #moveFromTo "$temp/UniversalDynamicInput" "$emusPath\Dolphin-x64\User\Load"
+}
+
+function Dolphin_addToSteam(){
+	setMSG "Adding Dolphin to Steam"
+	add_to_steam 'dolphin' 'Dolphin' "$toolsPath\launchers\dolphin.ps1" "$emusPath\Dolphin-x64" "$emudeckFolder\backend\tools\launchers\icons\dolphin.ico" "Emulation"
 }

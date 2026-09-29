@@ -55,6 +55,7 @@ function PCSX2QT_setResolution($resolution){
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
+		default { $multiplier = 2 }
 	}
 
 	setConfig "upscale_multiplier" $multiplier "$PCSX2QT_configFile"
@@ -107,7 +108,20 @@ function PCSX2QT_resetConfig(){
 }
 
 function PCSX2QT_retroAchievementsSetLogin() {
+	$ra = RA_getCredentials
 	$content = Get-Content -Path $PCSX2QT_configFile -Raw
-	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $achievementsUser`nToken = $achievementsUserToken`nChallengeMode = $achievementsHardcore"
+	$content = $content -replace '(?s)(\[Achievements\].*?Enabled\s*=\s*)\w+', "[Achievements]`nEnabled = true`nUsername = $($ra.User)`nToken = $($ra.Token)`nChallengeMode = $($ra.Hardcore)"
 	$content | Set-Content -Path $PCSX2QT_configFile -Encoding UTF8
+}
+
+function PCSX2QT_retroAchievementsHardCoreOn(){
+	setConfig 'ChallengeMode' 'true' "$PCSX2QT_configFile"
+}
+function PCSX2QT_retroAchievementsHardCoreOff(){
+	setConfig 'ChallengeMode' 'false' "$PCSX2QT_configFile"
+}
+
+function PCSX2QT_addToSteam(){
+	setMSG "Adding PCSX2 to Steam"
+	add_to_steam 'pcsx2' 'PCSX2' "$toolsPath\launchers\pcsx2.ps1" "$emusPath\PCSX2-Qt" "$emudeckFolder\backend\tools\launchers\icons\pcsx2.ico" "Emulation"
 }

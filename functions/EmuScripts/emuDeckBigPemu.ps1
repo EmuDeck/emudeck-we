@@ -13,6 +13,7 @@ function BigPEmu_init(){
     BigPEmu_setEmulationFolder
     BigPEmu_setupSaves
     BigPEmu_setupStorage
+	BigPEmu_setESDEEmu
 }
 
 function BigPEmu_update(){
@@ -67,4 +68,14 @@ function BigPEmu_resetConfig(){
     if($?){
         Write-Output "true"
     }
+}
+
+function BigPEmu_addToSteam(){
+	setMSG "Adding BigPEmu to Steam"
+	add_to_steam 'bigpemu' 'BigPEmu' "$toolsPath\launchers\BigPEmu.ps1" "$emusPath\BigPEmu" "$emudeckFolder\backend\tools\launchers\icons\BigPEmu.ico" "Emulation"
+}
+
+function BigPEmu_setESDEEmu(){
+	ESDE_forceEmu 'BigPEmu (Standalone)' atarijaguar
+	ESDE_forceEmu 'BigPEmu (Standalone)' atarijaguarcd
 }

@@ -16,6 +16,7 @@ function mGBA_init(){
 	mGBA_setEmulationFolder
 	mGBA_setupSaves
 	#mGBA_addSteamInputProfile
+	mGBA_setESDEEmu
 }
 function mGBA_update(){
 	Write-Output "true"
@@ -73,4 +74,13 @@ function mGBA_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function mGBA_addToSteam(){
+	setMSG "Adding mGBA to Steam"
+	add_to_steam 'mgba' 'mGBA' "$toolsPath\launchers\mgba.ps1" "$emusPath\mgba" "$emudeckFolder\backend\tools\launchers\icons\mgba.ico" "Emulation"
+}
+
+function mGBA_setESDEEmu(){
+	ESDE_forceEmu 'mGBA (Standalone)' gba
 }

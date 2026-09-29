@@ -52,14 +52,16 @@ function Primehack_setupSaves(){
 	$emuSavePath = "$emulationPath\saves\primehack\states"
 	createSaveLink $simLinkPath $emuSavePath
 }
-function Primehack_setResolution(){
+function Primehack_setResolution($resolution){
 	switch ( $resolution )
 	{
 		"720P" { $multiplier = 2 }
 		"1080P" { $multiplier = 3    }
 		"1440P" { $multiplier = 4   }
 		"4K" { $multiplier = 6 }
+		default { $multiplier = 2 }
 	}
+
 	setConfig "InternalResolution" $multiplier "$emusPath\primehack\User\Config\GFX.ini"
 }
 
@@ -109,4 +111,9 @@ function Primehack_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function Primehack_addToSteam(){
+	setMSG "Adding PrimeHack to Steam"
+	add_to_steam 'primehack' 'PrimeHack' "$toolsPath\launchers\primehack.ps1" "$emusPath\primehack" "$emudeckFolder\backend\tools\launchers\icons\primehack.ico" "Emulation"
 }

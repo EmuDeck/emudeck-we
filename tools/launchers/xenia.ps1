@@ -1,6 +1,10 @@
+$env:GIT_TERMINAL_PROMPT = "0"
+$null | git -C "$env:APPDATA\EmuDeck\backend" pull
+
 $emulatorFile = "$env:APPDATA/emudeck/Emulators/xenia/xenia_canary.exe"
 $scriptFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Name)
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
+launcherInit
 
 $wd = Split-Path -Parent $emulatorFile
 

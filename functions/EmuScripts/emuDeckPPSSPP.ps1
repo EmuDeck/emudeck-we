@@ -45,7 +45,7 @@ function PPSSPP_init(){
 	}
 
 	PPSSPP_setupSaves
-	#PPSSPP_setResolution $ppssppResolution
+	PPSSPP_setResolution $ppssppResolution
 }
 function PPSSPP_update(){
 	Write-Output "NYI"
@@ -67,7 +67,16 @@ function PPSSPP_setupSaves(){
 
 }
 function PPSSPP_setResolution($resolution){
-	Write-Output $resolution
+	switch ( $resolution )
+	{
+		"720P" { $multiplier = 3 }
+		"1080P" { $multiplier = 4 }
+		"1440P" { $multiplier = 5 }
+		"4K" { $multiplier = 6 }
+		default { $multiplier = 3 }
+	}
+
+	setConfig "InternalResolution" $multiplier "$PPSSP_configFile"
 }
 function PPSSPP_setupStorage(){
 	Write-Output "NYI"
@@ -119,8 +128,21 @@ function PPSSPP_resetConfig(){
 
 
 function PPSSPP_retroAchievementsSetLogin(){
+	$ra = RA_getCredentials
 	$content = Get-Content -Path $PPSSP_configFile -Raw
-	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $achievementsUser`nAchievementsChallengeMode = $achievementsHardcore"
-	$content | Set-Content -Path $DuckStation_configFile -Encoding UTF8
-	$achievementsUserToken | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
+	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $($ra.User)`nAchievementsChallengeMode = $($ra.Hardcore)"
+	$content | Set-Content -Path $PPSSP_configFile -Encoding UTF8
+	$ra.Token | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
+}
+
+function PPSSPP_retroAchievementsHardCoreOn(){
+	setConfig 'AchievementsChallengeMode' 'true' "$PPSSP_configFile"
+}
+function PPSSPP_retroAchievementsHardCoreOff(){
+	setConfig 'AchievementsChallengeMode' 'false' "$PPSSP_configFile"
+}
+
+function PPSSPP_addToSteam(){
+	setMSG "Adding PPSSPP to Steam"
+	add_to_steam 'ppsspp' 'PPSSPP' "$toolsPath\launchers\ppsspp.ps1" "$emusPath\PPSSPP" "$emudeckFolder\backend\tools\launchers\icons\PPSSPP.ico" "Emulation"
 }

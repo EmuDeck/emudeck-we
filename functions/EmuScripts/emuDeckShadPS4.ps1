@@ -36,6 +36,12 @@ function ShadPS4_update(){
 function ShadPS4_setEmulationFolder(){
 	sedFile "$ShadPS4_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	sedFile "$ShadPS4_configFile" "\" "/"
+	
+	mkdir "$biosPath\shadps4\sys_modules"  -ErrorAction SilentlyContinue
+	$simLinkPath = "$emusPath\ShadPS4-qt\user\sys_modules"
+	$emuBiosPath = "$biosPath\shadps4\sys_modules"
+	createSaveLink $simLinkPath $emuBiosPath
+	
 }
 function ShadPS4_setResolution($resolution){
 	echo "NYI"
@@ -101,4 +107,9 @@ function ShadPS4_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function ShadPS4_addToSteam(){
+	setMSG "Adding shadPS4 to Steam"
+	add_to_steam 'shadps4' 'shadPS4' "$toolsPath\launchers\shadps4.ps1" "$emusPath\shadps4-qt" "$emudeckFolder\backend\tools\launchers\icons\ShadPS4.ico" "Emulation"
 }

@@ -15,6 +15,8 @@ function Flycast_init(){
 	#Flycast_setupStorage
 	Flycast_setEmulationFolder
 	Flycast_setupSaves
+	Flycast_setResolution $flycastResolution
+	Flycast_setESDEEmu
 }
 function Flycast_update(){
 	Write-Output "NYI"
@@ -37,9 +39,23 @@ function Flycast_setupSaves(){
 
 
 }
+
+function Flycast_setResolution($resolution) {
+    switch ($resolution) {
+        "720P"  { $res = 720 }
+        "1080P" { $res = 1200 }
+        "1440P" { $res = 1440 }
+        "4K"    { $res = 2160 }
+        default { $res = 720 }
+    }
+
+    setConfig "rend.Resolution" $res $Flycast_configFile
+}
+
 function Flycast_setupStorage(){
 	Write-Output "NYI"
 }
+
 function Flycast_wipe(){
 	Write-Output "NYI"
 }
@@ -83,4 +99,16 @@ function Flycast_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function Flycast_addToSteam(){
+	setMSG "Adding Flycast to Steam"
+	add_to_steam 'flycast' 'Flycast' "$toolsPath\launchers\flycast.ps1" "$emusPath\flycast" "$emudeckFolder\backend\tools\launchers\icons\flycast.ico" "Emulation"
+}
+function Flycast_setESDEEmu(){
+	ESDE_forceEmu 'Flycast (Standalone)' dreamcast
+	ESDE_forceEmu 'Flycast (Standalone)' naomi
+	ESDE_forceEmu 'Flycast (Standalone)' naomi2
+	ESDE_forceEmu 'Flycast (Standalone)' naomigd
+	ESDE_forceEmu 'Flycast (Standalone)' atomiswave
 }

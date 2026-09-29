@@ -29,12 +29,14 @@ function Azahar_init(){
 
 	mkdir "$emusPath\azahar\user\sysdata"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\azahar\user\sysdata"
-	$emuSavePath = "$biosPath\azahar"
-	createSaveLink $simLinkPath $emuSavePath
+	$emuBiosPath = "$biosPath\azahar\keys"
+	createSaveLink $simLinkPath $emuBiosPath
 
 	Azahar_setupSaves
 
 	Azahar_migrate
+	
+	Azahar_setResolution $azaharResolution
 
 	ESDE_refreshCustomEmus
 
@@ -80,9 +82,10 @@ function Azahar_setResolution($resolution){
 		"1080P" { $multiplier = 5 }
 		"1440P" { $multiplier = 6 }
 		"4K" { $multiplier = 9 }
+		default { $multiplier = 3 }
 	}
 
-	setConfig "resolution_factor" $multiplier "$Azahar_configFile"
+	setConfig "resolution_factor" $multiplier "$Azahar_configFile" "Renderer"
 }
 
 function Azahar_wipe(){
@@ -140,4 +143,9 @@ function Azahar_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function Azahar_addToSteam(){
+	setMSG "Adding Azahar to Steam"
+	add_to_steam 'azahar' 'Azahar' "$toolsPath\launchers\azahar.ps1" "$emusPath\azahar" "$emudeckFolder\backend\tools\launchers\icons\azahar.ico" "Emulation"
 }

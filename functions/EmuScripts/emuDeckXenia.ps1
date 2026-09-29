@@ -2,7 +2,7 @@ $Xenia_configFile="${emusPath}\xenia\xenia-canary.config.toml"
 
 function Xenia_install(){
 	setMSG "Downloading Xenia"
-	$url_xenia = getLatestReleaseURLGH "xenia-canary/xenia-canary" "7z" "windows"
+	$url_xenia = getLatestReleaseURLGH "xenia-canary/xenia-canary-releases" "7z" "windows"
 	download $url_xenia "xenia.7z"
 	moveFromTo "$temp/xenia" "$emusPath\xenia"
 	createLauncher "xenia"
@@ -30,7 +30,7 @@ function Xenia_setupSaves(){
 
 }
 function Xenia_setResolution($resolution){
-	Write-Output $resolution
+	Write-Output "NYI"
 }
 function Xenia_getPatches(){
   $patches_dir="$emusPath/xenia/patches"
@@ -88,4 +88,9 @@ function Xenia_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function Xenia_addToSteam(){
+	setMSG "Adding Xenia to Steam"
+	add_to_steam 'xenia' 'Xenia' "$toolsPath\launchers\xenia.ps1" "$emusPath\xenia" "$emudeckFolder\backend\tools\launchers\icons\xenia.ico" "Emulation"
 }

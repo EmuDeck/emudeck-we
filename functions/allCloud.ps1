@@ -3,5 +3,6 @@
 . "$env:APPDATA\EmuDeck\backend\functions\createLink.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\createLauncher.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\helperFunctions.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\launcherInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\emulatorInit.ps1"

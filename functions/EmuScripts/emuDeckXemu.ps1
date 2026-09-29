@@ -15,7 +15,7 @@ function Xemu_init(){
 	Xemu_setupStorage
 	Xemu_setCustomizations
 	Xemu_setupSaves
-	#Xemu_setResolution $xemuResolution
+	Xemu_setResolution $xemuResolution
 }
 function Xemu_update(){
 	Write-Output "NYI"
@@ -28,7 +28,29 @@ function Xemu_setupSaves(){
 	createSaveLink $simLinkPath $emuSavePath
 }
 function Xemu_setResolution($resolution){
-	Write-Output $resolution
+	switch ( $resolution )
+	{
+		"720P" { $multiplier = 1 }
+		"1080P" { $multiplier = 2 }
+		"1440P" { $multiplier = 3 }
+		"4K" { $multiplier = 5 }
+		default { $multiplier = 1 }
+	}
+
+	$toml = Get-Content -LiteralPath $Xemu_configFile -Raw
+
+    if ($toml -match '(?m)^\[display\.quality\]\r?$') {
+        $toml = $toml -replace '(?m)^surface_scale\s*=.*$', "surface_scale = $multiplier"
+    }
+    else {
+        $toml = $toml -replace '(?m)^\[sys\]\r?$', "[display.quality]`r`nsurface_scale = $multiplier`r`n[sys]"
+    }
+
+    [System.IO.File]::WriteAllText(
+        $Xemu_configFile,
+        $toml,
+        [System.Text.UTF8Encoding]::new($false)
+    )
 }
 function Xemu_setupStorage(){
 	mkdir "$storagePath\xemu" -ErrorAction SilentlyContinue
@@ -92,3 +114,8 @@ function Xemu_setCustomizations(){
 	}
 }
 
+
+function Xemu_addToSteam(){
+	setMSG "Adding xemu to Steam"
+	add_to_steam 'xemu' 'xemu' "$toolsPath\launchers\xemu.ps1" "$emusPath\xemu" "$emudeckFolder\backend\tools\launchers\icons\xemu.ico" "Emulation"
+}

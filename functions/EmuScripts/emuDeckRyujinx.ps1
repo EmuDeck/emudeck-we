@@ -83,11 +83,18 @@ function Ryujinx_setResolution($resolution){
 		"1080P" { $multiplier = 1; $docked="true"   }
 		"1440P" { $multiplier = 2;  $docked="false" }
 		"4K" { $multiplier = 2; $docked="true" }
+		default { $multiplier = 1; $docked="false" }
 	}
 
-	$jsonConfig = Get-Content -Path "$emusPath\Ryujinx\portable\Config.json" | ConvertFrom-Json
-	$jsonConfig.docked_mode = $docked
-	$jsonConfig.res_scale = $multiplier
+	$configPath = "$emusPath\Ryujinx\portable\Config.json"
+	if ( -not (Test-Path -Path $configPath) ){
+		return
+	}
+
+	$jsonConfig = Get-Content -Path $configPath -Raw | ConvertFrom-Json
+	$jsonConfig.docked_mode = [System.Convert]::ToBoolean($docked)
+	$jsonConfig.res_scale = [int]$multiplier
+	$jsonConfig | ConvertTo-Json -Depth 100 | Set-Content -Path $configPath -Encoding UTF8
 }
 function Ryujinx_setupStorage(){
 	Write-Output "NYI"
@@ -340,4 +347,9 @@ function Ryujinx_migrateToSDL3(){
 	}
 	Ryujinx_init | Out-Null
 	return $true
+}
+
+function Ryujinx_addToSteam(){
+	setMSG "Adding Ryujinx to Steam"
+	add_to_steam 'ryujinx' 'Ryujinx' "$toolsPath\launchers\ryujinx.ps1" "$emusPath\Ryujinx" "$emudeckFolder\backend\tools\launchers\icons\Ryujinx.ico" "Emulation"
 }

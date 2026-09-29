@@ -22,9 +22,7 @@ function SRM_createParsers(){
 	'nintendo_gbc-ra-sameboy.json',
 	'nintendo_gb-ra-sameboy.json',
 	'sega_saturn-ra-yabause.json',
-	'sony_psx-ra-swanstation.json',
-	'nintendo_gbc-mgba.json',
-	'nintendo_gb-mGBA.json'
+	'sony_psx-ra-swanstation.json'	
 	)
 
 	# Multiemulator?
@@ -107,8 +105,13 @@ function SRM_createParsers(){
 		if ( "$emuGBA" -eq "mgba" ){
 			$exclusionList = $exclusionList + 'nintendo_gameboy-advance-ares.json'
 			$exclusionList = $exclusionList + 'nintendo_gba-ra-mgba.json'
+			$exclusionList = $exclusionList + 'nintendo_gb-ra-gambatte.json'
+			$exclusionList = $exclusionList + 'nintendo_gbc-ra-gambatte.json'
+
 		}else{
-			$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'
+			$exclusionList = $exclusionList + 'nintendo_gba-mgba.json'						
+			$exclusionList = $exclusionList + 'nintendo_gbc-mgba.json'
+			$exclusionList = $exclusionList + 'nintendo_gb-mgba.json'
 		}
 	}
 
@@ -159,6 +162,8 @@ function SRM_createParsers(){
 	}
 	if ( -not (mGBA_isInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
+		$exclusionList=$exclusionList+"nintendo_gb-mgba.json"
+		$exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
 	}
 	if ( -not (BigPEmu_IsInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"atari_jaguar-bigpemu.json"
@@ -398,18 +403,7 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 	createLauncher "srm\steamrommanager"
 
-	$targetLaunchers = Join-Path $toolsPath "launchers"
-	$sourceLaunchers = Join-Path $emudeckBackend "tools\launchers"
-
-	Get-ChildItem -Path $targetLaunchers -Filter *.ps1 -File -Recurse | ForEach-Object {
-		$relativePath = $_.FullName.Substring($targetLaunchers.Length + 1)
-		$targetFile = $_.FullName
-		$sourceFile = Join-Path $sourceLaunchers $relativePath
-
-		if (Test-Path $sourceFile) {
-			Copy-Item -Path $sourceFile -Destination $targetFile -Force
-		}
-	}
+	update_launchers
 
 }
 

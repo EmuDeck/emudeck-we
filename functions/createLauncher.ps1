@@ -43,4 +43,19 @@ function createLauncher($ps1) {
   }
 
   $Shortcut.Save()
+
+  # Notificamos a la shell de Windows para que reindexe el menú de inicio,
+  # si no, los accesos recién creados no aparecen hasta reiniciar el explorador.
+  try {
+    if (-not ("EmuDeck.Shell" -as [type])) {
+      Add-Type -Namespace EmuDeck -Name Shell -MemberDefinition @"
+[System.Runtime.InteropServices.DllImport("shell32.dll")]
+public static extern void SHChangeNotify(int wEventId, uint uFlags, System.IntPtr dwItem1, System.IntPtr dwItem2);
+"@ -ErrorAction SilentlyContinue
+    }
+    # SHCNE_ASSOCCHANGED (0x08000000), SHCNF_IDLIST (0x0000)
+    [EmuDeck.Shell]::SHChangeNotify(0x08000000, 0x0000, [System.IntPtr]::Zero, [System.IntPtr]::Zero)
+  } catch {
+    Write-Host "SHChangeNotify no disponible, el menú de inicio se refrescará al reiniciar el explorador."
+  }
 }

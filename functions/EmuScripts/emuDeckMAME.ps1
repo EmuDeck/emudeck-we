@@ -19,6 +19,7 @@ function MAME_init(){
 	MAME_setupStorage
 	MAME_setEmulationFolder
 	MAME_setupSaves
+	MAME_setESDEEmu
 }
 function MAME_update(){
 	Write-Output "NYI"
@@ -116,4 +117,13 @@ function MAME_resetConfig(){
 	if($?){
 		Write-Output "true"
 	}
+}
+
+function MAME_addToSteam(){
+	setMSG "Adding MAME to Steam"
+	add_to_steam 'mame' 'MAME' "$toolsPath\launchers\MAME.ps1" "$emusPath\mame" "$emudeckFolder\backend\tools\launchers\icons\mame.ico" "Emulation"
+}
+function MAME_setESDEEmu(){
+	ESDE_forceEmu 'MAME (Standalone)' arcade
+	ESDE_forceEmu 'MAME (Standalone)' mame
 }

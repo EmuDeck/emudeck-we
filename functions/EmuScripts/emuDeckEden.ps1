@@ -1,4 +1,4 @@
-$Eden_configFile="${emusPath}\eden-windows-msvc\user\config\qt-config.ini"
+$Eden_configFile = "${emusPath}\eden-windows-msvc\user\config\qt-config.ini"
 
 function Eden_install(){
 	setMSG "Downloading Eden"
@@ -28,7 +28,7 @@ function Eden_init(){
 	Eden_setupStorage
 	Eden_setupSaves
 	Eden_setResolution $edenResolution
-	createLauncher "Eden"
+	createLauncher "eden"
 
 	ESDE_refreshCustomEmus
 
@@ -73,19 +73,23 @@ function Eden_setupSaves(){
 
 
 }
+
 function Eden_setResolution($resolution){
 	switch ( $resolution )
 	{
-		"720P" { $multiplier = 2;  $docked="false"}
-		"1080P" { $multiplier = 2; $docked="true"   }
-		"1440P" { $multiplier = 3;  $docked="false" }
-		"4K" { $multiplier = 3; $docked="true" }
+		"720P"  { $multiplier = 3; $docked = 0 }
+        "1080P" { $multiplier = 3; $docked = 1 }
+        "1440P" { $multiplier = 6; $docked = 0 }
+        "4K"    { $multiplier = 6; $docked = 1 }
+        default { $multiplier = 3; $docked = 0 }
 	}
 
-	setConfig "resolution_setup" $multiplier "$emusPath\eden-windows-msvc\user\config\qt-config.ini"
-	setConfig "use_docked_mode" $docked "$emusPath\eden-windows-msvc\user\config\qt-config.ini"
-
+	setConfig "resolution_setup" $multiplier $Eden_configFile "Renderer"
+    setConfig "resolution_setup\default" "false" $Eden_configFile "Renderer"
+    setConfig "use_docked_mode" $docked $Eden_configFile "System"
+    setConfig "use_docked_mode\default" "false" $Eden_configFile "System"
 }
+
 function Eden_setupStorage(){
 	mkdir "$emulationPath\storage\eden\screenshots" -ErrorAction SilentlyContinue
 	mkdir "$emulationPath\storage\eden\dump" -ErrorAction SilentlyContinue
@@ -125,7 +129,8 @@ function Eden_finalize(){
 	Write-Output "NYI"
 }
 function Eden_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\eden-windows-msvc"
+	$test = Test-Path -Path "$emusPath\eden-windows-msvc\eden.exe" -PathType Leaf
+
 	if($test){
 		Write-Output "true"
 	}else{
@@ -211,4 +216,9 @@ function EdenEA_IsInstalled() {
 function EdenEA_uninstall() {
 	echo "Begin Eden EA uninstall"
 	Write-Output "NYI"
+}
+
+function Eden_addToSteam(){
+	setMSG "Adding Eden to Steam"
+	add_to_steam 'eden' 'Eden' "$toolsPath\launchers\eden.ps1" "$emusPath\eden-windows-msvc" "$emudeckFolder\backend\tools\launchers\icons\eden.ico" "Emulation"
 }
