@@ -45,6 +45,22 @@ function RetroArch_install(){
 		Write-Output "Downloading $url"
 		downloadCore $url $core
 	}
+
+	RetroArch_installBezels
+}
+
+function RetroArch_installBezels(){
+	setMSG "Downloading RetroArch bezels"
+	$overlaysDir = "$emusPath\RetroArch\overlays"
+	$bezelsZip = "$overlaysDir\bezels.zip"
+	mkdir "$overlaysDir\pegasus" -ErrorAction SilentlyContinue | Out-Null
+	try {
+		(New-Object net.webclient).DownloadFile("https://github.com/EmuDeck/bezels/archive/refs/heads/main.zip", $bezelsZip)
+		& $7z e "$bezelsZip" "bezels-main\pegasus\*" -o"$overlaysDir\pegasus" -aoa
+	} catch {
+		Write-Output "Bezels: download failed"
+	}
+	Remove-Item $bezelsZip -ErrorAction SilentlyContinue
 }
 function RetroArch_init(){
 

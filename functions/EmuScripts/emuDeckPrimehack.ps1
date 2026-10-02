@@ -6,6 +6,26 @@ function Primehack_install(){
 	download $url_primehack "PrimeHack.zip"
 	moveFromTo "$temp\PrimeHack" "$emusPath\PrimeHack"
 	createLauncher "primehack"
+	Primehack_installTextures
+}
+
+# Downloads the Steam Deck button textures from the main branch of EmuDeck/primehack-deck-buttons
+function Primehack_installTextures(){
+	setMSG "Downloading PrimeHack textures"
+	$texturesDir = "$emusPath\primehack\User\Load\Textures"
+	$texturesZip = "$texturesDir\primehack-deck-buttons.zip"
+	$rootDir = "$texturesDir\primehack-deck-buttons-main"
+	mkdir $texturesDir -ErrorAction SilentlyContinue | Out-Null
+	try {
+		(New-Object net.webclient).DownloadFile("https://github.com/EmuDeck/primehack-deck-buttons/archive/refs/heads/main.zip", $texturesZip)
+		& $7z x "$texturesZip" "primehack-deck-buttons-main\R3M\*" -o"$texturesDir" -aoa
+		# The zip has a root folder: move its content one level up, merging with existing packs
+		Copy-Item "$rootDir\*" "$texturesDir\" -Recurse -Force
+	} catch {
+		Write-Output "PrimeHack textures: download failed"
+	}
+	Remove-Item $texturesZip -ErrorAction SilentlyContinue
+	Remove-Item $rootDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 function Primehack_init(){
 	setMSG "Dolphin - Configuration"
