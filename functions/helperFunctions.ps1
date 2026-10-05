@@ -291,11 +291,17 @@ function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
 
-	$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets |
-		   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
-		   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
-		   return $url
+	try {
+		$url = Invoke-RestMethod -Uri $url | Select-Object -ExpandProperty assets |
+			   Where-Object { $_.browser_download_url -Match $FindToMatch -and $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
+			   Select-Object -ExpandProperty browser_download_url | Select-Object -First 1
+	} catch {
+		$url = $null
+	}
 
+	if (-not $url) {
+		$url = getMirrorURLGH $Repository $FileType $FindToMatch $IgnoreText
+	}
 	return $url
 }
 
@@ -312,12 +318,43 @@ function getLatestReleaseVersion($Repository, $FileType, $FindToMatch, $IgnoreTe
 function getReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
 
     $url = "https://api.github.com/repos/$Repository/releases?per_page=1"
-    $apiData = Invoke-RestMethod -Uri $url
+    try {
+        $apiData = Invoke-RestMethod -Uri $url
 
-    $releaseURL = $apiData.assets |
-        Where-Object { $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
-        Select-Object -ExpandProperty browser_download_url
+        $releaseURL = $apiData.assets |
+            Where-Object { $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
+            Select-Object -ExpandProperty browser_download_url
+    } catch {
+        $releaseURL = $null
+    }
+
+    if (-not $releaseURL) {
+        $releaseURL = getMirrorURLGH $Repository $FileType $FindToMatch $IgnoreText
+    }
 	return $releaseURL
+}
+
+function getMirrorURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
+
+	$index = "https://github.com/EmuDeck/emulators-mirror/releases/download/latest/index.json"
+	if ($env:EMUDECK_MIRROR_INDEX) {
+		$index = $env:EMUDECK_MIRROR_INDEX
+	}
+	$repo = $Repository.Replace("\", "/").ToLower()
+
+	try {
+		$mirror = (New-Object System.Net.WebClient).DownloadString($index) | ConvertFrom-Json
+	} catch {
+		return $null
+	}
+
+	$entry = $mirror.repos.$repo
+	if (-not $entry) {
+		return $null
+	}
+	return $entry.assets |
+		Where-Object { $_.name -Match $FindToMatch -and $_.name -like "*.$FileType" -and $_.name -notlike "*$IgnoreText*" } |
+		Select-Object -ExpandProperty url -First 1
 }
 
 function check_internet_connection(){
