@@ -60,7 +60,7 @@ function appImageInit(){
 	Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\chdconv\chddeck.bat" -Destination "$toolsPath\chdconv\" -Force
 
 
-	Move-item -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -destination "$env:APPDATA/EmuDeck/settings.ps1" -force
+	Move-item -Path "$env:USERPROFILE/EmuDeck/settings.ps1" -destination "$env:APPDATA/EmuDeck/settings.ps1" -force -ErrorAction SilentlyContinue
 	setSetting "miratedSettings" "true"
 
 	#Remove SRM BOM
