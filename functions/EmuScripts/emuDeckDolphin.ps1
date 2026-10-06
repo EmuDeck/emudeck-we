@@ -2,6 +2,7 @@ $Dolphin_configFile="$emusPath\Dolphin-x64\User\Config\Dolphin.ini"
 $Dolphin_cheevosConfigFile="$emusPath\Dolphin-x64\User\Config\RetroAchievements.ini"
 
 function Dolphin_install(){
+	statInstall "dolphin"
 	setMSG "Downloading Dolphin"
 
     $dolphinUrl = (

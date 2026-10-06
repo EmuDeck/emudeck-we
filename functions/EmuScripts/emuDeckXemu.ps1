@@ -1,6 +1,7 @@
 $Xemu_configFile="${emusPath}\xemu\xemu.toml"
 
 function Xemu_install(){
+	statInstall "xemu"
 	setMSG "Downloading Xemu"
 	$url_xemu = getLatestReleaseURLGH "xemu-project/xemu" "zip" "windows-x86_64(?!-pdb)" "dbg"
 	download $url_xemu "xemu-win-release.zip"

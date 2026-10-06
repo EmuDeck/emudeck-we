@@ -2,6 +2,7 @@ $MAME_emuName="MAME"
 $MAME_configFile="$emusPAth\mame\mame.ini"
 
 function MAME_install(){
+	statInstall "mame"
 	setMSG "Downloading MAME"
 	$url_MAME = getLatestReleaseURLGH "mamedev\mame" "exe" "x64|64bit" "symbols"
 	download $url_MAME "mame.exe"

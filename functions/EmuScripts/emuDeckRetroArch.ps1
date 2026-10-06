@@ -28,6 +28,7 @@ function RetroArch_buildbotDownload($url, $file, $destination, $checkDir){
 }
 
 function RetroArch_install(){
+	statInstall "ra"
 	setMSG "Downloading RetroArch"
 	download $url_ra "ra.7z"
 	moveFromTo "$temp/ra/RetroArch-Win64" "$emusPath\RetroArch"

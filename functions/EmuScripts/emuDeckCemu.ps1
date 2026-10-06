@@ -1,4 +1,5 @@
 function Cemu_install(){
+	statInstall "cemu"
 	setMSG "Downloading Cemu"
 	$url_cemu = getReleaseURLGH 'cemu-project/Cemu' 'zip' 'windows-x64' "ubuntu"
 	download $url_cemu "cemu.zip"

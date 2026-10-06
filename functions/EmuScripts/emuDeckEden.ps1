@@ -1,6 +1,7 @@
 $Eden_configFile = "${emusPath}\eden-windows-msvc\user\config\qt-config.ini"
 
 function Eden_install(){
+	statInstall "eden"
 	setMSG "Downloading Eden"
 	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
 	$url_eden = getLatestReleaseURLGH "eden-emu/eden-mainline" "7z" "windows"

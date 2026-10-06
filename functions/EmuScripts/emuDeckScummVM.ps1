@@ -1,6 +1,7 @@
 $ScummVM_configFile="$env:APPDATA\ScummVM\scummvm.ini"
 
 function ScummVM_install(){
+	statInstall "scummvm"
 	setMSG "Downloading ScummVM"
 	download $url_ScummVM "ScummVM.zip"
 	moveFromTo "$temp\ScummVM" "$emusPath\ScummVM"

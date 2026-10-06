@@ -1,6 +1,7 @@
 $Vita3K_configFile="$emusPath\Vita3K\config.yml"
 
 function Vita3K_install(){
+	statInstall "vita3k"
 	setMSG "Downloading Vita3K"
 	$url_vita3k = getLatestReleaseURLGH "Vita3K/Vita3K" "zip" "windows" "arm64"
 	download $url_vita3k "vita3k.zip"

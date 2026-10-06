@@ -1,6 +1,7 @@
 $PPSSP_configFile="$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp.ini"
 $PPSSP_cheevosTokenFile="$emusPath\PPSSPP\memstick\PSP\SYSTEM\ppsspp_retroachievements.dat"
 function PPSSPP_install(){
+	statInstall "ppsspp"
 	$test=Test-Path -Path "$emusPath\ppsspp_win"
 	if($test){
 		Rename-Item "$emusPath\ppsspp_win" "$emusPath\PPSSPP" -ErrorAction SilentlyContinue

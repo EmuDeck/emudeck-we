@@ -1,6 +1,7 @@
 $Flycast_configFile="$EmusPath\flycast\emu.cfg"
 
 function Flycast_install(){
+	statInstall "flycast"
 	Write-Output "NYI"
 	setMSG "Downloading Flycast"
 	$url_flycast = getLatestReleaseURLGH "flyinghead/flycast" "zip" "win64"

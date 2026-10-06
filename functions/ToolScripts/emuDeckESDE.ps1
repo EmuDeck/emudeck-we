@@ -1,4 +1,5 @@
 function ESDE_install(){
+	statInstall "esde"
 	setMSG 'Downloading EmulationStation DE'
 	
 	#Fixes for ESDE warning message

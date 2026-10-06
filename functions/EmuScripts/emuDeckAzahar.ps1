@@ -1,6 +1,7 @@
 $Azahar_configFile="$emusPath\azahar\user\config\qt-config.ini"
 
 function Azahar_install(){
+	statInstall "azahar"
 	setMSG "Downloading Azahar"
 	$url_azahar = getLatestReleaseURLGH "azahar-emu/azahar" "zip" "windows-msvc"
 	#$url_azahar = "https://github.com/azahar-emu/azahar/releases/download/2120-rc3/azahar-2120-rc3-windows-msvc.zip"

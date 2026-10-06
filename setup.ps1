@@ -37,6 +37,7 @@ JSONtoPS1
 #
 
 . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
+statInstall "system"
 
 setScreenDimensionsScale
 

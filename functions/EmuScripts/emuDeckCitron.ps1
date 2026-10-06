@@ -1,6 +1,7 @@
 $Citron_configFile="${emusPath}\citron\user\config\qt-config.ini"
 
 function Citron_install(){
+	statInstall "citron"
 	setMSG "Downloading Citron"
 	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
 	$url_citron = getLatestReleaseURLGH "citron-emu/citron-mainline" "7z" "windows"

@@ -1,6 +1,7 @@
 $DuckStation_configFile="$emusPath\duckstation\settings.ini"
 
 function DuckStation_install(){
+	statInstall "duckstation"
 	setMSG "Downloading DuckStation"
 	$url_duck = getLatestReleaseURLGH "stenzek/duckstation" "zip" "windows-x64" "symbols"
 	download $url_duck "duckstation.zip"

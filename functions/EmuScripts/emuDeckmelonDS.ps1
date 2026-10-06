@@ -2,6 +2,7 @@ $melonD_configFile="$emusPath\melonDS\melonDS.ini"
 $melonD_resolutionFile="$emusPath\melonDS\melonDS.toml"
 
 function melonDS_install(){
+	statInstall "melonds"
 	setMSG "Downloading melonDS"
 	$url_melonDS = getLatestReleaseURLGH "melonDS-emu/melonDS" "zip" "windows" "aarch64"
 	download $url_melonDS "melonds.zip"

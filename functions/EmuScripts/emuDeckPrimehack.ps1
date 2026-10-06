@@ -1,6 +1,7 @@
 $Primehack_configFile="$emusPath\primehack\User\Config\Dolphin.ini"
 
 function Primehack_install(){
+	statInstall "primehack"
 	setMSG "Downloading PrimeHack"
 	$url_primehack = getLatestReleaseURLGH "shiiion/dolphin" "zip" "PrimeHack"
 	download $url_primehack "PrimeHack.zip"

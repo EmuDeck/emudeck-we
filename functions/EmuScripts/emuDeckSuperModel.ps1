@@ -2,6 +2,7 @@ $Supermodel_configFile="$emusPath/Supermodel/Config/Supermodel.ini"
 $Supermodel_gamesList="https://raw.githubusercontent.com/trzy/Supermodel/master/Config/Games.xml"
 
 function SuperModel_install(){
+	statInstall "supermodel"
     setMSG "Downloading Supermodel"
     $url_supermodel = getLatestReleaseURLGH "trzy/Supermodel" "zip" "windows.zip"
     download $url_supermodel "supermodel.zip"

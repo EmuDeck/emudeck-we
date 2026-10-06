@@ -1,6 +1,7 @@
 $Yuzu_configFile="${emusPath}\yuzu\yuzu-windows-msvc\user\config\qt-config.ini"
 
 function Yuzu_install(){
+	statInstall "yuzu"
 	setMSG "Downloading Yuzu"
 	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
 	$url_yuzu = getLatestReleaseURLGH "yuzu-emu/yuzu-mainline" "7z" "windows"

@@ -1,6 +1,7 @@
 $BigPEmu_configFile="$env:APPDATA/BigPEmu/BigPEmuConfig.bigpcfg"
 $BigPEmu_appData="$env:APPDATA/BigPEmu"
 function BigPEmu_install(){
+	statInstall "bigpemu"
     setMSG "Downloading BigPEmu"
     $url_BigPEmu = "https://www.richwhitehouse.com/jaguar/builds/BigPEmu_v117.zip"
     download $url_BigPEmu "bigpemu.zip"

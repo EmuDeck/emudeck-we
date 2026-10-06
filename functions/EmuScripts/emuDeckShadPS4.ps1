@@ -1,6 +1,7 @@
 $ShadPS4_configFile="$emusPath\ShadPS4-qt\user\config.toml"
 
 function ShadPS4_install(){
+	statInstall "shadps4"
     setMSG "Downloading ShadPS4"
     $apiUrl  = "https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases"
     $headers = @{ "User-Agent" = "EmuDeck" }

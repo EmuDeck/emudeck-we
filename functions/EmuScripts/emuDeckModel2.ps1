@@ -6,6 +6,7 @@ $Model2_launcherPath = "$toolsPath\launchers\model-2-emulator.ps1"
 $DesktopShortcutPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Model 2 Emulator.lnk"
 
 function Model2_install() {
+	statInstall "model2"
     setMSG "Installing Model 2 Emulator"
     $url_Model2 = "https://github.com/PhoenixInteractiveNL/edc-repo0004/raw/master/m2emulator/1.1a.7z"
     download $url_Model2 "model2.zip"

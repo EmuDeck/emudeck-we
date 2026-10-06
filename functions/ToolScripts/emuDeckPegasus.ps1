@@ -11,6 +11,7 @@ function pegasus_cleanup(){
 
 #Install
 function pegasus_install(){
+	statInstall "pegasus"
 	setMSG "Installing $pegasus_toolName"
 	mkdir $pegasusPath -ErrorAction SilentlyContinue
 	$url_pegasus = getLatestReleaseURLGH 'mmatyas/pegasus-frontend' 'zip' 'win'

@@ -1,6 +1,7 @@
 $mGBA_configFile="$emusPath/mgba/config.ini"
 
 function mGBA_install(){
+	statInstall "mgba"
 	setMSG "Downloading mGBA"
 	#$url_mGBA = getLatestReleaseURLGH "mgba-emu/mgba" "7z" "win64.7z"
 

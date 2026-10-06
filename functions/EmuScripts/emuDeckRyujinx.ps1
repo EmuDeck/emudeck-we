@@ -1,6 +1,7 @@
 $Ryujinx_configFile="$emusPath\Ryujinx\portable\Config.json"
 
 function Ryujinx_install() {
+	statInstall "ryujinx"
 	setMSG "Downloading Ryujinx"
 
 	#$apiUrl  = "https://git.ryujinx.app/api/v1/repos/Ryubing/Canary/releases/latest"

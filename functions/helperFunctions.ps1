@@ -287,6 +287,11 @@ function checkForFile($fileName){
 }
 
 
+# Install stats
+function statInstall($name){
+	Start-Process -FilePath "curl.exe" -ArgumentList "-fsL", "-m", "5", "-o", "NUL", "https://github.com/EmuDeck/stats/releases/download/beacons/$name-windows.txt" -WindowStyle Hidden -ErrorAction SilentlyContinue
+}
+
 function getLatestReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pepe"){
 
 	$url = "https://api.github.com/repos/$Repository/releases/latest"
