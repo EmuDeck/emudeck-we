@@ -38,6 +38,9 @@ JSONtoPS1
 
 . "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
 statInstall "system"
+if (isEarlyBranch) {
+	statInstall "early"
+}
 
 setScreenDimensionsScale
 
