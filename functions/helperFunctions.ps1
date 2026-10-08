@@ -1639,3 +1639,38 @@ function update_launchers(){
 		}
 	}
 }
+
+function findEmuPrefix($emuName, $functionToFind = "_IsInstalled"){
+	$emuNameLower = ($emuName -replace '[^a-zA-Z0-9]', '').ToLower()
+	foreach ($fn in Get-ChildItem function: | Where-Object { $_.Name -like "*$functionToFind" }) {
+		$prefix = $fn.Name.Substring(0, $fn.Name.Length - $functionToFind.Length)
+		if ((($prefix -replace '[^a-zA-Z0-9]', '').ToLower()) -eq $emuNameLower) {
+			return $prefix
+		}
+	}
+	return ""
+}
+
+function emulatorCheckAndInstall($emuName){
+	$prefix = findEmuPrefix $emuName
+	if (-not $prefix) {
+		#Launchers don't load the emulator scripts, so we load the one for this emulator
+		$emuNameLower = ($emuName -replace '[^a-zA-Z0-9]', '').ToLower()
+		$emuScript = Get-ChildItem "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\*.ps1" | Where-Object { (($_.BaseName -replace '^emuDeck', '') -replace '[^a-zA-Z0-9]', '').ToLower() -eq $emuNameLower } | Select-Object -First 1
+		if ($emuScript) { . $emuScript.FullName }
+		$prefix = findEmuPrefix $emuName
+	}
+	if (-not $prefix) { return }
+
+	if ((& "${prefix}_IsInstalled") -ne "true") {
+		Write-Host "$prefix is not installed, installing"
+		#Installing needs every EmuDeck function
+		. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
+		& "${prefix}_install"
+		if ($?) {
+			& "${prefix}_init"
+		}
+	} else {
+		Write-Host "$prefix is installed"
+	}
+}

@@ -74,7 +74,9 @@ if(-not($test) -and $doInstallPegasus -eq "true" ){
 }
 
 
-#SRM
+#Forced SRM so the App won't fail
+mkdir "$toolsPath\launchers\srm" -ErrorAction SilentlyContinue
+Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\launchers\srm\steamrommanager.ps1" -Destination "$toolsPath\launchers\srm\steamrommanager.ps1" -Force
 
 #Forced install on easy
 if($doInstallSRM -eq "true" ){

@@ -179,3 +179,11 @@ function checkEdenBios() {
         Write-Output "false"
     }
 }
+
+function checkPS3Firmware(){
+	if (Test-Path -Path "$emusPath\RPCS3\dev_flash\vsh\etc\version.txt" -PathType Leaf) {
+		Write-Output "true"
+	} else {
+		Write-Output "false"
+	}
+}

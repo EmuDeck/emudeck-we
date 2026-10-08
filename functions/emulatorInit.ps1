@@ -6,6 +6,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	. "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"
 	$toast = fullScreenToast $emulatorFile
 	isLatestVersionGH($emuName)
+	emulatorCheckAndInstall $emuName
 	checkAndStartSteam
 	if( $emuName -ne "pegasus-frontend"){
 		cloud_sync_init($emuName)

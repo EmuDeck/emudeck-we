@@ -4,6 +4,8 @@ $null | git -C "$env:APPDATA\EmuDeck\backend" pull
 . "$($env:USERPROFILE)\AppData\Roaming\EmuDeck\backend\functions\all.ps1"
 launcherInit
 
+emulatorCheckAndInstall "SRM"
+
 $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 if ($steamRunning) {
     taskkill /IM steam.exe /F
