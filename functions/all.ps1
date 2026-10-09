@@ -28,6 +28,7 @@ if (-not "$emulationPath") {
 . "$env:APPDATA\EmuDeck\backend\functions\autofix.ps1"
 
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckModel2.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckZSNES.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckBigPemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckCemu.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\EmuScripts\emuDeckAzahar.ps1"
