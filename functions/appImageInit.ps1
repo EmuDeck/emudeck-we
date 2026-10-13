@@ -50,6 +50,11 @@ function appImageInit(){
 	#AutoFixes
 	mkdir "$emudeckFolder/feeds" -ErrorAction SilentlyContinue
 
+	#We force the python Venv to get created for the future migration to python
+	if (-not (Test-Path "$pyVenv\Scripts\python.exe")) {
+		py_run get_product_name | Out-Null
+	}
+
 	#Python
 	generate_pythonEnv
 

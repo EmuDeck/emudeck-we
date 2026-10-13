@@ -3,3 +3,5 @@ configs/.DS_Store
 .DS_Store
 test.ps1
 *.pyc
+python/**/linux/*
+python/**/darwin/*
