@@ -1,5 +1,6 @@
 $Dolphin_configFile="$emusPath\Dolphin-x64\User\Config\Dolphin.ini"
 $Dolphin_cheevosConfigFile="$emusPath\Dolphin-x64\User\Config\RetroAchievements.ini"
+$Dolphin_gamecubeFile="$emusPath\Dolphin-x64\User\Config\GCPadNew.ini"
 
 function Dolphin_install(){
 	statInstall "dolphin"
@@ -107,7 +108,45 @@ function Dolphin_migrate(){
 	Write-Output "NYI"
 }
 function Dolphin_setABXYstyle(){
-	Write-Output "NYI"
+	sedFile $Dolphin_gamecubeFile 'Buttons/A = `Button E`' 'Buttons/A = `Button S`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/B = `Button S`' 'Buttons/B = `Button E`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/X = `Button N`' 'Buttons/X = `Button W`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button W`' 'Buttons/Y = `Button N`'
+}
+function Dolphin_setBAYXstyle(){
+	sedFile $Dolphin_gamecubeFile 'Buttons/A = `Button S`' 'Buttons/A = `Button E`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/B = `Button E`' 'Buttons/B = `Button S`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/X = `Button W`' 'Buttons/X = `Button N`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button N`' 'Buttons/Y = `Button W`'
+}
+function Dolphin_setGamepads(){
+	if ("$autoMapDolphin" -eq "false") {
+		return
+	}
+	$configDir = "$emusPath\Dolphin-x64\User\Config"
+	if (-not (Test-Path $configDir)) {
+		return
+	}
+	$sdlLib = @("$emusPath\Dolphin-x64\SDL3.dll", "$emusPath\Dolphin-x64\SDL2.dll") | Where-Object { Test-Path $_ } | Select-Object -First 1
+	if (-not $sdlLib) {
+		return
+	}
+
+	foreach ($file in @("GCPadNew.ini", "WiimoteNew.ini", "Hotkeys.ini")) {
+		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\configs\automap\dolphin\$file" -Destination "$configDir\$file" -Force
+	}
+
+	if ($controllerLayout -eq "bayx" -or $controllerLayout -eq "baxy") {
+		Dolphin_setBAYXstyle
+	} else {
+		Dolphin_setABXYstyle
+	}
+
+	ignoreSteamVirtualGamepad $sdlLib
+	runGamepadsTool "dolphinGamepads.py" $sdlLib @{ DOLPHIN_CONFIG_DIR = $configDir } @("--write") | Out-Null
+}
+function Dolphin_launch_fixes(){
+	Dolphin_setGamepads
 }
 function Dolphin_wideScreenOn(){
 	setMSG "Dolphin Widescreen On"

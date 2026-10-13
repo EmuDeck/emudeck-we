@@ -66,6 +66,26 @@ function Cemu_migrate(){
 function Cemu_setABXYstyle(){
 	Write-Output "NYI"
 }
+function Cemu_setControllers(){
+	if ("$autoMapCemu" -eq "false") {
+		return
+	}
+	$controllerDir = "$emusPath\cemu\controllerProfiles"
+	if (-not (Test-Path $controllerDir)) {
+		return
+	}
+	foreach ($sdlLib in @("$emusPath\eden-windows-msvc\SDL2.dll", "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll")) {
+		if (-not (Test-Path $sdlLib)) {
+			continue
+		}
+		ignoreSteamVirtualGamepad $sdlLib
+		runGamepadsTool "cemuGamepads.py" $sdlLib @{ CEMU_CONTROLLER_DIR = $controllerDir; CEMU_TEMPLATE_DIR = "$env:APPDATA\EmuDeck\backend\configs\cemu\controllerTemplates" } @("--write") | Out-Null
+		return
+	}
+}
+function Cemu_launch_fixes(){
+	Cemu_setControllers
+}
 function Cemu_wideScreenOn(){
 	Write-Output "NYI"
 }

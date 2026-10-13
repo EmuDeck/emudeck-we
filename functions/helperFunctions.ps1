@@ -1574,6 +1574,36 @@ function check_for_pip($packageName) {
 	}
 }
 
+function runGamepadsTool($tool, $sdlLib, $toolEnv, $toolArgs){
+	$python = "$pyVenv\Scripts\python.exe"
+	if (-not (Test-Path $python)) {
+		$python = "python"
+	}
+	$toolEnv["SDL_LIB"] = $sdlLib
+	foreach ($key in $toolEnv.Keys) {
+		Set-Item -Path "Env:$key" -Value $toolEnv[$key]
+	}
+	$output = & $python "$emudeckBackend\tools\gamepads\$tool" @toolArgs 2>&1 | ForEach-Object {
+		if ($_ -is [System.Management.Automation.ErrorRecord]) {
+			Add-Content -Path "$emudeckLogs\gamepads.log" -Value "$_" -Encoding UTF8
+		} else {
+			$_
+		}
+	}
+	foreach ($key in $toolEnv.Keys) {
+		Remove-Item -Path "Env:$key" -ErrorAction SilentlyContinue
+	}
+	return $output
+}
+
+function ignoreSteamVirtualGamepad($sdlLib){
+	$count = runGamepadsTool "dolphinGamepads.py" $sdlLib @{} @("--count")
+	if ("$count" -match '^\d+$' -and [int]"$count" -gt 1) {
+		$env:SDL_GAMECONTROLLER_IGNORE_DEVICES = "0x28de/0x11ff"
+		$env:SDL_JOYSTICK_IGNORE_DEVICES = "0x28de/0x11ff"
+	}
+}
+
 
 
 function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collection = "Emulation", $recent = "false"){

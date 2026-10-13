@@ -114,6 +114,25 @@ function Eden_migrate(){
 function Eden_setABXYstyle(){
 	Write-Output "NYI"
 }
+function Eden_setGamepads(){
+	if ("$autoMapSwitch" -eq "false") {
+		return
+	}
+	if (-not (Test-Path $Eden_configFile)) {
+		return
+	}
+	foreach ($sdlLib in @("$emusPath\eden-windows-msvc\SDL2.dll", "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll")) {
+		if (-not (Test-Path $sdlLib)) {
+			continue
+		}
+		ignoreSteamVirtualGamepad $sdlLib
+		runGamepadsTool "edenGamepads.py" $sdlLib @{ EDEN_CONFIG_FILE = $Eden_configFile } @("--write") | Out-Null
+		return
+	}
+}
+function Eden_launch_fixes(){
+	Eden_setGamepads
+}
 function Eden_wideScreenOn(){
 	Write-Output "NYI"
 }

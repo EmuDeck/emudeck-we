@@ -5,3 +5,4 @@ test.ps1
 *.pyc
 python/**/linux/*
 python/**/darwin/*
+unix/
