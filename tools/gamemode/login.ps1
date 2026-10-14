@@ -1,28 +1,36 @@
-. "$env:APPDATA\EmuDeck\backend\functions/all.ps1"
-
-function startSteam(){
-    $steamRegPath = "HKCU:\Software\Valve\Steam"
-    $steamInstallPath = (Get-ItemProperty -Path $steamRegPath -ErrorAction SilentlyContinue).SteamPath
-    if (-not $steamInstallPath) { $steamInstallPath = "${env:ProgramFiles(x86)}\Steam" }
-    $steamInstallPath = $steamInstallPath.Replace("/", "\")
-    $steamExe = Join-Path $steamInstallPath 'Steam.exe'
-    if (-not (Test-Path $steamExe)) { return $false }
-
-	# Iniciar Steam en modo Big Picture
-    Start-Process -FilePath $steamExe -ArgumentList '-bigpicture' -WindowStyle Hidden
-    Wait-Process -Name steam -ErrorAction SilentlyContinue
-    return $true
+function openDesktop(){
+	if (-not (Get-Process -Name "explorer" -ErrorAction SilentlyContinue)) {
+		Start-Process explorer.exe
+	}
 }
 
-hideMe
-
-if (startSteam) {
-    if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) {
-        Start-Process explorer.exe
-    }
-} else {
-    confirmDialog -TitleText "Game Mode" -MessageText "There was an error running Steam. Returning to Desktop."
-    if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) {
-        Start-Process explorer.exe
-    }
+function bigPictureIsOpen(){
+	return [bool](Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -like "*Big Picture*" })
 }
+
+function steamIsRunning(){
+	return [bool](Get-Process -Name "steam" -ErrorAction SilentlyContinue)
+}
+
+try {
+	$steamPath = (Get-ItemProperty -Path "HKCU:\Software\Valve\Steam" -ErrorAction SilentlyContinue).SteamPath
+	if (-not $steamPath) {
+		$steamPath = "${env:ProgramFiles(x86)}\Steam"
+	}
+	$steamExe = Join-Path $steamPath.Replace("/", "\") "Steam.exe"
+
+	if (Test-Path $steamExe) {
+		Start-Process -FilePath $steamExe -ArgumentList "-bigpicture" -WindowStyle Hidden
+
+		$timeout = (Get-Date).AddMinutes(2)
+		while (-not (bigPictureIsOpen) -and (steamIsRunning) -and (Get-Date) -lt $timeout) {
+			Start-Sleep -Seconds 2
+		}
+		while ((bigPictureIsOpen) -and (steamIsRunning)) {
+			Start-Sleep -Seconds 2
+		}
+	}
+} catch {
+}
+
+openDesktop

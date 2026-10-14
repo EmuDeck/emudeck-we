@@ -60,6 +60,10 @@ function appImageInit(){
 
 	migrateToConhost
 
+	if ((Test-Path "$env:APPDATA\EmuDeck\gamemode\login.ps1") -and (Test-Path "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.ps1")) {
+		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.ps1" -Destination "$env:APPDATA\EmuDeck\gamemode\login.ps1" -Force
+	}
+
 
 	#CHD
 	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
