@@ -72,7 +72,32 @@ function melonDS_migrate(){
 	Write-Output "true"
 }
 function melonDS_setABXYstyle(){
-	Write-Output "true"
+	if (Test-Path $melonD_configFile) {
+		changeLine "Joy_A=" "Joy_A=0" $melonD_configFile
+		changeLine "Joy_B=" "Joy_B=1" $melonD_configFile
+		changeLine "Joy_X=" "Joy_X=2" $melonD_configFile
+		changeLine "Joy_Y=" "Joy_Y=3" $melonD_configFile
+	}
+	if (Test-Path $melonD_resolutionFile) {
+		setConfig "A" 0 $melonD_resolutionFile "Instance0.Joystick" " = "
+		setConfig "B" 1 $melonD_resolutionFile "Instance0.Joystick" " = "
+		setConfig "X" 2 $melonD_resolutionFile "Instance0.Joystick" " = "
+		setConfig "Y" 3 $melonD_resolutionFile "Instance0.Joystick" " = "
+	}
+}
+function melonDS_setBAYXstyle(){
+	if (Test-Path $melonD_configFile) {
+		changeLine "Joy_A=" "Joy_A=1" $melonD_configFile
+		changeLine "Joy_B=" "Joy_B=0" $melonD_configFile
+		changeLine "Joy_X=" "Joy_X=3" $melonD_configFile
+		changeLine "Joy_Y=" "Joy_Y=2" $melonD_configFile
+	}
+	if (Test-Path $melonD_resolutionFile) {
+		setConfig "A" 1 $melonD_resolutionFile "Instance0.Joystick" " = "
+		setConfig "B" 0 $melonD_resolutionFile "Instance0.Joystick" " = "
+		setConfig "X" 3 $melonD_resolutionFile "Instance0.Joystick" " = "
+		setConfig "Y" 2 $melonD_resolutionFile "Instance0.Joystick" " = "
+	}
 }
 function melonDS_wideScreenOn(){
 	Write-Output "true"

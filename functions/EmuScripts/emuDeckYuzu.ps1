@@ -107,7 +107,32 @@ function Yuzu_migrate(){
 	Write-Output "NYI"
 }
 function Yuzu_setABXYstyle(){
-	Write-Output "NYI"
+	if (Test-Path $Yuzu_configFile) {
+		sedFile $Yuzu_configFile "button:1" "button:0" "player_0_button_a"
+		sedFile $Yuzu_configFile "button:0" "button:1" "player_0_button_b"
+		sedFile $Yuzu_configFile "button:3" "button:2" "player_0_button_x"
+		sedFile $Yuzu_configFile "button:2" "button:3" "player_0_button_y"
+	}
+	if (Test-Path "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini") {
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:1" "button:0" "button_a"
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:0" "button:1" "button_b"
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:3" "button:2" "button_x"
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:2" "button:3" "button_y"
+	}
+}
+function Yuzu_setBAYXstyle(){
+	if (Test-Path $Yuzu_configFile) {
+		sedFile $Yuzu_configFile "button:0" "button:1" "player_0_button_a"
+		sedFile $Yuzu_configFile "button:1" "button:0" "player_0_button_b"
+		sedFile $Yuzu_configFile "button:2" "button:3" "player_0_button_x"
+		sedFile $Yuzu_configFile "button:3" "button:2" "player_0_button_y"
+	}
+	if (Test-Path "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini") {
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:0" "button:1" "button_a"
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:1" "button:0" "button_b"
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:2" "button:3" "button_x"
+		sedFile "$emusPath\yuzu\yuzu-windows-msvc\user\config\input\emudeck.ini" "button:3" "button:2" "button_y"
+	}
 }
 function Yuzu_wideScreenOn(){
 	Write-Output "NYI"

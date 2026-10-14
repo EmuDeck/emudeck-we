@@ -61,15 +61,15 @@ function setSettingNoQuotes($file, $old, $new){
 	}
 }
 
- function setConfig($old, $new, $fileToCheck, $section = $null) {
+ function setConfig($old, $new, $fileToCheck, $section = $null, $separator = "=") {
 
 	$fileContents = Get-Content $fileToCheck
 
 	if ($section) {
         $insideSection = $false
         $changed = $false
-        $key = [regex]::Escape($old)
-        $newLine = -join($old, '=', $new)
+        $key = [regex]::Escape($old) + [regex]::Escape($separator)
+        $newLine = -join($old, $separator, $new)
 
         $modifiedContents = $fileContents | ForEach-Object {
             if ($_ -eq "[$section]") {
@@ -78,7 +78,7 @@ function setSettingNoQuotes($file, $old, $new){
                 $insideSection = $false
             }
 
-            if ($insideSection -and -not $changed -and $_ -match "^$key=") {
+            if ($insideSection -and -not $changed -and $_ -match "^$key") {
                 $changed = $true
                 $newLine
             } else {
@@ -99,13 +99,13 @@ function setSettingNoQuotes($file, $old, $new){
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
 
 	if ($line){
-		$newLine=-join($old,'=',$new)
+		$newLine=-join($old,$separator,$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
 		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
 		Write-Output "Line $line changed to $newLine"
 	}else{
-		$newLine=-join($old,'=',$new)
+		$newLine=-join($old,$separator,$new)
 		Add-Content $fileToCheck $newLine -Encoding UTF8
 		Write-Output "Line created on $fileToCheck"
 	}
@@ -1594,6 +1594,28 @@ function runGamepadsTool($tool, $sdlLib, $toolEnv, $toolArgs){
 		Remove-Item -Path "Env:$key" -ErrorAction SilentlyContinue
 	}
 	return $output
+}
+
+function controllerLayout_ABXY(){
+	setSetting controllerLayout "abxy"
+	Cemu_setABXYstyle
+	Azahar_setABXYstyle
+	Dolphin_setABXYstyle
+	melonDS_setABXYstyle
+	RetroArch_setABXYstyle
+	Ryujinx_setABXYstyle
+	Yuzu_setABXYstyle
+}
+
+function controllerLayout_BAYX(){
+	setSetting controllerLayout "baxy"
+	Cemu_setBAYXstyle
+	Dolphin_setBAYXstyle
+	Azahar_setBAYXstyle
+	melonDS_setBAYXstyle
+	RetroArch_setBAYXstyle
+	Ryujinx_setBAYXstyle
+	Yuzu_setBAYXstyle
 }
 
 function ignoreSteamVirtualGamepad($sdlLib){

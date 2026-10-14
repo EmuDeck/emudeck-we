@@ -113,6 +113,9 @@ function Ryujinx_migrate(){
 	Write-Output "NYI"
 }
 function Ryujinx_setABXYstyle(){
+	if (-not (Test-Path $Ryujinx_configFile)) {
+		return
+	}
 	$content = Get-Content -Raw -Path $Ryujinx_configFile
 	$content = $content -replace '"button_x":(\s*)"Y"', '"button_x":$1"X"'
 	$content = $content -replace '"button_b":(\s*)"A"', '"button_b":$1"B"'
@@ -121,6 +124,9 @@ function Ryujinx_setABXYstyle(){
 	[System.IO.File]::WriteAllText($Ryujinx_configFile, $content, (New-Object System.Text.UTF8Encoding($false)))
 }
 function Ryujinx_setBAYXstyle(){
+	if (-not (Test-Path $Ryujinx_configFile)) {
+		return
+	}
 	$content = Get-Content -Raw -Path $Ryujinx_configFile
 	$content = $content -replace '"button_x":(\s*)"X"', '"button_x":$1"Y"'
 	$content = $content -replace '"button_b":(\s*)"B"', '"button_b":$1"A"'

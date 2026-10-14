@@ -48,6 +48,12 @@ function Dolphin_init(){
 		Dolphin_wideScreenOff
 	}
 
+	if ($controllerLayout -eq "bayx" -or $controllerLayout -eq "baxy") {
+		Dolphin_setBAYXstyle
+	} else {
+		Dolphin_setABXYstyle
+	}
+
 }
 function Dolphin_update(){
 	Write-Output "NYI"
@@ -108,12 +114,26 @@ function Dolphin_migrate(){
 	Write-Output "NYI"
 }
 function Dolphin_setABXYstyle(){
+	if (-not (Test-Path $Dolphin_gamecubeFile)) {
+		return
+	}
+	sedFile $Dolphin_gamecubeFile 'Buttons/A = `Button B`' 'Buttons/A = `Button A`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/B = `Button A`' 'Buttons/B = `Button B`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/X = `Button Y`' 'Buttons/X = `Button X`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button X`' 'Buttons/Y = `Button Y`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/A = `Button E`' 'Buttons/A = `Button S`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/B = `Button S`' 'Buttons/B = `Button E`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/X = `Button N`' 'Buttons/X = `Button W`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button W`' 'Buttons/Y = `Button N`'
 }
 function Dolphin_setBAYXstyle(){
+	if (-not (Test-Path $Dolphin_gamecubeFile)) {
+		return
+	}
+	sedFile $Dolphin_gamecubeFile 'Buttons/A = `Button A`' 'Buttons/A = `Button B`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/B = `Button B`' 'Buttons/B = `Button A`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/X = `Button X`' 'Buttons/X = `Button Y`'
+	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button Y`' 'Buttons/Y = `Button X`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/A = `Button S`' 'Buttons/A = `Button E`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/B = `Button E`' 'Buttons/B = `Button S`'
 	sedFile $Dolphin_gamecubeFile 'Buttons/X = `Button W`' 'Buttons/X = `Button N`'
