@@ -1,1 +1,0 @@
-Copy your firmware here. Don't overwrite or delete this folder!
