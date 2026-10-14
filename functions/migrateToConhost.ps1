@@ -2,9 +2,9 @@ function migrateToConhost(){
 	if (Test-Path "$emudeckFolder\.conhost_migrated") {
 		return
 	}
-	if (Get-Process -Name "steam" -ErrorAction SilentlyContinue) {
-		return
-	}
+
+	$steamRunning = Get-Process -Name "steam" -ErrorAction SilentlyContinue
+	killSteam
 
 	$latin1 = [System.Text.Encoding]::GetEncoding(28591)
 	Get-ChildItem -Path "$steamInstallPath\userdata\*\config\shortcuts.vdf" -ErrorAction SilentlyContinue | ForEach-Object {
@@ -30,4 +30,8 @@ function migrateToConhost(){
 	}
 
 	"" | Set-Content "$emudeckFolder\.conhost_migrated"
+
+	if ($steamRunning) {
+		startSteam "-silent"
+	}
 }

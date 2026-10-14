@@ -1337,6 +1337,13 @@ function startSteam($silent){
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
 
+function killSteam(){
+	if (Get-Process -Name "steam" -ErrorAction SilentlyContinue) {
+		taskkill /IM steam.exe /F | Out-Null
+		Wait-Process -Name "steam" -Timeout 10 -ErrorAction SilentlyContinue
+	}
+}
+
 function killBOM($file){
 	$content = Get-Content -Path $file -Raw
 	$killBOM = New-Object System.Text.UTF8Encoding $false
@@ -1635,8 +1642,7 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collect
   generate_pythonEnv
 
   #Kill Steam
-  taskkill /IM steam.exe /F
-  Wait-Process -Name "steam" -Timeout 10 -ErrorAction SilentlyContinue
+  killSteam
 
   $target_path = 'C:\Windows\System32\conhost.exe\" --headless \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path
   $steam_directory="$steamInstallPath"
