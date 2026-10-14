@@ -2,6 +2,7 @@ $cloud_sync_path="$toolsPath/rclone"
 $cloud_sync_bin="$cloud_sync_path/rclone.exe"
 $cloud_sync_config_file_symlink="$cloud_sync_path/rclone.conf"
 $cloud_sync_config_file="$env:APPDATA\EmuDeck\rclone.conf"
+$cloud_sync_showWatcher=$false
 
 
 function Get-Custom-Credentials($provider){
@@ -859,7 +860,12 @@ function cloud_sync_init($emulator){
 					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}
 
-				Start-Process powershell.exe -ArgumentList "-ExecutionPolicy Bypass -File `"$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/cloud_sync_watcher_user.ps1`""
+				$watcherArgs = "-ExecutionPolicy Bypass -File `"$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/tools/cloudSync/cloud_sync_watcher_user.ps1`""
+				if ($cloud_sync_showWatcher) {
+					Start-Process powershell.exe -ArgumentList $watcherArgs
+				} else {
+					Start-Process "$env:windir\System32\conhost.exe" -ArgumentList "--headless powershell.exe $watcherArgs"
+				}
 
 				# & "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/wintools/nssm.exe" stop "CloudWatch"
 				# cls
