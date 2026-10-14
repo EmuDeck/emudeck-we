@@ -58,6 +58,8 @@ function appImageInit(){
 	#Python
 	generate_pythonEnv
 
+	migrateToConhost
+
 
 	#CHD
 	mkdir "$toolsPath\chdconv" -ErrorAction SilentlyContinue
