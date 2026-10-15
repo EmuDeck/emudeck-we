@@ -99,18 +99,22 @@ function Cemu_setControllers(){
 	if (-not (Test-Path $controllerDir)) {
 		return
 	}
-	foreach ($sdlLib in @("$emusPath\eden-windows-msvc\SDL2.dll", "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll")) {
-		if (-not (Test-Path $sdlLib)) {
-			continue
-		}
-		ignoreSteamVirtualGamepad $sdlLib
-		runGamepadsTool "cemuGamepads.py" $sdlLib @{ CEMU_CONTROLLER_DIR = $controllerDir; CEMU_TEMPLATE_DIR = "$env:APPDATA\EmuDeck\backend\configs\cemu\controllerTemplates" } @("--write") | Out-Null
-		if ($controllerLayout -eq "bayx" -or $controllerLayout -eq "baxy") {
-			Cemu_setBAYXstyle
-		} else {
-			Cemu_setABXYstyle
-		}
+	$sdlLib = "$emusPath\cemu\SDL2.dll"
+	if (-not (Test-Path $sdlLib)) {
+		. "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
+		download "https://github.com/libsdl-org/SDL/releases/download/release-2.30.3/SDL2-2.30.3-win32-x64.zip" "sdl2.zip"
+		Move-Item "$temp/sdl2/SDL2.dll" $sdlLib -Force
+		Remove-Item -Recurse -Force "$temp/sdl2" -ErrorAction SilentlyContinue
+	}
+	if (-not (Test-Path $sdlLib)) {
 		return
+	}
+	ignoreSteamVirtualGamepad $sdlLib
+	runGamepadsTool "cemuGamepads.py" $sdlLib @{ CEMU_CONTROLLER_DIR = $controllerDir; CEMU_TEMPLATE_DIR = "$env:APPDATA\EmuDeck\backend\configs\cemu\controllerTemplates" } @("--write") | Out-Null
+	if ($controllerLayout -eq "bayx" -or $controllerLayout -eq "baxy") {
+		Cemu_setBAYXstyle
+	} else {
+		Cemu_setABXYstyle
 	}
 }
 function Cemu_launch_fixes(){
