@@ -356,6 +356,8 @@ Invoke-Expression $setupSaves
 
 steamEnableXboxInput
 
+steamEnableXboxInput
+
 autofix_areInstalled
 Stop-Process -Name explorer -Force
 Stop-Transcript
