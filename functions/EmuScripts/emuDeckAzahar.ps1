@@ -116,6 +116,9 @@ function Azahar_migrate(){
 }
 
 function Azahar_setABXYstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path $Azahar_configFile) {
 		sedFile $Azahar_configFile "button:1" "button:0" "button_a"
 		sedFile $Azahar_configFile "button:0" "button:1" "button_b"
@@ -124,6 +127,9 @@ function Azahar_setABXYstyle(){
 	}
 }
 function Azahar_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path $Azahar_configFile) {
 		sedFile $Azahar_configFile "button:0" "button:1" "button_a"
 		sedFile $Azahar_configFile "button:1" "button:0" "button_b"

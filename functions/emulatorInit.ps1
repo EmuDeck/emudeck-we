@@ -4,7 +4,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	$null | git -C "$env:APPDATA\EmuDeck\backend" reset --hard
 	$null | git -C "$env:APPDATA\EmuDeck\backend" pull
 	. "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"
-	if (-not $formattedArgs) {
+	if (-not $formattedArgs -and (isEarlyUnstable)) {
 		switch ($emuName) {
 			"ryujinx" { $autoMapEmulatorStatus = $autoMapSwitch }
 			"eden" { $autoMapEmulatorStatus = $autoMapSwitch }
@@ -19,6 +19,9 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	$toast = fullScreenToast $emulatorFile
 	isLatestVersionGH($emuName)
 	emulatorCheckAndInstall $emuName
+	if (-not (isEarlyUnstable)) {
+		checkAndStartSteam
+	}
 	#checkAndStartSteam
 	if( $emuName -ne "pegasus-frontend"){
 		cloud_sync_init($emuName)

@@ -107,6 +107,9 @@ function Yuzu_migrate(){
 	Write-Output "NYI"
 }
 function Yuzu_setABXYstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path $Yuzu_configFile) {
 		sedFile $Yuzu_configFile "button:1" "button:0" "player_0_button_a"
 		sedFile $Yuzu_configFile "button:0" "button:1" "player_0_button_b"
@@ -121,6 +124,9 @@ function Yuzu_setABXYstyle(){
 	}
 }
 function Yuzu_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path $Yuzu_configFile) {
 		sedFile $Yuzu_configFile "button:0" "button:1" "player_0_button_a"
 		sedFile $Yuzu_configFile "button:1" "button:0" "player_0_button_b"

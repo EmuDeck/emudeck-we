@@ -115,6 +115,9 @@ function Eden_setABXYstyle(){
 	Write-Output "NYI"
 }
 function Eden_setGamepads(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if ("$autoMapSwitch" -eq "false") {
 		return
 	}

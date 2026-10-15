@@ -72,6 +72,9 @@ function melonDS_migrate(){
 	Write-Output "true"
 }
 function melonDS_setABXYstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path $melonD_configFile) {
 		changeLine "Joy_A=" "Joy_A=0" $melonD_configFile
 		changeLine "Joy_B=" "Joy_B=1" $melonD_configFile
@@ -86,6 +89,9 @@ function melonDS_setABXYstyle(){
 	}
 }
 function melonDS_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path $melonD_configFile) {
 		changeLine "Joy_A=" "Joy_A=1" $melonD_configFile
 		changeLine "Joy_B=" "Joy_B=0" $melonD_configFile

@@ -113,6 +113,9 @@ function Ryujinx_migrate(){
 	Write-Output "NYI"
 }
 function Ryujinx_setABXYstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (-not (Test-Path $Ryujinx_configFile)) {
 		return
 	}
@@ -124,6 +127,9 @@ function Ryujinx_setABXYstyle(){
 	[System.IO.File]::WriteAllText($Ryujinx_configFile, $content, (New-Object System.Text.UTF8Encoding($false)))
 }
 function Ryujinx_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (-not (Test-Path $Ryujinx_configFile)) {
 		return
 	}
@@ -196,6 +202,9 @@ function Ryujinx_getOrderedGamepads(){
 }
 
 function Ryujinx_set_gamepad_name(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if ("$autoMapSwitch" -eq "false") {
 		return
 	}

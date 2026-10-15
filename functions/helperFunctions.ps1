@@ -1344,6 +1344,10 @@ function killSteam(){
 	}
 }
 
+function isEarlyUnstable(){
+	return "$(git -C "$emudeckBackend" rev-parse --abbrev-ref HEAD 2>$null)".Trim() -eq "early-unstable"
+}
+
 function steamEnableXboxInput(){
 	$files = @(Get-ChildItem -Path "$steamInstallPath\userdata\*\config\localconfig.vdf" -ErrorAction SilentlyContinue | Where-Object { -not (Select-String -LiteralPath $_.FullName -Pattern '"SteamController_XBoxSupport"\s+"1"' -Quiet) })
 	if ($files.Count -eq 0) {
@@ -1633,6 +1637,9 @@ function runGamepadsTool($tool, $sdlLib, $toolEnv, $toolArgs){
 }
 
 function controllerLayout_ABXY(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	setSetting controllerLayout "abxy"
 	Cemu_setABXYstyle
 	Azahar_setABXYstyle
@@ -1644,6 +1651,9 @@ function controllerLayout_ABXY(){
 }
 
 function controllerLayout_BAYX(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	setSetting controllerLayout "baxy"
 	Cemu_setBAYXstyle
 	Dolphin_setBAYXstyle

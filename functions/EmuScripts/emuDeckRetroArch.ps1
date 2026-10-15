@@ -349,6 +349,9 @@ function RetroArch_migrate(){
 }
 $RetroArch_remapCores = @("mGBA", "Gambatte", "bsnes-hd beta", "melonDS DS", "Mupen64Plus-Next", "SameBoy", "Snes9x", "Mesen", "Nestopia", "Beetle VB")
 function RetroArch_setABXYstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	foreach ($core in $RetroArch_remapCores) {
 		$remap = "$emusPath\RetroArch\config\remaps\$core\$core.rmp"
 		if (Test-Path -LiteralPath "$remap.disabled") {
@@ -357,6 +360,9 @@ function RetroArch_setABXYstyle(){
 	}
 }
 function RetroArch_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	foreach ($core in $RetroArch_remapCores) {
 		$remap = "$emusPath\RetroArch\config\remaps\$core\$core.rmp"
 		if (Test-Path -LiteralPath $remap) {

@@ -114,6 +114,9 @@ function Dolphin_migrate(){
 	Write-Output "NYI"
 }
 function Dolphin_setABXYstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (-not (Test-Path $Dolphin_gamecubeFile)) {
 		return
 	}
@@ -127,6 +130,9 @@ function Dolphin_setABXYstyle(){
 	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button W`' 'Buttons/Y = `Button N`'
 }
 function Dolphin_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (-not (Test-Path $Dolphin_gamecubeFile)) {
 		return
 	}
@@ -140,6 +146,9 @@ function Dolphin_setBAYXstyle(){
 	sedFile $Dolphin_gamecubeFile 'Buttons/Y = `Button N`' 'Buttons/Y = `Button W`'
 }
 function Dolphin_setGamepads(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if ("$autoMapDolphin" -eq "false") {
 		return
 	}
