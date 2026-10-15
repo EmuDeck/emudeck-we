@@ -1,4 +1,7 @@
 function migrateToConhost(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
 	if (Test-Path "$emudeckFolder\.conhost_migrated") {
 		return
 	}

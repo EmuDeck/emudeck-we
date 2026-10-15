@@ -4,7 +4,7 @@
   "steamCategory": "${Tiger Electronics Game.com}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "${romsdirglobal}/gamecom",
-  "executableArgs": "--headless \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\mame.ps1 gamecom -cartridge1 '${filePath}'${\\}}\"",
+  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\mame.ps1 gamecom -cartridge1 '${filePath}'${\\}}\" && exit \" && exit --emudeck",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
