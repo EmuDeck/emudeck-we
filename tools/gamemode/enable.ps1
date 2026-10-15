@@ -1,10 +1,12 @@
-. "$env:APPDATA\EmuDeck\backend\functions\all.ps1"
+$gameModeFolder = "$env:APPDATA\EmuDeck\gamemode"
+$loginPs1 = "$gameModeFolder\login.ps1"
+New-Item -ItemType Directory -Path $gameModeFolder -Force | Out-Null
+Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.ps1" -Destination $loginPs1 -Force
 
-$appData  = [Environment]::GetFolderPath('ApplicationData')
-$loginPs1 = Join-Path $appData 'EmuDeck\backend\tools\gamemode\login.ps1'
-
-$shellCmd = "powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$loginPs1`""
+$shellCmd = "$env:windir\System32\conhost.exe --headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$loginPs1`""
 
 $winlogonCU = 'HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
-New-Item -Path $winlogonCU -Force | Out-Null
+if (-not (Test-Path $winlogonCU)) {
+	New-Item -Path $winlogonCU -Force | Out-Null
+}
 Set-ItemProperty -Path $winlogonCU -Name 'Shell' -Value $shellCmd

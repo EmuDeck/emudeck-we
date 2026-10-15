@@ -116,7 +116,26 @@ function Azahar_migrate(){
 }
 
 function Azahar_setABXYstyle(){
-	Write-Output "NYI"
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+	if (Test-Path $Azahar_configFile) {
+		sedFile $Azahar_configFile "button:1" "button:0" "button_a"
+		sedFile $Azahar_configFile "button:0" "button:1" "button_b"
+		sedFile $Azahar_configFile "button:3" "button:2" "button_x"
+		sedFile $Azahar_configFile "button:2" "button:3" "button_y"
+	}
+}
+function Azahar_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+	if (Test-Path $Azahar_configFile) {
+		sedFile $Azahar_configFile "button:0" "button:1" "button_a"
+		sedFile $Azahar_configFile "button:1" "button:0" "button_b"
+		sedFile $Azahar_configFile "button:2" "button:3" "button_x"
+		sedFile $Azahar_configFile "button:3" "button:2" "button_y"
+	}
 }
 function Azahar_wideScreenOn(){
 	Write-Output "NYI"

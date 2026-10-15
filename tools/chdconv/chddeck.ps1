@@ -61,10 +61,24 @@ $LOGFILE = "$logDirectory\chdman-$TIMESTAMP.log"
 # Redireccionar la salida y errores a un archivo de log
 Start-Transcript -Path $LOGFILE -Append
 
-$chdman5 = "$env:APPDATA\EmuDeck\backend\tools\chdconv\chdman.exe";
-$ciso = "$env:APPDATA\EmuDeck\backend\tools\chdconv\ciso.exe";
-$3dstool = "$env:APPDATA\EmuDeck\backend\tools\chdconv\3dstool.exe";
-$extractXiso = "$env:APPDATA\EmuDeck\backend\tools\chdconv\extract-xiso.exe";
+$compressorToolsDir = "$env:APPDATA\EmuDeck\compressor-tools"
+$chdPath = "$compressorToolsDir\win_x86"
+if (-not (Test-Path "$chdPath\chdman.exe")) {
+    Write-Host "Downloading compressor tools..."
+    try {
+        $url_compressorTools = getLatestReleaseURLGH "EmuDeck/compressor-tools" "zip" "win_x86"
+        download $url_compressorTools "compressor-tools.zip"
+        moveFromTo "$temp\compressor-tools" $compressorToolsDir
+    } catch {
+        Write-Host "Error downloading the compressor tools: $_"
+    }
+    Remove-Item -Recurse -Force "$temp\compressor-tools" -ErrorAction SilentlyContinue
+}
+
+$chdman5 = "$chdPath\chdman.exe";
+$ciso = "$chdPath\ciso.exe";
+$3dstool = "$chdPath\3dstool.exe";
+$extractXiso = "$chdPath\extract-xiso.exe";
 $dolphintool = "$HOME\EmuDeck\EmulationStation-DE\Emulators\Dolphin-x64\DolphinTool.exe";
 
 

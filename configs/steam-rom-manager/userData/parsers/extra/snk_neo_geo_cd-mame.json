@@ -4,7 +4,7 @@
   "steamCategory": "${SNK Neo Geo CD}",
   "steamDirectory": "${steamdirglobal}",
   "romDirectory": "${romsdirglobal}",
-  "executableArgs": "/k start /min \"Loading PowerShell Launcher\" \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\mame.ps1 neocdz -cdrm '${filePath}'${\\}}\" && exit \" && exit --emudeck",
+  "executableArgs": "--headless \"C:\\Windows\\System32\\WindowsPowershell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"& ${{}C:\\Emulation\\tools\\launchers\\mame.ps1 neocdz -cdrm '${filePath}'${\\}}\"",
   "executableModifier": "\"${exePath}\"",
   "startInDirectory": "",
   "titleModifier": "${fuzzyTitle}",
