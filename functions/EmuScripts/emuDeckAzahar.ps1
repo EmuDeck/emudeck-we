@@ -43,6 +43,8 @@ function Azahar_init(){
 	ESDE_setEmu 'Azahar (Standalone)' n3ds
 
 	SRM_createParsers
+	
+	steamEnableXboxInput
 
 }
 function Azahar_update(){
