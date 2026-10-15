@@ -158,6 +158,13 @@ function Dolphin_setGamepads(){
 	}
 	$sdlLib = @("$emusPath\Dolphin-x64\SDL3.dll", "$emusPath\Dolphin-x64\SDL2.dll") | Where-Object { Test-Path $_ } | Select-Object -First 1
 	if (-not $sdlLib) {
+		. "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
+		download "https://github.com/libsdl-org/SDL/releases/download/release-3.4.16/SDL3-3.4.16-win32-x64.zip" "sdl3.zip"
+		Move-Item "$temp/sdl3/SDL3.dll" "$emusPath\Dolphin-x64\SDL3.dll" -Force
+		Remove-Item -Recurse -Force "$temp/sdl3" -ErrorAction SilentlyContinue
+		$sdlLib = "$emusPath\Dolphin-x64\SDL3.dll"
+	}
+	if (-not (Test-Path $sdlLib)) {
 		return
 	}
 
