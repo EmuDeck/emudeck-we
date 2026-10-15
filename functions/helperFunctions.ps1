@@ -61,15 +61,15 @@ function setSettingNoQuotes($file, $old, $new){
 	}
 }
 
- function setConfig($old, $new, $fileToCheck, $section = $null) {
+ function setConfig($old, $new, $fileToCheck, $section = $null, $separator = "=") {
 
 	$fileContents = Get-Content $fileToCheck
 
 	if ($section) {
         $insideSection = $false
         $changed = $false
-        $key = [regex]::Escape($old)
-        $newLine = -join($old, '=', $new)
+        $key = [regex]::Escape($old) + [regex]::Escape($separator)
+        $newLine = -join($old, $separator, $new)
 
         $modifiedContents = $fileContents | ForEach-Object {
             if ($_ -eq "[$section]") {
@@ -78,7 +78,7 @@ function setSettingNoQuotes($file, $old, $new){
                 $insideSection = $false
             }
 
-            if ($insideSection -and -not $changed -and $_ -match "^$key=") {
+            if ($insideSection -and -not $changed -and $_ -match "^$key") {
                 $changed = $true
                 $newLine
             } else {
@@ -99,13 +99,13 @@ function setSettingNoQuotes($file, $old, $new){
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
 
 	if ($line){
-		$newLine=-join($old,'=',$new)
+		$newLine=-join($old,$separator,$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
 		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
 		Write-Output "Line $line changed to $newLine"
 	}else{
-		$newLine=-join($old,'=',$new)
+		$newLine=-join($old,$separator,$new)
 		Add-Content $fileToCheck $newLine -Encoding UTF8
 		Write-Output "Line created on $fileToCheck"
 	}
@@ -1337,6 +1337,46 @@ function startSteam($silent){
 	Start-Process -FilePath "$steamInstallPath\Steam.exe" -ArgumentList $steamArguments
 }
 
+function killSteam(){
+	if (Get-Process -Name "steam" -ErrorAction SilentlyContinue) {
+		taskkill /IM steam.exe /F | Out-Null
+		Wait-Process -Name "steam" -Timeout 10 -ErrorAction SilentlyContinue
+	}
+}
+
+function isEarlyUnstable(){
+	return "$(git -C "$emudeckBackend" rev-parse --abbrev-ref HEAD 2>$null)".Trim() -eq "early-unstable"
+}
+
+function steamEnableXboxInput(){
+	$files = @(Get-ChildItem -Path "$steamInstallPath\userdata\*\config\localconfig.vdf" -ErrorAction SilentlyContinue | Where-Object { -not (Select-String -LiteralPath $_.FullName -Pattern '"SteamController_XBoxSupport"\s+"1"' -Quiet) })
+	if ($files.Count -eq 0) {
+		return
+	}
+
+	$steamRunning = Get-Process -Name "steam" -ErrorAction SilentlyContinue
+	killSteam
+
+	foreach ($file in $files) {
+		$content = [System.IO.File]::ReadAllText($file.FullName)
+		if ($content -match '"SteamController_XBoxSupport"\s+"\d+"') {
+			$content = $content -replace '("SteamController_XBoxSupport"\s+)"\d+"', '$1"1"'
+		} else {
+			$newLine = "`n"
+			if ($content.Contains("`r`n")) {
+				$newLine = "`r`n"
+			}
+			$index = $content.LastIndexOf('}')
+			$content = $content.Substring(0, $index) + "`t`"SteamController_XBoxSupport`"`t`t`"1`"$newLine" + $content.Substring($index)
+		}
+		[System.IO.File]::WriteAllText($file.FullName, $content, (New-Object System.Text.UTF8Encoding($false)))
+	}
+
+	if ($steamRunning) {
+		startSteam "-silent"
+	}
+}
+
 function killBOM($file){
 	$content = Get-Content -Path $file -Raw
 	$killBOM = New-Object System.Text.UTF8Encoding $false
@@ -1574,6 +1614,64 @@ function check_for_pip($packageName) {
 	}
 }
 
+function runGamepadsTool($tool, $sdlLib, $toolEnv, $toolArgs){
+	$python = "$pyVenv\Scripts\python.exe"
+	if (-not (Test-Path $python)) {
+		$python = "python"
+	}
+	$toolEnv["SDL_LIB"] = $sdlLib
+	foreach ($key in $toolEnv.Keys) {
+		Set-Item -Path "Env:$key" -Value $toolEnv[$key]
+	}
+	$output = & $python "$emudeckBackend\tools\gamepads\$tool" @toolArgs 2>&1 | ForEach-Object {
+		if ($_ -is [System.Management.Automation.ErrorRecord]) {
+			Add-Content -Path "$emudeckLogs\gamepads.log" -Value "$_" -Encoding UTF8
+		} else {
+			$_
+		}
+	}
+	foreach ($key in $toolEnv.Keys) {
+		Remove-Item -Path "Env:$key" -ErrorAction SilentlyContinue
+	}
+	return $output
+}
+
+function controllerLayout_ABXY(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+	setSetting controllerLayout "abxy"
+	Cemu_setABXYstyle
+	Azahar_setABXYstyle
+	Dolphin_setABXYstyle
+	melonDS_setABXYstyle
+	RetroArch_setABXYstyle
+	Ryujinx_setABXYstyle
+	Yuzu_setABXYstyle
+}
+
+function controllerLayout_BAYX(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+	setSetting controllerLayout "baxy"
+	Cemu_setBAYXstyle
+	Dolphin_setBAYXstyle
+	Azahar_setBAYXstyle
+	melonDS_setBAYXstyle
+	RetroArch_setBAYXstyle
+	Ryujinx_setBAYXstyle
+	Yuzu_setBAYXstyle
+}
+
+function ignoreSteamVirtualGamepad($sdlLib){
+	$count = runGamepadsTool "dolphinGamepads.py" $sdlLib @{} @("--count")
+	if ("$count" -match '^\d+$' -and [int]"$count" -gt 1) {
+		$env:SDL_GAMECONTROLLER_IGNORE_DEVICES = "0x28de/0x11ff"
+		$env:SDL_JOYSTICK_IGNORE_DEVICES = "0x28de/0x11ff"
+	}
+}
+
 
 
 function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collection = "Emulation", $recent = "false"){
@@ -1583,9 +1681,9 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collect
   generate_pythonEnv
 
   #Kill Steam
-  taskkill /IM steam.exe /F
+  killSteam
 
-  $target_path = 'C:\Windows\System32\cmd.exe\" /k start /min \"Loading PowerShell Launcher\" \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path + ' && exit && exit --emudeck'
+  $target_path = 'C:\Windows\System32\conhost.exe\" --headless \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path
   $steam_directory="$steamInstallPath"
   $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
   python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id" "$collection" "$recent"

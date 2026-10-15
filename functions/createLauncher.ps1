@@ -24,8 +24,8 @@ function createLauncher($ps1) {
 
   mkdir "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\" -ErrorAction SilentlyContinue
   $ShortcutPath = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\EmuDeck\$name.lnk"
-  $TargetPath = "powershell.exe"
-  $Arguments = "-ExecutionPolicy Bypass -File $ShortcutPathPs1"
+  $TargetPath = "$env:windir\System32\conhost.exe"
+  $Arguments = "--headless powershell.exe -ExecutionPolicy Bypass -File $ShortcutPathPs1"
   $WScriptShell = New-Object -ComObject WScript.Shell
   $Shortcut = $WScriptShell.CreateShortcut($ShortcutPath)
   $Shortcut.TargetPath = $TargetPath

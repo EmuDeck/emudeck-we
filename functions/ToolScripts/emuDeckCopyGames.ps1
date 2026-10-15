@@ -3,37 +3,31 @@ function CreateStructureUSB {
         [string]$destination
     )
 
-        # Crear directorios si no existen
-        New-Item -Path "$destination\bios\" -ItemType Directory -Force
-        New-Item -Path "$destination\bios\dc" -ItemType Directory -Force
-        New-Item -Path "$destination\bios\yuzu\firmware" -ItemType Directory -Force
-        New-Item -Path "$destination\bios\yuzu\keys" -ItemType Directory -Force
-        New-Item -Path "$destination\roms\" -ItemType Directory -Force
+    $tmpDir = Join-Path $env:TEMP "emudeck_quickstart"
+    Remove-Item -Path $tmpDir -Recurse -Force -ErrorAction SilentlyContinue
+    New-Item -Path $tmpDir -ItemType Directory -Force | Out-Null
+    $ProgressPreference = 'SilentlyContinue'
 
-        $readmeContent = @"
-# Where to put your bios?
-First of all, don't create any new subdirectory. ***
-# System -> folder
-Playstation 1 / Duckstation -> bios/
-Playstation 2 / PCSX2 -> bios/
-Nintendo DS / melonDS -> bios/
-Playstation 3 / RPCS3 -> Download it from https://www.playstation.com/en-us/support/hardware/ps3/system-software/
-Dreamcast / RetroArch -> bios/dc
-Switch / Yuzu -> bios/yuzu/firmware and bios/yuzu/keys
-Those are the only mandatory bios, the rest are optional
-"@
+    try {
+        Invoke-WebRequest -Uri "https://github.com/EmuDeck/quickstart/archive/refs/heads/main.zip" -OutFile "$tmpDir\quickstart.zip" -UseBasicParsing -ErrorAction Stop
+        Expand-Archive -Path "$tmpDir\quickstart.zip" -DestinationPath $tmpDir -Force -ErrorAction Stop
 
-        $readmePath = "$destination\bios\readme.txt"
-        $readmeContent | Out-File -FilePath $readmePath -Encoding UTF8
+        robocopy "$tmpDir\quickstart-main\EmuDeckBackup" "$destination\EmuDeckBackup" /E /XC /XN /XO /NJH /NJS /NP | Out-Null
+        $robocopyCode = $LASTEXITCODE
+        if (-not (Test-Path "$destination\README.md")) {
+            Copy-Item -Path "$tmpDir\quickstart-main\README.md" -Destination "$destination\" -ErrorAction Stop
+        }
 
-        # Copiar archivos excluyendo los archivos .txt
-        robocopy "$env:APPDATA\EmuDeck\backend\roms" "$destination\roms" /E /XO /XF *.txt
-        if ($LASTEXITCODE -eq 0) {
+        if ($robocopyCode -lt 8) {
             Write-Output "true"
         } else {
             Write-Output "false"
         }
-
+    } catch {
+        Write-Output "false"
+    } finally {
+        Remove-Item -Path $tmpDir -Recurse -Force -ErrorAction SilentlyContinue
+    }
 }
 
 

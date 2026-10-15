@@ -347,8 +347,28 @@ function RetroArch_uninstall(){
 function RetroArch_migrate(){
 	Write-Output "NYI"
 }
+$RetroArch_remapCores = @("mGBA", "Gambatte", "bsnes-hd beta", "melonDS DS", "Mupen64Plus-Next", "SameBoy", "Snes9x", "Mesen", "Nestopia", "Beetle VB")
 function RetroArch_setABXYstyle(){
-	Write-Output "NYI"
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+	foreach ($core in $RetroArch_remapCores) {
+		$remap = "$emusPath\RetroArch\config\remaps\$core\$core.rmp"
+		if (Test-Path -LiteralPath "$remap.disabled") {
+			Move-Item -LiteralPath "$remap.disabled" -Destination $remap -Force
+		}
+	}
+}
+function RetroArch_setBAYXstyle(){
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+	foreach ($core in $RetroArch_remapCores) {
+		$remap = "$emusPath\RetroArch\config\remaps\$core\$core.rmp"
+		if (Test-Path -LiteralPath $remap) {
+			Move-Item -LiteralPath $remap -Destination "$remap.disabled" -Force
+		}
+	}
 }
 function RetroArch_wideScreenOn(){
 	Write-Output "NYI"

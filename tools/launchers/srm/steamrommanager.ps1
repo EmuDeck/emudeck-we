@@ -8,7 +8,7 @@ emulatorCheckAndInstall "SRM"
 
 $steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 if ($steamRunning) {
-    taskkill /IM steam.exe /F
+    killSteam
 }
 RPCS3_renameFolders
 SRM_checkParsers

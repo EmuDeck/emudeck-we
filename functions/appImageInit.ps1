@@ -50,8 +50,19 @@ function appImageInit(){
 	#AutoFixes
 	mkdir "$emudeckFolder/feeds" -ErrorAction SilentlyContinue
 
+	#We force the python Venv to get created for the future migration to python
+	if (-not (Test-Path "$pyVenv\Scripts\python.exe")) {
+		py_run get_product_name | Out-Null
+	}
+
 	#Python
 	generate_pythonEnv
+
+	migrateToConhost
+
+	if ((Test-Path "$env:APPDATA\EmuDeck\gamemode\login.ps1") -and (Test-Path "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.ps1")) {
+		Copy-Item -Path "$env:APPDATA\EmuDeck\backend\tools\gamemode\login.ps1" -Destination "$env:APPDATA\EmuDeck\gamemode\login.ps1" -Force
+	}
 
 
 	#CHD

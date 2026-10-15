@@ -3,6 +3,8 @@
 $result = yesNoDialog -TitleText "EmuDeck uninstall" -MessageText "Hi! Are you sure you want to uninstall EmuDeck? If you are having issues do a Custom Reset, if that doesn't fix your issue visit the EmuDeck Discord or Reddit for support. For links, see: https://www.emudeck.com/#download" -OKButtonText "Uninstall" -CancelButtonText "Cancel"
 
 	if ($result -eq "OKButton") {
+		#Game Mode
+		game_mode_disable
 		#Decky
 		taskkill /IM decky-loader-win.exe /F
 		taskkill /IM emudeck.exe /F

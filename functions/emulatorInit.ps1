@@ -4,10 +4,25 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	$null | git -C "$env:APPDATA\EmuDeck\backend" reset --hard
 	$null | git -C "$env:APPDATA\EmuDeck\backend" pull
 	. "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"
+	if (-not $formattedArgs -and (isEarlyUnstable)) {
+		switch ($emuName) {
+			"ryujinx" { $autoMapEmulatorStatus = $autoMapSwitch }
+			"eden" { $autoMapEmulatorStatus = $autoMapSwitch }
+			"dolphin" { $autoMapEmulatorStatus = $autoMapDolphin }
+			"cemu" { $autoMapEmulatorStatus = $autoMapCemu }
+			default { $autoMapEmulatorStatus = "false" }
+		}
+		if ("$autoMapEmulatorStatus" -eq "true") {
+			yesNoDialog -TitleText "EmuDeck" -MessageText "ATTENTION: AutoMap is enabled. You won't be able to change controller settings in this emulator, other settings are not locked. If you want to customize your controller settings please turn AutoMap off in the EmuDeck app" -OKButtonText "OK" -ShowCancelButton $false | Out-Null
+		}
+	}
 	$toast = fullScreenToast $emulatorFile
 	isLatestVersionGH($emuName)
 	emulatorCheckAndInstall $emuName
-	checkAndStartSteam
+	if (-not (isEarlyUnstable)) {
+		checkAndStartSteam
+	}
+	#checkAndStartSteam
 	if( $emuName -ne "pegasus-frontend"){
 		cloud_sync_init($emuName)
 	}

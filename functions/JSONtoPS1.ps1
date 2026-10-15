@@ -246,6 +246,16 @@ function JSONtoPS1(){
 	setSettinginFile("`$RAHandClassic3D=`"$RAHandClassic3D`"")
 	setSettinginFile("`$RAHandHeldShader=`"$RAHandHeldShader`"")
 
+	$controllerLayout = $myJson.controllerLayout
+	setSettinginFile("`$controllerLayout=`"$controllerLayout`"")
+
+	$autoMapCemu = $myJson.automap.cemu
+	$autoMapDolphin = $myJson.automap.dolphin
+	$autoMapSwitch = $myJson.automap.yuzu
+	setSettinginFile("`$autoMapCemu=`"$autoMapCemu`"")
+	setSettinginFile("`$autoMapDolphin=`"$autoMapDolphin`"")
+	setSettinginFile("`$autoMapSwitch=`"$autoMapSwitch`"")
+
 	$cloud_sync_provider = $myJson.cloudSync
 	setSettinginFile("`$cloud_sync_provider=`"$cloud_sync_provider`"")
 	setSettinginFile("`$rclone_provider=`"$cloud_sync_provider`"")

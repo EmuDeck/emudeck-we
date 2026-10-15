@@ -366,6 +366,14 @@ setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
 Invoke-Expression $setupSaves
 
+if ($controllerLayout -eq "bayx" -or $controllerLayout -eq "baxy") {
+	controllerLayout_BAYX
+} else {
+	controllerLayout_ABXY
+}
+
+steamEnableXboxInput
+
 autofix_areInstalled
 Stop-Process -Name explorer -Force
 Stop-Transcript
