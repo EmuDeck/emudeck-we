@@ -52,6 +52,7 @@ function ZSNES_init(){
     copyFromTo "$env:APPDATA\EmuDeck\backend\configs\zsnes" "$ZSNES_configPath"
 
     ZSNES_setupSaves
+    ESDE_refreshCustomEmus
 }
 
 function ZSNES_setupSaves(){
