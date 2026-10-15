@@ -1029,15 +1029,7 @@ function setScreenDimensionsScale(){
 	. "$env:APPDATA\emudeck\settings.ps1"
 }
 
-function fullScreenToast($emulatorFile) {
-	if (-not ("EmuDeck.Foreground" -as [type])) {
-		Add-Type -Namespace EmuDeck -Name Foreground -MemberDefinition @"
-[DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
-[DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
-[DllImport("user32.dll")] public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-"@
-	}
-
+function focusEmulator($emulatorFile) {
 	$target = "$emulatorFile".Trim('"')
 	if ($target -like "*.lnk") {
 		$target = (New-Object -ComObject WScript.Shell).CreateShortcut($target).TargetPath
@@ -1050,126 +1042,91 @@ function fullScreenToast($emulatorFile) {
 		$targetFolder = Split-Path -Parent $target
 	}
 
-	$sync = [hashtable]::Synchronized(@{ FormHandle = [IntPtr]::Zero })
-
 	$runspace = [RunspaceFactory]::CreateRunspace()
-	$runspace.ApartmentState = [System.Threading.ApartmentState]::STA
-	$runspace.ThreadOptions = [System.Management.Automation.Runspaces.PSThreadOptions]::ReuseThread
 	$runspace.Open()
-	$runspace.SessionStateProxy.SetVariable("sync", $sync)
-	$runspace.SessionStateProxy.SetVariable("launcherPid", $PID)
 	$runspace.SessionStateProxy.SetVariable("targetName", $targetName)
 	$runspace.SessionStateProxy.SetVariable("targetFolder", $targetFolder)
 
 	$powershell = [PowerShell]::Create()
 	$powershell.Runspace = $runspace
 	[void]$powershell.AddScript({
-		Add-Type -AssemblyName System.Windows.Forms
-		Add-Type -AssemblyName System.Drawing
-
-		$bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
-
-		$form = New-Object System.Windows.Forms.Form
-		$form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::None
-		$form.WindowState = [System.Windows.Forms.FormWindowState]::Maximized
-		$form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#7b38b1")
-		$form.Width = $bounds.Width
-		$form.Height = $bounds.Height
-
-		$background = New-Object System.Drawing.Bitmap($bounds.Width, $bounds.Height)
-		$graphics = [System.Drawing.Graphics]::FromImage($background)
-		$gradientStart = New-Object System.Drawing.Point(0, $bounds.Height)
-		$gradientEnd = New-Object System.Drawing.Point($bounds.Width, 0)
-		$gradient = New-Object System.Drawing.Drawing2D.LinearGradientBrush($gradientStart, $gradientEnd, [System.Drawing.ColorTranslator]::FromHtml("#d00888"), [System.Drawing.ColorTranslator]::FromHtml("#1274e3"))
-		$graphics.FillRectangle($gradient, 0, 0, $bounds.Width, $bounds.Height)
-		$graphics.Dispose()
-
-		$form.BackgroundImage = $background
-		$form.BackgroundImageLayout = [System.Windows.Forms.ImageLayout]::Stretch
-
-		$logoBottom = [int]($bounds.Height / 2)
-		$logoPath = "$env:APPDATA\EmuDeck\backend\img\logo_white.png"
-		if (Test-Path $logoPath) {
-			$logo = [System.Drawing.Image]::FromStream([System.IO.MemoryStream]::new([System.IO.File]::ReadAllBytes($logoPath)))
-			$logoHeight = [int]($bounds.Height * 0.26)
-			$logoWidth = [int]($logoHeight * $logo.Width / $logo.Height)
-			$pictureBox = New-Object System.Windows.Forms.PictureBox
-			$pictureBox.Image = $logo
-			$pictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
-			$pictureBox.BackColor = [System.Drawing.Color]::Transparent
-			$pictureBox.Size = New-Object System.Drawing.Size($logoWidth, $logoHeight)
-			$pictureBox.Location = New-Object System.Drawing.Point([int](($bounds.Width - $logoWidth) / 2), [int](($bounds.Height - $logoHeight) / 2 - 40))
-			$form.Controls.Add($pictureBox)
-			$logoBottom = $pictureBox.Bottom
+		if (-not ("EmuDeck.Focus" -as [type])) {
+			Add-Type -Namespace EmuDeck -Name Focus -MemberDefinition @"
+[DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+[DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+[DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
+[DllImport("user32.dll")] public static extern bool BringWindowToTop(IntPtr hWnd);
+[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+[DllImport("user32.dll")] public static extern bool IsIconic(IntPtr hWnd);
+[DllImport("user32.dll")] public static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+[DllImport("user32.dll")] public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+[DllImport("kernel32.dll")] public static extern uint GetCurrentThreadId();
+"@
 		}
 
-		$label = New-Object System.Windows.Forms.Label
-		$label.Text = "Loading Emulator please wait..."
-		$label.AutoSize = $false
-		$label.Size = New-Object System.Drawing.Size($bounds.Width, 60)
-		$label.Location = New-Object System.Drawing.Point(0, ($logoBottom + 30))
-		$label.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
-		$label.ForeColor = [System.Drawing.Color]::FromArgb(204, 255, 255, 255)
-		$label.BackColor = [System.Drawing.Color]::Transparent
-		$label.Font = New-Object System.Drawing.Font("Segoe UI", 20)
-		$form.Controls.Add($label)
-
-		$sync.FormHandle = $form.Handle
-
-		$deadline = (Get-Date).AddSeconds(60)
-
-		$timer = New-Object System.Windows.Forms.Timer
-		$timer.Interval = 250
-		$timer.Add_Tick({
-			$foregroundPid = [uint32]0
-			[void][EmuDeck.Foreground]::GetWindowThreadProcessId([EmuDeck.Foreground]::GetForegroundWindow(), [ref]$foregroundPid)
-
-			if ($foregroundPid -ne 0 -and $foregroundPid -ne $launcherPid) {
-				$process = Get-Process -Id $foregroundPid -ErrorAction SilentlyContinue
-				if ($process) {
-					$isTarget = ($targetName -ne "") -and ($process.ProcessName -eq $targetName)
-					if (-not $isTarget -and $targetFolder -ne "") {
-						$processPath = $null
-						try { $processPath = $process.Path } catch { }
-						if ($processPath) {
-							$isTarget = $processPath.StartsWith("$targetFolder\", [System.StringComparison]::OrdinalIgnoreCase)
-						}
-					}
-					if ($isTarget) {
-						$timer.Stop()
-						$form.Close()
-						return
-					}
+		function findTarget() {
+			foreach ($process in Get-Process) {
+				if ($process.MainWindowHandle -eq [IntPtr]::Zero) { continue }
+				if ($targetName -ne "" -and $process.ProcessName -eq $targetName) { return $process }
+				if ($targetFolder -ne "") {
+					$processPath = $null
+					try { $processPath = $process.Path } catch { }
+					if ($processPath -and $processPath.StartsWith("$targetFolder\", [System.StringComparison]::OrdinalIgnoreCase)) { return $process }
 				}
 			}
+			return $null
+		}
 
-			if ((Get-Date) -gt $deadline) {
-				$timer.Stop()
-				$form.Close()
+		function focusWindow($hwnd) {
+			if ([EmuDeck.Focus]::IsIconic($hwnd)) {
+				[void][EmuDeck.Focus]::ShowWindow($hwnd, 9)
 			}
-		})
-		$timer.Start()
+			[EmuDeck.Focus]::keybd_event(0x12, 0, 0, [UIntPtr]::Zero)
+			[EmuDeck.Focus]::keybd_event(0x12, 0, 2, [UIntPtr]::Zero)
+			$foregroundPid = [uint32]0
+			$foregroundThread = [EmuDeck.Focus]::GetWindowThreadProcessId([EmuDeck.Focus]::GetForegroundWindow(), [ref]$foregroundPid)
+			$currentThread = [EmuDeck.Focus]::GetCurrentThreadId()
+			$attached = ($foregroundThread -ne 0) -and ($foregroundThread -ne $currentThread) -and [EmuDeck.Focus]::AttachThreadInput($currentThread, $foregroundThread, $true)
+			[void][EmuDeck.Focus]::BringWindowToTop($hwnd)
+			[void][EmuDeck.Focus]::SetForegroundWindow($hwnd)
+			if ($attached) {
+				[void][EmuDeck.Focus]::AttachThreadInput($currentThread, $foregroundThread, $false)
+			}
+		}
 
-		[System.Windows.Forms.Application]::Run($form)
+		$deadline = (Get-Date).AddSeconds(60)
+		$guardUntil = $null
+		while ((Get-Date) -lt $deadline -and (-not $guardUntil -or (Get-Date) -lt $guardUntil)) {
+			Start-Sleep -Milliseconds 300
+			$process = findTarget
+			if (-not $process) { continue }
+
+			$foregroundPid = [uint32]0
+			[void][EmuDeck.Focus]::GetWindowThreadProcessId([EmuDeck.Focus]::GetForegroundWindow(), [ref]$foregroundPid)
+			if ($foregroundPid -ne $process.Id) {
+				$foregroundName = (Get-Process -Id $foregroundPid -ErrorAction SilentlyContinue).ProcessName
+				if (-not $guardUntil -or $foregroundName -like "steam*") {
+					focusWindow $process.MainWindowHandle
+				}
+			}
+			if (-not $guardUntil) {
+				$guardUntil = (Get-Date).AddSeconds(10)
+			}
+		}
 	})
 
 	$asyncResult = $powershell.BeginInvoke()
 
-	return @{ PowerShell = $powershell; Runspace = $runspace; AsyncResult = $asyncResult; Sync = $sync }
+	return @{ PowerShell = $powershell; Runspace = $runspace; AsyncResult = $asyncResult }
 }
 
-function closeFullScreenToast($toast) {
-	if (-not $toast) { return }
+function closeFocusEmulator($focus) {
+	if (-not $focus) { return }
 
-	if ($toast.Sync.FormHandle.ToInt64() -ne 0) {
-		[void][EmuDeck.Foreground]::PostMessage($toast.Sync.FormHandle, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero)
+	if (-not $focus.AsyncResult.IsCompleted) {
+		[void]$focus.PowerShell.BeginStop($null, $null)
 	}
-
-	[void]$toast.AsyncResult.AsyncWaitHandle.WaitOne(3000)
-	if (-not $toast.AsyncResult.IsCompleted) {
-		[void]$toast.PowerShell.BeginStop($null, $null)
-	}
-	$toast.Runspace.CloseAsync()
+	$focus.Runspace.CloseAsync()
 }
 
 function steamToast {

@@ -17,7 +17,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 			yesNoDialog -TitleText "EmuDeck" -MessageText "ATTENTION: AutoMap is enabled. You won't be able to change controller settings in this emulator, other settings are not locked. If you want to customize your controller settings please turn AutoMap off in the EmuDeck app" -OKButtonText "OK" -ShowCancelButton $false | Out-Null
 		}
 	}
-	$toast = fullScreenToast $emulatorFile
+	$focus = focusEmulator $emulatorFile
 	isLatestVersionGH($emuName)
 	emulatorCheckAndInstall $emuName
 	if (-not (isEarlyUnstable)) {
@@ -57,7 +57,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	}else{
 		Start-Process $emulatorFile -WindowStyle Maximized -Wait
 	}
-	closeFullScreenToast $toast
+	closeFocusEmulator $focus
 	rm -fo -r "$savesPath/.watching" -ErrorAction SilentlyContinue
 	rm -fo -r "$savesPath/.emulator" -ErrorAction SilentlyContinue
 }
