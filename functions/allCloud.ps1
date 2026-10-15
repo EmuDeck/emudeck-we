@@ -7,3 +7,5 @@
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\emulatorInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\download.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\sedFile.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\moveFromTo.ps1"

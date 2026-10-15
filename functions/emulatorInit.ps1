@@ -1,10 +1,5 @@
 function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 	hideMe
-	$env:GIT_TERMINAL_PROMPT = "0"
-	$null | git -C "$env:APPDATA\EmuDeck\backend" fetch --depth=1 origin (git -C "$env:APPDATA\EmuDeck\backend" rev-parse --abbrev-ref HEAD)
-	if ($?) { $null | git -C "$env:APPDATA\EmuDeck\backend" reset --hard FETCH_HEAD } else { $null | git -C "$env:APPDATA\EmuDeck\backend" reset --hard }
-	$null | git -C "$env:APPDATA\EmuDeck\backend" clean -fd
-	. "$env:APPDATA\EmuDeck\backend\functions\allCloud.ps1"
 	if (-not $formattedArgs -and (isEarlyUnstable)) {
 		switch ($emuName) {
 			"ryujinx" { $autoMapEmulatorStatus = $autoMapSwitch }
@@ -18,8 +13,7 @@ function emulatorInit($emuName, $emulatorFile, $formattedArgs){
 		}
 	}
 	$focus = focusEmulator $emulatorFile
-	isLatestVersionGH($emuName)
-	emulatorCheckAndInstall $emuName
+	. emulatorCheckAndInstall $emuName
 	if (-not (isEarlyUnstable)) {
 		checkAndStartSteam
 	}

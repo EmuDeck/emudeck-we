@@ -10,7 +10,6 @@ $emuName = "model2"
 . "$env:USERPROFILE/AppData/Roaming/EmuDeck/backend/functions/allCloud.ps1"
 launcherInit
 hideMe
-isLatestVersionGH($emuName)
 checkAndStartSteam
 cloud_sync_init($emuName)
 
