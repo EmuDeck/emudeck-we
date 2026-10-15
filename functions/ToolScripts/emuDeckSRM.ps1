@@ -175,8 +175,9 @@ function SRM_createParsers(){
 	if ( -not (Model2_IsInstalled -like "*true*")){
 		$exclusionList=$exclusionList+"sega_model2-model2emulator.json"
 	}
-
-
+	if ((ZSNES_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_snes-zsnes.json"
+	}
 
 	Start-Sleep -Seconds 1
 

@@ -54,6 +54,7 @@ function JSONtoPS1(){
 	$mode= $myJson.mode
 	$SetupSupermodel= $myJson.overwriteConfigEmus.supermodel.status
 	$SetupModel2= $myJson.overwriteConfigEmus.model2.status
+	$SetupZSNES= $myJson.overwriteConfigEmus.zsnes.status
 
 	setSettinginFile("`$mode=`"$mode`"")
 	setSettinginFile("`$doSetupRA=`"$SetupRA`"")
@@ -82,6 +83,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doSetupBigPEmu=`"$SetupBigPEmu`"")
 	setSettinginFile("`$doSetupSupermodel=`"$SetupSupermodel`"")
 	setSettinginFile("`$doSetupModel2=`"$SetupModel2`"")
+	setSettinginFile("`$doSetupZSNES=`"$SetupZSNES`"")
 
 
 	#Install all systems by default
@@ -108,6 +110,7 @@ function JSONtoPS1(){
 	$InstallBigPEmu = $myJson.installEmus.bigpemu.status
 	$InstallSupermodel = $myJson.installEmus.supermodel.status
 	$InstallModel2 = $myJson.installEmus.model2.status
+	$InstallZSNES= $myJson.installEmus.zsnes.status
 
 
 	#Frontends
@@ -139,6 +142,7 @@ function JSONtoPS1(){
 	setSettinginFile("`$doInstallBigPEmu=`"$InstallBigPEmu`"")
 	setSettinginFile("`$doInstallSupermodel=`"$InstallSupermodel`"")
 	setSettinginFile("`$doInstallModel2=`"$InstallModel2`"")
+	setSettinginFile("`$doInstallZSNES=`"$InstallZSNES`"")
 
 
 

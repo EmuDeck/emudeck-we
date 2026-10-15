@@ -223,6 +223,12 @@ if (-not($test) -and $doInstallBigPEmu -eq "true") {
     SuperModel_install
 }
 
+#ZSNES
+$test = Test-Path -Path "$emusPath\zsnes\SUPERZSNES.exe"
+if (-not($test) -and $doInstallZSNES -eq "true") {
+    ZSNES_install
+}
+
 
 #
 # Emus Configuration
@@ -351,6 +357,10 @@ if ("$doSetupModel2" -eq "true") {
     $setupSaves += "Model2_setupSaves;"
 }
 
+if ("$doSetupZSNES" -eq "true") {
+    ZSNES_init
+    $setupSaves += "ZSNES_setupSaves;"
+}
 
 setMSG 'Configuring Save folders'
 $setupSaves = $setupSaves.Substring(0, $setupSaves.Length - 1)
