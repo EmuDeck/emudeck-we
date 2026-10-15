@@ -1683,10 +1683,11 @@ function add_to_steam($id, $name, $target_path, $start_dir, $icon_path, $collect
   #Kill Steam
   killSteam
 
-  $target_path = 'C:\Windows\System32\conhost.exe\" --headless \"C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path
+  $target_path = 'C:\Windows\System32\conhost.exe" --headless "C:\Windows\System32\WindowsPowershell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File ' + $target_path
   $steam_directory="$steamInstallPath"
   $user_id = Get-ChildItem -Directory -Path "$steamInstallPathSRM\userdata" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 | ForEach-Object { $_.FullName }
-  python "$emudeckFolder/backend/tools/vdf/add.py" $id $name $target_path $start_dir $icon_path $steam_directory "$user_id" "$collection" "$recent"
+  $arguments = @("$emudeckFolder/backend/tools/vdf/add.py", $id, $name, $target_path, $start_dir, $icon_path, $steam_directory, "$user_id", "$collection", "$recent") | ForEach-Object { '"' + (("$_" -replace '(\\*)"', '$1$1\"') -replace '(\\+)$', '$1$1') + '"' }
+  Start-Process -FilePath "python" -ArgumentList ($arguments -join " ") -NoNewWindow -Wait
 
   confirmDialog -TitleText "$name" -MessageText "$name has been added to your Non Steam Games"
 
