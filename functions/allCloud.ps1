@@ -6,3 +6,4 @@
 . "$env:APPDATA\EmuDeck\backend\functions\launcherInit.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\ToolScripts\emuDeckSaveSync.ps1"
 . "$env:APPDATA\EmuDeck\backend\functions\emulatorInit.ps1"
+. "$env:APPDATA\EmuDeck\backend\functions\download.ps1"

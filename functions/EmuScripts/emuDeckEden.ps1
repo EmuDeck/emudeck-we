@@ -124,14 +124,17 @@ function Eden_setGamepads(){
 	if (-not (Test-Path $Eden_configFile)) {
 		return
 	}
-	foreach ($sdlLib in @("$emusPath\eden-windows-msvc\SDL2.dll", "$env:APPDATA\EmuDeck\backend\configs\eden\SDL2.dll")) {
-		if (-not (Test-Path $sdlLib)) {
-			continue
-		}
-		ignoreSteamVirtualGamepad $sdlLib
-		runGamepadsTool "edenGamepads.py" $sdlLib @{ EDEN_CONFIG_FILE = $Eden_configFile } @("--write") | Out-Null
+	$sdlLib = "$emusPath\eden-windows-msvc\SDL2-automap.dll"
+	if (-not (Test-Path $sdlLib)) {
+		download "https://github.com/libsdl-org/SDL/releases/download/release-2.32.10/SDL2-2.32.10-win32-x64.zip" "sdl2eden.zip"
+		Move-Item "$temp/sdl2eden/SDL2.dll" $sdlLib -Force
+		Remove-Item -Recurse -Force "$temp/sdl2eden" -ErrorAction SilentlyContinue
+	}
+	if (-not (Test-Path $sdlLib)) {
 		return
 	}
+	ignoreSteamVirtualGamepad $sdlLib
+	runGamepadsTool "edenGamepads.py" $sdlLib @{ EDEN_CONFIG_FILE = $Eden_configFile } @("--write") | Out-Null
 }
 function Eden_launch_fixes(){
 	Eden_setGamepads

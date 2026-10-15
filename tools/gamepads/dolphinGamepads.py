@@ -54,8 +54,10 @@ def enumerate_pads(libpath):
         sdl.SDL_NumJoysticks.restype = ctypes.c_int
         sdl.SDL_JoystickNameForIndex.argtypes = [ctypes.c_int]
         sdl.SDL_JoystickNameForIndex.restype = ctypes.c_char_p
-        sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
-        sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
+        has_path = hasattr(sdl, "SDL_JoystickPathForIndex")
+        if has_path:
+            sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
+            sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
         sdl.SDL_JoystickGetDeviceVendor.argtypes = [ctypes.c_int]
         sdl.SDL_JoystickGetDeviceVendor.restype = ctypes.c_uint16
         sdl.SDL_JoystickGetDeviceProduct.argtypes = [ctypes.c_int]
@@ -63,7 +65,8 @@ def enumerate_pads(libpath):
         if sdl.SDL_Init(0x00002000) != 0:
             return None
         ids = range(sdl.SDL_NumJoysticks())
-        get = (sdl.SDL_JoystickNameForIndex, sdl.SDL_JoystickPathForIndex,
+        get = (sdl.SDL_JoystickNameForIndex,
+               sdl.SDL_JoystickPathForIndex if has_path else (lambda i: None),
                sdl.SDL_JoystickGetDeviceVendor, sdl.SDL_JoystickGetDeviceProduct)
     else:
         sdl.SDL_Init.argtypes = [ctypes.c_uint32]
