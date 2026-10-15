@@ -118,61 +118,61 @@ function SRM_createParsers(){
 
 
 	#Exclusion based on install status.
-	if ( -not (PrimeHack_isInstalled -like "*true*")){
+	if ((PrimeHack_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_primehack.json"
 	}
-	if ( -not (RPCS3_isInstalled -like "*true*")){
+	if ((RPCS3_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
 	}
 
-	if ( -not (Azahar_isInstalled -like "*true*")){
+	if ((Azahar_isInstalled) -ne "true"){ 
 		$exclusionList=$exclusionList+"nintendo_3ds-azahar.json"
 	}
-	if ( -not (Dolphin_isInstalled -like "*true*")){
+	if ((Dolphin_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_gc-dolphin.json"
 		$exclusionList=$exclusionList+"nintendo_wii-dolphin.json"
 	}
-	if ( -not (Duckstation_isInstalled -like "*true*")){
+	if ((Duckstation_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sony_psx-duckstation.json"
 	}
-	if (-not (PPSSPP_isInstalled -like "*true*")){
+	if ((PPSSPP_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sony_psp-ppsspp.json"
 	}
-	if ( -not (Yuzu_isInstalled -like "*true*")){
+	if ((Yuzu_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_switch-yuzu.json"
 	}
-	if ( -not (Cemu_isInstalled -like "*true*")){
+	if ((Cemu_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-rpx.json"
 		$exclusionList=$exclusionList+"nintendo_wiiu-cemu-wud-wux-wua.json"
 	}
-	if ( -not (Ryujinx_isInstalled -like "*true*")){
+	if ((Ryujinx_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_switch-ryujinx.json"
 	}
-	if ( -not (PCSX2QT_isInstalled -like "*true*")){
+	if ((PCSX2QT_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sony_ps2-pcsx2.json"
 	}
-	if ( -not (SuperModel_isInstalled -like "*true*")){
+	if ((SuperModel_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sega_arcade-supermodel.json"
 	}
-	if ( -not (ScummVM_isInstalled -like "*true*")){
+	if ((ScummVM_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"scumm_scummvm.json"
 	}
-	if ( -not (Vita3K_isInstalled -like "*true*")){
+	if ((Vita3K_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sony_psvita-vita3k-pkg.json"
 	}
-	if ( -not (mGBA_isInstalled -like "*true*")){
+	if ((mGBA_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_gba-mgba.json"
 		$exclusionList=$exclusionList+"nintendo_gb-mgba.json"
 		$exclusionList=$exclusionList+"nintendo_gbc-mgba.json"
 	}
-	if ( -not (BigPEmu_IsInstalled -like "*true*")){
+	if ((BigPEmu_IsInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"atari_jaguar-bigpemu.json"
 	}
-	if ( -not (Supermodel_IsInstalled -like "*true*")){
+	if ((Supermodel_IsInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sega_model_3-supermodel.json"
 	}
-	if ( -not (Model2_IsInstalled -like "*true*")){
+	if ((Model2_IsInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sega_model2-model2emulator.json"
 	}
 	if ((ZSNES_IsInstalled) -ne "true"){
@@ -464,16 +464,7 @@ function SRM_checkParsers {
 	if ([string]::IsNullOrEmpty($steamDir)) {
 		Write-Host "Steam ROM Manager steamDirectory is empty or missing, running SRM_init..."
 		SRM_init
-	}
-
-
-	$userConfig = "$toolsPath\userData\userConfigurations.json"
-	$parsers = $null
-	if (Test-Path $userConfig) {
-		try { $parsers = Get-Content $userConfig -Raw | ConvertFrom-Json } catch { $parsers = $null }
-	}
-	if (!$parsers -or $parsers.Count -eq 0) {
-		Write-Host "Steam ROM Manager has no parsers, restoring configuration..."
+	} else {
 		SRM_createParsers
 	}
 }
