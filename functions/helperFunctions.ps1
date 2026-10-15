@@ -1344,6 +1344,35 @@ function killSteam(){
 	}
 }
 
+function steamEnableXboxInput(){
+	$files = @(Get-ChildItem -Path "$steamInstallPath\userdata\*\config\localconfig.vdf" -ErrorAction SilentlyContinue | Where-Object { -not (Select-String -LiteralPath $_.FullName -Pattern '"SteamController_XBoxSupport"\s+"1"' -Quiet) })
+	if ($files.Count -eq 0) {
+		return
+	}
+
+	$steamRunning = Get-Process -Name "steam" -ErrorAction SilentlyContinue
+	killSteam
+
+	foreach ($file in $files) {
+		$content = [System.IO.File]::ReadAllText($file.FullName)
+		if ($content -match '"SteamController_XBoxSupport"\s+"\d+"') {
+			$content = $content -replace '("SteamController_XBoxSupport"\s+)"\d+"', '$1"1"'
+		} else {
+			$newLine = "`n"
+			if ($content.Contains("`r`n")) {
+				$newLine = "`r`n"
+			}
+			$index = $content.LastIndexOf('}')
+			$content = $content.Substring(0, $index) + "`t`"SteamController_XBoxSupport`"`t`t`"1`"$newLine" + $content.Substring($index)
+		}
+		[System.IO.File]::WriteAllText($file.FullName, $content, (New-Object System.Text.UTF8Encoding($false)))
+	}
+
+	if ($steamRunning) {
+		startSteam "-silent"
+	}
+}
+
 function killBOM($file){
 	$content = Get-Content -Path $file -Raw
 	$killBOM = New-Object System.Text.UTF8Encoding $false

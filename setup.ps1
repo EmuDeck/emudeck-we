@@ -362,6 +362,8 @@ if ($controllerLayout -eq "bayx" -or $controllerLayout -eq "baxy") {
 	controllerLayout_ABXY
 }
 
+steamEnableXboxInput
+
 autofix_areInstalled
 Stop-Process -Name explorer -Force
 Stop-Transcript
