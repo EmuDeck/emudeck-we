@@ -25,13 +25,17 @@ def ppsspp_install():
         ) or "https://www.ppsspp.org/files/1_20_1/ppsspp_win.zip"
 
     if system == "darwin":
-        name="ppsspp"
-        type="dmg"
+        name="PPSSPP"
+        type="zip"
         destination = f"{emus_folder}"
-        repo="https://www.ppsspp.org/files/1_20_1/PPSSPP_macOS.dmg"
+        repo = get_latest_release_gh("hrydgard/ppsspp", "zip", "macOS")
 
     try:
         install_emu(name, repo, type, destination)
+        if system == "darwin":
+            shutil.rmtree(emus_folder / "PPSSPP.app", ignore_errors=True)
+            (emus_folder / "PPSSPPSDL.app").rename(emus_folder / "PPSSPP.app")
+            create_app_shortcut(name)
     except Exception as e:
         print(f"Error during install: {e}")
         return False
@@ -44,7 +48,7 @@ def ppsspp_uninstall():
         if system.startswith("win"):
           uninstall_emu("ppsspp", "dir")
         if system == "darwin":
-          uninstall_emu("PPSSPPDL", "app")
+          uninstall_emu("PPSSPP", "app")
         return True
     except Exception as e:
         print(f"Error during uninstall: {e}")
@@ -56,7 +60,7 @@ def ppsspp_is_installed():
     if system.startswith("win"):
       return (emus_folder / "ppsspp" / "PPSSPPWindows64.exe").exists()
     if system == "darwin":
-      return (emus_folder / "PPSSPPDL.app").exists()
+      return (emus_folder / "PPSSPP.app").exists()
 
 
 def ppsspp_config_dir():
@@ -65,7 +69,7 @@ def ppsspp_config_dir():
     if system.startswith("win"):
         return Path(f"{emus_folder}/ppsspp/memstick/PSP/SYSTEM")
     if system == "darwin":
-        return Path(f"{home}/Library/Application Support/PPSSPP/PSP/SYSTEM")
+        return Path(f"{home}/.config/ppsspp/PSP/SYSTEM")
 
 
 def ppsspp_config_file():

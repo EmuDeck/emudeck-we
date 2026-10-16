@@ -1,8 +1,77 @@
 from core.all import *
 
+def srm_steam_installed():
+    if system == "darwin":
+        return Path("/Applications/Steam.app").exists() or (home / "Applications" / "Steam.app").exists()
+    if system.startswith("win"):
+        return bool(steam_install_path) and (Path(steam_install_path) / "steam.exe").exists()
+    return True
+
+def srm_install_steam():
+    set_msg("Installing Steam")
+    temp = Path(tempfile.mkdtemp())
+    if system == "darwin":
+        manifest = requests.get("https://client-update.steamstatic.com/steam_client_osx", timeout=30).text
+        package = re.search(r'appdmg_osx\.zip[^"\s]*', manifest).group(0)
+        url = f"https://client-update.steamstatic.com/{package}"
+        archive_path = temp / "steam.zip"
+    else:
+        url = "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe"
+        archive_path = temp / "SteamSetup.exe"
+    response = requests.get(url, stream=True, timeout=30)
+    response.raise_for_status()
+    with open(archive_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
+    if system.startswith("win"):
+        subprocess.run([str(archive_path), "/S"], check=True)
+        return True
+    zipfile.ZipFile(archive_path).extractall(temp)
+    subprocess.run(["tar", "-xzf", str(temp / "SteamMacBootstrapper.tar.gz"), "-C", str(temp)], check=True)
+    for junk in (temp / "Steam.app").rglob("._*"):
+        junk.unlink()
+    try:
+        shutil.copytree(temp / "Steam.app", "/Applications/Steam.app", symlinks=True)
+    except PermissionError:
+        (home / "Applications").mkdir(exist_ok=True)
+        shutil.copytree(temp / "Steam.app", home / "Applications" / "Steam.app", symlinks=True)
+    return True
+
+def srm_wait_steam_users():
+    def has_users():
+        steam_dir = get_steam_paths()[0] if system.startswith("win") else steam_install_path
+        userdata = Path(steam_dir) / "userdata"
+        return userdata.is_dir() and any(d.is_dir() and d.name.isdigit() and d.name != "0" for d in userdata.iterdir())
+    if has_users():
+        return True
+    if not srm_steam_installed():
+        popup_show_progress("Steam", "Installing Steam, please wait...", srm_install_steam)
+    try:
+        if system == "darwin":
+            steam_app = next(app for app in (Path("/Applications/Steam.app"), home / "Applications" / "Steam.app") if app.exists())
+            subprocess.run(["open", str(steam_app)], check=True)
+        elif system.startswith("win"):
+            subprocess.Popen([get_steam_paths()[2]])
+        else:
+            subprocess.Popen(["steam"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception as e:
+        print(f"Unable to launch Steam: {e}")
+    def wait():
+        deadline = time.time() + 1800
+        while not has_users() and time.time() < deadline:
+            time.sleep(2)
+    popup_show_progress("Steam", "We are opening Steam for you, please log in with your account. Steam ROM Manager will open as soon as you do.", wait)
+    return has_users()
+
 def srm_install():
     stat_install("srm")
     set_msg(f"Installing Steam Rom Manager")
+
+    if not srm_steam_installed():
+        try:
+            srm_install_steam()
+        except Exception as e:
+            print(f"Error installing Steam: {e}")
 
     if system == "linux":
         type="AppImage"
@@ -17,7 +86,7 @@ def srm_install():
 
     if system == "darwin":
         type="dmg"
-        look_for=""
+        look_for="arm64"
         destination = f"{emus_folder}"
 
     try:
@@ -69,7 +138,7 @@ def srm_is_installed():
 
 def srm_init():
     set_msg(f"Setting up Steam Rom Manager")
-    if hybrid_mode:
+    if hybrid_mode and system == "linux":
         (Path(emudeck_folder) / "customParsers").mkdir(parents=True, exist_ok=True)
         source = Path(bash_backend) / "configs" / "steam-rom-manager" / "userData"
         copy_with_backup(source / "userConfigurations.json", Path(srm_path) / "userData" / "userConfigurations.json")
@@ -173,7 +242,7 @@ def srm_flush_old_symlinks():
 
 
 def srm_add_extra_parsers():
-    if hybrid_mode:
+    if hybrid_mode and system == "linux":
         copy_with_backup(Path(bash_backend) / "configs" / "steam-rom-manager" / "userData" / "userConfigurations.json",
                          Path(srm_path) / "userData" / "userConfigurations.json")
     else:

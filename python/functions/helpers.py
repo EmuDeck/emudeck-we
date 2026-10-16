@@ -27,11 +27,11 @@ def custom_location() -> Optional[str]:
     
     elif system.startswith("darwin"):
         r = subprocess.run(
-            ["osascript", "-e",
+            ["osascript", "-e", "activate", "-e",
             'POSIX path of (choose folder with prompt "Select a destination for the Emulation directory.")'],
             capture_output=True, text=True
         )
-        return r.stdout.strip() or None
+        return r.stdout.strip().rstrip("/") or None
     
     elif system.startswith("win"):
         ps = (
@@ -504,6 +504,13 @@ def md5_of(path: Path) -> Optional[str]:
             h.update(chunk)
     return h.hexdigest()
 
+def create_folders():
+    for folder in (emulation_path, tools_path / "launchers", saves_path, roms_path, storage_path, bios_path):
+        folder.mkdir(parents=True, exist_ok=True)
+    set_msg(f"Creating roms folder in {roms_path}")
+    shutil.copytree(Path(emudeck_backend) / "configs" / "common" / "roms", roms_path, dirs_exist_ok=True, copy_function=lambda src, dst: None if os.path.exists(dst) else shutil.copy2(src, dst))
+    return True
+
 def stat_install(name: str) -> None:
     """ Installation stats """
     if hybrid_mode:
@@ -864,12 +871,14 @@ def install_emu(name, url, type_, destination):
                 print(f"{name}.AppImage installed at {dest_file}")
                 return
 
-            if system == "darwin":
-                extract_to = emus_folder
-                extract_to.mkdir(parents=True, exist_ok=True)
-                with zipfile.ZipFile(archive_path, 'r') as zf:
-                    zf.extractall(path=extract_to)
-                return
+            if system == "darwin":               
+                extract_to = temp_dir / name
+                subprocess.run(["ditto", "-x", "-k", str(archive_path), str(extract_to)], check=True)
+                for app in list(extract_to.glob("*.app")) or list(extract_to.glob("*/*.app")):
+                    shutil.rmtree(emus_folder / app.name, ignore_errors=True)
+                    shutil.move(str(app), str(emus_folder / app.name))
+                create_app_shortcut(name)
+                return True
 
             try:
                 extract_flat(archive_path, extract_to)
@@ -882,6 +891,16 @@ def install_emu(name, url, type_, destination):
         elif type_ in ("7z"):
             extract_to = emus_folder / destination if destination else emus_folder / name
             extract_to.mkdir(parents=True, exist_ok=True)
+
+            if system == "darwin":
+                extract_to = temp_dir / name
+                extract_to.mkdir(parents=True, exist_ok=True)
+                subprocess.run(["tar", "-xf", str(archive_path), "-C", str(extract_to)], check=True)
+                for app in list(extract_to.glob("*.app")) or list(extract_to.glob("*/*.app")):
+                    shutil.rmtree(emus_folder / app.name, ignore_errors=True)
+                    shutil.move(str(app), str(emus_folder / app.name))
+                create_app_shortcut(name)
+                return True
 
             extract7z_flat(archive_path, extract_to)
 
@@ -1047,19 +1066,30 @@ def create_app_shortcut(name: str, display_name: Optional[str] = None, terminal:
 
     if system == "darwin":
         folder = ""
+        script_filename = f"{launcher_name.lower()}.sh"
+        app_name = name
         if name == "ES-DE":
             folder = "es-de"
+        if name == "srm":
+            folder = "srm"
+            script_filename = "steamrommanager.sh"
+            app_name = "Steam ROM Manager"
 
-        src_file = Path(emudeck_backend) / "tools" / "launchers" / "unix" / folder / f"{launcher_name.lower()}.sh"
-        exec_path = Path(tools_path) / "launchers" / folder / f"{launcher_name.lower()}.sh"
+        src_file = Path(emudeck_backend) / "tools" / "launchers" / "unix" / folder / script_filename
+        exec_path = Path(tools_path) / "launchers" / folder / script_filename
+        exec_path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src_file, exec_path)
+        exec_path.chmod(exec_path.stat().st_mode | 0o111)
 
-        create_mac_app(name, Path(exec_path))
+        create_mac_app(app_name, Path(exec_path))
 
 
 def create_mac_app(app_name: str, script_path: Path, output_dir: Path = Path("/Applications/EmuDeck")):
 
+    # Use the real emulator App Name
+    app_name = next((p.stem for p in Path(emus_folder).glob("*.app") if p.stem.lower() == app_name.lower()), app_name)
     app_bundle = output_dir / f"{app_name}.app"
+    shutil.rmtree(app_bundle, ignore_errors=True)
     contents_dir = app_bundle / "Contents"
     macos_dir = contents_dir / "MacOS"
     resources_dir = contents_dir / "Resources"
@@ -1069,8 +1099,17 @@ def create_mac_app(app_name: str, script_path: Path, output_dir: Path = Path("/A
 
     exec_name = script_path.stem
     target_exec = macos_dir / exec_name
-    shutil.copy2(script_path, target_exec)
-    target_exec.chmod(target_exec.stat().st_mode | stat.S_IEXEC)
+    target_exec.write_text(f'#!/usr/bin/env bash\nexec "{script_path}" "$@"\n', encoding="utf-8")
+    target_exec.chmod(0o755)
+
+    # Use the official emulator app icon
+    icon = None
+    real_plist = Path(emus_folder) / f"{app_name}.app" / "Contents" / "Info.plist"
+    if real_plist.is_file():
+        icon_name = plistlib.loads(real_plist.read_bytes()).get("CFBundleIconFile", "")
+        icon = real_plist.parent / "Resources" / (icon_name if icon_name.endswith(".icns") else f"{icon_name}.icns")
+    if icon and icon.is_file():
+        subprocess.run(["sips", "-s", "format", "icns", str(icon), "--out", str(resources_dir / "icon.icns")], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     plist = {
         "CFBundleName": app_name,
@@ -1079,12 +1118,14 @@ def create_mac_app(app_name: str, script_path: Path, output_dir: Path = Path("/A
         "CFBundleVersion": "1.0",
         "CFBundlePackageType": "APPL",
         "CFBundleExecutable": exec_name,
-        "CFBundleInfoDictionaryVersion": "6.0"
+        "CFBundleIconFile": "icon",
+        "CFBundleInfoDictionaryVersion": "6.0",
+        "LSUIElement": True
     }
     with open(contents_dir / "Info.plist", "wb") as f:
         plistlib.dump(plist, f)
 
-    print(f"✅ Created macOS app bundle at: {app_bundle}")
+    print(f"Created macOS app bundle at: {app_bundle}")
 
 def extract(zip_path: Path, extract_to: Path) -> None:
     extract_to.mkdir(parents=True, exist_ok=True)
@@ -1161,38 +1202,64 @@ def extract7z_flat(archive_path: Path, extract_to: Path):
             child.rename(extract_to / child.name)
         top.rmdir()
 
-def install_dmg(name, archive_path):
-    subprocess.run(["open", str(archive_path)], check=True)
-    mount_point = None
-    for _ in range(30):
-        for vol in Path("/Volumes").iterdir():
-            mount_point = vol
-            break
-        if mount_point:
-            break
-
+def download_sdl3_darwin():
+    lib = Path(emudeck_folder) / "automap" / "libSDL3.dylib"
+    if lib.is_file():
+        return
+    dmg = Path(tempfile.mkdtemp()) / "SDL3.dmg"
+    if not safeDownload("SDL3", "https://github.com/libsdl-org/SDL/releases/download/release-3.4.12/SDL3-3.4.12.dmg", dmg):
+        return
+    mount_point = mount_dmg(dmg)
     if not mount_point:
-        print("❌ Timeout: DMG did not mount in /Volumes.")
+        return
+    try:
+        lib.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(mount_point / "SDL3.xcframework" / "macos-arm64_x86_64" / "SDL3.framework" / "Versions" / "A" / "SDL3", lib)
+    finally:
+        subprocess.run(["hdiutil", "detach", str(mount_point)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+def mount_dmg(archive_path):
+    info = plistlib.loads(subprocess.run(["hdiutil", "imageinfo", "-plist", str(archive_path)], check=True, capture_output=True).stdout)
+    if info.get("Properties", {}).get("Software License Agreement"):
+        # Support for ESDE license message in the DMG
+        subprocess.run(["open", str(archive_path)], check=True)
+        for _ in range(300):
+            images = plistlib.loads(subprocess.run(["hdiutil", "info", "-plist"], check=True, capture_output=True).stdout).get("images", [])
+            mounts = [e["mount-point"] for i in images if Path(i.get("image-path", "")).resolve() == Path(archive_path).resolve() for e in i.get("system-entities", []) if e.get("mount-point")]
+            if mounts:
+                return Path(mounts[0])
+            time.sleep(1)
+        return None
+    attach = subprocess.run(["hdiutil", "attach", "-nobrowse", "-readonly", "-plist", str(archive_path)], check=True, capture_output=True, stdin=subprocess.DEVNULL)
+    mounts = [e["mount-point"] for e in plistlib.loads(attach.stdout).get("system-entities", []) if e.get("mount-point")]
+    return Path(mounts[0]) if mounts else None
+
+def install_dmg(name, archive_path):
+    mount_point = mount_dmg(archive_path)
+    if not mount_point:
+        print("DMG did not mount.")
         return False
 
-    print(f"✅ Mounted at {mount_point}")
+    print(f"Mounted at {mount_point}")
 
-    apps = list(mount_point.glob("*.app"))
-    if not apps:
-        print("❌ No .app found inside the DMG.")
-        input("Press Enter to unmount…")
-        subprocess.run(["hdiutil", "detach", str(mount_point)])
-        return False
+    try:
+        apps = list(mount_point.glob("*.app"))
+        if not apps:
+            print("No .app found inside the DMG.")
+            return False
 
-    app_bundle = apps[0]
-    target = Path.home() / "Applications" / app_bundle.name
-    target.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(app_bundle, target, dirs_exist_ok=True)
-    print(f"✔️  Copied {app_bundle.name} → {target}")
-    darwin_trust_app(target)
-    subprocess.run(["hdiutil", "detach", str(mount_point)], stdout=subprocess.DEVNULL)
-    print("✔️  DMG detached.")
-    return True
+        app_bundle = apps[0]
+        target = Path(emus_folder) / app_bundle.name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists():
+            shutil.rmtree(target)
+        shutil.copytree(app_bundle, target, symlinks=True)
+        print(f" Copied {app_bundle.name} → {target}")
+        darwin_trust_app(target)
+        return True
+    finally:
+        subprocess.run(["hdiutil", "detach", str(mount_point)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        print(" DMG detached.")
 
 def extract_tar_gz(archive_path: Path, extract_to: Path):
     extract_to.mkdir(parents=True, exist_ok=True)
@@ -1242,6 +1309,8 @@ def link_to_emulation_folder(origin: Union[str, Path], destination: Union[str, P
     origin = Path(origin)
     destination = Path(destination)
     if not system.startswith("win"):
+        if origin.is_symlink() and not origin.exists():
+            origin.unlink()
         origin.mkdir(parents=True, exist_ok=True)
         if destination.is_symlink():
             if Path(os.readlink(destination)) == origin:
@@ -1420,7 +1489,7 @@ def set_setting(key: str, value: Any) -> None:
     with json_path.open('w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
         f.write("\n")
-    if hybrid_settings:
+    if hybrid_mode:
         from core.settings_sh import write_setting_sh
         write_setting_sh(settings_sh_path, json_to_bash_vars_path, key, value)
     json_settings_path = Path(emudeck_folder) / "settings.json"
@@ -1491,6 +1560,88 @@ def popup_show_info(title: str, message: str) -> None:
         if poll_gamepad() in ("yes","no","cancel"):
             dlg.accept()
         QtCore.QThread.msleep(50)
+
+def popup_ask_string(message: str, title: str, password: bool = False) -> Optional[str]:
+    app = ensure_app()
+    dlg = BaseDialog(title)
+
+    lbl = QtWidgets.QLabel(message)
+    lbl.setWordWrap(True)
+    lbl.setStyleSheet("margin-bottom: 8px;")
+    dlg._add(lbl)
+
+    edit = QtWidgets.QLineEdit()
+    if password:
+        edit.setEchoMode(QtWidgets.QLineEdit.Password)
+    edit.returnPressed.connect(dlg.accept)
+    dlg._add(edit)
+
+    row = QtWidgets.QHBoxLayout()
+    row.addStretch()
+    cancel = QtWidgets.QPushButton("Cancel")
+    cancel.clicked.connect(dlg.reject)
+    ok = QtWidgets.QPushButton("OK")
+    ok.clicked.connect(dlg.accept)
+    row.addWidget(cancel)
+    row.addWidget(ok)
+    dlg._inner.addLayout(row)
+
+    if dlg.exec() != QtWidgets.QDialog.Accepted:
+        return None
+    return edit.text()
+
+def popup_ask_password(message: str, title: str) -> Optional[str]:
+    return popup_ask_string(message, title, password=True)
+
+def popup_ask_conflict(title: str, message: str) -> Optional[bool]:
+    app = ensure_app()
+    dlg = BaseDialog(title)
+
+    lbl = QtWidgets.QLabel(message)
+    lbl.setWordWrap(True)
+    dlg._add(lbl)
+
+    answer = {}
+    row = QtWidgets.QHBoxLayout()
+    row.addStretch()
+    for text, value in (("Cancel", None), ("No", False), ("Yes", True)):
+        btn = QtWidgets.QPushButton(text)
+        btn.clicked.connect(lambda _=False, v=value: (answer.update(value=v), dlg.accept()))
+        row.addWidget(btn)
+    dlg._inner.addLayout(row)
+
+    dlg.exec()
+    return answer.get("value")
+
+def popup_show_progress(title: str, message: str, task: Callable) -> None:
+    if QtWidgets is None:
+        task()
+        return
+    app = ensure_app()
+    dlg = BaseDialog(title)
+
+    lbl = QtWidgets.QLabel(message)
+    lbl.setWordWrap(True)
+    lbl.setStyleSheet("margin-bottom: 8px;")
+    dlg._add(lbl)
+
+    bar = QtWidgets.QProgressBar()
+    bar.setRange(0, 0)
+    bar.setTextVisible(False)
+    dlg._add(bar)
+
+    dlg.show()
+    worker = threading.Thread(target=task)
+    worker.start()
+    while worker.is_alive():
+        app.processEvents()
+        QtCore.QThread.msleep(50)
+    dlg.close()
+    dlg.deleteLater()
+    end = time.time() + 0.2
+    while time.time() < end:
+        app.processEvents()
+        QtCore.QThread.msleep(10)
 
 def popup_show_commands(title: str, commands: list) -> bool:
     app = ensure_app()
@@ -1763,11 +1914,6 @@ def popup_show_menu(title: str, options: list) -> Optional[bool]:
     app = ensure_app()
     dlg = BaseDialog(title)
 
-    heading = QtWidgets.QLabel(title)
-    heading.setAlignment(QtCore.Qt.AlignCenter)
-    heading.setStyleSheet("font-size: 18px; font-weight: bold;")
-    dlg._add(heading)
-
     btn_layout = QtWidgets.QVBoxLayout()
     btn_layout.setSpacing(10)
 
@@ -1956,7 +2102,7 @@ def load_remote_module(url: str, module_name: str):
     return module
 
 def load_remote_cloud_sync():
-    REMOTE_URL = f"https://token.emudeck.com/cloud-check.php?access_token={settings.patreonToken}"
+    REMOTE_URL = f"https://token.emudeck.com/cloud-check.php?access_token={getattr(settings, 'patreonToken', '')}"
     try:
        cloudsync_remote = load_remote_module(REMOTE_URL, "cloudsync_remote")
     except Exception as e:
@@ -1999,7 +2145,7 @@ def calculate_md5(filename):
 
 def get_launchers_source_dir() -> Path:
     win = system.startswith("win")
-    if hybrid_mode and not win:
+    if hybrid_mode and system == "linux":
         return Path(bash_backend) / "tools" / "launchers"
     return Path(emudeck_backend) / "tools" / "launchers" / ("windows" if win else "unix")
 
@@ -2031,7 +2177,7 @@ def flush_emulator_launchers(name: str) -> None:
             shutil.copy2(src, dst)
             dst.chmod(dst.stat().st_mode | 0o111)
 
-    if not win:
+    if system == "linux":
         for app_id, emu_name in FLATPAK_EMULATORS.items():
             if emu_name.lower() in (stem, f"{stem}-emu", stem.removesuffix("-emu")):
                 create_flatpak_desktop(app_id, emu_name)
@@ -2100,6 +2246,9 @@ def start_menu_reset():
     
 
 def get_locations():
+    if not system.startswith("win"):
+        script = Path(bash_backend if hybrid_mode else emudeck_backend) / "tools" / "importExport.py"
+        return json.loads(subprocess.run([sys.executable, str(script), "get_locations"], capture_output=True, text=True).stdout)
     import wmi
     c = wmi.WMI()
     drive_info = []
@@ -2206,5 +2355,4 @@ def emulator_check_and_install(emu_name):
         return
     if not ns[f"{prefix}_is_installed"]():
         print(f"{prefix} is not installed, installing")
-        install()
-        init()
+        popup_show_progress("EmuDeck", f"Installing {prefix}, please wait...", lambda: (install(), init()))

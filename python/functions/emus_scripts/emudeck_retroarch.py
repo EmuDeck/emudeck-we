@@ -115,6 +115,7 @@ def retroarch_init():
     copy_setting_dir(f"common/retroarch/",retroarch_dir)
     #copy_and_set_settings_file(f"common/retroarch/retroarch.cfg", retroarch_dir)
     retroarch_setup_cfg_file_paths()
+    retroarch_set_emulation_folder()
     retroarch_patch_shader_references()
     retroarch_setup_saves()
     retroarch_set_controller_style()
@@ -422,12 +423,14 @@ def retroarch_install_cores():
             "swanstation_libretro",
             "opera_libretro",
         ]
-    elif system == "linux":
-        if cpu_arch == "arm":
+    elif system in ("linux", "darwin"):
+        if system == "darwin":
+            base_url = "https://buildbot.libretro.com/nightly/apple/osx/arm64/latest/"
+        elif cpu_arch == "arm":
             base_url = "https://buildbot.libretro.com/nightly/linux/aarch64/latest/"
         else:
             base_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
-        archive_extension = "so.zip"
+        archive_extension = "dylib.zip" if system == "darwin" else "so.zip"
         ra_cores = [
             "81_libretro",
             "a5200_libretro",
@@ -2662,7 +2665,7 @@ def retroarch_set_shaders_matrix():
 def retroarch_bezels_169_screen():
     set_msg("Applying RetroArch bezel corrections for 16:9 screens")
     
-    root = Path(RetroArch_coreConfigFolders)
+    root = retroarch_dir / "config"
     
     config_map = {
         ('pcengine.cfg',): [
@@ -2787,3 +2790,16 @@ def retroarch_add_to_steam():
     set_msg("Adding RetroArch to Steam")
     launcher = tools_path / "launchers" / ("retroarch.bat" if system.startswith("win") else "retroarch.sh")
     add_steam_shortcut("retroarch", "RetroArch", str(launcher), str(emus_folder), str(icons_path / "ico/retroarch.ico"))
+
+
+def retroarch_set_emulation_folder() -> bool:
+    if not retroarch_cfg_file.is_file():
+        return False
+    set_config("system_directory", f'"{bios_path}"', retroarch_cfg_file, " = ")
+    set_config("rgui_browser_directory", f'"{roms_path}"', retroarch_cfg_file, " = ")
+    set_config("cheat_database_path", f'"{storage_path}/retroarch/cheats"', retroarch_cfg_file, " = ")
+    new_path = json.dumps(str(emulation_path))[1:-1]
+    for playlist in (retroarch_dir / "playlists").glob("*.lpl"):
+        text = re.sub(r"[^\s<>\"'=]*[/\\]+Emulation(?=[/\\]+roms[/\\])", lambda m: new_path, playlist.read_text(encoding="utf-8"))
+        playlist.write_text(text, encoding="utf-8")
+    return True

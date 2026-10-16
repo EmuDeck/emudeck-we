@@ -23,7 +23,7 @@ def xemu_install():
     elif system == "darwin":
         name = "xemu"
         type = "zip"
-        look_for = "macos-universal"
+        look_for = "macos-universal.zip"
         destination = f"{emus_folder}"
 
     try:
@@ -72,11 +72,12 @@ def xemu_init():
     elif system.startswith("win"):
         destination = f"{emus_folder}/xemu/"
     elif system == "darwin":
-        destination = f"{home}/Library/Application Support/xemu"
+        destination = f"{home}/Library/Application Support/xemu/xemu"
 
     copy_setting_dir("common/xemu/", destination)
     copy_and_set_settings_file("common/xemu/xemu.toml", destination)
 
+    xemu_set_emulation_folder()
     xemu_setup_storage()
     xemu_setup_saves()
     xemu_set_resolution()
@@ -156,7 +157,7 @@ def xemu_set_resolution():
     if system.startswith("win"):
         config_path = f"{emus_folder}/xemu/xemu.toml"
     if system == "darwin":
-        config_path = f"{home}/Library/Application Support/xemu/xemu.toml"
+        config_path = f"{home}/Library/Application Support/xemu/xemu/xemu.toml"
 
     resolution_map = {
         "720P": 1,
@@ -204,7 +205,7 @@ def xemu_widescreen_on():
     elif system.startswith("win"):
         config_path = f"{emus_folder}/xemu/xemu.toml"
     elif system == "darwin":
-        config_path = f"{home}/Library/Application Support/xemu/xemu.toml"
+        config_path = f"{home}/Library/Application Support/xemu/xemu/xemu.toml"
 
     set_config("fit", "'scale_16_9'", config_path, separator=" = ")
 
@@ -215,7 +216,7 @@ def xemu_widescreen_off():
     elif system.startswith("win"):
         config_path = f"{emus_folder}/xemu/xemu.toml"
     elif system == "darwin":
-        config_path = f"{home}/Library/Application Support/xemu/xemu.toml"
+        config_path = f"{home}/Library/Application Support/xemu/xemu/xemu.toml"
 
     set_config("fit", "'scale_4_3'", config_path, separator=" = ")
 
@@ -230,4 +231,20 @@ def xemu_setup_saves():
     link = Path(f"{saves_path}/xemu/saves")
     if not link.exists() and not link.is_symlink():
         link.symlink_to(Path(storage_path) / "xemu")
+    return True
+
+
+def xemu_set_emulation_folder() -> bool:
+    if system == "linux":
+        config_file = Path(f"{home}/.var/app/app.xemu.xemu/data/xemu/xemu/xemu.toml")
+    elif system.startswith("win"):
+        config_file = Path(f"{emus_folder}/xemu/xemu.toml")
+    elif system == "darwin":
+        config_file = Path(f"{home}/Library/Application Support/xemu/xemu/xemu.toml")
+    if not config_file.is_file():
+        return False
+    set_ini_value(config_file, "sys.files", "bootrom_path", f"'{bios_path}/mcpx_1.0.bin'")
+    set_ini_value(config_file, "sys.files", "flashrom_path", f"'{bios_path}/Complex_4627v1.03.bin'")
+    set_ini_value(config_file, "sys.files", "eeprom_path", f"'{storage_path}/xemu/eeprom.bin'")
+    set_ini_value(config_file, "sys.files", "hdd_path", f"'{storage_path}/xemu/xbox_hdd.qcow2'")
     return True
