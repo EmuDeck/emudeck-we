@@ -56,13 +56,13 @@ function MAME_setupSaves(){
 
 	#Saves
 	$nvram_directoryOpt='nvram_directory           '
-	$newnvram_directoryOpt="$nvram_directoryOpt""$savesPath\mame\saves"
+	$newnvram_directoryOpt="$nvram_directoryOpt`"$savesPath\mame\saves`""
 	mkdir "$savesPath\mame\saves" -ErrorAction SilentlyContinue
 	changeLine "$nvram_directoryOpt" "$newnvram_directoryOpt" "$MAME_configFile"
 
 	#States
-	state_directoryOpt='state_directory           '
-	newstate_directoryOpt="$state_directoryOpt""$savesPath\mame\states"
+	$state_directoryOpt='state_directory           '
+	$newstate_directoryOpt="$state_directoryOpt`"$savesPath\mame\states`""
 	mkdir "$savesPath\mame\states" -ErrorAction SilentlyContinue
 	changeLine "$state_directoryOpt" "$newstate_directoryOpt" "$MAME_configFile"
 }
