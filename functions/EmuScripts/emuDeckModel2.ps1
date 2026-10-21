@@ -26,7 +26,11 @@ function Model2_init(){
 
     $sourceCFG = "$env:APPDATA\EmuDeck\backend\configs\model2\CFG"
     $destinationCFG = "$destination\CFG"
-    Copy-Item -Path $sourceCFG -Destination $destinationCFG -Recurse -Force
+    # Create the target folders first: copying "$src\*" to a missing folder copies every
+    # item onto a single FILE with that name, and copying a folder into an existing one
+    # nests it (CFG\CFG on the second run).
+    New-Item -ItemType Directory -Force -Path $destinationCFG, "$destination\NVDATA", "$destination\scripts" | Out-Null
+    Copy-Item -Path "$sourceCFG\*" -Destination $destinationCFG -Recurse -Force
 
     $sourceNVDATA = "$env:APPDATA\EmuDeck\backend\configs\model2\NVDATA"
     $destinationNVDATA = "$destination\NVDATA"
