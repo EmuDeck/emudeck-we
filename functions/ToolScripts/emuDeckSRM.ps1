@@ -273,29 +273,23 @@ function SRM_init(){
 	if($test){
 			echo "already migrated"
 	}else{
+		# shortcuts.vdf is a binary file: edit every account's file byte-for-byte
+		# (Latin-1 maps each byte to one char) instead of as text, which corrupted
+		# app IDs and non-ASCII names and dropped all non-Steam shortcuts.
+		$shortcutFiles = @(Get-ChildItem -Path "$steamInstallPath\userdata\*\config\shortcuts.vdf" -ErrorAction SilentlyContinue)
+		if ($shortcutFiles.Count -gt 0) {
 			confirmDialog -TitleText 'SRM fix for games containing "-" in the filename' -MessageText "We are gonna fix your SRM shorcuts, if you find any game not working after this please reparse that system."
-
-		$folders = Get-ChildItem -Path ("$steamInstallPath\userdata") -Directory
-
-		foreach ($folder in $folders) {
-
-			$filePath = "$steamInstallPath\userdata\$folder\config\shortcuts.vdf"
-			if (Test-Path -Path "$filePath") {
-				$shorcutsPath = "$filePath"
-			}
 		}
-		Copy-Item "$shorcutsPath" -Destination "$shorcutsPath_2123.bak" -ErrorAction SilentlyContinue
-		sedFile "$shorcutsPath" '"-L' '-L'
-		sedFile "$shorcutsPath" 'cores' "'cores"
-		sedFile "$shorcutsPath" '.dll"' ".dll'"
-		sedFile "$shorcutsPath" '"""' "'"
-		sedFile "$shorcutsPath" ' && exit " && exit' '}" && exit " && exit'
-		sedFile "$shorcutsPath" '"-b"' '-b'
-		sedFile "$shorcutsPath" '"-e"' '-e'
-		sedFile "$shorcutsPath" '"-f"' '-f'
-		sedFile "$shorcutsPath" '"-g"' '-g'
-		sedFile "$shorcutsPath" '"--no-gui"' '--no-gui'
-		sedFile "$shorcutsPath" '"-fullscreen"' '-fullscreen'
+		$latin1 = [System.Text.Encoding]::GetEncoding(28591)
+		foreach ($shortcutFile in $shortcutFiles) {
+			$shorcutsPath = $shortcutFile.FullName
+			Copy-Item "$shorcutsPath" -Destination "${shorcutsPath}_2123.bak" -ErrorAction SilentlyContinue
+			$content = $latin1.GetString([System.IO.File]::ReadAllBytes($shorcutsPath))
+			$content = $content.Replace('"-L', '-L').Replace('cores', "'cores").Replace('.dll"', ".dll'").Replace('"""', "'")
+			$content = $content.Replace(' && exit " && exit', '}" && exit " && exit')
+			foreach ($flag in '-b', '-e', '-f', '-g', '--no-gui', '-fullscreen') { $content = $content.Replace("`"$flag`"", $flag) }
+			[System.IO.File]::WriteAllBytes($shorcutsPath, $latin1.GetBytes($content))
+		}
 		"" | Set-Content "$env:APPDATA\emudeck\.srm_migrated_2123" -Encoding UTF8
 	}
 
