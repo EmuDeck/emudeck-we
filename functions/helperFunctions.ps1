@@ -953,13 +953,29 @@ function createSaveLink($simLinkPath, $emuSavePath){
 			$newFolderName = Split-Path $emuSavePath -Leaf
 			$emuSaveParent = Split-Path $emuSavePath -Parent
 
-			rm -r -fo "$emuSavePath" -ErrorAction SilentlyContinue
+			$emuSavePathHasData = Get-ChildItem -LiteralPath "$emuSavePath" -Force -ErrorAction SilentlyContinue | Select-Object -First 1
 
-			Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
+			if ($emuSavePathHasData) {
+				# Emulation/saves already has data (reinstall, second device, cloud restore):
+				# never delete it. Only add local files that do not exist there yet, keep the
+				# local folder as a backup and link the existing saves folder.
+				echo "$emuSavePath already contains saves, merging without overwriting"
+				robocopy "$simLinkPath" "$emuSavePath" /E /XC /XN /XO /XJ /R:1 /W:1 /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+				if ($LASTEXITCODE -ge 8) {
+					echo "Could not merge $simLinkPath into $emuSavePath, leaving both untouched"
+					return
+				}
+				$backupName = "$originalFolderName.emudeck-backup-$(Get-Date -Format yyyyMMddHHmmss)"
+				Rename-Item -LiteralPath "$simLinkPath" -NewName $backupName
+			} else {
+				rm -r -fo "$emuSavePath" -ErrorAction SilentlyContinue
 
-			if ((Test-Path "$emuSaveParent\$originalFolderName") -and $originalFolderName -ne $newFolderName) {
-               			Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName $newFolderName -Force
-            		}
+				Move-Item -Path "$simLinkPath" -Destination $emuSaveParent -Force
+
+				if ((Test-Path "$emuSaveParent\$originalFolderName") -and $originalFolderName -ne $newFolderName) {
+					Rename-Item -Path "$emuSaveParent\$originalFolderName" -NewName $newFolderName -Force
+				}
+			}
 			createSymlink $simLinkPath $emuSavePath
 		}
 	}else{
