@@ -300,6 +300,11 @@ if ( "$doSetupRPCS3" -eq "true" ){
 	$setupSaves+="RPCS3_setupSaves;"
 }
 
+if ( "$doSetupMAME" -eq "true" ){
+	MAME_init
+	$setupSaves+="MAME_setupSaves;"
+}
+
 
 if ( "$doSetupPPSSPP" -eq "true" ){
 	PPSSPP_init

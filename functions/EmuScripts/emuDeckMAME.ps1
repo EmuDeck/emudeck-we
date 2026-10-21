@@ -27,28 +27,28 @@ function MAME_update(){
 }
 function MAME_setEmulationFolder(){
 		$gameDirOpt='rompath                   '
-		$newGameDirOpt="$gameDirOpt""$romsPath\arcade;$biosPath;$biosPath\mame"
+		$newGameDirOpt="$gameDirOpt`"$romsPath\arcade;$biosPath;$biosPath\mame`""
 		changeLine "$gameDirOpt" "$newGameDirOpt" "$MAME_configFile"
 
 		$samplepathOpt='samplepath                '
-		$newSamplepathOpt="$samplepathOpt""$storagePath\mame\samples;samples"
+		$newSamplepathOpt="$samplepathOpt`"$storagePath\mame\samples;samples`""
 		changeLine "$samplepathOpt" "$newSamplepathOpt" "$MAME_configFile"
 
 		$artpathOpt='artpath                   '
-		$newArtpathOpt="$artpathOpt""$storagePath\mame\artwork;artwork"
+		$newArtpathOpt="$artpathOpt`"$storagePath\mame\artwork;artwork`""
 		changeLine "$artpathOpt" "$newArtpathOpt" "$MAME_configFile"
 
 		$ctrlrpathOpt='ctrlrpath                 '
-		$newctrlrpathOpt="$ctrlrpathOpt""$storagePath\mame\ctrlr;ctrlr"
+		$newctrlrpathOpt="$ctrlrpathOpt`"$storagePath\mame\ctrlr;ctrlr`""
 		changeLine "$ctrlrpathOpt" "$newctrlrpathOpt" "$MAME_configFile"
 
 		$inipathOpt='inipath                   '
-		$newinipathOpt="$inipathOpt""$storagePath\mame\ini;ini;ini\presets"
+		$newinipathOpt="$inipathOpt`"$storagePath\mame\ini;ini;ini\presets`""
 		changeLine "$inipathOpt" "$newinipathOpt" "$MAME_configFile"
 
 
 		$cheatpathOpt='cheatpath                 '
-		$newcheatpathOpt="$cheatpathOpt""$storagePath\mame\cheat;cheat"
+		$newcheatpathOpt="$cheatpathOpt`"$storagePath\mame\cheat;cheat`""
 		changeLine "$cheatpathOpt" "$newcheatpathOpt" "$MAME_configFile"
 }
 function MAME_setupSaves(){
