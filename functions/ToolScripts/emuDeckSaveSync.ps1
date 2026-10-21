@@ -666,12 +666,12 @@ function cloud_sync_downloadEmu($emuName, $mode){
 					rm -fo -r "$savesPath/$emuName/.fail_download" -ErrorAction SilentlyContinue
 					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
-					cloud_sync_download($emuName)
+					cloud_sync_upload -emuName $emuName
 				} else {
 					rm -fo -r "$savesPath/$emuName/.pending_upload" -ErrorAction SilentlyContinue
 					rm -fo -r "$savesPath/$emuName/.fail_download"	 -ErrorAction SilentlyContinue
 					cloud_sync_createBackup($emuName)
-					cloud_sync_upload -emuName $emuName
+					cloud_sync_download($emuName)
 				}
 
 			}else{
