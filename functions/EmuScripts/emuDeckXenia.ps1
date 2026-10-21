@@ -35,9 +35,9 @@ function Xenia_setResolution($resolution){
 }
 function Xenia_getPatches(){
   $patches_dir="$emusPath/xenia/patches"
-  $patches_url="https://github.com/xenia-canary/game-patches/releases/latest/download/game-patches.zip"
+  $patches_url="https://github.com/xenia-canary/game-patches/releases/latest/download/game-patches.7z"
   $patches_branch="main"
-  download $patches_url "patches.zip"
+  download $patches_url "patches.7z"
   mkdir $patches_dir -ErrorAction SilentlyContinue
   moveFromTo "$temp\patches" "$emusPath\xenia"
 
