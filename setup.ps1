@@ -182,6 +182,12 @@ if(-not($test) -and $doInstallMAME -eq "true" ){
 	MAME_install
 }
 
+#Flycast
+$test=Test-Path -Path "$emusPath\flycast\flycast.exe"
+if(-not($test) -and $doInstallFlycast -eq "true" ){
+	Flycast_install
+}
+
 #Primehack
 $test=Test-Path -Path "$emusPath\Primehack\Primehack.exe"
 if(-not($test) -and $doInstallPrimehack -eq "true" ){
@@ -288,6 +294,11 @@ if ( "$doSetupAzahar" -eq "true" ){
 if ( "$doSetupCemu" -eq "true" ){
 	Cemu_init
 	$setupSaves+="Cemu_setupSaves;"
+}
+
+if ( "$doSetupFlycast" -eq "true" ){
+	Flycast_init
+	$setupSaves+="Flycast_setupSaves;"
 }
 
 if ( "$doSetupPCSX2" -eq "true" ){
