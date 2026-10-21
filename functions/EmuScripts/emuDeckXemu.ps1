@@ -75,14 +75,13 @@ function Xemu_setABXYstyle(){
 	Write-Output "NYI"
 }
 function Xemu_wideScreenOn(){
-	$fit='fit = '
-	$fitSetting="$fit'scale_16_9'"
-	changeLine "$fit" "$fitSetting" "$Xemu_configFile"
+	# xemu only accepts fit = center/scale/stretch; the aspect ratio is a separate key
+	changeLine 'fit = ' "fit = 'scale'" "$Xemu_configFile"
+	changeLine 'aspect_ratio = ' "aspect_ratio = '16x9'" "$Xemu_configFile"
 }
 function Xemu_wideScreenOff(){
-	$fit='fit = '
-	$fitSetting="$fit'scale_4_3'"
-	changeLine "$fit" "$fitSetting" "$Xemu_configFile"
+	changeLine 'fit = ' "fit = 'scale'" "$Xemu_configFile"
+	changeLine 'aspect_ratio = ' "aspect_ratio = '4x3'" "$Xemu_configFile"
 }
 function Xemu_bezelOn(){
 	Write-Output "NYI"
