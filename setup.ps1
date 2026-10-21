@@ -107,7 +107,7 @@ if(-not($test) -and $doInstallDolphin -eq "true" ){
 }
 
 #PCSX2
-$test=Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64-avx2.exe"
+$test=Test-Path -Path "$emusPath\PCSX2-Qt\pcsx2-qtx64.exe"
 if(-not($test) -and $doInstallPCSX2 -eq "true" ){
 	PCSX2QT_install
 }
@@ -136,7 +136,7 @@ if(-not($test) -and $doInstallCitra -eq "true" ){
 	Citra_install
 }
 #Citra
-$test=Test-Path -Path "$emusPath\azahar\azahar-qt.exe"
+$test=Test-Path -Path "$emusPath\azahar\azahar.exe"
 if(-not($test) -and $doInstallAzahar -eq "true" ){
 	Azahar_install
 }
@@ -165,7 +165,7 @@ if(-not($test) -and $doInstallCemu -eq "true" ){
 }
 
 #Xenia
-$test=Test-Path -Path "$emusPath\xenia\xenia.exe"
+$test=Test-Path -Path "$emusPath\xenia\xenia_canary.exe"
 if(-not($test) -and $doInstallXenia -eq "true" ){
 	Xenia_install
 }
@@ -189,7 +189,7 @@ if(-not($test) -and $doInstallPrimehack -eq "true" ){
 }
 
 #PPSSPP
-$test=Test-Path -Path "$emusPath\ppsspp_win\PPSSPPWindows64.exe"
+$test=Test-Path -Path "$emusPath\PPSSPP\PPSSPPWindows64.exe"
 if(-not($test) -and $doInstallPPSSPP -eq "true" ){
 	PPSSPP_install
 }
