@@ -133,7 +133,8 @@ function PPSSPP_retroAchievementsSetLogin(){
 	$content = Get-Content -Path $PPSSP_configFile -Raw
 	$content = $content -replace '(?s)(\[Achievements\].*?AchievementsEnable\s*=\s*)\w+', "[Achievements]`nAchievementsEnable = true`nAchievementsUserName = $($ra.User)`nAchievementsChallengeMode = $($ra.Hardcore)"
 	$content | Set-Content -Path $PPSSP_configFile -Encoding UTF8
-	$ra.Token | Set-Content $PPSSP_cheevosTokenFile -Encoding UTF8
+	# PPSSPP reads the token file as-is: no BOM, no trailing newline
+	[System.IO.File]::WriteAllText($PPSSP_cheevosTokenFile, "$($ra.Token)", (New-Object System.Text.UTF8Encoding $false))
 }
 
 function PPSSPP_retroAchievementsHardCoreOn(){
