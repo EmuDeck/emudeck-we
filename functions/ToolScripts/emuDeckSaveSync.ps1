@@ -541,13 +541,18 @@ function cloud_sync_download($emuName){
 }
 
 function cloud_sync_save_hash($target){
-	# Calculate the total size of the folder (including subfolders)
-	$targetSize = Get-ChildItem -Recurse -Path $target | Measure-Object -Property Length -Sum | Select-Object -ExpandProperty Sum
-	# Convert the size to a string
-	$targetSizeString = $targetSize.ToString()
-	# Calculate the SHA256 hash of the size string
+	# Hash the file list (relative path, size, last write time) instead of the total
+	# folder size: most saves keep the same size when they change (memory cards,
+	# .srm, .sav), so a size-based hash reported "up to date" for changed saves.
+	# EmuDeck's own marker files are ignored. rclone keeps modification times.
+	$markers = @('.hash', '.pending_upload', '.fail_upload', '.fail_download', '.watching', '.emulator', '.last_upload', '.last_download', '.cloud', '.user')
+	$root = (Resolve-Path -LiteralPath $target).ProviderPath.TrimEnd('\')
+	$entries = Get-ChildItem -LiteralPath $root -Recurse -File -Force -ErrorAction SilentlyContinue |
+		Where-Object { $markers -notcontains $_.Name -and $_.Extension -ne '.lnk' } |
+		ForEach-Object { '{0}|{1}|{2}' -f $_.FullName.Substring($root.Length).Replace('\', '/'), $_.Length, $_.LastWriteTimeUtc.ToString('yyyyMMddHHmmss') } |
+		Sort-Object
 	$sha256 = New-Object System.Security.Cryptography.SHA256Managed
-	$hashBytes = [System.Text.Encoding]::UTF8.GetBytes($targetSizeString)
+	$hashBytes = [System.Text.Encoding]::UTF8.GetBytes(($entries -join "`n"))
 	$hash = [BitConverter]::ToString($sha256.ComputeHash($hashBytes)) -replace '-'
 	# Path to the file where you want to save the hash
 	$filePath = "$target\.hash"
