@@ -3,7 +3,7 @@ function ESDE_install(){
 	setMSG 'Downloading EmulationStation DE'
 	
 	#Fixes for ESDE warning message
-	if ( ESDE_IsInstalled -like "*true*" ){
+	if ( (ESDE_IsInstalled) -like "*true*" ){
 		$gamelistsPath = "$esdePath\ES-DE\gamelists"
 		
 		if ((Test-Path -Path $gamelistsPath -PathType Container) -and

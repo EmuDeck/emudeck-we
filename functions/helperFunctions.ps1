@@ -910,7 +910,7 @@ if ($networkInstallation -eq "false"){
 	New-Item -ItemType Junction -Path "$source"  -Target "$target" -ErrorAction SilentlyContinue
 } else {
 
-if(testAdministrator -eq $true){
+if((testAdministrator) -eq $true){
 	New-Item -ItemType SymbolicLink -Path "$source" -Target "$target" -ErrorAction SilentlyContinue
 }else{
 	$scriptContent = @"
@@ -1408,7 +1408,7 @@ function getLatestVersionGH($repository){
 
 
 function saveLatestVersionGH($emuName){
-	if ( check_internet_connection -eq 'true' ){
+	if ( (check_internet_connection) -eq 'true' ){
 		$repo = getEmuRepo $emuName
 
 		if( $repo -eq "none" ){

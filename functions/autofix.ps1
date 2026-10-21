@@ -210,7 +210,7 @@ function autofix_raSavesFolders(){
 
 function autofix_ESDE(){
 	echo $MyInvocation.MyCommand.Name
-	if (ESDE_isInstalled -like "*true*"){
+	if ((ESDE_isInstalled) -like "*true*"){
 
 		$xmlFile = "$env:APPDATA\emudeck\EmulationStation-DE\ES-DE\es_settings.xml"
 
@@ -342,49 +342,49 @@ function autofix_gamecubeFolder(){
 
 function autofix_areInstalled(){
 	setMSG 'Checking installation integrity'
-	if ( $doInstallPrimeHack -eq "true" -and -not (PrimeHack_isInstalled -like "*true*")){
+	if ( $doInstallPrimeHack -eq "true" -and -not ((PrimeHack_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected PrimeHack  was scheduled to install but was't properly installed, trying again now."
 
 		Primehack_install; Primehack_init
 	}
-	if ( $doInstallRPCS3 -eq "true" -and -not (RPCS3_isInstalled -like "*true*")){
+	if ( $doInstallRPCS3 -eq "true" -and -not ((RPCS3_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected RPCS3  was scheduled to install but was't properly installed, trying again now."
 		RPCS3_install; RPCS3_init
 	}
 
-	if ( $doInstallAzahar -eq "true" -and -not (Azahar_isInstalled -like "*true*")){
+	if ( $doInstallAzahar -eq "true" -and -not ((Azahar_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Azahar  was scheduled to install but was't properly installed, trying again now."
 		Azahar_install; Azahar_init
 	}
-	if ( $doInstallDolphin -eq "true" -and -not (Dolphin_isInstalled -like "*true*")){
+	if ( $doInstallDolphin -eq "true" -and -not ((Dolphin_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected olphin  was scheduled to install but was't properly installed, trying again now."
 		Dolphin_install; Dolphin_init
 	}
-	if ( $doInstallDuck -eq "true" -and -not (Duckstation_isInstalled -like "*true*")){
+	if ( $doInstallDuck -eq "true" -and -not ((Duckstation_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Duckstation  was scheduled to install but was't properly installed, trying again now."
 		DuckStation_install; DuckStation_init
 	}
-	if ( $doInstallPPSSPP -eq "true" -and -not (PPSSPP_isInstalled -like "*true*")){
+	if ( $doInstallPPSSPP -eq "true" -and -not ((PPSSPP_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected PPSSPP  was scheduled to install but was't properly installed, trying again now."
 		PPSSPP_install; PPSSPP_init
 	}
-	if ( $doInstallYuzu -eq "true" -and -not (Yuzu_isInstalled -like "*true*")){
+	if ( $doInstallYuzu -eq "true" -and -not ((Yuzu_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Yuzu  was scheduled to install but was't properly installed, trying again now."
 		Yuzu_install; Yuzu_init
 	}
-	if ( $doInstallCemu -eq "true" -and -not (Cemu_isInstalled -like "*true*")){
+	if ( $doInstallCemu -eq "true" -and -not ((Cemu_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Cemu  was scheduled to install but was't properly installed, trying again now."
 		Cemu_install; Cemu_init
 	}
-	if ( $doInstallXemu -eq "true" -and -not (Xemu_isInstalled -like "*true*")){
+	if ( $doInstallXemu -eq "true" -and -not ((Xemu_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Xemu  was scheduled to install but was't properly installed, trying again now."
 		Xemu_install; Xemu_init
 	}
-	if ( $doInstallRyujinx -eq "true" -and -not (Ryujinx_isInstalled -like "*true*")){
+	if ( $doInstallRyujinx -eq "true" -and -not ((Ryujinx_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Ryujinx  was scheduled to install but was't properly installed, trying again now."
 		Ryujinx_install; Ryujinx_init
 	}
-	if ( "$doInstallPCSX2" -eq "true" -and -not (PCSX2QT_isInstalled -like "*true*")){
+	if ( "$doInstallPCSX2" -eq "true" -and -not ((PCSX2QT_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected PCSX2  was scheduled to install but was't properly installed, trying again now."
 		PCSX2QT_install; PCSX2QT_init
 	}
@@ -392,23 +392,23 @@ function autofix_areInstalled(){
 	# 	confirmDialog -TitleText "Error installing" -MessageText "We've detected SuperModel  was scheduled to install but was't properly installed, trying again now."
 	# 	ESDE_install; 	# 	ESDE_init
 	# }
-	if ( $doInstallScummVM -eq "true" -and -not (ScummVM_isInstalled -like "*true*")){
+	if ( $doInstallScummVM -eq "true" -and -not ((ScummVM_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected ScummVM  was scheduled to install but was't properly installed, trying again now."
 		ScummVM_install; ScummVM_init
 	}
-	if ( $doInstallVita3K -eq "true" -and -not (Vita3K_isInstalled -like "*true*")){
+	if ( $doInstallVita3K -eq "true" -and -not ((Vita3K_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Vita3K  was scheduled to install but was't properly installed, trying again now."
 		Vita3K_install; Vita3K_init
 	}
-	if ( $doInstallMGBA -eq "true" -and -not (mGBA_isInstalled -like "*true*")){
+	if ( $doInstallMGBA -eq "true" -and -not ((mGBA_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected mGBA  was scheduled to install but was't properly installed, trying again now."
 		mGBA_install; mGBA_init
 	}
-	if ( $doInstallESDE -eq "true" -and -not (ESDE_isInstalled -like "*true*")){
+	if ( $doInstallESDE -eq "true" -and -not ((ESDE_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected ESDE  was scheduled to install but was't properly installed, trying again now."
 		ESDE_install; ESDE_init
 	}
-	if ( $doInstallPegasus -eq "true" -and -not (pegasus_isInstalled -like "*true*")){
+	if ( $doInstallPegasus -eq "true" -and -not ((pegasus_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Pegasus  was scheduled to install but was't properly installed, trying again now."
 		pegasus_install; pegasus_init
 	}
@@ -416,19 +416,19 @@ function autofix_areInstalled(){
 	# 	confirmDialog -TitleText "Error installing" -MessageText "We've detected Steam Rom Manager  was scheduled to install but was't properly installed, trying again now."
 	# 	SRM_install; SRM_init
 	# }
-	if ( $doInstallRA -eq "true" -and -not (RetroArch_isInstalled -like "*true*")){
+	if ( $doInstallRA -eq "true" -and -not ((RetroArch_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected RetroArch  was scheduled to install but was't properly installed, trying again now."
 		RetroArch_install; RetroArch_init
 	}
-	if ( $doInstallmelonDS -eq "true" -and -not (melonDS_isInstalled -like "*true*")){
+	if ( $doInstallmelonDS -eq "true" -and -not ((melonDS_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected melonDS  was scheduled to install but was't properly installed, trying again now."
 		melonDS_install; melonDS_init
 	}
-	if ( $doInstallXenia -eq "true" -and -not (Xenia_isInstalled -like "*true*")){
+	if ( $doInstallXenia -eq "true" -and -not ((Xenia_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected Xenia  was scheduled to install but was't properly installed, trying again now."
 		Xenia_install; Xenia_init
 	}
-	if ( $doInstallMAME -eq "true" -and -not (MAME_isInstalled -like "*true*")){
+	if ( $doInstallMAME -eq "true" -and -not ((MAME_isInstalled) -like "*true*")){
 		confirmDialog -TitleText "Error installing" -MessageText "We've detected MAME  was scheduled to install but was't properly installed, trying again now."
 		MAME_install; MAME_init
 	}

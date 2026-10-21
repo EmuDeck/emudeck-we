@@ -97,7 +97,7 @@ function appImageInit(){
 	#autofix_gamecubeFolder
 
 	#ADB
-	if ( Android_ADB_isInstalled -eq "false" ){
+	if ( (Android_ADB_isInstalled) -eq "false" ){
 		Android_ADB_install
 	}
 

@@ -631,7 +631,7 @@ function cloud_sync_downloadEmu($emuName, $mode){
 	#startLog($MyInvocation.MyCommand.Name)
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
-		if ( check_internet_connection -eq 'true' ){
+		if ( (check_internet_connection) -eq 'true' ){
 			Stop-Process -Name "Rclone" -Force -ErrorAction SilentlyContinue
 			#Do we have a pending upload?
 			if (Test-Path "$savesPath/$emuName/.pending_upload") {
@@ -715,7 +715,7 @@ function cloud_sync_uploadEmu{
 
 	if (Test-Path "$cloud_sync_bin") {
 		#We check for internet connection
-		if ( check_internet_connection -eq 'true' ){
+		if ( (check_internet_connection) -eq 'true' ){
 			Stop-Process -Name "Rclone" -Force -ErrorAction SilentlyContinue
 			#Do we have a failed download?
 			if (Test-Path "$savesPath/$emuName/.fail_upload") {
@@ -841,7 +841,7 @@ function cloud_sync_init($emulator){
 
 
 
-	if ( check_internet_connection -eq 'true' ){
+	if ( (check_internet_connection) -eq 'true' ){
 		if ( Test-Path $cloud_sync_config_file_symlink ){
 			if ( $cloud_sync_status -eq "true"){
 				"" | Set-Content $savesPath/.watching -Encoding UTF8
