@@ -1,10 +1,11 @@
 function sedFile($file, $old, $new, $lineFilter){
+	if (-not (Test-Path -LiteralPath $file)) { Write-Host "Not found: $file"; return }
+	$lines = readConfigLines $file
 	if ($lineFilter) {
-		(Get-Content $file) | ForEach-Object { if ($_.Contains($lineFilter)) { $_.Replace($old, $new) } else { $_ } } | Set-Content $file -Encoding UTF8
+		$lines = $lines | ForEach-Object { if ($_.Contains($lineFilter)) { $_.Replace($old, $new) } else { $_ } }
 	} else {
-		(Get-Content $file).replace($old, $new) | Set-Content $file -Encoding UTF8
+		$lines = $lines | ForEach-Object { $_.Replace($old, $new) }
 	}
-	$content = Get-Content -Path $file -Raw
-	$killBOM = New-Object System.Text.UTF8Encoding $false
-	[System.IO.File]::WriteAllText($file, $content, $killBOM)
+	# sedFile has always written files without BOM
+	writeConfigLines $file $lines -NoBom
 }

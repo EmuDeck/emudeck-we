@@ -19,22 +19,60 @@ function RA_getCredentials(){
 	}
 }
 
+# Config files are edited by reading them as text and writing them back. Windows
+# PowerShell 5.1 reads UTF-8 files without BOM as ANSI and "Set-Content -Encoding UTF8"
+# always adds a BOM, which corrupted non-ASCII text (e.g. "ss" in RPCS3's config.yml,
+# user names with umlauts in paths) and put a BOM into files that must not have one.
+# These helpers keep each file in the encoding it already has.
+function getFileEncoding($file){
+	if (-not (Test-Path -LiteralPath $file)) { return New-Object System.Text.UTF8Encoding $false }
+	$bytes = [System.IO.File]::ReadAllBytes((Resolve-Path -LiteralPath $file).ProviderPath)
+	if ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) {
+		return New-Object System.Text.UTF8Encoding $true
+	}
+	try {
+		[void](New-Object System.Text.UTF8Encoding $false, $true).GetString($bytes)
+		return New-Object System.Text.UTF8Encoding $false
+	} catch {
+		return [System.Text.Encoding]::Default
+	}
+}
+
+function readConfigLines($file){
+	if (-not (Test-Path -LiteralPath $file)) { return ,@() }
+	$path = (Resolve-Path -LiteralPath $file).ProviderPath
+	return ,[System.IO.File]::ReadAllLines($path, (getFileEncoding $path))
+}
+
+function writeConfigLines($file, $lines, [switch]$NoBom){
+	$encoding = if ($NoBom) { New-Object System.Text.UTF8Encoding $false } else { getFileEncoding $file }
+	$path = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($file)
+	if ($null -eq $lines) { $lines = @() }
+	[System.IO.File]::WriteAllLines($path, [string[]]@($lines), $encoding)
+}
+
+function appendConfigLine($file, $line, [switch]$NoBom){
+	$encoding = if ($NoBom) { New-Object System.Text.UTF8Encoding $false } else { getFileEncoding $file }
+	$path = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($file)
+	[System.IO.File]::AppendAllText($path, "$line`r`n", $encoding)
+}
+
 function setSetting($old, $new){
 	$fileToCheck = "$emudeckFolder\settings.ps1"
 
-	$fileContents = Get-Content $fileToCheck
+	$fileContents = readConfigLines $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
 	if ($line) {
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
 
-		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
+		writeConfigLines $fileToCheck $modifiedContents
 
 		Write-Host "Line '$line' changed to '$newLine'"
 	} else {
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$newLine += "`r`n"  # Agregar nueva línea al final del contenido
-		Add-Content $fileToCheck $newLine -Encoding UTF8
+		appendConfigLine $fileToCheck $newLine
 
 		Write-Host "New line '$newLine' created in $fileToCheck"
 	}
@@ -43,19 +81,19 @@ function setSetting($old, $new){
 function setSettingNoQuotes($file, $old, $new){
 	$fileToCheck = $file
 
-	$fileContents = Get-Content $fileToCheck
+	$fileContents = readConfigLines $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -ExpandProperty Line
 	if ($line) {
 		$newLine = -join($old, '=', $new)
 		$modifiedContents = $fileContents | ForEach-Object { $_.Replace($line, $newLine) }
 
-		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
+		writeConfigLines $fileToCheck $modifiedContents
 
 		Write-Host "Line '$line' changed to '$newLine'"
 	} else {
 		$newLine = -join('$', $old, '=', '"', $new, '"')
 		$newLine += "`r`n"  # Agregar nueva línea al final del contenido
-		Add-Content $fileToCheck $newLine -Encoding UTF8
+		appendConfigLine $fileToCheck $newLine
 
 		Write-Host "New line '$newLine' created in $fileToCheck"
 	}
@@ -63,7 +101,7 @@ function setSettingNoQuotes($file, $old, $new){
 
  function setConfig($old, $new, $fileToCheck, $section = $null, $separator = "=") {
 
-	$fileContents = Get-Content $fileToCheck
+	$fileContents = readConfigLines $fileToCheck
 
 	if ($section) {
         $insideSection = $false
@@ -91,7 +129,7 @@ function setSettingNoQuotes($file, $old, $new){
             return
         }
 
-        $modifiedContents | Set-Content -LiteralPath $fileToCheck -Encoding UTF8
+        writeConfigLines $fileToCheck $modifiedContents
         Write-Output "Line $old changed to $newLine in [$section]"
         return
     }
@@ -102,29 +140,31 @@ function setSettingNoQuotes($file, $old, $new){
 		$newLine=-join($old,$separator,$new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line,$newLine)} -ErrorAction SilentlyContinue
 
-		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
+		writeConfigLines $fileToCheck $modifiedContents
 		Write-Output "Line $line changed to $newLine"
 	}else{
 		$newLine=-join($old,$separator,$new)
-		Add-Content $fileToCheck $newLine -Encoding UTF8
+		appendConfigLine $fileToCheck $newLine
 		Write-Output "Line created on $fileToCheck"
 	}
 }
 
 function setConfigRA($old, $new, $fileToCheck){
-	$fileContents = Get-Content $fileToCheck -Encoding UTF8
+	$fileContents = readConfigLines $fileToCheck
 	$line = $fileContents | Select-String $old | Select-Object -First 1 -ExpandProperty Line
 
 	if ($line){
 		$newLine = -join($old, ' = ', $new)
 		$modifiedContents = $fileContents | ForEach-Object {$_.Replace($line, $newLine)} -ErrorAction SilentlyContinue
 
-		$modifiedContents | Set-Content $fileToCheck -Encoding UTF8
+		# RetroArch does not skip a UTF-8 BOM and would lose the first key of the file
+		writeConfigLines $fileToCheck $modifiedContents -NoBom
 
 		Write-Output "Line $line changed to $newLine"
 	} else {
 		$newLine = -join($old, ' = ', $new)
-		Add-Content -Path $fileToCheck -Value $newLine -Encoding UTF8
+		if (Test-Path -LiteralPath $fileToCheck) { writeConfigLines $fileToCheck $fileContents -NoBom }
+		appendConfigLine $fileToCheck $newLine -NoBom
 		Write-Output "Line created on $fileToCheck"
 	}
 }
@@ -243,7 +283,8 @@ function changeLine($Keyword,$Replace,$File) {
 
 	Write-Host "Updating: $File - $Keyword to $Replace"
 
-	$Content = Get-Content $File
+	if (-not (Test-Path -LiteralPath $File)) { Write-Host "Not found: $File"; return }
+	$Content = readConfigLines $File
 	$NewContent = @()
 
 	foreach ($line in $Content) {
@@ -254,7 +295,7 @@ function changeLine($Keyword,$Replace,$File) {
 		}
 	}
 
-	$NewContent | Set-Content $File -Encoding UTF8
+	writeConfigLines $File $NewContent
 }
 
 function setMSG($message){
