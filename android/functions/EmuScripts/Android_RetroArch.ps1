@@ -18,7 +18,7 @@ function Android_RetroArch_install(){
 #
 # 	foreach ( $core in $RAcores )
 # 	{
-# 		$url= -join("http://buildbot.libretro.com/nightly/android/latest/arm64-v8a/",$core,".zip")
+# 		$url= -join("https://buildbot.libretro.com/nightly/android/latest/arm64-v8a/",$core,".zip")
 # 		Write-Output "Downloading $url"
 # 		Android_downloadCore $url $core
 # 	}
