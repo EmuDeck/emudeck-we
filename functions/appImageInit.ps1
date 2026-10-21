@@ -147,24 +147,24 @@ function appImageInit(){
 	#Azahar ESDE fix
 	$xmlPath = "$esdePath/ES-DE/gamelists/n3ds/gamelist.xml"
 
-	if (Select-String -Path $xmlPath -Pattern "Citra") {
+	# Only the old standalone label - "Citra" alone also matches the RetroArch
+	# "Citra" core a user may have picked, which re-triggered this on every start.
+	if (Select-String -Path $xmlPath -Pattern "<label>Citra \(Standalone\)</label>" -ErrorAction SilentlyContinue) {
 		confirmDialog -TitleText "Azahar ESDE fixed" -MessageText "There was an issue launching Azahar from ESDE, we have just automatically fixed it. Now you can play 3DS Games using Azahar from ESDE"
 		ESDE_init
-		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\n3ds\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/n3ds" -ErrorAction SilentlyContinue -Force
+		# Replace the label in place instead of overwriting the gamelist with the template
+		$n3dsGamelist = [IO.File]::ReadAllText($xmlPath)
+		$n3dsGamelist = $n3dsGamelist.Replace("<label>Citra (Standalone)</label>", "<label>Azahar (Standalone)</label>")
+		[IO.File]::WriteAllText($xmlPath, $n3dsGamelist)
 	}
 
 	#Citron ESDE fix
 	$xmlPath = "$esdePath/ES-DE/gamelists/switch/gamelist.xml"
 
-	if(Test-Path "$xmlPath"){
-		if (Select-String -Path $xmlPath -Pattern "Citron") {
-			echo "we do nothing"
-		}else{
-			#ESDE_init
-			mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
-			Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue -Force
-		}
-	}else{
+	# Seed the default only when the user has no Switch gamelist yet. The default
+	# file does not contain "Citron", so the old check overwrote the user's gamelist
+	# (favorites, scraped metadata, emulator choice) on every run.
+	if(-not (Test-Path "$xmlPath")){
 		#ESDE_init
 		mkdir "$esdePath/ES-DE/gamelists/switch" -ErrorAction SilentlyContinue
 		Copy-Item "$env:APPDATA\EmuDeck\backend\configs\emulationstation\gamelists\switch\gamelist.xml" -Destination "$esdePath/ES-DE/gamelists/switch/gamelist.xml" -ErrorAction SilentlyContinue -Force

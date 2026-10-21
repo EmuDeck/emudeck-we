@@ -145,7 +145,11 @@ function ESDE_init(){
 
 	$destination="$esdePath\ES-DE"
 	mkdir $destination -ErrorAction SilentlyContinue
-	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination"
+	# Only add files that don't exist yet (/XC /XN /XO): never overwrite the user's
+	# es_settings.xml or gamelists (favorites, scraped metadata, emulator choices).
+	# custom_systems are EmuDeck-managed and are still updated.
+	robocopy "$env:APPDATA\EmuDeck\backend\configs\emulationstation" "$destination" /s /XC /XN /XO /NFL /NDL /NJH /NJS /nc /ns /np
+	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\emulationstation\custom_systems" "$destination\custom_systems"
 
 	$xml = Get-Content "$esdePath\ES-DE\settings\es_settings.xml"
 	$updatedXML = $xml -replace '(?<=<string name="ROMDirectory" value=").*?(?=" />)', "$romsPath"
