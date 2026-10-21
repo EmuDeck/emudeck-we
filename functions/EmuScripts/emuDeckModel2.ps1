@@ -62,7 +62,7 @@ function Model2_uninstall(){
 }
 
 function Model2_IsInstalled(){
-	$test=Test-Path -Path "$emusPath\m2emulator"
+	$test=Test-Path -Path "$emusPath\m2emulator\EMULATOR.EXE"
 	if($test){
 		Write-Output "true"
 	}else{

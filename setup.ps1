@@ -229,6 +229,12 @@ if (-not($test) -and $doInstallZSNES -eq "true") {
     ZSNES_install
 }
 
+#Model2
+$test = Test-Path -Path "$emusPath\m2emulator\EMULATOR.EXE"
+if (-not($test) -and $doInstallModel2 -eq "true") {
+    Model2_install
+}
+
 
 #
 # Emus Configuration
