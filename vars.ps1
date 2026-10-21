@@ -22,7 +22,7 @@ $nssm = "$env:APPDATA\EmuDeck\backend\wintools\nssm.exe"
 $7z = "$env:APPDATA\EmuDeck\backend\wintools\7z.exe"
 #Steam installation Path
 $steamRegPath = "HKCU:\Software\Valve\Steam"
-$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
+$steamInstallPath = "$((Get-ItemProperty -Path $steamRegPath -ErrorAction SilentlyContinue).SteamPath)"
 $steamInstallPath = $steamInstallPath.Replace("/", "\")
 $steamInstallPathSRM = $steamInstallPath.Replace("\", '\\')
 $steamInstallExe = "$steamInstallPath/Steam.exe"

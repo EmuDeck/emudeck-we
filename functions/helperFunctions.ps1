@@ -1263,6 +1263,12 @@ $ShowWindowAsyncCode = '[DllImport("user32.dll")] public static extern bool Show
  }
 
 function checkAndStartSteam(){
+	# Without Steam (or without Steam.exe) there is nothing to start or wait for -
+	# otherwise every launch waited the full 60 seconds below.
+	$steamPath = (Get-ItemProperty -Path "HKCU:\Software\Valve\Steam" -ErrorAction SilentlyContinue).SteamPath
+	if (-not $steamPath -or -not (Test-Path -LiteralPath (Join-Path $steamPath "steam.exe"))) {
+		return
+	}
 	$steamRunning = Get-Process -Name "Steam" -ErrorAction SilentlyContinue
 	if (!$steamRunning) {
 		startSteam "-silent"
