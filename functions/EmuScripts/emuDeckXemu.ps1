@@ -55,6 +55,11 @@ function Xemu_setResolution($resolution){
 }
 function Xemu_setupStorage(){
 	mkdir "$storagePath\xemu" -ErrorAction SilentlyContinue
+	# The HDD image holds all Xbox saves - never replace an existing one
+	if (Test-Path "$storagePath\xemu\xbox_hdd.qcow2") {
+		echo "Xbox HDD image already exists, keeping it"
+		return
+	}
 	$url_xemu_hdd = "https://github.com/mborgerson/xemu-hdd-image/releases/latest/download/xbox_hdd.qcow2.zip"
 	download $url_xemu_hdd "xbox_hdd.qcow2.zip"
 	moveFromTo "$temp/xbox_hdd.qcow2" "$storagePath\xemu"
