@@ -1268,6 +1268,7 @@ function RetroArch_gbc_MATshaderOff(){
 
 function RetroArch_n64_wideScreenOn(){
 	RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"16:9 adjusted"'
+	RetroArch_setOverride 'n64.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"16:9 adjusted"'
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"1"'
 	RetroArch_n64_bezelOff
 	RetroArch_n64_3DCRTshaderOff
@@ -1275,6 +1276,7 @@ function RetroArch_n64_wideScreenOn(){
 
 function RetroArch_n64_wideScreenOff(){
 	RetroArch_setOverride 'Mupen64Plus-Next.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"4:3"'
+	RetroArch_setOverride 'n64.opt' 'Mupen64Plus-Next'  'mupen64plus-aspect' '"4:3"'
 	RetroArch_setOverride 'n64.cfg' 'Mupen64Plus-Next'  'aspect_ratio_index' '"0"'
 	#RetroArch_n64_bezelOn
 }
