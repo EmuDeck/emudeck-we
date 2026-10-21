@@ -219,7 +219,7 @@ if (-not($test) -and $doInstallBigPEmu -eq "true") {
 
 #Supermodel
 $test = Test-Path -Path "$emusPath\Supermodel\Supermodel.exe"
-if (-not($test) -and $doInstallBigPEmu -eq "true") {
+if (-not($test) -and $doInstallSupermodel -eq "true") {
     SuperModel_install
 }
 
