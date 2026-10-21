@@ -26,11 +26,10 @@ function Dolphin_init(){
 	$destination="$emusPath\Dolphin-x64"
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\Dolphin" "$destination"
 	#Bios Path
-	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath"
+	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/" "$emulationPath\"
 	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/roms/gamecube" "$emulationPath\roms\gamecube"
 	sedFile "$Dolphin_configFile" "/run/media/mmcblk0p1/Emulation/roms/wii" "$emulationPath\roms\wii"
 
-	sedFile "$Dolphin_configFile" "Emulation" "Emulation\"
 
 	sedFile "$Dolphin_configFile" "/" "\"
 
