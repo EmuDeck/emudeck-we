@@ -1891,19 +1891,19 @@ function RetroArch_Beetle_PSX_HW_wideScreenOff(){
 
 
 function RetroArch_SwanStation_setConfig(){
-	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.ResolutionScale' '"3"'
+	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'swanstation_GPU_ResolutionScale' '"3"'
 }
 
 function RetroArch_SwanStation_wideScreenOn(){
-	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.WidescreenHack' '"true"'
-	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_Display.AspectRatio' '"16:9"'
+	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'swanstation_GPU_WidescreenHack' '"true"'
+	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'swanstation_Display_AspectRatio' '"16:9"'
 	RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"1"'
 	RetroArch_psx_bezelOff
 }
 
 function RetroArch_SwanStation_wideScreenOff(){
-	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_GPU.WidescreenHack' '"false"'
-	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'duckstation_Display.AspectRatio' '"auto"'
+	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'swanstation_GPU_WidescreenHack' '"false"'
+	RetroArch_setOverride 'SwanStation.opt' 'SwanStation'  'swanstation_Display_AspectRatio' '"Auto"'
 	RetroArch_setOverride 'psx.cfg' 'SwanStation'  'aspect_ratio_index' '"0"'
 }
 
