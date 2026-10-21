@@ -265,6 +265,11 @@ if ( "$doSetupDolphin" -eq "true" ){
 	$setupSaves+="Dolphin_setupSaves;"
 }
 
+if ( "$doSetupPrimeHack" -eq "true" ){
+	Primehack_init
+	$setupSaves+="Primehack_setupSaves;"
+}
+
 if ( "$doSetupYuzu" -eq "true" ){
 	Yuzu_init
 	$setupSaves+="Yuzu_setupSaves;"

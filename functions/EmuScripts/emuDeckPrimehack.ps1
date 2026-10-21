@@ -37,7 +37,7 @@ function Primehack_init(){
 	$destination="$emusPath\primehack"
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\primehack" "$destination"
 	#Bios Path
-	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/" "$romsPath"
+	sedFile $destination\User\Config\Dolphin.ini "/run/media/mmcblk0p1/Emulation/roms/" "$romsPath\"
 	sedFile $destination\User\Config\Dolphin.ini "/" '\'
 
 	Primehack_setupSaves
