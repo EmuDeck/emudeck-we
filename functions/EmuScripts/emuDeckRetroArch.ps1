@@ -666,18 +666,18 @@ function RetroArch_n64_setConfig(){
 }
 
 function RetroArch_lynx_setConfig(){
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_player1_analog_dpad_mode' '"1"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_player1_analog_dpad_mode' '"1"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_player1_analog_dpad_mode' '"1"'
 }
 
 function RetroArch_lynx_bezelOn(){
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'aspect_ratio_index' '"21"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\lynx.cfg"
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_auto_scale' '"false"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"true"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_opacity' '"0.700000"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_scale_landscape' '"1.055000"'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_scale_integer' '"false"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'aspect_ratio_index' '"21"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\lynx.cfg"
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_overlay_auto_scale' '"false"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"true"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_overlay_opacity' '"0.700000"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_overlay_scale_landscape' '"1.055000"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'video_scale_integer' '"false"'
 
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'aspect_ratio_index' '"21"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay' "$emusPath\RetroArch\overlays\pegasus\lynx.cfg"
@@ -689,14 +689,14 @@ function RetroArch_lynx_bezelOn(){
 }
 
 function RetroArch_lynx_bezelOff(){
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"false"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'input_overlay_enable' '"false"'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'input_overlay_enable' '"false"'
 }
 
 function RetroArch_lynx_MATshaderOn(){
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'true'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' 'ED_RM_LINE'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_smooth' '"false"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'true'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'	'video_filter' 'ED_RM_LINE'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'	'video_smooth' '"false"'
 
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'video_shader_enable' 'true'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_filter' 'ED_RM_LINE'
@@ -704,9 +704,9 @@ function RetroArch_lynx_MATshaderOn(){
 }
 
 function RetroArch_lynx_MATshaderOff(){
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'false'
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
-	RetroArch_setOverride 'lynx.cfg' 'Beetle Lynx'	'video_smooth' '"true"'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'  'video_shader_enable' 'false'
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
+	RetroArch_setOverride 'atarilynx.cfg' 'Beetle Lynx'	'video_smooth' '"true"'
 
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'  'video_shader_enable' 'false'
 	RetroArch_setOverride 'atarilynx.cfg' 'Handy'	'video_filter' "$emusPath\RetroArch\filters\video\Normal4x.filt"
