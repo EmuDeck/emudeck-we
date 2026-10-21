@@ -304,7 +304,15 @@ function RetroArch_setOverride($fileToCheck, $name, $key, $value){
 	Get-ChildItem $path -Recurse -Filter $fileToCheck |
 	Foreach-Object {
 		$originFile = $_.FullName
-		setConfigRA $key $value $originFile
+		if ($value -eq "ED_RM_LINE") {
+			# ED_RM_LINE is the "remove this key" marker from the Linux scripts; passing it on
+			# wrote e.g. video_filter = ED_RM_LINE into the override. Remove the key instead.
+			$keyPattern = "^\s*$([regex]::Escape($key))\s*="
+			$lines = [System.IO.File]::ReadAllLines($originFile) | Where-Object { $_ -notmatch $keyPattern }
+			[System.IO.File]::WriteAllLines($originFile, [string[]]@($lines), (New-Object System.Text.UTF8Encoding $false))
+		} else {
+			setConfigRA $key $value $originFile
+		}
 	}
 }
 
