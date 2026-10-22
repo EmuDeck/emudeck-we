@@ -280,7 +280,7 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 
 	  & $cloud_sync_bin copy "$savesPath/.hash" "$cloud_sync_provider`:Emudeck\saves"
 	  #Cleaning up
-	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+	  Get-ChildItem -Path $savesPath -Recurse -Filter ".cloud" | ForEach-Object {
 		 Remove-Item $_.FullName
 	  }
 	  Write-Output 'true'
@@ -370,7 +370,7 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 	  & $cloud_sync_bin mkdir $path
 	  & $cloud_sync_bin copy $savesPath $path --include "*.cloud"
 	  #Cleaning up
-	  Get-ChildItem -Path $carpetaLocal -Filter "*.cloud" | ForEach-Object {
+	  Get-ChildItem -Path $savesPath -Recurse -Filter ".cloud" | ForEach-Object {
 		 Remove-Item $_.FullName
 	  }
 
