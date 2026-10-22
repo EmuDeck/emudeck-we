@@ -97,7 +97,7 @@ function ESDE_init(){
 	$test=Test-Path -Path "$toolsPath\EmulationStation-DE\ES-DE.exe"
 	if($test){
 
-		$userDrive="$userFolder[0]"
+		$userDrive=$userFolder[0]
 
 		$destinationFree = (Get-PSDrive -Name "$userDrive").Free
 		$sizeInGB = [Math]::Round($destinationFree / 1GB)
@@ -122,7 +122,7 @@ function ESDE_init(){
 	$test=Test-Path -Path "$emudeckFolder\EmulationStation-DE\ES-DE\downloaded_media"
 	if($test){
 
-		$userDrive="$userFolder[0]"
+		$userDrive=$userFolder[0]
 
 		$destinationFree = (Get-PSDrive -Name $userDrive).Free
 		$sizeInGB = [Math]::Round($destinationFree / 1GB)
