@@ -51,15 +51,10 @@ function CopyGames {
 
     if ($difference -lt 0) {
 
-        $result = yesNoDialog -TitleText "CloudSync Force" -MessageText "Make sure you have enough space in $emulationPath. You need to have at least $neededSpaceInHuman GB available" -OKButtonText "Continue" -CancelButtonText "Cancel"
+        $result = yesNoDialog -TitleText "Not enough space" -MessageText "Make sure you have enough space in $emulationPath. You need to have at least $neededSpaceInHuman GB available" -OKButtonText "Continue" -CancelButtonText "Cancel"
 
-        if ($result -eq "OKButton") {
-            $dialog = steamToast  -MessageText "Uploading all systems... don't turn off your device"
-            cloud_sync_uploadEmuAll
-            $dialog.Close()
-        } else {
+        if ($result -ne "OKButton") {
             exit
-            $dialog.Close()
         }
     }
 
