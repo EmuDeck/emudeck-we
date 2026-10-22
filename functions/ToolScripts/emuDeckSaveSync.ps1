@@ -245,8 +245,9 @@ function cloud_sync_config($cloud_sync_provider, $token) {
    if ($cloud_sync_provider -eq "Emudeck-NextCloud") {
 	  $credentials = Get-Custom-Credentials "Emudeck-NextCloud"
 	  $pass=$credentials.Password
-	  $params="obscure $pass"
-	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+	  # Call rclone directly: Invoke-Expression broke on passwords with spaces, $, ; or quotes,
+	  # and on user names with spaces in $cloud_sync_bin
+	  $obscuredPassword = & $cloud_sync_bin obscure $pass
 	  & $cloud_sync_bin config update "Emudeck-NextCloud" vendor="nextcloud" url=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
 	  Write-Output 'true'
    } elseif ($cloud_sync_provider -eq "Emudeck-OneDrive") {
@@ -266,8 +267,9 @@ function cloud_sync_config($cloud_sync_provider, $token) {
    } elseif ($cloud_sync_provider -eq "Emudeck-SFTP") {
 	  $credentials = Get-Custom-Credentials "Emudeck-SFTP"
 	  $pass=$credentials.Password
-	  $params="obscure $pass"
-	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+	  # Call rclone directly: Invoke-Expression broke on passwords with spaces, $, ; or quotes,
+	  # and on user names with spaces in $cloud_sync_bin
+	  $obscuredPassword = & $cloud_sync_bin obscure $pass
 	  Get-ChildItem $savesPath -Recurse -Directory | ForEach-Object {
 		 createCloudFile $_.FullName
 	  }
@@ -355,8 +357,9 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 	  $credentials = Get-Custom-Credentials "Emudeck-SMB"
 	  $pass=$credentials.Password
 	  $share=$credentials.Share
-	  $params="obscure $pass"
-	  $obscuredPassword = Invoke-Expression "$cloud_sync_bin $params"
+	  # Call rclone directly: Invoke-Expression broke on passwords with spaces, $, ; or quotes,
+	  # and on user names with spaces in $cloud_sync_bin
+	  $obscuredPassword = & $cloud_sync_bin obscure $pass
 
 	  Start-Process $cloud_sync_bin -ArgumentList @"
 	  config update "Emudeck-SMB" host=$($credentials.Url) user=$($credentials.Username) pass="$obscuredPassword"
