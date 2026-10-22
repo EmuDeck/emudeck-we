@@ -412,9 +412,23 @@ Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\FIPSAlgorithmP
 
 function SRM_deleteCache(){
 	$steamRegPath = "HKCU:\Software\Valve\Steam"
- 	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath).SteamPath
- 	Get-ChildItem -Path "$steamInstallPath" -Directory -Depth 2 |
-	Where-Object { $_.Name -eq 'config' } |
+	$steamInstallPath = (Get-ItemProperty -Path $steamRegPath -ErrorAction SilentlyContinue).SteamPath
+	if (-not $steamInstallPath -or -not (Test-Path "$steamInstallPath\userdata")) {
+		Write-Output "false"
+		return
+	}
+
+	# Same as the Linux version: this resets the non-Steam library, so ask first and
+	# only remove userdata\<account>\config (never Steam\config itself)
+	$result = yesNoDialog -TitleText "Delete Steam ROM Manager cache" -MessageText "This deletes all of your non-Steam shortcuts, including launchers, browsers and other apps you added as non-Steam games (the games and apps themselves are not deleted). It also deletes curated artwork and launch options for Steam games.`n`nAfterwards, open Steam ROM Manager and add your games again.`n`nDelete the cache?" -OKButtonText "Delete" -CancelButtonText "Cancel"
+	if ($result -ne "OKButton") {
+		Write-Output "false"
+		return
+	}
+
+	Get-ChildItem -Path "$steamInstallPath\userdata" -Directory |
+	ForEach-Object { Join-Path $_.FullName 'config' } |
+	Where-Object { Test-Path $_ } |
 	Remove-Item -Force -Recurse
 	if($?){
 		Write-Output "true"
