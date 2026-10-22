@@ -1,6 +1,6 @@
 function Plugins_installPluginLoader(){
 
-   if (Get-Command python -ErrorAction SilentlyContinue) {
+   if (Get-Command python -ErrorAction SilentlyContinue | Where-Object { $_.Source -notlike "*\WindowsApps\*" }) {
       Write-Output "Python already installed."
    } else {
       Write-Host "Installing Python, please wait..."
