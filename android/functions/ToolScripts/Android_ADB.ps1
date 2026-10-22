@@ -39,10 +39,11 @@ function Android_ADB_install {
 	setMSG "Installing Android Tools..."
 	$outFile = "adb.zip"
 	$outDir = "$env:APPDATA\emudeck\android"
+	mkdir $outDir -ErrorAction SilentlyContinue | Out-Null
 
 	Android_download $outFile $Android_ADB_url
 
-	if ($?) {
+	if (Test-Path "$outDir\$outFile") {
 		Expand-Archive -Path "$outDir\$outFile" -DestinationPath $outDir -Force
 		Remove-Item -Path "$outDir\$outFile" -Force
 		Write-Output "true"
