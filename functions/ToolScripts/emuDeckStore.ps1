@@ -17,7 +17,7 @@ function Store_installGame {
     Invoke-WebRequest -Uri "https://f005.backblazeb2.com/file/emudeck-artwork/$system/media/screenshot/$name.png" -OutFile $screenshotPath
     Invoke-WebRequest -Uri "https://f005.backblazeb2.com/file/emudeck-artwork/$system/media/box2dfront/$name.png" -OutFile $boxartPath
 
-    if (Test-Path $zipPath -and Test-Path $screenshotPath -and Test-Path $boxartPath) {
+    if ((Test-Path $zipPath) -and (Test-Path $screenshotPath) -and (Test-Path $boxartPath)) {
         Write-Output "true"
     } else {
         Write-Output "false"
