@@ -3,7 +3,7 @@ $PCSX2QT_configFile="$emusPath\PCSX2-Qt\inis\PCSX2.ini"
 function PCSX2QT_install(){
 	statInstall "pcsx2"
 	#$test=Test-Path -Path "$toolsPath\vc_redist.x86.exe"
-	winget install Microsoft.VCRedist.2015+.x86 --accept-package-agreements --accept-source-agreements
+	winget install Microsoft.VCRedist.2015+.x64 --accept-package-agreements --accept-source-agreements
 	setMSG "Downloading PCSX2"
 	$url_pcsx2 = getReleaseURLGH "pcsx2/pcsx2" "7z" "windows" "symbols"
 	download $url_pcsx2 "pcsx2.7z"
