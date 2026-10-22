@@ -234,7 +234,7 @@ function SRM_addSteamInputProfiles(){
 function SRM_removeSteamInputProfiles(){
 	Write-Output "Removing Steam Input profiles..."
 	$PFPath="$steamInstallPath\controller_base\templates\"
-	rm -fo -r "$env:APPDATA\EmuDeck\backend\configs\steam-input\emudeck*"
+	rm -fo -r "${PFPath}emudeck*"
 }
 
 function SRM_setSteamAccount(){
