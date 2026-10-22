@@ -23,7 +23,7 @@ function Flycast_update(){
 	Write-Output "NYI"
 }
 function Flycast_setEmulationFolder(){
-	sedFile "$PPSSP_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
+	sedFile "$Flycast_configFile" "/run/media/mmcblk0p1/Emulation" "$emulationPath"
 	#Setup bios folder
 	#mkdir "$biosPath}/flycast/" -ErrorAction SilentlyContinue
 
