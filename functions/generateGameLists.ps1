@@ -33,7 +33,7 @@ function generateGameLists {
     generateGameLists_downloadAssets
 
     # Sincroniza archivos usando RoboCopy
-    robocopy "$emudeckBackend/roms/" "$storagePath/retrolibrary/artwork" /MIR /XD roms txt /SL
+    robocopy "$emudeckBackend/roms/" "$storagePath/retrolibrary/artwork" /E /XD roms txt /SL
 
     # Configura las rutas de Pegasus
     pegasus_setPaths
