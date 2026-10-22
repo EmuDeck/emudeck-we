@@ -41,7 +41,6 @@ function Get-Custom-Credentials($provider){
 		$labelWebDAV.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelWebDAV)
 
-		$filename = $matches[1]
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
@@ -54,13 +53,11 @@ function Get-Custom-Credentials($provider){
 		$labelUrl.Location = New-Object System.Drawing.Point(30, 110)
 		$form.Controls.Add($labelUrl)
 
-		$filename = $filename.Replace('.zip','')
 		$textBoxUrl = New-Object System.Windows.Forms.TextBox
 		$textBoxUrl.Location = New-Object System.Drawing.Point(140, 110)
 		$textBoxUrl.Size = New-Object System.Drawing.Size(150, 20)
 		$form.Controls.Add($textBoxUrl)
 
-		Rename-Item "temp\rclone\$filename" -NewName "rclone"
 		$labelPort = New-Object System.Windows.Forms.Label
 		$labelPort.Text = "Port:"
 		$labelPort.Location = New-Object System.Drawing.Point(30, 150)
