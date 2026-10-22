@@ -305,6 +305,7 @@ function cloud_sync_config($cloud_sync_provider, $token) {
 		 $user=$($parts[0])
 		 
 		  setSetting "cs_user" "cs$user\"
+		  $cs_user="cs$user\"
 		  Start-Process $cloud_sync_bin -ArgumentList @"
 							   config update $cloud_sync_provider key="$cloud_key" account="$cloud_key_id"
 "@  -WindowStyle Maximized -Wait		

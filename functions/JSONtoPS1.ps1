@@ -23,6 +23,8 @@ function JSONtoPS1(){
 	$mutex = new-object System.Threading.Mutex $false,'EmuDeckSettingsJSONParse'
 	$mutex.WaitOne() > $null
 
+	# cs_user is set by cloud_sync_config and is not in settings.json: keep it
+	$csUserLine = Get-Content "$env:APPDATA/emudeck/settings.ps1" -ErrorAction SilentlyContinue | Where-Object { $_ -like '$cs_user=*' } | Select-Object -Last 1
 	'' | Out-File -FilePath "$env:APPDATA/emudeck/settings.ps1"
 	$myJson = Get-Content "$env:USERPROFILE/AppData/Roaming/EmuDeck/settings.json" -Raw | ConvertFrom-Json
 
@@ -262,6 +264,9 @@ function JSONtoPS1(){
 
 	$cloudSyncStatus = $myJson.cloudSyncStatus
 	setSettinginFile("`$cloud_sync_status=`"$cloudSyncStatus`"")
+	if ($csUserLine) {
+		setSettinginFile $csUserLine
+	}
 
 	$dolphinResolution = $myJson.resolutions.dolphin
 	$duckstationResolution = $myJson.resolutions.duckstation
