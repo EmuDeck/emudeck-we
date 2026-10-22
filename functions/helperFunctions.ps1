@@ -219,10 +219,11 @@ function testLocationValid($mode, $path){
 	if ($driveInfo.DriveType -eq 4) {
 		Write-Host "Valid"
 	}else{
-		rm -fo -r "$globPath\test"
-		$null = New-Item -ItemType Junction -Path "$globPath\test" -Target "$env:APPDATA\EmuDeck\backend" -Force
+		# Use a name of our own: "<drive>:\test" may be a real folder of the user
+		$testLink = "$globPath\EmuDeckTestLink_$PID"
+		$null = New-Item -ItemType Junction -Path "$testLink" -Target "$env:APPDATA\EmuDeck\backend" -Force
 		if($?){
-			rm -fo -r "$globPath\test"
+			rm -fo -r "$testLink"
 			Write-Output "Valid"
 		} else {
 			Write-Output "Wrong"
