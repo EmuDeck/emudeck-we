@@ -30,7 +30,7 @@ function PCSX2QT_init(){
 
 }
 function PCSX2QT_update(){
-	Write-Outpute-Output "NYI"
+	Write-Output "NYI"
 }
 function PCSX2QT_setEmulationFolder(){
 	sedFile $PCSX2QT_configFile "C:\Emulation" "$emulationPath"
