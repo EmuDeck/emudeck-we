@@ -44,7 +44,8 @@ function generateGameLists {
     python "$emudeckBackend/tools/retro-library/generate_game_lists.py" "$romsPath"
 
     # Llama a la función para manejar artwork en segundo plano
-    Start-Job { generateGameLists_artwork } | Out-Null
+    # A job would neither have the backend functions loaded nor survive the end of this process
+    Start-Process powershell -WindowStyle Hidden -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"& { . '$env:APPDATA\EmuDeck\backend\functions\all.ps1'; generateGameLists_artwork }`""
 }
 
 function generateGameListsJson {
@@ -70,11 +71,9 @@ function generateGameLists_artwork {
     python "$emudeckBackend/tools/retro-library/missing_artwork_platforms.py" "$romsPath" "$storagePath/retrolibrary/artwork"
     python "$emudeckBackend/tools/retro-library/download_art_platforms.py" "$storagePath/retrolibrary/artwork"
 
-    # Ejecuta los scripts de Python adicionales en segundo plano
-    Start-Job {
-        python "$emudeckBackend/tools/retro-library/missing_artwork_nohash.py" "$romsPath" "$storagePath/retrolibrary/artwork"
-        python "$emudeckBackend/tools/retro-library/download_art_nohash.py" "$storagePath/retrolibrary/artwork"
-    }
+    # Ejecuta los scripts de Python adicionales (this already runs in its own background process)
+    python "$emudeckBackend/tools/retro-library/missing_artwork_nohash.py" "$romsPath" "$storagePath/retrolibrary/artwork"
+    python "$emudeckBackend/tools/retro-library/download_art_nohash.py" "$storagePath/retrolibrary/artwork"
 
     # Escribe mensaje final en el archivo de mensaje
     Write-Output "Artwork finished. Restart if you see this message" | Set-Content -Path $MSG
