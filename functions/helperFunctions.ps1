@@ -331,8 +331,8 @@ function getReleaseURLGH($Repository, $FileType, $FindToMatch, $IgnoreText = "pe
         $apiData = Invoke-RestMethod -Uri $url
 
         $releaseURL = $apiData.assets |
-            Where-Object { $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
-            Select-Object -ExpandProperty browser_download_url
+            Where-Object { $_.browser_download_url -like "*.$FileType" -and $_.browser_download_url -like "*$FindToMatch*" -and $_.browser_download_url -notlike "*$IgnoreText*" } |
+            Select-Object -First 1 -ExpandProperty browser_download_url
     } catch {
         $releaseURL = $null
     }
