@@ -25,8 +25,8 @@ function Azahar_init(){
 	mkdir $destination -ErrorAction SilentlyContinue
 	copyFromTo "$env:APPDATA\EmuDeck\backend\configs\azahar\config" "$destination"
 
-	sedFile "$Azahar_configFile" "C:/Emulation" "$emulationPath"
-	sedFile "$Azahar_configFile" ":\Emulation" ":/Emulation"
+	# Qt INI: forward slashes for the whole path (backslashes are escape characters there)
+	sedFile "$Azahar_configFile" "C:/Emulation" $emulationPath.Replace('\', '/')
 
 	mkdir "$emusPath\azahar\user\sysdata"  -ErrorAction SilentlyContinue
 	$simLinkPath = "$emusPath\azahar\user\sysdata"

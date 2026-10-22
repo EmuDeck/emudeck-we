@@ -33,8 +33,8 @@ function Ryujinx_init(){
 	Ryujinx_setResolution $yuzuResolution
 
 
-	sedFile "$destination\portable\Config.json" "C:\\Emulation" "$emulationPath"
-	sedFile "$destination\portable\Config.json" ":\Emulation" ":\\Emulation"
+	# JSON string: escape every backslash of the path, not only the one after the drive
+	sedFile "$destination\portable\Config.json" "C:\\Emulation" $emulationPath.Replace('\', '\\')
 
 }
 
