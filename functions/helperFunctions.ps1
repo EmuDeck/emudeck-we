@@ -239,6 +239,18 @@ function escapeSedValue($input){
 	Write-Output $input
 }
 
+function testLocationValidRelaxed($mode, $path){
+	# Only checks that the folder is writable (CopyGames)
+	$testFile = Join-Path $path "EmuDeckTestWrite_$PID"
+	try {
+		New-Item -ItemType File -Path $testFile -ErrorAction Stop | Out-Null
+		Remove-Item -LiteralPath $testFile -Force -ErrorAction SilentlyContinue
+		Write-Output "Valid"
+	} catch {
+		Write-Output "Wrong"
+	}
+}
+
 function changeLine($Keyword,$Replace,$File) {
 
 	Write-Host "Updating: $File - $Keyword to $Replace"
