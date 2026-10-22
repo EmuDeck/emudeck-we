@@ -124,6 +124,7 @@ function SRM_createParsers(){
 	if ((RPCS3_isInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-extracted_iso_psn.json"
 		$exclusionList=$exclusionList+"sony_ps3-rpcs3-pkg.json"
+		$exclusionList=$exclusionList+"sony_ps3-rpcs3-iso.json"
 	}
 
 	if ((Azahar_isInstalled) -ne "true"){ 
@@ -177,6 +178,33 @@ function SRM_createParsers(){
 	}
 	if ((ZSNES_IsInstalled) -ne "true"){
 		$exclusionList=$exclusionList+"nintendo_snes-zsnes.json"
+	}
+	if ((Eden_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_switch-eden.json"
+	}
+	if ((Citron_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_switch-citron.json"
+	}
+	if ((Xemu_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"microsoft_xbox-xemu.json"
+	}
+	if ((Xenia_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"microsoft_xbox_360-xenia.json"
+		$exclusionList=$exclusionList+"microsoft_xbox_360-xenia-xbla.json"
+	}
+	if ((melonDS_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"nintendo_ds-melonds.json"
+	}
+	if ((MAME_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"arcade-mame.json"
+		$exclusionList=$exclusionList+"philips_cd_i-mame.json"
+	}
+	if ((Flycast_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"sega_dreamcast-flycast.json"
+		$exclusionList=$exclusionList+"arcade_naomi-flycast.json"
+	}
+	if ((ShadPS4_IsInstalled) -ne "true"){
+		$exclusionList=$exclusionList+"sony_ps4-shadps4-shortcut.json"
 	}
 
 	Start-Sleep -Seconds 1
