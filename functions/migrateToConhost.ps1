@@ -1,4 +1,10 @@
 function migrateToConhost(){
+	# revertConhost undoes this on every other branch, so migrating there killed and
+	# restarted Steam twice on every app start
+	if (-not (isEarlyUnstable)) {
+		return
+	}
+
 	if (Test-Path "$emudeckFolder\.conhost_migrated") {
 		return
 	}
