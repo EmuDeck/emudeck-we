@@ -18,7 +18,9 @@ function ESDE_install(){
 			createSaveLink $gamelistsPath "$storagePath/es-de/gamelists"
 		}
 
-		ESDE_uninstall
+		# Reinstall: keep the user data folder (ES-DE\: settings, scraper login, collections,
+		# themes, custom systems) and the emulators, replace only the program files
+		Get-ChildItem -Path "$esdePath" | Where-Object { $_.Name -ne "Emulators" -and $_.Name -ne "ES-DE" } | Remove-Item -Recurse -Force
 		$doInit="true"
 	}
 
