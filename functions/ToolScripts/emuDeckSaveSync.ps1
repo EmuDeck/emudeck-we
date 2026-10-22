@@ -850,12 +850,15 @@ function cloud_sync_init($emulator){
 				$branch = Invoke-Expression "git -C $env:USERPROFILE/AppData/Roaming/EmuDeck/backend rev-parse --abbrev-ref HEAD"
 				if ("$branch" -eq "early" -or "$branch" -eq "early-unstable" -or "$branch" -eq "dev"){
 					if($emulator -eq "EmulationStationDE"){
-						"\" | Set-Content $savesPath/.emulator -Encoding UTF8
+						"all" | Set-Content $savesPath/.emulator -Encoding UTF8
 						cloud_sync_downloadEmuAll
 					}else{
 						"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 						cloud_sync_downloadEmu $emulator
 					}
+				}elseif($emulator -eq "EmulationStationDE"){
+					# ES-DE can start any emulator: let the watcher cover all saves
+					"all" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}else{
 					"$emulator" | Set-Content $savesPath/.emulator -Encoding UTF8
 				}
