@@ -289,6 +289,8 @@ function Ryujinx_migrateToSDL3(){
 		Write-Host "Ryujinx: update failed, leaving the existing config untouched"
 		return $false
 	}
+	# Ryujinx_init replaces Config.json with the template: keep the user's settings
+	Copy-Item -Path $Ryujinx_configFile -Destination "$Ryujinx_configFile.sdl2.bak" -Force -ErrorAction SilentlyContinue
 	Ryujinx_init | Out-Null
 	return $true
 }
