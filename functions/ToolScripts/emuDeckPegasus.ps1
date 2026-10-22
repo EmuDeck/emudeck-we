@@ -58,7 +58,11 @@ function pegasus_init(){
 
 	Get-ChildItem -Path $romsPath | ForEach-Object {
 		$systemPath = $_.FullName
-		Remove-Item -Path "$systemPath\media" -Recurse -Force -ErrorAction SilentlyContinue
+		# Only remove an old link: a real media folder holds the user's own (e.g. Skraper) artwork
+		$media = Get-Item -LiteralPath "$systemPath\media" -Force -ErrorAction SilentlyContinue
+		if ($media -and ($media.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+			Remove-Item -Path "$systemPath\media" -Recurse -Force -ErrorAction SilentlyContinue
+		}
 	}
 
 	Get-ChildItem -Path $romsPath | ForEach-Object {
@@ -80,7 +84,9 @@ function pegasus_init(){
 		$system = ($systemPath -split '\\')[-1]
 		$targetPath = Join-Path $storagePath "downloaded_media\$system"
 
-		createSaveLink "$systemPath\media" $targetPath
+		if (-not (Test-Path "$systemPath\media")) {
+			createSaveLink "$systemPath\media" $targetPath
+		}
 		createSaveLink "$storagePath\downloaded_media\$system\covers"  "$storagePath\downloaded_media\$system\box2dfront"
 		createSaveLink "$storagePath\downloaded_media\$system\marquees"  "$storagePath\downloaded_media\$system\wheel"
 	}
