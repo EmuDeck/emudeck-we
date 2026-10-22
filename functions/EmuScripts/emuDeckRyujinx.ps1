@@ -18,7 +18,7 @@ function Ryujinx_install() {
 	}
 
 	download $url_Ryujinx "ryujinx.zip"
-	moveFromTo "$temp\ryujinx\publish\" "$emusPath\Ryujinx"
+	moveFromTo "$temp\ryujinx\publish" "$emusPath\Ryujinx"
 	createLauncher "Ryujinx"
 }
 
