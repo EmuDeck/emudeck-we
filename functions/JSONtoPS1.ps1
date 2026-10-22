@@ -162,10 +162,11 @@ function JSONtoPS1(){
 	#Default installation folders
 
 	$globPath=$myJson.storagePath
-	$globPath=$globPath.replace('\','')
 	$globPath= $globPath -replace "`n","" -replace "`r",""
+	# Only drop the trailing backslash: "D:\" -> "D:", but keep "D:\Games" (was "D:Games")
+	$globPath=$globPath.TrimEnd('\')
 
-	$driveInfo = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='$globPath'"
+	$driveInfo = Get-WmiObject -Class Win32_LogicalDisk -Filter "DeviceID='$globPath'" -ErrorAction SilentlyContinue
 
 	if ($driveInfo) {
 		if ($driveInfo.DriveType -eq 4) {
