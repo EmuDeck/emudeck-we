@@ -108,7 +108,8 @@ function Compress-CHD {
         if ($fileType -ne 'iso' -and $fileType -ne 'ISO') {
             Get-ChildItem -Path $CUEDIR -File | ForEach-Object {
                 $fileName = $_.Name
-                $found = Select-String -Pattern $fileName -Path $file
+                # Whole name as in a .cue/.gdi entry ("name" or between spaces), not a regex
+                $found = Select-String -SimpleMatch -Pattern "`"$fileName`"", " $fileName " -Path $file
 
                 if ($found) {
                     Write-Host "Deleting $($_.FullName)"
@@ -261,7 +262,7 @@ function Compress-7Z {
 
     $successful = $false
     $ext = [System.IO.Path]::GetExtension($file).ToLower()
-    $result = 7z a -mx=9 ($file -replace '\.[^.]+$', '.7z') $file
+    $result = & $7z a -mx=9 ($file -replace '\.[^.]+$', '.7z') $file
 
     if ($LASTEXITCODE -eq 0) {
         $successful = $true
