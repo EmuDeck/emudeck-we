@@ -1,4 +1,6 @@
 from core.all import *
+from functools import lru_cache
+import socket
 
 rl_excluded_systems = ["/model2", "/genesiswide", "/mame", "/emulators", "/desktop", "/sneswide"]
 json_path = os.path.join(storage_path, "retrolibrary/cache/missing_artwork_no_hash.json")
@@ -43,7 +45,8 @@ def rl_clean_name(name):
     name_cleaned = name_cleaned.lower()
     return name_cleaned
 
-def rl_collect_game_data(system_dir, extensions, images_path=None):
+def rl_collect_game_data(system_dir, extensions, images_path=None, types=None):
+    artwork_types = [(t, e) for t, e in (("box2dfront", ".jpg"), ("wheel", ".png"), ("screenshot", ".jpg")) if not types or t in types]
     #images_path = os.path.join(storage_path ,"/retrolibrary/artwork")
     game_data = []
 
@@ -53,7 +56,7 @@ def rl_collect_game_data(system_dir, extensions, images_path=None):
         #print(game_data)
         for file in files:
             file_path = os.path.join(root, file)
-            if os.path.islink(file_path):
+            if file.startswith(".") or os.path.islink(file_path):
                 continue
 
             filename = os.path.basename(file)
@@ -77,7 +80,7 @@ def rl_collect_game_data(system_dir, extensions, images_path=None):
                 if images_path:
                     # Check for missing images
                     missing_images = False
-                    for img_type, ext in [("box2dfront", ".jpg"), ("wheel", ".png"), ("screenshot", ".jpg")]:
+                    for img_type, ext in artwork_types:
                         img_path = os.path.join(images_path, f"{platform}/media/{img_type}/{name_cleaned}{ext}")
 
                         if not os.path.exists(img_path):
@@ -109,7 +112,7 @@ def rl_collect_game_data(system_dir, extensions, images_path=None):
         #print(game_data)
         for file in files:
             file_path = os.path.join(root, file)
-            if os.path.islink(file_path):
+            if file.startswith(".") or os.path.islink(file_path):
                 continue
 
             filename = os.path.basename(file)
@@ -150,7 +153,7 @@ def rl_collect_game_data(system_dir, extensions, images_path=None):
                 if images_path:
                     # Check for missing images
                     missing_images = False
-                    for img_type, ext in [("box2dfront", ".jpg"), ("wheel", ".png"), ("screenshot", ".jpg")]:
+                    for img_type, ext in artwork_types:
                         img_path = os.path.join(images_path, f"{platform}/media/{img_type}/{name_cleaned}{ext}")
 
                         if not os.path.exists(img_path):
@@ -291,6 +294,16 @@ def rl_generate_game_list():
         f.write(json_output)
         #print(json_output)
 
+def rl_get_steam_account() -> Optional[Path]:
+    userdata_dir = Path(steam_install_path) / "userdata"
+    if not userdata_dir.is_dir():
+        return None
+    accounts = [p for p in userdata_dir.iterdir() if p.is_dir() and p.name != "0"]
+    if not accounts:
+        return None
+    return max(accounts, key=lambda p: p.stat().st_mtime)
+
+
 def rl_download_achievements():
     achievements_dir = storage_path / "retrolibrary" / "achievements"
 
@@ -303,26 +316,13 @@ def rl_download_achievements():
         # 4) Crear (o forzar) symlink:
         target = achievements_dir
 
-        userdata_dir = home / ".steam" / "steam" / "userdata"
-
-        if not userdata_dir.exists():
-            raise FileNotFoundError(f"{userdata_dir!s} no existe")
-
-        account_folders = sorted(
-            [p for p in userdata_dir.iterdir() if p.is_dir()],
-            key=lambda p: p.stat().st_mtime,
-            reverse=True
-        )
-        if not account_folders:
-            raise RuntimeError("No se encontró ninguna carpeta de userdata de Steam")
-
-        account_folder = account_folders[0]
-
-        link = account_folder / "config" / "grid" / "retrolibrary" / "achievements"
-        link.parent.mkdir(parents=True, exist_ok=True)
-        if link.exists() or link.is_symlink():
-            link.unlink()
-        link.symlink_to(target, target_is_directory=True)
+        account_folder = rl_get_steam_account()
+        if account_folder:
+            link = account_folder / "config" / "grid" / "retrolibrary" / "achievements"
+            link.parent.mkdir(parents=True, exist_ok=True)
+            if link.exists() or link.is_symlink():
+                link.unlink()
+            link.symlink_to(target, target_is_directory=True)
 
         zip_path = achievements_dir / "achievements.zip"
         url = "https://artwork.emudeck.com/achievements/achievements.zip"
@@ -339,27 +339,18 @@ def rl_download_data() -> None:
     data_dir = storage_path / "retrolibrary" / "data"
 
     # 2) Obtener carpeta de usuario Steam más reciente
-    userdata_root = Path.home() / ".steam" / "steam" / "userdata"
-    steam_accounts = [p for p in userdata_root.iterdir() if p.is_dir()]
-    if not steam_accounts:
-        return  # No hay userdata, salimos
-    # Ordenar por última modificación y tomar la más reciente
-    account_folder = sorted(
-        steam_accounts,
-        key=lambda p: p.stat().st_mtime,
-        reverse=True
-    )[0]
+    account_folder = rl_get_steam_account()
 
     if not data_dir.is_dir():
 
         # 4) Crear carpeta y symlink
         data_dir.mkdir(parents=True, exist_ok=True)
-        link_target = data_dir
-        link_path = account_folder / "config" / "grid" / "retrolibrary" / "data"
-        link_path.parent.mkdir(parents=True, exist_ok=True)
-        if link_path.exists() or link_path.is_symlink():
-            link_path.unlink()
-        link_path.symlink_to(link_target, target_is_directory=True)
+        if account_folder:
+            link_path = account_folder / "config" / "grid" / "retrolibrary" / "data"
+            link_path.parent.mkdir(parents=True, exist_ok=True)
+            if link_path.exists() or link_path.is_symlink():
+                link_path.unlink()
+            link_path.symlink_to(data_dir, target_is_directory=True)
 
         # 5) Descargar ZIP
         zip_path = data_dir / "data.zip"
@@ -375,27 +366,22 @@ def rl_download_data() -> None:
 
 def rl_download_assets() -> None:
     # 1) Encontrar carpeta Steam userdata más reciente
-    userdata_root = Path.home() / ".steam" / "steam" / "userdata"
-    steam_accounts = [p for p in userdata_root.iterdir() if p.is_dir()]
-    if not steam_accounts:
-        return
-    account_folder = sorted(
-        steam_accounts, key=lambda p: p.stat().st_mtime, reverse=True
-    )[0]
+    account_folder = rl_get_steam_account()
 
     # 2) Rutas de carpetas
     assets_dir     = storage_path / "retrolibrary" / "assets"
-    dest_dir       = account_folder / "config" / "grid" / "retrolibrary" / "assets"
     default_dir    = assets_dir / "default"
     bezels_dir     = assets_dir / "bezels"
     wii_dir        = assets_dir / "wii"
 
     # 3) Crear carpeta assets y symlink
     assets_dir.mkdir(parents=True, exist_ok=True)
-    dest_dir.parent.mkdir(parents=True, exist_ok=True)
-    if dest_dir.exists() or dest_dir.is_symlink():
-        dest_dir.unlink()
-    dest_dir.symlink_to(assets_dir, target_is_directory=True)
+    if account_folder:
+        dest_dir = account_folder / "config" / "grid" / "retrolibrary" / "assets"
+        dest_dir.parent.mkdir(parents=True, exist_ok=True)
+        if dest_dir.exists() or dest_dir.is_symlink():
+            dest_dir.unlink()
+        dest_dir.symlink_to(assets_dir, target_is_directory=True)
 
     # 4) Función auxiliar de descarga y extracción
     def _download_and_extract(name: str, url: str, target_subdir: Path):
@@ -443,49 +429,23 @@ def rl_download_assets() -> None:
 
 def rl_generate_systems_with_missing_images():
     images_path = Path(storage_path / "retrolibrary/artwork")
+    game_list_file = Path(storage_path / "retrolibrary/cache/roms_games.json")
+    systems_with_missing_images = []
 
-    def has_missing_images(system_dir, extensions):
-        platform = os.path.basename(system_dir)  # Extrae el nombre de la plataforma del directorio
-        media_folder_path = os.path.join(images_path, platform, "media")  # Ruta de la carpeta 'media'
-
-        print(media_folder_path)
-
-        file_count = count_visible_files(system_dir)
-
-        if file_count <= 2:
-            return False
-
-        if not os.path.isdir(media_folder_path):
-            return True
-
-        return False
-
-    roms_dir = roms_path
-    valid_system_dirs = []
-
-    valid_system_dirs = rl_get_valid_system_dirs(valid_system_dirs)
-
-    systems_with_missing_images = set()
-
-    for system_dir in valid_system_dirs:
-        if any(x in system_dir for x in rl_excluded_systems):
-            log_message(f"MAP: Skipping directory: {system_dir}")
-            continue
-
-        with open(os.path.join(system_dir, 'metadata.txt')) as f:
-            metadata = f.read()
-        extensions = next((line.split(':')[1].strip().replace(',', ' ') for line in metadata.splitlines() if line.startswith('extensions:')), '').split()
-
-        if has_missing_images(system_dir, extensions):
-            systems_with_missing_images.add(os.path.basename(system_dir))
-            log_message(f"MAP: System with missing images: {os.path.basename(system_dir)}")
-
-    json_output = json.dumps(list(systems_with_missing_images), indent=4)
+    if game_list_file.is_file():
+        for system in json.loads(game_list_file.read_text(encoding="utf-8")):
+            missing = [
+                game for game in system.get("games", [])
+                if not (images_path / game["platform"] / "media" / "box2dfront" / f"{game['name']}.jpg").exists()
+            ]
+            if len(missing) >= 10:
+                systems_with_missing_images.append(missing[0]["platform"])
+                log_message(f"MAP: {missing[0]['platform']} has {len(missing)} games without artwork")
 
     output_file = os.path.join(storage_path, "retrolibrary/cache/missing_systems.json")
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, 'w') as f:
-        f.write(json_output)
+        f.write(json.dumps(systems_with_missing_images, indent=4))
 
 def rl_generate_missing_artwork_lists():
     images_path = os.path.join(storage_path ,"/retrolibrary/artwork")
@@ -525,7 +485,7 @@ def rl_generate_missing_artwork_lists():
         f.write(json_output)
         #print(json_output)
 
-def rl_download_and_extract_artwork_platforms():
+def rl_download_and_extract_artwork_platforms(on_platform_done=None):
     output_dir = Path(storage_path / "retrolibrary/artwork")
 
     # Fixed path to the JSON file
@@ -583,6 +543,8 @@ def rl_download_and_extract_artwork_platforms():
 
             log_message(f"Extracted: {platform} to {output_dir}")
             print(f"Extracted: {platform} to {output_dir}")
+            if on_platform_done:
+                on_platform_done()
 
         except requests.exceptions.RequestException as e:
             log_message(f"Error downloading {platform}: {e}")
@@ -665,13 +627,23 @@ def rl_fetch_game_artwork(name, platform, media_type):
     else:
         return json.dumps({"name": None, "img": None})
 
+@lru_cache(maxsize=None)
+def rl_get_rom_md5(filename):
+    if os.path.getsize(filename) > 64 * 1024 * 1024:
+        return None
+    return calculate_md5(filename)
+
+
 def rl_fetch_game_artwork_md5(filename, platform, media_type):
     username_ss = "djrodtc"
     password_ss = "diFay35WElL"
     api_url_ss = "https://www.screenscraper.fr/api2/"
 
     s_id = rl_rom_parser_ss_get_alias(platform)
-    rom_md5 = calculate_md5(filename)
+    rom_md5 = rl_get_rom_md5(filename)
+    if not rom_md5:
+        return json.dumps({"name": None, "img": None})
+    name = Path(filename).stem
 
     params = {
         "devid": username_ss,
@@ -740,6 +712,7 @@ def rl_download_image(name, platform, img_url, save_folder, type):
         #rl_create_empty_image(name, platform, save_folder, type)
 
 def rl_fetch_image_data(game):
+    save_folder = Path(storage_path / "retrolibrary/artwork")
     name = game['name']
     platform = game['platform']
     type = game['type']
@@ -774,7 +747,6 @@ def rl_fetch_image_data(game):
         #rl_create_empty_image(name, platform, save_folder, type)
 
 def rl_process_json_artwork():
-    save_folder = Path(storage_path / "retrolibrary/artwork")
     # Read the original JSON
     with open(json_path, 'r') as file:
         systems = json.load(file)
@@ -799,7 +771,7 @@ def rl_process_json_artwork():
     log_message("Processing completed.")
     print("Processing completed.")
 
-def rl_generate_missing_artwork_lists():
+def rl_generate_missing_artwork_lists(*types):
     images_path = Path(storage_path / "retrolibrary/artwork")
     roms_dir = roms_path
     valid_system_dirs = []
@@ -817,7 +789,7 @@ def rl_generate_missing_artwork_lists():
         launcher = metadata["launcher"]
         extensions = metadata["extensions"]
 
-        games = rl_collect_game_data(system_dir, extensions, images_path)
+        games = rl_collect_game_data(system_dir, extensions, images_path, types)
         if games:
             system_info = {
                 "title": collection,
@@ -838,15 +810,6 @@ def rl_generate_missing_artwork_lists():
         #print(json_output)
 
 def rl_save_image(url: str, name: str, system: str) -> Path:
-    # 1) Find most-recent Steam userdata folder (if you need it for symlinks later)
-    userdata_root = Path.home() / ".steam" / "steam" / "userdata"
-    account_folders = sorted(
-        (p for p in userdata_root.iterdir() if p.is_dir()),
-        key=lambda p: p.stat().st_mtime,
-        reverse=True
-    )
-    account_folder = account_folders[0] if account_folders else None
-
     # 2) Build destination folder under EmuDeck storage
     dest_folder = storage_path / "retrolibrary" / "artwork" / system / "media" / "box2dfront"
     dest_folder.mkdir(parents=True, exist_ok=True)
@@ -876,14 +839,9 @@ def rl_add_game_lists_artwork(
     platform: str
 ) -> None:
     filename = Path(filename).stem  # strip any extension
-    home = Path.home()
-    userdata_root = home / ".steam" / "steam" / "userdata"
-
-    # pick most recent userdata folder
-    candidates = [p for p in userdata_root.iterdir() if p.is_dir()]
-    if not candidates:
-        raise RuntimeError(f"No userdata folders under {userdata_root!r}")
-    accountfolder = max(candidates, key=lambda p: p.stat().st_mtime)
+    accountfolder = rl_get_steam_account()
+    if not accountfolder:
+        return
 
     # source artwork
     vertical = storage_path / "retrolibrary" / "artwork" / platform / "media" / "box2dfront" / f"{filename}.jpg"
@@ -1026,37 +984,23 @@ def rl_get_ra(user, md5, path):
 
 
 def rl_init(): #generateGameLists
-    userdata_dir = home / ".steam" / "steam" / "userdata"
-
-    # 1) Encontrar la carpeta de usuario más reciente por fecha de modificación:
-    if not userdata_dir.exists():
-        raise FileNotFoundError(f"{userdata_dir!s} no existe")
-
-    account_folders = sorted(
-        [p for p in userdata_dir.iterdir() if p.is_dir()],
-        key=lambda p: p.stat().st_mtime,
-        reverse=True
-    )
-    if not account_folders:
-        raise RuntimeError("No se encontró ninguna carpeta de userdata de Steam")
-
-    accountfolder = account_folders[0]
+    accountfolder = rl_get_steam_account()
 
     artwork_dir = storage_path / "retrolibrary" / "artwork"
     cache_dir   = storage_path / "retrolibrary" / "cache"
     artwork_dir.mkdir(parents=True, exist_ok=True)
     cache_dir.mkdir(parents=True, exist_ok=True)
 
-    config_dir = accountfolder / "config" / "grid" / "retrolibrary"
-    config_dir.mkdir(parents=True, exist_ok=True)
-
     def symlink_force(target: Path, link: Path):
         if link.exists() or link.is_symlink():
             link.unlink()
         link.symlink_to(target, target_is_directory=True)
 
-    symlink_force(artwork_dir, config_dir / "artwork")
-    symlink_force(cache_dir,   config_dir / "cache")
+    if accountfolder:
+        config_dir = accountfolder / "config" / "grid" / "retrolibrary"
+        config_dir.mkdir(parents=True, exist_ok=True)
+        symlink_force(artwork_dir, config_dir / "artwork")
+        symlink_force(cache_dir, config_dir / "cache")
 
     rl_download_achievements()
     rl_download_data()
@@ -1066,24 +1010,66 @@ def rl_init(): #generateGameLists
     rl_generate_saves_list()
     rl_generate_game_list()
 
-    executor = ThreadPoolExecutor(max_workers=1)
-    # lanzamos sin bloquear
-    future = executor.submit(rl_get_artwork)
-
 def rl_print_json(): #generateGameListsJson
     f = storage_path / "retrolibrary" / "cache" / "roms_games.json"
     data = json.loads(f.read_text(encoding="utf-8"))
     print(json.dumps(data, indent=2, ensure_ascii=False))
 
-def rl_get_artwork(): #generateGameLists_artwork
-    #missing_artwork_platforms
-    rl_generate_systems_with_missing_images()
-    #download_art_platforms
-    rl_download_and_extract_artwork_platforms()
-    #missing_artwork_nohash
-    rl_generate_missing_artwork_lists()
-    #download_art_nohash
-    rl_process_json_artwork()
+def rl_notify_artwork_status(types, finished=False):
+    rl_generate_missing_artwork_lists(*types)
+    port = os.environ.get("EMUDECK_BACKEND_PORT")
+    if not port:
+        return
+    missing_file = storage_path / "retrolibrary" / "cache" / "missing_artwork_no_hash.json"
+    missing = [item["id"] for item in json.loads(missing_file.read_text(encoding="utf-8")) if item["games"]]
+    payload = {"key": "retrolibrary.artwork", "missing": missing, "finished": finished}
+    try:
+        with socket.create_connection(("127.0.0.1", int(port)), timeout=2) as sock:
+            sock.sendall((json.dumps(payload) + "\n").encode("utf-8"))
+    except OSError:
+        pass
+
+
+def rl_artwork_lock() -> bool:
+    lock_file = storage_path / "retrolibrary" / "cache" / "artwork.lock"
+    lock_file.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(lock_file, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        if system.startswith("win"):
+            return False
+        pid = lock_file.read_text(encoding="utf-8").strip()
+        if not pid:
+            return False
+        try:
+            os.kill(int(pid), 0)
+            return False
+        except PermissionError:
+            return False
+        except (ValueError, OSError):
+            lock_file.unlink(missing_ok=True)
+            return rl_artwork_lock()
+    with os.fdopen(fd, "w") as f:
+        f.write(str(os.getpid()))
+    return True
+
+
+def rl_get_artwork(*types): #generateGameLists_artwork
+    if not rl_artwork_lock():
+        print("Artwork download already running")
+        return
+    try:
+        #missing_artwork_platforms
+        rl_generate_systems_with_missing_images()
+        #download_art_platforms
+        rl_download_and_extract_artwork_platforms(lambda: rl_notify_artwork_status(types))
+        #missing_artwork_nohash
+        rl_generate_missing_artwork_lists(*types)
+        #download_art_nohash
+        rl_process_json_artwork()
+        rl_notify_artwork_status(types, finished=True)
+    finally:
+        (storage_path / "retrolibrary" / "cache" / "artwork.lock").unlink(missing_ok=True)
 
 def rl_generate_metadata():
     shutil.copytree(f"{emudeck_backend}/configs/common/roms", roms_path, dirs_exist_ok=True)
@@ -1097,10 +1083,16 @@ def rl_generate_metadata():
             print(f"no pude leer {md!r}: {e}")
             continue
         ra_cores_path=os.path.expanduser(f"~/.var/app/org.libretro.RetroArch/config/retroarch/cores")
+        core_ext = "so"
         if system.startswith("win"):
             ra_cores_path=f"{emus_folder}/RetroArch/cores"
+            core_ext = "dll"
+        if system == "darwin":
+            ra_cores_path=f"{home}/Library/Application Support/RetroArch/cores"
+            core_ext = "dylib"
 
-        new_text = core_pattern.sub(ra_cores_path, text)
+        new_text = re.sub(r"\bCORESPATH/([\w.-]+)\.so\b", lambda m: f'"{ra_cores_path}/{m.group(1)}.{core_ext}"', text)
+        new_text = core_pattern.sub(ra_cores_path, new_text)
         new_text = emu_pattern.sub(f"{emulation_path}", new_text)
 
         if new_text != text:

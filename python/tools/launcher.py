@@ -335,6 +335,7 @@ if emu.lower() == "retroarch":
 # SRM: regenerate userConfigurations.json if missing or incomplete
 if emu.lower() == "steamrommanager":
     srm_wait_steam_users()
+    srm_set_steam_account()
     srm_config = Path(srm_path) / "userData" / "userConfigurations.json"
     regenerate = False
     if not srm_config.exists():
@@ -343,7 +344,7 @@ if emu.lower() == "steamrommanager":
         try:
             with open(srm_config, encoding="utf-8") as f:
                 data = json.loads(f.read())
-            if not isinstance(data, list) or len(data) < 10:
+            if not isinstance(data, list) or not data:
                 regenerate = True
         except Exception:
             regenerate = True
@@ -476,6 +477,8 @@ if system.startswith("win") and raw and raw[0] == "-L" and len(raw) > 2:
     args = [ raw[0], raw[1], " ".join(raw[2:]) ]
     cmd = [str(exe)] + netplay_cmd + args
     shell_status = True
+elif system == "darwin":
+    shell_status = False
 else:
     cmd = shlex.join(cmd)
 #    popup_show_info("title",cmd)

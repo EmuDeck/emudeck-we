@@ -11,7 +11,7 @@ if system.startswith("win"):
     retroarch_video_path=Path(f"{retroarch_dir}/filters/video")
     retroarch_assets_setting=Path(f"{retroarch_dir}/assets")
 if system == "darwin":
-    retroarch_cfg_file=Path(f"{home}/Library/Application Support/RetroArch/retroarch.cfg")
+    retroarch_cfg_file=Path(f"{home}/Library/Application Support/RetroArch/config/retroarch.cfg")
     retroarch_dir=Path(f"{home}/Library/Application Support/RetroArch")
     retroarch_video_path=Path(f"{retroarch_dir}/filters/video")
     retroarch_assets_setting=Path(f"{retroarch_dir}/assets")
@@ -86,6 +86,7 @@ def retroarch_install_bezels():
 
 def retroarch_uninstall():
     try:
+        srm_remove_emulator_parsers("retroarch")
         if system == "linux":
             uninstall_emu("org.libretro.RetroArch", "flatpak")
         if system.startswith("win"):
@@ -131,6 +132,7 @@ def retroarch_init():
     retroarch_retro_achievements()
     retroarch_buildbot_downloader()
     retroarch_setup_bios_readmes()
+    srm_add_emulator_parsers("retroarch")
 
     #Customizations
 
@@ -545,16 +547,17 @@ def retroarch_install_cores():
     return True
 
 def retroarch_patch_shader_references():
-    if not system.startswith("win"):
+    if system == "linux":
         return
 
     config_root = Path(retroarch_dir) / "config"
     if not config_root.exists():
         return
 
+    shaders = ":/shaders" if system.startswith("win") else f"{retroarch_dir}/shaders"
     replacements = {
-        "/app/share/libretro/shaders/shaders_glsl": ":/shaders/shaders_glsl",
-        "/app/share/libretro/shaders/shaders_slang": ":/shaders/shaders_slang",
+        "/app/share/libretro/shaders/shaders_glsl": f"{shaders}/shaders_glsl",
+        "/app/share/libretro/shaders/shaders_slang": f"{shaders}/shaders_slang",
     }
 
     for pattern in ("*.glslp", "*.slangp"):
@@ -564,6 +567,7 @@ def retroarch_patch_shader_references():
 
             for source, target in replacements.items():
                 updated = updated.replace(source, target)
+            updated = re.sub(r'^#reference (?!")(.+?)\s*$', r'#reference "\1"', updated, flags=re.M)
 
             if updated != content:
                 preset_path.write_text(updated, encoding="utf-8")
@@ -631,6 +635,11 @@ def retroarch_setup_extra_configurations():
     if system == "linux":
         set_config("input_driver", '"sdl2"', retroarch_cfg_file, " = ")
         set_config("microphone_driver", '"sdl2"', retroarch_cfg_file, " = ")
+    if system == "darwin":
+        set_config("audio_driver", '"coreaudio"', retroarch_cfg_file, " = ")
+        set_config("camera_driver", '"ffmpeg"', retroarch_cfg_file, " = ")
+        set_config("input_driver", '"cocoa"', retroarch_cfg_file, " = ")
+        set_config("midi_driver", '"coremidi"', retroarch_cfg_file, " = ")
 
     set_config("savestate_thumbnail_enable", '"true"', retroarch_cfg_file, " = ")
 
