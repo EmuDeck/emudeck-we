@@ -410,7 +410,7 @@ function showDialog($text){
 }
 
 
-function showListDialog($title, $subtitle, $options){
+function showListDialog($title, $subtitle, $options, [switch]$MultiSelect){
 	Add-Type -AssemblyName System.Windows.Forms
 	Add-Type -AssemblyName System.Drawing
 
@@ -446,6 +446,10 @@ function showListDialog($title, $subtitle, $options){
 	$listBox.Size = New-Object System.Drawing.Size(260,20)
 	$listBox.Height = 80
 
+	if ($MultiSelect) {
+		$listBox.SelectionMode = [System.Windows.Forms.SelectionMode]::MultiExtended
+	}
+
 
 
 	ForEach ($option in $options) { [void] $listBox.Items.Add($option) }
@@ -458,6 +462,9 @@ function showListDialog($title, $subtitle, $options){
 
 	if ($result -eq [System.Windows.Forms.DialogResult]::OK)
 	{
+		if ($MultiSelect) {
+			return @($listBox.SelectedItems)
+		}
 		return $listBox.SelectedItem
 	}else{
 		exit
