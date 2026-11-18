@@ -59,6 +59,9 @@ def has_touchscreen():
 
 
 def enumerate_pads(libpath):
+    for hint in ("PS4", "PS5", "GAMECUBE", "SWITCH", "SWITCH2", "JOY_CONS", "STADIA", "STEAM", "LUNA"):
+        os.environ.setdefault("SDL_JOYSTICK_HIDAPI_" + hint, "1")
+    os.environ.setdefault("SDL_JOYSTICK_ENHANCED_REPORTS", "1")
     sdl = ctypes.CDLL(libpath)
     sdl.SDL_GetError.restype = ctypes.c_char_p
     out = []
@@ -73,12 +76,16 @@ def enumerate_pads(libpath):
         sdl.SDL_GetJoystickGUIDForID.restype = GUID
         sdl.SDL_GetJoystickPathForID.argtypes = [ctypes.c_uint32]
         sdl.SDL_GetJoystickPathForID.restype = ctypes.c_char_p
+        sdl.SDL_IsGamepad.argtypes = [ctypes.c_uint32]
+        sdl.SDL_IsGamepad.restype = ctypes.c_bool
         if not sdl.SDL_Init(0x00002000):
             return None
         count = ctypes.c_int(0)
         ids = sdl.SDL_GetJoysticks(ctypes.byref(count))
         for i in range(count.value):
             jid = ids[i]
+            if not sdl.SDL_IsGamepad(jid):
+                continue
             name = sdl.SDL_GetJoystickNameForID(jid)
             path = sdl.SDL_GetJoystickPathForID(jid)
             g = bytes(sdl.SDL_GetJoystickGUIDForID(jid).data)
@@ -94,9 +101,13 @@ def enumerate_pads(libpath):
         sdl.SDL_JoystickGetDeviceGUID.restype = GUID
         sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
         sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
+        sdl.SDL_JoystickGetDeviceType.argtypes = [ctypes.c_int]
+        sdl.SDL_JoystickGetDeviceType.restype = ctypes.c_int
         if sdl.SDL_Init(0x00002000) != 0:
             return None
         for i in range(sdl.SDL_NumJoysticks()):
+            if sdl.SDL_JoystickGetDeviceType(i) != 1:
+                continue
             name = sdl.SDL_JoystickNameForIndex(i)
             path = sdl.SDL_JoystickPathForIndex(i)
             g = bytes(sdl.SDL_JoystickGetDeviceGUID(i).data)

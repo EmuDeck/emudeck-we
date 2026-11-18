@@ -11,7 +11,7 @@ if system.startswith("win"):
     retroarch_video_path=Path(f"{retroarch_dir}/filters/video")
     retroarch_assets_setting=Path(f"{retroarch_dir}/assets")
 if system == "darwin":
-    retroarch_cfg_file=Path(f"{home}/Library/Application Support/RetroArch/retroarch.cfg")
+    retroarch_cfg_file=Path(f"{home}/Library/Application Support/RetroArch/config/retroarch.cfg")
     retroarch_dir=Path(f"{home}/Library/Application Support/RetroArch")
     retroarch_video_path=Path(f"{retroarch_dir}/filters/video")
     retroarch_assets_setting=Path(f"{retroarch_dir}/assets")
@@ -86,6 +86,7 @@ def retroarch_install_bezels():
 
 def retroarch_uninstall():
     try:
+        srm_remove_emulator_parsers("retroarch")
         if system == "linux":
             uninstall_emu("org.libretro.RetroArch", "flatpak")
         if system.startswith("win"):
@@ -115,6 +116,7 @@ def retroarch_init():
     copy_setting_dir(f"common/retroarch/",retroarch_dir)
     #copy_and_set_settings_file(f"common/retroarch/retroarch.cfg", retroarch_dir)
     retroarch_setup_cfg_file_paths()
+    retroarch_set_emulation_folder()
     retroarch_patch_shader_references()
     retroarch_setup_saves()
     retroarch_set_controller_style()
@@ -130,6 +132,7 @@ def retroarch_init():
     retroarch_retro_achievements()
     retroarch_buildbot_downloader()
     retroarch_setup_bios_readmes()
+    srm_add_emulator_parsers("retroarch")
 
     #Customizations
 
@@ -422,12 +425,14 @@ def retroarch_install_cores():
             "swanstation_libretro",
             "opera_libretro",
         ]
-    elif system == "linux":
-        if cpu_arch == "arm":
+    elif system in ("linux", "darwin"):
+        if system == "darwin":
+            base_url = "https://buildbot.libretro.com/nightly/apple/osx/arm64/latest/"
+        elif cpu_arch == "arm":
             base_url = "https://buildbot.libretro.com/nightly/linux/aarch64/latest/"
         else:
             base_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"
-        archive_extension = "so.zip"
+        archive_extension = "dylib.zip" if system == "darwin" else "so.zip"
         ra_cores = [
             "81_libretro",
             "a5200_libretro",
@@ -542,16 +547,17 @@ def retroarch_install_cores():
     return True
 
 def retroarch_patch_shader_references():
-    if not system.startswith("win"):
+    if system == "linux":
         return
 
     config_root = Path(retroarch_dir) / "config"
     if not config_root.exists():
         return
 
+    shaders = ":/shaders" if system.startswith("win") else f"{retroarch_dir}/shaders"
     replacements = {
-        "/app/share/libretro/shaders/shaders_glsl": ":/shaders/shaders_glsl",
-        "/app/share/libretro/shaders/shaders_slang": ":/shaders/shaders_slang",
+        "/app/share/libretro/shaders/shaders_glsl": f"{shaders}/shaders_glsl",
+        "/app/share/libretro/shaders/shaders_slang": f"{shaders}/shaders_slang",
     }
 
     for pattern in ("*.glslp", "*.slangp"):
@@ -561,6 +567,7 @@ def retroarch_patch_shader_references():
 
             for source, target in replacements.items():
                 updated = updated.replace(source, target)
+            updated = re.sub(r'^#reference (?!")(.+?)\s*$', r'#reference "\1"', updated, flags=re.M)
 
             if updated != content:
                 preset_path.write_text(updated, encoding="utf-8")
@@ -628,6 +635,11 @@ def retroarch_setup_extra_configurations():
     if system == "linux":
         set_config("input_driver", '"sdl2"', retroarch_cfg_file, " = ")
         set_config("microphone_driver", '"sdl2"', retroarch_cfg_file, " = ")
+    if system == "darwin":
+        set_config("audio_driver", '"coreaudio"', retroarch_cfg_file, " = ")
+        set_config("camera_driver", '"ffmpeg"', retroarch_cfg_file, " = ")
+        set_config("input_driver", '"cocoa"', retroarch_cfg_file, " = ")
+        set_config("midi_driver", '"coremidi"', retroarch_cfg_file, " = ")
 
     set_config("savestate_thumbnail_enable", '"true"', retroarch_cfg_file, " = ")
 
@@ -2662,7 +2674,7 @@ def retroarch_set_shaders_matrix():
 def retroarch_bezels_169_screen():
     set_msg("Applying RetroArch bezel corrections for 16:9 screens")
     
-    root = Path(RetroArch_coreConfigFolders)
+    root = retroarch_dir / "config"
     
     config_map = {
         ('pcengine.cfg',): [
@@ -2787,3 +2799,16 @@ def retroarch_add_to_steam():
     set_msg("Adding RetroArch to Steam")
     launcher = tools_path / "launchers" / ("retroarch.bat" if system.startswith("win") else "retroarch.sh")
     add_steam_shortcut("retroarch", "RetroArch", str(launcher), str(emus_folder), str(icons_path / "ico/retroarch.ico"))
+
+
+def retroarch_set_emulation_folder() -> bool:
+    if not retroarch_cfg_file.is_file():
+        return False
+    set_config("system_directory", f'"{bios_path}"', retroarch_cfg_file, " = ")
+    set_config("rgui_browser_directory", f'"{roms_path}"', retroarch_cfg_file, " = ")
+    set_config("cheat_database_path", f'"{storage_path}/retroarch/cheats"', retroarch_cfg_file, " = ")
+    new_path = json.dumps(str(emulation_path))[1:-1]
+    for playlist in (retroarch_dir / "playlists").glob("*.lpl"):
+        text = re.sub(r"[^\s<>\"'=]*[/\\]+Emulation(?=[/\\]+roms[/\\])", lambda m: new_path, playlist.read_text(encoding="utf-8"))
+        playlist.write_text(text, encoding="utf-8")
+    return True

@@ -43,4 +43,10 @@
 		<entry>%ESPATH%\..\Emulators\azahar\azahar.exe</entry>
 	</rule>
 </emulator>
+<emulator name="SUPERZSNES">
+    <rule type="staticpath">
+        <entry>%ESPATH%\Emulators\zsnes\SUPERZSNES.exe</entry>
+        <entry>%ESPATH%\..\Emulators\zsnes\SUPERZSNES.exe</entry>
+    </rule>
+</emulator>
 </ruleList>

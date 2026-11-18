@@ -33,6 +33,7 @@ def melonds_install():
 
 def melonds_uninstall():
     try:
+        srm_remove_emulator_parsers("melonds")
         if system == "linux":
             uninstall_emu("net.kuribo64.melonDS", "flatpak")
         if system.startswith("win"):
@@ -71,6 +72,8 @@ def melonds_init():
         sed("\\", "/", f"{destination}/melonDS.ini")
         sed("\\", "/", f"{destination}/melonDS.toml")
 
+    melonds_set_emulation_folder()
+
     # link_to_emulation_folder(bios,f"{bios_path}/melonds")
 
     #melonds_setup_saves()
@@ -78,18 +81,12 @@ def melonds_init():
     melonds_set_resolution()
     melonds_set_controller_style()
     melonds_set_esde_emu()
-    melonds_add_custom_parser()
+    srm_add_emulator_parsers("melonds")
     melonds_add_steam_input_profile()
 
 def melonds_install_init():
     melonds_install()
     melonds_init()
-
-
-def melonds_add_custom_parser():
-   if melonds_is_installed() and srm_is_installed():
-      add_parser("nintendo_nds_melonds")
-
 
 
 def melonds_setup_saves():
@@ -166,4 +163,42 @@ def melonds_add_steam_input_profile():
 
 def melonds_setup_storage():
     Path(f"{storage_path}/melonDS/cheats").mkdir(parents=True, exist_ok=True)
+    return True
+
+
+def melonds_set_emulation_folder() -> bool:
+    if system == "linux":
+        config_dir = Path(f"{home}/.var/app/net.kuribo64.melonDS/config/melonDS")
+    if system.startswith("win"):
+        config_dir = Path(f"{emus_folder}/melonds")
+    if system == "darwin":
+        config_dir = Path(f"{home}/Library/Application Support/melonDS")
+    ini_file = config_dir / "melonDS.ini"
+    toml_file = config_dir / "melonDS.toml"
+    if not ini_file.is_file() and not toml_file.is_file():
+        return False
+    bios = str(bios_path).replace("\\", "/")
+    roms = str(roms_path).replace("\\", "/")
+    saves = str(saves_path).replace("\\", "/")
+    storage = str(storage_path).replace("\\", "/")
+    if ini_file.is_file():
+        for key, value in {
+            "BIOS9Path": f"{bios}/bios9.bin", "BIOS7Path": f"{bios}/bios7.bin", "FirmwarePath": f"{bios}/firmware.bin",
+            "DSiBIOS9Path": f"{bios}/dsi_bios9.bin", "DSiBIOS7Path": f"{bios}/dsi_bios7.bin",
+            "DSiFirmwarePath": f"{bios}/dsi_firmware.bin", "DSiNANDPath": f"{bios}/dsi_nand.bin",
+            "LastROMFolder": f"{roms}/nds", "SaveFilePath": f"{saves}/melonds/saves", "SavestatePath": f"{saves}/melonds/states",
+        }.items():
+            set_config(key, value, ini_file)
+    if toml_file.is_file():
+        set_config("LastROMFolder", f'"{roms}/ds"', toml_file, " = ")
+        set_ini_value(toml_file, "Instance0", "SavestatePath", f'"{saves}/melonds/states"')
+        set_ini_value(toml_file, "Instance0", "SaveFilePath", f'"{saves}/melonds/saves"')
+        set_ini_value(toml_file, "Instance0", "CheatFilePath", f'"{storage}/melonDS/cheats"')
+        set_ini_value(toml_file, "DS", "FirmwarePath", f'"{bios}/firmware.bin"')
+        set_ini_value(toml_file, "DS", "BIOS7Path", f'"{bios}/bios7.bin"')
+        set_ini_value(toml_file, "DS", "BIOS9Path", f'"{bios}/bios9.bin"')
+        set_ini_value(toml_file, "DSi", "FirmwarePath", f'"{bios}/dsi_firmware.bin"')
+        set_ini_value(toml_file, "DSi", "NANDPath", f'"{bios}/dsi_nand.bin"')
+        set_ini_value(toml_file, "DSi", "BIOS7Path", f'"{bios}/dsi_bios7.bin"')
+        set_ini_value(toml_file, "DSi", "BIOS9Path", f'"{bios}/dsi_bios9.bin"')
     return True

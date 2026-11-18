@@ -11,7 +11,11 @@ if system in ("darwin", "linux"):
 else:
     emu = sys.argv[1]
 
-emulator_check_and_install(emu)
+emu_aliases = {
+    "rosaliesmupengui": "rmg",
+    "steamrommanager": "srm",
+}
+emulator_check_and_install(emu_aliases.get(emu.lower(), emu))
 
 args = sys.argv[2:]
 raw = sys.argv[2:]
@@ -145,6 +149,8 @@ if system == "darwin":
         exe = f"{emus_folder}/ES-DE.app"
     if emu.lower() == "steamrommanager":
         exe = f"{emus_folder}/Steam Rom Manager.app"
+    if emu.lower() == "armsx2":
+        exe = f"{emus_folder}/ARMSX2.app"
     if emu.lower() == "azahar":
         exe = f"{emus_folder}/Azahar.app"
     if emu.lower() == "bigpemu":
@@ -190,7 +196,7 @@ if system == "darwin":
     if emu.lower() == "vita3k":
         exe = f"{emus_folder}/vita3k.app"
     if emu.lower() == "xemu-emu":
-        exe = f"{emus_folder}/xemu-emu.app"
+        exe = f"{emus_folder}/xemu.app"
     if emu.lower() == "xenia":
         exe = f"{emus_folder}/xenia.app"
     if emu.lower() == "yuzu":
@@ -319,35 +325,17 @@ if system.startswith("win"):
 
 #netplay
 if emu.lower() == "retroarch":
-   if settings.netplay == True:
+   if getattr(settings, "netplay", False) == True:
       set_setting("netplay_cmd","-H")
       netplay_set_ip()
    else:
       set_setting("netplay_cmd",'')
 
 
-# Auto-install if not installed
-emu_aliases = {
-    "dolphin-emu": "dolphin",
-    "pcsx2-qt": "pcsx2",
-    "xemu-emu": "xemu",
-    "model-2-emulator": "model2",
-    "rosaliesmupengui": "rmg",
-}
-emu_key = emu_aliases.get(emu.lower(), emu.lower())
-is_installed_fn = globals().get(f"{emu_key}_is_installed")
-install_fn = globals().get(f"{emu_key}_install")
-
-if is_installed_fn and install_fn:
-    try:
-        if not is_installed_fn():
-            print(f"{emu} not found, installing...")
-            install_fn()
-    except Exception as e:
-        print(f"Auto-install check failed for {emu}: {e}")
-
 # SRM: regenerate userConfigurations.json if missing or incomplete
 if emu.lower() == "steamrommanager":
+    srm_wait_steam_users()
+    srm_set_steam_account()
     srm_config = Path(srm_path) / "userData" / "userConfigurations.json"
     regenerate = False
     if not srm_config.exists():
@@ -356,7 +344,7 @@ if emu.lower() == "steamrommanager":
         try:
             with open(srm_config, encoding="utf-8") as f:
                 data = json.loads(f.read())
-            if not isinstance(data, list) or len(data) < 10:
+            if not isinstance(data, list) or not data:
                 regenerate = True
         except Exception:
             regenerate = True
@@ -407,35 +395,41 @@ if args:
         args[-1] = last[1:-1]
 
 
-cmd = [exe] + shlex.split(settings.netplay_cmd) + args
+netplay_args = shlex.split(getattr(settings, "netplay_cmd", "") or "")
+cmd = [exe] + netplay_args + args
 
 
 if system.startswith("win"):
-    cmd = [str(exe)] + shlex.split(settings.netplay_cmd) + args
+    cmd = [str(exe)] + netplay_args + args
     cmd = [part.replace("/", "\\") for part in cmd]
 if system == "darwin":
     darwin_trust_app(exe)
-    cmd = ["open", "-W", "-a", exe, settings.netplay_cmd] + args
+    cmd = ["open", "-W", "-a", exe]
+    if netplay_args or args:
+        cmd += ["--args"] + netplay_args + args
 
-if cloud_sync_provider and settings.netplay == False:
-    REMOTE_URL = f"https://token.emudeck.com/cloud-check.php?access_token={settings.patreonToken}"
-    try:
-        cloudsync_remote = load_remote_module(REMOTE_URL, "cloudsync_remote")
-    except Exception as e:
-        cloudsync_remote = None
+cloudsync_remote = None
+cloudsync_monitor = None
+cloud_sync_on = bool(cloud_sync_provider) and str(cloud_sync_status).lower() == "true"
+if cloud_sync_on and getattr(settings, "netplay", False) == False:
+    cloudsync_remote = load_remote_cloud_sync()
 
     if cloudsync_remote:
+        cloud_emu = {"dolphin-emu": "dolphin", "pcsx2-qt": "pcsx2", "armsx2": "pcsx2", "xemu-emu": "xemu", "model-2-emulator": "model2", "es-de": "all"}.get(emu.lower(), emu.lower())
+        if cloud_emu != "all":
+            cloud_emu = next((p.name for p in Path(saves_path).iterdir() if p.is_dir() and p.name.lower() == cloud_emu), None)
         try:
-            cloudsync_remote.cloud_sync_download_emu(emu)
+            if cloud_emu:
+                cloudsync_remote.cloud_sync_download_emu(cloud_emu)
         except Exception as e:
-            print(f"Error en cloud_sync_download_emu: {e}", exc_info=True)
+            print(f"Error en cloud_sync_download_emu: {e}")
 
-        t = threading.Thread(
+        cloudsync_monitor = threading.Thread(
             target=cloudsync_remote.monitor_and_upload,
             kwargs={"poll_interval": 1.0},
             daemon=True
         )
-        t.start()
+        cloudsync_monitor.start()
         
 if system == "linux" and emu.lower() == "xenia":
     launcher_path = (Path(tools_path) / "launchers" / "xenia.sh").resolve()
@@ -473,7 +467,7 @@ if system == "linux" and emu.lower() == "xenia":
         ]
     )
 
-    if cloud_sync_provider:
+    if cloud_sync_on:
         cloud_sync_upload_emu_all()
 
     shutil.rmtree(Path(saves_path) / ".gaming", ignore_errors=True)
@@ -484,6 +478,8 @@ if system.startswith("win") and raw and raw[0] == "-L" and len(raw) > 2:
     args = [ raw[0], raw[1], " ".join(raw[2:]) ]
     cmd = [str(exe)] + netplay_cmd + args
     shell_status = True
+elif system == "darwin":
+    shell_status = False
 else:
     cmd = shlex.join(cmd)
 #    popup_show_info("title",cmd)
@@ -505,6 +501,11 @@ if system == "linux":
       cmd = f"{lsfg} {cmd}"
 
 
+automap_keys = {"ryujinx": "yuzu", "eden": "yuzu", "dolphin-emu": "dolphin", "cemu": "cemu", "cemu-native": "cemu"}
+automap_key = automap_keys.get(emu.lower())
+if not raw and automap_key and automap_enabled(automap_key):
+    popup_show_info("EmuDeck", "ATTENTION: AutoMap is enabled.\nYou won't be able to change controller settings in this emulator, other settings are not locked.\nIf you want to customize your controller settings please turn AutoMap off in the EmuDeck app")
+
 emulator_launch_fixes(emu)
 
 subprocess.run(cmd, check=True, shell=shell_status)
@@ -512,3 +513,9 @@ subprocess.run(cmd, check=True, shell=shell_status)
 watch_file = Path(saves_path) / ".watching"
 if watch_file.exists():
    watch_file.unlink()
+
+if cloudsync_monitor:
+   try:
+      cloudsync_remote.cloud_sync_stop_monitor(cloudsync_monitor)
+   except Exception as e:
+      print(f"Error en cloud_sync_stop_monitor: {e}")

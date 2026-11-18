@@ -41,6 +41,10 @@ def steam_slot(info):
 
 
 def enumerate_pads(libpath):
+    for hint, value in (("SDL_JOYSTICK_WGI", "0"), ("SDL_JOYSTICK_DIRECTINPUT", "1"),
+                        ("SDL_JOYSTICK_ENHANCED_REPORTS", "1"), ("SDL_JOYSTICK_HIDAPI_GAMECUBE", "1"),
+                        ("SDL_JOYSTICK_HIDAPI_COMBINE_JOY_CONS", "1"), ("SDL_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS", "0")):
+        os.environ.setdefault(hint, value)
     sdl = ctypes.CDLL(libpath)
     sdl.SDL_GetError.restype = ctypes.c_char_p
     out = []
@@ -50,8 +54,10 @@ def enumerate_pads(libpath):
         sdl.SDL_NumJoysticks.restype = ctypes.c_int
         sdl.SDL_JoystickNameForIndex.argtypes = [ctypes.c_int]
         sdl.SDL_JoystickNameForIndex.restype = ctypes.c_char_p
-        sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
-        sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
+        has_path = hasattr(sdl, "SDL_JoystickPathForIndex")
+        if has_path:
+            sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
+            sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
         sdl.SDL_JoystickGetDeviceVendor.argtypes = [ctypes.c_int]
         sdl.SDL_JoystickGetDeviceVendor.restype = ctypes.c_uint16
         sdl.SDL_JoystickGetDeviceProduct.argtypes = [ctypes.c_int]
@@ -59,7 +65,8 @@ def enumerate_pads(libpath):
         if sdl.SDL_Init(0x00002000) != 0:
             return None
         ids = range(sdl.SDL_NumJoysticks())
-        get = (sdl.SDL_JoystickNameForIndex, sdl.SDL_JoystickPathForIndex,
+        get = (sdl.SDL_JoystickNameForIndex,
+               sdl.SDL_JoystickPathForIndex if has_path else (lambda i: None),
                sdl.SDL_JoystickGetDeviceVendor, sdl.SDL_JoystickGetDeviceProduct)
     else:
         sdl.SDL_Init.argtypes = [ctypes.c_uint32]
@@ -74,12 +81,17 @@ def enumerate_pads(libpath):
         sdl.SDL_GetJoystickVendorForID.restype = ctypes.c_uint16
         sdl.SDL_GetJoystickProductForID.argtypes = [ctypes.c_uint32]
         sdl.SDL_GetJoystickProductForID.restype = ctypes.c_uint16
+        sdl.SDL_IsGamepad.argtypes = [ctypes.c_uint32]
+        sdl.SDL_IsGamepad.restype = ctypes.c_bool
+        sdl.SDL_GetGamepadNameForID.argtypes = [ctypes.c_uint32]
+        sdl.SDL_GetGamepadNameForID.restype = ctypes.c_char_p
         if not sdl.SDL_Init(0x00002000):
             return None
         count = ctypes.c_int(0)
         raw = sdl.SDL_GetJoysticks(ctypes.byref(count))
         ids = [raw[i] for i in range(count.value)]
-        get = (sdl.SDL_GetJoystickNameForID, sdl.SDL_GetJoystickPathForID,
+        get = (lambda jid: sdl.SDL_GetGamepadNameForID(jid) if sdl.SDL_IsGamepad(jid) else sdl.SDL_GetJoystickNameForID(jid),
+               sdl.SDL_GetJoystickPathForID,
                sdl.SDL_GetJoystickVendorForID, sdl.SDL_GetJoystickProductForID)
 
     get_name, get_path, get_vendor, get_product = get

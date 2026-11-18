@@ -45,6 +45,9 @@ def steam_slot(info):
 
 
 def enumerate_pads(libpath):
+    for hint, value in (("SDL_JOYSTICK_RAWINPUT", "0"), ("SDL_JOYSTICK_HIDAPI_XBOX", "0"),
+                        ("SDL_JOYSTICK_HIDAPI_JOY_CONS", "0"), ("SDL_JOYSTICK_HIDAPI_SWITCH", "1")):
+        os.environ.setdefault(hint, value)
     sdl = ctypes.CDLL(libpath)
     sdl.SDL_GetError.restype = ctypes.c_char_p
     out = []
@@ -78,13 +81,15 @@ def enumerate_pads(libpath):
         sdl.SDL_JoystickNameForIndex.restype = ctypes.c_char_p
         sdl.SDL_JoystickGetDeviceGUID.argtypes = [ctypes.c_int]
         sdl.SDL_JoystickGetDeviceGUID.restype = GUID
-        sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
-        sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
+        has_path = hasattr(sdl, "SDL_JoystickPathForIndex")
+        if has_path:
+            sdl.SDL_JoystickPathForIndex.argtypes = [ctypes.c_int]
+            sdl.SDL_JoystickPathForIndex.restype = ctypes.c_char_p
         if sdl.SDL_Init(0x00002000) != 0:
             return None
         for i in range(sdl.SDL_NumJoysticks()):
             name = sdl.SDL_JoystickNameForIndex(i)
-            path = sdl.SDL_JoystickPathForIndex(i)
+            path = sdl.SDL_JoystickPathForIndex(i) if has_path else None
             g = bytes(sdl.SDL_JoystickGetDeviceGUID(i).data)
             out.append({"name": name.decode() if name else "Unknown Controller",
                         "guid": g, "path": path.decode() if path else ""})
@@ -147,17 +152,25 @@ def set_players(path):
         return
     with open(path, "r", encoding="utf-8", newline="") as f:
         lines = f.readlines()
+    shoulders = {}
+    for line in lines:
+        m = re.match(r"^player_(\d+)_button_([lr])=(.*?)\s*$", line)
+        if m:
+            shoulders[(int(m.group(1)), m.group(2))] = m.group(3)
     out = []
     for line in lines:
         m = re.match(r"^player_(\d+)_", line)
         player = int(m.group(1)) if m else None
         if player is not None and player < MAX_PLAYERS:
             eol = line[len(line.rstrip("\r\n")):]
+            side = re.match(r"^player_%d_button_s([lr])(?:left|right)(\\default)?=" % player, line)
             if re.match(r"^player_%d_connected=" % player, line):
                 line = "player_%d_connected=%s%s" % (player, "true" if player < len(players) else "false", eol)
             elif re.match(r"^player_%d_connected\\default=" % player, line):
                 line = "player_%d_connected\\default=false%s" % (player, eol)
-            elif player < len(players) and "engine:sdl" in line:
+            elif side and player < len(players) and (player, side.group(1)) in shoulders:
+                line = "%s%s%s" % (side.group(0), "false" if side.group(2) else shoulders[(player, side.group(1))], eol)
+            if player < len(players) and "engine:sdl" in line:
                 line = re.sub(r"port:\d+", "port:%d" % players[player]["port"], line)
                 line = re.sub(r"guid:[0-9a-f]+", "guid:%s" % players[player]["guid"], line)
         out.append(line)

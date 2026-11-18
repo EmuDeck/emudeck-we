@@ -39,6 +39,7 @@ def xenianative_uninstall():
     if not xenianative_supported():
         return False
     try:
+        srm_remove_emulator_parsers("xenianative")
         xenianative_app_image.unlink(missing_ok=True)
         (home / ".local" / "share" / "applications" / "xenia-emu.desktop").unlink(missing_ok=True)
         (tools_path / "launchers" / "xenia-emu.sh").unlink(missing_ok=True)
@@ -75,7 +76,7 @@ def xenianative_init():
     xenianative_get_patches()
     flush_emulator_launchers("xenia-emu")
     xenianative_add_es_config()
-    xenianative_add_custom_parser()
+    srm_add_emulator_parsers("xenianative")
     return True
 
 
@@ -122,12 +123,6 @@ def xenianative_get_patches():
         return False
     finally:
         patches_zip.unlink(missing_ok=True)
-
-
-def xenianative_add_custom_parser():
-    if xenianative_is_installed() and srm_is_installed():
-        add_parser("microsoft_xbox360_iso_xenia")
-        add_parser("microsoft_xbox360_xbla_xenia")
 
 
 def xenianative_add_es_config():

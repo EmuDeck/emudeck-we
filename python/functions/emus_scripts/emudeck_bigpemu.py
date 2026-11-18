@@ -56,6 +56,7 @@ def bigpemu_install():
 
 def bigpemu_uninstall():
     try:
+        srm_remove_emulator_parsers("bigpemu")
         if system == "linux":
             uninstall_emu("bigpemu", "dir")
         if system.startswith("win"):
@@ -88,22 +89,18 @@ def bigpemu_init():
 
     copy_and_set_settings_file(f"common/bigpemu/BigPEmuConfig.bigpcfg", destination)
 
+    bigpemu_set_emulation_folder()
     bigpemu_setup_saves()
     bigpemu_set_resolution()
     bigpemu_set_controller_style()
     bigpemu_set_esde_emu()
-    bigpemu_add_custom_parser()
+    srm_add_emulator_parsers("bigpemu")
     if esde_is_installed():
         bigpemu_add_es_config()
 
 def bigpemu_install_init():
     bigpemu_install()
     bigpemu_init()
-
-
-def bigpemu_add_custom_parser():
-    if bigpemu_is_installed() and srm_is_installed():
-        add_parser("atari_jaguar_bigpemu")
 
 
 def bigpemu_setup_saves():
@@ -153,3 +150,11 @@ def bigpemu_add_es_config():
 def bigpemu_setup_storage():
     origin = user_data if system == "linux" else user_data / "screenshots"
     return link_to_storage_folder(origin, "BigPEmu/screenshots")
+
+
+def bigpemu_set_emulation_folder() -> bool:
+    config_file = Path(f"{emus_folder}/BigPEmu/UserData/BigPEmuConfig.bigpcfg")
+    if not config_file.is_file():
+        return False
+    set_config('"ROMPath"', f'{json.dumps(f"{roms_path}/atarijaguar")},', config_file, ": ")
+    return True

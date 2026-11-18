@@ -29,6 +29,7 @@ def mgba_install():
 
 def mgba_uninstall():
     try:
+        srm_remove_emulator_parsers("mgba")
         if system == "linux":
             uninstall_emu("mGBA", "AppImage")
         if system.startswith("win"):
@@ -62,21 +63,17 @@ def mgba_init():
     copy_setting_dir(f"common/mgba/", destination)
     copy_and_set_settings_file(f"common/mgba/config.ini", destination)
 
+    mgba_set_emulation_folder()
     mgba_setup_storage()
     mgba_setup_saves()
     mgba_set_controller_style()
     mgba_set_esde_emu()
-    mgba_add_custom_parser()
+    srm_add_emulator_parsers("mgba")
     mgba_add_steam_input_profile()
 
 def mgba_install_init():
     mgba_install()
     mgba_init()
-
-def mgba_add_custom_parser():
-    if mgba_is_installed() and srm_is_installed():
-        add_parser("nintendo_gba_mgba")
-
 
 def mgba_set_abxy_style():
     print("NYI")
@@ -136,4 +133,17 @@ def mgba_setup_storage():
         set_config("cheatsPath", f"{storage_path}/mgba/cheats", config_file)
         set_config("patchPath", f"{storage_path}/mgba/patches", config_file)
         set_config("screenshotPath", f"{storage_path}/mgba/screenshots", config_file)
+    return True
+
+
+def mgba_set_emulation_folder() -> bool:
+    config_file = emus_folder / "mgba" / "config.ini" if system.startswith("win") else home / ".config" / "mgba" / "config.ini"
+    if not config_file.is_file():
+        return False
+    set_ini_value(config_file, "ports.qt", "lastDirectory", f"{roms_path}/gba")
+    set_ini_value(config_file, "ports.qt", "savegamePath", f"{saves_path}/mgba/saves")
+    set_ini_value(config_file, "ports.qt", "savestatePath", f"{saves_path}/mgba/states")
+    set_ini_value(config_file, "ports.qt", "cheatsPath", f"{storage_path}/mgba/cheats")
+    set_ini_value(config_file, "ports.qt", "patchPath", f"{storage_path}/mgba/patches")
+    set_ini_value(config_file, "ports.qt", "screenshotPath", f"{storage_path}/mgba/screenshots")
     return True

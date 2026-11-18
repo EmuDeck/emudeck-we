@@ -60,7 +60,7 @@ def ensure_packages():
     venv_site = str(candidates[0]) if candidates else None
 
     packages = list(REQUIRED_PACKAGES)
-    if os.environ.get("EMUDECK_HYBRID") != "1":
+    if os.environ.get("EMUDECK_HYBRID") != "1" or system == "darwin":
         packages += GUI_REQUIRED_PACKAGES
     if system.startswith("win"):
         packages += WIN_REQUIRED_PACKAGES
@@ -88,6 +88,7 @@ def generate_python_env():
 
     if not venv_dir.exists():
         venv.EnvBuilder(with_pip=True).create(str(venv_dir))
+        install_pip("pip")
 
     if Path(sys.prefix).resolve() != venv_dir.resolve():
         os.execv(str(python_venv), [str(python_venv)] + sys.argv)
