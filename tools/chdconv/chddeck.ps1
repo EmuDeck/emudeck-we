@@ -79,8 +79,40 @@ $chdman5 = "$chdPath\chdman.exe";
 $ciso = "$chdPath\ciso.exe";
 $3dstool = "$chdPath\3dstool.exe";
 $extractXiso = "$chdPath\extract-xiso.exe";
-$dolphintool = "$HOME\EmuDeck\EmulationStation-DE\Emulators\Dolphin-x64\DolphinTool.exe";
 
+$script:convertedCount = 0
+$script:failedCount = 0
+$script:skippedCount = 0
+
+$sevenZipExe = $null
+foreach ($sevenZipCandidate in @($7z, '7z', '7za')) {
+    if (-not $sevenZipCandidate) { continue }
+    $sevenZipCommand = Get-Command $sevenZipCandidate -ErrorAction SilentlyContinue
+    if ($sevenZipCommand) { $sevenZipExe = $sevenZipCommand.Source; break }
+}
+$dolphintool = $null
+foreach ($dolphinCandidate in @(
+        "$emusPath\Dolphin-x64\DolphinTool.exe",
+        "$env:APPDATA\EmuDeck\Emulators\Dolphin-x64\DolphinTool.exe",
+        "$HOME\EmuDeck\EmulationStation-DE\Emulators\Dolphin-x64\DolphinTool.exe")) {
+    if (Test-Path -LiteralPath $dolphinCandidate) { $dolphintool = $dolphinCandidate; break }
+}
+
+
+function Test-AlreadyConverted {
+    param (
+        [string]$file,
+        [string]$targetExtension
+    )
+
+    $target = $file -replace '\.[^.]+$', $targetExtension
+    if (Test-Path -LiteralPath $target) {
+        Write-Host "Skipping $file - $target already exists"
+        $script:skippedCount++
+        return $true
+    }
+    return $false
+}
 
 function Compress-CHD {
     param (
@@ -90,37 +122,36 @@ function Compress-CHD {
     # Obtener la extensión del archivo
     $fileType = [System.IO.Path]::GetExtension($file).TrimStart(".")
     $CUEDIR = [System.IO.Path]::GetDirectoryName($file)
-    $successful = $false
+    $outFile = $file -replace '\.[^.]+$', '.chd'
 
-    Write-Host "Compressing $($file -replace '\.[^.]+$', '.chd')"
+    if (Test-AlreadyConverted $file '.chd') { return }
 
-    # Ejecutar el comando chdman y verificar si es exitoso
-    $chdmanResult = & $chdman5 createcd -i $file -o ($file -replace '\.[^.]+$', '.chd')
+    Write-Host "Compressing $outFile"
+
+    & $chdman5 createcd -i $file -o $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
         Write-Host "Converting $file to CHD using the createcd flag."
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.chd')"
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
 
-        if ($fileType -ne 'iso' -and $fileType -ne 'ISO') {
-            Get-ChildItem -Path $CUEDIR -File | ForEach-Object {
+        if ($fileType.ToLower() -ne 'iso') {
+            Get-ChildItem -LiteralPath $CUEDIR -File | ForEach-Object {
                 $fileName = $_.Name
-                $found = Select-String -Pattern $fileName -Path $file
+                $found = Select-String -Pattern $fileName -Path $file -SimpleMatch
 
                 if ($found) {
                     Write-Host "Deleting $($_.FullName)"
-                    Remove-Item -Path $_.FullName -Force
+                    Remove-Item -LiteralPath $_.FullName -Force
                 }
             }
         }
 
-        Remove-Item -Path $file -Force
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Conversion of $file failed."
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.chd') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -130,20 +161,21 @@ function Compress-CHDDVD {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $chdman5 createdvd -i $file -o ($file -replace '\.[^.]+$', '.chd') -c zstd
+    $outFile = $file -replace '\.[^.]+$', '.chd'
+
+    if (Test-AlreadyConverted $file '.chd') { return }
+
+    & $chdman5 createdvd -i $file -o $outFile -c zstd
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
-        Write-Host "Converting $file to CHD using the createdvd flag and hunksize 16348."
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.chd')"
-        Remove-Item -Path $file -Force
+        Write-Host "Converting $file to CHD using the createdvd flag."
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Conversion of $file failed."
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.chd') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -152,20 +184,21 @@ function Compress-CHDDVDLowerHunk {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $chdman5 createdvd --hunksize 2048 -i $file -o ($file -replace '\.[^.]+$', '.chd')
+    $outFile = $file -replace '\.[^.]+$', '.chd'
+
+    if (Test-AlreadyConverted $file '.chd') { return }
+
+    & $chdman5 createdvd --hunksize 2048 -i $file -o $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
         Write-Host "Converting $file to CHD using the createdvd flag and hunksize 2048."
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.chd')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Conversion of $file failed."
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.chd') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -175,19 +208,20 @@ function Compress-RVZ {
         [string]$dolphintool
     )
 
-    $successful = $false
-    $result = & $dolphintool convert -f rvz -b 131072 -c zstd -l 5 -i $file -o ($file -replace '\.[^.]+$', '.rvz')
+    $outFile = $file -replace '\.[^.]+$', '.rvz'
+
+    if (Test-AlreadyConverted $file '.rvz') { return }
+
+    & $dolphintool convert -f rvz -b 131072 -c zstd -l 5 -i $file -o $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.rvz')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Error converting $file"
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.rvz') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -196,19 +230,20 @@ function Compress-CSO {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $ciso 9 $file ($file -replace '\.[^.]+$', '.cso')
+    $outFile = $file -replace '\.[^.]+$', '.cso'
+
+    if (Test-AlreadyConverted $file '.cso') { return }
+
+    & $ciso 9 $file $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.cso')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Error converting $file"
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.cso') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -217,18 +252,23 @@ function Trim-3DS {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $3dstool -r -f $file
+    $outFile = $file -replace '\.[^.]+$', '(Trimmed).3ds'
 
-    if ($LASTEXITCODE -eq 0) {
-        $successful = $true
+    if (Test-Path -LiteralPath $outFile) {
+        Write-Host "Skipping $file - $outFile already exists"
+        $script:skippedCount++
+        return
     }
 
-    if ($successful) {
-        Write-Host "Successfully trimmed $($file -replace '\.[^.]+$', '.3ds')"
-        Rename-Item -Path $file -NewName ($file -replace '\.[^.]+$', '(Trimmed).3ds')
+    & $3dstool -r -f $file
+
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Successfully trimmed $outFile"
+        $script:convertedCount++
+        Rename-Item -LiteralPath $file -NewName $outFile
     } else {
         Write-Host "Error trimming $file"
+        $script:failedCount++
     }
 }
 
@@ -237,20 +277,25 @@ function Compress-XISO {
         [string]$file
     )
 
-    $successful = $false
     $xisoDir = [System.IO.Path]::GetDirectoryName($file)
-    $result = & $extractXiso -r $file -d $xisoDir
+    $outFile = $file -replace '\.[^.]+$', '.xiso.iso'
 
-    if ($LASTEXITCODE -eq 0) {
-        $successful = $true
+    if (Test-Path -LiteralPath $outFile) {
+        Write-Host "Skipping $file - $outFile already exists"
+        $script:skippedCount++
+        return
     }
 
-    if ($successful) {
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.xiso.iso')"
-        Rename-Item -Path $file -NewName ($file -replace '\.[^.]+$', '.xiso.iso')
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.iso.old') -Force
+    & $extractXiso -r $file -d $xisoDir
+
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
+        Rename-Item -LiteralPath $file -NewName $outFile
+        Remove-Item -LiteralPath ($file -replace '\.[^.]+$', '.iso.old') -Force -ErrorAction SilentlyContinue
     } else {
         Write-Host "Error converting $file"
+        $script:failedCount++
     }
 }
 
@@ -259,19 +304,19 @@ function Compress-7Z {
         [string]$file
     )
 
-    $successful = $false
-    $ext = [System.IO.Path]::GetExtension($file).ToLower()
-    $result = 7z a -mx=9 ($file -replace '\.[^.]+$', '.7z') $file
+    $outFile = $file -replace '\.[^.]+$', '.7z'
+
+    if (Test-AlreadyConverted $file '.7z') { return }
+
+    & $sevenZipExe a -mx=9 $outFile $file
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
-        Write-Host "$file successfully compressed to $($file -replace '\.[^.]+$', '.7z')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully compressed to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Error compressing $file"
+        $script:failedCount++
     }
 }
 
@@ -280,20 +325,21 @@ function Decompress-CHDISO {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $chdman5 extractdvd -i $file -o ($file -replace '\.[^.]+$', '.iso')
+    $outFile = $file -replace '\.[^.]+$', '.iso'
+
+    if (Test-AlreadyConverted $file '.iso') { return }
+
+    & $chdman5 extractdvd -i $file -o $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
         Write-Host "Decompressing $file to ISO using the extractdvd flag."
-        Write-Host "$file successfully decompressed to $($file -replace '\.[^.]+$', '.iso')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully decompressed to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Conversion of $file failed."
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.iso') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -302,21 +348,22 @@ function Decompress-CHDCD {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $chdman5 extractcd -i $file -o ($file -replace '\.[^.]+$', '.cue')
+    $outFile = $file -replace '\.[^.]+$', '.cue'
+
+    if (Test-AlreadyConverted $file '.cue') { return }
+
+    & $chdman5 extractcd -i $file -o $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
         Write-Host "Decompressing $file to CUE/BIN using the extractcd flag."
-        Write-Host "$file successfully decompressed to $($file -replace '\.[^.]+$', '.cue')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully decompressed to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Conversion of $file failed."
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.cue') -Force -ErrorAction SilentlyContinue
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.bin') -Force -ErrorAction SilentlyContinue
+        $script:failedCount++
+        Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue
+        Remove-Item -LiteralPath ($file -replace '\.[^.]+$', '.bin') -Force -ErrorAction SilentlyContinue
     }
 }
 
@@ -325,19 +372,20 @@ function Decompress-CSOISO {
         [string]$file
     )
 
-    $successful = $false
-    $result = & $ciso 0 $file ($file -replace '\.[^.]+$', '.iso')
+    $outFile = $file -replace '\.[^.]+$', '.iso'
+
+    if (Test-AlreadyConverted $file '.iso') { return }
+
+    & $ciso 0 $file $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
-        Write-Host "$file successfully converted to $($file -replace '\.[^.]+$', '.iso')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully converted to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Error converting $file"
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.iso') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -347,19 +395,20 @@ function Decompress-RVZ {
         [string]$dolphintool
     )
 
-    $successful = $false
-    $result = & $dolphintool convert -f iso -b 131072 -c zstd -l 5 -i $file -o ($file -replace '\.[^.]+$', '.iso')
+    $outFile = $file -replace '\.[^.]+$', '.iso'
+
+    if (Test-AlreadyConverted $file '.iso') { return }
+
+    & $dolphintool convert -f iso -b 131072 -c zstd -l 5 -i $file -o $outFile
 
     if ($LASTEXITCODE -eq 0) {
-        $successful = $true
-    }
-
-    if ($successful) {
-        Write-Host "$file successfully decompressed to $($file -replace '\.[^.]+$', '.iso')"
-        Remove-Item -Path $file -Force
+        Write-Host "$file successfully decompressed to $outFile"
+        $script:convertedCount++
+        Remove-Item -LiteralPath $file -Force
     } else {
         Write-Host "Error converting $file"
-        Remove-Item -Path ($file -replace '\.[^.]+$', '.iso') -Force
+        $script:failedCount++
+        if (Test-Path -LiteralPath $outFile) { Remove-Item -LiteralPath $outFile -Force -ErrorAction SilentlyContinue }
     }
 }
 
@@ -386,6 +435,8 @@ echo $compressionSelection
 
 if ($compressionSelection -eq "Bulk Compression") {
 
+    $searchFolderList = @()
+
     Write-Host "Checking $romsPath for files eligible for conversion."
 
     # Encontrar archivos compatibles en carpetas permitidas
@@ -394,7 +445,7 @@ if ($compressionSelection -eq "Bulk Compression") {
         $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.gdi, *.cue, *.iso
         if ($files.Count -gt 0) {
             Write-Host "found in $romfolder"
-            $searchFolderList += $romfolder
+            if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
         }
     }
 
@@ -405,7 +456,7 @@ if ($compressionSelection -eq "Bulk Compression") {
             $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.gcm, *.iso
             if ($files.Count -gt 0) {
                 Write-Host "found in $romfolder"
-                $searchFolderList += $romfolder
+                if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
             }
         }
     }
@@ -415,7 +466,7 @@ if ($compressionSelection -eq "Bulk Compression") {
         $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.3ds | Where-Object { $_.Name -notmatch '\(Trimmed\)' }
         if ($files.Count -gt 0) {
             Write-Host "found in $romfolder"
-            $searchFolderList += $romfolder
+            if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
         }
     }
 
@@ -424,7 +475,7 @@ if ($compressionSelection -eq "Bulk Compression") {
         $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.iso
         if ($files.Count -gt 0) {
             Write-Host "found in $romfolder"
-            $searchFolderList += $romfolder
+            if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
         }
     }
 
@@ -433,19 +484,19 @@ if ($compressionSelection -eq "Bulk Compression") {
         $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.iso | Where-Object { $_.Name -notmatch '\.xiso\.iso' }
         if ($files.Count -gt 0) {
             Write-Host "found in $romfolder"
-            $searchFolderList += $romfolder
+            if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
         }
     }
 
-    if (Get-Command "7za" -ErrorAction SilentlyContinue) {
-        Write-Host "7za found"
+    if ($sevenZipExe) {
+        Write-Host "7-Zip found: $sevenZipExe"
         foreach ($romfolder in $sevenzipfolderWhiteList) {
             Write-Host "Checking $romsPath\$romfolder\"
             foreach ($ext in $sevenzipFileExtensions) {
                 $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.$ext
                 if ($files.Count -gt 0) {
                     Write-Host "found in $romfolder"
-                    $searchFolderList += $romfolder
+                    if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
                 }
             }
         }
@@ -457,9 +508,12 @@ if ($compressionSelection -eq "Bulk Compression") {
         exit
     }
 
-    $height = $searchFolderList.Count * 100
+    $folderstoconvert = @(showListDialog 'Welcome to the EmuDeck Compression Tool' 'Which folders? (Ctrl+click for several)' $searchFolderList -MultiSelect)
 
-    $folderstoconvert = showListDialog 'Welcome to the EmuDeck Compression Tool' 'Which folders do you want to convert?' $searchFolderList
+    if (-not $folderstoconvert -or $folderstoconvert.Count -eq 0) {
+        confirmDialog -TitleText "EmuDeck" -MessageText "No folders were selected. Nothing to convert."
+        exit
+    }
 
 
     # CHD Conversion
@@ -543,6 +597,8 @@ if ($compressionSelection -eq "Bulk Compression") {
 
 }elseif ($compressionSelection -eq "Bulk Decompression") {
 
+    $searchFolderList = @()
+
     Write-Host "Checking $romsPath for files eligible for decompression."
 
     # CHD folders -> .chd
@@ -551,7 +607,7 @@ if ($compressionSelection -eq "Bulk Compression") {
         $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.chd
         if ($files.Count -gt 0) {
             Write-Host "found in $romfolder"
-            $searchFolderList += $romfolder
+            if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
         }
     }
 
@@ -561,7 +617,7 @@ if ($compressionSelection -eq "Bulk Compression") {
         $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.cso, *.chd
         if ($files.Count -gt 0) {
             Write-Host "found in $romfolder"
-            $searchFolderList += $romfolder
+            if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
         }
     }
 
@@ -572,7 +628,7 @@ if ($compressionSelection -eq "Bulk Compression") {
             $files = Get-ChildItem "$romsPath\$romfolder\" -Recurse -File -Include *.rvz
             if ($files.Count -gt 0) {
                 Write-Host "found in $romfolder"
-                $searchFolderList += $romfolder
+                if ($searchFolderList -notcontains $romfolder) { $searchFolderList += $romfolder }
             }
         }
     }
@@ -582,7 +638,12 @@ if ($compressionSelection -eq "Bulk Compression") {
         exit
     }
 
-    $folderstoconvert = showListDialog 'Welcome to the EmuDeck Compression Tool' 'Which folders do you want to decompress?' $searchFolderList
+    $folderstoconvert = @(showListDialog 'Welcome to the EmuDeck Compression Tool' 'Which folders? (Ctrl+click for several)' $searchFolderList -MultiSelect)
+
+    if (-not $folderstoconvert -or $folderstoconvert.Count -eq 0) {
+        confirmDialog -TitleText "EmuDeck" -MessageText "No folders were selected. Nothing to decompress."
+        exit
+    }
 
     foreach ($romfolder in $folderstoconvert) {
         if ($chdfolderWhiteList -contains $romfolder) {
@@ -715,10 +776,10 @@ if ($compressionSelection -eq "Bulk Compression") {
         }
         default {
             if ($sevenzipFileExtensions -contains $ext) {
-                if (Get-Command "7za" -ErrorAction SilentlyContinue) {
+                if ($sevenZipExe) {
                     Compress-7Z $file
                 } else {
-                    Write-Host "7za not found, cannot compress $file."
+                    Write-Host "7-Zip not found, cannot compress $file."
                 }
             } else {
                 Write-Host "Unsupported file type: .$ext"
@@ -727,4 +788,16 @@ if ($compressionSelection -eq "Bulk Compression") {
     }
 }
 
-echo "All files converted!"
+Write-Host ""
+if ($script:convertedCount -eq 0 -and $script:failedCount -eq 0 -and $script:skippedCount -eq 0) {
+    Write-Host "No files were converted. See the log above for details." -ForegroundColor Yellow
+} else {
+    Write-Host "Summary: $($script:convertedCount) converted, $($script:skippedCount) skipped, $($script:failedCount) failed."
+    if ($script:failedCount -eq 0 -and $script:convertedCount -gt 0) {
+        Write-Host "All files converted!" -ForegroundColor Green
+    } elseif ($script:failedCount -eq 0 -and $script:convertedCount -eq 0 -and $script:skippedCount -gt 0) {
+        Write-Host "Everything selected was already converted - nothing to do." -ForegroundColor Green
+    } elseif ($script:failedCount -gt 0) {
+        Write-Host "Some files could not be converted. See the log above for details." -ForegroundColor Yellow
+    }
+}
