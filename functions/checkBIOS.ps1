@@ -39,6 +39,9 @@ function checkSegaCDBios() {
 
 	$files = Get-ChildItem -Path "$biosPath" -Recurse -File
 	foreach ($file in $files) {
+		if ($file.Name -cnotin @('bios_CD_E.bin', 'bios_CD_J.bin', 'bios_CD_U.bin')) {
+			continue
+		}
 		$md5 = Get-FileHash -Path $file.FullName -Algorithm MD5
 		if ($md5.Hash -in $HashList) {
 			Write-Host "$($file.FullName): $($md5.Hash) true"
