@@ -23,7 +23,9 @@ function ESDE_install(){
 
 	rm -r -fo "$temp/esde" -ErrorAction SilentlyContinue
 	$esdeRelease = Invoke-RestMethod -Uri $url_esde
-	$esdeDownloadUrl = ($esdeRelease.assets.links | Where-Object { $_.name -like '*x64_Portable.zip' } | Select-Object -First 1).url
+	$esdeDownloadUrl = ($esdeRelease.stable.packages | Where-Object {
+		$_.name -eq 'WindowsPortable' -and $_.filename -like '*-x64_Portable.zip'
+	} | Select-Object -First 1).url
 
 	if (!$esdeDownloadUrl) {
 		Write-Output "ERROR: Could not resolve the latest ES-DE portable ZIP asset."
